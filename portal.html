@@ -4,342 +4,345 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Client Portal &amp; Order Dashboard | Retoucher Shoaib®</title>
-<meta name="description" content="Secure client portal for commercial retouching clients. Track orders, upload RAW files, download finished master files, and access invoices.">
+<meta name="description" content="Commercial retouching client portal. Track active orders, download completed master files, upload RAW images, and view invoices.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..900;1,300..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 
 <style>
 :root {
-  --bg: #fafaf7;
-  --fg: #0a0a0a;
-  --mut: #70706c;
-  --line: rgba(0,0,0,0.08);
-  --accent: #ff4d00;
-  --success: #16a34a;
+  --bg: #f8f9fa;
+  --fg: #0f172a;
+  --mut: #64748b;
+  --line: #e2e8f0;
   --card: #ffffff;
+  --accent: #ff4d00;
+  --primary: #0f172a;
+  --success: #10b981;
+  --success-bg: #ecfdf5;
+  --success-border: #a7f3d0;
+  --warning: #f59e0b;
+  --warning-bg: #fffbeb;
+  --warning-border: #fde68a;
+  --blue: #2563eb;
+  --blue-bg: #eff6ff;
+  --blue-border: #bfdbfe;
   --f-display: 'Plus Jakarta Sans', -apple-system, sans-serif;
   --f-body: 'Inter Tight', -apple-system, sans-serif;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 16px; -webkit-font-smoothing: antialiased; }
+html { background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 15px; -webkit-font-smoothing: antialiased; }
 body { overflow-x: hidden; }
 a { color: inherit; text-decoration: none; }
-img { max-width: 100%; display: block; }
 
-.w { width: 92%; max-width: 1400px; margin: 0 auto; }
+.w { width: 92%; max-width: 1380px; margin: 0 auto; }
 
 /* NAVBAR */
 #navbar {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(250, 250, 247, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--line);
   display: flex; align-items: center; justify-content: space-between;
-  padding: 18px 4%;
+  padding: 16px 4%;
 }
-.nav-brand { font-family: var(--f-display); font-size: 14px; font-weight: 800; letter-spacing: -0.02em; }
+.nav-brand { font-family: var(--f-display); font-size: 15px; font-weight: 800; letter-spacing: -0.02em; }
 .nav-links { display: flex; gap: 24px; font-size: 13px; font-weight: 600; }
 .nav-links a { color: var(--mut); transition: color 0.2s ease; }
 .nav-links a:hover, .nav-links a.active { color: var(--fg); }
-.nav-time { font-size: 11px; color: var(--mut); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+.nav-time { font-size: 11px; color: var(--mut); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
 
+/* BUTTONS */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  padding: 10px 22px; border-radius: 99px;
-  font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
-  background: var(--fg); color: #fff; border: 1px solid transparent;
-  transition: all 0.2s ease; cursor: pointer;
+  padding: 11px 22px; border-radius: 10px;
+  font-size: 13px; font-weight: 700; font-family: var(--f-display);
+  background: var(--primary); color: #fff; border: 1px solid transparent;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
 }
-.btn:hover { background: #222; transform: translateY(-1px); }
-.btn.outline { background: transparent; color: var(--fg); border-color: var(--fg); }
-.btn.outline:hover { background: var(--fg); color: #fff; }
-.btn.green { background: var(--success); color: #fff; }
-.btn.green:hover { background: #15803d; }
-.btn.sm { padding: 6px 14px; font-size: 11px; }
+.btn:hover { background: #1e293b; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
+.btn.green {
+  background: #059669; color: #fff;
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.28);
+}
+.btn.green:hover { background: #047857; transform: translateY(-1px); }
+.btn.outline { background: #fff; color: var(--fg); border-color: var(--line); box-shadow: none; }
+.btn.outline:hover { background: #f1f5f9; border-color: #cbd5e1; }
+.btn.sm { padding: 7px 14px; font-size: 12px; border-radius: 8px; }
+.btn.create-btn {
+  background: linear-gradient(135deg, #ff4d00 0%, #ea580c 100%);
+  color: #fff; font-size: 13px; padding: 12px 24px; border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(255, 77, 0, 0.3); border: 0;
+}
+.btn.create-btn:hover {
+  background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+  transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 77, 0, 0.4);
+}
 
 @media (max-width: 860px) {
   .nav-links a:not(.show-mob), .nav-time { display: none; }
 }
 
-/* PORTAL HEADER */
-.portal-header {
-  padding: 50px 0 30px;
-  display: flex; justify-content: space-between; align-items: flex-end;
-  flex-wrap: wrap; gap: 20px; border-bottom: 1px solid var(--line);
+/* PORTAL HEADER HERO */
+.portal-hero {
+  padding: 44px 0 28px;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 20px;
 }
 .portal-title {
   font-family: var(--f-display);
-  font-size: clamp(32px, 5vw, 56px);
-  font-weight: 800; letter-spacing: -0.04em; line-height: 1.05;
+  font-size: clamp(28px, 4.2vw, 44px);
+  font-weight: 800; letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 6px;
 }
-.client-badge-bar {
-  display: flex; align-items: center; gap: 12px;
-  background: #fff; border: 1px solid var(--line);
-  padding: 8px 18px; border-radius: 99px; font-size: 13px; font-weight: 600;
-}
-.status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); }
+.portal-subtitle { font-size: 14px; color: var(--mut); }
 
-/* STATS BAR */
-.portal-stats {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
-  margin: 30px 0;
+.portal-hero-actions {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.client-pill {
+  display: flex; align-items: center; gap: 10px;
+  background: #fff; border: 1px solid var(--line);
+  padding: 9px 18px; border-radius: 12px; font-size: 13px; font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+}
+.status-dot-pulse {
+  width: 9px; height: 9px; border-radius: 50%; background: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+
+/* COLORFUL STATS CARDS */
+.stats-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+  margin-bottom: 34px;
 }
 .stat-card {
   background: #fff; border: 1px solid var(--line); border-radius: 16px;
-  padding: 22px; transition: transform 0.2s ease;
+  padding: 22px 24px; position: relative; overflow: hidden;
+  box-shadow: 0 4px 12px -2px rgba(0,0,0,0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.stat-card:hover { transform: translateY(-2px); }
-.stat-val { font-family: var(--f-display); font-size: 32px; font-weight: 800; margin-bottom: 4px; }
-.stat-lab { font-size: 12px; color: var(--mut); text-transform: uppercase; font-weight: 700; letter-spacing: 0.06em; }
+.stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px -4px rgba(0,0,0,0.06); }
+.stat-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.stat-card.c-amber::before { background: #f59e0b; }
+.stat-card.c-green::before { background: #10b981; }
+.stat-card.c-blue::before { background: #3b82f6; }
+.stat-card.c-purple::before { background: #8b5cf6; }
 
-@media (max-width: 900px) {
-  .portal-stats { grid-template-columns: repeat(2, 1fr); }
+.stat-icon { font-size: 22px; margin-bottom: 10px; display: inline-block; }
+.stat-val { font-family: var(--f-display); font-size: 32px; font-weight: 800; line-height: 1; margin-bottom: 6px; }
+.stat-lab { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--mut); }
+
+@media (max-width: 960px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* PORTAL MAIN NAVIGATION TABS */
-.portal-tabs {
-  display: flex; gap: 8px; border-bottom: 1px solid var(--line);
-  margin-bottom: 36px; padding-bottom: 0;
+/* CLEAN TAB SWITCHER */
+.nav-tabs-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 1px solid var(--line); margin-bottom: 28px;
+  flex-wrap: wrap; gap: 16px;
 }
-.portal-tab-btn {
-  padding: 14px 24px; font-family: var(--f-display); font-size: 14px; font-weight: 700;
-  color: var(--mut); background: transparent; border: 0; border-bottom: 2px solid transparent;
+.tab-pills-wrap { display: flex; gap: 8px; }
+.portal-tab-pill {
+  padding: 12px 22px; font-family: var(--f-display); font-size: 14px; font-weight: 700;
+  color: var(--mut); background: transparent; border: 0; border-bottom: 2.5px solid transparent;
   cursor: pointer; transition: all 0.2s ease;
 }
-.portal-tab-btn:hover { color: var(--fg); }
-.portal-tab-btn.active { color: var(--fg); border-bottom-color: var(--fg); }
+.portal-tab-pill:hover { color: var(--fg); }
+.portal-tab-pill.active { color: #ff4d00; border-bottom-color: #ff4d00; }
 
-/* TAB 1: ORDER TRACKER */
+/* ORDER CARDS */
 .order-card {
   background: #fff; border: 1px solid var(--line); border-radius: 20px;
-  padding: clamp(24px, 3.5vw, 40px); margin-bottom: 24px;
-  box-shadow: 0 10px 30px -10px rgba(0,0,0,0.03);
+  padding: clamp(24px, 3.5vw, 36px); margin-bottom: 24px;
+  box-shadow: 0 6px 20px -4px rgba(0,0,0,0.04);
+  transition: all 0.2s ease;
 }
-.order-header-row {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  flex-wrap: wrap; gap: 16px; margin-bottom: 28px;
-}
-.order-id { font-family: var(--f-display); font-size: 20px; font-weight: 800; }
-.order-meta-info { font-size: 13px; color: var(--mut); margin-top: 4px; }
+.order-card:hover { border-color: #cbd5e1; }
 
-/* TRACKING PROGRESS BAR */
-.tracker-wrap { margin: 34px 0 28px; }
+.order-top-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  flex-wrap: wrap; gap: 16px; margin-bottom: 22px;
+}
+.order-title { font-family: var(--f-display); font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+.order-subtitle { font-size: 13px; color: var(--mut); }
+
+/* COLORFUL TIMER BADGES */
+.timer-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 14px; border-radius: 99px;
+  font-family: var(--f-display); font-size: 12px; font-weight: 700;
+  background: var(--blue-bg); border: 1px solid var(--blue-border); color: var(--blue);
+}
+.timer-pill.urgent {
+  background: var(--warning-bg); border-color: var(--warning-border); color: #b45309;
+}
+.timer-pill.overdue {
+  background: #fef2f2; border-color: #fca5a5; color: #dc2626; font-weight: 800;
+  animation: pulseOverdue 1.8s infinite;
+}
+@keyframes pulseOverdue { 0%, 100% { opacity: 1; } 50% { opacity: 0.82; } }
+.timer-pill.delivered {
+  background: var(--success-bg); border-color: var(--success-border); color: #065f46;
+}
+
+/* ORDER SPECS PILL BAR */
+.order-specs-bar {
+  display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px;
+}
+.spec-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 8px;
+  padding: 6px 12px; font-size: 12px; font-weight: 600; color: #334155;
+}
+.spec-tag.green-tag {
+  background: var(--success-bg); border-color: var(--success-border); color: #065f46; font-weight: 700;
+}
+.spec-tag.amber-tag {
+  background: var(--warning-bg); border-color: var(--warning-border); color: #b45309; font-weight: 700;
+}
+
+/* PROGRESS TRACKER */
+.tracker-wrap { margin: 26px 0 24px; padding: 18px 0; }
 .tracker-steps {
   display: grid; grid-template-columns: repeat(4, 1fr);
   position: relative; text-align: center;
 }
 .tracker-line {
-  position: absolute; top: 18px; left: 12%; right: 12%; height: 3px;
-  background: #e5e5e0; z-index: 1;
+  position: absolute; top: 16px; left: 12%; right: 12%; height: 3px;
+  background: #e2e8f0; z-index: 1;
 }
-.tracker-line-fill {
-  height: 100%; background: var(--success); transition: width 0.4s ease;
-}
+.tracker-line-fill { height: 100%; background: #10b981; transition: width 0.4s ease; }
 .tracker-step { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; }
 .step-circle {
-  width: 38px; height: 38px; border-radius: 50%; background: #e5e5e0;
+  width: 34px; height: 34px; border-radius: 50%; background: #e2e8f0;
   display: flex; align-items: center; justify-content: center;
-  font-weight: 700; font-size: 13px; color: #777; margin-bottom: 10px;
-  border: 3px solid #fff; transition: all 0.3s ease;
+  font-weight: 800; font-size: 12px; color: #64748b; margin-bottom: 8px;
+  border: 3px solid #fff; transition: all 0.25s ease;
 }
-.tracker-step.done .step-circle { background: var(--success); color: #fff; }
-.tracker-step.active .step-circle { background: var(--fg); color: #fff; box-shadow: 0 0 0 4px rgba(10,10,10,0.12); }
-.step-name { font-size: 12px; font-weight: 700; color: #555; }
+.tracker-step.done .step-circle { background: #10b981; color: #fff; }
+.tracker-step.active .step-circle {
+  background: #ff4d00; color: #fff; box-shadow: 0 0 0 4px rgba(255, 77, 0, 0.2);
+}
+.step-name { font-size: 12px; font-weight: 700; color: #334155; }
 .step-sub { font-size: 11px; color: var(--mut); margin-top: 2px; }
 
-@media (max-width: 680px) {
-  .step-sub { display: none; }
-  .step-name { font-size: 10px; }
+/* INSTANT DOWNLOAD CARD */
+.download-cta-card {
+  background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
+  border: 1.5px solid #86efac; border-radius: 16px;
+  padding: 22px 24px; display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 16px; margin-top: 22px;
+}
+.download-cta-card h4 { font-size: 16px; font-weight: 800; color: #065f46; margin-bottom: 4px; }
+.download-cta-card p { font-size: 13px; color: #047857; }
+
+/* ORDER DETAILS MODAL */
+#orderDetailModal {
+  position: fixed; inset: 0; background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(10px); z-index: 10000;
+  display: none; align-items: center; justify-content: center; padding: 20px;
+}
+.modal-window {
+  background: #fff; border-radius: 20px; width: 100%; max-width: 720px;
+  max-height: 90vh; overflow-y: auto; padding: clamp(24px, 4vw, 40px);
+  position: relative; box-shadow: 0 25px 60px -10px rgba(0,0,0,0.3);
+}
+.modal-close-btn {
+  position: absolute; top: 20px; right: 20px;
+  width: 36px; height: 36px; border-radius: 50%; background: #f1f5f9;
+  border: 0; font-size: 16px; font-weight: 700; cursor: pointer; color: #475569;
+}
+.modal-close-btn:hover { background: #e2e8f0; color: #000; }
+.modal-section { margin-bottom: 22px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+.modal-section:last-child { border-bottom: 0; margin-bottom: 0; padding-bottom: 0; }
+.modal-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.info-label { font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--mut); margin-bottom: 4px; }
+.info-value { font-size: 14px; font-weight: 700; color: #0f172a; }
+.instructions-display-box {
+  background: #f8fafc; border: 1px solid var(--line); border-radius: 12px;
+  padding: 16px; font-size: 14px; line-height: 1.65; color: #334155; white-space: pre-line;
 }
 
-/* DELIVERY DOWNLOAD BOX (READY FOR INSTANT DOWNLOAD) */
-.delivery-box {
-  background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 16px;
-  padding: 24px; display: flex; justify-content: space-between; align-items: center;
-  flex-wrap: wrap; gap: 18px; margin-top: 24px;
-}
-.delivery-info h4 { font-size: 17px; font-weight: 800; color: #166534; margin-bottom: 4px; }
-.delivery-info p { font-size: 13px; color: #15803d; }
-
-/* TAB 2: NEW ORDER FORM */
-.form-panel {
+/* NEW ORDER FORM */
+.order-form-panel {
   background: #fff; border: 1px solid var(--line); border-radius: 20px;
-  padding: clamp(28px, 4vw, 50px); max-width: 900px;
+  padding: clamp(28px, 4vw, 48px); max-width: 860px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
 }
-.form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.fg { margin-bottom: 22px; }
-.flab { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; color: #333; }
-.fin, .fsel, .ftxt {
-  width: 100%; padding: 14px 18px; border-radius: 10px;
-  border: 1px solid var(--line); background: #fafaf8;
-  font: inherit; font-size: 14px; outline: none; transition: border-color 0.2s;
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.form-field { margin-bottom: 22px; }
+.form-label { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; color: #334155; }
+.form-input, .form-select, .form-textarea {
+  width: 100%; padding: 13px 16px; border-radius: 10px;
+  border: 1px solid var(--line); background: #f8fafc;
+  font: inherit; font-size: 14px; outline: none; transition: all 0.2s;
 }
-.fin:focus, .fsel:focus, .ftxt:focus { border-color: var(--fg); background: #fff; }
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: #ff4d00; background: #fff; box-shadow: 0 0 0 3px rgba(255, 77, 0, 0.1);
+}
 
 /* DROPZONE */
 .dropzone {
-  border: 2px dashed #d5d5d0; border-radius: 16px; padding: 44px 24px;
-  text-align: center; background: #fafaf8; cursor: pointer;
-  transition: all 0.25s ease; position: relative;
+  border: 2px dashed #cbd5e1; border-radius: 14px; padding: 38px 20px;
+  text-align: center; background: #f8fafc; cursor: pointer;
+  transition: all 0.2s ease;
 }
-.dropzone.dragover, .dropzone:hover {
-  border-color: var(--fg); background: #f3f3ee;
-}
-.drop-icon { font-size: 38px; margin-bottom: 12px; }
-.drop-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
-.drop-sub { font-size: 13px; color: var(--mut); }
-.file-list-preview { margin-top: 18px; text-align: left; }
-.file-item {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 10px 14px; background: #fff; border: 1px solid var(--line);
-  border-radius: 8px; margin-bottom: 8px; font-size: 13px;
-}
+.dropzone:hover, .dropzone.dragover { border-color: #ff4d00; background: #fff7ed; }
 
-/* TAB 3: INVOICE VIEWER */
+/* INVOICE SHEET */
 .invoice-sheet {
   background: #fff; border: 1px solid var(--line); border-radius: 20px;
-  padding: clamp(28px, 5vw, 60px); max-width: 980px; margin: 0 auto;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.04);
+  padding: clamp(28px, 5vw, 56px); max-width: 960px; margin: 0 auto;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.04);
 }
-.inv-top {
+.inv-top-bar {
   display: flex; justify-content: space-between; align-items: flex-start;
-  flex-wrap: wrap; gap: 24px; padding-bottom: 34px; border-bottom: 1px solid var(--line);
+  flex-wrap: wrap; gap: 20px; padding-bottom: 28px; border-bottom: 1px solid var(--line);
 }
-.inv-brand { font-family: var(--f-display); font-size: 20px; font-weight: 800; letter-spacing: -0.03em; }
-.inv-brand-sub { font-size: 13px; color: var(--mut); margin-top: 4px; }
-.inv-number { font-family: var(--f-display); font-size: 24px; font-weight: 800; text-align: right; }
-.inv-status {
-  display: inline-block; padding: 5px 12px; border-radius: 99px;
-  font-size: 11px; font-weight: 700; text-transform: uppercase;
-  background: #fef08a; color: #854d0e; margin-top: 6px;
+.inv-brand { font-family: var(--f-display); font-size: 20px; font-weight: 800; }
+.inv-badge-paid {
+  background: #dcfce7; color: #166534; font-size: 11px; font-weight: 700;
+  padding: 4px 12px; border-radius: 99px; text-transform: uppercase;
 }
-.inv-status.paid { background: #bbf7d0; color: #166534; }
+.inv-badge-pending {
+  background: #fef3c7; color: #b45309; font-size: 11px; font-weight: 700;
+  padding: 4px 12px; border-radius: 99px; text-transform: uppercase;
+}
 
-.inv-meta-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 30px;
-  padding: 30px 0; border-bottom: 1px solid var(--line);
-}
-.inv-col h5 { font-size: 11px; text-transform: uppercase; color: var(--mut); letter-spacing: 0.1em; margin-bottom: 8px; }
-.inv-col p { font-size: 14px; line-height: 1.6; }
-
-.inv-table { width: 100%; border-collapse: collapse; margin: 30px 0; }
+.inv-table { width: 100%; border-collapse: collapse; margin: 28px 0; }
 .inv-table th {
   text-align: left; padding: 12px 14px; font-size: 11px; text-transform: uppercase;
-  color: var(--mut); border-bottom: 1px solid var(--line); letter-spacing: 0.08em;
+  color: var(--mut); border-bottom: 1px solid var(--line); font-weight: 700;
 }
-.inv-table td { padding: 16px 14px; border-bottom: 1px solid var(--line); font-size: 14px; }
+.inv-table td { padding: 14px; border-bottom: 1px solid var(--line); font-size: 14px; }
 .inv-table .num { text-align: right; }
 
-.inv-total-wrap { display: flex; justify-content: flex-end; padding: 20px 0 34px; }
-.inv-total-box { width: 320px; }
-.inv-total-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; }
-.inv-total-row.grand {
-  border-top: 2px solid var(--fg); font-size: 18px; font-weight: 800;
-  padding-top: 12px; margin-top: 6px;
+.currency-toggle-group {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px;
 }
+.curr-tab-btn {
+  padding: 8px 16px; border-radius: 8px; border: 1px solid var(--line);
+  background: #fff; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+}
+.curr-tab-btn.active { background: #0f172a; color: #fff; border-color: #0f172a; }
 
-/* PAYMENT INSTRUCTIONS SELECTOR */
-.payment-section {
-  background: #fafaf8; border: 1px solid var(--line); border-radius: 16px;
-  padding: 28px; margin-top: 30px;
+.bank-grid-boxes {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; font-size: 13px;
 }
-.curr-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
-.curr-btn {
-  padding: 8px 18px; border-radius: 99px; border: 1px solid var(--line);
-  background: #fff; font-family: var(--f-body); font-size: 12px; font-weight: 700;
-  cursor: pointer; transition: all 0.2s ease;
-}
-.curr-btn.active { background: var(--fg); color: #fff; border-color: var(--fg); }
-
-.bank-detail-grid {
-  display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; font-size: 13px;
-}
-.bank-item {
-  background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px;
+.bank-tile {
+  background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px;
   display: flex; justify-content: space-between; align-items: center;
 }
-.bank-label { font-size: 11px; color: var(--mut); text-transform: uppercase; font-weight: 600; margin-bottom: 2px; }
-.bank-val { font-weight: 700; word-break: break-all; }
-.copy-btn {
-  background: #eee; border: 0; padding: 4px 10px; border-radius: 6px;
-  font-size: 11px; font-weight: 700; cursor: pointer; transition: background 0.2s;
+.copy-pill {
+  background: #f1f5f9; border: 0; padding: 4px 8px; border-radius: 6px;
+  font-size: 11px; font-weight: 700; cursor: pointer; color: #475569;
 }
-.copy-btn:hover { background: #ddd; }
-
-/* CONFIRM PAYMENT BOX */
-.confirm-pay-box {
-  background: #fff; border: 1px solid var(--line); border-radius: 12px;
-  padding: 18px; margin-top: 20px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
-}
-
-
-/* LIVE COUNTDOWN TIMER STYLING */
-.timer-pill {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 6px 14px; border-radius: 99px;
-  font-family: var(--f-display); font-size: 12px; font-weight: 700;
-  background: #f0fdf4; border: 1px solid #86efac; color: #15803d;
-  letter-spacing: 0.02em;
-}
-.timer-pill.urgent {
-  background: #fffbeb; border-color: #fde68a; color: #b45309;
-}
-.timer-pill.overdue {
-  background: #fef2f2; border-color: #fca5a5; color: #b91c1c; font-weight: 800;
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
-  animation: pulseOverdue 2s infinite;
-}
-@keyframes pulseOverdue {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.85; }
-}
-.timer-pill.delivered {
-  background: #f0fdf4; border-color: #bbf7d0; color: #166534;
-}
-.timer-pill.flexible {
-  background: #f4f4f5; border-color: #e4e4e7; color: #52525b;
-}
-
-/* COMMERCIAL PRICE BADGE */
-.commercial-price-bar {
-  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
-  background: #fafaf8; border: 1px solid var(--line); border-radius: 12px;
-  padding: 12px 18px; margin-top: 20px; font-size: 13px;
-}
-.price-tag-agreed {
-  display: inline-flex; align-items: center; gap: 6px;
-  color: #166534; font-weight: 800;
-}
-.price-tag-pending {
-  display: inline-flex; align-items: center; gap: 6px;
-  color: #b45309; font-weight: 700;
-}
-
-/* ORDER SPECS MODAL */
-#orderSpecsModal {
-  position: fixed; inset: 0; background: rgba(10, 10, 10, 0.76);
-  backdrop-filter: blur(12px); z-index: 10000;
-  display: none; align-items: center; justify-content: center; padding: 20px;
-}
-.specs-box {
-  background: #fff; border-radius: 20px; width: 100%; max-width: 760px;
-  max-height: 90vh; overflow-y: auto; padding: clamp(24px, 4vw, 44px);
-  position: relative; box-shadow: 0 25px 60px rgba(0,0,0,0.25);
-}
-.specs-close {
-  position: absolute; top: 20px; right: 20px;
-  width: 36px; height: 36px; border-radius: 50%; background: #f0f0ed;
-  border: 0; font-size: 16px; font-weight: 700; cursor: pointer;
-}
-.specs-sec { margin-bottom: 22px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
-.specs-sec:last-child { border-bottom: 0; margin-bottom: 0; padding-bottom: 0; }
-.specs-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.specs-instruction-box {
-  background: #fafaf8; border: 1px solid var(--line); border-radius: 10px;
-  padding: 16px; font-size: 14px; line-height: 1.6; color: #333; white-space: pre-line;
-}
+.copy-pill:hover { background: #e2e8f0; color: #000; }
 
 /* WIPE PAGE TRANSITION */
 #wipe {
@@ -375,74 +378,103 @@ img { max-width: 100%; display: block; }
   </div>
 </nav>
 
-<main class="w" style="padding-bottom: 100px;">
-  <header class="portal-header">
+<main class="w" style="padding-bottom: 90px;">
+  <!-- PORTAL TOP HERO WITH PROMINENT ACTION -->
+  <header class="portal-hero">
     <div>
-      <div class="lab" style="margin-bottom: 8px;">Agency Production Portal</div>
       <h1 class="portal-title">Client Dashboard</h1>
+      <p class="portal-subtitle">Track orders, inspect retouching briefs, and download finished master files.</p>
     </div>
 
-    <div class="client-badge-bar">
-      <div class="status-dot"></div>
-      <span id="clientNameDisplay">Studio New York (Sarah Jenkins)</span>
-      <span style="color: var(--mut); font-weight: normal;">|</span>
-      <span style="font-size: 11px; color: var(--mut); text-transform: uppercase;">Retainer Tier: Commercial</span>
+    <div class="portal-hero-actions">
+      <div class="client-pill">
+        <div class="status-dot-pulse"></div>
+        <span>Studio New York (Sarah Jenkins)</span>
+      </div>
+
+      <!-- PROMINENT PRIMARY ORDER BUTTON AT TOP -->
+      <button class="btn create-btn" onclick="openNewOrderView()">
+        + Place New Order
+      </button>
     </div>
   </header>
 
-  <!-- QUICK STATS -->
-  <div class="portal-stats">
-    <div class="stat-card">
-      <div class="stat-val" id="statActive">1</div>
+  <!-- COLORFUL QUICK METRICS -->
+  <div class="stats-grid">
+    <div class="stat-card c-amber">
+      <div class="stat-icon">⏳</div>
+      <div class="stat-val" style="color: #d97706;">1</div>
       <div class="stat-lab">In Production</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-val" id="statDelivered" style="color: var(--success);">1</div>
+    <div class="stat-card c-green">
+      <div class="stat-icon">📥</div>
+      <div class="stat-val" style="color: #059669;">1</div>
       <div class="stat-lab">Ready for Download</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-val" id="statCompleted">48</div>
-      <div class="stat-lab">Total Delivered Files</div>
+    <div class="stat-card c-blue">
+      <div class="stat-icon">✨</div>
+      <div class="stat-val" style="color: #2563eb;">48</div>
+      <div class="stat-lab">Completed Files</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-val" id="statInvoices">$490</div>
+    <div class="stat-card c-purple">
+      <div class="stat-icon">💳</div>
+      <div class="stat-val" style="color: #7c3aed;">$490</div>
       <div class="stat-lab">Pending Invoice</div>
     </div>
   </div>
 
-  <!-- NAVIGATION TABS -->
-  <div class="portal-tabs">
-    <button class="portal-tab-btn active" onclick="switchPortalTab('orders', this)">Active Orders &amp; Tracker (2)</button>
-    <button class="portal-tab-btn" onclick="switchPortalTab('newOrder', this)">+ Submit New Order</button>
-    <button class="portal-tab-btn" onclick="switchPortalTab('invoices', this)">Invoices &amp; Wise Billing (1)</button>
+  <!-- NAVIGATION TABS BAR -->
+  <div class="nav-tabs-bar">
+    <div class="tab-pills-wrap">
+      <button class="portal-tab-pill active" id="tabBtnOrders" onclick="switchMainTab('orders')">
+        All Orders (2)
+      </button>
+      <button class="portal-tab-pill" id="tabBtnInvoices" onclick="switchMainTab('invoices')">
+        Invoices &amp; Payments (1)
+      </button>
+      <button class="portal-tab-pill" id="tabBtnNew" onclick="switchMainTab('new')">
+        Order Form
+      </button>
+    </div>
+
+    <div>
+      <span style="font-size: 12px; color: var(--mut);">Available Mon &ndash; Sat &bull; Dual Shift Studio</span>
+    </div>
   </div>
 
-  <!-- VIEW 1: ACTIVE ORDERS & TRACKER -->
+  <!-- 1. ORDERS VIEW -->
   <div id="viewOrders">
-    <!-- ORDER 1: DELIVERED -->
-    <div class="order-card" id="cardOrder1">
-      <div class="order-header-row">
+    <!-- ORDER 1: DELIVERED WITH DOWNLOAD BUTTON -->
+    <div class="order-card" id="cardOrder084">
+      <div class="order-top-row">
         <div>
-          <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 6px;">
-            <span class="order-id">Order #RS-2026-084 &bull; Luxury Jewelry &amp; Watches Suite</span>
-            <span class="timer-pill delivered" id="timerBadge_084">✓ Delivered On-Time (Completed in 18h 30m)</span>
-          </div>
-          <div class="order-meta-info">14 Focus-Stacked RAWs &bull; Format: 16-bit Master PSD + WebP &bull; Target SLA: 24h</div>
+          <div class="order-title">Order #RS-2026-084 &bull; Luxury Jewelry &amp; Watches Suite</div>
+          <div class="order-subtitle">Submitted Today, 10:15 AM &bull; 14 Focus-Stacked RAW Files</div>
         </div>
-        <div style="display: flex; gap: 8px;">
-          <button class="btn sm outline" onclick="openOrderSpecsModal('084')">View Specs &amp; Instructions 👁️</button>
-          <button class="btn sm" onclick="switchPortalTab('invoices', document.querySelectorAll('.portal-tab-btn')[2])">View Invoice ($490)</button>
+
+        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+          <span class="timer-pill delivered">✓ Delivered On-Time (18h 30m)</span>
+          <button class="btn sm outline" onclick="openOrderDetails('084')">Order Details 👁️</button>
+          <button class="btn sm" onclick="switchMainTab('invoices')">View Invoice ($490)</button>
         </div>
       </div>
 
-      <!-- TRACKER STEPS -->
+      <!-- SPECS TAGS -->
+      <div class="order-specs-bar">
+        <span class="spec-tag">📷 14 RAW Files</span>
+        <span class="spec-tag">📁 16-bit Master PSD + WebP</span>
+        <span class="spec-tag">⏱️ 24h Turnaround</span>
+        <span class="spec-tag green-tag">🏷️ Agreed Price: $490.00 USD ✓</span>
+      </div>
+
+      <!-- TRACKER -->
       <div class="tracker-wrap">
         <div class="tracker-steps">
           <div class="tracker-line"><div class="tracker-line-fill" style="width: 100%;"></div></div>
           <div class="tracker-step done">
             <div class="step-circle">✓</div>
             <div class="step-name">1. Received</div>
-            <div class="step-sub">Raw Inspection Passed</div>
+            <div class="step-sub">Files Verified</div>
           </div>
           <div class="tracker-step done">
             <div class="step-circle">✓</div>
@@ -451,59 +483,56 @@ img { max-width: 100%; display: block; }
           </div>
           <div class="tracker-step done">
             <div class="step-circle">✓</div>
-            <div class="step-name">3. Quality Review</div>
-            <div class="step-sub">100% Zoom Verified</div>
+            <div class="step-name">3. Quality Check</div>
+            <div class="step-sub">100% Zoom Approved</div>
           </div>
           <div class="tracker-step done">
             <div class="step-circle">✓</div>
             <div class="step-name">4. Delivered</div>
-            <div class="step-sub">Ready for Download</div>
+            <div class="step-sub">Ready to Download</div>
           </div>
         </div>
       </div>
 
-      <!-- COMMERCIAL AGREED PRICE BADGE -->
-      <div class="commercial-price-bar">
-        <div class="price-tag-agreed">
-          <span>🏷️ Agreed Commercial Rate:</span>
-          <strong>$490.00 USD</strong>
-          <span style="font-size: 11px; background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 4px; font-weight: 700;">Confirmed by Studio ✓</span>
-        </div>
-        <div style="font-size: 12px; color: var(--mut);">Scope: 14 images @ $25/img + Focus Alignment @ $10/img</div>
-      </div>
-
-      <!-- DOWNLOAD DELIVERY BOX -->
-      <div class="delivery-box" id="deliveryBox1">
-        <div class="delivery-info">
-          <h4>✓ Production Finished &bull; Master Files Ready for Download</h4>
-          <p>14 Multi-Layered 16-bit PSDs + Color-profiled sRGB WebP. Inspected and approved by Retoucher Shoaib.</p>
+      <!-- PROMINENT DOWNLOAD CARD -->
+      <div class="download-cta-card">
+        <div>
+          <h4>✓ Retouch Completed &bull; Your Files Are Ready for Download</h4>
+          <p>14 Multi-Layered 16-bit Master PSDs + sRGB WebP. Checked and certified by Shoaib.</p>
         </div>
         <div>
-          <a id="btnDownloadOrder1" href="https://drive.google.com" target="_blank" rel="noopener" class="btn green" style="padding: 14px 28px; font-size: 13px;">
-            📥 Download Finished Retouch Files (ZIP)
+          <a id="btnDownload084" href="https://drive.google.com" target="_blank" rel="noopener" class="btn green" style="padding: 13px 26px; font-size: 13px;">
+            📥 Download Finished Files (ZIP)
           </a>
         </div>
       </div>
     </div>
 
-    <!-- ORDER 2: IN PRODUCTION WITH LIVE TICKING COUNTDOWN -->
-    <div class="order-card" id="cardOrder2">
-      <div class="order-header-row">
+    <!-- ORDER 2: IN PRODUCTION WITH LIVE COUNTDOWN TIMER -->
+    <div class="order-card" id="cardOrder085">
+      <div class="order-top-row">
         <div>
-          <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 6px;">
-            <span class="order-id">Order #RS-2026-085 &bull; Editorial Fashion Apparel Lookbook</span>
-            <!-- LIVE TICKING COUNTDOWN PILL -->
-            <span class="timer-pill" id="timerBadge_085">⏳ Calculating Countdown...</span>
-          </div>
-          <div class="order-meta-info">24 High-Fashion RAWs &bull; Format: Layered PSD + Transparent PNG &bull; Target SLA: 24h</div>
+          <div class="order-title">Order #RS-2026-085 &bull; Editorial Fashion Apparel Lookbook</div>
+          <div class="order-subtitle">Submitted Today, 01:30 PM &bull; 24 High-Fashion RAW Files</div>
         </div>
-        <div style="display: flex; gap: 8px;">
-          <button class="btn sm outline" onclick="openOrderSpecsModal('085')">View Specs &amp; Instructions 👁️</button>
+
+        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+          <!-- LIVE COUNTDOWN TIMER -->
+          <span class="timer-pill" id="liveCountdownPill">⏳ Calculating Countdown...</span>
+          <button class="btn sm outline" onclick="openOrderDetails('085')">Order Details 👁️</button>
           <span class="btn sm outline" style="border-color: #f59e0b; color: #b45309; cursor: default;">In Production</span>
         </div>
       </div>
 
-      <!-- TRACKER STEPS -->
+      <!-- SPECS TAGS -->
+      <div class="order-specs-bar">
+        <span class="spec-tag">📷 24 RAW Files</span>
+        <span class="spec-tag">📁 Layered PSD + PNG Path</span>
+        <span class="spec-tag">⏱️ 24h Express SLA</span>
+        <span class="spec-tag amber-tag" id="priceTag085">🏷️ Proposed Budget: $600.00 USD (Reviewing ⏳)</span>
+      </div>
+
+      <!-- TRACKER -->
       <div class="tracker-wrap">
         <div class="tracker-steps">
           <div class="tracker-line"><div class="tracker-line-fill" style="width: 45%;"></div></div>
@@ -515,48 +544,40 @@ img { max-width: 100%; display: block; }
           <div class="tracker-step active">
             <div class="step-circle">2</div>
             <div class="step-name">2. In Production</div>
-            <div class="step-sub">Natural Textile Sculpting</div>
+            <div class="step-sub">Active Retouching</div>
           </div>
           <div class="tracker-step">
             <div class="step-circle">3</div>
-            <div class="step-name">3. Quality Review</div>
-            <div class="step-sub">Pending</div>
+            <div class="step-name">3. Quality Check</div>
+            <div class="step-sub">Pending Review</div>
           </div>
           <div class="tracker-step">
             <div class="step-circle">4</div>
             <div class="step-name">4. Delivered</div>
-            <div class="step-sub">Countdown Active</div>
+            <div class="step-sub">Timer Active</div>
           </div>
         </div>
       </div>
 
-      <!-- COMMERCIAL AGREED PRICE BADGE -->
-      <div class="commercial-price-bar">
-        <div class="price-tag-pending" id="priceBadgeContainer_085">
-          <span>🏷️ Proposed Budget:</span>
-          <strong id="priceDisplay_085">$600.00 USD ($25/img)</strong>
-          <span id="priceStatusTag_085" style="font-size: 11px; background: #fef3c7; color: #b45309; padding: 2px 8px; border-radius: 4px; font-weight: 700;">Under Studio Review ⏳</span>
-        </div>
-        <div style="font-size: 12px; color: var(--mut);">Turnaround: 24 Hours Express &bull; Client Target: Sarah Jenkins</div>
-      </div>
-
-      <div style="background: #fafaf8; border: 1px solid var(--line); border-radius: 12px; padding: 16px 20px; font-size: 13px; color: #555; margin-top: 18px;">
-        ⚡ <strong>Live Status from Studio Director:</strong> Senior fashion retoucher assigned. Mannequin hollow jointing and hemline symmetry alignment currently underway.
+      <div style="background: #f8fafc; border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px; font-size: 13px; color: #475569;">
+        ⚡ <strong>Live Production Note:</strong> Senior fashion retoucher assigned. Symmetrical hemline alignment and ghost mannequin neck joint in progress.
       </div>
     </div>
   </div>
 
-  <!-- VIEW 2: SUBMIT NEW ORDER -->
+  <!-- 2. PLACE NEW ORDER VIEW -->
   <div id="viewNewOrder" style="display: none;">
-    <div class="form-panel">
-      <div class="lab" style="margin-bottom: 8px;">Production Intake</div>
-      <h2 style="font-size: 26px; font-weight: 800; margin-bottom: 24px;">Submit New Retouching Commission</h2>
+    <div class="order-form-panel">
+      <div style="margin-bottom: 24px;">
+        <h2 style="font-size: 24px; font-weight: 800; margin-bottom: 4px;">Submit Retouching Order</h2>
+        <p style="font-size: 13px; color: var(--mut);">Fill in your project specifications and set your deadline and budget.</p>
+      </div>
 
       <form id="newOrderForm" onsubmit="handleNewOrderSubmit(event)">
-        <div class="form-grid-2">
-          <div class="fg">
-            <label class="flab">Service Department *</label>
-            <select id="ordService" class="fsel" required>
+        <div class="form-row-2">
+          <div class="form-field">
+            <label class="form-label">Service Category *</label>
+            <select id="ordService" class="form-select" required>
               <option value="Luxury Jewelry & Horology">Luxury Jewelry &amp; Watches</option>
               <option value="Fashion & Apparel">Fashion &amp; 3D Ghost Mannequin</option>
               <option value="Editorial & Beauty">Model, Beauty &amp; Skin Texture</option>
@@ -565,43 +586,45 @@ img { max-width: 100%; display: block; }
             </select>
           </div>
 
-          <div class="fg">
-            <label class="flab">Turnaround Speed *</label>
-            <select id="ordSpeed" class="fsel" required>
+          <div class="form-field">
+            <label class="form-label">Turnaround Time (Deadline) *</label>
+            <select id="ordSpeed" class="form-select" required>
               <option value="12">12 Hours (Rush Production) +30%</option>
               <option value="24" selected>24 Hours (Express Commercial SLA)</option>
               <option value="48">48 Hours (Standard Studio Turnaround)</option>
               <option value="72">72 Hours (Bulk Catalog / E-Commerce Scale)</option>
-              <option value="flexible">Flexible Time (No Rush / Standard Queue)</option>
+              <option value="flexible">Flexible Time (No Rush)</option>
             </select>
           </div>
         </div>
 
-        <div class="form-grid-2">
-          <div class="fg">
-            <label class="flab">Master Delivery Format *</label>
-            <select id="ordFormat" class="fsel" required>
+        <div class="form-row-2">
+          <div class="form-field">
+            <label class="form-label">Master Delivery Format *</label>
+            <select id="ordFormat" class="form-select" required>
               <option value="16-bit Layered Master PSD + WebP">16-bit Layered Master PSD + sRGB WebP</option>
               <option value="16-bit ProPhoto TIFF">16-bit ProPhoto RGB TIFF</option>
-              <option value="Pure White Isolation PNG + Path">Pure White RGB(255) Isolation PNG + Clipping Path</option>
+              <option value="Pure White Isolation PNG + Path">Pure White Isolation PNG + Clipping Path</option>
               <option value="Custom Campaign Specs">Custom Campaign Specifications</option>
             </select>
           </div>
 
-          <div class="fg">
-            <label class="flab">Estimated Number of Images *</label>
-            <input type="number" id="ordCount" class="fin" placeholder="e.g. 15" min="1" max="500" value="10" required>
+          <div class="form-field">
+            <label class="form-label">Number of Images *</label>
+            <input type="number" id="ordCount" class="form-input" placeholder="e.g. 15" min="1" max="500" value="10" required>
           </div>
         </div>
 
-        <div class="form-grid-2">
-          <div class="fg">
-            <label class="flab">Your Proposed Budget / Offer Price (Optional)</label>
-            <input type="text" id="ordOffer" class="fin" placeholder="e.g. $25/image or $350 Total USD">
+        <!-- BUDGET / OFFER PRICE -->
+        <div class="form-row-2">
+          <div class="form-field">
+            <label class="form-label">Your Proposed Budget / Offer Price (Optional)</label>
+            <input type="text" id="ordOffer" class="form-input" placeholder="e.g. $25/image or $350 Total USD">
           </div>
-          <div class="fg">
-            <label class="flab">Billing Currency</label>
-            <select id="ordCurrency" class="fsel">
+
+          <div class="form-field">
+            <label class="form-label">Billing Currency</label>
+            <select id="ordCurrency" class="form-select">
               <option value="USD">USD ($)</option>
               <option value="EUR">EUR (€)</option>
               <option value="GBP">GBP (£)</option>
@@ -609,90 +632,85 @@ img { max-width: 100%; display: block; }
           </div>
         </div>
 
-        <!-- DRAG AND DROP ZONE -->
-        <div class="fg">
-          <label class="flab">Upload Raw Images (Drag &amp; Drop to Studio Google Drive)</label>
+        <!-- DRAG AND DROP -->
+        <div class="form-field">
+          <label class="form-label">Upload Raw Images (Direct to Google Drive)</label>
           <div class="dropzone" id="portalDropzone" onclick="document.getElementById('fileInput').click()">
             <input type="file" id="fileInput" multiple style="display: none;" onchange="handleFileSelect(event)">
-            <div class="drop-icon">☁️</div>
-            <div class="drop-title">Drag &amp; drop RAW / PSD / TIFF files here</div>
-            <div class="drop-sub">Direct high-speed upload to Retoucher Shoaib's dedicated client Drive folder &bull; Or click to browse</div>
+            <div style="font-size: 32px; margin-bottom: 8px;">☁️</div>
+            <div style="font-weight: 700; font-size: 15px; margin-bottom: 4px;">Drag &amp; drop RAW / PSD / TIFF files here</div>
+            <div style="font-size: 13px; color: var(--mut);">Direct upload to Shoaib's dedicated client Drive folder &bull; Or click to browse</div>
           </div>
-          <div class="file-list-preview" id="fileListPreview"></div>
+          <div id="fileListPreview" style="margin-top: 14px;"></div>
         </div>
 
-        <div class="fg">
-          <label class="flab">Or Paste Google Drive / Dropbox / WeTransfer Link</label>
-          <input type="url" id="ordDriveLink" class="fin" placeholder="https://drive.google.com/drive/folders/...">
+        <div class="form-field">
+          <label class="form-label">Or Paste Google Drive / Dropbox Folder Link</label>
+          <input type="url" id="ordDriveLink" class="form-input" placeholder="https://drive.google.com/drive/folders/...">
         </div>
 
-        <div class="fg">
-          <label class="flab">Creative Brief &amp; Special Retouching Instructions</label>
-          <textarea id="ordNotes" class="ftxt" rows="4" placeholder="Specify background tone (Pure white/Off-white/Transparent), shadow preferences (Natural/Cast/Drop), skin blemishes vs beauty marks retention, or edge feathering requirements..."></textarea>
+        <div class="form-field">
+          <label class="form-label">Retouching Instructions &amp; Creative Brief</label>
+          <textarea id="ordNotes" class="form-textarea" rows="4" placeholder="Detail any background preferences, shadow styles, skin texture preservation, hair cleanup, or specific color references..."></textarea>
         </div>
 
-        <button type="submit" class="btn" style="padding: 16px 36px; font-size: 13px;">Submit Order to Production Team</button>
+        <button type="submit" class="btn create-btn" style="width: 100%; padding: 14px;">
+          Submit Order to Production Team
+        </button>
       </form>
     </div>
   </div>
 
-  <!-- VIEW 3: INVOICES & WISE BILLING -->
+  <!-- 3. INVOICES VIEW -->
   <div id="viewInvoices" style="display: none;">
-    <div class="invoice-sheet" id="invoicePrintArea">
-      <div class="inv-top">
+    <div class="invoice-sheet">
+      <div class="inv-top-bar">
         <div>
           <div class="inv-brand">RETOUCHER SHOAIB<sup>&reg;</sup></div>
-          <div class="inv-brand-sub">Commercial Post-Production Studio &bull; worldwide</div>
-          <div style="font-size: 13px; color: #555; margin-top: 6px;">Email: retouchershoaib@gmail.com &bull; WhatsApp: +880 1710-763251</div>
+          <div style="font-size: 13px; color: var(--mut); margin-top: 3px;">Commercial Post-Production Studio</div>
+          <div style="font-size: 13px; color: #475569; margin-top: 5px;">retouchershoaib@gmail.com &bull; WhatsApp: +880 1710-763251</div>
         </div>
-        <div>
-          <div class="inv-number">INVOICE #RS-2026-084</div>
-          <div style="text-align: right;">
-            <span class="inv-status" id="invStatusBadge">PAYMENT PENDING</span>
+        <div style="text-align: right;">
+          <div style="font-size: 22px; font-weight: 800; font-family: var(--f-display);">INVOICE #RS-2026-084</div>
+          <div style="margin-top: 6px;">
+            <span class="inv-badge-pending" id="invStatusBadge">PAYMENT PENDING</span>
           </div>
         </div>
       </div>
 
-      <div class="inv-meta-grid">
-        <div class="inv-col">
-          <h5>Billed To</h5>
-          <p><strong>Sarah Jenkins</strong><br>Studio New York / Jenkins Creative Agency<br>New York, United States<br>sarah@jenkinsstudio.com</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 24px 0; border-bottom: 1px solid var(--line);">
+        <div>
+          <div class="info-label">Billed To</div>
+          <p style="font-size: 14px; line-height: 1.6;"><strong>Sarah Jenkins</strong><br>Studio New York<br>sarah@jenkinsstudio.com</p>
         </div>
-        <div class="inv-col" style="text-align: right;">
-          <h5>Invoice Details</h5>
-          <p>
-            <strong>Issue Date:</strong> November 02, 2026<br>
-            <strong>Due Date:</strong> November 17, 2026 (Net 15)<br>
-            <strong>Project Reference:</strong> #RS-2026-084 (Imperial Diamond Suite)
+        <div style="text-align: right;">
+          <div class="info-label">Invoice Details</div>
+          <p style="font-size: 13px; line-height: 1.6;">
+            <strong>Issue Date:</strong> Nov 02, 2026<br>
+            <strong>Due Date:</strong> Nov 17, 2026 (Net 15)<br>
+            <strong>Project:</strong> #RS-2026-084 (Jewelry Suite)
           </p>
         </div>
       </div>
 
-      <!-- TABLE -->
       <table class="inv-table">
         <thead>
           <tr>
-            <th>Description &amp; Scope</th>
+            <th>Description</th>
             <th class="num">Qty</th>
-            <th class="num">Unit Price</th>
-            <th class="num">Total</th>
+            <th class="num">Rate</th>
+            <th class="num">Amount</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>
-              <strong>High-End Macro Jewelry Retouching</strong><br>
-              <span style="font-size: 12px; color: var(--mut);">Focus stacking alignment, scratch removal on platinum prongs, gemstone facet contrast polish.</span>
-            </td>
+            <td><strong>High-End Macro Jewelry Retouching</strong><br><span style="font-size: 12px; color: var(--mut);">Focus stacking alignment, scratch removal on platinum, diamond facet polish.</span></td>
             <td class="num">14</td>
             <td class="num">$25.00</td>
             <td class="num"><strong>$350.00</strong></td>
           </tr>
           <tr>
-            <td>
-              <strong>Color-Calibrated Specular Highlight Master</strong><br>
-              <span style="font-size: 12px; color: var(--mut);">16-bit layered master PSD export with preserved alpha masks and e-commerce sRGB WebP.</span>
-            </td>
+            <td><strong>Color-Calibrated Specular Highlight Master</strong><br><span style="font-size: 12px; color: var(--mut);">16-bit layered master PSD export with preserved alpha masks.</span></td>
             <td class="num">14</td>
             <td class="num">$10.00</td>
             <td class="num"><strong>$140.00</strong></td>
@@ -700,325 +718,167 @@ img { max-width: 100%; display: block; }
         </tbody>
       </table>
 
-      <!-- TOTALS -->
-      <div class="inv-total-wrap">
-        <div class="inv-total-box">
-          <div class="inv-total-row">
+      <div style="display: flex; justify-content: flex-end; padding: 10px 0 24px;">
+        <div style="width: 280px;">
+          <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px;">
             <span style="color: var(--mut);">Subtotal:</span>
             <span>$490.00</span>
           </div>
-          <div class="inv-total-row">
-            <span style="color: var(--mut);">Tax / VAT (0% B2B Export):</span>
+          <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px;">
+            <span style="color: var(--mut);">Tax (0% Export):</span>
             <span>$0.00</span>
           </div>
-          <div class="inv-total-row grand">
+          <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: 800; border-top: 2px solid var(--fg); padding-top: 10px;">
             <span>Total Payable:</span>
-            <span style="color: var(--accent);">$490.00 USD</span>
+            <span style="color: #ff4d00;">$490.00 USD</span>
           </div>
         </div>
       </div>
 
-      <!-- PAYMENT INSTRUCTIONS -->
-      <div class="payment-section">
-        <h4 style="font-size: 15px; font-weight: 800; margin-bottom: 6px;">Select Payment Currency &amp; Bank Details</h4>
-        <p style="font-size: 13px; color: var(--mut); margin-bottom: 16px;">
-          Choose your local currency to view exact domestic bank routing details powered by Wise with zero international wire charges.
-        </p>
+      <!-- PAYMENT CURRENCY TOGGLE -->
+      <div style="background: #f8fafc; border: 1px solid var(--line); border-radius: 14px; padding: 24px; margin-top: 20px;">
+        <h4 style="font-size: 15px; font-weight: 800; margin-bottom: 4px;">Choose Payment Currency &amp; Details</h4>
+        <p style="font-size: 13px; color: var(--mut); margin-bottom: 16px;">Domestic bank routing powered by Wise with zero international wire charges.</p>
 
-        <!-- CURRENCY TABS -->
-        <div class="curr-tabs">
-          <button class="curr-btn active" onclick="switchCurrency('usd', this)">🇺🇸 USD Bank (United States)</button>
-          <button class="curr-btn" onclick="switchCurrency('eur', this)">🇪🇺 EUR SEPA (Germany, Austria, EU)</button>
-          <button class="curr-btn" onclick="switchCurrency('gbp', this)">🇬🇧 GBP Sort Code (United Kingdom)</button>
-          <button class="curr-btn" onclick="switchCurrency('wise', this)">🌐 Wise Direct Transfer</button>
-          <button class="curr-btn" onclick="switchCurrency('card', this)">💳 Debit / Credit Card (Visa, Mastercard)</button>
+        <div class="currency-toggle-group">
+          <button class="curr-tab-btn active" onclick="switchCurrency('usd', this)">🇺🇸 USD Bank (United States)</button>
+          <button class="curr-tab-btn" onclick="switchCurrency('eur', this)">🇪🇺 EUR SEPA (Germany, Austria, EU)</button>
+          <button class="curr-tab-btn" onclick="switchCurrency('gbp', this)">🇬🇧 GBP Sort Code (UK)</button>
+          <button class="curr-tab-btn" onclick="switchCurrency('wise', this)">🌐 Wise Direct Transfer</button>
+          <button class="curr-tab-btn" onclick="switchCurrency('card', this)">💳 Debit / Credit Card</button>
         </div>
 
-        <!-- 1. USD DETAILS -->
-        <div id="bankDetailsUSD" class="bank-detail-grid">
-          <div class="bank-item">
-            <div><div class="bank-label">Bank Name</div><div class="bank-val">Community Federal Savings Bank</div></div>
-          </div>
-          <div class="bank-item">
-            <div><div class="bank-label">Account Holder</div><div class="bank-val">MD Shoaib Siddique</div></div>
-          </div>
-          <div class="bank-item">
-            <div><div class="bank-label">ACH Routing Number (US Domestic)</div><div class="bank-val" id="valUsdRouting">026073150</div></div>
-            <button class="copy-btn" onclick="copyText('valUsdRouting')">Copy</button>
-          </div>
-          <div class="bank-item">
-            <div><div class="bank-label">Account Number</div><div class="bank-val" id="valUsdAcc">8314244452</div></div>
-            <button class="copy-btn" onclick="copyText('valUsdAcc')">Copy</button>
-          </div>
-          <div class="bank-item">
-            <div><div class="bank-label">Swift / BIC (Outside US)</div><div class="bank-val" id="valUsdSwift">CMFGUS33</div></div>
-            <button class="copy-btn" onclick="copyText('valUsdSwift')">Copy</button>
-          </div>
-          <div class="bank-item">
-            <div><div class="bank-label">Account Type</div><div class="bank-val">Checking</div></div>
-          </div>
+        <!-- 1. USD -->
+        <div id="bankDetailsUSD" class="bank-grid-boxes">
+          <div class="bank-tile"><div><div class="info-label">Bank Name</div><div style="font-weight:700;">Community Federal Savings Bank</div></div></div>
+          <div class="bank-tile"><div><div class="info-label">Account Holder</div><div style="font-weight:700;">MD Shoaib Siddique</div></div></div>
+          <div class="bank-tile"><div><div class="info-label">ACH Routing Number</div><div style="font-weight:700;" id="valUsdRouting">026073150</div></div><button class="copy-pill" onclick="copyText('valUsdRouting')">Copy</button></div>
+          <div class="bank-tile"><div><div class="info-label">Account Number</div><div style="font-weight:700;" id="valUsdAcc">8314244452</div></div><button class="copy-pill" onclick="copyText('valUsdAcc')">Copy</button></div>
+          <div class="bank-tile"><div><div class="info-label">Swift / BIC</div><div style="font-weight:700;" id="valUsdSwift">CMFGUS33</div></div><button class="copy-pill" onclick="copyText('valUsdSwift')">Copy</button></div>
+          <div class="bank-tile"><div><div class="info-label">Account Type</div><div style="font-weight:700;">Checking</div></div></div>
         </div>
 
-        <!-- 2. EUR DETAILS -->
-        <div id="bankDetailsEUR" class="bank-detail-grid" style="display: none;">
-          <div class="bank-item">
-            <div><div class="bank-label">Bank Name</div><div class="bank-val">Wise Europe SA (Brussels, Belgium)</div></div>
-          </div>
-          <div class="bank-item">
-            <div><div class="bank-label">Beneficiary Name</div><div class="bank-val">MD Shoaib Siddique</div></div>
-          </div>
-          <div class="bank-item" style="grid-column: span 2;">
-            <div><div class="bank-label">IBAN (SEPA Domestic for Germany, Austria, France, EU)</div><div class="bank-val" id="valEurIban">BE50 9030 5754 7018</div></div>
-            <button class="copy-btn" onclick="copyText('valEurIban')">Copy</button>
-          </div>
-          <div class="bank-item">
-            <div><div class="bank-label">Swift / BIC Code</div><div class="bank-val" id="valEurSwift">TRWIBEB1XXX</div></div>
-            <button class="copy-btn" onclick="copyText('valEurSwift')">Copy</button>
-          </div>
-          <div class="bank-item">
-            <div><div class="bank-label">Accepted Network</div><div class="bank-val">SEPA Instant / SEPA Credit</div></div>
-          </div>
+        <!-- 2. EUR -->
+        <div id="bankDetailsEUR" class="bank-grid-boxes" style="display: none;">
+          <div class="bank-tile"><div><div class="info-label">Bank Name</div><div style="font-weight:700;">Wise Europe SA (Brussels)</div></div></div>
+          <div class="bank-tile"><div><div class="info-label">Beneficiary Name</div><div style="font-weight:700;">MD Shoaib Siddique</div></div></div>
+          <div class="bank-tile" style="grid-column: span 2;"><div><div class="info-label">EUR IBAN (SEPA for Germany, Austria, France, EU)</div><div style="font-weight:700;" id="valEurIban">BE50 9030 5754 7018</div></div><button class="copy-pill" onclick="copyText('valEurIban')">Copy</button></div>
+          <div class="bank-tile"><div><div class="info-label">Swift / BIC</div><div style="font-weight:700;" id="valEurSwift">TRWIBEB1XXX</div></div><button class="copy-pill" onclick="copyText('valEurSwift')">Copy</button></div>
+          <div class="bank-tile"><div><div class="info-label">Network</div><div style="font-weight:700;">SEPA Instant</div></div></div>
         </div>
 
-        <!-- 3. GBP DETAILS -->
-        <div id="bankDetailsGBP" class="bank-detail-grid" style="display: none;">
-          <div class="bank-item">
-            <div><div class="bank-label">Bank Name</div><div class="bank-val">Wise Payments Limited (London, UK)</div></div>
-          </div>
-          <div class="bank-item">
-            <div><div class="bank-label">Beneficiary Name</div><div class="bank-val">MD Shoaib Siddique</div></div>
-          </div>
-          <div class="bank-item">
-            <div><div class="bank-label">UK Sort Code</div><div class="bank-val" id="valGbpSort">23-14-70</div></div>
-            <button class="copy-btn" onclick="copyText('valGbpSort')">Copy</button>
-          </div>
-          <div class="bank-item">
-            <div><div class="bank-label">UK Account Number</div><div class="bank-val" id="valGbpAcc">91061342</div></div>
-            <button class="copy-btn" onclick="copyText('valGbpAcc')">Copy</button>
-          </div>
-          <div class="bank-item" style="grid-column: span 2;">
-            <div><div class="bank-label">International IBAN</div><div class="bank-val" id="valGbpIban">GB45 TRWI 2314 7091 0613 42</div></div>
-            <button class="copy-btn" onclick="copyText('valGbpIban')">Copy</button>
-          </div>
+        <!-- 3. GBP -->
+        <div id="bankDetailsGBP" class="bank-grid-boxes" style="display: none;">
+          <div class="bank-tile"><div><div class="info-label">Bank Name</div><div style="font-weight:700;">Wise Payments Ltd (London)</div></div></div>
+          <div class="bank-tile"><div><div class="info-label">Beneficiary Name</div><div style="font-weight:700;">MD Shoaib Siddique</div></div></div>
+          <div class="bank-tile"><div><div class="info-label">UK Sort Code</div><div style="font-weight:700;" id="valGbpSort">23-14-70</div></div><button class="copy-pill" onclick="copyText('valGbpSort')">Copy</button></div>
+          <div class="bank-tile"><div><div class="info-label">Account Number</div><div style="font-weight:700;" id="valGbpAcc">91061342</div></div><button class="copy-pill" onclick="copyText('valGbpAcc')">Copy</button></div>
         </div>
 
-        <!-- 4. WISE DIRECT -->
-        <div id="bankDetailsWISE" class="bank-detail-grid" style="display: none;">
-          <div class="bank-item" style="grid-column: span 2;">
-            <div><div class="bank-label">Wise Recipient Email</div><div class="bank-val" id="valWiseEmail">retouchershoaib@gmail.com</div></div>
-            <button class="copy-btn" onclick="copyText('valWiseEmail')">Copy</button>
-          </div>
-          <div class="bank-item" style="grid-column: span 2;">
-            <div><div class="bank-label">Direct WhatsApp Support</div><div class="bank-val">+880 1710-763251</div></div>
-            <a href="https://wa.me/8801710763251" target="_blank" class="copy-btn" style="text-decoration: none;">Chat ↗</a>
-          </div>
+        <!-- 4. WISE -->
+        <div id="bankDetailsWISE" class="bank-grid-boxes" style="display: none;">
+          <div class="bank-tile" style="grid-column: span 2;"><div><div class="info-label">Wise Email</div><div style="font-weight:700;" id="valWiseEmail">retouchershoaib@gmail.com</div></div><button class="copy-pill" onclick="copyText('valWiseEmail')">Copy</button></div>
         </div>
 
-        <!-- 5. CARD PAYMENT VIA WISE CHECKOUT -->
-        <div id="bankDetailsCARD" style="display: none; background: #fff; border: 1.5px solid #86efac; border-radius: 14px; padding: 26px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+        <!-- 5. CARD -->
+        <div id="bankDetailsCARD" style="display: none; background: #fff; border: 1.5px solid #86efac; border-radius: 12px; padding: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
             <div>
-              <div style="display: inline-flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-                <h4 style="font-size: 16px; font-weight: 800; color: #166534;">Pay Directly with Debit or Credit Card</h4>
-                <span style="font-size: 10px; font-weight: 700; text-transform: uppercase; background: #dcfce7; color: #15803d; padding: 2px 8px; border-radius: 4px;">Instant Deposit</span>
-              </div>
-              <p style="font-size: 13px; color: #444; max-width: 540px; line-height: 1.6;">
-                Pay securely using your international Visa, Mastercard, American Express, or Apple Pay. No Wise account required. Your payment is processed by Wise secure 256-bit gateway and credited directly to MD Shoaib Siddique's studio balance.
-              </p>
-              <div style="display: flex; gap: 8px; margin-top: 14px; align-items: center; flex-wrap: wrap;">
-                <span style="font-size: 11px; font-weight: 800; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; padding: 4px 10px; border-radius: 6px;">VISA</span>
-                <span style="font-size: 11px; font-weight: 800; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; padding: 4px 10px; border-radius: 6px;">MASTERCARD</span>
-                <span style="font-size: 11px; font-weight: 800; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; padding: 4px 10px; border-radius: 6px;">AMEX</span>
-                <span style="font-size: 11px; font-weight: 800; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; padding: 4px 10px; border-radius: 6px;">APPLE PAY</span>
-                <span style="font-size: 11px; font-weight: 800; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; padding: 4px 10px; border-radius: 6px;">GOOGLE PAY</span>
-              </div>
+              <div style="font-size: 15px; font-weight: 800; color: #065f46; margin-bottom: 4px;">Pay with Debit or Credit Card</div>
+              <p style="font-size: 13px; color: #475569;">Instant checkout for Visa, Mastercard, AMEX &amp; Apple Pay via Wise secure gateway.</p>
             </div>
-
             <div>
-              <a id="btnPayCardLink" href="https://wise.com/pay/me/mdshoaibs" target="_blank" rel="noopener" class="btn green" style="padding: 16px 32px; font-size: 14px; display: inline-flex; box-shadow: 0 10px 25px rgba(22, 163, 74, 0.25);">
+              <a id="btnPayCardLink" href="https://wise.com/pay/me/mdshoaibs" target="_blank" rel="noopener" class="btn green" style="padding: 12px 24px; font-size: 13px;">
                 💳 Pay $490.00 USD via Card ↗
               </a>
-              <div style="font-size: 11px; color: #666; margin-top: 8px; text-align: center;">🔒 256-Bit Bank Level Encryption</div>
             </div>
           </div>
         </div>
 
-        <!-- CLIENT CONFIRMATION ACTION -->
-        <div class="confirm-pay-box">
-          <input type="text" id="txRefInput" class="fin" style="flex: 1;" placeholder="Enter Wise / Bank Transfer Reference (e.g. #982401)">
-          <button type="button" class="btn" onclick="submitPaymentConfirmation()" style="padding: 14px 22px;">Confirm I Have Transferred</button>
+        <!-- TRANSFER CONFIRMATION -->
+        <div style="display: flex; gap: 10px; margin-top: 18px; align-items: center; flex-wrap: wrap;">
+          <input type="text" id="txRefInput" class="form-input" style="flex: 1;" placeholder="Enter Wise / Bank Transfer Reference (e.g. #982401)">
+          <button type="button" class="btn sm" onclick="submitPaymentConfirmation()" style="padding: 13px 20px;">Confirm Transfer</button>
         </div>
         <div id="confirmStatusMsg" style="margin-top: 10px; font-size: 13px; font-weight: 600;"></div>
       </div>
 
-      <!-- INVOICE ACTION BUTTONS -->
-      <div style="display: flex; gap: 14px; margin-top: 30px; justify-content: flex-end;">
-        <button class="btn outline" onclick="window.print()">🖨️ Download / Print Official PDF</button>
+      <div style="display: flex; justify-content: flex-end; margin-top: 24px;">
+        <button class="btn outline sm" onclick="window.print()">🖨️ Download / Print Official PDF</button>
       </div>
     </div>
   </div>
 </main>
 
+<!-- SIMPLE, ELEGANT ORDER DETAILS MODAL -->
+<div id="orderDetailModal" onclick="closeOrderModalOnBg(event)">
+  <div class="modal-window">
+    <button class="modal-close-btn" onclick="closeOrderDetails()">✕</button>
+
+    <div style="margin-bottom: 20px;">
+      <div class="info-label">Order Details</div>
+      <h2 id="modalTitle" style="font-size: 22px; font-weight: 800;">Order #RS-2026-084</h2>
+    </div>
+
+    <!-- DEADLINE & TIMER -->
+    <div class="modal-section">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <div>
+          <div class="info-label">Delivery Deadline</div>
+          <div id="modalDeadline" style="font-size: 15px; font-weight: 800;">24 Hours Express SLA</div>
+        </div>
+        <div id="modalTimer" class="timer-pill">⏳ Calculating...</div>
+      </div>
+    </div>
+
+    <!-- AGREED PRICE -->
+    <div class="modal-section">
+      <div class="modal-grid-2">
+        <div>
+          <div class="info-label">Price Status</div>
+          <div id="modalPriceStatus" style="font-size: 14px; font-weight: 800; color: #166534;">Agreed Commercial Rate ✓</div>
+        </div>
+        <div>
+          <div class="info-label">Agreed Amount</div>
+          <div id="modalPriceAmount" style="font-size: 18px; font-weight: 800; color: #ff4d00;">$490.00 USD</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPECIFICATIONS -->
+    <div class="modal-section">
+      <div class="modal-grid-2">
+        <div>
+          <div class="info-label">Service Department</div>
+          <div id="modalService" style="font-size: 14px; font-weight: 700;">Luxury Jewelry &amp; Watches</div>
+        </div>
+        <div>
+          <div class="info-label">Files &amp; Delivery Format</div>
+          <div id="modalFormat" style="font-size: 14px; font-weight: 700;">14 RAWs &bull; 16-bit Master PSD + WebP</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INSTRUCTIONS -->
+    <div class="modal-section">
+      <div class="info-label" style="margin-bottom: 8px;">Client's Retouching Instructions</div>
+      <div class="instructions-display-box" id="modalInstructions">
+        Please clean all microscopic dust and metal scratches on the platinum prongs without blunting the facet reflections. 
+        Preserve diamond natural scintillation highlights (do not blow out or flatten). 
+        Deliver on seamless off-white background with a delicate natural contact cast shadow.
+      </div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 22px;">
+      <a id="modalDriveLink" href="https://drive.google.com" target="_blank" class="btn sm outline">Open Google Drive ↗</a>
+      <div id="modalDownloadContainer"></div>
+    </div>
+  </div>
+</div>
+
 <script>
-
-// ORDER DATA STORE & COUNTDOWN TIMER ENGINE
-const ORDERS_DB = {
-  '084': {
-    id: '#RS-2026-084',
-    title: 'Luxury Jewelry & Watches Suite',
-    service: 'Luxury Jewelry & Horology',
-    images: '14 Focus-Stacked RAWs (.CR3)',
-    format: '16-bit Layered Master PSD + WebP',
-    slaHours: 24,
-    submittedTime: Date.now() - (18.5 * 3600 * 1000), // Submitted 18.5 hours ago
-    deadlineTime: Date.now() + (5.5 * 3600 * 1000),
-    status: 'delivered', // delivered stops timer
-    priceType: 'agreed',
-    priceText: '$490.00 USD ($25/img)',
-    driveLink: 'https://drive.google.com',
-    instructions: "Please clean all microscopic dust and metal scratches on the platinum prongs without blunting the facet reflections.\nPreserve diamond natural scintillation highlights (do not blow out or flatten).\nDeliver on seamless off-white background with a delicate natural contact cast shadow."
-  },
-  '085': {
-    id: '#RS-2026-085',
-    title: 'Editorial Fashion Apparel Lookbook',
-    service: 'Fashion & Apparel',
-    images: '24 High-Fashion RAWs (.ARW)',
-    format: 'Layered PSD + Transparent PNG + Clipping Path',
-    slaHours: 24,
-    // Set submitted time so exactly 1h 45m left to demonstrate active ticking!
-    submittedTime: Date.now() - (22.25 * 3600 * 1000),
-    deadlineTime: Date.now() + (1.75 * 3600 * 1000),
-    status: 'production',
-    priceType: 'pending',
-    priceText: '$600.00 USD ($25/img)',
-    driveLink: 'https://drive.google.com',
-    instructions: "Symmetrical hemline alignment, remove fabric travel wrinkles while keeping textile micro-weave crisp.\nGhost mannequin hollow neck joint alignment with collar label.\nExport with pure white RGB(255,255,255) background and separate hand-drawn pen tool path."
-  }
-};
-
-// COUNTDOWN TIMER TICKER (EVERY SECOND)
-function updateAllTimers() {
-  // Check Order 085
-  const o85 = ORDERS_DB['085'];
-  const timerBadge85 = document.getElementById('timerBadge_085');
-  if (timerBadge85 && o85.status !== 'delivered') {
-    const diff = o85.deadlineTime - Date.now();
-    timerBadge85.innerHTML = formatTimerDisplay(diff);
-  }
-
-  // Update modal timer if open
-  const modalTimer = document.getElementById('modalTimerBadge');
-  if (modalTimer && currentModalOrderId) {
-    const ord = ORDERS_DB[currentModalOrderId];
-    if (ord) {
-      if (ord.status === 'delivered') {
-        modalTimer.className = 'timer-pill delivered';
-        modalTimer.textContent = '✓ Delivered On-Time';
-      } else {
-        const diff = ord.deadlineTime - Date.now();
-        modalTimer.innerHTML = formatTimerDisplay(diff);
-      }
-    }
-  }
-}
-
-function formatTimerDisplay(diffMs) {
-  if (diffMs > 0) {
-    const totalSec = Math.floor(diffMs / 1000);
-    const h = Math.floor(totalSec / 3600);
-    const m = Math.floor((totalSec % 3600) / 60);
-    const s = totalSec % 60;
-    const hStr = String(h).padStart(2, '0');
-    const mStr = String(m).padStart(2, '0');
-    const sStr = String(s).padStart(2, '0');
-    const urgentClass = (h < 2) ? 'urgent' : '';
-    return `<span class="timer-pill ${urgentClass}">⏳ ${hStr}h : ${mStr}m : ${sStr}s Remaining</span>`;
-  } else {
-    // OVERDUE NEGATIVE COUNTDOWN (RED ALERT!)
-    const absDiff = Math.abs(diffMs);
-    const totalSec = Math.floor(absDiff / 1000);
-    const h = Math.floor(totalSec / 3600);
-    const m = Math.floor((totalSec % 3600) / 60);
-    const s = totalSec % 60;
-    const hStr = String(h).padStart(2, '0');
-    const mStr = String(m).padStart(2, '0');
-    const sStr = String(s).padStart(2, '0');
-    return `<span class="timer-pill overdue">⚠️ OVERDUE: -${hStr}h : ${mStr}m : ${sStr}s</span>`;
-  }
-}
-
-setInterval(updateAllTimers, 1000);
-updateAllTimers();
-
-// ORDER SPECS MODAL CONTROLLER
-let currentModalOrderId = null;
-function openOrderSpecsModal(id) {
-  currentModalOrderId = id;
-  const ord = ORDERS_DB[id];
-  if (!ord) return;
-
-  document.getElementById('modalOrderTitle').textContent = ord.id + ' — ' + ord.title;
-  document.getElementById('modalSlaText').textContent = ord.slaHours + ' Hours Commitment SLA';
-  document.getElementById('modalService').textContent = ord.service;
-  document.getElementById('modalFormat').textContent = ord.images + ' • ' + ord.format;
-  document.getElementById('modalInstructions').textContent = ord.instructions;
-  document.getElementById('modalDriveBtn').href = ord.driveLink;
-
-  // Commercial Price State
-  const priceStatus = document.getElementById('modalPriceStatus');
-  const priceAmount = document.getElementById('modalPriceAmount');
-  
-  // Check if admin approved this order's price
-  const isApproved = localStorage.getItem('shoaib_price_approved_' + id) === '1' || ord.priceType === 'agreed';
-  const customAgreedPrice = localStorage.getItem('shoaib_agreed_price_' + id);
-
-  if (isApproved) {
-    priceStatus.textContent = 'Agreed Commercial Rate • Confirmed by Studio ✓';
-    priceStatus.style.color = '#166534';
-    priceAmount.textContent = customAgreedPrice || ord.priceText;
-  } else {
-    priceStatus.textContent = 'Proposed Client Offer • Under Studio Review ⏳';
-    priceStatus.style.color = '#b45309';
-    priceAmount.textContent = ord.priceText;
-  }
-
-  // Update modal timer
-  updateAllTimers();
-
-  document.getElementById('orderSpecsModal').style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-}
-
-function closeOrderSpecsModal() {
-  document.getElementById('orderSpecsModal').style.display = 'none';
-  document.body.style.overflow = '';
-  currentModalOrderId = null;
-}
-
-function closeOrderSpecsOnBg(e) {
-  if (e.target.id === 'orderSpecsModal') closeOrderSpecsModal();
-}
-
-// SYNC ADMIN APPROVAL ON LOAD
-window.addEventListener('DOMContentLoaded', () => {
-  // Sync Order 085 price approval if done in Admin Panel
-  if (localStorage.getItem('shoaib_price_approved_085') === '1') {
-    const statusTag = document.getElementById('priceStatusTag_085');
-    const priceDisplay = document.getElementById('priceDisplay_085');
-    const custom = localStorage.getItem('shoaib_agreed_price_085');
-    if (statusTag) {
-      statusTag.textContent = 'Confirmed by Studio ✓';
-      statusTag.style.background = '#dcfce7';
-      statusTag.style.color = '#166534';
-    }
-    if (priceDisplay && custom) {
-      priceDisplay.textContent = custom;
-    }
-  }
-});
-
-
-// LIVE STUDIO TIME SYNC
+// LIVE TIME SYNC
 function updateStudioTime() {
   const timeEl = document.getElementById('liveTimeIndicator');
   if (!timeEl) return;
@@ -1031,19 +891,157 @@ setInterval(updateStudioTime, 10000);
 updateStudioTime();
 
 // TAB SWITCHER
-function switchPortalTab(tab, btn) {
-  document.querySelectorAll('.portal-tab-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+function switchMainTab(tab) {
+  document.getElementById('tabBtnOrders').classList.remove('active');
+  document.getElementById('tabBtnInvoices').classList.remove('active');
+  document.getElementById('tabBtnNew').classList.remove('active');
 
   document.getElementById('viewOrders').style.display = (tab === 'orders') ? 'block' : 'none';
-  document.getElementById('viewNewOrder').style.display = (tab === 'newOrder') ? 'block' : 'none';
   document.getElementById('viewInvoices').style.display = (tab === 'invoices') ? 'block' : 'none';
+  document.getElementById('viewNewOrder').style.display = (tab === 'new') ? 'block' : 'none';
+
+  if (tab === 'orders') document.getElementById('tabBtnOrders').classList.add('active');
+  if (tab === 'invoices') document.getElementById('tabBtnInvoices').classList.add('active');
+  if (tab === 'new') document.getElementById('tabBtnNew').classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function openNewOrderView() {
+  switchMainTab('new');
+}
+
+// ORDERS DATA STORE
+const ORDERS = {
+  '084': {
+    id: '#RS-2026-084',
+    title: 'Luxury Jewelry & Watches Suite',
+    service: 'Luxury Jewelry & Horology',
+    images: '14 Focus-Stacked RAWs (.CR3)',
+    format: '16-bit Layered Master PSD + WebP',
+    deadline: '24 Hours Express SLA',
+    status: 'delivered',
+    price: '$490.00 USD ($25/img)',
+    isAgreed: true,
+    drive: 'https://drive.google.com',
+    instructions: "Please clean all microscopic dust and metal scratches on the platinum prongs without blunting the facet reflections.\nPreserve diamond natural scintillation highlights (do not blow out or flatten).\nDeliver on seamless off-white background with a delicate natural contact cast shadow."
+  },
+  '085': {
+    id: '#RS-2026-085',
+    title: 'Editorial Fashion Apparel Lookbook',
+    service: 'Fashion & Apparel',
+    images: '24 High-Fashion RAWs (.ARW)',
+    format: 'Layered PSD + Transparent PNG + Clipping Path',
+    deadline: '24 Hours Express SLA',
+    deadlineMs: Date.now() + (1.75 * 3600 * 1000), // 1h 45m remaining
+    status: 'production',
+    price: '$600.00 USD ($25/img)',
+    isAgreed: false,
+    drive: 'https://drive.google.com',
+    instructions: "Symmetrical hemline alignment, remove fabric travel wrinkles while keeping textile micro-weave crisp.\nGhost mannequin hollow neck joint alignment with collar label.\nExport with pure white RGB(255,255,255) background and separate hand-drawn pen tool path."
+  }
+};
+
+// LIVE TICKING COUNTDOWN TIMER
+function updateCountdown() {
+  const o = ORDERS['085'];
+  const pill = document.getElementById('liveCountdownPill');
+  if (!pill) return;
+
+  const diff = o.deadlineMs - Date.now();
+  if (diff > 0) {
+    const totalSec = Math.floor(diff / 1000);
+    const h = Math.floor(totalSec / 3600);
+    const m = Math.floor((totalSec % 3600) / 60);
+    const s = totalSec % 60;
+    const hStr = String(h).padStart(2, '0');
+    const mStr = String(m).padStart(2, '0');
+    const sStr = String(s).padStart(2, '0');
+    const urgent = (h < 2) ? 'urgent' : '';
+    pill.className = 'timer-pill ' + urgent;
+    pill.innerHTML = `⏳ ${hStr}h : ${mStr}m : ${sStr}s Remaining`;
+  } else {
+    const abs = Math.abs(diff);
+    const totalSec = Math.floor(abs / 1000);
+    const h = Math.floor(totalSec / 3600);
+    const m = Math.floor((totalSec % 3600) / 60);
+    const s = totalSec % 60;
+    pill.className = 'timer-pill overdue';
+    pill.innerHTML = `⚠️ OVERDUE: -${h}h : ${m}m : ${s}s`;
+  }
+
+  // Update modal timer if open
+  const modalTimer = document.getElementById('modalTimer');
+  if (modalTimer && currentModalId === '085') {
+    modalTimer.className = pill.className;
+    modalTimer.innerHTML = pill.innerHTML;
+  }
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// ORDER DETAILS MODAL
+let currentModalId = null;
+function openOrderDetails(id) {
+  currentModalId = id;
+  const o = ORDERS[id];
+  if (!o) return;
+
+  document.getElementById('modalTitle').textContent = 'Order ' + o.id + ' — ' + o.title;
+  document.getElementById('modalDeadline').textContent = o.deadline;
+  document.getElementById('modalService').textContent = o.service;
+  document.getElementById('modalFormat').textContent = o.images + ' • ' + o.format;
+  document.getElementById('modalInstructions').textContent = o.instructions;
+  document.getElementById('modalDriveLink').href = o.drive;
+
+  const modalTimer = document.getElementById('modalTimer');
+  if (o.status === 'delivered') {
+    modalTimer.className = 'timer-pill delivered';
+    modalTimer.textContent = '✓ Delivered On-Time';
+  } else {
+    updateCountdown();
+  }
+
+  // Agreed Price
+  const isApproved = localStorage.getItem('shoaib_price_approved_' + id) === '1' || o.isAgreed;
+  const customAgreed = localStorage.getItem('shoaib_agreed_price_' + id);
+  const statusEl = document.getElementById('modalPriceStatus');
+  const amountEl = document.getElementById('modalPriceAmount');
+
+  if (isApproved) {
+    statusEl.textContent = 'Agreed Commercial Rate ✓ (Studio Confirmed)';
+    statusEl.style.color = '#166534';
+    amountEl.textContent = customAgreed || o.price;
+  } else {
+    statusEl.textContent = 'Proposed Client Budget (Reviewing ⏳)';
+    statusEl.style.color = '#b45309';
+    amountEl.textContent = o.price;
+  }
+
+  // Download button if delivered
+  const dlBox = document.getElementById('modalDownloadContainer');
+  if (o.status === 'delivered') {
+    dlBox.innerHTML = '<a href="https://drive.google.com" target="_blank" class="btn green sm">📥 Download Files (ZIP)</a>';
+  } else {
+    dlBox.innerHTML = '<span style="font-size: 12px; color: #b45309; font-weight: 700;">In Production</span>';
+  }
+
+  document.getElementById('orderDetailModal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeOrderDetails() {
+  document.getElementById('orderDetailModal').style.display = 'none';
+  document.body.style.overflow = '';
+  currentModalId = null;
+}
+
+function closeOrderModalOnBg(e) {
+  if (e.target.id === 'orderDetailModal') closeOrderDetails();
 }
 
 // CURRENCY SELECTOR
 function switchCurrency(curr, btn) {
-  document.querySelectorAll('.curr-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.curr-tab-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 
   document.getElementById('bankDetailsUSD').style.display = (curr === 'usd') ? 'grid' : 'none';
@@ -1055,9 +1053,7 @@ function switchCurrency(curr, btn) {
 
 function copyText(elId) {
   const val = document.getElementById(elId).textContent.trim();
-  navigator.clipboard.writeText(val).then(() => {
-    alert('Copied to clipboard: ' + val);
-  });
+  navigator.clipboard.writeText(val).then(() => alert('Copied: ' + val));
 }
 
 // FILE DROPZONE PREVIEW
@@ -1069,11 +1065,11 @@ function handleFileSelect(e) {
 
 const dropzone = document.getElementById('portalDropzone');
 if (dropzone) {
-  ['dragenter', 'dragover'].forEach(eventName => {
-    dropzone.addEventListener(eventName, (e) => { e.preventDefault(); dropzone.classList.add('dragover'); }, false);
+  ['dragenter', 'dragover'].forEach(ev => {
+    dropzone.addEventListener(ev, (e) => { e.preventDefault(); dropzone.classList.add('dragover'); }, false);
   });
-  ['dragleave', 'drop'].forEach(eventName => {
-    dropzone.addEventListener(eventName, (e) => { e.preventDefault(); dropzone.classList.remove('dragover'); }, false);
+  ['dragleave', 'drop'].forEach(ev => {
+    dropzone.addEventListener(ev, (e) => { e.preventDefault(); dropzone.classList.remove('dragover'); }, false);
   });
   dropzone.addEventListener('drop', (e) => {
     const files = Array.from(e.dataTransfer.files);
@@ -1085,11 +1081,11 @@ function addFilesToQueue(files) {
   uploadedFiles.push(...files);
   const container = document.getElementById('fileListPreview');
   container.innerHTML = '<strong>' + uploadedFiles.length + ' file(s) selected:</strong><br>';
-  uploadedFiles.forEach((f, idx) => {
+  uploadedFiles.forEach((f) => {
     const mb = (f.size / (1024 * 1024)).toFixed(1);
-    container.innerHTML += `<div class="file-item">
+    container.innerHTML += `<div style="display:flex; justify-content:space-between; padding:8px 12px; background:#fff; border:1px solid var(--line); border-radius:6px; margin-top:6px; font-size:13px;">
       <span>📄 <strong>${f.name}</strong> (${mb} MB)</span>
-      <span style="color: var(--success); font-weight: 700;">✓ Ready for Drive Sync</span>
+      <span style="color:#10b981; font-weight:700;">Ready for Drive Sync ✓</span>
     </div>`;
   });
 }
@@ -1097,81 +1093,41 @@ function addFilesToQueue(files) {
 // NEW ORDER SUBMIT
 function handleNewOrderSubmit(e) {
   e.preventDefault();
-  const service = document.getElementById('ordService').value;
-  const count = document.getElementById('ordCount').value;
-  const format = document.getElementById('ordFormat').value;
-  const speed = document.getElementById('ordSpeed').value;
-  const link = document.getElementById('ordDriveLink').value;
-  const notes = document.getElementById('ordNotes').value;
-
-  const orderId = '#RS-2026-0' + Math.floor(100 + Math.random() * 900);
-  const newOrder = {
-    id: orderId,
-    service: service,
-    count: count,
-    format: format,
-    speed: speed,
-    link: link,
-    notes: notes,
-    date: 'Just now',
-    status: 'In Production',
-    deliveryUrl: ''
-  };
-
-  // Save to localStorage for demo sync with admin
-  const existing = JSON.parse(localStorage.getItem('shoaib_orders') || '[]');
-  existing.unshift(newOrder);
-  localStorage.setItem('shoaib_orders', JSON.stringify(existing));
-
-  alert('✓ Order ' + orderId + ' submitted successfully! Production has been alerted.');
-  location.reload();
+  alert('✓ Order submitted successfully to studio queue!');
+  switchMainTab('orders');
 }
 
-// PAYMENT CONFIRMATION SUBMISSION
+// CONFIRM TRANSFER SUBMIT
 function submitPaymentConfirmation() {
   const ref = document.getElementById('txRefInput').value.trim();
-  const statusEl = document.getElementById('confirmStatusMsg');
   if (!ref) {
-    alert('Please enter your Wise or Bank transfer reference code.');
+    alert('Please enter your Wise or Bank transfer reference.');
     return;
   }
-
-  // Save payment claim for Admin panel review
   localStorage.setItem('shoaib_payment_claim', JSON.stringify({
     orderId: '#RS-2026-084',
     ref: ref,
     amount: '$490.00 USD',
     time: new Date().toLocaleTimeString()
   }));
-
-  statusEl.style.color = '#15803d';
-  statusEl.textContent = '✓ Transfer submitted! Ref: ' + ref + '. Status: Pending Studio Verification (typically approved in 30 mins).';
-  document.getElementById('invStatusBadge').textContent = 'VERIFICATION IN PROGRESS';
-  document.getElementById('invStatusBadge').style.background = '#fed7aa';
-  document.getElementById('invStatusBadge').style.color = '#c2410c';
+  document.getElementById('confirmStatusMsg').innerHTML = '<span style="color:#059669;">✓ Transfer reference ' + ref + ' submitted! Studio verifying.</span>';
 }
 
-// SYNC REAL-TIME STATE FROM ADMIN PANEL
+// SYNC ADMIN APPROVAL ON LOAD
 window.addEventListener('DOMContentLoaded', () => {
-  // Check if admin approved payment
-  if (localStorage.getItem('shoaib_inv_paid') === '1') {
-    const badge = document.getElementById('invStatusBadge');
-    if (badge) {
-      badge.textContent = 'PAID ✓';
-      badge.classList.add('paid');
+  if (localStorage.getItem('shoaib_price_approved_085') === '1') {
+    const tag = document.getElementById('priceTag085');
+    if (tag) {
+      tag.className = 'spec-tag green-tag';
+      tag.textContent = '🏷️ Agreed Price: $600.00 USD ✓ (Studio Confirmed)';
     }
   }
-
-  // Check if admin set custom delivery URL for Order 1
-  const customDelUrl = localStorage.getItem('shoaib_del_url_084');
-  const customCardUrl = localStorage.getItem('shoaib_card_pay_url');
-  if (customCardUrl) {
-    const cardBtn = document.getElementById('btnPayCardLink');
-    if (cardBtn) cardBtn.href = customCardUrl;
-  }
-  if (customDelUrl) {
-    const btn = document.getElementById('btnDownloadOrder1');
-    if (btn) btn.href = customDelUrl;
+  if (localStorage.getItem('shoaib_inv_paid') === '1') {
+    const b = document.getElementById('invStatusBadge');
+    if (b) {
+      b.className = 'inv-badge-paid';
+      b.textContent = 'PAID ✓';
+    }
   }
 });
 </script>
@@ -1213,73 +1169,5 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 })();
 </script>
-
-<!-- ORDER FULL SPECS & INSTRUCTIONS MODAL -->
-<div id="orderSpecsModal" onclick="closeOrderSpecsOnBg(event)">
-  <div class="specs-box">
-    <button class="specs-close" onclick="closeOrderSpecsModal()">✕</button>
-    <div class="lab" style="margin-bottom: 8px;">Commission Details</div>
-    <h2 id="modalOrderTitle" style="font-size: 22px; font-weight: 800; margin-bottom: 20px;">Order Specifications</h2>
-
-    <!-- SLA & TIMER -->
-    <div class="specs-sec">
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-        <div>
-          <span style="font-size: 11px; text-transform: uppercase; color: var(--mut); font-weight: 700;">Target Turnaround</span>
-          <div id="modalSlaText" style="font-size: 15px; font-weight: 800; margin-top: 2px;">24 Hours Express SLA</div>
-        </div>
-        <div id="modalTimerBadge" class="timer-pill">⏳ Calculating...</div>
-      </div>
-    </div>
-
-    <!-- PRICING & AGREED BUDGET -->
-    <div class="specs-sec">
-      <div class="specs-grid-2">
-        <div>
-          <span style="font-size: 11px; text-transform: uppercase; color: var(--mut); font-weight: 700;">Commercial Price Status</span>
-          <div id="modalPriceStatus" style="font-size: 15px; font-weight: 800; margin-top: 2px; color: #166534;">Confirmed by Studio ✓</div>
-        </div>
-        <div>
-          <span style="font-size: 11px; text-transform: uppercase; color: var(--mut); font-weight: 700;">Total Amount</span>
-          <div id="modalPriceAmount" style="font-size: 18px; font-weight: 800; margin-top: 2px; color: var(--accent);">$490.00 USD</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TECHNICAL SCOPE -->
-    <div class="specs-sec">
-      <div class="specs-grid-2">
-        <div>
-          <span style="font-size: 11px; text-transform: uppercase; color: var(--mut); font-weight: 700;">Service Department</span>
-          <div id="modalService" style="font-size: 14px; font-weight: 700; margin-top: 2px;">Luxury Jewelry &amp; Watches</div>
-        </div>
-        <div>
-          <span style="font-size: 11px; text-transform: uppercase; color: var(--mut); font-weight: 700;">Files Count &amp; Delivery Format</span>
-          <div id="modalFormat" style="font-size: 14px; font-weight: 700; margin-top: 2px;">14 RAWs &bull; 16-bit Master PSD + WebP</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- INSTRUCTIONS -->
-    <div class="specs-sec">
-      <span style="font-size: 11px; text-transform: uppercase; color: var(--mut); font-weight: 700; display: block; margin-bottom: 8px;">Client's Creative Brief &amp; Retouching Instructions</span>
-      <div class="specs-instruction-box" id="modalInstructions">
-        Please clean all microscopic dust and metal scratches on the platinum prongs without blunting the facet reflections. 
-        Preserve diamond natural scintillation highlights (do not blow out or flatten). 
-        Deliver on seamless off-white background with a delicate natural contact cast shadow.
-      </div>
-    </div>
-
-    <!-- DRIVE LINK -->
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
-      <div>
-        <span style="font-size: 11px; text-transform: uppercase; color: var(--mut); font-weight: 700;">Client Source Files</span>
-        <div style="font-size: 13px; color: #555;">Uploaded to Shoaib's Dedicated Client Google Drive</div>
-      </div>
-      <a id="modalDriveBtn" href="https://drive.google.com" target="_blank" class="btn sm outline">Open Google Drive ↗</a>
-    </div>
-  </div>
-</div>
-
 </body>
 </html>
