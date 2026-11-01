@@ -382,6 +382,45 @@ footer {
   .feed-grid { grid-template-columns: 1fr; }
 }
 
+
+/* SLICE ANIMATION FROM v6.html */
+@property --g {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+@keyframes slice {
+  0%, 100% {
+    --g: 0px;
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-4px);
+  }
+  45% {
+    --g: 6px;
+    transform: translateX(4px);
+  }
+  70% {
+    transform: translateX(-2px);
+  }
+}
+
+.footer-giant-logo,
+.hero-giant-name {
+  cursor: pointer;
+}
+
+.footer-giant-logo.slice,
+.footer-giant-logo:hover,
+.hero-giant-name.slice,
+.hero-giant-name:hover {
+  animation: slice 1.4s ease-in-out;
+  -webkit-mask-image: repeating-linear-gradient(#000 0 calc(10px - var(--g)), transparent calc(10px - var(--g)) 10px);
+  mask-image: repeating-linear-gradient(#000 0 calc(10px - var(--g)), transparent calc(10px - var(--g)) 10px);
+}
+
 </style>
 </head>
 <body>
@@ -485,7 +524,7 @@ footer {
 
 <footer class="w">
   <div class="footer-giant-logo">
-    SHOAIB<sup>&reg;</sup>
+    RETOUCHER SHOAIB<sup>&reg;</sup>
   </div>
 
   <div class="footer-grid">
@@ -545,6 +584,33 @@ function updateStudioTime() {
 }
 setInterval(updateStudioTime, 10000);
 updateStudioTime();
+</script>
+<script>
+
+// SLICE ANIMATION OBSERVER FROM v6.html
+(function() {
+  const giantTitles = document.querySelectorAll('.footer-giant-logo, .hero-giant-name');
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('slice');
+          setTimeout(() => entry.target.classList.remove('slice'), 1500);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    giantTitles.forEach(el => observer.observe(el));
+  }
+
+  giantTitles.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      el.classList.add('slice');
+      setTimeout(() => el.classList.remove('slice'), 1500);
+    });
+  });
+})();
+
 </script>
 </body>
 </html>
