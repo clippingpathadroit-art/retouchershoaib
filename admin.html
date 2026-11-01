@@ -384,6 +384,7 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('pinLockModal').style.display = 'none';
   }
   checkPaymentClaims();
+  loadCustomAdminOrders();
 });
 
 // STATUS UPDATES
@@ -621,6 +622,69 @@ function checkAdminExtraBadges() {
 
 window.addEventListener('DOMContentLoaded', checkAdminExtraBadges);
 
+
+// DYNAMIC ORDER SYNC FROM CLIENT PORTAL
+function loadCustomAdminOrders() {
+  try {
+    const raw = localStorage.getItem('shoaib_custom_orders');
+    if (!raw) return;
+    const customOrders = JSON.parse(raw);
+    if (!Array.isArray(customOrders) || customOrders.length === 0) return;
+
+    const tbody = document.querySelector('.orders-table tbody');
+    if (!tbody) return;
+
+    const totalOrdersEl = document.getElementById('admTotalOrders');
+    if (totalOrdersEl) {
+      totalOrdersEl.textContent = 2 + customOrders.length;
+    }
+
+    customOrders.forEach(ord => {
+      const id = ord.numericId;
+      if (document.getElementById('admRow_' + id)) return;
+
+      const isDelivered = localStorage.getItem('shoaib_status_' + id) === 'delivered';
+      const tr = document.createElement('tr');
+      tr.id = 'admRow_' + id;
+      tr.innerHTML = `
+        <td><strong>${ord.id}</strong></td>
+        <td>Studio New York<br><span style="font-size: 11px; color: #777;">sarah@jenkinsstudio.com</span></td>
+        <td>${ord.title}<br><span style="font-size: 11px; color: #777;">${ord.service} (${ord.images})</span></td>
+        <td>
+          <span id="admTimerBadge_${id}" style="font-size: 12px; font-weight: 800; font-family: var(--f-display); background: #222; border: 1px solid #444; padding: 4px 10px; border-radius: 6px; color: #22c55e;">
+            ⏳ Calculating...
+          </span>
+        </td>
+        <td>
+          <div id="admPriceContainer_${id}">
+            <span style="color: #fbbf24; font-weight: 700;">${ord.price} Offer</span><br>
+            <button class="btn sm green" style="padding: 3px 8px; font-size: 10px; margin-top: 4px;" onclick="acceptClientOffer('${id}', '${ord.price}')">✓ Accept Offer</button>
+          </div>
+        </td>
+        <td><span class="status-pill ${isDelivered ? 'delivered' : 'progress'}" id="badgeRow_${id}">${isDelivered ? 'Delivered ✓' : 'In Production'}</span></td>
+        <td>
+          <select class="status-select" id="selStatus_${id}" onchange="updateOrderStatus('${id}', this.value)">
+            <option value="received">Received</option>
+            <option value="production" ${!isDelivered ? 'selected' : ''}>In Production</option>
+            <option value="qc">Quality Review</option>
+            <option value="delivered" ${isDelivered ? 'selected' : ''}>Delivered (Ready)</option>
+          </select>
+        </td>
+        <td style="white-space: nowrap;">
+          <button class="btn sm outline" onclick="openAdminExtraFeeModal('${id}')">💰 + Extra Fee</button>
+          <button class="btn sm outline" onclick="openAdminTinModal('${id}')">🏷️ Tax ID / TIN</button>
+          <button class="btn sm outline" onclick="openDelModal('${id}')">🔗 Delivery Link</button>
+          <button class="btn sm outline" onclick="viewClientBrief('${id}')">Brief 👁️</button>
+          <a href="${ord.drive || 'https://drive.google.com'}" target="_blank" class="btn sm outline">Drive ↗</a>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  } catch(e) {
+    console.error('Error loading custom admin orders:', e);
+  }
+}
+window.addEventListener('DOMContentLoaded', loadCustomAdminOrders);
 </script>
 
 <!-- ADMIN TIN / TAX ID MODAL -->

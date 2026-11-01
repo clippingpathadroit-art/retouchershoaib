@@ -877,6 +877,7 @@ body {
   /* HIDE EVERYTHING EXCEPT THE INVOICE SHEET */
   .sidebar, .top-appbar, .stats-grid, .modal-overlay, #wipe,
   .currency-tabs, .btn, .copy-pill, #paymentToggleArea,
+  #invoicesListView,
   .app-card:not(#invoicePrintCard) {
     display: none !important;
   }
@@ -888,7 +889,7 @@ body {
     max-width: 100% !important;
     background: #fff !important;
   }
-  #viewInvoices {
+  #viewInvoices, #singleInvoiceView {
     display: block !important;
   }
   #invoicePrintCard {
@@ -902,6 +903,67 @@ body {
     box-shadow: none !important;
     padding: 10mm !important;
   }
+}
+
+/* INVOICES LIST VIEW TABLE (USER SPECIFICATION) */
+.inv-list-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: left;
+}
+.inv-list-table th {
+  padding: 14px 16px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #475569;
+  letter-spacing: 0.05em;
+  background: #f8fafc;
+  border-bottom: 2px solid #e2e8f0;
+}
+.inv-list-table td {
+  padding: 16px;
+  font-size: 13px;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: middle;
+}
+.inv-list-row {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.inv-list-row:hover td {
+  background: #f8fafc;
+}
+.inv-badge-advance {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  background: #eff6ff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
+}
+.inv-badge-unpaid {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  background: #fff1f2;
+  color: #e11d48;
+  border: 1px solid #fecdd3;
+}
+.inv-badge-paid {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
 }
 
 /* FORMAT CHECKBOX CARDS (USER REQUEST) */
@@ -1207,51 +1269,14 @@ body {
         <div class="app-card">
           <div class="app-card-header">
             <div>
-              <div class="app-card-title">⚡ Active Retouching Pipeline (1)</div>
+              <div class="app-card-title" id="pipelineHeaderTitle">⚡ Active Retouching Pipeline (1)</div>
               <div class="app-card-subtitle">Live production jobs currently on the calibration monitors.</div>
             </div>
             <button class="btn-create-order" onclick="openNewOrderForm()">+ Submit Another Order</button>
           </div>
 
-          <!-- ORDER 085 -->
-          <div style="border: 1px solid var(--line); border-radius: 12px; padding: 22px; margin-bottom: 20px;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px;">
-              <div>
-                <h3 style="font-size: 18px; font-weight: 800; font-family: var(--f-display);">
-                  Order #RS-2026-085 &bull; Editorial Fashion Apparel Lookbook
-                </h3>
-                <div style="font-size: 13px; color: var(--mut); margin-top: 3px;">
-                  Submitted Today, 01:30 PM &bull; 24 High-Fashion RAW Files (.ARW)
-                </div>
-              </div>
-
-              <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-                <span class="timer-pill" id="orderPipelineTimer">⏳ Calculating...</span>
-                <button class="btn btn-outline btn-sm" onclick="openOrderDetails('085')">Order Details 👁️</button>
-              </div>
-            </div>
-
-            <div class="specs-bar">
-              <span class="spec-tag">📷 24 RAW Files</span>
-              <span class="spec-tag">📁 Layered PSD + PNG Path</span>
-              <span class="spec-tag">⏱️ 24h Express SLA</span>
-              <span class="spec-tag amber" id="pipeBudgetBadge">🏷️ Proposed Budget: $600.00 USD (Reviewing ⏳)</span>
-            </div>
-
-            <!-- TRACKER -->
-            <div class="tracker-row">
-              <div class="tracker-steps">
-                <div class="tracker-line"><div class="tracker-line-fill" style="width: 48%;"></div></div>
-                <div class="tracker-step done"><div class="step-circle">✓</div><div class="step-name">1. Received</div></div>
-                <div class="tracker-step active"><div class="step-circle">2</div><div class="step-name">2. In Production</div></div>
-                <div class="tracker-step"><div class="step-circle">3</div><div class="step-name">3. Quality Review</div></div>
-                <div class="tracker-step"><div class="step-circle">4</div><div class="step-name">4. Delivered</div></div>
-              </div>
-            </div>
-
-            <div style="background: #f8fafc; border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #475569;">
-              ⚡ <strong>Studio Production Note:</strong> Senior fashion retoucher assigned. Symmetrical hemline alignment and ghost mannequin neck joint in progress.
-            </div>
+          <div id="activeOrdersContainer">
+            <!-- Dynamically populated by renderActiveOrdersPipeline() -->
           </div>
         </div>
       </div>
@@ -1322,218 +1347,268 @@ body {
 
       <!-- SECTION 4: INVOICES & BILLING (OFFICIAL PRINTABLE INVOICE) -->
       <div id="viewInvoices" style="display: none;">
-        <div class="app-card" id="invoicePrintCard">
-          <div class="app-card-header" style="border: 0; padding-bottom: 0; margin-bottom: 12px;">
-            <div>
-              <div class="app-card-title">💳 Official Studio Invoice</div>
-              <div class="app-card-subtitle">Pay via ACH, SEPA, Sort Code, Wise, or Card with zero wire fees.</div>
+
+        <!-- 4A. COMPACT INVOICES LIST VIEW (DEFAULT VIEW) -->
+        <div id="invoicesListView">
+          <div class="app-card">
+            <div class="app-card-header" style="flex-wrap: wrap; gap: 12px;">
+              <div>
+                <div class="app-card-title">💳 Billing &amp; Invoices Management</div>
+                <div class="app-card-subtitle">Review outstanding statements, inspect project invoices, and submit payments.</div>
+              </div>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <button class="btn btn-outline btn-sm" onclick="openTaxIdModal()">🏷️ Edit Tax ID / TIN</button>
+                <button class="btn btn-outline btn-sm" onclick="showSingleInvoice('all')">📄 View Combined Statement</button>
+              </div>
             </div>
-            <div style="display: flex; gap: 10px;">
+
+            <!-- SUMMARY STATS TILES -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 22px;">
+              <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 14px 18px;">
+                <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 800; letter-spacing: 0.05em;">Total Unpaid Balance</div>
+                <div style="font-size: 22px; font-weight: 800; color: #ff4d00; font-family: var(--f-display); margin-top: 3px;" id="invListTotalUnpaid">$1,090.00 USD</div>
+                <div style="font-size: 12px; color: #d97706; margin-top: 2px;" id="invListUnpaidCount">2 Invoices Pending Payment</div>
+              </div>
+              <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 14px 18px;">
+                <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 800; letter-spacing: 0.05em;">Accepted Currencies</div>
+                <div style="font-size: 15px; font-weight: 700; color: #0f172a; margin-top: 5px;">USD, EUR (SEPA), GBP, Wise</div>
+                <div style="font-size: 12px; color: #166534; margin-top: 2px;">Zero International Wire Fees</div>
+              </div>
+              <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 14px 18px;">
+                <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 800; letter-spacing: 0.05em;">Client Tax Profile</div>
+                <div style="font-size: 15px; font-weight: 700; color: #0f172a; margin-top: 5px;" id="invListClientTin">US-EIN: 12-3456789</div>
+                <div style="font-size: 12px; color: #64748b; margin-top: 2px;">Verified B2B Client Entity</div>
+              </div>
+            </div>
+
+            <!-- TABLE OF INVOICES -->
+            <div style="overflow-x: auto; border: 1px solid var(--line); border-radius: 10px;">
+              <table class="inv-list-table">
+                <thead>
+                  <tr>
+                    <th>Invoice #</th>
+                    <th>Project Name &amp; Retouching Service</th>
+                    <th>Issue Date &amp; Terms</th>
+                    <th style="text-align: right;">Amount</th>
+                    <th style="text-align: center;">Status</th>
+                    <th style="text-align: right;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="invoicesListTableBody">
+                  <!-- Generated dynamically by renderInvoicesList() -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4B. SINGLE INVOICE DRILL-DOWN VIEW (SHOWS WHEN ROW OR VIEW BUTTON CLICKED) -->
+        <div id="singleInvoiceView" style="display: none;">
+          <!-- TOP BACK BAR -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+            <button class="btn btn-outline" onclick="backToInvoicesList()" style="font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+              <span>&larr;</span> Back to All Invoices
+            </button>
+            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
               <button class="btn btn-outline btn-sm" onclick="openTaxIdModal()">🏷️ Edit Tax ID / TIN</button>
               <button class="btn btn-primary btn-sm" onclick="printOfficialInvoiceOnly()">🖨️ Download / Print Official PDF</button>
             </div>
           </div>
 
-          <!-- INVOICE SHEET -->
-          <!-- INVOICE SELECTION TABS (USER SPECIFICATION: ALL ORDERS / ADVANCE INVOICE) -->
-          <div style="display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap;">
-            <button class="btn btn-primary btn-sm" id="btnInvTabAll" onclick="selectInvoiceTab('all')">
-              💳 Total Outstanding Balance ($1,090.00)
-            </button>
-            <button class="btn btn-outline btn-sm" id="btnInvTab084" onclick="selectInvoiceTab('084')">
-              📄 Invoice #RS-2026-084 ($490.00 &bull; Jewelry Delivered)
-            </button>
-            <button class="btn btn-outline btn-sm" id="btnInvTab085" onclick="selectInvoiceTab('085')">
-              ⚡ Advance Invoice #RS-2026-085 ($600.00 &bull; Fashion In Production)
-            </button>
-          </div>
-
-          <div class="invoice-sheet" id="invoiceSheet">
-            <div class="inv-top-bar">
-              <div>
-                <div class="inv-brand">RETOUCHER SHOAIB<sup>&reg;</sup></div>
-                <div style="font-size: 13px; color: var(--mut); margin-top: 3px;">Commercial Post-Production Studio</div>
-                <div style="font-size: 13px; color: #475569; margin-top: 5px;">retouchershoaib@gmail.com &bull; WhatsApp: +880 1710-763251</div>
-              </div>
-              <div style="text-align: right;">
-                <div style="font-size: 22px; font-weight: 800; font-family: var(--f-display);">INVOICE #RS-2026-084</div>
-                <div style="margin-top: 6px;">
-                  <span class="inv-badge-pending" id="invStatusBadge">PAYMENT PENDING</span>
-                </div>
-              </div>
+          <div class="app-card" id="invoicePrintCard">
+            <!-- INVOICE SELECTION TABS -->
+            <div style="display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap;" id="invoiceTabsContainer">
+              <!-- Rendered dynamically by renderInvoiceTabs() -->
             </div>
 
-            <!-- BILLED TO WITH DYNAMIC TIN / TAX IDENTIFICATION -->
-            <div class="inv-grid-2">
-              <div>
-                <div class="inv-meta-label">Billed To</div>
-                <p style="font-size: 14px; line-height: 1.6;" id="invBilledToDisplay">
-                  <strong id="invClientName">Sarah Jenkins</strong><br>
-                  <span id="invClientCompany">Studio New York</span><br>
-                  <span id="invClientEmail">sarah@jenkinsstudio.com</span><br>
-                  <span id="invClientAddress">450 West 33rd Street, New York, NY 10001</span>
-                </p>
-
-                <!-- DYNAMIC TIN / TAX ID BOX (USER REQUEST) -->
-                <div id="invTinContainer" style="margin-top: 10px; display: inline-block; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 5px 10px; font-size: 12px;">
-                  <strong>Tax ID / TIN:</strong> <span id="invTinValue">US-EIN: 12-3456789</span>
+            <div class="invoice-sheet" id="invoiceSheet">
+              <div class="inv-top-bar">
+                <div>
+                  <div class="inv-brand">RETOUCHER SHOAIB<sup>&reg;</sup></div>
+                  <div style="font-size: 13px; color: var(--mut); margin-top: 3px;">Commercial Post-Production Studio</div>
+                  <div style="font-size: 13px; color: #475569; margin-top: 5px;">retouchershoaib@gmail.com &bull; WhatsApp: +880 1710-763251</div>
                 </div>
-              </div>
-
-              <div style="text-align: right;">
-                <div class="inv-meta-label">Invoice Details</div>
-                <p style="font-size: 13px; line-height: 1.6;">
-                  <strong>Issue Date:</strong> Nov 02, 2026<br>
-                  <strong>Due Date:</strong> Nov 17, 2026 (Net 15 Terms)<br>
-                  <strong>Project:</strong> #RS-2026-084 (Jewelry Suite)<br>
-                  <strong>Payment Terms:</strong> Inspect Files First, Pay After
-                </p>
-              </div>
-            </div>
-
-            <!-- PROJECT SUMMARY BANNER (USER REQUEST) -->
-            <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 14px 18px; margin: 20px 0 16px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 14px; align-items: center;">
-              <div>
-                <div class="inv-meta-label">Project Name</div>
-                <div style="font-family: var(--f-display); font-size: 15px; font-weight: 800; color: #0f172a;" id="invProjectNameDisplay">
-                  Luxury Jewelry &amp; Watches Suite
-                </div>
-                <div style="font-size: 11px; color: var(--mut);">Focus Stacking &amp; Diamond Scintillation Polish</div>
-              </div>
-              <div>
-                <div class="inv-meta-label">Total Image Quantity</div>
-                <div style="font-family: var(--f-display); font-size: 16px; font-weight: 800; color: #2563eb;" id="invTotalImagesDisplay">
-                  14 RAWs
-                </div>
-                <div style="font-size: 11px; color: var(--mut);">.CR3 Master Stacks</div>
-              </div>
-              <div>
-                <div class="inv-meta-label">Commercial Rate</div>
-                <div style="font-family: var(--f-display); font-size: 16px; font-weight: 800; color: #059669;" id="invUnitRateDisplay">
-                  $25.00 / img
-                </div>
-                <div style="font-size: 11px; color: var(--mut);">High-End Commercial</div>
-              </div>
-              <div>
-                <div class="inv-meta-label">Turnaround SLA</div>
-                <div style="font-family: var(--f-display); font-size: 14px; font-weight: 800; color: #475569;" id="invTurnaroundDisplay">
-                  24 Hours
-                </div>
-                <div style="font-size: 11px; color: var(--mut);">Express Studio SLA</div>
-              </div>
-            </div>
-
-            <table class="inv-table">
-              <thead>
-                <tr>
-                  <th>Description</th>
-                  <th class="num">Qty</th>
-                  <th class="num">Rate</th>
-                  <th class="num">Amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><strong>High-End Macro Jewelry Retouching</strong><br><span style="font-size: 12px; color: var(--mut);">Focus stacking alignment, scratch removal on platinum, diamond facet polish.</span></td>
-                  <td class="num">14</td>
-                  <td class="num">$25.00</td>
-                  <td class="num"><strong>$350.00</strong></td>
-                </tr>
-                <tr>
-                  <td><strong>Color-Calibrated Specular Highlight Master</strong><br><span style="font-size: 12px; color: var(--mut);">16-bit layered master PSD export with preserved alpha masks.</span></td>
-                  <td class="num">14</td>
-                  <td class="num">$10.00</td>
-                  <td class="num"><strong>$140.00</strong></td>
-                </tr>
-              </tbody>
-            </table>
-
-            <div style="display: flex; justify-content: flex-end; padding: 10px 0 24px;">
-              <div style="width: 280px;">
-                <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px;">
-                  <span style="color: var(--mut);">Subtotal:</span>
-                  <span id="invSubtotalDisplay">$490.00</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px;">
-                  <span style="color: var(--mut);">Tax (0% Export B2B):</span>
-                  <span>$0.00</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: 800; border-top: 2px solid var(--fg); padding-top: 10px;">
-                  <span>Total Payable:</span>
-                  <span style="color: #ff4d00;" id="invTotalPayableDisplay">$490.00 USD</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- PAYMENT OPTIONS AREA (HIDDEN AUTOMATICALLY ON PDF PRINT) -->
-            <div id="paymentToggleArea" style="background: #f8fafc; border: 1px solid var(--line); border-radius: 12px; padding: 22px; margin-top: 20px;">
-              <h4 style="font-size: 15px; font-weight: 800; margin-bottom: 4px;">Choose Payment Currency &amp; Bank Details</h4>
-              <p style="font-size: 13px; color: var(--mut); margin-bottom: 16px;">Domestic bank routing powered by Wise with zero international wire charges.</p>
-
-              <div class="currency-tabs">
-                <button class="curr-btn active" onclick="switchCurrency('usd', this)">🇺🇸 USD Bank (United States)</button>
-                <button class="curr-btn" onclick="switchCurrency('eur', this)">🇪🇺 EUR SEPA (Germany, Austria, EU)</button>
-                <button class="curr-btn" onclick="switchCurrency('gbp', this)">🇬🇧 GBP Sort Code (UK)</button>
-                <button class="curr-btn" onclick="switchCurrency('wise', this)">🌐 Wise Direct Transfer</button>
-                <button class="curr-btn" onclick="switchCurrency('card', this)">💳 Debit / Credit Card</button>
-              </div>
-
-              <!-- 1. USD BANK -->
-              <div id="bankUSD" class="bank-grid">
-                <div class="bank-tile"><div><div class="inv-meta-label">Bank Name</div><strong>Community Federal Savings Bank</strong></div></div>
-                <div class="bank-tile"><div><div class="inv-meta-label">Account Holder</div><strong>MD Shoaib Siddique</strong></div></div>
-                <div class="bank-tile"><div><div class="inv-meta-label">ACH Routing Number</div><strong id="valUsdRouting">026073150</strong></div><button class="copy-pill" onclick="copyText('valUsdRouting')">Copy</button></div>
-                <div class="bank-tile"><div><div class="inv-meta-label">Account Number</div><strong id="valUsdAcc">8314244452</strong></div><button class="copy-pill" onclick="copyText('valUsdAcc')">Copy</button></div>
-                <div class="bank-tile"><div><div class="inv-meta-label">Swift / BIC</div><strong id="valUsdSwift">CMFGUS33</strong></div><button class="copy-pill" onclick="copyText('valUsdSwift')">Copy</button></div>
-                <div class="bank-tile"><div><div class="inv-meta-label">Account Type</div><strong>Checking</strong></div></div>
-              </div>
-
-              <!-- 2. EUR SEPA -->
-              <div id="bankEUR" class="bank-grid" style="display: none;">
-                <div class="bank-tile"><div><div class="inv-meta-label">Bank Name</div><strong>Wise Europe SA (Brussels)</strong></div></div>
-                <div class="bank-tile"><div><div class="inv-meta-label">Beneficiary Name</div><strong>MD Shoaib Siddique</strong></div></div>
-                <div class="bank-tile" style="grid-column: span 2;"><div><div class="inv-meta-label">EUR IBAN (SEPA)</div><strong id="valEurIban">BE50 9030 5754 7018</strong></div><button class="copy-pill" onclick="copyText('valEurIban')">Copy</button></div>
-                <div class="bank-tile"><div><div class="inv-meta-label">Swift / BIC</div><strong id="valEurSwift">TRWIBEB1XXX</strong></div><button class="copy-pill" onclick="copyText('valEurSwift')">Copy</button></div>
-                <div class="bank-tile"><div><div class="inv-meta-label">Network</div><strong>SEPA Instant</strong></div></div>
-              </div>
-
-              <!-- 3. GBP SORT CODE -->
-              <div id="bankGBP" class="bank-grid" style="display: none;">
-                <div class="bank-tile"><div><div class="inv-meta-label">Bank Name</div><strong>Wise Payments Ltd (London)</strong></div></div>
-                <div class="bank-tile"><div><div class="inv-meta-label">Beneficiary Name</div><strong>MD Shoaib Siddique</strong></div></div>
-                <div class="bank-tile"><div><div class="inv-meta-label">UK Sort Code</div><strong id="valGbpSort">23-14-70</strong></div><button class="copy-pill" onclick="copyText('valGbpSort')">Copy</button></div>
-                <div class="bank-tile"><div><div class="inv-meta-label">Account Number</div><strong id="valGbpAcc">91061342</strong></div><button class="copy-pill" onclick="copyText('valGbpAcc')">Copy</button></div>
-              </div>
-
-              <!-- 4. WISE EMAIL -->
-              <div id="bankWISE" class="bank-grid" style="display: none;">
-                <div class="bank-tile" style="grid-column: span 2;"><div><div class="inv-meta-label">Wise Email Handle</div><strong id="valWiseEmail">retouchershoaib@gmail.com</strong></div><button class="copy-pill" onclick="copyText('valWiseEmail')">Copy</button></div>
-              </div>
-
-              <!-- 5. CARD CHECKOUT -->
-              <div id="bankCARD" style="display: none; background: #fff; border: 1.5px solid #86efac; border-radius: 10px; padding: 18px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
-                  <div>
-                    <div style="font-size: 15px; font-weight: 800; color: #065f46; margin-bottom: 2px;">Pay with Debit or Credit Card</div>
-                    <p style="font-size: 13px; color: #475569;">Instant checkout for Visa, Mastercard, AMEX &amp; Apple Pay via Wise secure gateway.</p>
-                  </div>
-                  <div>
-                    <a href="https://wise.com/pay/me/mdshoaibs" target="_blank" rel="noopener" class="btn btn-green">
-                      💳 Pay $490.00 USD via Card ↗
-                    </a>
+                <div style="text-align: right;">
+                  <div style="font-size: 22px; font-weight: 800; font-family: var(--f-display);" id="invSheetNumberDisplay">INVOICE #RS-2026-084</div>
+                  <div style="margin-top: 6px;">
+                    <span class="inv-badge-pending" id="invStatusBadge">PAYMENT PENDING</span>
                   </div>
                 </div>
               </div>
 
-              <!-- CONFIRM TRANSFER BOX -->
-              <div style="display: flex; gap: 10px; margin-top: 18px; align-items: center; flex-wrap: wrap;">
-                <input type="text" id="txRefInput" class="form-input" style="flex: 1;" placeholder="Enter Wise / Bank Transfer Reference (e.g. #982401)">
-                <button type="button" class="btn btn-primary" onclick="submitPaymentConfirmation()">Confirm Transfer</button>
+              <!-- BILLED TO WITH DYNAMIC TIN / TAX IDENTIFICATION -->
+              <div class="inv-grid-2">
+                <div>
+                  <div class="inv-meta-label">Billed To</div>
+                  <p style="font-size: 14px; line-height: 1.6;" id="invBilledToDisplay">
+                    <strong id="invClientName">Sarah Jenkins</strong><br>
+                    <span id="invClientCompany">Studio New York</span><br>
+                    <span id="invClientEmail">sarah@jenkinsstudio.com</span><br>
+                    <span id="invClientAddress">450 West 33rd Street, New York, NY 10001</span>
+                  </p>
+
+                  <!-- DYNAMIC TIN / TAX ID BOX -->
+                  <div id="invTinContainer" style="margin-top: 10px; display: inline-block; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 5px 10px; font-size: 12px;">
+                    <strong>Tax ID / TIN:</strong> <span id="invTinValue">US-EIN: 12-3456789</span>
+                  </div>
+                </div>
+
+                <div style="text-align: right;">
+                  <div class="inv-meta-label">Invoice Details</div>
+                  <p style="font-size: 13px; line-height: 1.6;" id="invDetailsMetaDisplay">
+                    <strong>Issue Date:</strong> Nov 02, 2026<br>
+                    <strong>Due Date:</strong> Nov 17, 2026 (Net 15 Terms)<br>
+                    <strong>Project:</strong> #RS-2026-084 (Jewelry Suite)<br>
+                    <strong>Payment Terms:</strong> Inspect Files First, Pay After
+                  </p>
+                </div>
               </div>
-              <div id="confirmStatusMsg" style="margin-top: 10px; font-size: 13px; font-weight: 600;"></div>
+
+              <!-- PROJECT SUMMARY BANNER -->
+              <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 14px 18px; margin: 20px 0 16px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 14px; align-items: center;">
+                <div>
+                  <div class="inv-meta-label">Project Name</div>
+                  <div style="font-family: var(--f-display); font-size: 15px; font-weight: 800; color: #0f172a;" id="invProjectNameDisplay">
+                    Luxury Jewelry &amp; Watches Suite
+                  </div>
+                  <div style="font-size: 11px; color: var(--mut);" id="invProjectSubtitle">Focus Stacking &amp; Diamond Scintillation Polish</div>
+                </div>
+                <div>
+                  <div class="inv-meta-label">Total Image Quantity</div>
+                  <div style="font-family: var(--f-display); font-size: 16px; font-weight: 800; color: #2563eb;" id="invTotalImagesDisplay">
+                    14 RAWs
+                  </div>
+                  <div style="font-size: 11px; color: var(--mut);">Master Files</div>
+                </div>
+                <div>
+                  <div class="inv-meta-label">Commercial Rate</div>
+                  <div style="font-family: var(--f-display); font-size: 16px; font-weight: 800; color: #059669;" id="invUnitRateDisplay">
+                    $25.00 / img
+                  </div>
+                  <div style="font-size: 11px; color: var(--mut);">High-End Commercial</div>
+                </div>
+                <div>
+                  <div class="inv-meta-label">Turnaround SLA</div>
+                  <div style="font-family: var(--f-display); font-size: 14px; font-weight: 800; color: #475569;" id="invTurnaroundDisplay">
+                    24 Hours
+                  </div>
+                  <div style="font-size: 11px; color: var(--mut);">Express Studio SLA</div>
+                </div>
+              </div>
+
+              <table class="inv-table">
+                <thead>
+                  <tr>
+                    <th>Description</th>
+                    <th class="num">Qty</th>
+                    <th class="num">Rate</th>
+                    <th class="num">Amount</th>
+                  </tr>
+                </thead>
+                <tbody id="invTableBody">
+                  <tr>
+                    <td><strong>High-End Macro Jewelry Retouching</strong><br><span style="font-size: 12px; color: var(--mut);">Focus stacking alignment, scratch removal on platinum, diamond facet polish.</span></td>
+                    <td class="num">14</td>
+                    <td class="num">$25.00</td>
+                    <td class="num"><strong>$350.00</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Color-Calibrated Specular Highlight Master</strong><br><span style="font-size: 12px; color: var(--mut);">16-bit layered master PSD export with preserved alpha masks.</span></td>
+                    <td class="num">14</td>
+                    <td class="num">$10.00</td>
+                    <td class="num"><strong>$140.00</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div style="display: flex; justify-content: flex-end; padding: 10px 0 24px;">
+                <div style="width: 280px;">
+                  <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px;">
+                    <span style="color: var(--mut);">Subtotal:</span>
+                    <span id="invSubtotalDisplay">$490.00</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px;">
+                    <span style="color: var(--mut);">Tax (0% Export B2B):</span>
+                    <span>$0.00</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: 800; border-top: 2px solid var(--fg); padding-top: 10px;">
+                    <span>Total Payable:</span>
+                    <span style="color: #ff4d00;" id="invTotalPayableDisplay">$490.00 USD</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PAYMENT OPTIONS AREA (HIDDEN AUTOMATICALLY ON PDF PRINT) -->
+              <div id="paymentToggleArea" style="background: #f8fafc; border: 1px solid var(--line); border-radius: 12px; padding: 22px; margin-top: 20px;">
+                <h4 style="font-size: 15px; font-weight: 800; margin-bottom: 4px;">Choose Payment Currency &amp; Bank Details</h4>
+                <p style="font-size: 13px; color: var(--mut); margin-bottom: 16px;">Domestic bank routing powered by Wise with zero international wire charges.</p>
+
+                <div class="currency-tabs">
+                  <button class="curr-btn active" onclick="switchCurrency('usd', this)">🇺🇸 USD Bank (United States)</button>
+                  <button class="curr-btn" onclick="switchCurrency('eur', this)">🇪🇺 EUR SEPA (Germany, Austria, EU)</button>
+                  <button class="curr-btn" onclick="switchCurrency('gbp', this)">🇬🇧 GBP Sort Code (UK)</button>
+                  <button class="curr-btn" onclick="switchCurrency('wise', this)">🌐 Wise Direct Transfer</button>
+                  <button class="curr-btn" onclick="switchCurrency('card', this)">💳 Debit / Credit Card</button>
+                </div>
+
+                <!-- 1. USD BANK -->
+                <div id="bankUSD" class="bank-grid">
+                  <div class="bank-tile"><div><div class="inv-meta-label">Bank Name</div><strong>Community Federal Savings Bank</strong></div></div>
+                  <div class="bank-tile"><div><div class="inv-meta-label">Account Holder</div><strong>MD Shoaib Siddique</strong></div></div>
+                  <div class="bank-tile"><div><div class="inv-meta-label">ACH Routing Number</div><strong id="valUsdRouting">026073150</strong></div><button class="copy-pill" onclick="copyText('valUsdRouting')">Copy</button></div>
+                  <div class="bank-tile"><div><div class="inv-meta-label">Account Number</div><strong id="valUsdAcc">8314244452</strong></div><button class="copy-pill" onclick="copyText('valUsdAcc')">Copy</button></div>
+                  <div class="bank-tile"><div><div class="inv-meta-label">Swift / BIC</div><strong id="valUsdSwift">CMFGUS33</strong></div><button class="copy-pill" onclick="copyText('valUsdSwift')">Copy</button></div>
+                  <div class="bank-tile"><div><div class="inv-meta-label">Account Type</div><strong>Checking</strong></div></div>
+                </div>
+
+                <!-- 2. EUR SEPA -->
+                <div id="bankEUR" class="bank-grid" style="display: none;">
+                  <div class="bank-tile"><div><div class="inv-meta-label">Bank Name</div><strong>Wise Europe SA (Brussels)</strong></div></div>
+                  <div class="bank-tile"><div><div class="inv-meta-label">Beneficiary Name</div><strong>MD Shoaib Siddique</strong></div></div>
+                  <div class="bank-tile" style="grid-column: span 2;"><div><div class="inv-meta-label">EUR IBAN (SEPA)</div><strong id="valEurIban">BE50 9030 5754 7018</strong></div><button class="copy-pill" onclick="copyText('valEurIban')">Copy</button></div>
+                  <div class="bank-tile"><div><div class="inv-meta-label">Swift / BIC</div><strong id="valEurSwift">TRWIBEB1XXX</strong></div><button class="copy-pill" onclick="copyText('valEurSwift')">Copy</button></div>
+                  <div class="bank-tile"><div><div class="inv-meta-label">Network</div><strong>SEPA Instant</strong></div></div>
+                </div>
+
+                <!-- 3. GBP SORT CODE -->
+                <div id="bankGBP" class="bank-grid" style="display: none;">
+                  <div class="bank-tile"><div><div class="inv-meta-label">Bank Name</div><strong>Wise Payments Ltd (London)</strong></div></div>
+                  <div class="bank-tile"><div><div class="inv-meta-label">Beneficiary Name</div><strong>MD Shoaib Siddique</strong></div></div>
+                  <div class="bank-tile"><div><div class="inv-meta-label">UK Sort Code</div><strong id="valGbpSort">23-14-70</strong></div><button class="copy-pill" onclick="copyText('valGbpSort')">Copy</button></div>
+                  <div class="bank-tile"><div><div class="inv-meta-label">Account Number</div><strong id="valGbpAcc">91061342</strong></div><button class="copy-pill" onclick="copyText('valGbpAcc')">Copy</button></div>
+                </div>
+
+                <!-- 4. WISE EMAIL -->
+                <div id="bankWISE" class="bank-grid" style="display: none;">
+                  <div class="bank-tile" style="grid-column: span 2;"><div><div class="inv-meta-label">Wise Email Handle</div><strong id="valWiseEmail">retouchershoaib@gmail.com</strong></div><button class="copy-pill" onclick="copyText('valWiseEmail')">Copy</button></div>
+                </div>
+
+                <!-- 5. CARD CHECKOUT -->
+                <div id="bankCARD" style="display: none; background: #fff; border: 1.5px solid #86efac; border-radius: 10px; padding: 18px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+                    <div>
+                      <div style="font-size: 15px; font-weight: 800; color: #065f46; margin-bottom: 2px;">Pay with Debit or Credit Card</div>
+                      <p style="font-size: 13px; color: #475569;">Instant checkout for Visa, Mastercard, AMEX &amp; Apple Pay via Wise secure gateway.</p>
+                    </div>
+                    <div>
+                      <a href="https://wise.com/pay/me/mdshoaibs" target="_blank" rel="noopener" class="btn btn-green">
+                        💳 Pay $490.00 USD via Card ↗
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- CONFIRM TRANSFER BOX -->
+                <div style="display: flex; gap: 10px; margin-top: 18px; align-items: center; flex-wrap: wrap;">
+                  <input type="text" id="txRefInput" class="form-input" style="flex: 1;" placeholder="Enter Wise / Bank Transfer Reference (e.g. #982401)">
+                  <button type="button" class="btn btn-primary" onclick="submitPaymentConfirmation()">Confirm Transfer</button>
+                </div>
+                <div id="confirmStatusMsg" style="margin-top: 10px; font-size: 13px; font-weight: 600;"></div>
+              </div>
             </div>
           </div>
         </div>
+
       </div>
 
       <!-- SECTION 5: CLIENT PROFILE & TAX ID EDITOR (USER REQUEST) -->
@@ -1890,97 +1965,235 @@ body {
 </div>
 
 <script>
+
 // ========================================================
 // 1. GLOBAL STATE & ORDER DATA (DEFINED AT THE VERY TOP!)
 // ========================================================
 let currentModalId = null;
+let activeInvoiceSelection = 'all';
 
 const ORDERS = {
   '084': {
     id: '#RS-2026-084',
+    numericId: '084',
     title: 'Luxury Jewelry & Watches Suite',
     service: 'Luxury Jewelry & Horology',
     images: '14 Focus-Stacked RAWs (.CR3)',
+    rawCount: 14,
     format: '16-bit Layered Master PSD + WebP',
     deadline: '24 Hours Express SLA',
     status: 'delivered',
     price: '$490.00 USD ($25/img)',
+    numericPrice: 490,
     isAgreed: true,
     drive: 'https://drive.google.com',
-    instructions: "Please clean all microscopic dust and metal scratches on the platinum prongs without blunting the facet reflections.\nPreserve diamond natural scintillation highlights (do not blow out or flatten).\nDeliver on seamless off-white background with a delicate natural contact cast shadow."
+    instructions: "Please clean all microscopic dust and metal scratches on the platinum prongs without blunting the facet reflections.\nPreserve diamond natural scintillation highlights (do not blow out or flatten).\nDeliver on seamless off-white background with a delicate natural contact cast shadow.",
+    createdAt: 'Nov 02, 2026'
   },
   '085': {
     id: '#RS-2026-085',
+    numericId: '085',
     title: 'Editorial Fashion Apparel Lookbook',
     service: 'Fashion & Apparel',
     images: '24 High-Fashion RAWs (.ARW)',
+    rawCount: 24,
     format: 'Layered PSD + Transparent PNG + Clipping Path',
     deadline: '24 Hours Express SLA',
     totalDurationMs: 24 * 3600 * 1000,
     deadlineMs: Date.now() + (18.5 * 3600 * 1000), // ~18.5h remaining out of 24h (starts in Green stage-green!)
     status: 'production',
     price: '$600.00 USD ($25/img)',
+    numericPrice: 600,
     isAgreed: false,
     drive: 'https://drive.google.com',
-    instructions: "Symmetrical hemline alignment, remove fabric travel wrinkles while keeping textile micro-weave crisp.\nGhost mannequin hollow neck joint alignment with collar label.\nExport with pure white RGB(255,255,255) background and separate hand-drawn pen tool path."
+    instructions: "Symmetrical hemline alignment, remove fabric travel wrinkles while keeping textile micro-weave crisp.\nGhost mannequin hollow neck joint alignment with collar label.\nExport with pure white RGB(255,255,255) background and separate hand-drawn pen tool path.",
+    createdAt: 'Today, 01:30 PM'
   }
 };
 
-// ========================================================
-// 2. LIVE COUNTDOWN TIMER (WITH NEGATIVE OVERDUE ALERT)
-// ========================================================
-function updateCountdown() {
-  const o = ORDERS['085'];
-  const diff = o.deadlineMs - Date.now();
-  
-  const timerElements = [
-    document.getElementById('dashboardLiveTimer'),
-    document.getElementById('orderPipelineTimer')
-  ];
+// Load dynamically submitted custom orders from localStorage
+function loadStoredCustomOrders() {
+  try {
+    const raw = localStorage.getItem('shoaib_custom_orders');
+    if (raw) {
+      const customOrders = JSON.parse(raw);
+      if (Array.isArray(customOrders)) {
+        customOrders.forEach(ord => {
+          if (ord && ord.numericId) {
+            ORDERS[ord.numericId] = ord;
+          }
+        });
+      }
+    }
+    // Spec overrides for 085 if edited
+    const savedPName = localStorage.getItem('shoaib_project_name_085');
+    if (savedPName) ORDERS['085'].title = savedPName;
+    const savedCount = localStorage.getItem('shoaib_image_count_085');
+    if (savedCount) {
+      ORDERS['085'].rawCount = parseInt(savedCount, 10);
+      ORDERS['085'].images = savedCount + ' RAWs';
+    }
+  } catch(e) {
+    console.error('Error loading custom orders:', e);
+  }
+}
+loadStoredCustomOrders();
 
-  let displayHtml = '';
-  let cssClass = 'timer-pill';
-
-  if (diff > 0) {
-    const totalSec = Math.floor(diff / 1000);
-    const h = Math.floor(totalSec / 3600);
-    const m = Math.floor((totalSec % 3600) / 60);
-    const s = totalSec % 60;
-    const hStr = String(h).padStart(2, '0');
-    const mStr = String(m).padStart(2, '0');
-    const sStr = String(s).padStart(2, '0');
-    
-    cssClass += (h < 2) ? ' urgent' : '';
-    displayHtml = `⏳ ${hStr}h : ${mStr}m : ${sStr}s Remaining`;
-  } else {
+// ========================================================
+// 2. LIVE COUNTDOWN TIMER (MULTI-STAGE & OVERDUE REVERSE)
+// ========================================================
+function getTimerClassAndText(diff, totalDurationMs) {
+  if (diff <= 0) {
     const abs = Math.abs(diff);
     const totalSec = Math.floor(abs / 1000);
     const h = Math.floor(totalSec / 3600);
     const m = Math.floor((totalSec % 3600) / 60);
     const s = totalSec % 60;
-    cssClass += ' overdue';
-    displayHtml = `⚠️ OVERDUE: -${h}h : ${m}m : ${s}s`;
+    return {
+      className: 'stage-overdue',
+      text: `⚠️ OVERDUE: -${h}h : ${String(m).padStart(2,'0')}m : ${String(s).padStart(2,'0')}s`
+    };
   }
 
-  timerElements.forEach(el => {
-    if (el) {
-      el.className = cssClass;
-      el.innerHTML = displayHtml;
+  const totalSec = Math.floor(diff / 1000);
+  const h = Math.floor(totalSec / 3600);
+  const m = Math.floor((totalSec % 3600) / 60);
+  const s = totalSec % 60;
+  const hStr = String(h).padStart(2, '0');
+  const mStr = String(m).padStart(2, '0');
+  const sStr = String(s).padStart(2, '0');
+  const text = `⏳ ${hStr}h : ${mStr}m : ${sStr}s Remaining`;
+
+  const pct = diff / (totalDurationMs || (24 * 3600 * 1000));
+  let className = 'stage-green';
+  if (pct <= 0.25 || h < 2) {
+    className = 'stage-orange-red';
+  } else if (pct <= 0.50) {
+    className = 'stage-amber';
+  } else {
+    className = 'stage-green';
+  }
+
+  return { className, text };
+}
+
+function updateCountdown() {
+  // Update dashboard live timer (tracks primary active job 085)
+  const o85 = ORDERS['085'];
+  if (o85 && o85.deadlineMs) {
+    const diff85 = o85.deadlineMs - Date.now();
+    const res85 = getTimerClassAndText(diff85, o85.totalDurationMs || (24 * 3600 * 1000));
+    const dashTimer = document.getElementById('dashboardLiveTimer');
+    if (dashTimer) {
+      dashTimer.className = 'timer-pill ' + res85.className;
+      dashTimer.innerHTML = res85.text;
+    }
+    const pipeTimer85 = document.getElementById('orderPipelineTimer');
+    if (pipeTimer85) {
+      pipeTimer85.className = 'timer-pill ' + res85.className;
+      pipeTimer85.innerHTML = res85.text;
+    }
+  }
+
+  // Update timers for all active orders in pipeline
+  Object.keys(ORDERS).forEach(id => {
+    const o = ORDERS[id];
+    if (o.status !== 'delivered' && o.deadlineMs) {
+      const diff = o.deadlineMs - Date.now();
+      const res = getTimerClassAndText(diff, o.totalDurationMs || (24 * 3600 * 1000));
+      const el = document.getElementById('timer_order_' + id);
+      if (el) {
+        el.className = 'timer-pill ' + res.className;
+        el.innerHTML = res.text;
+      }
+      if (currentModalId === id) {
+        const modalTimer = document.getElementById('modalTimer');
+        if (modalTimer) {
+          modalTimer.className = 'timer-pill ' + res.className;
+          modalTimer.innerHTML = res.text;
+        }
+      }
     }
   });
-
-  // Modal timer if open
-  const modalTimer = document.getElementById('modalTimer');
-  if (modalTimer && currentModalId === '085') {
-    modalTimer.className = cssClass;
-    modalTimer.innerHTML = displayHtml;
-  }
 }
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
 // ========================================================
-// 3. ORDER DETAILS MODAL (100% BULLETPROOF)
+// 3. RENDER ACTIVE ORDERS PIPELINE
+// ========================================================
+function renderActiveOrdersPipeline() {
+  const container = document.getElementById('activeOrdersContainer');
+  if (!container) return;
+
+  const activeIds = Object.keys(ORDERS).filter(k => ORDERS[k].status !== 'delivered');
+  const count = activeIds.length;
+
+  const titleEl = document.getElementById('pipelineHeaderTitle');
+  if (titleEl) titleEl.textContent = '⚡ Active Retouching Pipeline (' + count + ')';
+  const badgeEl = document.getElementById('badgeActiveOrders');
+  if (badgeEl) badgeEl.textContent = count;
+  const statActiveEl = document.getElementById('statActive');
+  if (statActiveEl) statActiveEl.textContent = count;
+  const statTotalEl = document.getElementById('statTotalProjects');
+  if (statTotalEl) statTotalEl.textContent = (48 + count) + ' Projects';
+
+  let html = '';
+  activeIds.forEach(id => {
+    const o = ORDERS[id];
+    const isAgreed = localStorage.getItem('shoaib_price_approved_' + id) === '1' || o.isAgreed;
+    const customAgreed = localStorage.getItem('shoaib_agreed_price_' + id);
+    const displayPrice = isAgreed ? (customAgreed || o.price) : o.price;
+    const timerId = (id === '085') ? 'orderPipelineTimer' : ('timer_order_' + id);
+
+    html += `
+      <div class="active-order-card" id="card_order_${id}" style="border: 1px solid var(--line); border-radius: 12px; padding: 22px; margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px;">
+          <div>
+            <h3 style="font-size: 18px; font-weight: 800; font-family: var(--f-display);">
+              Order ${o.id} &bull; ${o.title}
+            </h3>
+            <div style="font-size: 13px; color: var(--mut); margin-top: 3px;">
+              Submitted ${o.createdAt || 'Today'} &bull; ${o.images} (${o.service})
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span class="timer-pill stage-green" id="${timerId}">⏳ Calculating...</span>
+            <button class="btn btn-outline btn-sm" onclick="openOrderDetails('${id}')">Order Details 👁️</button>
+            <button class="btn btn-primary btn-sm" onclick="viewOrderInvoice('${id}')">💳 Pay / View Invoice</button>
+          </div>
+        </div>
+
+        <div class="specs-bar">
+          <span class="spec-tag">📷 ${o.images}</span>
+          <span class="spec-tag">📁 ${o.format}</span>
+          <span class="spec-tag">⏱️ ${o.deadline}</span>
+          <span class="spec-tag ${isAgreed ? 'green' : 'amber'}" id="pipeBudgetBadge_${id}">🏷️ ${isAgreed ? 'Agreed Budget: ' + displayPrice + ' ✓' : 'Proposed Budget: ' + displayPrice + ' (Reviewing ⏳)'}</span>
+        </div>
+
+        <div class="tracker-row">
+          <div class="tracker-steps">
+            <div class="tracker-line"><div class="tracker-line-fill" style="width: 48%;"></div></div>
+            <div class="tracker-step done"><div class="step-circle">✓</div><div class="step-name">1. Received</div></div>
+            <div class="tracker-step active"><div class="step-circle">2</div><div class="step-name">2. In Production</div></div>
+            <div class="tracker-step"><div class="step-circle">3</div><div class="step-name">3. Quality Review</div></div>
+            <div class="tracker-step"><div class="step-circle">4</div><div class="step-name">4. Delivered</div></div>
+          </div>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #475569;">
+          ⚡ <strong>Studio Production Note:</strong> Senior commercial retoucher assigned. Color-calibrated display profiling active for ${o.service}.
+        </div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+}
+
+// ========================================================
+// 4. ORDER DETAILS MODAL
 // ========================================================
 function openOrderDetails(id) {
   currentModalId = id;
@@ -2062,7 +2275,7 @@ function closeOrderModalOnBg(e) {
 }
 
 // ========================================================
-// 4. PORTAL VIEW SWITCHER (SIDEBAR + QUICK ACTIONS)
+// 5. PORTAL VIEW SWITCHER
 // ========================================================
 function switchPortalSection(section) {
   const views = ['viewDashboard', 'viewOrders', 'viewArchive', 'viewInvoices', 'viewProfile', 'viewNewOrder'];
@@ -2088,7 +2301,7 @@ function switchPortalSection(section) {
     dashboard: 'Dashboard Overview',
     orders: 'Active Orders Pipeline',
     archive: 'Completed Projects Archive',
-    invoices: 'Invoices & Billing',
+    invoices: 'Invoices & Billing Statements',
     profile: 'Client Profile & Tax ID',
     new: 'Submit New Retouching Order'
   };
@@ -2104,12 +2317,16 @@ function switchPortalSection(section) {
   } else if (section === 'orders') {
     document.getElementById('viewOrders').style.display = 'block';
     document.getElementById('sideNavOrders')?.classList.add('active');
+    renderActiveOrdersPipeline();
   } else if (section === 'archive') {
     document.getElementById('viewArchive').style.display = 'block';
     document.getElementById('sideNavArchive')?.classList.add('active');
   } else if (section === 'invoices') {
     document.getElementById('viewInvoices').style.display = 'block';
+    document.getElementById('invoicesListView').style.display = 'block';
+    document.getElementById('singleInvoiceView').style.display = 'none';
     document.getElementById('sideNavInvoices')?.classList.add('active');
+    renderInvoicesList();
   } else if (section === 'profile') {
     document.getElementById('viewProfile').style.display = 'block';
     document.getElementById('sideNavProfile')?.classList.add('active');
@@ -2117,7 +2334,6 @@ function switchPortalSection(section) {
     document.getElementById('viewNewOrder').style.display = 'block';
   }
 
-  // Close mobile sidebar if open
   document.getElementById('sidebar')?.classList.remove('open');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -2131,7 +2347,7 @@ function toggleSidebar() {
 }
 
 // ========================================================
-// 5. CLIENT PROFILE & TAX ID MANAGEMENT (USER REQUEST)
+// 6. CLIENT PROFILE & TAX ID MANAGEMENT
 // ========================================================
 function loadClientProfile() {
   const saved = localStorage.getItem('shoaib_client_profile');
@@ -2139,214 +2355,306 @@ function loadClientProfile() {
     name: 'Sarah Jenkins',
     company: 'Studio New York',
     email: 'sarah@jenkinsstudio.com',
-    phone: '+1 (212) 555-0198',
-    tin: 'US-EIN: 12-3456789',
-    address: '450 West 33rd Street, New York, NY 10001, United States'
+    address: '450 West 33rd Street, New York, NY 10001',
+    tin: 'US-EIN: 12-3456789'
   };
-
   if (saved) {
-    try { p = { ...p, ...JSON.parse(saved) }; } catch(e) {}
+    try { p = Object.assign(p, JSON.parse(saved)); } catch(e) {}
   }
 
-  // Update Sidebar
-  document.getElementById('sidebarClientName').textContent = p.name;
-  document.getElementById('sidebarClientEmail').textContent = p.email;
+  const nameEl = document.getElementById('profName');
+  const compEl = document.getElementById('profCompany');
+  const mailEl = document.getElementById('profEmail');
+  const addrEl = document.getElementById('profAddress');
+  const tinEl = document.getElementById('profTin');
 
-  // Update Invoices
-  document.getElementById('invClientName').textContent = p.name;
-  document.getElementById('invClientCompany').textContent = p.company;
-  document.getElementById('invClientEmail').textContent = p.email;
-  document.getElementById('invClientAddress').textContent = p.address;
+  if (nameEl) nameEl.value = p.name;
+  if (compEl) compEl.value = p.company;
+  if (mailEl) mailEl.value = p.email;
+  if (addrEl) addrEl.value = p.address;
+  if (tinEl) tinEl.value = p.tin;
 
-  // Update TIN display
-  const tinVal = localStorage.getItem('shoaib_client_tin') || p.tin;
-  const tinCont = document.getElementById('invTinContainer');
-  const tinSpan = document.getElementById('invTinValue');
-  if (tinVal && tinVal.trim()) {
-    if (tinCont) tinCont.style.display = 'inline-block';
-    if (tinSpan) tinSpan.textContent = tinVal;
-  } else {
-    if (tinCont) tinCont.style.display = 'none';
-  }
+  const invName = document.getElementById('invClientName');
+  const invComp = document.getElementById('invClientCompany');
+  const invMail = document.getElementById('invClientEmail');
+  const invAddr = document.getElementById('invClientAddress');
+  const invTinVal = document.getElementById('invTinValue');
+  const invListTinVal = document.getElementById('invListClientTin');
 
-  // Update Form Fields
-  if (document.getElementById('profName')) document.getElementById('profName').value = p.name;
-  if (document.getElementById('profCompany')) document.getElementById('profCompany').value = p.company;
-  if (document.getElementById('profEmail')) document.getElementById('profEmail').value = p.email;
-  if (document.getElementById('profPhone')) document.getElementById('profPhone').value = p.phone;
-  if (document.getElementById('profTin')) document.getElementById('profTin').value = tinVal;
-  if (document.getElementById('profAddress')) document.getElementById('profAddress').value = p.address;
+  if (invName) invName.textContent = p.name;
+  if (invComp) invComp.textContent = p.company;
+  if (invMail) invMail.textContent = p.email;
+  if (invAddr) invAddr.textContent = p.address;
+  if (invTinVal) invTinVal.textContent = p.tin;
+  if (invListTinVal) invListTinVal.textContent = p.tin;
+
+  const sideName = document.querySelector('.client-name');
+  const sideMail = document.querySelector('.client-email');
+  if (sideName) sideName.textContent = p.name;
+  if (sideMail) sideMail.textContent = p.email;
 }
 
 function saveClientProfile(e) {
   e.preventDefault();
-  const profile = {
-    name: document.getElementById('profName').value.trim(),
-    company: document.getElementById('profCompany').value.trim(),
-    email: document.getElementById('profEmail').value.trim(),
-    phone: document.getElementById('profPhone').value.trim(),
-    tin: document.getElementById('profTin').value.trim(),
-    address: document.getElementById('profAddress').value.trim()
+  const p = {
+    name: document.getElementById('profName')?.value.trim() || 'Sarah Jenkins',
+    company: document.getElementById('profCompany')?.value.trim() || 'Studio New York',
+    email: document.getElementById('profEmail')?.value.trim() || 'sarah@jenkinsstudio.com',
+    address: document.getElementById('profAddress')?.value.trim() || '450 West 33rd Street, New York, NY 10001',
+    tin: document.getElementById('profTin')?.value.trim() || 'US-EIN: 12-3456789'
   };
-
-  localStorage.setItem('shoaib_client_profile', JSON.stringify(profile));
-  localStorage.setItem('shoaib_client_tin', profile.tin);
+  localStorage.setItem('shoaib_client_profile', JSON.stringify(p));
   loadClientProfile();
-loadInvoiceDetails();
-  alert('✓ Profile & Tax ID saved successfully! Invoices have been updated.');
+  renderInvoicesList();
+  alert('✓ Client profile and Tax ID updated across all invoices!');
   switchPortalSection('dashboard');
 }
 
-function openProfileModal() {
-  switchPortalSection('profile');
-}
-
 function openTaxIdModal() {
-  const currentTin = localStorage.getItem('shoaib_client_tin') || 'US-EIN: 12-3456789';
-  document.getElementById('quickTinInput').value = currentTin;
-  document.getElementById('taxIdModal').style.display = 'flex';
-}
-
-function closeTaxIdModal() {
-  document.getElementById('taxIdModal').style.display = 'none';
-}
-
-function saveQuickTin() {
-  const tin = document.getElementById('quickTinInput').value.trim();
-  localStorage.setItem('shoaib_client_tin', tin);
-  loadClientProfile();
-  closeTaxIdModal();
-  alert('✓ Tax ID / TIN updated on official invoice!');
-}
-
-// ========================================================
-// 6. OFFICIAL INVOICE PRINTING (ONLY THE INVOICE, NOT THE UI!)
-// ========================================================
-function printOfficialInvoiceOnly() {
-  // Ensure the invoices section is active and ready
-  switchPortalSection('invoices');
-  setTimeout(() => {
-    window.print();
-  }, 200);
-}
-
-// ========================================================
-// 7. PAYMENT CURRENCY SWITCHER
-// ========================================================
-function switchCurrency(type, btn) {
-  document.querySelectorAll('.curr-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-
-  const maps = {
-    usd: 'bankUSD',
-    eur: 'bankEUR',
-    gbp: 'bankGBP',
-    wise: 'bankWISE',
-    card: 'bankCARD'
-  };
-
-  Object.values(maps).forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = 'none';
-  });
-
-  const target = document.getElementById(maps[type]);
-  if (target) target.style.display = (type === 'card') ? 'block' : 'grid';
-}
-
-function copyText(id) {
-  const text = document.getElementById(id)?.innerText;
-  if (!text) return;
-  navigator.clipboard.writeText(text).then(() => {
-    alert('✓ Copied to clipboard: ' + text);
-  }).catch(() => {
-    prompt('Copy to clipboard: Ctrl+C, Enter', text);
-  });
-}
-
-function submitPaymentConfirmation() {
-  const ref = document.getElementById('txRefInput').value.trim();
-  const msgEl = document.getElementById('confirmStatusMsg');
-  if (!ref) {
-    alert('Please enter your Wise or Bank transfer reference ID.');
-    return;
+  const currentTin = document.getElementById('invTinValue')?.textContent || 'US-EIN: 12-3456789';
+  const newTin = prompt('Enter your Official Tax Identification Number (TIN / VAT / EIN / GST):', currentTin);
+  if (newTin && newTin.trim()) {
+    const saved = localStorage.getItem('shoaib_client_profile');
+    let p = { name: 'Sarah Jenkins', company: 'Studio New York', email: 'sarah@jenkinsstudio.com', address: '450 West 33rd Street, New York, NY 10001', tin: 'US-EIN: 12-3456789' };
+    if (saved) { try { p = Object.assign(p, JSON.parse(saved)); } catch(e) {} }
+    p.tin = newTin.trim();
+    localStorage.setItem('shoaib_client_profile', JSON.stringify(p));
+    loadClientProfile();
+    renderInvoicesList();
+    alert('✓ Tax ID updated to ' + newTin.trim() + ' on all invoices.');
   }
-  localStorage.setItem('shoaib_payment_confirmed_084', ref);
-  msgEl.style.color = '#059669';
-  msgEl.innerHTML = '✓ Payment Reference #' + ref + ' submitted! Shoaib will verify and issue official receipt within 2 hours.';
-  document.getElementById('invStatusBadge').textContent = 'PAYMENT VERIFYING ⏳';
-  document.getElementById('invStatusBadge').style.background = '#dbeafe';
-  document.getElementById('invStatusBadge').style.color = '#1e40af';
 }
 
 // ========================================================
-// 8. NEW ORDER SUBMISSION & LIVE CLOCK
+// 7. COMPACT INVOICES LIST & SINGLE INVOICE DRILL-DOWN
 // ========================================================
-function handleNewOrderSubmit(e) {
-  e.preventDefault();
-  const service = document.getElementById('ordService').value;
-  const hours = document.getElementById('ordTurnaround').value;
-  const count = document.getElementById('ordImgCount').value;
-  const budget = document.getElementById('ordBudget').value;
-  const drive = document.getElementById('ordDriveLink').value;
-  const notes = document.getElementById('ordNotes').value;
+function renderInvoicesList() {
+  const tbody = document.getElementById('invoicesListTableBody');
+  if (!tbody) return;
 
-  alert('✓ Order Submitted Successfully!\n\nTurnaround: ' + hours + ' Hours SLA\nImages: ' + count + '\nProposed Budget: ' + budget + '\n\nShoaib\'s team is reviewing your files and will start retouching immediately.');
-  switchPortalSection('orders');
-}
+  const isPaid84 = localStorage.getItem('shoaib_status_paid_084') === '1';
+  const isPaid85 = localStorage.getItem('shoaib_status_paid_085') === '1';
 
-function updateLiveClock() {
-  const el = document.getElementById('liveTimeText');
-  if (!el) return;
-  const now = new Date();
-  const nyc = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hour12: true }).format(now);
-  const ber = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit', hour12: true }).format(now);
-  el.textContent = 'NYC ' + nyc + ' • BERLIN ' + ber;
-}
-setInterval(updateLiveClock, 30000);
-updateLiveClock();
+  // Extra work for 084
+  const extraSaved = localStorage.getItem('shoaib_extra_work_084');
+  let extraAmount = 0;
+  if (extraSaved) {
+    try {
+      const ex = JSON.parse(extraSaved);
+      if (ex && ex.amount > 0) extraAmount = Number(ex.amount);
+    } catch(e) {}
+  }
 
-function filterOrdersBySearch(q) {
-  const term = q.toLowerCase();
-  console.log('Searching orders for:', term);
-}
+  let totalUnpaid = 0;
+  let unpaidCount = 0;
+  let rowsHtml = '';
 
-// Initialize Profile on load
-document.addEventListener('DOMContentLoaded', loadClientProfile);
-loadClientProfile();
+  // 1. Order 084 Row
+  const amt84 = 490 + extraAmount;
+  if (!isPaid84) {
+    totalUnpaid += amt84;
+    unpaidCount++;
+  }
+  const pName84 = localStorage.getItem('shoaib_project_name_084') || 'Luxury Jewelry & Watches Suite';
+  rowsHtml += `
+    <tr class="inv-list-row" onclick="showSingleInvoice('084')">
+      <td>
+        <span style="font-family: var(--f-display); font-weight: 800; font-size: 13px; color: #0f172a;">#RS-2026-084</span>
+      </td>
+      <td>
+        <div style="font-weight: 700; color: #0f172a;">${pName84}</div>
+        <div style="font-size: 12px; color: #64748b;">14 RAWs &bull; Luxury Jewelry &amp; Horology</div>
+      </td>
+      <td>
+        <div style="font-size: 13px; font-weight: 600;">Nov 02, 2026</div>
+        <div style="font-size: 11px; color: #64748b;">Net 15 Terms (Delivered)</div>
+      </td>
+      <td style="text-align: right;">
+        <span style="font-family: var(--f-display); font-size: 15px; font-weight: 800; color: #0f172a;">$${amt84.toFixed(2)}</span>
+      </td>
+      <td style="text-align: center;">
+        ${isPaid84 
+          ? '<span class="inv-badge-paid">PAID ✓</span>' 
+          : '<span class="inv-badge-unpaid">UNPAID (Net 15)</span>'}
+      </td>
+      <td style="text-align: right; white-space: nowrap;">
+        <button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); showSingleInvoice('084')">View Invoice 👁️</button>
+        ${!isPaid84 ? `<button class="btn btn-primary btn-sm" style="margin-left: 6px;" onclick="event.stopPropagation(); showSingleInvoice('084', true)">Pay 💳</button>` : ''}
+      </td>
+    </tr>
+  `;
 
-// ========================================================
-// 9. DYNAMIC INVOICE & ADDITIONAL WORK MANAGEMENT (USER REQUEST)
-// ========================================================
-let activeInvoiceSelection = 'all';
+  // 2. Order 085 Row
+  const amt85 = 600;
+  if (!isPaid85) {
+    totalUnpaid += amt85;
+    unpaidCount++;
+  }
+  const pName85 = localStorage.getItem('shoaib_project_name_085') || 'Editorial Fashion Apparel Lookbook';
+  rowsHtml += `
+    <tr class="inv-list-row" onclick="showSingleInvoice('085')">
+      <td>
+        <span style="font-family: var(--f-display); font-weight: 800; font-size: 13px; color: #0f172a;">#RS-2026-085</span>
+      </td>
+      <td>
+        <div style="font-weight: 700; color: #0f172a;">${pName85}</div>
+        <div style="font-size: 12px; color: #64748b;">24 RAWs &bull; Fashion &amp; Apparel</div>
+      </td>
+      <td>
+        <div style="font-size: 13px; font-weight: 600;">Nov 02, 2026</div>
+        <div style="font-size: 11px; color: #64748b;">Advance Due (In Production)</div>
+      </td>
+      <td style="text-align: right;">
+        <span style="font-family: var(--f-display); font-size: 15px; font-weight: 800; color: #0f172a;">$${amt85.toFixed(2)}</span>
+      </td>
+      <td style="text-align: center;">
+        ${isPaid85 
+          ? '<span class="inv-badge-paid">PAID ✓</span>' 
+          : '<span class="inv-badge-advance">ADVANCE DUE</span>'}
+      </td>
+      <td style="text-align: right; white-space: nowrap;">
+        <button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); showSingleInvoice('085')">View Invoice 👁️</button>
+        ${!isPaid85 ? `<button class="btn btn-primary btn-sm" style="margin-left: 6px;" onclick="event.stopPropagation(); showSingleInvoice('085', true)">Pay 💳</button>` : ''}
+      </td>
+    </tr>
+  `;
 
-function selectInvoiceTab(tab) {
-  activeInvoiceSelection = tab;
-  ['btnInvTabAll', 'btnInvTab084', 'btnInvTab085'].forEach(id => {
-    const b = document.getElementById(id);
-    if (b) {
-      b.className = 'btn btn-outline btn-sm';
+  // 3. Custom orders in ORDERS
+  Object.keys(ORDERS).forEach(id => {
+    if (id !== '084' && id !== '085') {
+      const o = ORDERS[id];
+      const isPaid = localStorage.getItem('shoaib_status_paid_' + id) === '1';
+      const ordAmt = o.numericPrice || 500;
+      if (!isPaid) {
+        totalUnpaid += ordAmt;
+        unpaidCount++;
+      }
+      rowsHtml += `
+        <tr class="inv-list-row" onclick="showSingleInvoice('${id}')">
+          <td>
+            <span style="font-family: var(--f-display); font-weight: 800; font-size: 13px; color: #0f172a;">${o.id}</span>
+          </td>
+          <td>
+            <div style="font-weight: 700; color: #0f172a;">${o.title}</div>
+            <div style="font-size: 12px; color: #64748b;">${o.images} &bull; ${o.service}</div>
+          </td>
+          <td>
+            <div style="font-size: 13px; font-weight: 600;">${o.createdAt ? o.createdAt.split(',')[0] : 'Today'}</div>
+            <div style="font-size: 11px; color: #64748b;">New Order Advance</div>
+          </td>
+          <td style="text-align: right;">
+            <span style="font-family: var(--f-display); font-size: 15px; font-weight: 800; color: #0f172a;">$${ordAmt.toFixed(2)}</span>
+          </td>
+          <td style="text-align: center;">
+            ${isPaid 
+              ? '<span class="inv-badge-paid">PAID ✓</span>' 
+              : '<span class="inv-badge-advance">ADVANCE DUE</span>'}
+          </td>
+          <td style="text-align: right; white-space: nowrap;">
+            <button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); showSingleInvoice('${id}')">View Invoice 👁️</button>
+            ${!isPaid ? `<button class="btn btn-primary btn-sm" style="margin-left: 6px;" onclick="event.stopPropagation(); showSingleInvoice('${id}', true)">Pay 💳</button>` : ''}
+          </td>
+        </tr>
+      `;
     }
   });
 
-  if (tab === 'all') document.getElementById('btnInvTabAll')?.classList.replace('btn-outline', 'btn-primary');
-  if (tab === '084') document.getElementById('btnInvTab084')?.classList.replace('btn-outline', 'btn-primary');
-  if (tab === '085') document.getElementById('btnInvTab085')?.classList.replace('btn-outline', 'btn-primary');
+  tbody.innerHTML = rowsHtml;
 
-  loadInvoiceDetails();
+  // Update summary stats in Invoices List View
+  const listTotalEl = document.getElementById('invListTotalUnpaid');
+  const listCountEl = document.getElementById('invListUnpaidCount');
+  if (listTotalEl) listTotalEl.textContent = '$' + totalUnpaid.toFixed(2) + ' USD';
+  if (listCountEl) {
+    listCountEl.textContent = unpaidCount === 0 
+      ? 'All Invoices Settled ✓' 
+      : unpaidCount + ' Invoice' + (unpaidCount > 1 ? 's' : '') + ' Pending Payment';
+    listCountEl.style.color = unpaidCount === 0 ? '#059669' : '#d97706';
+  }
+
+  // Update Dashboard Card 1
+  const statUnpaidEl = document.getElementById('statUnpaid');
+  const statUnpaidSub = document.getElementById('statUnpaidSub');
+  if (statUnpaidEl) statUnpaidEl.textContent = '$' + totalUnpaid.toFixed(2);
+  if (statUnpaidSub) {
+    if (totalUnpaid === 0) {
+      statUnpaidSub.textContent = 'All Invoices Settled ✓';
+      statUnpaidSub.style.color = '#059669';
+    } else {
+      statUnpaidSub.textContent = unpaidCount + ' Orders Due ($' + totalUnpaid.toFixed(2) + ' Total)';
+      statUnpaidSub.style.color = '#d97706';
+    }
+  }
+}
+
+function showSingleInvoice(id, scrollToPay = false) {
+  const listView = document.getElementById('invoicesListView');
+  const singleView = document.getElementById('singleInvoiceView');
+  if (listView) listView.style.display = 'none';
+  if (singleView) singleView.style.display = 'block';
+
+  selectInvoiceTab(id);
+
+  if (scrollToPay) {
+    setTimeout(() => {
+      document.getElementById('paymentToggleArea')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  } else {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function backToInvoicesList() {
+  const listView = document.getElementById('invoicesListView');
+  const singleView = document.getElementById('singleInvoiceView');
+  if (singleView) singleView.style.display = 'none';
+  if (listView) listView.style.display = 'block';
+  renderInvoicesList();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function viewOrderInvoice(id) {
   switchPortalSection('invoices');
-  selectInvoiceTab(id);
+  showSingleInvoice(id);
+}
+
+function renderInvoiceTabs(activeTab) {
+  const container = document.getElementById('invoiceTabsContainer');
+  if (!container) return;
+
+  let tabsHtml = `
+    <button class="btn ${activeTab === 'all' ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectInvoiceTab('all')">
+      💳 Total Outstanding Balance
+    </button>
+    <button class="btn ${activeTab === '084' ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectInvoiceTab('084')">
+      📄 Invoice #RS-2026-084 ($490.00 &bull; Jewelry)
+    </button>
+    <button class="btn ${activeTab === '085' ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectInvoiceTab('085')">
+      ⚡ Advance Invoice #RS-2026-085 ($600.00 &bull; Fashion)
+    </button>
+  `;
+
+  Object.keys(ORDERS).forEach(id => {
+    if (id !== '084' && id !== '085') {
+      const o = ORDERS[id];
+      tabsHtml += `
+        <button class="btn ${activeTab === id ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectInvoiceTab('${id}')">
+          ⚡ Advance Invoice ${o.id} ($${(o.numericPrice || 500).toFixed(2)})
+        </button>
+      `;
+    }
+  });
+
+  container.innerHTML = tabsHtml;
+}
+
+function selectInvoiceTab(tab) {
+  activeInvoiceSelection = tab;
+  renderInvoiceTabs(tab);
+  loadInvoiceDetails();
 }
 
 function loadInvoiceDetails() {
-  const o84 = ORDERS['084'];
-  const o85 = ORDERS['085'];
-  if (!o84 || !o85) return;
-
-  // Check paid states
   const isPaid84 = localStorage.getItem('shoaib_status_paid_084') === '1';
   const isPaid85 = localStorage.getItem('shoaib_status_paid_085') === '1';
 
@@ -2370,58 +2678,55 @@ function loadInvoiceDetails() {
 
   const amt84 = isPaid84 ? 0 : (490 + extraAmount);
   const amt85 = isPaid85 ? 0 : 600;
-  const totalUnpaidAll = amt84 + amt85;
+  let totalUnpaidAll = amt84 + amt85;
 
-  // UPDATE TOP METRIC CARD 1 (USER SPECIFICATION: TOTAL OF SUBMITTED + DELIVERED)
-  const statUnpaidEl = document.getElementById('statUnpaid');
-  const statUnpaidSub = document.getElementById('statUnpaidSub');
-  if (statUnpaidEl) {
-    statUnpaidEl.textContent = '$' + totalUnpaidAll.toFixed(2);
-  }
-  if (statUnpaidSub) {
-    if (totalUnpaidAll === 0) {
-      statUnpaidSub.textContent = 'All Invoices Settled ✓';
-      statUnpaidSub.style.color = '#059669';
-    } else if (amt84 > 0 && amt85 > 0) {
-      statUnpaidSub.textContent = '2 Orders Due ($490 Delivered • $600 In Production)';
-      statUnpaidSub.style.color = '#d97706';
-    } else if (amt85 > 0) {
-      statUnpaidSub.textContent = 'Order #085 Advance Due ($600 In Production)';
-      statUnpaidSub.style.color = '#d97706';
-    } else {
-      statUnpaidSub.textContent = 'Order #084 Due ($490 Delivered)';
-      statUnpaidSub.style.color = '#d97706';
+  Object.keys(ORDERS).forEach(id => {
+    if (id !== '084' && id !== '085') {
+      const isPaid = localStorage.getItem('shoaib_status_paid_' + id) === '1';
+      if (!isPaid) totalUnpaidAll += (ORDERS[id].numericPrice || 500);
     }
-  }
+  });
 
-  // Update Invoice Sheet Display based on active tab
   const invTableBody = document.getElementById('invTableBody');
-  const invNumberEl = document.querySelector('#invoiceSheet .inv-top-bar h2, #invoiceSheet .inv-top-bar div[style*="font-size: 22px"]');
+  const invNumberEl = document.getElementById('invSheetNumberDisplay');
   const invProjectNameEl = document.getElementById('invProjectNameDisplay');
+  const invProjectSubEl = document.getElementById('invProjectSubtitle');
   const invTotalImagesEl = document.getElementById('invTotalImagesDisplay');
   const invUnitRateEl = document.getElementById('invUnitRateDisplay');
   const invTurnaroundEl = document.getElementById('invTurnaroundDisplay');
   const subtotalEl = document.getElementById('invSubtotalDisplay');
   const totalPayableEl = document.getElementById('invTotalPayableDisplay');
   const badgeEl = document.getElementById('invStatusBadge');
+  const detailsMetaEl = document.getElementById('invDetailsMetaDisplay');
 
   if (activeInvoiceSelection === '085') {
-    // RENDER ORDER 085 INVOICE (ADVANCE / PRODUCTION)
+    // ORDER 085 INVOICE
     if (invNumberEl) invNumberEl.textContent = 'PROFORMA INVOICE #RS-2026-085';
     if (badgeEl) {
       badgeEl.textContent = isPaid85 ? 'ADVANCE PAID ✓' : 'ADVANCE / IN PRODUCTION';
-      badgeEl.style.background = isPaid85 ? '#ecfdf5' : '#fef3c7';
-      badgeEl.style.color = isPaid85 ? '#065f46' : '#b45309';
+      badgeEl.style.background = isPaid85 ? '#ecfdf5' : '#eff6ff';
+      badgeEl.style.color = isPaid85 ? '#065f46' : '#2563eb';
     }
-    if (invProjectNameEl) invProjectNameEl.textContent = 'Editorial Fashion Apparel Lookbook';
-    if (invTotalImagesEl) invTotalImagesEl.textContent = '24 RAWs';
+    const pName = ORDERS['085'].title;
+    if (invProjectNameEl) invProjectNameEl.textContent = pName;
+    if (invProjectSubEl) invProjectSubEl.textContent = 'High-End Editorial Ghost Mannequin & Color Alignment';
+    if (invTotalImagesEl) invTotalImagesEl.textContent = ORDERS['085'].images;
     if (invUnitRateEl) invUnitRateEl.textContent = '$25.00 / img';
-    if (invTurnaroundEl) invTurnaroundEl.textContent = '24h Express SLA';
+    if (invTurnaroundEl) invTurnaroundEl.textContent = '24 Hours Express';
+
+    if (detailsMetaEl) {
+      detailsMetaEl.innerHTML = `
+        <strong>Issue Date:</strong> Nov 02, 2026<br>
+        <strong>Due Date:</strong> Immediate (Advance Terms)<br>
+        <strong>Project:</strong> #RS-2026-085 (${pName})<br>
+        <strong>Payment Terms:</strong> Advance Retainer / In Production
+      `;
+    }
 
     if (invTableBody) {
       invTableBody.innerHTML = `
         <tr>
-          <td><strong>Fashion Apparel High-End Retouching</strong><br><span style="font-size: 12px; color: var(--mut);">Project: Editorial Fashion Apparel Lookbook &bull; 24 High-Fashion RAWs (.ARW)</span></td>
+          <td><strong>Fashion Apparel High-End Retouching</strong><br><span style="font-size: 12px; color: var(--mut);">Project: ${pName} &bull; ${ORDERS['085'].images} &bull; ${ORDERS['085'].format}</span></td>
           <td class="num">24</td>
           <td class="num">$25.00</td>
           <td class="num"><strong>$600.00</strong></td>
@@ -2435,18 +2740,28 @@ function loadInvoiceDetails() {
     if (cardBtn) cardBtn.innerHTML = '💳 Pay $600.00 USD via Card ↗';
 
   } else if (activeInvoiceSelection === '084') {
-    // RENDER ORDER 084 INVOICE
+    // ORDER 084 INVOICE
     if (invNumberEl) invNumberEl.textContent = 'INVOICE #RS-2026-084';
     if (badgeEl) {
       badgeEl.textContent = isPaid84 ? 'PAID ✓' : 'PAYMENT PENDING';
-      badgeEl.style.background = isPaid84 ? '#ecfdf5' : '#fef3c7';
-      badgeEl.style.color = isPaid84 ? '#065f46' : '#b45309';
+      badgeEl.style.background = isPaid84 ? '#ecfdf5' : '#fff1f2';
+      badgeEl.style.color = isPaid84 ? '#065f46' : '#e11d48';
     }
-    const pName = localStorage.getItem('shoaib_project_name_084') || 'Luxury Jewelry & Watches Suite';
+    const pName = ORDERS['084'].title;
     if (invProjectNameEl) invProjectNameEl.textContent = pName;
+    if (invProjectSubEl) invProjectSubEl.textContent = 'Focus Stacking & Diamond Scintillation Polish';
     if (invTotalImagesEl) invTotalImagesEl.textContent = '14 RAWs';
     if (invUnitRateEl) invUnitRateEl.textContent = '$25.00 / img';
     if (invTurnaroundEl) invTurnaroundEl.textContent = '24 Hours Express';
+
+    if (detailsMetaEl) {
+      detailsMetaEl.innerHTML = `
+        <strong>Issue Date:</strong> Nov 02, 2026<br>
+        <strong>Due Date:</strong> Nov 17, 2026 (Net 15 Terms)<br>
+        <strong>Project:</strong> #RS-2026-084 (${pName})<br>
+        <strong>Payment Terms:</strong> Inspect Files First, Pay After
+      `;
+    }
 
     let rowsHtml = `
       <tr>
@@ -2482,54 +2797,118 @@ function loadInvoiceDetails() {
     const cardBtn = document.querySelector('#bankCARD .btn-green');
     if (cardBtn) cardBtn.innerHTML = '💳 Pay $' + inv84Tot.toFixed(2) + ' USD via Card ↗';
 
+  } else if (ORDERS[activeInvoiceSelection]) {
+    // CUSTOM SUBMITTED ORDER INVOICE
+    const o = ORDERS[activeInvoiceSelection];
+    const isPaid = localStorage.getItem('shoaib_status_paid_' + activeInvoiceSelection) === '1';
+    const ordPrice = o.numericPrice || 500;
+    const ordPriceFormatted = '$' + ordPrice.toFixed(2);
+
+    if (invNumberEl) invNumberEl.textContent = 'PROFORMA INVOICE ' + o.id;
+    if (badgeEl) {
+      badgeEl.textContent = isPaid ? 'ADVANCE PAID ✓' : 'ADVANCE / IN PRODUCTION';
+      badgeEl.style.background = isPaid ? '#ecfdf5' : '#eff6ff';
+      badgeEl.style.color = isPaid ? '#065f46' : '#2563eb';
+    }
+    if (invProjectNameEl) invProjectNameEl.textContent = o.title;
+    if (invProjectSubEl) invProjectSubEl.textContent = 'Commercial Post-Production Master Deliverables';
+    if (invTotalImagesEl) invTotalImagesEl.textContent = o.images;
+    const rateCalc = ordPrice / (o.rawCount || 1);
+    if (invUnitRateEl) invUnitRateEl.textContent = '$' + rateCalc.toFixed(2) + ' / img';
+    if (invTurnaroundEl) invTurnaroundEl.textContent = o.deadline;
+
+    if (detailsMetaEl) {
+      detailsMetaEl.innerHTML = `
+        <strong>Issue Date:</strong> ${o.createdAt ? o.createdAt.split(',')[0] : 'Today'}<br>
+        <strong>Due Date:</strong> Immediate (Advance Terms)<br>
+        <strong>Project:</strong> ${o.id} (${o.title})<br>
+        <strong>Payment Terms:</strong> Advance Retainer / In Production
+      `;
+    }
+
+    if (invTableBody) {
+      invTableBody.innerHTML = `
+        <tr>
+          <td><strong>${o.service} Commercial Retouching</strong><br><span style="font-size: 12px; color: var(--mut);">Project: ${o.title} &bull; ${o.images} &bull; Formats: ${o.format}</span></td>
+          <td class="num">${o.rawCount || 1}</td>
+          <td class="num">$${rateCalc.toFixed(2)}</td>
+          <td class="num"><strong>${ordPriceFormatted}</strong></td>
+        </tr>
+      `;
+    }
+    if (subtotalEl) subtotalEl.textContent = ordPriceFormatted;
+    if (totalPayableEl) totalPayableEl.textContent = ordPriceFormatted + ' USD';
+
+    const cardBtn = document.querySelector('#bankCARD .btn-green');
+    if (cardBtn) cardBtn.innerHTML = '💳 Pay ' + ordPriceFormatted + ' USD via Card ↗';
+
   } else {
-    // CONSOLIDATED STATEMENT / ALL ORDERS DUE (USER SPECIFICATION)
+    // CONSOLIDATED STATEMENT / ALL ORDERS DUE
     if (invNumberEl) invNumberEl.textContent = 'CONSOLIDATED STATEMENT #RS-2026-ALL';
     if (badgeEl) {
-      badgeEl.textContent = (totalUnpaidAll === 0) ? 'ALL SETTLED ✓' : '2 ORDERS PENDING';
-      badgeEl.style.background = (totalUnpaidAll === 0) ? '#ecfdf5' : '#fef3c7';
-      badgeEl.style.color = (totalUnpaidAll === 0) ? '#065f46' : '#b45309';
+      badgeEl.textContent = (totalUnpaidAll === 0) ? 'ALL SETTLED ✓' : 'OUTSTANDING BALANCE';
+      badgeEl.style.background = (totalUnpaidAll === 0) ? '#ecfdf5' : '#fff1f2';
+      badgeEl.style.color = (totalUnpaidAll === 0) ? '#065f46' : '#e11d48';
     }
     if (invProjectNameEl) invProjectNameEl.textContent = 'All Active & Delivered Commercial Projects';
-    if (invTotalImagesEl) invTotalImagesEl.textContent = '38 Total RAWs';
-    if (invUnitRateEl) invUnitRateEl.textContent = '$25.00 avg';
-    if (invTurnaroundEl) invTurnaroundEl.textContent = 'Active Account';
+    if (invProjectSubEl) invProjectSubEl.textContent = 'Itemized Ledger of All Outstanding Commissions';
+    if (invTotalImagesEl) invTotalImagesEl.textContent = 'All Active RAWs';
+    if (invUnitRateEl) invUnitRateEl.textContent = 'Studio Commercial';
+    if (invTurnaroundEl) invTurnaroundEl.textContent = 'Multiple SLAs';
 
-    let allRows = `
-      <tr>
-        <td>
-          <span style="background: #ecfdf5; color: #065f46; font-size: 11px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">DELIVERED</span>
-          <strong style="margin-left: 6px;">Order #RS-2026-084: Luxury Jewelry Suite</strong><br>
-          <span style="font-size: 12px; color: var(--mut);">14 Focus-Stacked RAWs &bull; Focus stacking, platinum scratch removal &amp; specular polish</span>
-        </td>
-        <td class="num">14</td>
-        <td class="num">$35.00</td>
-        <td class="num"><strong>$490.00</strong></td>
-      </tr>
-      <tr>
-        <td>
-          <span style="background: #fef3c7; color: #b45309; font-size: 11px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">IN PRODUCTION</span>
-          <strong style="margin-left: 6px;">Order #RS-2026-085: Editorial Fashion Apparel Lookbook</strong><br>
-          <span style="font-size: 12px; color: var(--mut);">24 High-Fashion RAWs &bull; Symmetrical hemline, wrinkle removal &amp; ghost mannequin (Advance / Full)</span>
-        </td>
-        <td class="num">24</td>
-        <td class="num">$25.00</td>
-        <td class="num"><strong>$600.00</strong></td>
-      </tr>
-    `;
+    if (detailsMetaEl) {
+      detailsMetaEl.innerHTML = `
+        <strong>Statement Date:</strong> Nov 02, 2026<br>
+        <strong>Account:</strong> Sarah Jenkins (Studio New York)<br>
+        <strong>Terms:</strong> B2B Net 15 &bull; Consolidated Statement<br>
+        <strong>Entity:</strong> Retoucher Shoaib Post-Production Studio
+      `;
+    }
 
-    if (extraAmount > 0) {
-      allRows += `
-        <tr style="background: #fffbeb;">
-          <td><strong style="color: #b45309;">⚡ Additional Work: ${extraDesc}</strong><br><span style="font-size: 12px; color: #78350f;">Requested modifications (${extraQty} items @ $${extraRate})</span></td>
-          <td class="num">${extraQty}</td>
-          <td class="num">$${Number(extraRate).toFixed(2)}</td>
-          <td class="num"><strong style="color: #b45309;">+$${extraAmount.toFixed(2)}</strong></td>
+    let combinedRows = '';
+    if (!isPaid84) {
+      combinedRows += `
+        <tr>
+          <td><strong>#RS-2026-084: Luxury Jewelry Suite</strong><br><span style="font-size: 12px; color: var(--mut);">14 focus-stacked RAW masters &bull; Delivered &bull; Net 15 terms</span></td>
+          <td class="num">14</td>
+          <td class="num">$25.00</td>
+          <td class="num"><strong>$${(490 + extraAmount).toFixed(2)}</strong></td>
+        </tr>
+      `;
+    }
+    if (!isPaid85) {
+      combinedRows += `
+        <tr>
+          <td><strong>#RS-2026-085: Editorial Fashion Apparel Lookbook</strong><br><span style="font-size: 12px; color: var(--mut);">24 High-Fashion RAWs &bull; In Production &bull; Advance invoice</span></td>
+          <td class="num">24</td>
+          <td class="num">$25.00</td>
+          <td class="num"><strong>$600.00</strong></td>
         </tr>
       `;
     }
 
-    if (invTableBody) invTableBody.innerHTML = allRows;
+    Object.keys(ORDERS).forEach(id => {
+      if (id !== '084' && id !== '085') {
+        const isPaid = localStorage.getItem('shoaib_status_paid_' + id) === '1';
+        if (!isPaid) {
+          const o = ORDERS[id];
+          combinedRows += `
+            <tr>
+              <td><strong>${o.id}: ${o.title}</strong><br><span style="font-size: 12px; color: var(--mut);">${o.images} &bull; ${o.service} &bull; New Order Advance</span></td>
+              <td class="num">${o.rawCount || 1}</td>
+              <td class="num">--</td>
+              <td class="num"><strong>$${(o.numericPrice || 500).toFixed(2)}</strong></td>
+            </tr>
+          `;
+        }
+      }
+    });
+
+    if (totalUnpaidAll === 0) {
+      combinedRows = '<tr><td colspan="4" style="text-align: center; color: #059669; font-weight: 700; padding: 24px;">✓ All client invoices have been settled in full. Thank you!</td></tr>';
+    }
+
+    if (invTableBody) invTableBody.innerHTML = combinedRows;
     if (subtotalEl) subtotalEl.textContent = '$' + totalUnpaidAll.toFixed(2);
     if (totalPayableEl) totalPayableEl.textContent = '$' + totalUnpaidAll.toFixed(2) + ' USD';
 
@@ -2538,147 +2917,67 @@ function loadInvoiceDetails() {
   }
 }
 
-// Ensure function is called
+// ========================================================
+// 8. PAYMENT & CURRENCY MANAGEMENT
+// ========================================================
+function switchCurrency(curr, btn) {
+  const allBtns = document.querySelectorAll('.curr-btn');
+  allBtns.forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
 
-function openExtraWorkModal() {
-  const extraSaved = localStorage.getItem('shoaib_extra_work_084');
-  if (extraSaved) {
-    try {
-      const extra = JSON.parse(extraSaved);
-      document.getElementById('extraDescInput').value = extra.desc || '';
-      document.getElementById('extraQtyInput').value = extra.qty || 5;
-      document.getElementById('extraRateInput').value = extra.rate || 10;
-    } catch(e) {}
-  }
-  calcExtraTotal();
-  document.getElementById('extraWorkModal').style.display = 'flex';
+  const banks = ['bankUSD', 'bankEUR', 'bankGBP', 'bankWISE', 'bankCARD'];
+  banks.forEach(b => {
+    const el = document.getElementById(b);
+    if (el) el.style.display = 'none';
+  });
+
+  if (curr === 'usd') document.getElementById('bankUSD').style.display = 'grid';
+  if (curr === 'eur') document.getElementById('bankEUR').style.display = 'grid';
+  if (curr === 'gbp') document.getElementById('bankGBP').style.display = 'grid';
+  if (curr === 'wise') document.getElementById('bankWISE').style.display = 'grid';
+  if (curr === 'card') document.getElementById('bankCARD').style.display = 'block';
 }
 
-function closeExtraWorkModal() {
-  document.getElementById('extraWorkModal').style.display = 'none';
+function copyText(elemId) {
+  const el = document.getElementById(elemId);
+  if (!el) return;
+  const text = el.textContent.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    alert('✓ Copied to clipboard: ' + text);
+  }).catch(() => {
+    alert('Copy: ' + text);
+  });
 }
 
-function calcExtraTotal() {
-  const q = Number(document.getElementById('extraQtyInput').value) || 0;
-  const r = Number(document.getElementById('extraRateInput').value) || 0;
-  const total = q * r;
-  document.getElementById('extraTotalPreview').textContent = '+$' + total.toFixed(2) + ' USD';
-  return total;
-}
-
-function saveExtraWork() {
-  const desc = document.getElementById('extraDescInput').value.trim();
-  const qty = Number(document.getElementById('extraQtyInput').value) || 1;
-  const rate = Number(document.getElementById('extraRateInput').value) || 0;
-  const amount = qty * rate;
-
-  if (!desc) {
-    alert('Please enter a description for the additional work.');
+function submitPaymentConfirmation() {
+  const input = document.getElementById('txRefInput');
+  const ref = input?.value.trim();
+  if (!ref) {
+    alert('Please enter your Wise or Bank reference number.');
     return;
   }
-
-  const extraObj = { desc, qty, rate, amount };
-  localStorage.setItem('shoaib_extra_work_084', JSON.stringify(extraObj));
-  loadInvoiceDetails();
-  closeExtraWorkModal();
-  alert('✓ Additional work fee of $' + amount.toFixed(2) + ' added to official invoice!');
-}
-
-function clearExtraWork() {
-  if (confirm('Remove additional fee from this invoice?')) {
-    localStorage.removeItem('shoaib_extra_work_084');
-    loadInvoiceDetails();
-    closeExtraWorkModal();
+  const claimData = {
+    ref: ref,
+    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    date: new Date().toLocaleDateString()
+  };
+  localStorage.setItem('shoaib_payment_claim', JSON.stringify(claimData));
+  const msg = document.getElementById('confirmStatusMsg');
+  if (msg) {
+    msg.style.color = '#059669';
+    msg.textContent = '✓ Transfer reference logged: ' + ref + '. Shoaib will verify and issue receipt within Net 15.';
   }
+  if (input) input.value = '';
 }
 
+function printOfficialInvoiceOnly() {
+  window.print();
+}
 
 // ========================================================
-// 10. DRAG & DROP GOOGLE DRIVE UPLOAD HANDLERS (USER REQUEST)
+// 9. DYNAMIC ORDER SUBMISSION & SLA PIPELINE CREATION
 // ========================================================
-let driveUploadedQueue = [];
-
-function initDriveDropzone() {
-  const dropzone = document.getElementById('driveDropzone');
-  if (!dropzone) return;
-
-  ['dragenter', 'dragover'].forEach(eventName => {
-    dropzone.addEventListener(eventName, (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      dropzone.classList.add('dragover');
-    }, false);
-  });
-
-  ['dragleave', 'drop'].forEach(eventName => {
-    dropzone.addEventListener(eventName, (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      dropzone.classList.remove('dragover');
-    }, false);
-  });
-
-  dropzone.addEventListener('drop', (e) => {
-    const dt = e.dataTransfer;
-    const files = dt.files;
-    if (files && files.length > 0) {
-      handleDriveFileSelect({ target: { files: files } });
-    }
-  }, false);
-}
-
-function handleDriveFileSelect(e) {
-  const files = Array.from(e.target.files);
-  if (!files.length) return;
-
-  driveUploadedQueue.push(...files);
-  updateDriveFilesPreview();
-
-  // Auto update Image Quantity in form if client dropped files!
-  const countInput = document.getElementById('ordImgCount');
-  if (countInput && driveUploadedQueue.length > 0) {
-    countInput.value = driveUploadedQueue.length;
-  }
-}
-
-function updateDriveFilesPreview() {
-  const previewBox = document.getElementById('driveFilesListPreview');
-  const countText = document.getElementById('driveFilesCountText');
-  const container = document.getElementById('driveFilesItemsContainer');
-  if (!previewBox || !container) return;
-
-  if (driveUploadedQueue.length === 0) {
-    previewBox.style.display = 'none';
-    container.innerHTML = '';
-    return;
-  }
-
-  previewBox.style.display = 'block';
-  countText.textContent = driveUploadedQueue.length + ' Master File(s) Selected for Drive Upload:';
-  
-  let html = '';
-  driveUploadedQueue.forEach((f, idx) => {
-    const mb = (f.size / (1024 * 1024)).toFixed(1);
-    html += `<div style="display:flex; justify-content:space-between; align-items:center; padding:8px 12px; background:#fff; border:1px solid var(--line); border-radius:6px; font-size:12px;">
-      <span style="display:flex; align-items:center; gap:6px;">
-        📄 <strong>${f.name}</strong> <span style="color:#64748b;">(${mb} MB)</span>
-      </span>
-      <span style="color:#059669; font-weight:700; display:flex; align-items:center; gap:4px;">
-        ✓ Direct Drive Sync Queued
-      </span>
-    </div>`;
-  });
-  container.innerHTML = html;
-}
-
-function clearDriveQueue() {
-  driveUploadedQueue = [];
-  updateDriveFilesPreview();
-}
-
-// Update handleNewOrderSubmit to collect selected formats
-const oldHandleSubmit = handleNewOrderSubmit;
-handleNewOrderSubmit = function(e) {
+function handleNewOrderSubmit(e) {
   e.preventDefault();
 
   const pName = document.getElementById('ordProjectName')?.value.trim();
@@ -2695,7 +2994,7 @@ handleNewOrderSubmit = function(e) {
   if (formatError) formatError.style.display = 'none';
   if (uploadError) uploadError.style.display = 'none';
 
-  // 1. Validate Formats (At least one must be checked)
+  // 1. Validate Formats
   const formatCheckboxes = document.querySelectorAll('input[name="ordFormats"]:checked');
   if (formatCheckboxes.length === 0) {
     if (formatError) formatError.style.display = 'block';
@@ -2705,7 +3004,7 @@ handleNewOrderSubmit = function(e) {
   }
   const selectedFormats = Array.from(formatCheckboxes).map(cb => cb.value).join(' + ');
 
-  // 2. Validate File Upload: EITHER Drag & Drop OR Drive Link (User Rule)
+  // 2. Validate Files
   const hasDroppedFiles = driveUploadedQueue && driveUploadedQueue.length > 0;
   const hasDriveLink = drive.length > 0;
 
@@ -2723,35 +3022,172 @@ handleNewOrderSubmit = function(e) {
     return;
   }
 
-  // Persist customized project specs
-  localStorage.setItem('shoaib_project_name_085', pName);
-  localStorage.setItem('shoaib_image_count_085', count);
-  localStorage.setItem('shoaib_delivery_formats_085', selectedFormats);
-  if (hasDriveLink) {
-    localStorage.setItem('shoaib_drive_link_085', drive);
-  }
+  // Generate Next Order ID
+  const allNumericKeys = Object.keys(ORDERS).map(k => parseInt(k, 10)).filter(n => !isNaN(n));
+  const nextNum = Math.max(85, ...allNumericKeys) + 1;
+  const idStr = String(nextNum).padStart(3, '0');
+  const fullOrderId = '#RS-2026-' + idStr;
 
-  const uploadMethodInfo = hasDroppedFiles 
-    ? (driveUploadedQueue.length + ' file(s) queued for Direct Google Drive sync')
-    : ('Drive link: ' + drive);
+  const durationHours = parseFloat(hours) || 24;
+  const deadlineMs = Date.now() + (durationHours * 3600 * 1000);
 
-  alert('✓ Order Submitted Successfully!\n\n' +
-        'Project: ' + pName + '\n' +
-        'Service: ' + service + '\n' +
-        'Total Images: ' + count + ' RAWs\n' +
-        'Returning Formats: ' + selectedFormats + '\n' +
-        'Turnaround: ' + hours + ' Hours SLA\n' +
-        'Proposed Budget: ' + budget + '\n' +
-        'Files: ' + uploadMethodInfo + '\n\n' +
-        'Shoaib\'s team has received your order and specifications!');
+  // Parse Budget
+  const budgetClean = budget.replace(/[^0-9.]/g, '');
+  const budgetNum = parseFloat(budgetClean) || (parseInt(count, 10) * 25) || 500;
+  const budgetFormatted = '$' + budgetNum.toFixed(2) + ' USD';
 
-  // Clear form and queue after successful submission
+  const newOrder = {
+    id: fullOrderId,
+    numericId: idStr,
+    title: pName,
+    service: service,
+    images: count + ' RAWs',
+    rawCount: parseInt(count, 10) || 1,
+    format: selectedFormats,
+    deadline: durationHours + ' Hours Express SLA',
+    totalDurationMs: durationHours * 3600 * 1000,
+    deadlineMs: deadlineMs,
+    status: 'production',
+    price: budgetFormatted,
+    numericPrice: budgetNum,
+    isAgreed: false,
+    drive: drive || 'https://drive.google.com',
+    instructions: notes,
+    createdAt: 'Today, ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  };
+
+  // Add to in-memory orders
+  ORDERS[idStr] = newOrder;
+
+  // Persist to localStorage
+  let customOrders = [];
+  try {
+    const raw = localStorage.getItem('shoaib_custom_orders');
+    if (raw) customOrders = JSON.parse(raw);
+  } catch(e) {}
+  customOrders.push(newOrder);
+  localStorage.setItem('shoaib_custom_orders', JSON.stringify(customOrders));
+
+  // Clear form and queue
   clearDriveQueue();
   document.getElementById('newOrderForm')?.reset();
-  switchPortalSection('orders');
-};
 
-document.addEventListener('DOMContentLoaded', initDriveDropzone);
+  // Re-render UI
+  renderActiveOrdersPipeline();
+  renderInvoicesList();
+  updateCountdown();
+
+  alert('✓ Order ' + fullOrderId + ' Created Successfully!\n\n' +
+        'Project: ' + pName + '\n' +
+        'Service: ' + service + '\n' +
+        'Images: ' + count + ' RAWs\n' +
+        'Turnaround: ' + durationHours + ' Hours SLA\n' +
+        'Proposed Budget: ' + budgetFormatted + '\n\n' +
+        'Production SLA has started ticking. Redirecting to your Active Orders pipeline.');
+
+  switchPortalSection('orders');
+}
+
+// ========================================================
+// 10. GOOGLE DRIVE DROPZONE QUEUE
+// ========================================================
+let driveUploadedQueue = [];
+
+function initDriveDropzone() {
+  const zone = document.getElementById('driveDropzone');
+  const fileInput = document.getElementById('zoneFileInput');
+  if (!zone || !fileInput) return;
+
+  ['dragenter', 'dragover'].forEach(name => {
+    zone.addEventListener(name, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      zone.classList.add('dragover');
+    });
+  });
+
+  ['dragleave', 'drop'].forEach(name => {
+    zone.addEventListener(name, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      zone.classList.remove('dragover');
+    });
+  });
+
+  zone.addEventListener('drop', (e) => {
+    const dt = e.dataTransfer;
+    if (dt && dt.files && dt.files.length) {
+      handlePickedFiles(dt.files);
+    }
+  });
+
+  fileInput.addEventListener('change', (e) => {
+    if (e.target.files && e.target.files.length) {
+      handlePickedFiles(e.target.files);
+    }
+  });
+}
+
+function handlePickedFiles(files) {
+  for (let i = 0; i < files.length; i++) {
+    const f = files[i];
+    driveUploadedQueue.push({
+      name: f.name,
+      size: (f.size / (1024 * 1024)).toFixed(2) + ' MB'
+    });
+  }
+  updateDriveFilesPreview();
+  const uploadError = document.getElementById('uploadErrorText');
+  if (uploadError) uploadError.style.display = 'none';
+}
+
+function updateDriveFilesPreview() {
+  const container = document.getElementById('zoneFilesList');
+  if (!container) return;
+  if (driveUploadedQueue.length === 0) {
+    container.innerHTML = '';
+    return;
+  }
+  let html = '<div style="font-size: 11px; font-weight: 700; color: #166534; margin-bottom: 6px;">✓ ' + driveUploadedQueue.length + ' file(s) queued for Direct Google Drive sync:</div>';
+  driveUploadedQueue.forEach((f, idx) => {
+    html += '<div style="display: flex; justify-content: space-between; font-size: 11px; background: #fff; padding: 4px 8px; border-radius: 4px; margin-bottom: 3px; border: 1px solid #bbf7d0;">' +
+      '<span>📄 ' + f.name + '</span><span style="color: #64748b;">' + f.size + '</span>' +
+      '</div>';
+  });
+  container.innerHTML = html;
+}
+
+function clearDriveQueue() {
+  driveUploadedQueue = [];
+  updateDriveFilesPreview();
+}
+
+function updateLiveClock() {
+  const el = document.getElementById('liveTimeText');
+  if (!el) return;
+  const now = new Date();
+  const nyc = now.toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit' });
+  const ber = now.toLocaleTimeString('en-US', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit' });
+  el.textContent = 'NYC ' + nyc + ' • BERLIN ' + ber;
+}
+setInterval(updateLiveClock, 30000);
+updateLiveClock();
+
+function filterOrdersBySearch(q) {
+  const term = q.toLowerCase();
+  console.log('Searching orders for:', term);
+}
+
+// Document ready initialization
+document.addEventListener('DOMContentLoaded', () => {
+  loadClientProfile();
+  renderActiveOrdersPipeline();
+  renderInvoicesList();
+  initDriveDropzone();
+});
+loadClientProfile();
+renderActiveOrdersPipeline();
+renderInvoicesList();
 initDriveDropzone();
 
 </script>
