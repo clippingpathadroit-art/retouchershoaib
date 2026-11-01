@@ -1635,9 +1635,78 @@ body {
               </div>
             </div>
 
+            <!-- 1. DESIRED RETURNING FILE FORMAT (USER REQUEST) -->
             <div class="form-field">
-              <label class="form-label">Google Drive / Dropbox / WeTransfer Folder Link</label>
-              <input type="url" id="ordDriveLink" class="form-input" placeholder="https://drive.google.com/drive/folders/..." required value="https://drive.google.com">
+              <label class="form-label" style="font-size: 13px; font-weight: 800; color: #0f172a;">
+                Desired Output &amp; Returning File Formats *
+              </label>
+              <div style="font-size: 12px; color: var(--mut); margin-bottom: 8px;">Select all required final deliverables for your production pipeline:</div>
+              <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                <label class="format-checkbox-card">
+                  <input type="checkbox" name="ordFormats" value="Layered Master PSD" checked>
+                  <div>
+                    <strong style="color: #0f172a; font-size: 13px;">📁 16-bit Layered Master PSD</strong>
+                    <div style="font-size: 11px; color: var(--mut); margin-top: 2px;">Photoshop master with separate retouch &amp; dodge/burn layers</div>
+                  </div>
+                </label>
+                <label class="format-checkbox-card">
+                  <input type="checkbox" name="ordFormats" value="Transparent PNG" checked>
+                  <div>
+                    <strong style="color: #0f172a; font-size: 13px;">✂️ Transparent Background PNG</strong>
+                    <div style="font-size: 11px; color: var(--mut); margin-top: 2px;">Isolated cutout with hand-drawn pen tool clipping path</div>
+                  </div>
+                </label>
+                <label class="format-checkbox-card">
+                  <input type="checkbox" name="ordFormats" value="High-Res Print TIFF">
+                  <div>
+                    <strong style="color: #0f172a; font-size: 13px;">🖨️ High-Resolution Print TIFF</strong>
+                    <div style="font-size: 11px; color: var(--mut); margin-top: 2px;">Uncompressed CMYK / AdobeRGB 1998 for catalog print</div>
+                  </div>
+                </label>
+                <label class="format-checkbox-card">
+                  <input type="checkbox" name="ordFormats" value="Web-Ready JPEG / WebP" checked>
+                  <div>
+                    <strong style="color: #0f172a; font-size: 13px;">🌐 Web-Optimized sRGB JPEG / WebP</strong>
+                    <div style="font-size: 11px; color: var(--mut); margin-top: 2px;">Calibrated for Shopify, Amazon, and luxury e-commerce web</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- 2. DIRECT GOOGLE DRIVE DRAG & DROP UPLOAD ZONE (USER REQUEST) -->
+            <div class="form-field">
+              <label class="form-label" style="font-size: 13px; font-weight: 800; color: #0f172a;">
+                Upload Master Files directly to Shoaib's Google Drive *
+              </label>
+              <div class="upload-dropzone" id="driveDropzone" onclick="document.getElementById('fileUploadInput').click()">
+                <input type="file" id="fileUploadInput" multiple style="display: none;" onchange="handleDriveFileSelect(event)">
+                <div style="font-size: 42px; margin-bottom: 6px;">☁️</div>
+                <div style="font-weight: 800; font-size: 16px; margin-bottom: 4px; color: #0f172a;">
+                  Drag &amp; drop RAW / PSD / TIFF files here to upload
+                </div>
+                <div style="font-size: 13px; color: var(--mut); margin-bottom: 10px;">
+                  Direct client sync to Shoaib's dedicated high-speed Drive storage &bull; Or click here to browse files
+                </div>
+                <div style="display: inline-flex; align-items: center; gap: 6px; background: #e0f2fe; color: #0284c7; padding: 5px 12px; border-radius: 99px; font-size: 11px; font-weight: 800;">
+                  ⚡ Instant Direct Google Drive Sync Active
+                </div>
+              </div>
+
+              <!-- SELECTED FILES LIST PREVIEW -->
+              <div id="driveFilesListPreview" style="margin-top: 12px; display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <strong style="font-size: 13px; color: #334155;" id="driveFilesCountText">0 Files Queued</strong>
+                  <button type="button" class="btn btn-outline btn-sm" onclick="clearDriveQueue()" style="font-size: 11px; padding: 3px 10px;">✕ Clear All</button>
+                </div>
+                <div id="driveFilesItemsContainer" style="display: flex; flex-direction: column; gap: 6px; max-height: 220px; overflow-y: auto;"></div>
+              </div>
+            </div>
+
+            <!-- 3. OR PASTE EXISTING GOOGLE DRIVE / DROPBOX FOLDER LINK -->
+            <div class="form-field">
+              <label class="form-label">Or Paste Existing Google Drive / Dropbox / WeTransfer Folder Link</label>
+              <input type="url" id="ordDriveLink" class="form-input" placeholder="https://drive.google.com/drive/folders/..." value="https://drive.google.com">
+              <span style="font-size: 11px; color: var(--mut);">For large batches (20GB+), you can also paste your existing folder link directly</span>
             </div>
 
             <div class="form-field">
