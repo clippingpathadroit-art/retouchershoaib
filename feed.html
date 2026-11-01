@@ -3,13 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Practical articles and insights on high-end photo retouching, color grading, skin textures, and luxury jewelry post-production.">
+<meta name="description" content="Studio Journal & Insights: Practical perspectives on modern photo retouching, non-destructive dodge & burn, focus stacking, and luxury e-commerce standards.">
 <title>Feed & Journal | Retoucher Shoaib®</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-
 :root {
   --bg: #ffffff;
   --fg: #0a0a0a;
@@ -24,192 +23,50 @@
   box-sizing: border-box;
 }
 
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 70px;
-}
-
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 70px; }
 body {
   background: var(--bg);
   color: var(--fg);
   font: 400 15px/1.6 var(--f);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-img, video {
-  display: block;
-  max-width: 100%;
-}
-
-.w {
-  max-width: 1360px;
-  margin: 0 auto;
-  padding: 0 clamp(20px, 4vw, 56px);
-}
-
-h1, h2, h3, h4, h5 {
-  font-family: var(--f-display);
-  font-weight: 700;
-  letter-spacing: -0.045em;
-  color: var(--fg);
-  line-height: 1.05;
-}
-
-.page-header {
-  padding-top: 130px;
-  padding-bottom: 50px;
-}
-
-.page-title {
-  font-size: clamp(48px, 9vw, 130px);
-  font-weight: 800;
-  letter-spacing: -0.065em;
-  line-height: 0.92;
-  margin-bottom: 24px;
-}
-
-.page-subtitle {
-  font-size: clamp(16px, 1.8vw, 22px);
-  line-height: 1.55;
-  color: #555;
-  max-width: 740px;
-}
-
-.lab {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--mut);
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font: 600 11px/1 var(--f);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 6px 12px;
-  border-radius: 99px;
-  background: var(--soft);
-  color: var(--fg);
-  border: 1px solid var(--line);
-}
-
-.badge.accent {
-  background: rgba(242, 106, 27, 0.08);
-  color: var(--accent);
-  border-color: rgba(242, 106, 27, 0.25);
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 14px 28px;
-  border-radius: 99px;
-  font: 600 13px var(--f);
-  letter-spacing: 0.02em;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: all 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
-  background: var(--fg);
-  color: #fff;
-}
-
-.btn:hover {
-  background: var(--accent);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(242, 106, 27, 0.28);
-}
-
-.btn.outline {
-  background: transparent;
-  color: var(--fg);
-  border-color: var(--fg);
-}
-
-.btn.outline:hover {
-  background: var(--fg);
-  color: #fff;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-}
-
-.btn.sm {
-  padding: 8px 18px;
-  font-size: 12px;
-}
-
-.pill {
-  display: inline-block;
-  padding: 8px 18px;
-  border-radius: 99px;
-  background: #f2f2ee;
-  color: #444;
-  font-size: 13px;
-  font-weight: 500;
-  transition: all 0.25s ease;
-  cursor: pointer;
-  border: 1px solid transparent;
-}
-
-.pill:hover, .pill.active {
-  background: var(--fg);
-  color: #fff;
-  border-color: var(--fg);
-}
+.w { max-width: 1360px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 56px); }
 
 /* NAVBAR */
-nav {
-  position: fixed;
+nav#navbar {
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
+  width: 100%;
   z-index: 100;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  border-bottom: 1px solid var(--line);
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 16px clamp(20px, 4vw, 56px);
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(232, 232, 228, 0.75);
+  justify-content: space-between;
+  padding: 0 clamp(20px, 4vw, 56px);
+  height: 64px;
 }
 
 .nav-brand {
   font-family: var(--f-display);
-  font-size: 17px;
   font-weight: 800;
-  letter-spacing: -0.04em;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  font-size: 15px;
+  letter-spacing: -0.03em;
+  color: var(--fg);
 }
-
-.nav-brand sup {
-  font-size: 9px;
-  color: var(--accent);
-}
+.nav-brand sup { color: var(--accent); font-size: 0.65em; margin-left: 2px; }
 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: clamp(18px, 2.8vw, 36px);
+  gap: clamp(16px, 2.4vw, 32px);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -222,11 +79,7 @@ nav {
   color: #666;
   transition: color 0.2s ease;
 }
-
-.nav-links a:hover, .nav-links a.active {
-  color: var(--fg);
-}
-
+.nav-links a:hover, .nav-links a.active { color: var(--fg); }
 .nav-links a::after {
   content: '';
   position: absolute;
@@ -237,10 +90,7 @@ nav {
   background: var(--fg);
   transition: width 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-
-.nav-links a:hover::after, .nav-links a.active::after {
-  width: 100%;
-}
+.nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
 
 .nav-time {
   font-size: 11px;
@@ -250,10 +100,297 @@ nav {
   text-transform: uppercase;
 }
 
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 22px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: var(--fg);
+  color: #fff;
+  transition: all 0.2s ease;
+}
+.btn:hover { background: #222; transform: translateY(-1px); }
+
 @media (max-width: 860px) {
-  .nav-links a:not(.show-mob), .nav-time {
-    display: none;
-  }
+  .nav-links a:not(.show-mob), .nav-time { display: none; }
+}
+
+/* GENERAL TYPOGRAPHY / LAB */
+.lab {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mut);
+}
+
+/* FEED GRID SECTION */
+.feed-header {
+  padding: 90px 0 50px;
+  border-bottom: 1px solid var(--line);
+}
+.feed-header .page-title {
+  font-family: var(--f-display);
+  font-size: clamp(48px, 9vw, 110px);
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  line-height: 0.95;
+  margin-bottom: 20px;
+}
+.feed-header .page-lead {
+  font-size: clamp(16px, 1.8vw, 22px);
+  line-height: 1.5;
+  color: #444;
+  max-width: 780px;
+}
+
+.feed-section {
+  padding: 60px 0 110px;
+}
+
+.feed-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 36px;
+}
+
+a.feed-card {
+  display: flex;
+  flex-direction: column;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.feed-thumb {
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--soft);
+  margin-bottom: 18px;
+  border: 1px solid var(--line);
+}
+
+.feed-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+a.feed-card:hover .feed-thumb img {
+  transform: scale(1.05);
+}
+
+.feed-date {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mut);
+  margin-bottom: 8px;
+}
+
+a.feed-card h4 {
+  font-family: var(--f-display);
+  font-size: clamp(20px, 2.2vw, 26px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  margin-bottom: 10px;
+  transition: color 0.2s ease;
+}
+
+a.feed-card:hover h4 {
+  color: var(--accent);
+}
+
+a.feed-card p {
+  font-size: 14px;
+  line-height: 1.65;
+  color: #666;
+  margin-bottom: 16px;
+  flex-grow: 1;
+}
+
+.feed-more {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg);
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), color 0.25s;
+}
+
+a.feed-card:hover .feed-more {
+  transform: translateX(6px);
+  color: var(--accent);
+}
+
+@media (max-width: 900px) {
+  .feed-grid { grid-template-columns: 1fr; gap: 44px; }
+}
+
+/* FULL ARTICLE STYLING (EXACTLY FROM v6.html) */
+.post-article-view {
+  display: none;
+}
+
+.post {
+  padding-top: clamp(80px, 12vh, 130px);
+  padding-bottom: 90px;
+}
+
+.post-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 36px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: var(--mut);
+  transition: color 0.25s ease, transform 0.25s ease;
+  cursor: pointer;
+}
+.post-back:hover {
+  color: var(--accent);
+  transform: translateX(-4px);
+}
+
+.post-meta {
+  margin-bottom: 18px;
+}
+
+.post-title {
+  font-family: var(--f-display);
+  font-size: clamp(34px, 5.8vw, 84px);
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  line-height: 1.0;
+  max-width: 1100px;
+}
+
+.post-lede {
+  font-size: clamp(18px, 2vw, 24px);
+  line-height: 1.5;
+  color: #444;
+  max-width: 720px;
+  margin-top: 28px;
+  font-weight: 500;
+}
+
+.post-hero {
+  margin-top: 52px;
+  aspect-ratio: 16 / 8.5;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--soft);
+  border: 1px solid var(--line);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.15);
+}
+
+.post-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.post-body {
+  max-width: 740px;
+  margin: 64px auto 0;
+}
+
+.post-body h3 {
+  font-family: var(--f-display);
+  font-size: clamp(22px, 2.4vw, 32px);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  margin: 52px 0 16px;
+}
+.post-body h3:first-child {
+  margin-top: 0;
+}
+
+.post-body p {
+  font-size: 17px;
+  line-height: 1.78;
+  color: #333;
+  margin-bottom: 24px;
+}
+
+.post-cta {
+  margin: 90px 0 50px;
+  padding: 40px clamp(24px, 4vw, 48px);
+  border-radius: 16px;
+  background: var(--soft);
+  border: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.post-cta h3 {
+  font-family: var(--f-display);
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 6px;
+}
+
+.post-cta p {
+  color: #555;
+  font-size: 15px;
+}
+
+.svc-teaser-row {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 30px;
+  align-items: center;
+  padding: 28px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  transition: padding 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), color 0.25s;
+  cursor: pointer;
+}
+
+.svc-teaser-row .n {
+  font: 800 16px var(--f-display);
+  color: var(--mut);
+}
+
+.svc-teaser-row h3 {
+  font-family: var(--f-display);
+  font-size: clamp(20px, 2.5vw, 34px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.svc-teaser-row .ar {
+  font-size: 24px;
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.svc-teaser-row:hover {
+  padding-left: 14px;
+}
+.svc-teaser-row:hover .n {
+  color: var(--accent);
+}
+.svc-teaser-row:hover .ar {
+  transform: translateX(8px);
+  color: var(--accent);
 }
 
 /* FOOTER */
@@ -271,6 +408,7 @@ footer {
   line-height: 0.85;
   color: var(--fg);
   margin-bottom: 50px;
+  cursor: pointer;
 }
 
 .footer-grid {
@@ -289,7 +427,6 @@ footer {
   color: var(--mut);
   margin-bottom: 18px;
 }
-
 .footer-col ul {
   list-style: none;
   display: flex;
@@ -297,15 +434,8 @@ footer {
   gap: 10px;
   font-size: 14px;
 }
-
-.footer-col a {
-  color: #444;
-  transition: color 0.2s ease;
-}
-
-.footer-col a:hover {
-  color: var(--fg);
-}
+.footer-col a { color: #444; transition: color 0.2s ease; }
+.footer-col a:hover { color: var(--fg); }
 
 .footer-bottom {
   display: flex;
@@ -317,91 +447,19 @@ footer {
 }
 
 @media (max-width: 768px) {
-  .footer-grid {
-    grid-template-columns: 1fr 1fr;
-  }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 
-
-.feed-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 36px;
-  margin-bottom: 90px;
-}
-
-.article-card {
-  display: flex;
-  flex-direction: column;
-}
-
-.article-thumb {
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  border-radius: 14px;
-  overflow: hidden;
-  background: #eee;
-  margin-bottom: 18px;
-}
-
-.article-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.article-card:hover .article-thumb img {
-  transform: scale(1.04);
-}
-
-.article-date {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--mut);
-  margin-bottom: 8px;
-}
-
-.article-title {
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.3;
-  margin-bottom: 10px;
-}
-
-.article-excerpt {
-  font-size: 14px;
-  color: #666;
-  line-height: 1.65;
-}
-
-@media (max-width: 900px) {
-  .feed-grid { grid-template-columns: 1fr; }
-}
-
-
-
-
-
-/* FOOTER GIANT LOGO SLICE ANIMATION (EXACTLY FROM v6.html - 100% STATIC, NO TRANSLATE) */
+/* FOOTER GIANT LOGO SLICE ANIMATION */
 @property --g {
   syntax: '<length>';
   inherits: false;
   initial-value: 0px;
 }
-
 @keyframes slice {
   0%, 100% { --g: 0px; }
   45% { --g: 6px; }
 }
-
-.footer-giant-logo {
-  cursor: pointer;
-}
-
 .footer-giant-logo.slice,
 .footer-giant-logo:hover {
   animation: slice 1.4s ease-in-out;
@@ -409,8 +467,7 @@ footer {
   mask-image: repeating-linear-gradient(#000 0 calc(10px - var(--g)), transparent calc(10px - var(--g)) 10px);
 }
 
-
-/* WIPE PAGE TRANSITION (BOTTOM TO TOP BLACK SLIDE) */
+/* WIPE PAGE TRANSITION */
 #wipe {
   position: fixed;
   inset: 0;
@@ -419,15 +476,6 @@ footer {
   transform: translateY(100%);
   pointer-events: none;
 }
-@keyframes wipeIn {
-  0% { transform: translateY(100%); }
-  100% { transform: translateY(0%); }
-}
-@keyframes wipeOut {
-  0% { transform: translateY(0%); }
-  100% { transform: translateY(-100%); }
-}
-
 </style>
 </head>
 <body>
@@ -439,11 +487,11 @@ footer {
   </a>
 
   <div class="nav-links">
-    <a href="work.html" class="show-mob ">Work</a>
+    <a href="work.html" class="show-mob">Work</a>
     <a href="services.html" class="show-mob">Services</a>
-    <a href="studio.html" class="">Studio</a>
+    <a href="studio.html">Studio</a>
     <a href="feed.html" class="active">Feed</a>
-    <a href="contact.html" class="show-mob ">Contact</a>
+    <a href="contact.html" class="show-mob">Contact</a>
   </div>
 
   <div class="nav-time" id="liveTimeIndicator">
@@ -451,84 +499,173 @@ footer {
   </div>
 
   <div>
-    <a href="contact.html" class="btn sm">Free Trial</a>
+    <a href="contact.html" class="btn">Free Trial</a>
   </div>
 </nav>
 
-<div class="w page-header">
-  <div class="lab" style="margin-bottom: 12px;">Studio Journal</div>
-  <h1 class="page-title">Feed & Insights</h1>
-  <p class="page-subtitle">
-    Observations on post-production craft, color discipline, non-destructive retouching techniques, and commercial e-commerce standards.
-  </p>
+<!-- 1. FEED GRID SECTION (DEFAULT VIEW) -->
+<div id="feedGridSection">
+  <header class="feed-header w">
+    <div class="lab" style="margin-bottom: 12px;">Studio Journal</div>
+    <h1 class="page-title">Feed & Insights</h1>
+    <p class="page-lead">
+      Practical perspectives on modern commercial post-production, color management, epidermal skin preservation, and global e-commerce standards.
+    </p>
+  </header>
 
-  <div class="feed-grid">
-    <div class="article-card">
-      <div class="article-thumb">
-        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80" alt="Skin Texture">
-      </div>
-      <div class="article-date">Beauty Retouching • May 2026</div>
-      <h3 class="article-title">The Science of Retaining Real Skin Micro-Texture</h3>
-      <p class="article-excerpt">
-        Why aggressive AI filters and automated blur degrade luxury beauty campaigns, and how manual micro Dodge & Burn preserves authentic epidermal anatomy.
-      </p>
+  <main class="w feed-section">
+    <div class="feed-grid">
+      <!-- Post 1 Card -->
+      <a class="feed-card" href="#post-skin-texture">
+        <div class="feed-thumb">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80" alt="Skin Texture Article">
+        </div>
+        <div class="feed-date">Editorial Retouching • May 2026</div>
+        <h4>The Science of Retaining Natural Skin Texture</h4>
+        <p>Why aggressive AI smoothing degrades luxury beauty campaigns, and how manual Dodge & Burn preserves authentic epidermal anatomy.</p>
+        <span class="feed-more">Read article &rarr;</span>
+      </a>
+
+      <!-- Post 2 Card -->
+      <a class="feed-card" href="#post-diamond-highlights">
+        <div class="feed-thumb">
+          <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=80" alt="Jewelry Article">
+        </div>
+        <div class="feed-date">Luxury Horology • April 2026</div>
+        <h4>Mastering Specular Highlights on Diamonds</h4>
+        <p>A step-by-step breakdown of managing focus-stacked macro files for Swiss watchmakers and gemstone houses without flattening reflections.</p>
+        <span class="feed-more">Read article &rarr;</span>
+      </a>
+
+      <!-- Post 3 Card -->
+      <a class="feed-card" href="#post-pen-tool-masks">
+        <div class="feed-thumb">
+          <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80" alt="Ghost Mannequin Article">
+        </div>
+        <div class="feed-date">E-Commerce Scale • March 2026</div>
+        <h4>Why Hand-Drawn Pen Tool Outperforms Automated Masks</h4>
+        <p>Comparing edge feathering, semi-transparent textiles, and brand conversion rates on high-volume Amazon and Shopify stores.</p>
+        <span class="feed-more">Read article &rarr;</span>
+      </a>
+    </div>
+  </main>
+</div>
+
+<!-- 2. FULL ARTICLE 1: post-skin-texture -->
+<div class="post-article-view" id="post-skin-texture">
+  <article class="post w">
+    <a class="post-back" href="#feed">&larr; Studio Journal</a>
+    <div class="lab post-meta">Editorial Retouching • May 2026 • 2 min read</div>
+    <h1 class="post-title">The Science of Retaining Natural Skin Texture</h1>
+    <p class="post-lede">Smooth skin is easy. Believable skin is the craft.</p>
+    
+    <div class="post-hero">
+      <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1600&q=80" alt="The Science of Retaining Natural Skin Texture">
     </div>
 
-    <div class="article-card">
-      <div class="article-thumb">
-        <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=80" alt="Jewelry Reflection">
-      </div>
-      <div class="article-date">Luxury Horology • April 2026</div>
-      <h3 class="article-title">Mastering Specular Highlights on Diamonds & Timepieces</h3>
-      <p class="article-excerpt">
-        A step-by-step breakdown of managing focus-stacked macro files for Swiss watchmakers without flattening genuine light reflections.
-      </p>
+    <div class="post-body">
+      <h3>Why smoothing backfires</h3>
+      <p>Automated smoothing and heavy blur work by averaging neighbouring pixels. That removes blemishes, but it also removes the pores, fine lines and micro-contrast that make a face read as a face. On a phone screen it can pass. On a billboard, a magazine spread or a 100% zoom, it looks like plastic, and luxury beauty clients notice immediately.</p>
+      
+      <h3>What we do instead</h3>
+      <p>We separate colour from texture with frequency separation and treat each on its own. Blemishes, redness and uneven tone are corrected on the colour layers, while the texture layer stays untouched except where a spot needs to be cleaned by hand. Manual dodge and burn on top shapes light and shadow with small, slow adjustments, so cheekbones, jawlines and highlights are sculpted without painting over the pores.</p>
+      
+      <h3>Where we stop</h3>
+      <p>Retouching should leave the person recognisable. We keep pores, fine lines and natural asymmetry, and we apply the same treatment across a whole campaign so image 1 and image 40 feel like one shoot. Every file is checked at 100% zoom, then again at the size it will be used. Everything stays on separate layers, so changes after client feedback can be refined without starting over.</p>
     </div>
 
-    <div class="article-card">
-      <div class="article-thumb">
-        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80" alt="Ghost Mannequin">
+    <div class="post-cta">
+      <div>
+        <h3>Have files that need this level of care?</h3>
+        <p>Send a few sample images and see the result before you commit.</p>
       </div>
-      <div class="article-date">E-Commerce Scale • March 2026</div>
-      <h3 class="article-title">Why Hand-Drawn Pen Tool Paths Outperform Automated Masks</h3>
-      <p class="article-excerpt">
-        Comparing edge feathering, semi-transparent fabrics, and return rates on high-volume Amazon and Shopify luxury fashion stores.
-      </p>
+      <a href="contact.html" class="btn">Request a Free Trial</a>
     </div>
 
-    <div class="article-card">
-      <div class="article-thumb">
-        <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=800&q=80" alt="Still Life">
-      </div>
-      <div class="article-date">Commercial Studio • February 2026</div>
-      <h3 class="article-title">Perfecting Glassware & Cosmetics Reflection Mapping</h3>
-      <p class="article-excerpt">
-        Techniques for isolating clean transparent bottles, removing studio softbox glare, and creating hyper-realistic floating cast shadows.
-      </p>
+    <a class="svc-teaser-row post-next" href="#post-diamond-highlights">
+      <span class="n">Next</span>
+      <h3>Mastering Specular Highlights on Diamonds</h3>
+      <span class="ar">&rarr;</span>
+    </a>
+  </article>
+</div>
+
+<!-- 3. FULL ARTICLE 2: post-diamond-highlights -->
+<div class="post-article-view" id="post-diamond-highlights">
+  <article class="post w">
+    <a class="post-back" href="#feed">&larr; Studio Journal</a>
+    <div class="lab post-meta">Luxury Horology • April 2026 • 2 min read</div>
+    <h1 class="post-title">Mastering Specular Highlights on Diamonds</h1>
+    <p class="post-lede">On a diamond or a polished steel case, the brightest points are not flaws. They are the proof of quality.</p>
+    
+    <div class="post-hero">
+      <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=1600&q=80" alt="Mastering Specular Highlights on Diamonds">
     </div>
 
-    <div class="article-card">
-      <div class="article-thumb">
-        <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80" alt="Runway Color">
-      </div>
-      <div class="article-date">Color Science • January 2026</div>
-      <h3 class="article-title">16-Bit ProPhoto RGB to Web sRGB: Zero Color Shift</h3>
-      <p class="article-excerpt">
-        How our studio manages color gamut compression to guarantee that dress colors on a calibrated monitor look identical on an iPhone OLED screen.
-      </p>
+    <div class="post-body">
+      <h3>Highlights are information</h3>
+      <p>Specular highlights tell the eye that a stone is well cut and that metal is properly polished. The job is to clean around them, never through them. Once a highlight is flattened, the piece stops looking expensive, however clean the surface is.</p>
+      
+      <h3>Working with focus-stacked files</h3>
+      <p>Macro jewelry and watch shots are usually built from many frames so that the whole piece is sharp. Misalignment, ghosting at facet edges and stacking artefacts show up first, so we inspect the stack at 100% before anything else. Seams are repaired from the source frames wherever possible, and only then does cleaning begin, so we are never retouching on top of a problem.</p>
+      
+      <h3>Cleaning without flattening</h3>
+      <p>Dust, micro-scratches and welding marks are removed on separate layers, one area at a time. Gemstones and metal are handled separately: stones keep their sparkle and contrast, while metal gets smooth gradient transitions instead of patchy fixes. On watch dials and crystals we control reflections selectively, so the dial stays readable without looking artificial. Gold and platinum are balanced to the real material under the client reference, not to a preset. The last check is simple: highlights not clipped to pure white, shadows not crushed, facets still defined.</p>
     </div>
 
-    <div class="article-card">
-      <div class="article-thumb">
-        <img src="https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=800&q=80" alt="Apparel Symmetry">
+    <div class="post-cta">
+      <div>
+        <h3>Have files that need this level of care?</h3>
+        <p>Send a few sample images and see the result before you commit.</p>
       </div>
-      <div class="article-date">Apparel Craft • December 2025</div>
-      <h3 class="article-title">3D Hollow Mannequin: Anatomy of a Flawless Neck Joint</h3>
-      <p class="article-excerpt">
-        Aligning front and back interior collar labels with natural fabric curvature to create the illusion of three-dimensional clothing in mid-air.
-      </p>
+      <a href="contact.html" class="btn">Request a Free Trial</a>
     </div>
-  </div>
+
+    <a class="svc-teaser-row post-next" href="#post-pen-tool-masks">
+      <span class="n">Next</span>
+      <h3>Why Hand-Drawn Pen Tool Outperforms Automated Masks</h3>
+      <span class="ar">&rarr;</span>
+    </a>
+  </article>
+</div>
+
+<!-- 4. FULL ARTICLE 3: post-pen-tool-masks -->
+<div class="post-article-view" id="post-pen-tool-masks">
+  <article class="post w">
+    <a class="post-back" href="#feed">&larr; Studio Journal</a>
+    <div class="lab post-meta">E-Commerce Scale • March 2026 • 2 min read</div>
+    <h1 class="post-title">Why Hand-Drawn Pen Tool Outperforms Automated Masks</h1>
+    <p class="post-lede">A cut-out is judged at its edge, and the edge is where automation is weakest.</p>
+    
+    <div class="post-hero">
+      <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1600&q=80" alt="Why Hand-Drawn Pen Tool Outperforms Automated Masks">
+    </div>
+
+    <div class="post-body">
+      <h3>Edges are where quality shows</h3>
+      <p>Automated selections work well on high-contrast subjects. They struggle with low-contrast edges, thin straps, chain links and transparent fabrics, leaving halos, jagged outlines or lost detail. These flaws are small in a thumbnail and obvious on a zoomed product page.</p>
+      
+      <h3>The right tool for each edge</h3>
+      <p>Hard edges such as watch cases, box corners and garment seams get a hand-drawn pen path, which produces clean, smooth curves that hold up when enlarged. Soft or semi-transparent areas such as lace, tulle and hair are handled with channel-based masks, so the transparency is kept instead of cut away. Automated tools can speed up a rough first selection, but the final edge is always checked and corrected by hand.</p>
+      
+      <h3>Consistency across a catalogue</h3>
+      <p>Marketplaces such as Amazon typically expect a pure white main image (#FFFFFF), and a storefront looks best when every product is cut the same way. Across hundreds of SKUs, hand-drawn paths give edges that look identical from the first image to the last. A cleaner cut also means fewer rounds of revision, and a catalogue that reads as one brand.</p>
+    </div>
+
+    <div class="post-cta">
+      <div>
+        <h3>Have files that need this level of care?</h3>
+        <p>Send a few sample images and see the result before you commit.</p>
+      </div>
+      <a href="contact.html" class="btn">Request a Free Trial</a>
+    </div>
+
+    <a class="svc-teaser-row post-next" href="#post-skin-texture">
+      <span class="n">Next</span>
+      <h3>The Science of Retaining Natural Skin Texture</h3>
+      <span class="ar">&rarr;</span>
+    </a>
+  </article>
 </div>
 
 <footer class="w">
@@ -547,11 +684,11 @@ footer {
     <div class="footer-col">
       <h5>Core Disciplines</h5>
       <ul>
-        <li><a href="work.html?cat=jewelry">Jewelry Retouching</a></li>
-        <li><a href="work.html?cat=fashion">Fashion & Clothing</a></li>
-        <li><a href="work.html?cat=beauty">Model & Beauty</a></li>
-        <li><a href="work.html?cat=product">E-Commerce Products</a></li>
-        <li><a href="work.html?cat=still-life">Still Life Cosmetics</a></li>
+        <li><a href="services.html">Jewelry Retouching</a></li>
+        <li><a href="services.html">Fashion & Clothing</a></li>
+        <li><a href="services.html">Model & Beauty</a></li>
+        <li><a href="services.html">E-Commerce Products</a></li>
+        <li><a href="services.html">Still Life Cosmetics</a></li>
       </ul>
     </div>
 
@@ -559,6 +696,7 @@ footer {
       <h5>Navigation</h5>
       <ul>
         <li><a href="work.html">Selected Works</a></li>
+        <li><a href="services.html">Our Services</a></li>
         <li><a href="studio.html">Our Studio & Team</a></li>
         <li><a href="feed.html">Journal & Insights</a></li>
         <li><a href="contact.html">Free Trial Request</a></li>
@@ -583,6 +721,7 @@ footer {
 </footer>
 
 <script>
+// LIVE STUDIO TIME SYNC
 function updateStudioTime() {
   const timeEl = document.getElementById('liveTimeIndicator');
   if (!timeEl) return;
@@ -593,14 +732,51 @@ function updateStudioTime() {
 }
 setInterval(updateStudioTime, 10000);
 updateStudioTime();
-</script>
-<script>
 
+// ARTICLE ROUTING / VIEW SWITCHER WITH WIPE ANIMATION
+function routeFeedArticle(animate = true) {
+  const hash = window.location.hash;
+  const grid = document.getElementById('feedGridSection');
+  const articles = document.querySelectorAll('.post-article-view');
+  const wipe = document.getElementById('wipe');
 
+  const isPost = hash.startsWith('#post-');
+  const targetId = isPost ? hash.substring(1) : null;
+  const targetEl = targetId ? document.getElementById(targetId) : null;
 
-</script>
-<script>
-// EXACT FOOTER SLICE ANIMATION FROM v6.html (ONLY FOR FOOTER)
+  function applyView() {
+    if (isPost && targetEl) {
+      if (grid) grid.style.display = 'none';
+      articles.forEach(a => a.style.display = 'none');
+      targetEl.style.display = 'block';
+    } else {
+      articles.forEach(a => a.style.display = 'none');
+      if (grid) grid.style.display = 'block';
+    }
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+
+  if (animate && wipe) {
+    wipe.style.transition = 'none';
+    wipe.style.transform = 'translateY(100%)';
+    void wipe.offsetWidth;
+    wipe.style.transition = 'transform 0.35s cubic-bezier(0.7, 0, 0.2, 1)';
+    wipe.style.transform = 'translateY(0%)';
+    setTimeout(() => {
+      applyView();
+      wipe.style.transition = 'transform 0.4s cubic-bezier(0.7, 0, 0.2, 1)';
+      wipe.style.transform = 'translateY(-100%)';
+    }, 320);
+  } else {
+    applyView();
+  }
+}
+
+window.addEventListener('hashchange', () => routeFeedArticle(true));
+window.addEventListener('DOMContentLoaded', () => routeFeedArticle(false));
+routeFeedArticle(false);
+
+// FOOTER SLICE ANIMATION
 (function() {
   const fl = document.querySelector('.footer-giant-logo');
   if (fl && 'IntersectionObserver' in window) {
@@ -621,13 +797,13 @@ updateStudioTime();
   }
 })();
 </script>
+
 <script>
-// SMOOTH BLACK WIPE TRANSITION (BOTTOM TO TOP)
+// SMOOTH BLACK WIPE TRANSITION FOR OUTSIDE NAVIGATION
 (function() {
   const wipe = document.getElementById('wipe');
   if (!wipe) return;
 
-  // On page entry: if arriving from wipe navigation, slide smoothly out to top
   if (sessionStorage.getItem('pageWiped')) {
     sessionStorage.removeItem('pageWiped');
     wipe.style.transform = 'translateY(0%)';
@@ -637,11 +813,11 @@ updateStudioTime();
     });
   }
 
-  // Intercept internal page link clicks
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a');
     if (!a) return;
     const href = a.getAttribute('href');
+    // Allow internal hash routing without page reload
     if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:') || href.startsWith('http') || a.target === '_blank') {
       return;
     }
@@ -650,7 +826,7 @@ updateStudioTime();
     sessionStorage.setItem('pageWiped', '1');
     wipe.style.transition = 'none';
     wipe.style.transform = 'translateY(100%)';
-    void wipe.offsetWidth; // reflow
+    void wipe.offsetWidth;
     wipe.style.transition = 'transform 0.42s cubic-bezier(0.7, 0, 0.2, 1)';
     wipe.style.transform = 'translateY(0%)';
 
