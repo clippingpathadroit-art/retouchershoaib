@@ -617,6 +617,7 @@ img { max-width: 100%; display: block; }
           <button class="curr-btn" onclick="switchCurrency('eur', this)">🇪🇺 EUR SEPA (Germany, Austria, EU)</button>
           <button class="curr-btn" onclick="switchCurrency('gbp', this)">🇬🇧 GBP Sort Code (United Kingdom)</button>
           <button class="curr-btn" onclick="switchCurrency('wise', this)">🌐 Wise Direct Transfer</button>
+          <button class="curr-btn" onclick="switchCurrency('card', this)">💳 Debit / Credit Card (Visa, Mastercard)</button>
         </div>
 
         <!-- 1. USD DETAILS -->
@@ -699,6 +700,35 @@ img { max-width: 100%; display: block; }
           </div>
         </div>
 
+        <!-- 5. CARD PAYMENT VIA WISE CHECKOUT -->
+        <div id="bankDetailsCARD" style="display: none; background: #fff; border: 1.5px solid #86efac; border-radius: 14px; padding: 26px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+            <div>
+              <div style="display: inline-flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                <h4 style="font-size: 16px; font-weight: 800; color: #166534;">Pay Directly with Debit or Credit Card</h4>
+                <span style="font-size: 10px; font-weight: 700; text-transform: uppercase; background: #dcfce7; color: #15803d; padding: 2px 8px; border-radius: 4px;">Instant Deposit</span>
+              </div>
+              <p style="font-size: 13px; color: #444; max-width: 540px; line-height: 1.6;">
+                Pay securely using your international Visa, Mastercard, American Express, or Apple Pay. No Wise account required. Your payment is processed by Wise secure 256-bit gateway and credited directly to MD Shoaib Siddique's studio balance.
+              </p>
+              <div style="display: flex; gap: 8px; margin-top: 14px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 11px; font-weight: 800; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; padding: 4px 10px; border-radius: 6px;">VISA</span>
+                <span style="font-size: 11px; font-weight: 800; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; padding: 4px 10px; border-radius: 6px;">MASTERCARD</span>
+                <span style="font-size: 11px; font-weight: 800; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; padding: 4px 10px; border-radius: 6px;">AMEX</span>
+                <span style="font-size: 11px; font-weight: 800; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; padding: 4px 10px; border-radius: 6px;">APPLE PAY</span>
+                <span style="font-size: 11px; font-weight: 800; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; padding: 4px 10px; border-radius: 6px;">GOOGLE PAY</span>
+              </div>
+            </div>
+
+            <div>
+              <a id="btnPayCardLink" href="https://wise.com/pay/me/mdshoaibs1" target="_blank" rel="noopener" class="btn green" style="padding: 16px 32px; font-size: 14px; display: inline-flex; box-shadow: 0 10px 25px rgba(22, 163, 74, 0.25);">
+                💳 Pay $490.00 USD via Card ↗
+              </a>
+              <div style="font-size: 11px; color: #666; margin-top: 8px; text-align: center;">🔒 256-Bit Bank Level Encryption</div>
+            </div>
+          </div>
+        </div>
+
         <!-- CLIENT CONFIRMATION ACTION -->
         <div class="confirm-pay-box">
           <input type="text" id="txRefInput" class="fin" style="flex: 1;" placeholder="Enter Wise / Bank Transfer Reference (e.g. #982401)">
@@ -748,6 +778,7 @@ function switchCurrency(curr, btn) {
   document.getElementById('bankDetailsEUR').style.display = (curr === 'eur') ? 'grid' : 'none';
   document.getElementById('bankDetailsGBP').style.display = (curr === 'gbp') ? 'grid' : 'none';
   document.getElementById('bankDetailsWISE').style.display = (curr === 'wise') ? 'grid' : 'none';
+  document.getElementById('bankDetailsCARD').style.display = (curr === 'card') ? 'block' : 'none';
 }
 
 function copyText(elId) {
@@ -861,6 +892,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Check if admin set custom delivery URL for Order 1
   const customDelUrl = localStorage.getItem('shoaib_del_url_084');
+  const customCardUrl = localStorage.getItem('shoaib_card_pay_url');
+  if (customCardUrl) {
+    const cardBtn = document.getElementById('btnPayCardLink');
+    if (cardBtn) cardBtn.href = customCardUrl;
+  }
   if (customDelUrl) {
     const btn = document.getElementById('btnDownloadOrder1');
     if (btn) btn.href = customDelUrl;
