@@ -1074,39 +1074,43 @@ body {
     <main class="content-body">
       <!-- 4 COLORFUL STATS CARDS (FROM SCREENSHOT LAYOUT) -->
       <div class="stats-grid">
+        <!-- CARD 1: UNPAID BALANCE (USER REQUEST) -->
         <div class="stat-card" onclick="switchPortalSection('invoices')" style="cursor: pointer;">
-          <div class="stat-icon-wrap stat-icon-amber">🏛️</div>
+          <div class="stat-icon-wrap stat-icon-amber">💳</div>
           <div class="stat-info">
-            <div class="stat-label">Total Invoiced</div>
-            <div class="stat-value" id="statInvoiced">$490</div>
-            <div class="stat-sub" style="color: #d97706;">1 Pending Payment</div>
+            <div class="stat-label">Unpaid Balance</div>
+            <div class="stat-value" id="statUnpaid">$490.00</div>
+            <div class="stat-sub" style="color: #d97706;" id="statUnpaidSub">1 Pending Invoice (Net 15)</div>
           </div>
         </div>
 
+        <!-- CARD 2: ACTIVE ORDERS -->
         <div class="stat-card" onclick="switchPortalSection('orders')" style="cursor: pointer;">
           <div class="stat-icon-wrap stat-icon-blue">📋</div>
           <div class="stat-info">
             <div class="stat-label">Active Orders</div>
             <div class="stat-value" id="statActive">1</div>
-            <div class="stat-sub" style="color: #2563eb;">24 RAWs in Production</div>
+            <div class="stat-sub" style="color: #2563eb;">In Production Pipeline</div>
           </div>
         </div>
 
+        <!-- CARD 3: ARCHIVED ORDERS (ORDER COUNT, NOT IMAGE QUANTITY - USER REQUEST) -->
         <div class="stat-card" onclick="switchPortalSection('archive')" style="cursor: pointer;">
-          <div class="stat-icon-wrap stat-icon-green">🛍️</div>
+          <div class="stat-icon-wrap stat-icon-green">📁</div>
           <div class="stat-info">
-            <div class="stat-label">Archived &amp; Delivered</div>
-            <div class="stat-value" id="statCompleted">48</div>
-            <div class="stat-sub" style="color: #059669;">100% Quality Approved</div>
+            <div class="stat-label">Archived Orders</div>
+            <div class="stat-value" id="statCompleted">48 Orders</div>
+            <div class="stat-sub" style="color: #059669;">Delivered &amp; Stored</div>
           </div>
         </div>
 
-        <div class="stat-card">
-          <div class="stat-icon-wrap stat-icon-purple">⏱️</div>
+        <!-- CARD 4: TOTAL PROJECTS / LIFETIME ORDERS (REPLACES SLA - USER REQUEST) -->
+        <div class="stat-card" onclick="switchPortalSection('archive')" style="cursor: pointer;">
+          <div class="stat-icon-wrap stat-icon-purple">📦</div>
           <div class="stat-info">
-            <div class="stat-label">Turnaround SLA</div>
-            <div class="stat-value">24h SLA</div>
-            <div class="stat-sub" style="color: #7c3aed;" id="slaStatusQuick">Live Countdown Active</div>
+            <div class="stat-label">Total Projects</div>
+            <div class="stat-value" id="statTotalProjects">49 Projects</div>
+            <div class="stat-sub" style="color: #7c3aed;">1 Active &bull; 48 Archived</div>
           </div>
         </div>
       </div>
