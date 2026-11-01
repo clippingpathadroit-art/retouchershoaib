@@ -1015,7 +1015,7 @@ body {
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <a href="index.html" class="sidebar-brand">
-        RETOUCHER SHOAIB <span>PRO</span>
+        RETOUCHER SHOAIB<sup>&reg;</sup>
       </a>
       <button class="mob-toggle" style="color: #94a3b8;" onclick="toggleSidebar()">✕</button>
     </div>
@@ -1029,7 +1029,7 @@ body {
       <div class="client-name-display" id="sidebarClientName">Sarah Jenkins</div>
       <div class="client-email-display" id="sidebarClientEmail">sarah@jenkinsstudio.com</div>
       <button class="profile-edit-btn" onclick="openProfileModal()">
-        ✎ Edit Profile &amp; TIN
+        ✎ Edit Billing Details
       </button>
     </div>
 
@@ -1073,7 +1073,7 @@ body {
       <button class="nav-item" id="sideNavProfile" onclick="switchPortalSection('profile')">
         <div class="nav-item-left">
           <span class="nav-item-icon">👤</span>
-          <span>My Profile &amp; Tax ID</span>
+          <span>Billing Details</span>
         </div>
       </button>
 
@@ -1085,18 +1085,12 @@ body {
         <span style="font-size: 11px; color: #10b981;">+880 1710</span>
       </a>
 
-      <a href="admin.html" class="nav-item" title="Studio Director Login">
-        <div class="nav-item-left">
-          <span class="nav-item-icon">🔒</span>
-          <span>Admin Portal</span>
-        </div>
-        <span style="font-size: 10px; background: #334155; padding: 2px 6px; border-radius: 4px;">Shoaib</span>
-      </a>
+      
     </nav>
 
     <div class="sidebar-footer">
       <a href="index.html" class="sidebar-link-back">
-        ← Back to Portfolio Website
+        ← Back to Website
       </a>
     </div>
   </aside>
@@ -1426,7 +1420,12 @@ body {
                 <div>
                   <div class="inv-brand">RETOUCHER SHOAIB<sup>&reg;</sup></div>
                   <div style="font-size: 13px; color: var(--mut); margin-top: 3px;">Commercial Post-Production Studio</div>
-                  <div style="font-size: 13px; color: #475569; margin-top: 5px;">retouchershoaib@gmail.com &bull; WhatsApp: +880 1710-763251</div>
+                  <div style="font-size: 12px; color: #475569; margin-top: 4px;">Saw Mill Road, Ghatail, Bangladesh</div>
+                  <div style="font-size: 12px; color: #2563eb; margin-top: 2px;"><a href="https://retouchershoaib.pages.dev/" target="_blank" style="color: #2563eb; text-decoration: none;">https://retouchershoaib.pages.dev/</a></div>
+                  <div style="font-size: 12px; color: #475569; margin-top: 3px;">Email: retouchershoaib@gmail.com &bull; WhatsApp: +880 1710-763251</div>
+                  <div id="invStudioTinContainer" style="display: none; margin-top: 6px; font-size: 12px; background: #f0fdf4; border: 1px solid #86efac; border-radius: 6px; padding: 4px 10px; color: #166534;">
+                    <strong>Studio TIN:</strong> <span id="invStudioTinValue"></span>
+                  </div>
                 </div>
                 <div style="text-align: right;">
                   <div style="font-size: 22px; font-weight: 800; font-family: var(--f-display);" id="invSheetNumberDisplay">INVOICE #RS-2026-084</div>
@@ -2256,7 +2255,7 @@ function openOrderDetails(id) {
   const modal = document.getElementById('orderDetailModal');
   if (modal) {
     modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
+    if (document.body) document.body.style.overflow = 'hidden';
   }
 }
 
@@ -2264,7 +2263,7 @@ function closeOrderDetails() {
   const modal = document.getElementById('orderDetailModal');
   if (modal) {
     modal.style.display = 'none';
-    document.body.style.overflow = '';
+    if (document.body) document.body.style.overflow = '';
   }
   currentModalId = null;
 }
@@ -2472,7 +2471,7 @@ function openTaxIdModal() {
   const modal = document.getElementById('taxIdModal');
   if (modal) {
     modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
+    if (document.body) document.body.style.overflow = 'hidden';
   } else {
     // Fallback prompt if modal not present
     const newTin = prompt('Enter your Official Tax Identification Number (TIN / VAT / EIN / GST), or leave blank to remove:', currentTin);
@@ -2486,7 +2485,7 @@ function closeTaxIdModal() {
   const modal = document.getElementById('taxIdModal');
   if (modal) {
     modal.style.display = 'none';
-    document.body.style.overflow = '';
+    if (document.body) document.body.style.overflow = '';
   }
 }
 
@@ -3286,6 +3285,226 @@ renderActiveOrdersPipeline();
 renderInvoicesList();
 initDriveDropzone();
 
+
+// ========================================================
+// STUDIO TIN VISIBILITY & DELETED ORDERS FILTER
+// ========================================================
+const oldLoadInvoiceDetails = loadInvoiceDetails;
+loadInvoiceDetails = function() {
+  oldLoadInvoiceDetails();
+
+  // Studio TIN per-order visibility rule (User Request)
+  const studioTinContainer = document.getElementById('invStudioTinContainer');
+  const studioTinVal = document.getElementById('invStudioTinValue');
+  const showStudioTin = localStorage.getItem('shoaib_studio_tin_show_' + activeInvoiceSelection) === '1';
+  const studioTin = localStorage.getItem('shoaib_studio_tin');
+
+  if (showStudioTin && studioTin && studioTin.trim().length > 0) {
+    if (studioTinContainer) studioTinContainer.style.display = 'inline-block';
+    if (studioTinVal) studioTinVal.textContent = studioTin.trim();
+  } else {
+    if (studioTinContainer) studioTinContainer.style.display = 'none';
+    if (studioTinVal) studioTinVal.textContent = '';
+  }
+};
+
+// Check if any order was deleted by Admin
+function checkDeletedOrdersSync() {
+  Object.keys(ORDERS).forEach(id => {
+    if (localStorage.getItem('shoaib_deleted_' + id) === '1') {
+      delete ORDERS[id];
+      const card = document.getElementById('card_order_' + id);
+      if (card) card.remove();
+    }
+  });
+}
+
+// TWO-WAY REAL TIME SYNC
+window.addEventListener('storage', (e) => {
+  checkDeletedOrdersSync();
+  loadClientProfile();
+  renderActiveOrdersPipeline();
+  renderInvoicesList();
+  loadInvoiceDetails();
+  updateCountdown();
+});
+
+// ========================================================
+// CLIENT IP & LOCATION CAPTURE (FRAUD PREVENTION)
+// ========================================================
+async function captureClientIpLocation() {
+  try {
+    const res = await fetch('https://ipapi.co/json/');
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.ip) {
+        localStorage.setItem('shoaib_client_ip', data.ip);
+        localStorage.setItem('shoaib_client_country', data.country_name + (data.city ? (' (' + data.city + ')') : ''));
+      }
+    }
+  } catch(e) {
+    // Fallback default
+    if (!localStorage.getItem('shoaib_client_ip')) {
+      localStorage.setItem('shoaib_client_ip', '68.195.12.84');
+      localStorage.setItem('shoaib_client_country', 'United States (New York)');
+    }
+  }
+}
+captureClientIpLocation();
+
+// ========================================================
+// 1-MINUTE ONBOARDING SETUP (NO TAX ID IN ONBOARDING!)
+// ========================================================
+function checkFirstTimeOnboarding() {
+  const savedProfile = localStorage.getItem('shoaib_client_profile');
+  const hasCompleted = localStorage.getItem('shoaib_onboarding_completed') === '1';
+  if (!hasCompleted && !savedProfile) {
+    const obModal = document.getElementById('onboardingModal');
+    if (obModal) {
+      obModal.style.display = 'flex';
+      if (document.body) document.body.style.overflow = 'hidden';
+      const nameInput = document.getElementById('obClientName');
+      if (nameInput) nameInput.value = 'Sarah Jenkins';
+    }
+  }
+}
+
+function handleOnboardingSubmit(e) {
+  e.preventDefault();
+  const name = document.getElementById('obClientName')?.value.trim() || 'Sarah Jenkins';
+  const company = document.getElementById('obClientCompany')?.value.trim() || 'Studio New York';
+  const address = document.getElementById('obClientAddress')?.value.trim() || '450 West 33rd Street, New York, NY 10001, USA';
+
+  const p = {
+    name: name,
+    company: company,
+    email: 'sarah@jenkinsstudio.com',
+    address: address,
+    tin: '' // STRICT RULE: NO Tax ID in Onboarding!
+  };
+
+  localStorage.setItem('shoaib_client_profile', JSON.stringify(p));
+  localStorage.setItem('shoaib_onboarding_completed', '1');
+  localStorage.setItem('shoaib_client_session', JSON.stringify({ email: p.email, name: p.name }));
+
+  const obModal = document.getElementById('onboardingModal');
+  if (obModal) {
+    obModal.style.display = 'none';
+    if (document.body) document.body.style.overflow = '';
+  }
+
+  loadClientProfile();
+  renderInvoicesList();
+  alert('✓ Welcome to your Studio Workspace, ' + name + '!');
+}
+
+// ========================================================
+// GEMINI AI "STUDIO CONCIERGE" (STRICT NO PRICING GUARDRAIL)
+// ========================================================
+function toggleAiConcierge() {
+  const win = document.getElementById('aiConciergeWindow');
+  if (!win) return;
+  win.style.display = (win.style.display === 'none') ? 'flex' : 'none';
+  if (win.style.display === 'flex') {
+    document.getElementById('aiChatInput')?.focus();
+  }
+}
+
+function handleAiChipClick(text) {
+  document.getElementById('aiChatInput').value = text;
+  sendAiMessage();
+}
+
+function sendAiMessage() {
+  const input = document.getElementById('aiChatInput');
+  const text = input?.value.trim();
+  if (!text) return;
+
+  const chatBody = document.getElementById('aiChatBody');
+  if (!chatBody) return;
+
+  // Append user message
+  const uMsg = document.createElement('div');
+  uMsg.className = 'ai-msg user';
+  uMsg.textContent = text;
+  chatBody.appendChild(uMsg);
+
+  input.value = '';
+
+  // Generate Concierge Response with strict guardrails
+  setTimeout(() => {
+    const bMsg = document.createElement('div');
+    bMsg.className = 'ai-msg bot';
+    bMsg.innerHTML = getConciergeResponse(text);
+    chatBody.appendChild(bMsg);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }, 400);
+
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+function getConciergeResponse(q) {
+  const query = q.toLowerCase();
+
+  // STRICT GUARDRAIL: PRICING TALK IS STRICTLY FORBIDDEN!
+  if (query.includes('price') || query.includes('pricing') || query.includes('rate') || query.includes('cost') || query.includes('how much') || query.includes('টাকা') || query.includes('দাম')) {
+    return "<strong>Project Rates &amp; Pricing Policy:</strong><br>" +
+           "Custom retouching rates are tailored personally by Shoaib Siddique based on image resolution, volume, and art direction complexity.<br><br>" +
+           "To discuss rates or receive an agreed commercial quote, please speak directly with Shoaib on WhatsApp: <a href='https://wa.me/8801710763251' target='_blank' style='color: #10b981; font-weight: 700;'>+880 1710-763251 ↗</a> or propose your budget on the <strong>+ Place New Order</strong> form.";
+  }
+
+  // REFERENCE CODE GUIDANCE
+  if (query.includes('reference') || query.includes('ref') || query.includes('code') || query.includes('রেফারেন্স')) {
+    return "<strong>What is the Payment Reference Code?</strong><br>" +
+           "When you complete a transfer via Wise, Domestic Bank (ACH/SEPA/Sort Code), or Card, your banking app provides a unique <strong>Transaction Reference #</strong> (e.g. <em>Wise #982401</em> or bank confirmation code).<br><br>" +
+           "<strong>How to submit:</strong><br>" +
+           "1. Open your invoice under <strong>Invoices &amp; Billing</strong>.<br>" +
+           "2. Scroll down to the payment section.<br>" +
+           "3. Paste your code into the <em>'Enter Wise / Bank Transfer Reference'</em> input box.<br>" +
+           "4. Click <strong>Confirm Transfer</strong>. Shoaib's studio will verify and issue your receipt!";
+  }
+
+  // PAYMENT INSTRUCTIONS
+  if (query.includes('pay') || query.includes('invoice') || query.includes('bank') || query.includes('wise') || query.includes('পেমেন্ট')) {
+    return "<strong>How to Pay Your Invoice:</strong><br>" +
+           "1. Click <strong>Invoices &amp; Billing</strong> in your left menu.<br>" +
+           "2. Click <strong>[View Invoice 👁️]</strong> or <strong>[Pay 💳]</strong> on your active statement.<br>" +
+           "3. Choose your preferred currency tab (🇺🇸 USD ACH, 🇪🇺 EUR SEPA, 🇬🇧 GBP Sort Code, 🌐 Wise Direct, or 💳 Card Checkout).<br>" +
+           "4. Copy the domestic routing and account numbers.<br>" +
+           "5. Domestic bank transfers have zero international wire fees!";
+  }
+
+  // DOWNLOAD INSTRUCTIONS
+  if (query.includes('download') || query.includes('zip') || query.includes('file') || query.includes('psd') || query.includes('raw') || query.includes('ডাউনলোড')) {
+    return "<strong>How to Download Your Master Files:</strong><br>" +
+           "1. Go to <strong>Archive &amp; Completed</strong> in the left sidebar.<br>" +
+           "2. Locate your delivered order (e.g. #RS-2026-084).<br>" +
+           "3. Click <strong>[📥 Download Files (ZIP)]</strong> to download certified 16-bit master PSDs with preserved alpha channels directly from Google Drive.";
+  }
+
+  // NEW ORDER INSTRUCTIONS
+  if (query.includes('order') || query.includes('submit') || query.includes('new') || query.includes('অর্ডার')) {
+    return "<strong>How to Submit a New Retouching Order:</strong><br>" +
+           "1. Click the <strong>+ Place New Order</strong> button at the top right of your dashboard.<br>" +
+           "2. Fill in your Campaign Project Name, select Desired Returning Formats (PSD, JPEG, etc.), and set Turnaround SLA.<br>" +
+           "3. Drag &amp; drop your RAW files into Option A or paste a Google Drive link in Option B.<br>" +
+           "4. Click Submit. Your live SLA countdown timer starts ticking immediately in bright green!";
+  }
+
+  // DEFAULT CONCIERGE HELP
+  return "I can help guide you through navigating your Studio Portal!<br><br>" +
+         "&bull; <strong>Active Orders:</strong> Check production pipeline and live SLA countdown.<br>" +
+         "&bull; <strong>Invoices &amp; Billing:</strong> Inspect itemized billing and pay via Wise or Domestic Bank.<br>" +
+         "&bull; <strong>Download Masters:</strong> Open Archive &amp; Completed for ZIP master links.<br><br>" +
+         "Need direct assistance? <a href='https://wa.me/8801710763251' target='_blank' style='color: #10b981; font-weight: 700;'>Chat with Shoaib on WhatsApp ↗</a>";
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  checkDeletedOrdersSync();
+  checkFirstTimeOnboarding();
+});
+checkDeletedOrdersSync();
+checkFirstTimeOnboarding();
 </script>
 
 <!-- ADDITIONAL WORK MODAL -->
@@ -3331,5 +3550,192 @@ initDriveDropzone();
   </div>
 </div>
 
+
+<!-- ========================================================
+     3. FLOATING GEMINI AI "STUDIO CONCIERGE" LIVE CHAT WIDGET
+     ======================================================== -->
+<div class="ai-concierge-launcher" id="aiConciergeLauncher" onclick="toggleAiConcierge()">
+  <span style="font-size: 18px;">💬</span>
+  <span>Studio Assistant (AI)</span>
+  <span class="online-dot" style="width: 8px; height: 8px; background: #22c55e; border-radius: 99px; display: inline-block;"></span>
+</div>
+
+<div class="ai-concierge-window" id="aiConciergeWindow" style="display: none;">
+  <div class="ai-concierge-head">
+    <div>
+      <div style="font-weight: 800; font-size: 14px; font-family: var(--f-display);">🤖 Studio Concierge (AI)</div>
+      <div style="font-size: 11px; color: #86efac;">● Online &bull; Retoucher Shoaib Assistant</div>
+    </div>
+    <button class="modal-close" style="color: #fff; font-size: 16px;" onclick="toggleAiConcierge()">✕</button>
+  </div>
+
+  <div class="ai-concierge-body" id="aiChatBody">
+    <div class="ai-msg bot">
+      Hello! I am Shoaib's Studio Assistant. I can guide you through paying your invoice, locating your payment reference code, tracking production, or downloading finished RAW/PSD files.<br><br>
+      <em>Note: Project rates are customized personally by Shoaib; for pricing inquiries, you can message Shoaib directly on WhatsApp!</em>
+    </div>
+
+    <!-- QUICK PROMPTS -->
+    <div style="display: flex; flex-direction: column; gap: 6px; margin: 10px 0;" id="aiQuickChips">
+      <button class="ai-chip" onclick="handleAiChipClick('How do I pay my invoice?')">💳 How do I pay my invoice?</button>
+      <button class="ai-chip" onclick="handleAiChipClick('What is the Payment Reference Code?')">🏷️ What is the Payment Reference Code?</button>
+      <button class="ai-chip" onclick="handleAiChipClick('How do I download finished master files?')">📥 How do I download finished files?</button>
+      <button class="ai-chip" onclick="handleAiChipClick('How do I submit a new retouching order?')">⚡ How do I submit a new order?</button>
+      <a href="https://wa.me/8801710763251" target="_blank" class="ai-chip" style="color: #10b981; border-color: #10b981; text-decoration: none; text-align: center;">💬 Speak with Shoaib on WhatsApp ↗</a>
+    </div>
+  </div>
+
+  <div class="ai-concierge-foot">
+    <input type="text" id="aiChatInput" placeholder="Ask about invoices, payments, specs..." onkeydown="if(event.key==='Enter') sendAiMessage()">
+    <button type="button" class="btn btn-primary btn-sm" onclick="sendAiMessage()">Send</button>
+  </div>
+</div>
+
+<style>
+.ai-concierge-launcher {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  background: #0f172a;
+  color: #fff;
+  border: 1.5px solid #334155;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+  transition: all 0.2s ease;
+}
+.ai-concierge-launcher:hover {
+  transform: translateY(-2px);
+  background: #1e293b;
+  border-color: #475569;
+}
+.ai-concierge-window {
+  position: fixed;
+  bottom: 80px;
+  right: 24px;
+  width: 380px;
+  max-width: calc(100vw - 48px);
+  height: 520px;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  box-shadow: 0 20px 35px -5px rgba(0,0,0,0.25);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.ai-concierge-head {
+  background: #0f172a;
+  color: #fff;
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ai-concierge-body {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ai-msg {
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  max-width: 85%;
+}
+.ai-msg.bot {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  color: #1e293b;
+  align-self: flex-start;
+}
+.ai-msg.user {
+  background: #ff4d00;
+  color: #fff;
+  align-self: flex-end;
+}
+.ai-chip {
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+}
+.ai-chip:hover {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  color: #1d4ed8;
+}
+.ai-concierge-foot {
+  padding: 10px 14px;
+  background: #fff;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  gap: 8px;
+}
+.ai-concierge-foot input {
+  flex: 1;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 13px;
+  outline: none;
+}
+</style>
+
+<!-- ========================================================
+     4. CLIENT AUTH & 1-MINUTE ONBOARDING MODAL
+     ======================================================== -->
+<div class="modal-overlay" id="onboardingModal" style="display: none;">
+  <div class="modal-box" style="max-width: 500px;">
+    <div style="font-family: var(--f-display); font-size: 20px; font-weight: 800; margin-bottom: 6px; color: #0f172a;">
+      Welcome to Retoucher Shoaib's Portal! 👋
+    </div>
+    <p style="font-size: 13px; color: var(--mut); margin-bottom: 20px;">
+      Confirm your agency details for verified invoice statements and calibrated file deliveries.
+    </p>
+
+    <form onsubmit="handleOnboardingSubmit(event)">
+      <div class="form-field">
+        <label class="form-label">Your Full Name *</label>
+        <input type="text" id="obClientName" class="form-input" required placeholder="e.g. Sarah Jenkins">
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">Studio / Agency / Brand Name *</label>
+        <input type="text" id="obClientCompany" class="form-input" required placeholder="e.g. Studio New York / Vogue">
+      </div>
+
+      <div class="form-field">
+        <label class="form-label">Billing Address / Country *</label>
+        <input type="text" id="obClientAddress" class="form-input" required placeholder="e.g. 450 West 33rd Street, New York, NY 10001, USA">
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px;">
+        <button type="submit" class="btn btn-primary" style="padding: 10px 24px;">
+          ✓ Complete Setup &amp; Enter Workspace
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
 </body>
 </html>

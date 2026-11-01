@@ -251,7 +251,7 @@ a { color: inherit; text-decoration: none; }
           <!-- ORDER 1 -->
           <tr>
             <td><strong>#RS-2026-084</strong></td>
-            <td>Studio New York<br><span style="font-size: 11px; color: #777;">sarah@jenkinsstudio.com</span></td>
+            <td><a href="javascript:void(0)" onclick="openClientDetailModal('084')" style="color: #60a5fa; font-weight: 700; text-decoration: underline;" title="Click to view client audit details & real IP">Studio New York 👁️</a><br><span style="font-size: 11px; color: #777;">sarah@jenkinsstudio.com</span></td>
             <td>Luxury Jewelry (14 Stacks)</td>
             <td>
               <span class="status-pill delivered" style="font-size: 11px;">✓ Completed (18h 30m)</span>
@@ -271,10 +271,12 @@ a { color: inherit; text-decoration: none; }
               </select>
             </td>
             <td style="white-space: nowrap;">
-              <button class="btn sm outline" onclick="openAdminExtraFeeModal('084')">💰 + Extra Fee</button>
-              <button class="btn sm outline" onclick="openAdminTinModal('084')">🏷️ Tax ID / TIN</button>
+              <button class="btn sm outline" onclick="openAdminExtraFeeModal('084')">💰 + Extra</button>
+              <button class="btn sm outline" onclick="openAdminTinModal('084')">🏷️ Client TIN</button>
+              <button class="btn sm outline" onclick="openStudioTinModal('084')">🏢 Studio TIN</button>
               <button class="btn sm outline" onclick="openDelModal('084')">🔗 Delivery Link</button>
               <button class="btn sm outline" onclick="viewClientBrief('084')">Brief 👁️</button>
+              <button class="btn sm" style="background: #dc2626; color: #fff; border: 0;" onclick="deleteAdminOrder('084')">🗑️ Delete</button>
               <a href="https://drive.google.com" target="_blank" class="btn sm outline">Drive ↗</a>
             </td>
           </tr>
@@ -282,7 +284,7 @@ a { color: inherit; text-decoration: none; }
           <!-- ORDER 2 -->
           <tr>
             <td><strong>#RS-2026-085</strong></td>
-            <td>Studio New York<br><span style="font-size: 11px; color: #777;">sarah@jenkinsstudio.com</span></td>
+            <td><a href="javascript:void(0)" onclick="openClientDetailModal('085')" style="color: #60a5fa; font-weight: 700; text-decoration: underline;" title="Click to view client audit details & real IP">Studio New York 👁️</a><br><span style="font-size: 11px; color: #777;">sarah@jenkinsstudio.com</span></td>
             <td>Fashion Lookbook (24 RAWs)</td>
             <td>
               <!-- LIVE TICKING COUNTDOWN ON ADMIN -->
@@ -306,10 +308,12 @@ a { color: inherit; text-decoration: none; }
               </select>
             </td>
             <td style="white-space: nowrap;">
-              <button class="btn sm outline" onclick="openAdminExtraFeeModal('085')">💰 + Extra Fee</button>
-              <button class="btn sm outline" onclick="openAdminTinModal('085')">🏷️ Tax ID / TIN</button>
+              <button class="btn sm outline" onclick="openAdminExtraFeeModal('085')">💰 + Extra</button>
+              <button class="btn sm outline" onclick="openAdminTinModal('085')">🏷️ Client TIN</button>
+              <button class="btn sm outline" onclick="openStudioTinModal('085')">🏢 Studio TIN</button>
               <button class="btn sm outline" onclick="openDelModal('085')">🔗 Delivery Link</button>
               <button class="btn sm outline" onclick="viewClientBrief('085')">Brief 👁️</button>
+              <button class="btn sm" style="background: #dc2626; color: #fff; border: 0;" onclick="deleteAdminOrder('085')">🗑️ Delete</button>
               <a href="https://drive.google.com" target="_blank" class="btn sm outline">Drive ↗</a>
             </td>
           </tr>
@@ -628,6 +632,123 @@ function loadCustomAdminOrders() {
   }
 }
 window.addEventListener('DOMContentLoaded', loadCustomAdminOrders);
+
+// ========================================================
+// STUDIO TIN MANAGEMENT (PER-ORDER TOGGLE)
+// ========================================================
+let currentStudioTinOrderId = '084';
+function openStudioTinModal(id) {
+  currentStudioTinOrderId = id;
+  const savedTin = localStorage.getItem('shoaib_studio_tin') || 'BD-TIN: 8492019381';
+  document.getElementById('admStudioTinInput').value = savedTin;
+  const isEnabled = localStorage.getItem('shoaib_studio_tin_show_' + id) === '1';
+  document.getElementById('admStudioTinCheck').checked = isEnabled;
+  document.getElementById('adminStudioTinModal').style.display = 'flex';
+}
+
+function closeStudioTinModal() {
+  document.getElementById('adminStudioTinModal').style.display = 'none';
+}
+
+function saveStudioTin() {
+  const tinVal = document.getElementById('admStudioTinInput').value.trim();
+  const isEnabled = document.getElementById('admStudioTinCheck').checked;
+  localStorage.setItem('shoaib_studio_tin', tinVal);
+  localStorage.setItem('shoaib_studio_tin_show_' + currentStudioTinOrderId, isEnabled ? '1' : '0');
+  localStorage.setItem('shoaib_sync_ping', Date.now().toString());
+  alert('✓ Studio TIN settings saved for Order #' + currentStudioTinOrderId + '!\n' + (isEnabled ? 'It will now be displayed on the client invoice.' : 'It will be completely hidden from the client invoice.'));
+  closeStudioTinModal();
+}
+
+// ========================================================
+// CLIENT DETAILS & FRAUD PREVENTION AUDIT MODAL
+// ========================================================
+function openClientDetailModal(id) {
+  const savedProfile = localStorage.getItem('shoaib_client_profile');
+  let p = {
+    name: 'Sarah Jenkins',
+    company: 'Studio New York',
+    email: 'sarah@jenkinsstudio.com',
+    address: '450 West 33rd Street, New York, NY 10001, USA',
+    tin: ''
+  };
+  if (savedProfile) {
+    try { p = Object.assign(p, JSON.parse(savedProfile)); } catch(e) {}
+  }
+
+  document.getElementById('cdmName').textContent = p.name;
+  document.getElementById('cdmCompany').textContent = p.company;
+  document.getElementById('cdmEmail').textContent = p.email;
+  document.getElementById('cdmAddress').textContent = p.address;
+  document.getElementById('cdmTin').textContent = p.tin || 'None (Optional)';
+
+  // IP & Country Audit
+  const savedIp = localStorage.getItem('shoaib_client_ip_' + id) || localStorage.getItem('shoaib_client_ip') || '68.195.12.84';
+  const savedCountry = localStorage.getItem('shoaib_client_country_' + id) || localStorage.getItem('shoaib_client_country') || 'United States';
+  
+  document.getElementById('cdmIp').textContent = savedIp;
+  document.getElementById('cdmCountry').textContent = (savedCountry.includes('United States') ? '🇺🇸 ' : '🌐 ') + savedCountry;
+
+  const statusBox = document.getElementById('cdmStatus');
+  const isAsianMismatch = (savedCountry.includes('Bangladesh') || savedCountry.includes('India') || savedCountry.includes('Pakistan')) && p.address.includes('New York');
+
+  if (isAsianMismatch) {
+    statusBox.innerHTML = '<span style="background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid #dc2626; padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: 700;">⚠️ Origin Warning: Location Mismatch</span>';
+  } else {
+    statusBox.innerHTML = '<span style="background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid #16a34a; padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: 700;">✓ Verified Origin Location</span>';
+  }
+
+  document.getElementById('adminClientDetailModal').style.display = 'flex';
+}
+
+function closeClientDetailModal() {
+  document.getElementById('adminClientDetailModal').style.display = 'none';
+}
+
+// ========================================================
+// DELETE ORDER CAPABILITY (WITH FULL SYNC)
+// ========================================================
+function deleteAdminOrder(id) {
+  if (!confirm('⚠️ Are you sure you want to permanently delete Order #' + id + '?\n\nThis will remove the order from the Studio Console, delete its invoice, and sync immediately with the Client Portal.')) {
+    return;
+  }
+
+  // Mark deleted flag
+  localStorage.setItem('shoaib_deleted_' + id, '1');
+
+  // Remove from custom orders if it was a custom submitted order
+  try {
+    const raw = localStorage.getItem('shoaib_custom_orders');
+    if (raw) {
+      let orders = JSON.parse(raw);
+      orders = orders.filter(o => o.numericId !== id && o.id !== '#RS-2026-' + id);
+      localStorage.setItem('shoaib_custom_orders', JSON.stringify(orders));
+    }
+  } catch(e) {}
+
+  // Remove row from table
+  const row = document.getElementById('admRow_' + id) || (id === '084' ? document.getElementById('badgeRow1')?.closest('tr') : document.getElementById('badgeRow2')?.closest('tr'));
+  if (row) row.remove();
+
+  // Decrement total commissions
+  const totalEl = document.getElementById('admTotalOrders');
+  if (totalEl) {
+    const cur = parseInt(totalEl.textContent, 10) || 1;
+    totalEl.textContent = Math.max(0, cur - 1);
+  }
+
+  // Ping sync to portal
+  localStorage.setItem('shoaib_sync_ping', Date.now().toString());
+  alert('✓ Order #' + id + ' permanently deleted and synced with Client Portal!');
+}
+
+// TWO-WAY REAL TIME SYNC
+window.addEventListener('storage', (e) => {
+  if (e.key === 'shoaib_custom_orders' || e.key === 'shoaib_payment_claim' || e.key === 'shoaib_sync_ping') {
+    loadCustomAdminOrders();
+    checkPaymentClaims();
+  }
+});
 </script>
 
 <!-- ADMIN TIN / TAX ID MODAL -->
@@ -702,5 +823,97 @@ window.addEventListener('DOMContentLoaded', loadCustomAdminOrders);
   </div>
 </div>
 
+
+<!-- ========================================================
+     1. ADMIN STUDIO TIN MODAL (PER-ORDER TOGGLE)
+     ======================================================== -->
+<div class="modal" id="adminStudioTinModal" onclick="if(event.target === this) closeStudioTinModal()">
+  <div class="modal-box" style="max-width: 520px;">
+    <button class="modal-close" onclick="closeStudioTinModal()">✕</button>
+    <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 6px; color: #fff;">🏢 Studio Tax ID / TIN on Invoice</h3>
+    <p style="font-size: 13px; color: #aaa; margin-bottom: 16px;">
+      Decide whether to show Retoucher Shoaib's Studio TIN on this specific client's invoice.
+    </p>
+
+    <div class="form-field" style="margin-bottom: 16px;">
+      <label style="display: block; font-size: 12px; color: #ccc; margin-bottom: 6px;">Your Studio Tax ID / TIN Number</label>
+      <input type="text" id="admStudioTinInput" placeholder="e.g. BD-TIN: 8492019381 or VAT: 123456789" style="width: 100%; padding: 10px; background: #161616; border: 1px solid #555; color: #fff; border-radius: 6px;">
+    </div>
+
+    <div style="background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 14px; margin-bottom: 20px;">
+      <label style="display: flex; align-items: center; gap: 10px; font-size: 13px; color: #fff; cursor: pointer;">
+        <input type="checkbox" id="admStudioTinCheck" style="width: 18px; height: 18px; accent-color: #10b981;">
+        <span><strong>Show Studio TIN on this Order's Invoice</strong> (Uncheck to completely hide / vanish)</span>
+      </label>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; gap: 10px;">
+      <button class="btn sm outline" onclick="closeStudioTinModal()">Cancel</button>
+      <button class="btn sm" onclick="saveStudioTin()" style="background: #10b981; border: 0; color: #fff;">✓ Save &amp; Sync Invoice</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================
+     2. CLIENT PROFILE & SECURITY AUDIT MODAL (REAL IP & LOCATION)
+     ======================================================== -->
+<div class="modal" id="adminClientDetailModal" onclick="if(event.target === this) closeClientDetailModal()">
+  <div class="modal-box" style="max-width: 540px;">
+    <button class="modal-close" onclick="closeClientDetailModal()">✕</button>
+    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+      <h3 style="font-size: 18px; font-weight: 800; color: #fff;">🛡️ Client Security &amp; Audit Profile</h3>
+    </div>
+    <p style="font-size: 13px; color: #aaa; margin-bottom: 18px;">
+      Verified origin location, public IP, and billing profile details.
+    </p>
+
+    <div style="background: #161616; border: 1px solid #333; border-radius: 10px; padding: 16px; margin-bottom: 16px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 13px;">
+        <div>
+          <div style="font-size: 11px; text-transform: uppercase; color: #777;">Client Full Name</div>
+          <strong style="color: #fff;" id="cdmName">Sarah Jenkins</strong>
+        </div>
+        <div>
+          <div style="font-size: 11px; text-transform: uppercase; color: #777;">Company / Agency</div>
+          <strong style="color: #60a5fa;" id="cdmCompany">Studio New York</strong>
+        </div>
+        <div>
+          <div style="font-size: 11px; text-transform: uppercase; color: #777;">Email Address</div>
+          <span style="color: #ccc;" id="cdmEmail">sarah@jenkinsstudio.com</span>
+        </div>
+        <div>
+          <div style="font-size: 11px; text-transform: uppercase; color: #777;">Client Tax ID</div>
+          <span style="color: #fbbf24;" id="cdmTin">None (Optional)</span>
+        </div>
+      </div>
+      <div style="margin-top: 12px; font-size: 13px; border-top: 1px solid #262626; padding-top: 10px;">
+        <div style="font-size: 11px; text-transform: uppercase; color: #777;">Billing Address</div>
+        <span style="color: #aaa;" id="cdmAddress">450 West 33rd Street, New York, NY 10001, USA</span>
+      </div>
+    </div>
+
+    <!-- FRAUD & IP SECURITY AUDIT TILE -->
+    <div style="background: #0f172a; border: 1.5px solid #334155; border-radius: 10px; padding: 16px; margin-bottom: 20px;">
+      <div style="font-size: 11px; text-transform: uppercase; color: #94a3b8; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 8px;">
+        🌐 Real-Time Location &amp; IP Verification
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <div style="font-size: 15px; font-weight: 800; color: #fff;" id="cdmCountry">🇺🇸 United States (New York)</div>
+          <div style="font-size: 12px; color: #64748b; margin-top: 2px;">Public IP: <strong style="color: #38bdf8;" id="cdmIp">68.195.12.84</strong></div>
+        </div>
+        <div id="cdmStatus">
+          <span style="background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid #16a34a; padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: 700;">
+            ✓ Verified Origin Location
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end;">
+      <button class="btn sm outline" onclick="closeClientDetailModal()">Close</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>

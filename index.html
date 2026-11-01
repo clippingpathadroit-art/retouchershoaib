@@ -792,15 +792,16 @@ footer {
     <a href="studio.html" class="">Studio</a>
     <a href="feed.html" class="">Feed</a>
     <a href="contact.html" class="show-mob ">Contact</a>
-    <a href="portal.html" class="show-mob">Portal</a>
+    
   </div>
 
   <div class="nav-time" id="liveTimeIndicator">
     NYC 08:30 AM • BERLIN 01:30 PM
   </div>
 
-  <div>
-    <a href="contact.html" class="btn sm">Free Trial</a>
+  <div style="display: flex; gap: 8px; align-items: center;">
+    <a href="portal.html" class="btn sm outline" id="navClientAccessBtn" style="font-weight: 700;">Log In</a>
+    <a href="contact.html" class="btn sm" id="navMainCtaBtn">Free Trial</a>
   </div>
 </nav>
 
@@ -1315,6 +1316,33 @@ updateStudioTime();
     }, 400);
   });
 })();
+
+// DYNAMIC CLIENT ACCESS HEADER PAIRING (USER SPECIFICATION)
+function syncHeaderClientState() {
+  const session = localStorage.getItem('shoaib_client_session') || localStorage.getItem('shoaib_client_profile');
+  const loginBtn = document.getElementById('navClientAccessBtn');
+  const ctaBtn = document.getElementById('navMainCtaBtn');
+  if (!loginBtn || !ctaBtn) return;
+
+  if (session) {
+    let name = 'Sarah J.';
+    try {
+      const p = JSON.parse(session);
+      if (p.name) name = p.name.split(' ')[0];
+    } catch(e) {}
+    loginBtn.href = 'portal.html';
+    loginBtn.innerHTML = '+ Place Order';
+    ctaBtn.href = 'portal.html';
+    ctaBtn.innerHTML = '🟢 ' + name + ' (Dashboard ↗)';
+  } else {
+    loginBtn.href = 'portal.html';
+    loginBtn.innerHTML = 'Log In';
+    ctaBtn.href = 'contact.html';
+    ctaBtn.innerHTML = 'Free Trial';
+  }
+}
+document.addEventListener('DOMContentLoaded', syncHeaderClientState);
+syncHeaderClientState();
 </script>
 </body>
 </html>
