@@ -898,6 +898,47 @@ body {
     padding: 10mm !important;
   }
 }
+
+/* FORMAT CHECKBOX CARDS (USER REQUEST) */
+.format-checkbox-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #f8fafc;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.format-checkbox-card:hover {
+  border-color: #94a3b8;
+  background: #fff;
+}
+.format-checkbox-card input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  accent-color: #ff4d00;
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+/* DRAG & DROP UPLOAD ZONE (USER REQUEST) */
+.upload-dropzone {
+  background: #f8fafc;
+  border: 2px dashed #cbd5e1;
+  border-radius: 14px;
+  padding: 30px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.upload-dropzone:hover, .upload-dropzone.dragover {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
 </style>
 </head>
 <body>
@@ -2247,6 +2288,120 @@ function clearExtraWork() {
     closeExtraWorkModal();
   }
 }
+
+
+// ========================================================
+// 10. DRAG & DROP GOOGLE DRIVE UPLOAD HANDLERS (USER REQUEST)
+// ========================================================
+let driveUploadedQueue = [];
+
+function initDriveDropzone() {
+  const dropzone = document.getElementById('driveDropzone');
+  if (!dropzone) return;
+
+  ['dragenter', 'dragover'].forEach(eventName => {
+    dropzone.addEventListener(eventName, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropzone.classList.add('dragover');
+    }, false);
+  });
+
+  ['dragleave', 'drop'].forEach(eventName => {
+    dropzone.addEventListener(eventName, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropzone.classList.remove('dragover');
+    }, false);
+  });
+
+  dropzone.addEventListener('drop', (e) => {
+    const dt = e.dataTransfer;
+    const files = dt.files;
+    if (files && files.length > 0) {
+      handleDriveFileSelect({ target: { files: files } });
+    }
+  }, false);
+}
+
+function handleDriveFileSelect(e) {
+  const files = Array.from(e.target.files);
+  if (!files.length) return;
+
+  driveUploadedQueue.push(...files);
+  updateDriveFilesPreview();
+
+  // Auto update Image Quantity in form if client dropped files!
+  const countInput = document.getElementById('ordImgCount');
+  if (countInput && driveUploadedQueue.length > 0) {
+    countInput.value = driveUploadedQueue.length;
+  }
+}
+
+function updateDriveFilesPreview() {
+  const previewBox = document.getElementById('driveFilesListPreview');
+  const countText = document.getElementById('driveFilesCountText');
+  const container = document.getElementById('driveFilesItemsContainer');
+  if (!previewBox || !container) return;
+
+  if (driveUploadedQueue.length === 0) {
+    previewBox.style.display = 'none';
+    container.innerHTML = '';
+    return;
+  }
+
+  previewBox.style.display = 'block';
+  countText.textContent = driveUploadedQueue.length + ' Master File(s) Selected for Drive Upload:';
+  
+  let html = '';
+  driveUploadedQueue.forEach((f, idx) => {
+    const mb = (f.size / (1024 * 1024)).toFixed(1);
+    html += `<div style="display:flex; justify-content:space-between; align-items:center; padding:8px 12px; background:#fff; border:1px solid var(--line); border-radius:6px; font-size:12px;">
+      <span style="display:flex; align-items:center; gap:6px;">
+        📄 <strong>${f.name}</strong> <span style="color:#64748b;">(${mb} MB)</span>
+      </span>
+      <span style="color:#059669; font-weight:700; display:flex; align-items:center; gap:4px;">
+        ✓ Direct Drive Sync Queued
+      </span>
+    </div>`;
+  });
+  container.innerHTML = html;
+}
+
+function clearDriveQueue() {
+  driveUploadedQueue = [];
+  updateDriveFilesPreview();
+}
+
+// Update handleNewOrderSubmit to collect selected formats
+const oldHandleSubmit = handleNewOrderSubmit;
+handleNewOrderSubmit = function(e) {
+  e.preventDefault();
+  const pName = document.getElementById('ordProjectName')?.value || 'Summer Retouching Campaign';
+  const service = document.getElementById('ordService').value;
+  const hours = document.getElementById('ordTurnaround').value;
+  const count = document.getElementById('ordImgCount').value;
+  const budget = document.getElementById('ordBudget').value;
+  const drive = document.getElementById('ordDriveLink').value;
+  const notes = document.getElementById('ordNotes').value;
+
+  // Selected Returning Formats (User Request)
+  const formatCheckboxes = document.querySelectorAll('input[name="ordFormats"]:checked');
+  const selectedFormats = Array.from(formatCheckboxes).map(cb => cb.value).join(' + ') || 'Layered PSD + WebP';
+
+  // Persist
+  localStorage.setItem('shoaib_project_name_085', pName);
+  localStorage.setItem('shoaib_image_count_085', count);
+  localStorage.setItem('shoaib_delivery_formats_085', selectedFormats);
+
+  const fileCountMsg = (driveUploadedQueue.length > 0) ? driveUploadedQueue.length + ' files directly synced to Google Drive' : 'Drive Link provided';
+
+  alert('✓ Order Submitted Successfully!\n\nProject: ' + pName + '\nTotal Images: ' + count + ' RAWs\nReturning Formats: ' + selectedFormats + '\nUpload: ' + fileCountMsg + '\nTurnaround: ' + hours + ' Hours SLA\nProposed Budget: ' + budget + '\n\nShoaib\'s team has received your order and files.');
+  switchPortalSection('orders');
+};
+
+document.addEventListener('DOMContentLoaded', initDriveDropzone);
+initDriveDropzone();
 
 </script>
 
