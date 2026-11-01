@@ -1606,16 +1606,23 @@ body {
           </div>
 
           <form id="newOrderForm" onsubmit="handleNewOrderSubmit(event)">
-            <!-- PROJECT NAME INPUT (USER REQUEST) -->
+            <!-- 1. PROJECT NAME (BLANK, REQUIRED) -->
             <div class="form-field">
-              <label class="form-label">Project Name / Campaign Title *</label>
-              <input type="text" id="ordProjectName" class="form-input" placeholder="e.g. Summer Luxury Jewelry Campaign 2026" required value="Summer Luxury Jewelry Campaign">
+              <label class="form-label" style="font-weight: 800; font-size: 13px; color: #0f172a;">
+                Project Name / Campaign Title *
+              </label>
+              <input type="text" id="ordProjectName" class="form-input" placeholder="e.g. Summer Luxury Jewelry Campaign 2026" required value="">
               <span style="font-size: 11px; color: var(--mut);">This project title will appear directly on your order details and official invoice</span>
             </div>
+
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <!-- 2. SERVICE DEPARTMENT (BLANK DEFAULT, REQUIRED) -->
               <div class="form-field">
-                <label class="form-label">Service Department *</label>
+                <label class="form-label" style="font-weight: 800; font-size: 13px; color: #0f172a;">
+                  Service Department *
+                </label>
                 <select id="ordService" class="form-select" required>
+                  <option value="" disabled selected>-- Select a Service Department --</option>
                   <option value="Jewelry & Watches">Luxury Jewelry &amp; Watches</option>
                   <option value="Fashion & Apparel">Fashion &amp; Apparel</option>
                   <option value="Beauty & Skin">High-End Beauty &amp; Portrait</option>
@@ -1623,12 +1630,15 @@ body {
                 </select>
               </div>
 
-              <!-- HOURLY TURNAROUND OPTIONS -->
+              <!-- 3. TURNAROUND TIME (BLANK DEFAULT, REQUIRED) -->
               <div class="form-field">
-                <label class="form-label">Turnaround Time (Deadline) *</label>
+                <label class="form-label" style="font-weight: 800; font-size: 13px; color: #0f172a;">
+                  Turnaround Time (Deadline) *
+                </label>
                 <select id="ordTurnaround" class="form-select" required>
+                  <option value="" disabled selected>-- Select Turnaround Time --</option>
                   <option value="12">12 Hours Rush Priority (Super Express)</option>
-                  <option value="24" selected>24 Hours Express SLA</option>
+                  <option value="24">24 Hours Express SLA</option>
                   <option value="48">48 Hours Standard Delivery</option>
                   <option value="72">72 Hours Flexible</option>
                   <option value="flex">Flexible Studio Schedule</option>
@@ -1637,98 +1647,153 @@ body {
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <!-- 4. TOTAL IMAGE QUANTITY (BLANK, REQUIRED) -->
               <div class="form-field">
-                <label class="form-label">Total Image Quantity (Count) *</label>
-                <input type="number" id="ordImgCount" class="form-input" min="1" max="500" value="15" required>
+                <label class="form-label" style="font-weight: 800; font-size: 13px; color: #0f172a;">
+                  Total Image Quantity (Count) *
+                </label>
+                <input type="number" id="ordImgCount" class="form-input" min="1" max="500" placeholder="e.g. 24" required value="">
+                <span style="font-size: 11px; color: var(--mut);">Exact count of RAW / PSD master files to be retouched</span>
               </div>
 
-              <!-- CLIENT PROPOSED BUDGET -->
+              <!-- 5. CLIENT PROPOSED BUDGET / OFFER PRICE (BLANK, REQUIRED) -->
               <div class="form-field">
-                <label class="form-label">Client Proposed Budget / Offer Price (USD)</label>
-                <input type="text" id="ordBudget" class="form-input" placeholder="e.g. $350 USD ($25/image)" value="$375.00 USD">
+                <label class="form-label" style="font-weight: 800; font-size: 13px; color: #0f172a;">
+                  Client Proposed Budget / Offer Price (USD) *
+                </label>
+                <input type="text" id="ordBudget" class="form-input" placeholder="e.g. $500.00 USD ($25/image)" required value="">
+                <span style="font-size: 11px; color: var(--mut);">Enter your total target budget or rate per image</span>
               </div>
             </div>
 
-            <!-- 1. DESIRED RETURNING FILE FORMAT (USER REQUEST) -->
-            <div class="form-field">
-              <label class="form-label" style="font-size: 13px; font-weight: 800; color: #0f172a;">
+            <!-- 6. DESIRED RETURNING FILE FORMAT (USER REQUEST: PSD, JPEG, WEBP, TIFF, PNG - ALL UNCHECKED) -->
+            <div class="form-field" id="formatFieldWrapper">
+              <label class="form-label" style="font-weight: 800; font-size: 13px; color: #0f172a;">
                 Desired Output &amp; Returning File Formats *
               </label>
-              <div style="font-size: 12px; color: var(--mut); margin-bottom: 8px;">Select all required final deliverables for your production pipeline:</div>
-              <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+              <div style="font-size: 12px; color: var(--mut); margin-bottom: 8px;">Select all required final deliverable file formats:</div>
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                <!-- 1. PSD -->
                 <label class="format-checkbox-card">
-                  <input type="checkbox" name="ordFormats" value="Layered Master PSD" checked>
+                  <input type="checkbox" name="ordFormats" value="PSD">
                   <div>
-                    <strong style="color: #0f172a; font-size: 13px;">📁 16-bit Layered Master PSD</strong>
-                    <div style="font-size: 11px; color: var(--mut); margin-top: 2px;">Photoshop master with separate retouch &amp; dodge/burn layers</div>
+                    <strong style="color: #0f172a; font-size: 13px;">📁 PSD</strong>
+                    <div style="font-size: 11px; color: var(--mut); margin-top: 2px;">16-bit Layered Master Photoshop File</div>
                   </div>
                 </label>
+
+                <!-- 2. JPEG -->
                 <label class="format-checkbox-card">
-                  <input type="checkbox" name="ordFormats" value="Transparent PNG" checked>
+                  <input type="checkbox" name="ordFormats" value="JPEG">
                   <div>
-                    <strong style="color: #0f172a; font-size: 13px;">✂️ Transparent Background PNG</strong>
-                    <div style="font-size: 11px; color: var(--mut); margin-top: 2px;">Isolated cutout with hand-drawn pen tool clipping path</div>
+                    <strong style="color: #0f172a; font-size: 13px;">🖼️ JPEG</strong>
+                    <div style="font-size: 11px; color: var(--mut); margin-top: 2px;">High-Resolution sRGB / CMYK Image</div>
                   </div>
                 </label>
+
+                <!-- 3. WEBP -->
                 <label class="format-checkbox-card">
-                  <input type="checkbox" name="ordFormats" value="High-Res Print TIFF">
+                  <input type="checkbox" name="ordFormats" value="WEBP">
                   <div>
-                    <strong style="color: #0f172a; font-size: 13px;">🖨️ High-Resolution Print TIFF</strong>
-                    <div style="font-size: 11px; color: var(--mut); margin-top: 2px;">Uncompressed CMYK / AdobeRGB 1998 for catalog print</div>
+                    <strong style="color: #0f172a; font-size: 13px;">🌐 WEBP</strong>
+                    <div style="font-size: 11px; color: var(--mut); margin-top: 2px;">Web &amp; E-commerce Optimized Format</div>
                   </div>
                 </label>
+
+                <!-- 4. TIFF -->
                 <label class="format-checkbox-card">
-                  <input type="checkbox" name="ordFormats" value="Web-Ready JPEG / WebP" checked>
+                  <input type="checkbox" name="ordFormats" value="TIFF">
                   <div>
-                    <strong style="color: #0f172a; font-size: 13px;">🌐 Web-Optimized sRGB JPEG / WebP</strong>
-                    <div style="font-size: 11px; color: var(--mut); margin-top: 2px;">Calibrated for Shopify, Amazon, and luxury e-commerce web</div>
+                    <strong style="color: #0f172a; font-size: 13px;">🖨️ TIFF</strong>
+                    <div style="font-size: 11px; color: var(--mut); margin-top: 2px;">Uncompressed 16-bit High-Res Print</div>
+                  </div>
+                </label>
+
+                <!-- 5. PNG -->
+                <label class="format-checkbox-card" style="grid-column: span 2;">
+                  <input type="checkbox" name="ordFormats" value="PNG">
+                  <div>
+                    <strong style="color: #0f172a; font-size: 13px;">✂️ PNG</strong>
+                    <div style="font-size: 11px; color: var(--mut); margin-top: 2px;">Transparent Background Cutout with Clipping Path</div>
                   </div>
                 </label>
               </div>
+              <div id="formatErrorText" style="display: none; color: #dc2626; font-size: 12px; font-weight: 700; margin-top: 6px;">
+                ⚠️ Please select at least one deliverable format (PSD, JPEG, WEBP, TIFF, or PNG).
+              </div>
             </div>
 
-            <!-- 2. DIRECT GOOGLE DRIVE DRAG & DROP UPLOAD ZONE (USER REQUEST) -->
+            <!-- 7. FILE UPLOADS: DIRECT GOOGLE DRIVE DRAG & DROP OR CLOUD LINK -->
+            <div class="form-field" id="uploadFieldWrapper" style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 14px; padding: 18px;">
+              <div style="margin-bottom: 12px;">
+                <label class="form-label" style="font-weight: 800; font-size: 13px; color: #0f172a; margin-bottom: 2px;">
+                  Project Master Files (Provide via Option A OR Option B) *
+                </label>
+                <div style="font-size: 12px; color: var(--mut);">
+                  You can either drag &amp; drop files directly below OR paste your existing Google Drive / Dropbox link.
+                </div>
+              </div>
+
+              <!-- OPTION A: DIRECT DRAG & DROP -->
+              <div style="margin-bottom: 14px;">
+                <div style="font-size: 12px; font-weight: 800; color: #334155; margin-bottom: 6px;">
+                  Option A: Drag &amp; Drop Master Files to Shoaib's Google Drive
+                </div>
+                <div class="upload-dropzone" id="driveDropzone" onclick="document.getElementById('fileUploadInput').click()">
+                  <input type="file" id="fileUploadInput" multiple style="display: none;" onchange="handleDriveFileSelect(event)">
+                  <div style="font-size: 40px; margin-bottom: 6px;">☁️</div>
+                  <div style="font-weight: 800; font-size: 15px; margin-bottom: 4px; color: #0f172a;">
+                    Drag &amp; drop RAW / PSD / TIFF files here to upload
+                  </div>
+                  <div style="font-size: 12px; color: var(--mut); margin-bottom: 8px;">
+                    Direct client sync to Shoaib's dedicated high-speed Drive folder &bull; Or click here to browse files
+                  </div>
+                  <div style="display: inline-flex; align-items: center; gap: 6px; background: #e0f2fe; color: #0284c7; padding: 4px 12px; border-radius: 99px; font-size: 11px; font-weight: 800;">
+                    ⚡ Direct Drive Cloud Sync
+                  </div>
+                </div>
+
+                <!-- SELECTED FILES PREVIEW -->
+                <div id="driveFilesListPreview" style="margin-top: 10px; display: none;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <strong style="font-size: 12px; color: #059669;" id="driveFilesCountText">0 Files Queued</strong>
+                    <button type="button" class="btn btn-outline btn-sm" onclick="clearDriveQueue()" style="font-size: 11px; padding: 2px 8px;">✕ Clear All</button>
+                  </div>
+                  <div id="driveFilesItemsContainer" style="display: flex; flex-direction: column; gap: 6px; max-height: 180px; overflow-y: auto;"></div>
+                </div>
+              </div>
+
+              <!-- DIVIDER -->
+              <div style="text-align: center; position: relative; margin: 16px 0;">
+                <span style="background: #f8fafc; padding: 0 12px; font-size: 11px; font-weight: 800; color: #64748b; position: relative; z-index: 2;">
+                  &mdash; OR &mdash;
+                </span>
+                <div style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #cbd5e1; z-index: 1;"></div>
+              </div>
+
+              <!-- OPTION B: PASTE GOOGLE DRIVE / DROPBOX LINK -->
+              <div>
+                <label class="form-label" style="font-size: 12px; font-weight: 800; color: #334155; margin-bottom: 4px;">
+                  Option B: Paste Existing Google Drive / Dropbox / WeTransfer Folder Link
+                </label>
+                <input type="url" id="ordDriveLink" class="form-input" placeholder="https://drive.google.com/drive/folders/... or Dropbox link" value="">
+                <span style="font-size: 11px; color: var(--mut);">Paste link if your files (10GB - 100GB+) are already on your cloud drive</span>
+              </div>
+
+              <div id="uploadErrorText" style="display: none; color: #dc2626; font-size: 12px; font-weight: 700; margin-top: 10px;">
+                ⚠️ Please provide your master files: either drag &amp; drop files into Option A OR paste a folder link in Option B.
+              </div>
+            </div>
+
+            <!-- 8. CREATIVE BRIEF & INSTRUCTIONS (BLANK, REQUIRED) -->
             <div class="form-field">
-              <label class="form-label" style="font-size: 13px; font-weight: 800; color: #0f172a;">
-                Upload Master Files directly to Shoaib's Google Drive *
+              <label class="form-label" style="font-weight: 800; font-size: 13px; color: #0f172a;">
+                Creative Brief &amp; Retouching Instructions *
               </label>
-              <div class="upload-dropzone" id="driveDropzone" onclick="document.getElementById('fileUploadInput').click()">
-                <input type="file" id="fileUploadInput" multiple style="display: none;" onchange="handleDriveFileSelect(event)">
-                <div style="font-size: 42px; margin-bottom: 6px;">☁️</div>
-                <div style="font-weight: 800; font-size: 16px; margin-bottom: 4px; color: #0f172a;">
-                  Drag &amp; drop RAW / PSD / TIFF files here to upload
-                </div>
-                <div style="font-size: 13px; color: var(--mut); margin-bottom: 10px;">
-                  Direct client sync to Shoaib's dedicated high-speed Drive storage &bull; Or click here to browse files
-                </div>
-                <div style="display: inline-flex; align-items: center; gap: 6px; background: #e0f2fe; color: #0284c7; padding: 5px 12px; border-radius: 99px; font-size: 11px; font-weight: 800;">
-                  ⚡ Instant Direct Google Drive Sync Active
-                </div>
-              </div>
-
-              <!-- SELECTED FILES LIST PREVIEW -->
-              <div id="driveFilesListPreview" style="margin-top: 12px; display: none;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                  <strong style="font-size: 13px; color: #334155;" id="driveFilesCountText">0 Files Queued</strong>
-                  <button type="button" class="btn btn-outline btn-sm" onclick="clearDriveQueue()" style="font-size: 11px; padding: 3px 10px;">✕ Clear All</button>
-                </div>
-                <div id="driveFilesItemsContainer" style="display: flex; flex-direction: column; gap: 6px; max-height: 220px; overflow-y: auto;"></div>
-              </div>
+              <textarea id="ordNotes" class="form-textarea" rows="4" placeholder="Detail any background preferences, shadow styles, skin texture preservation, hair cleanup, specific color references, or delivery expectations..." required></textarea>
             </div>
 
-            <!-- 3. OR PASTE EXISTING GOOGLE DRIVE / DROPBOX FOLDER LINK -->
-            <div class="form-field">
-              <label class="form-label">Or Paste Existing Google Drive / Dropbox / WeTransfer Folder Link</label>
-              <input type="url" id="ordDriveLink" class="form-input" placeholder="https://drive.google.com/drive/folders/..." value="https://drive.google.com">
-              <span style="font-size: 11px; color: var(--mut);">For large batches (20GB+), you can also paste your existing folder link directly</span>
-            </div>
-
-            <div class="form-field">
-              <label class="form-label">Creative Brief &amp; Retouching Instructions</label>
-              <textarea id="ordNotes" class="form-textarea" rows="4" placeholder="Detail any background preferences, shadow styles, skin texture preservation, hair cleanup, or specific color references..."></textarea>
-            </div>
-
-            <button type="submit" class="btn-create-order" style="width: 100%; justify-content: center; padding: 13px; font-size: 14px;">
+            <button type="submit" class="btn-create-order" style="width: 100%; justify-content: center; padding: 14px; font-size: 14px;">
               Submit Order to Shoaib's Production Team
             </button>
           </form>
@@ -2615,26 +2680,74 @@ function clearDriveQueue() {
 const oldHandleSubmit = handleNewOrderSubmit;
 handleNewOrderSubmit = function(e) {
   e.preventDefault();
-  const pName = document.getElementById('ordProjectName')?.value || 'Summer Retouching Campaign';
-  const service = document.getElementById('ordService').value;
-  const hours = document.getElementById('ordTurnaround').value;
-  const count = document.getElementById('ordImgCount').value;
-  const budget = document.getElementById('ordBudget').value;
-  const drive = document.getElementById('ordDriveLink').value;
-  const notes = document.getElementById('ordNotes').value;
 
-  // Selected Returning Formats (User Request)
+  const pName = document.getElementById('ordProjectName')?.value.trim();
+  const service = document.getElementById('ordService')?.value;
+  const hours = document.getElementById('ordTurnaround')?.value;
+  const count = document.getElementById('ordImgCount')?.value;
+  const budget = document.getElementById('ordBudget')?.value.trim();
+  const drive = document.getElementById('ordDriveLink')?.value.trim();
+  const notes = document.getElementById('ordNotes')?.value.trim();
+
+  // Reset errors
+  const formatError = document.getElementById('formatErrorText');
+  const uploadError = document.getElementById('uploadErrorText');
+  if (formatError) formatError.style.display = 'none';
+  if (uploadError) uploadError.style.display = 'none';
+
+  // 1. Validate Formats (At least one must be checked)
   const formatCheckboxes = document.querySelectorAll('input[name="ordFormats"]:checked');
-  const selectedFormats = Array.from(formatCheckboxes).map(cb => cb.value).join(' + ') || 'Layered PSD + WebP';
+  if (formatCheckboxes.length === 0) {
+    if (formatError) formatError.style.display = 'block';
+    document.getElementById('formatFieldWrapper')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    alert('Please select at least one Desired Returning File Format (PSD, JPEG, WEBP, TIFF, or PNG).');
+    return;
+  }
+  const selectedFormats = Array.from(formatCheckboxes).map(cb => cb.value).join(' + ');
 
-  // Persist
+  // 2. Validate File Upload: EITHER Drag & Drop OR Drive Link (User Rule)
+  const hasDroppedFiles = driveUploadedQueue && driveUploadedQueue.length > 0;
+  const hasDriveLink = drive.length > 0;
+
+  if (!hasDroppedFiles && !hasDriveLink) {
+    if (uploadError) uploadError.style.display = 'block';
+    document.getElementById('uploadFieldWrapper')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    alert('Please provide your project files: either drag & drop files into Option A or paste a Google Drive/Dropbox link in Option B.');
+    return;
+  }
+
+  // 3. Validate Instructions
+  if (!notes) {
+    alert('Please provide your retouching instructions or creative brief.');
+    document.getElementById('ordNotes')?.focus();
+    return;
+  }
+
+  // Persist customized project specs
   localStorage.setItem('shoaib_project_name_085', pName);
   localStorage.setItem('shoaib_image_count_085', count);
   localStorage.setItem('shoaib_delivery_formats_085', selectedFormats);
+  if (hasDriveLink) {
+    localStorage.setItem('shoaib_drive_link_085', drive);
+  }
 
-  const fileCountMsg = (driveUploadedQueue.length > 0) ? driveUploadedQueue.length + ' files directly synced to Google Drive' : 'Drive Link provided';
+  const uploadMethodInfo = hasDroppedFiles 
+    ? (driveUploadedQueue.length + ' file(s) queued for Direct Google Drive sync')
+    : ('Drive link: ' + drive);
 
-  alert('✓ Order Submitted Successfully!\n\nProject: ' + pName + '\nTotal Images: ' + count + ' RAWs\nReturning Formats: ' + selectedFormats + '\nUpload: ' + fileCountMsg + '\nTurnaround: ' + hours + ' Hours SLA\nProposed Budget: ' + budget + '\n\nShoaib\'s team has received your order and files.');
+  alert('✓ Order Submitted Successfully!\n\n' +
+        'Project: ' + pName + '\n' +
+        'Service: ' + service + '\n' +
+        'Total Images: ' + count + ' RAWs\n' +
+        'Returning Formats: ' + selectedFormats + '\n' +
+        'Turnaround: ' + hours + ' Hours SLA\n' +
+        'Proposed Budget: ' + budget + '\n' +
+        'Files: ' + uploadMethodInfo + '\n\n' +
+        'Shoaib\'s team has received your order and specifications!');
+
+  // Clear form and queue after successful submission
+  clearDriveQueue();
+  document.getElementById('newOrderForm')?.reset();
   switchPortalSection('orders');
 };
 
