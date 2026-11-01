@@ -270,6 +270,7 @@ a { color: inherit; text-decoration: none; }
               </select>
             </td>
             <td style="white-space: nowrap;">
+              <button class="btn sm outline" onclick="openAdminTinModal('084')">🏷️ Tax ID / TIN</button>
               <button class="btn sm outline" onclick="openDelModal('084')">🔗 Delivery Link</button>
               <button class="btn sm outline" onclick="viewClientBrief('084')">Brief 👁️</button>
               <a href="https://drive.google.com" target="_blank" class="btn sm outline">Drive ↗</a>
@@ -303,6 +304,7 @@ a { color: inherit; text-decoration: none; }
               </select>
             </td>
             <td style="white-space: nowrap;">
+              <button class="btn sm outline" onclick="openAdminTinModal('085')">🏷️ Tax ID / TIN</button>
               <button class="btn sm outline" onclick="openDelModal('085')">🔗 Delivery Link</button>
               <button class="btn sm outline" onclick="viewClientBrief('085')">Brief 👁️</button>
               <a href="https://drive.google.com" target="_blank" class="btn sm outline">Drive ↗</a>
@@ -511,6 +513,57 @@ function approveWisePayment() {
   document.getElementById('admClaimCount').textContent = '0';
   alert('✓ Payment approved! Invoice is now marked as PAID on client portal.');
 }
+
+// ADMIN TIN MANAGEMENT
+let currentTinOrderId = '084';
+function openAdminTinModal(id) {
+  currentTinOrderId = id;
+  const clientName = (id === '084') ? 'Sarah Jenkins • Studio New York' : 'Sarah Jenkins • Studio New York';
+  document.getElementById('admTinClientName').value = clientName;
+  const currentTin = localStorage.getItem('shoaib_client_tin') || 'US-EIN: 12-3456789';
+  document.getElementById('admTinInput').value = currentTin;
+  document.getElementById('adminTinModal').style.display = 'flex';
+}
+
+function closeAdminTinModal() {
+  document.getElementById('adminTinModal').style.display = 'none';
+}
+
+function saveAdminTin() {
+  const val = document.getElementById('admTinInput').value.trim();
+  localStorage.setItem('shoaib_client_tin', val);
+  localStorage.setItem('shoaib_client_tin_' + currentTinOrderId, val);
+  alert('✓ Tax ID / TIN updated! It will appear on the client invoice.');
+  closeAdminTinModal();
+}
+
 </script>
+
+<!-- ADMIN TIN / TAX ID MODAL -->
+<div class="modal" id="adminTinModal" onclick="if(event.target === this) closeAdminTinModal()">
+  <div class="modal-box" style="max-width: 500px;">
+    <button class="modal-close" onclick="closeAdminTinModal()">✕</button>
+    <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 6px; color: #fff;">🏷️ Add / Edit Client Tax ID &amp; TIN</h3>
+    <p style="font-size: 13px; color: #aaa; margin-bottom: 16px;">
+      For clients requesting official Tax ID, EIN, or VAT numbers on their invoice.
+    </p>
+
+    <div class="form-field" style="margin-bottom: 16px;">
+      <label style="display: block; font-size: 12px; color: #ccc; margin-bottom: 6px;">Client Agency / Name</label>
+      <input type="text" id="admTinClientName" readonly style="width: 100%; padding: 10px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px;">
+    </div>
+
+    <div class="form-field" style="margin-bottom: 20px;">
+      <label style="display: block; font-size: 12px; color: #ccc; margin-bottom: 6px;">Tax Identification / TIN / VAT / EIN Number</label>
+      <input type="text" id="admTinInput" placeholder="e.g. US-EIN: 12-3456789 or VAT: DE815234567" style="width: 100%; padding: 10px; background: #161616; border: 1px solid #555; color: #fff; border-radius: 6px;">
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; gap: 10px;">
+      <button class="btn sm outline" onclick="closeAdminTinModal()">Cancel</button>
+      <button class="btn sm" onclick="saveAdminTin()" style="background: #ff4d00; border: 0; color: #fff;">✓ Save &amp; Sync to Client Invoice</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
