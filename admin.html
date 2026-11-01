@@ -257,8 +257,9 @@ a { color: inherit; text-decoration: none; }
               <span class="status-pill delivered" style="font-size: 11px;">✓ Completed (18h 30m)</span>
             </td>
             <td>
-              <strong style="color: #4ade80;">$490.00 USD</strong><br>
+              <strong style="color: #4ade80;" id="admPrice084">$490.00 USD</strong><br>
               <span style="font-size: 11px; color: #777;">Agreed ✓ ($25/img)</span>
+              <div id="admExtraBadge084" style="display: none; margin-top: 4px; font-size: 11px; color: #f59e0b; background: rgba(245,158,11,0.15); padding: 2px 6px; border-radius: 4px;"></div>
             </td>
             <td><span class="status-pill delivered" id="badgeRow1">Delivered ✓</span></td>
             <td>
@@ -270,6 +271,7 @@ a { color: inherit; text-decoration: none; }
               </select>
             </td>
             <td style="white-space: nowrap;">
+              <button class="btn sm outline" onclick="openAdminExtraFeeModal('084')">💰 + Extra Fee</button>
               <button class="btn sm outline" onclick="openAdminTinModal('084')">🏷️ Tax ID / TIN</button>
               <button class="btn sm outline" onclick="openDelModal('084')">🔗 Delivery Link</button>
               <button class="btn sm outline" onclick="viewClientBrief('084')">Brief 👁️</button>
@@ -304,6 +306,7 @@ a { color: inherit; text-decoration: none; }
               </select>
             </td>
             <td style="white-space: nowrap;">
+              <button class="btn sm outline" onclick="openAdminExtraFeeModal('085')">💰 + Extra Fee</button>
               <button class="btn sm outline" onclick="openAdminTinModal('085')">🏷️ Tax ID / TIN</button>
               <button class="btn sm outline" onclick="openDelModal('085')">🔗 Delivery Link</button>
               <button class="btn sm outline" onclick="viewClientBrief('085')">Brief 👁️</button>
@@ -537,6 +540,87 @@ function saveAdminTin() {
   closeAdminTinModal();
 }
 
+
+// ADMIN ADDITIONAL WORK & EXTRA REVISION FEE MANAGEMENT
+let currentExtraOrderId = '084';
+function openAdminExtraFeeModal(id) {
+  currentExtraOrderId = id;
+  const clientName = (id === '084') ? 'Order #RS-2026-084 • Sarah Jenkins (Studio New York)' : 'Order #RS-2026-085 • Sarah Jenkins (Studio New York)';
+  document.getElementById('admExtraClientDisplay').value = clientName;
+
+  const extraSaved = localStorage.getItem('shoaib_extra_work_' + id);
+  if (extraSaved) {
+    try {
+      const extra = JSON.parse(extraSaved);
+      document.getElementById('admExtraDescInput').value = extra.desc || '';
+      document.getElementById('admExtraQtyInput').value = extra.qty || 5;
+      document.getElementById('admExtraRateInput').value = extra.rate || 10;
+    } catch(e) {}
+  }
+  calcAdmExtraTotal();
+  document.getElementById('adminExtraFeeModal').style.display = 'flex';
+}
+
+function closeAdminExtraFeeModal() {
+  document.getElementById('adminExtraFeeModal').style.display = 'none';
+}
+
+function calcAdmExtraTotal() {
+  const q = Number(document.getElementById('admExtraQtyInput').value) || 0;
+  const r = Number(document.getElementById('admExtraRateInput').value) || 0;
+  const total = q * r;
+  document.getElementById('admExtraTotalPreview').textContent = '+$' + total.toFixed(2) + ' USD';
+  return total;
+}
+
+function saveAdminExtraFee() {
+  const desc = document.getElementById('admExtraDescInput').value.trim();
+  const qty = Number(document.getElementById('admExtraQtyInput').value) || 1;
+  const rate = Number(document.getElementById('admExtraRateInput').value) || 0;
+  const amount = qty * rate;
+
+  if (!desc) {
+    alert('Please enter a description for the additional work.');
+    return;
+  }
+
+  const extraObj = { desc, qty, rate, amount };
+  localStorage.setItem('shoaib_extra_work_' + currentExtraOrderId, JSON.stringify(extraObj));
+  checkAdminExtraBadges();
+  closeAdminExtraFeeModal();
+  alert('✓ Additional work fee of $' + amount.toFixed(2) + ' added to client invoice!');
+}
+
+function clearAdminExtraFee() {
+  if (confirm('Remove additional work fee for this order?')) {
+    localStorage.removeItem('shoaib_extra_work_' + currentExtraOrderId);
+    checkAdminExtraBadges();
+    closeAdminExtraFeeModal();
+  }
+}
+
+function checkAdminExtraBadges() {
+  const saved = localStorage.getItem('shoaib_extra_work_084');
+  const badge = document.getElementById('admExtraBadge084');
+  const priceEl = document.getElementById('admPrice084');
+  if (saved && badge && priceEl) {
+    try {
+      const extra = JSON.parse(saved);
+      if (extra && extra.amount > 0) {
+        const total = 490 + Number(extra.amount);
+        priceEl.textContent = '$' + total.toFixed(2) + ' USD';
+        badge.style.display = 'inline-block';
+        badge.textContent = '+ Extra: $' + Number(extra.amount).toFixed(2) + ' (' + extra.desc.substring(0, 20) + '...)';
+        return;
+      }
+    } catch(e) {}
+  }
+  if (badge) badge.style.display = 'none';
+  if (priceEl) priceEl.textContent = '$490.00 USD';
+}
+
+window.addEventListener('DOMContentLoaded', checkAdminExtraBadges);
+
 </script>
 
 <!-- ADMIN TIN / TAX ID MODAL -->
@@ -561,6 +645,52 @@ function saveAdminTin() {
     <div style="display: flex; justify-content: flex-end; gap: 10px;">
       <button class="btn sm outline" onclick="closeAdminTinModal()">Cancel</button>
       <button class="btn sm" onclick="saveAdminTin()" style="background: #ff4d00; border: 0; color: #fff;">✓ Save &amp; Sync to Client Invoice</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ADMIN EXTRA WORK & REVISION FEE MODAL (USER REQUEST) -->
+<div class="modal" id="adminExtraFeeModal" onclick="if(event.target === this) closeAdminExtraFeeModal()">
+  <div class="modal-box" style="max-width: 520px;">
+    <button class="modal-close" onclick="closeAdminExtraFeeModal()">✕</button>
+    <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 6px; color: #fff;">💰 Add Additional Work &amp; Revision Fee</h3>
+    <p style="font-size: 13px; color: #aaa; margin-bottom: 16px;">
+      Add billable charges for extra client revisions, additional clipping paths, or custom color grading requests.
+    </p>
+
+    <div class="form-field" style="margin-bottom: 14px;">
+      <label style="display: block; font-size: 12px; color: #ccc; margin-bottom: 6px;">Order ID &amp; Client</label>
+      <input type="text" id="admExtraClientDisplay" readonly style="width: 100%; padding: 10px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px;">
+    </div>
+
+    <div class="form-field" style="margin-bottom: 14px;">
+      <label style="display: block; font-size: 12px; color: #ccc; margin-bottom: 6px;">Additional Work Description *</label>
+      <input type="text" id="admExtraDescInput" placeholder="e.g. Additional 5 Clipping Paths &amp; White BG Export" style="width: 100%; padding: 10px; background: #161616; border: 1px solid #555; color: #fff; border-radius: 6px;" value="Additional 5 Clipping Paths &amp; High-Res Transparent PNGs">
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
+      <div class="form-field">
+        <label style="display: block; font-size: 12px; color: #ccc; margin-bottom: 6px;">Quantity *</label>
+        <input type="number" id="admExtraQtyInput" min="1" max="100" value="5" oninput="calcAdmExtraTotal()" style="width: 100%; padding: 10px; background: #161616; border: 1px solid #555; color: #fff; border-radius: 6px;">
+      </div>
+      <div class="form-field">
+        <label style="display: block; font-size: 12px; color: #ccc; margin-bottom: 6px;">Rate per item ($ USD) *</label>
+        <input type="number" id="admExtraRateInput" min="1" max="500" value="10" oninput="calcAdmExtraTotal()" style="width: 100%; padding: 10px; background: #161616; border: 1px solid #555; color: #fff; border-radius: 6px;">
+      </div>
+    </div>
+
+    <div style="background: rgba(245, 158, 11, 0.15); border: 1px solid #f59e0b; border-radius: 8px; padding: 12px 16px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+      <span style="font-size: 13px; font-weight: 700; color: #fde68a;">Additional Amount to Bill:</span>
+      <span style="font-size: 18px; font-weight: 800; color: #f59e0b;" id="admExtraTotalPreview">+$50.00 USD</span>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <button class="btn sm outline" onclick="clearAdminExtraFee()" style="color: #ef4444; border-color: #7f1d1d;">✕ Remove Fee</button>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn sm outline" onclick="closeAdminExtraFeeModal()">Cancel</button>
+        <button class="btn sm" onclick="saveAdminExtraFee()" style="background: #ff4d00; border: 0; color: #fff;">✓ Save &amp; Sync to Client Invoice</button>
+      </div>
     </div>
   </div>
 </div>

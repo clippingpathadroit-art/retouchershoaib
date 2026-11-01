@@ -1327,6 +1327,38 @@ body {
               </div>
             </div>
 
+            <!-- PROJECT SUMMARY BANNER (USER REQUEST) -->
+            <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 14px 18px; margin: 20px 0 16px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 14px; align-items: center;">
+              <div>
+                <div class="inv-meta-label">Project Name</div>
+                <div style="font-family: var(--f-display); font-size: 15px; font-weight: 800; color: #0f172a;" id="invProjectNameDisplay">
+                  Luxury Jewelry &amp; Watches Suite
+                </div>
+                <div style="font-size: 11px; color: var(--mut);">Focus Stacking &amp; Diamond Scintillation Polish</div>
+              </div>
+              <div>
+                <div class="inv-meta-label">Total Image Quantity</div>
+                <div style="font-family: var(--f-display); font-size: 16px; font-weight: 800; color: #2563eb;" id="invTotalImagesDisplay">
+                  14 RAWs
+                </div>
+                <div style="font-size: 11px; color: var(--mut);">.CR3 Master Stacks</div>
+              </div>
+              <div>
+                <div class="inv-meta-label">Commercial Rate</div>
+                <div style="font-family: var(--f-display); font-size: 16px; font-weight: 800; color: #059669;" id="invUnitRateDisplay">
+                  $25.00 / img
+                </div>
+                <div style="font-size: 11px; color: var(--mut);">High-End Commercial</div>
+              </div>
+              <div>
+                <div class="inv-meta-label">Turnaround SLA</div>
+                <div style="font-family: var(--f-display); font-size: 14px; font-weight: 800; color: #475569;" id="invTurnaroundDisplay">
+                  24 Hours
+                </div>
+                <div style="font-size: 11px; color: var(--mut);">Express Studio SLA</div>
+              </div>
+            </div>
+
             <table class="inv-table">
               <thead>
                 <tr>
@@ -1356,7 +1388,7 @@ body {
               <div style="width: 280px;">
                 <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px;">
                   <span style="color: var(--mut);">Subtotal:</span>
-                  <span>$490.00</span>
+                  <span id="invSubtotalDisplay">$490.00</span>
                 </div>
                 <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px;">
                   <span style="color: var(--mut);">Tax (0% Export B2B):</span>
@@ -1364,7 +1396,7 @@ body {
                 </div>
                 <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: 800; border-top: 2px solid var(--fg); padding-top: 10px;">
                   <span>Total Payable:</span>
-                  <span style="color: #ff4d00;">$490.00 USD</span>
+                  <span style="color: #ff4d00;" id="invTotalPayableDisplay">$490.00 USD</span>
                 </div>
               </div>
             </div>
@@ -1536,7 +1568,7 @@ body {
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
               <div class="form-field">
-                <label class="form-label">Number of RAW / Master Images *</label>
+                <label class="form-label">Total Image Quantity (Count) *</label>
                 <input type="number" id="ordImgCount" class="form-input" min="1" max="500" value="15" required>
               </div>
 
@@ -1955,6 +1987,7 @@ function saveClientProfile(e) {
   localStorage.setItem('shoaib_client_profile', JSON.stringify(profile));
   localStorage.setItem('shoaib_client_tin', profile.tin);
   loadClientProfile();
+loadInvoiceDetails();
   alert('✓ Profile & Tax ID saved successfully! Invoices have been updated.');
   switchPortalSection('dashboard');
 }
@@ -2076,6 +2109,183 @@ function filterOrdersBySearch(q) {
 // Initialize Profile on load
 document.addEventListener('DOMContentLoaded', loadClientProfile);
 loadClientProfile();
+
+// ========================================================
+// 9. DYNAMIC INVOICE & ADDITIONAL WORK MANAGEMENT (USER REQUEST)
+// ========================================================
+function loadInvoiceDetails() {
+  const o = ORDERS['084'];
+  if (!o) return;
+
+  const pName = localStorage.getItem('shoaib_project_name_084') || o.title;
+  const imgCount = localStorage.getItem('shoaib_image_count_084') || 14;
+
+  const pNameEl = document.getElementById('invProjectNameDisplay');
+  const imgCountEl = document.getElementById('invTotalImagesDisplay');
+  const unitRateEl = document.getElementById('invUnitRateDisplay');
+
+  if (pNameEl) pNameEl.textContent = pName;
+  if (imgCountEl) imgCountEl.textContent = imgCount + ' RAWs';
+  if (unitRateEl) unitRateEl.textContent = '$25.00 / img';
+
+  const line1Title = document.getElementById('invLine1Title');
+  const line1Desc = document.getElementById('invLine1Desc');
+  const line1Qty = document.getElementById('invLine1Qty');
+  const line1Rate = document.getElementById('invLine1Rate');
+  const line1Amt = document.getElementById('invLine1Amount');
+
+  const line2Qty = document.getElementById('invLine2Qty');
+  const line2Amt = document.getElementById('invLine2Amount');
+
+  const rate1 = 25.00;
+  const rate2 = 10.00;
+  const base1 = Number(imgCount) * rate1;
+  const base2 = Number(imgCount) * rate2;
+  const baseTotal = base1 + base2;
+
+  if (line1Title) line1Title.textContent = 'High-End Commercial Retouching (' + pName + ')';
+  if (line1Desc) line1Desc.textContent = 'Project: ' + pName + ' • ' + imgCount + ' focus-stacked RAW masters';
+  if (line1Qty) line1Qty.textContent = imgCount;
+  if (line1Rate) line1Rate.textContent = '$' + rate1.toFixed(2);
+  if (line1Amt) line1Amt.textContent = '$' + base1.toFixed(2);
+
+  if (line2Qty) line2Qty.textContent = imgCount;
+  if (line2Amt) line2Amt.textContent = '$' + base2.toFixed(2);
+
+  const extraRow = document.getElementById('invExtraWorkRow');
+  const extraSaved = localStorage.getItem('shoaib_extra_work_084');
+  let extraAmount = 0;
+
+  if (extraSaved) {
+    try {
+      const extra = JSON.parse(extraSaved);
+      if (extra && extra.amount > 0) {
+        extraAmount = Number(extra.amount);
+        if (extraRow) {
+          extraRow.style.display = 'table-row';
+          document.getElementById('invExtraTitle').textContent = '⚡ Additional Work: ' + extra.desc;
+          document.getElementById('invExtraDesc').textContent = 'Requested modifications after project completion (' + extra.qty + ' items @ $' + extra.rate + ')';
+          document.getElementById('invExtraQty').textContent = extra.qty;
+          document.getElementById('invExtraRate').textContent = '$' + Number(extra.rate).toFixed(2);
+          document.getElementById('invExtraAmount').textContent = '+$' + extraAmount.toFixed(2);
+        }
+      }
+    } catch(e) {}
+  } else {
+    if (extraRow) extraRow.style.display = 'none';
+  }
+
+  const finalSubtotal = baseTotal + extraAmount;
+  const subtotalEl = document.getElementById('invSubtotalDisplay');
+  const totalPayableEl = document.getElementById('invTotalPayableDisplay');
+  const statInvoicedEl = document.getElementById('statInvoiced');
+
+  if (subtotalEl) subtotalEl.textContent = '$' + finalSubtotal.toFixed(2);
+  if (totalPayableEl) totalPayableEl.textContent = '$' + finalSubtotal.toFixed(2) + ' USD';
+  if (statInvoicedEl) statInvoicedEl.textContent = '$' + Math.round(finalSubtotal);
+
+  const cardBtn = document.querySelector('#bankCARD .btn-green');
+  if (cardBtn) {
+    cardBtn.innerHTML = '💳 Pay $' + finalSubtotal.toFixed(2) + ' USD via Card ↗';
+  }
+}
+
+function openExtraWorkModal() {
+  const extraSaved = localStorage.getItem('shoaib_extra_work_084');
+  if (extraSaved) {
+    try {
+      const extra = JSON.parse(extraSaved);
+      document.getElementById('extraDescInput').value = extra.desc || '';
+      document.getElementById('extraQtyInput').value = extra.qty || 5;
+      document.getElementById('extraRateInput').value = extra.rate || 10;
+    } catch(e) {}
+  }
+  calcExtraTotal();
+  document.getElementById('extraWorkModal').style.display = 'flex';
+}
+
+function closeExtraWorkModal() {
+  document.getElementById('extraWorkModal').style.display = 'none';
+}
+
+function calcExtraTotal() {
+  const q = Number(document.getElementById('extraQtyInput').value) || 0;
+  const r = Number(document.getElementById('extraRateInput').value) || 0;
+  const total = q * r;
+  document.getElementById('extraTotalPreview').textContent = '+$' + total.toFixed(2) + ' USD';
+  return total;
+}
+
+function saveExtraWork() {
+  const desc = document.getElementById('extraDescInput').value.trim();
+  const qty = Number(document.getElementById('extraQtyInput').value) || 1;
+  const rate = Number(document.getElementById('extraRateInput').value) || 0;
+  const amount = qty * rate;
+
+  if (!desc) {
+    alert('Please enter a description for the additional work.');
+    return;
+  }
+
+  const extraObj = { desc, qty, rate, amount };
+  localStorage.setItem('shoaib_extra_work_084', JSON.stringify(extraObj));
+  loadInvoiceDetails();
+  closeExtraWorkModal();
+  alert('✓ Additional work fee of $' + amount.toFixed(2) + ' added to official invoice!');
+}
+
+function clearExtraWork() {
+  if (confirm('Remove additional fee from this invoice?')) {
+    localStorage.removeItem('shoaib_extra_work_084');
+    loadInvoiceDetails();
+    closeExtraWorkModal();
+  }
+}
+
 </script>
+
+<!-- ADDITIONAL WORK MODAL -->
+<div class="modal-overlay" id="extraWorkModal" onclick="if(event.target === this) closeExtraWorkModal()">
+  <div class="modal-box" style="max-width: 520px;">
+    <button class="modal-close" onclick="closeExtraWorkModal()">✕</button>
+    <div style="margin-bottom: 18px;">
+      <div class="inv-meta-label">Commercial Scope Adjustment</div>
+      <h3 style="font-size: 20px; font-weight: 800; font-family: var(--f-display);">💰 Add Additional Work &amp; Revision Fee</h3>
+      <p style="font-size: 13px; color: var(--mut); margin-top: 4px;">
+        When a client requests extra modifications, extra clipping paths, or additional exports after delivery.
+      </p>
+    </div>
+
+    <div class="form-field">
+      <label class="form-label">Additional Work Description *</label>
+      <input type="text" id="extraDescInput" class="form-input" placeholder="e.g. Additional 5 Clipping Paths &amp; White BG Export" value="Additional 5 Clipping Paths &amp; High-Res Transparent PNGs">
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+      <div class="form-field">
+        <label class="form-label">Extra Quantity (Images / Tasks) *</label>
+        <input type="number" id="extraQtyInput" class="form-input" min="1" max="100" value="5" oninput="calcExtraTotal()">
+      </div>
+      <div class="form-field">
+        <label class="form-label">Rate per item ($ USD) *</label>
+        <input type="number" id="extraRateInput" class="form-input" min="1" max="500" value="10" oninput="calcExtraTotal()">
+      </div>
+    </div>
+
+    <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 12px 16px; margin: 10px 0 18px; display: flex; justify-content: space-between; align-items: center;">
+      <span style="font-size: 13px; font-weight: 700; color: #92400e;">Total Additional Fee to Add:</span>
+      <span style="font-size: 18px; font-weight: 800; color: #b45309;" id="extraTotalPreview">+$50.00 USD</span>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+      <button class="btn btn-outline btn-sm" onclick="clearExtraWork()" style="color: #dc2626;">✕ Remove Additional Fee</button>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn-outline btn-sm" onclick="closeExtraWorkModal()">Cancel</button>
+        <button class="btn btn-primary btn-sm" onclick="saveExtraWork()">✓ Save &amp; Add to Invoice</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
