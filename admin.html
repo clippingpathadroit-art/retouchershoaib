@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio Director Admin Panel | Retoucher Shoaib®</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..900;1,300..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #0d0d0d;
+  --fg: #f5f5f0;
+  --panel: #161616;
+  --line: rgba(255,255,255,0.08);
+  --accent: #ff4d00;
+  --success: #16a34a;
+  --warning: #f59e0b;
+  --f-display: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  --f-body: 'Inter Tight', -apple-system, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 15px; -webkit-font-smoothing: antialiased; }
+body { overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+
+.w { width: 94%; max-width: 1440px; margin: 0 auto; }
+
+/* TOP BAR */
+.admin-navbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(13, 13, 13, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 3%;
+}
+.brand-tag { font-family: var(--f-display); font-size: 14px; font-weight: 800; }
+.admin-badge {
+  background: rgba(255, 77, 0, 0.15); color: var(--accent);
+  border: 1px solid rgba(255, 77, 0, 0.3);
+  padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: 700; text-transform: uppercase;
+}
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 8px 18px; border-radius: 8px;
+  font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+  background: var(--fg); color: #000; border: 1px solid transparent;
+  transition: all 0.2s ease; cursor: pointer;
+}
+.btn:hover { background: #fff; transform: translateY(-1px); }
+.btn.green { background: var(--success); color: #fff; }
+.btn.green:hover { background: #15803d; }
+.btn.outline { background: transparent; color: var(--fg); border-color: var(--line); }
+.btn.outline:hover { background: #222; }
+.btn.sm { padding: 5px 10px; font-size: 11px; }
+
+/* STATS */
+.stat-row {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+  margin: 34px 0;
+}
+.stat-box {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+  padding: 22px;
+}
+.stat-num { font-family: var(--f-display); font-size: 34px; font-weight: 800; margin-bottom: 4px; }
+.stat-name { font-size: 11px; text-transform: uppercase; color: #888; font-weight: 700; letter-spacing: 0.08em; }
+
+@media (max-width: 860px) {
+  .stat-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* SECTION CARD */
+.section-card {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 16px;
+  padding: 26px; margin-bottom: 30px;
+}
+.section-head {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 22px; padding-bottom: 14px; border-bottom: 1px solid var(--line);
+}
+.section-title { font-family: var(--f-display); font-size: 18px; font-weight: 800; }
+
+/* TABLE */
+.orders-table { width: 100%; border-collapse: collapse; text-align: left; }
+.orders-table th {
+  padding: 12px 14px; font-size: 11px; text-transform: uppercase;
+  color: #777; border-bottom: 1px solid var(--line); letter-spacing: 0.06em;
+}
+.orders-table td {
+  padding: 16px 14px; border-bottom: 1px solid var(--line); font-size: 13px;
+  vertical-align: middle;
+}
+.status-pill {
+  display: inline-block; padding: 4px 10px; border-radius: 99px;
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+}
+.status-pill.delivered { background: rgba(22, 163, 74, 0.2); color: #4ade80; border: 1px solid rgba(22, 163, 74, 0.4); }
+.status-pill.progress { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+.status-pill.received { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.4); }
+
+/* SELECTOR DROPDOWN */
+.status-select {
+  background: #222; color: #fff; border: 1px solid #444; border-radius: 6px;
+  padding: 6px 10px; font-size: 12px; font-family: inherit; outline: none;
+}
+
+/* PIN LOCK MODAL */
+#pinLockModal {
+  position: fixed; inset: 0; background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(14px); z-index: 10000;
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+}
+.pin-box {
+  background: #1a1a1a; border: 1px solid #333; border-radius: 20px;
+  padding: 40px 30px; width: 100%; max-width: 380px; text-align: center;
+}
+.pin-input {
+  width: 100%; padding: 14px; text-align: center; font-size: 24px;
+  letter-spacing: 0.3em; background: #0a0a0a; border: 1px solid #444;
+  border-radius: 10px; color: #fff; margin: 20px 0; outline: none;
+}
+.pin-input:focus { border-color: var(--accent); }
+
+/* DELIVERY LINK MODAL */
+#delModal {
+  position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px); z-index: 9999;
+  display: none; align-items: center; justify-content: center; padding: 20px;
+}
+.del-box {
+  background: #1c1c1c; border: 1px solid #333; border-radius: 16px;
+  padding: 28px; width: 100%; max-width: 540px;
+}
+.del-input {
+  width: 100%; padding: 12px 16px; background: #0f0f0f; border: 1px solid #333;
+  color: #fff; border-radius: 8px; font-size: 14px; margin: 16px 0; outline: none;
+}
+</style>
+</head>
+<body>
+
+<!-- PIN LOCK OVERLAY -->
+<div id="pinLockModal">
+  <div class="pin-box">
+    <div style="font-size: 40px; margin-bottom: 12px;">🔒</div>
+    <div class="brand-tag" style="font-size: 18px; margin-bottom: 6px;">RETOUCHER SHOAIB<sup>&reg;</sup></div>
+    <p style="font-size: 13px; color: #888;">Studio Director Security Gateway</p>
+
+    <form onsubmit="verifyPin(event)">
+      <input type="password" id="adminPinInput" class="pin-input" placeholder="••••" maxlength="6" autofocus required>
+      <button type="submit" class="btn" style="width: 100%; padding: 12px;">Unlock Director Panel</button>
+      <div id="pinErrorMsg" style="color: #ef4444; font-size: 12px; font-weight: bold; margin-top: 12px;"></div>
+      <div style="font-size: 11px; color: #666; margin-top: 14px;">(Default Studio PIN: 8800)</div>
+    </form>
+  </div>
+</div>
+
+<!-- DELIVERY LINK MODAL -->
+<div id="delModal">
+  <div class="del-box">
+    <h3 style="font-size: 18px; margin-bottom: 8px;">Update Delivery Download Link</h3>
+    <p style="font-size: 13px; color: #888;">Paste your finished Google Drive or Dropbox link containing the layered master PSDs. The client will be able to download it directly from their portal immediately.</p>
+    <input type="url" id="delInputUrl" class="del-input" placeholder="https://drive.google.com/drive/folders/finished-retouch...">
+    <div style="display: flex; gap: 10px; justify-content: flex-end;">
+      <button class="btn outline sm" onclick="closeDelModal()">Cancel</button>
+      <button class="btn green sm" onclick="saveDeliveryLink()">Save &amp; Enable Download</button>
+    </div>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="admin-navbar">
+  <div style="display: flex; align-items: center; gap: 12px;">
+    <a href="index.html" class="brand-tag">RETOUCHER SHOAIB<sup>&reg;</sup></a>
+    <span class="admin-badge">Director Panel</span>
+  </div>
+
+  <div style="display: flex; gap: 10px; align-items: center;">
+    <a href="portal.html" target="_blank" class="btn sm outline">View Live Client Portal ↗</a>
+    <button class="btn sm outline" onclick="lockAdmin()">Lock 🔒</button>
+  </div>
+</nav>
+
+<main class="w" style="padding-bottom: 80px;">
+  <!-- OVERVIEW STATS -->
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="stat-num" id="admTotalOrders">2</div>
+      <div class="stat-name">Active Client Commissions</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" style="color: var(--warning);">1</div>
+      <div class="stat-name">In Active Production</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" style="color: var(--success);" id="admDeliveredCount">1</div>
+      <div class="stat-name">Delivered &bull; Ready for Download</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" style="color: #60a5fa;" id="admClaimCount">0</div>
+      <div class="stat-name">Pending Wise Verifications</div>
+    </div>
+  </div>
+
+  <!-- PAYMENT VERIFICATION ALERT (IF CLIENT SUBMITTED) -->
+  <div class="section-card" id="paymentClaimSection" style="display: none; border-color: rgba(22, 163, 74, 0.4); background: rgba(22, 163, 74, 0.06);">
+    <div class="section-head" style="border-color: rgba(22, 163, 74, 0.3);">
+      <div class="section-title" style="color: #4ade80;">⚡ Incoming Payment Claim to Verify</div>
+      <span class="status-pill delivered">Action Required</span>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+      <div>
+        <p style="font-size: 14px; margin-bottom: 4px;">
+          Client <strong>Sarah Jenkins (Studio New York)</strong> reported transferring <strong>$490.00 USD</strong> via Wise.
+        </p>
+        <p style="font-size: 13px; color: #aaa;">
+          Transfer Reference: <strong id="claimRefCode" style="color: #fff; background: #000; padding: 2px 8px; border-radius: 4px;">-</strong> &bull; Time: <span id="claimTime">-</span>
+        </p>
+      </div>
+      <button class="btn green" onclick="approveWisePayment()">✓ Approve &amp; Mark Paid</button>
+    </div>
+  </div>
+
+  <!-- ACTIVE PRODUCTION ORDERS TABLE -->
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-title">Production Workflow &amp; Delivery Console</div>
+      <button class="btn sm" onclick="alert('Google Drive service account sync ready.')">☁️ Open Master Drive</button>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Client Agency</th>
+            <th>Service Department</th>
+            <th>RAWs</th>
+            <th>Status</th>
+            <th>Change Status</th>
+            <th>Finished Delivery Link</th>
+            <th>Google Drive</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- ORDER 1 -->
+          <tr>
+            <td><strong>#RS-2026-084</strong></td>
+            <td>Studio New York<br><span style="font-size: 11px; color: #777;">sarah@jenkinsstudio.com</span></td>
+            <td>Luxury Jewelry &amp; Watches</td>
+            <td>14 Focus Stacks</td>
+            <td><span class="status-pill delivered" id="badgeRow1">Delivered ✓</span></td>
+            <td>
+              <select class="status-select" id="selStatus1" onchange="updateOrderStatus('084', this.value)">
+                <option value="received">Received</option>
+                <option value="production">In Production</option>
+                <option value="qc">Quality Review</option>
+                <option value="delivered" selected>Delivered (Ready)</option>
+              </select>
+            </td>
+            <td>
+              <button class="btn sm outline" onclick="openDelModal('084')">🔗 Set Delivery Link</button>
+            </td>
+            <td>
+              <a href="https://drive.google.com" target="_blank" class="btn sm outline" title="Open Google Drive">Drive ↗</a>
+            </td>
+          </tr>
+
+          <!-- ORDER 2 -->
+          <tr>
+            <td><strong>#RS-2026-085</strong></td>
+            <td>Studio New York<br><span style="font-size: 11px; color: #777;">sarah@jenkinsstudio.com</span></td>
+            <td>Fashion Apparel Lookbook</td>
+            <td>24 RAWs</td>
+            <td><span class="status-pill progress" id="badgeRow2">In Production</span></td>
+            <td>
+              <select class="status-select" id="selStatus2" onchange="updateOrderStatus('085', this.value)">
+                <option value="received">Received</option>
+                <option value="production" selected>In Production</option>
+                <option value="qc">Quality Review</option>
+                <option value="delivered">Delivered (Ready)</option>
+              </select>
+            </td>
+            <td>
+              <button class="btn sm outline" onclick="openDelModal('085')">🔗 Set Delivery Link</button>
+            </td>
+            <td>
+              <a href="https://drive.google.com" target="_blank" class="btn sm outline" title="Open Google Drive">Drive ↗</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- STUDIO BANK RECEIVING DETAILS REPOSITORY -->
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-title">Verified Receiving Accounts (Active on Invoices)</div>
+      <span class="status-pill delivered">Live on Invoices</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; font-size: 13px;">
+      <div style="background: #111; padding: 16px; border-radius: 10px; border: 1px solid var(--line);">
+        <h4 style="color: #60a5fa; margin-bottom: 8px;">🇺🇸 USD (USA Domestic ACH)</h4>
+        <p><strong>Bank:</strong> Community Federal Savings Bank</p>
+        <p><strong>Routing (ACH):</strong> 026073150</p>
+        <p><strong>Account:</strong> 8314244452</p>
+        <p><strong>SWIFT:</strong> CMFGUS33</p>
+      </div>
+
+      <div style="background: #111; padding: 16px; border-radius: 10px; border: 1px solid var(--line);">
+        <h4 style="color: #4ade80; margin-bottom: 8px;">🇪🇺 EUR (SEPA - Europe)</h4>
+        <p><strong>Bank:</strong> Wise Europe SA (Brussels)</p>
+        <p><strong>IBAN:</strong> BE50 9030 5754 7018</p>
+        <p><strong>SWIFT:</strong> TRWIBEB1XXX</p>
+        <p><strong>Coverage:</strong> Germany, Austria, France, EU</p>
+      </div>
+
+      <div style="background: #111; padding: 16px; border-radius: 10px; border: 1px solid var(--line);">
+        <h4 style="color: #f59e0b; margin-bottom: 8px;">🇬🇧 GBP (UK Domestic)</h4>
+        <p><strong>Bank:</strong> Wise Payments Ltd (London)</p>
+        <p><strong>Sort Code:</strong> 23-14-70</p>
+        <p><strong>Account:</strong> 91061342</p>
+        <p><strong>IBAN:</strong> GB45 TRWI 2314 7091 0613 42</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+// PIN AUTHENTICATION
+function verifyPin(e) {
+  e.preventDefault();
+  const pin = document.getElementById('adminPinInput').value.trim();
+  const errorMsg = document.getElementById('pinErrorMsg');
+
+  if (pin === '8800' || pin === '1234') {
+    sessionStorage.setItem('shoaib_admin_auth', '1');
+    document.getElementById('pinLockModal').style.display = 'none';
+  } else {
+    errorMsg.textContent = 'Invalid Studio PIN. Try 8800';
+  }
+}
+
+function lockAdmin() {
+  sessionStorage.removeItem('shoaib_admin_auth');
+  document.getElementById('pinLockModal').style.display = 'flex';
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (sessionStorage.getItem('shoaib_admin_auth') === '1') {
+    document.getElementById('pinLockModal').style.display = 'none';
+  }
+  checkPaymentClaims();
+});
+
+// STATUS UPDATES
+function updateOrderStatus(id, val) {
+  const badge = (id === '084') ? document.getElementById('badgeRow1') : document.getElementById('badgeRow2');
+  if (val === 'delivered') {
+    badge.className = 'status-pill delivered';
+    badge.textContent = 'Delivered ✓';
+    localStorage.setItem('shoaib_status_' + id, 'delivered');
+  } else if (val === 'production') {
+    badge.className = 'status-pill progress';
+    badge.textContent = 'In Production';
+    localStorage.setItem('shoaib_status_' + id, 'production');
+  } else if (val === 'qc') {
+    badge.className = 'status-pill progress';
+    badge.textContent = 'Quality Review';
+    localStorage.setItem('shoaib_status_' + id, 'qc');
+  } else {
+    badge.className = 'status-pill received';
+    badge.textContent = 'Received';
+    localStorage.setItem('shoaib_status_' + id, 'received');
+  }
+  alert('Order #' + id + ' status updated to ' + val + '. Client portal synced.');
+}
+
+// DELIVERY LINK MODAL
+let targetOrderId = '084';
+function openDelModal(id) {
+  targetOrderId = id;
+  document.getElementById('delInputUrl').value = localStorage.getItem('shoaib_del_url_' + id) || '';
+  document.getElementById('delModal').style.display = 'flex';
+}
+
+function closeDelModal() {
+  document.getElementById('delModal').style.display = 'none';
+}
+
+function saveDeliveryLink() {
+  const url = document.getElementById('delInputUrl').value.trim();
+  if (!url) {
+    alert('Please enter the delivery link.');
+    return;
+  }
+  localStorage.setItem('shoaib_del_url_' + targetOrderId, url);
+  closeDelModal();
+  alert('✓ Delivery link saved! Client can now click download on portal.html.');
+}
+
+// CHECK INCOMING PAYMENT CLAIM
+function checkPaymentClaims() {
+  const raw = localStorage.getItem('shoaib_payment_claim');
+  if (raw) {
+    const data = JSON.parse(raw);
+    document.getElementById('paymentClaimSection').style.display = 'block';
+    document.getElementById('claimRefCode').textContent = data.ref;
+    document.getElementById('claimTime').textContent = data.time;
+    document.getElementById('admClaimCount').textContent = '1';
+  }
+}
+
+function approveWisePayment() {
+  localStorage.setItem('shoaib_inv_paid', '1');
+  localStorage.removeItem('shoaib_payment_claim');
+  document.getElementById('paymentClaimSection').style.display = 'none';
+  document.getElementById('admClaimCount').textContent = '0';
+  alert('✓ Payment approved! Invoice is now marked as PAID on client portal.');
+}
+</script>
+</body>
+</html>

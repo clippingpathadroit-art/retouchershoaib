@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Portal &amp; Order Dashboard | Retoucher Shoaib®</title>
+<meta name="description" content="Secure client portal for commercial retouching clients. Track orders, upload RAW files, download finished master files, and access invoices.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..900;1,300..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #fafaf7;
+  --fg: #0a0a0a;
+  --mut: #70706c;
+  --line: rgba(0,0,0,0.08);
+  --accent: #ff4d00;
+  --success: #16a34a;
+  --card: #ffffff;
+  --f-display: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  --f-body: 'Inter Tight', -apple-system, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 16px; -webkit-font-smoothing: antialiased; }
+body { overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+.w { width: 92%; max-width: 1400px; margin: 0 auto; }
+
+/* NAVBAR */
+#navbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(250, 250, 247, 0.92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 4%;
+}
+.nav-brand { font-family: var(--f-display); font-size: 14px; font-weight: 800; letter-spacing: -0.02em; }
+.nav-links { display: flex; gap: 24px; font-size: 13px; font-weight: 600; }
+.nav-links a { color: var(--mut); transition: color 0.2s ease; }
+.nav-links a:hover, .nav-links a.active { color: var(--fg); }
+.nav-time { font-size: 11px; color: var(--mut); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 10px 22px; border-radius: 99px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+  background: var(--fg); color: #fff; border: 1px solid transparent;
+  transition: all 0.2s ease; cursor: pointer;
+}
+.btn:hover { background: #222; transform: translateY(-1px); }
+.btn.outline { background: transparent; color: var(--fg); border-color: var(--fg); }
+.btn.outline:hover { background: var(--fg); color: #fff; }
+.btn.green { background: var(--success); color: #fff; }
+.btn.green:hover { background: #15803d; }
+.btn.sm { padding: 6px 14px; font-size: 11px; }
+
+@media (max-width: 860px) {
+  .nav-links a:not(.show-mob), .nav-time { display: none; }
+}
+
+/* PORTAL HEADER */
+.portal-header {
+  padding: 50px 0 30px;
+  display: flex; justify-content: space-between; align-items: flex-end;
+  flex-wrap: wrap; gap: 20px; border-bottom: 1px solid var(--line);
+}
+.portal-title {
+  font-family: var(--f-display);
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 800; letter-spacing: -0.04em; line-height: 1.05;
+}
+.client-badge-bar {
+  display: flex; align-items: center; gap: 12px;
+  background: #fff; border: 1px solid var(--line);
+  padding: 8px 18px; border-radius: 99px; font-size: 13px; font-weight: 600;
+}
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); }
+
+/* STATS BAR */
+.portal-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+  margin: 30px 0;
+}
+.stat-card {
+  background: #fff; border: 1px solid var(--line); border-radius: 16px;
+  padding: 22px; transition: transform 0.2s ease;
+}
+.stat-card:hover { transform: translateY(-2px); }
+.stat-val { font-family: var(--f-display); font-size: 32px; font-weight: 800; margin-bottom: 4px; }
+.stat-lab { font-size: 12px; color: var(--mut); text-transform: uppercase; font-weight: 700; letter-spacing: 0.06em; }
+
+@media (max-width: 900px) {
+  .portal-stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* PORTAL MAIN NAVIGATION TABS */
+.portal-tabs {
+  display: flex; gap: 8px; border-bottom: 1px solid var(--line);
+  margin-bottom: 36px; padding-bottom: 0;
+}
+.portal-tab-btn {
+  padding: 14px 24px; font-family: var(--f-display); font-size: 14px; font-weight: 700;
+  color: var(--mut); background: transparent; border: 0; border-bottom: 2px solid transparent;
+  cursor: pointer; transition: all 0.2s ease;
+}
+.portal-tab-btn:hover { color: var(--fg); }
+.portal-tab-btn.active { color: var(--fg); border-bottom-color: var(--fg); }
+
+/* TAB 1: ORDER TRACKER */
+.order-card {
+  background: #fff; border: 1px solid var(--line); border-radius: 20px;
+  padding: clamp(24px, 3.5vw, 40px); margin-bottom: 24px;
+  box-shadow: 0 10px 30px -10px rgba(0,0,0,0.03);
+}
+.order-header-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  flex-wrap: wrap; gap: 16px; margin-bottom: 28px;
+}
+.order-id { font-family: var(--f-display); font-size: 20px; font-weight: 800; }
+.order-meta-info { font-size: 13px; color: var(--mut); margin-top: 4px; }
+
+/* TRACKING PROGRESS BAR */
+.tracker-wrap { margin: 34px 0 28px; }
+.tracker-steps {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  position: relative; text-align: center;
+}
+.tracker-line {
+  position: absolute; top: 18px; left: 12%; right: 12%; height: 3px;
+  background: #e5e5e0; z-index: 1;
+}
+.tracker-line-fill {
+  height: 100%; background: var(--success); transition: width 0.4s ease;
+}
+.tracker-step { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; }
+.step-circle {
+  width: 38px; height: 38px; border-radius: 50%; background: #e5e5e0;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 13px; color: #777; margin-bottom: 10px;
+  border: 3px solid #fff; transition: all 0.3s ease;
+}
+.tracker-step.done .step-circle { background: var(--success); color: #fff; }
+.tracker-step.active .step-circle { background: var(--fg); color: #fff; box-shadow: 0 0 0 4px rgba(10,10,10,0.12); }
+.step-name { font-size: 12px; font-weight: 700; color: #555; }
+.step-sub { font-size: 11px; color: var(--mut); margin-top: 2px; }
+
+@media (max-width: 680px) {
+  .step-sub { display: none; }
+  .step-name { font-size: 10px; }
+}
+
+/* DELIVERY DOWNLOAD BOX (READY FOR INSTANT DOWNLOAD) */
+.delivery-box {
+  background: #f0fdf4; border: 1.5px solid #86efac; border-radius: 16px;
+  padding: 24px; display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 18px; margin-top: 24px;
+}
+.delivery-info h4 { font-size: 17px; font-weight: 800; color: #166534; margin-bottom: 4px; }
+.delivery-info p { font-size: 13px; color: #15803d; }
+
+/* TAB 2: NEW ORDER FORM */
+.form-panel {
+  background: #fff; border: 1px solid var(--line); border-radius: 20px;
+  padding: clamp(28px, 4vw, 50px); max-width: 900px;
+}
+.form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.fg { margin-bottom: 22px; }
+.flab { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; color: #333; }
+.fin, .fsel, .ftxt {
+  width: 100%; padding: 14px 18px; border-radius: 10px;
+  border: 1px solid var(--line); background: #fafaf8;
+  font: inherit; font-size: 14px; outline: none; transition: border-color 0.2s;
+}
+.fin:focus, .fsel:focus, .ftxt:focus { border-color: var(--fg); background: #fff; }
+
+/* DROPZONE */
+.dropzone {
+  border: 2px dashed #d5d5d0; border-radius: 16px; padding: 44px 24px;
+  text-align: center; background: #fafaf8; cursor: pointer;
+  transition: all 0.25s ease; position: relative;
+}
+.dropzone.dragover, .dropzone:hover {
+  border-color: var(--fg); background: #f3f3ee;
+}
+.drop-icon { font-size: 38px; margin-bottom: 12px; }
+.drop-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+.drop-sub { font-size: 13px; color: var(--mut); }
+.file-list-preview { margin-top: 18px; text-align: left; }
+.file-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 14px; background: #fff; border: 1px solid var(--line);
+  border-radius: 8px; margin-bottom: 8px; font-size: 13px;
+}
+
+/* TAB 3: INVOICE VIEWER */
+.invoice-sheet {
+  background: #fff; border: 1px solid var(--line); border-radius: 20px;
+  padding: clamp(28px, 5vw, 60px); max-width: 980px; margin: 0 auto;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.04);
+}
+.inv-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  flex-wrap: wrap; gap: 24px; padding-bottom: 34px; border-bottom: 1px solid var(--line);
+}
+.inv-brand { font-family: var(--f-display); font-size: 20px; font-weight: 800; letter-spacing: -0.03em; }
+.inv-brand-sub { font-size: 13px; color: var(--mut); margin-top: 4px; }
+.inv-number { font-family: var(--f-display); font-size: 24px; font-weight: 800; text-align: right; }
+.inv-status {
+  display: inline-block; padding: 5px 12px; border-radius: 99px;
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  background: #fef08a; color: #854d0e; margin-top: 6px;
+}
+.inv-status.paid { background: #bbf7d0; color: #166534; }
+
+.inv-meta-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 30px;
+  padding: 30px 0; border-bottom: 1px solid var(--line);
+}
+.inv-col h5 { font-size: 11px; text-transform: uppercase; color: var(--mut); letter-spacing: 0.1em; margin-bottom: 8px; }
+.inv-col p { font-size: 14px; line-height: 1.6; }
+
+.inv-table { width: 100%; border-collapse: collapse; margin: 30px 0; }
+.inv-table th {
+  text-align: left; padding: 12px 14px; font-size: 11px; text-transform: uppercase;
+  color: var(--mut); border-bottom: 1px solid var(--line); letter-spacing: 0.08em;
+}
+.inv-table td { padding: 16px 14px; border-bottom: 1px solid var(--line); font-size: 14px; }
+.inv-table .num { text-align: right; }
+
+.inv-total-wrap { display: flex; justify-content: flex-end; padding: 20px 0 34px; }
+.inv-total-box { width: 320px; }
+.inv-total-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 14px; }
+.inv-total-row.grand {
+  border-top: 2px solid var(--fg); font-size: 18px; font-weight: 800;
+  padding-top: 12px; margin-top: 6px;
+}
+
+/* PAYMENT INSTRUCTIONS SELECTOR */
+.payment-section {
+  background: #fafaf8; border: 1px solid var(--line); border-radius: 16px;
+  padding: 28px; margin-top: 30px;
+}
+.curr-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+.curr-btn {
+  padding: 8px 18px; border-radius: 99px; border: 1px solid var(--line);
+  background: #fff; font-family: var(--f-body); font-size: 12px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s ease;
+}
+.curr-btn.active { background: var(--fg); color: #fff; border-color: var(--fg); }
+
+.bank-detail-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; font-size: 13px;
+}
+.bank-item {
+  background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.bank-label { font-size: 11px; color: var(--mut); text-transform: uppercase; font-weight: 600; margin-bottom: 2px; }
+.bank-val { font-weight: 700; word-break: break-all; }
+.copy-btn {
+  background: #eee; border: 0; padding: 4px 10px; border-radius: 6px;
+  font-size: 11px; font-weight: 700; cursor: pointer; transition: background 0.2s;
+}
+.copy-btn:hover { background: #ddd; }
+
+/* CONFIRM PAYMENT BOX */
+.confirm-pay-box {
+  background: #fff; border: 1px solid var(--line); border-radius: 12px;
+  padding: 18px; margin-top: 20px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+
+/* WIPE PAGE TRANSITION */
+#wipe {
+  position: fixed; inset: 0; background: #0a0a0a; z-index: 99999;
+  transform: translateY(100%); pointer-events: none;
+}
+</style>
+</head>
+<body>
+<div id="wipe"></div>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-brand">
+    RETOUCHER SHOAIB<sup>&reg;</sup>
+  </a>
+
+  <div class="nav-links">
+    <a href="work.html" class="show-mob">Work</a>
+    <a href="services.html" class="show-mob">Services</a>
+    <a href="studio.html">Studio</a>
+    <a href="feed.html">Feed</a>
+    <a href="contact.html">Contact</a>
+    <a href="portal.html" class="active show-mob">Portal</a>
+  </div>
+
+  <div class="nav-time" id="liveTimeIndicator">
+    NYC 08:30 AM • BERLIN 01:30 PM
+  </div>
+
+  <div style="display: flex; gap: 10px; align-items: center;">
+    <a href="admin.html" class="btn sm outline" title="Studio Director Login">Admin Panel 🔒</a>
+    <a href="contact.html" class="btn sm">Free Trial</a>
+  </div>
+</nav>
+
+<main class="w" style="padding-bottom: 100px;">
+  <header class="portal-header">
+    <div>
+      <div class="lab" style="margin-bottom: 8px;">Agency Production Portal</div>
+      <h1 class="portal-title">Client Dashboard</h1>
+    </div>
+
+    <div class="client-badge-bar">
+      <div class="status-dot"></div>
+      <span id="clientNameDisplay">Studio New York (Sarah Jenkins)</span>
+      <span style="color: var(--mut); font-weight: normal;">|</span>
+      <span style="font-size: 11px; color: var(--mut); text-transform: uppercase;">Retainer Tier: Commercial</span>
+    </div>
+  </header>
+
+  <!-- QUICK STATS -->
+  <div class="portal-stats">
+    <div class="stat-card">
+      <div class="stat-val" id="statActive">1</div>
+      <div class="stat-lab">In Production</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="statDelivered" style="color: var(--success);">1</div>
+      <div class="stat-lab">Ready for Download</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="statCompleted">48</div>
+      <div class="stat-lab">Total Delivered Files</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="statInvoices">$490</div>
+      <div class="stat-lab">Pending Invoice</div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION TABS -->
+  <div class="portal-tabs">
+    <button class="portal-tab-btn active" onclick="switchPortalTab('orders', this)">Active Orders &amp; Tracker (2)</button>
+    <button class="portal-tab-btn" onclick="switchPortalTab('newOrder', this)">+ Submit New Order</button>
+    <button class="portal-tab-btn" onclick="switchPortalTab('invoices', this)">Invoices &amp; Wise Billing (1)</button>
+  </div>
+
+  <!-- VIEW 1: ACTIVE ORDERS & TRACKER -->
+  <div id="viewOrders">
+    <!-- ORDER 1: DELIVERED (READY FOR DOWNLOAD) -->
+    <div class="order-card" id="cardOrder1">
+      <div class="order-header-row">
+        <div>
+          <div class="order-id">Order #RS-2026-084 &bull; Luxury Jewelry &amp; Watches Suite</div>
+          <div class="order-meta-info">Submitted: Today, 10:15 AM &bull; 14 Focus-Stacked RAWs &bull; Format: 16-bit Layered Master PSD</div>
+        </div>
+        <div>
+          <button class="btn sm" onclick="switchPortalTab('invoices', document.querySelectorAll('.portal-tab-btn')[2])">View Invoice ($490)</button>
+        </div>
+      </div>
+
+      <!-- TRACKER STEPS -->
+      <div class="tracker-wrap">
+        <div class="tracker-steps">
+          <div class="tracker-line"><div class="tracker-line-fill" style="width: 100%;"></div></div>
+          <div class="tracker-step done">
+            <div class="step-circle">✓</div>
+            <div class="step-name">1. Received</div>
+            <div class="step-sub">Raw Inspection Passed</div>
+          </div>
+          <div class="tracker-step done">
+            <div class="step-circle">✓</div>
+            <div class="step-name">2. In Production</div>
+            <div class="step-sub">Micro D&amp;B &amp; Alignment</div>
+          </div>
+          <div class="tracker-step done">
+            <div class="step-circle">✓</div>
+            <div class="step-name">3. Quality Review</div>
+            <div class="step-sub">100% Zoom Verified</div>
+          </div>
+          <div class="tracker-step done">
+            <div class="step-circle">✓</div>
+            <div class="step-name">4. Delivered</div>
+            <div class="step-sub">Ready for Download</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DOWNLOAD DELIVERY BOX -->
+      <div class="delivery-box" id="deliveryBox1">
+        <div class="delivery-info">
+          <h4>✓ Production Finished &bull; Master Files Ready for Download</h4>
+          <p>14 Multi-Layered 16-bit PSDs + Color-profiled sRGB WebP. Inspected and approved by Retoucher Shoaib.</p>
+        </div>
+        <div>
+          <a id="btnDownloadOrder1" href="https://drive.google.com" target="_blank" rel="noopener" class="btn green" style="padding: 14px 28px; font-size: 13px;">
+            📥 Download Finished Retouch Files (ZIP)
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDER 2: IN PRODUCTION -->
+    <div class="order-card" id="cardOrder2">
+      <div class="order-header-row">
+        <div>
+          <div class="order-id">Order #RS-2026-085 &bull; Editorial Fashion Apparel Lookbook</div>
+          <div class="order-meta-info">Submitted: Today, 01:30 PM &bull; 24 High-Fashion RAWs &bull; Format: Layered PSD + Transparent PNG</div>
+        </div>
+        <div>
+          <span class="btn sm outline" style="border-color: #f59e0b; color: #b45309; cursor: default;">In Production</span>
+        </div>
+      </div>
+
+      <!-- TRACKER STEPS -->
+      <div class="tracker-wrap">
+        <div class="tracker-steps">
+          <div class="tracker-line"><div class="tracker-line-fill" style="width: 45%;"></div></div>
+          <div class="tracker-step done">
+            <div class="step-circle">✓</div>
+            <div class="step-name">1. Received</div>
+            <div class="step-sub">Files Checked</div>
+          </div>
+          <div class="tracker-step active">
+            <div class="step-circle">2</div>
+            <div class="step-name">2. In Production</div>
+            <div class="step-sub">Natural Textile Sculpting</div>
+          </div>
+          <div class="tracker-step">
+            <div class="step-circle">3</div>
+            <div class="step-name">3. Quality Review</div>
+            <div class="step-sub">Pending</div>
+          </div>
+          <div class="tracker-step">
+            <div class="step-circle">4</div>
+            <div class="step-name">4. Delivered</div>
+            <div class="step-sub">Est: Tomorrow 04:00 PM</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background: #fafaf8; border: 1px solid var(--line); border-radius: 12px; padding: 16px 20px; font-size: 13px; color: #555;">
+        ⚡ <strong>Status Note from Studio Director:</strong> Senior fashion retoucher assigned. Mannequin hollow jointing and hemline symmetry alignment currently underway.
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW 2: SUBMIT NEW ORDER -->
+  <div id="viewNewOrder" style="display: none;">
+    <div class="form-panel">
+      <div class="lab" style="margin-bottom: 8px;">Production Intake</div>
+      <h2 style="font-size: 26px; font-weight: 800; margin-bottom: 24px;">Submit New Retouching Commission</h2>
+
+      <form id="newOrderForm" onsubmit="handleNewOrderSubmit(event)">
+        <div class="form-grid-2">
+          <div class="fg">
+            <label class="flab">Service Department *</label>
+            <select id="ordService" class="fsel" required>
+              <option value="Luxury Jewelry & Horology">Luxury Jewelry &amp; Watches</option>
+              <option value="Fashion & Apparel">Fashion &amp; 3D Ghost Mannequin</option>
+              <option value="Editorial & Beauty">Model, Beauty &amp; Skin Texture</option>
+              <option value="Commercial Packshots">Commercial E-Commerce Packshots</option>
+              <option value="Still Life Cosmetics">Still Life Cosmetics &amp; Luxury Glass</option>
+            </select>
+          </div>
+
+          <div class="fg">
+            <label class="flab">Turnaround Speed *</label>
+            <select id="ordSpeed" class="fsel" required>
+              <option value="Standard Production (24-48 Hours)">Standard Production (24–48 Hours)</option>
+              <option value="Priority Rush (12-24 Hours)">Priority Rush (12–24 Hours) +25%</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="fg">
+            <label class="flab">Master Delivery Format *</label>
+            <select id="ordFormat" class="fsel" required>
+              <option value="16-bit Layered Master PSD + WebP">16-bit Layered Master PSD + sRGB WebP</option>
+              <option value="16-bit ProPhoto TIFF">16-bit ProPhoto RGB TIFF</option>
+              <option value="Pure White Isolation PNG + Path">Pure White RGB(255) Isolation PNG + Clipping Path</option>
+              <option value="Custom Campaign Specs">Custom Campaign Specifications</option>
+            </select>
+          </div>
+
+          <div class="fg">
+            <label class="flab">Estimated Number of Images *</label>
+            <input type="number" id="ordCount" class="fin" placeholder="e.g. 15" min="1" max="500" value="10" required>
+          </div>
+        </div>
+
+        <!-- DRAG AND DROP ZONE -->
+        <div class="fg">
+          <label class="flab">Upload Raw Images (Drag &amp; Drop to Studio Google Drive)</label>
+          <div class="dropzone" id="portalDropzone" onclick="document.getElementById('fileInput').click()">
+            <input type="file" id="fileInput" multiple style="display: none;" onchange="handleFileSelect(event)">
+            <div class="drop-icon">☁️</div>
+            <div class="drop-title">Drag &amp; drop RAW / PSD / TIFF files here</div>
+            <div class="drop-sub">Direct high-speed upload to Retoucher Shoaib's dedicated client Drive folder &bull; Or click to browse</div>
+          </div>
+          <div class="file-list-preview" id="fileListPreview"></div>
+        </div>
+
+        <div class="fg">
+          <label class="flab">Or Paste Google Drive / Dropbox / WeTransfer Link</label>
+          <input type="url" id="ordDriveLink" class="fin" placeholder="https://drive.google.com/drive/folders/...">
+        </div>
+
+        <div class="fg">
+          <label class="flab">Creative Brief &amp; Special Retouching Instructions</label>
+          <textarea id="ordNotes" class="ftxt" rows="4" placeholder="Specify background tone (Pure white/Off-white/Transparent), shadow preferences (Natural/Cast/Drop), skin blemishes vs beauty marks retention, or edge feathering requirements..."></textarea>
+        </div>
+
+        <button type="submit" class="btn" style="padding: 16px 36px; font-size: 13px;">Submit Order to Production Team</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- VIEW 3: INVOICES & WISE BILLING -->
+  <div id="viewInvoices" style="display: none;">
+    <div class="invoice-sheet" id="invoicePrintArea">
+      <div class="inv-top">
+        <div>
+          <div class="inv-brand">RETOUCHER SHOAIB<sup>&reg;</sup></div>
+          <div class="inv-brand-sub">Commercial Post-Production Studio &bull; worldwide</div>
+          <div style="font-size: 13px; color: #555; margin-top: 6px;">Email: retouchershoaib@gmail.com &bull; WhatsApp: +880 1710-763251</div>
+        </div>
+        <div>
+          <div class="inv-number">INVOICE #RS-2026-084</div>
+          <div style="text-align: right;">
+            <span class="inv-status" id="invStatusBadge">PAYMENT PENDING</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="inv-meta-grid">
+        <div class="inv-col">
+          <h5>Billed To</h5>
+          <p><strong>Sarah Jenkins</strong><br>Studio New York / Jenkins Creative Agency<br>New York, United States<br>sarah@jenkinsstudio.com</p>
+        </div>
+        <div class="inv-col" style="text-align: right;">
+          <h5>Invoice Details</h5>
+          <p>
+            <strong>Issue Date:</strong> November 02, 2026<br>
+            <strong>Due Date:</strong> November 17, 2026 (Net 15)<br>
+            <strong>Project Reference:</strong> #RS-2026-084 (Imperial Diamond Suite)
+          </p>
+        </div>
+      </div>
+
+      <!-- TABLE -->
+      <table class="inv-table">
+        <thead>
+          <tr>
+            <th>Description &amp; Scope</th>
+            <th class="num">Qty</th>
+            <th class="num">Unit Price</th>
+            <th class="num">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <strong>High-End Macro Jewelry Retouching</strong><br>
+              <span style="font-size: 12px; color: var(--mut);">Focus stacking alignment, scratch removal on platinum prongs, gemstone facet contrast polish.</span>
+            </td>
+            <td class="num">14</td>
+            <td class="num">$25.00</td>
+            <td class="num"><strong>$350.00</strong></td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Color-Calibrated Specular Highlight Master</strong><br>
+              <span style="font-size: 12px; color: var(--mut);">16-bit layered master PSD export with preserved alpha masks and e-commerce sRGB WebP.</span>
+            </td>
+            <td class="num">14</td>
+            <td class="num">$10.00</td>
+            <td class="num"><strong>$140.00</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- TOTALS -->
+      <div class="inv-total-wrap">
+        <div class="inv-total-box">
+          <div class="inv-total-row">
+            <span style="color: var(--mut);">Subtotal:</span>
+            <span>$490.00</span>
+          </div>
+          <div class="inv-total-row">
+            <span style="color: var(--mut);">Tax / VAT (0% B2B Export):</span>
+            <span>$0.00</span>
+          </div>
+          <div class="inv-total-row grand">
+            <span>Total Payable:</span>
+            <span style="color: var(--accent);">$490.00 USD</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAYMENT INSTRUCTIONS -->
+      <div class="payment-section">
+        <h4 style="font-size: 15px; font-weight: 800; margin-bottom: 6px;">Select Payment Currency &amp; Bank Details</h4>
+        <p style="font-size: 13px; color: var(--mut); margin-bottom: 16px;">
+          Choose your local currency to view exact domestic bank routing details powered by Wise with zero international wire charges.
+        </p>
+
+        <!-- CURRENCY TABS -->
+        <div class="curr-tabs">
+          <button class="curr-btn active" onclick="switchCurrency('usd', this)">🇺🇸 USD Bank (United States)</button>
+          <button class="curr-btn" onclick="switchCurrency('eur', this)">🇪🇺 EUR SEPA (Germany, Austria, EU)</button>
+          <button class="curr-btn" onclick="switchCurrency('gbp', this)">🇬🇧 GBP Sort Code (United Kingdom)</button>
+          <button class="curr-btn" onclick="switchCurrency('wise', this)">🌐 Wise Direct Transfer</button>
+        </div>
+
+        <!-- 1. USD DETAILS -->
+        <div id="bankDetailsUSD" class="bank-detail-grid">
+          <div class="bank-item">
+            <div><div class="bank-label">Bank Name</div><div class="bank-val">Community Federal Savings Bank</div></div>
+          </div>
+          <div class="bank-item">
+            <div><div class="bank-label">Account Holder</div><div class="bank-val">MD Shoaib Siddique</div></div>
+          </div>
+          <div class="bank-item">
+            <div><div class="bank-label">ACH Routing Number (US Domestic)</div><div class="bank-val" id="valUsdRouting">026073150</div></div>
+            <button class="copy-btn" onclick="copyText('valUsdRouting')">Copy</button>
+          </div>
+          <div class="bank-item">
+            <div><div class="bank-label">Account Number</div><div class="bank-val" id="valUsdAcc">8314244452</div></div>
+            <button class="copy-btn" onclick="copyText('valUsdAcc')">Copy</button>
+          </div>
+          <div class="bank-item">
+            <div><div class="bank-label">Swift / BIC (Outside US)</div><div class="bank-val" id="valUsdSwift">CMFGUS33</div></div>
+            <button class="copy-btn" onclick="copyText('valUsdSwift')">Copy</button>
+          </div>
+          <div class="bank-item">
+            <div><div class="bank-label">Account Type</div><div class="bank-val">Checking</div></div>
+          </div>
+        </div>
+
+        <!-- 2. EUR DETAILS -->
+        <div id="bankDetailsEUR" class="bank-detail-grid" style="display: none;">
+          <div class="bank-item">
+            <div><div class="bank-label">Bank Name</div><div class="bank-val">Wise Europe SA (Brussels, Belgium)</div></div>
+          </div>
+          <div class="bank-item">
+            <div><div class="bank-label">Beneficiary Name</div><div class="bank-val">MD Shoaib Siddique</div></div>
+          </div>
+          <div class="bank-item" style="grid-column: span 2;">
+            <div><div class="bank-label">IBAN (SEPA Domestic for Germany, Austria, France, EU)</div><div class="bank-val" id="valEurIban">BE50 9030 5754 7018</div></div>
+            <button class="copy-btn" onclick="copyText('valEurIban')">Copy</button>
+          </div>
+          <div class="bank-item">
+            <div><div class="bank-label">Swift / BIC Code</div><div class="bank-val" id="valEurSwift">TRWIBEB1XXX</div></div>
+            <button class="copy-btn" onclick="copyText('valEurSwift')">Copy</button>
+          </div>
+          <div class="bank-item">
+            <div><div class="bank-label">Accepted Network</div><div class="bank-val">SEPA Instant / SEPA Credit</div></div>
+          </div>
+        </div>
+
+        <!-- 3. GBP DETAILS -->
+        <div id="bankDetailsGBP" class="bank-detail-grid" style="display: none;">
+          <div class="bank-item">
+            <div><div class="bank-label">Bank Name</div><div class="bank-val">Wise Payments Limited (London, UK)</div></div>
+          </div>
+          <div class="bank-item">
+            <div><div class="bank-label">Beneficiary Name</div><div class="bank-val">MD Shoaib Siddique</div></div>
+          </div>
+          <div class="bank-item">
+            <div><div class="bank-label">UK Sort Code</div><div class="bank-val" id="valGbpSort">23-14-70</div></div>
+            <button class="copy-btn" onclick="copyText('valGbpSort')">Copy</button>
+          </div>
+          <div class="bank-item">
+            <div><div class="bank-label">UK Account Number</div><div class="bank-val" id="valGbpAcc">91061342</div></div>
+            <button class="copy-btn" onclick="copyText('valGbpAcc')">Copy</button>
+          </div>
+          <div class="bank-item" style="grid-column: span 2;">
+            <div><div class="bank-label">International IBAN</div><div class="bank-val" id="valGbpIban">GB45 TRWI 2314 7091 0613 42</div></div>
+            <button class="copy-btn" onclick="copyText('valGbpIban')">Copy</button>
+          </div>
+        </div>
+
+        <!-- 4. WISE DIRECT -->
+        <div id="bankDetailsWISE" class="bank-detail-grid" style="display: none;">
+          <div class="bank-item" style="grid-column: span 2;">
+            <div><div class="bank-label">Wise Recipient Email</div><div class="bank-val" id="valWiseEmail">retouchershoaib@gmail.com</div></div>
+            <button class="copy-btn" onclick="copyText('valWiseEmail')">Copy</button>
+          </div>
+          <div class="bank-item" style="grid-column: span 2;">
+            <div><div class="bank-label">Direct WhatsApp Support</div><div class="bank-val">+880 1710-763251</div></div>
+            <a href="https://wa.me/8801710763251" target="_blank" class="copy-btn" style="text-decoration: none;">Chat ↗</a>
+          </div>
+        </div>
+
+        <!-- CLIENT CONFIRMATION ACTION -->
+        <div class="confirm-pay-box">
+          <input type="text" id="txRefInput" class="fin" style="flex: 1;" placeholder="Enter Wise / Bank Transfer Reference (e.g. #982401)">
+          <button type="button" class="btn" onclick="submitPaymentConfirmation()" style="padding: 14px 22px;">Confirm I Have Transferred</button>
+        </div>
+        <div id="confirmStatusMsg" style="margin-top: 10px; font-size: 13px; font-weight: 600;"></div>
+      </div>
+
+      <!-- INVOICE ACTION BUTTONS -->
+      <div style="display: flex; gap: 14px; margin-top: 30px; justify-content: flex-end;">
+        <button class="btn outline" onclick="window.print()">🖨️ Download / Print Official PDF</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+// LIVE STUDIO TIME SYNC
+function updateStudioTime() {
+  const timeEl = document.getElementById('liveTimeIndicator');
+  if (!timeEl) return;
+  const now = new Date();
+  const nyc = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hour12: true }).format(now);
+  const ber = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit', hour12: true }).format(now);
+  timeEl.textContent = `NYC ${nyc} • BERLIN ${ber}`;
+}
+setInterval(updateStudioTime, 10000);
+updateStudioTime();
+
+// TAB SWITCHER
+function switchPortalTab(tab, btn) {
+  document.querySelectorAll('.portal-tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  document.getElementById('viewOrders').style.display = (tab === 'orders') ? 'block' : 'none';
+  document.getElementById('viewNewOrder').style.display = (tab === 'newOrder') ? 'block' : 'none';
+  document.getElementById('viewInvoices').style.display = (tab === 'invoices') ? 'block' : 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// CURRENCY SELECTOR
+function switchCurrency(curr, btn) {
+  document.querySelectorAll('.curr-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  document.getElementById('bankDetailsUSD').style.display = (curr === 'usd') ? 'grid' : 'none';
+  document.getElementById('bankDetailsEUR').style.display = (curr === 'eur') ? 'grid' : 'none';
+  document.getElementById('bankDetailsGBP').style.display = (curr === 'gbp') ? 'grid' : 'none';
+  document.getElementById('bankDetailsWISE').style.display = (curr === 'wise') ? 'grid' : 'none';
+}
+
+function copyText(elId) {
+  const val = document.getElementById(elId).textContent.trim();
+  navigator.clipboard.writeText(val).then(() => {
+    alert('Copied to clipboard: ' + val);
+  });
+}
+
+// FILE DROPZONE PREVIEW
+let uploadedFiles = [];
+function handleFileSelect(e) {
+  const files = Array.from(e.target.files);
+  addFilesToQueue(files);
+}
+
+const dropzone = document.getElementById('portalDropzone');
+if (dropzone) {
+  ['dragenter', 'dragover'].forEach(eventName => {
+    dropzone.addEventListener(eventName, (e) => { e.preventDefault(); dropzone.classList.add('dragover'); }, false);
+  });
+  ['dragleave', 'drop'].forEach(eventName => {
+    dropzone.addEventListener(eventName, (e) => { e.preventDefault(); dropzone.classList.remove('dragover'); }, false);
+  });
+  dropzone.addEventListener('drop', (e) => {
+    const files = Array.from(e.dataTransfer.files);
+    addFilesToQueue(files);
+  });
+}
+
+function addFilesToQueue(files) {
+  uploadedFiles.push(...files);
+  const container = document.getElementById('fileListPreview');
+  container.innerHTML = '<strong>' + uploadedFiles.length + ' file(s) selected:</strong><br>';
+  uploadedFiles.forEach((f, idx) => {
+    const mb = (f.size / (1024 * 1024)).toFixed(1);
+    container.innerHTML += `<div class="file-item">
+      <span>📄 <strong>${f.name}</strong> (${mb} MB)</span>
+      <span style="color: var(--success); font-weight: 700;">✓ Ready for Drive Sync</span>
+    </div>`;
+  });
+}
+
+// NEW ORDER SUBMIT
+function handleNewOrderSubmit(e) {
+  e.preventDefault();
+  const service = document.getElementById('ordService').value;
+  const count = document.getElementById('ordCount').value;
+  const format = document.getElementById('ordFormat').value;
+  const speed = document.getElementById('ordSpeed').value;
+  const link = document.getElementById('ordDriveLink').value;
+  const notes = document.getElementById('ordNotes').value;
+
+  const orderId = '#RS-2026-0' + Math.floor(100 + Math.random() * 900);
+  const newOrder = {
+    id: orderId,
+    service: service,
+    count: count,
+    format: format,
+    speed: speed,
+    link: link,
+    notes: notes,
+    date: 'Just now',
+    status: 'In Production',
+    deliveryUrl: ''
+  };
+
+  // Save to localStorage for demo sync with admin
+  const existing = JSON.parse(localStorage.getItem('shoaib_orders') || '[]');
+  existing.unshift(newOrder);
+  localStorage.setItem('shoaib_orders', JSON.stringify(existing));
+
+  alert('✓ Order ' + orderId + ' submitted successfully! Production has been alerted.');
+  location.reload();
+}
+
+// PAYMENT CONFIRMATION SUBMISSION
+function submitPaymentConfirmation() {
+  const ref = document.getElementById('txRefInput').value.trim();
+  const statusEl = document.getElementById('confirmStatusMsg');
+  if (!ref) {
+    alert('Please enter your Wise or Bank transfer reference code.');
+    return;
+  }
+
+  // Save payment claim for Admin panel review
+  localStorage.setItem('shoaib_payment_claim', JSON.stringify({
+    orderId: '#RS-2026-084',
+    ref: ref,
+    amount: '$490.00 USD',
+    time: new Date().toLocaleTimeString()
+  }));
+
+  statusEl.style.color = '#15803d';
+  statusEl.textContent = '✓ Transfer submitted! Ref: ' + ref + '. Status: Pending Studio Verification (typically approved in 30 mins).';
+  document.getElementById('invStatusBadge').textContent = 'VERIFICATION IN PROGRESS';
+  document.getElementById('invStatusBadge').style.background = '#fed7aa';
+  document.getElementById('invStatusBadge').style.color = '#c2410c';
+}
+
+// SYNC REAL-TIME STATE FROM ADMIN PANEL
+window.addEventListener('DOMContentLoaded', () => {
+  // Check if admin approved payment
+  if (localStorage.getItem('shoaib_inv_paid') === '1') {
+    const badge = document.getElementById('invStatusBadge');
+    if (badge) {
+      badge.textContent = 'PAID ✓';
+      badge.classList.add('paid');
+    }
+  }
+
+  // Check if admin set custom delivery URL for Order 1
+  const customDelUrl = localStorage.getItem('shoaib_del_url_084');
+  if (customDelUrl) {
+    const btn = document.getElementById('btnDownloadOrder1');
+    if (btn) btn.href = customDelUrl;
+  }
+});
+</script>
+
+<script>
+// SMOOTH BLACK WIPE TRANSITION
+(function() {
+  const wipe = document.getElementById('wipe');
+  if (!wipe) return;
+
+  if (sessionStorage.getItem('pageWiped')) {
+    sessionStorage.removeItem('pageWiped');
+    wipe.style.transform = 'translateY(0%)';
+    requestAnimationFrame(() => {
+      wipe.style.transition = 'transform 0.45s cubic-bezier(0.7, 0, 0.2, 1)';
+      wipe.style.transform = 'translateY(-100%)';
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a');
+    if (!a) return;
+    const href = a.getAttribute('href');
+    if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:') || href.startsWith('http') || a.target === '_blank') {
+      return;
+    }
+
+    e.preventDefault();
+    sessionStorage.setItem('pageWiped', '1');
+    wipe.style.transition = 'none';
+    wipe.style.transform = 'translateY(100%)';
+    void wipe.offsetWidth;
+    wipe.style.transition = 'transform 0.42s cubic-bezier(0.7, 0, 0.2, 1)';
+    wipe.style.transform = 'translateY(0%)';
+
+    setTimeout(() => {
+      window.location.href = href;
+    }, 400);
+  });
+})();
+</script>
+</body>
+</html>
