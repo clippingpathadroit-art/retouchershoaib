@@ -1376,8 +1376,8 @@ body {
               </div>
               <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 14px 18px;">
                 <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 800; letter-spacing: 0.05em;">Client Tax Profile</div>
-                <div style="font-size: 15px; font-weight: 700; color: #0f172a; margin-top: 5px;" id="invListClientTin">US-EIN: 12-3456789</div>
-                <div style="font-size: 12px; color: #64748b; margin-top: 2px;">Verified B2B Client Entity</div>
+                <div style="font-size: 15px; font-weight: 700; color: #0f172a; margin-top: 5px;" id="invListClientTin"><span style="color: #64748b; font-size: 13px; font-weight: 600;">None (Optional)</span> <button class="btn btn-outline btn-sm" onclick="openTaxIdModal()" style="padding: 2px 7px; font-size: 10px; margin-left: 6px;">+ Add</button></div>
+                <div style="font-size: 12px; color: #94a3b8; margin-top: 2px;" id="invListTinSub">Click to add TIN / VAT if needed</div>
               </div>
             </div>
 
@@ -1448,8 +1448,9 @@ body {
                   </p>
 
                   <!-- DYNAMIC TIN / TAX ID BOX -->
-                  <div id="invTinContainer" style="margin-top: 10px; display: inline-block; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 5px 10px; font-size: 12px;">
-                    <strong>Tax ID / TIN:</strong> <span id="invTinValue">US-EIN: 12-3456789</span>
+                  <!-- DYNAMIC TIN / TAX ID BOX (USER RULE: COMPLETELY HIDDEN UNLESS ENTERED BY CLIENT) -->
+                  <div id="invTinContainer" style="margin-top: 10px; display: none; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 5px 10px; font-size: 12px;">
+                    <strong>Tax ID / TIN:</strong> <span id="invTinValue"></span>
                   </div>
                 </div>
 
@@ -1652,7 +1653,7 @@ body {
               <p style="font-size: 12px; color: var(--mut); margin-bottom: 8px;">
                 If your accounting team requires your TIN or VAT ID on official invoices, enter it here.
               </p>
-              <input type="text" id="profTin" class="form-input" placeholder="e.g. US-EIN: 12-3456789 or VAT: DE123456789" value="US-EIN: 12-3456789">
+              <input type="text" id="profTin" class="form-input" placeholder="e.g. US-EIN: 12-3456789 or VAT: DE123456789 (Optional)" value="">
             </div>
 
             <div class="form-field">
@@ -2356,10 +2357,23 @@ function loadClientProfile() {
     company: 'Studio New York',
     email: 'sarah@jenkinsstudio.com',
     address: '450 West 33rd Street, New York, NY 10001',
-    tin: 'US-EIN: 12-3456789'
+    tin: '' // 100% BLANK BY DEFAULT (USER SPECIFICATION)
   };
   if (saved) {
-    try { p = Object.assign(p, JSON.parse(saved)); } catch(e) {}
+    try {
+      const parsed = JSON.parse(saved);
+      // Clean legacy dummy TIN if it was stored
+      if (parsed.tin === 'US-EIN: 12-3456789') {
+        parsed.tin = '';
+        localStorage.setItem('shoaib_client_profile', JSON.stringify(parsed));
+      }
+      p = Object.assign(p, parsed);
+    } catch(e) {}
+  }
+
+  // Clear standalone legacy key if it contains the dummy value
+  if (localStorage.getItem('shoaib_client_tin') === 'US-EIN: 12-3456789') {
+    localStorage.removeItem('shoaib_client_tin');
   }
 
   const nameEl = document.getElementById('profName');
@@ -2372,21 +2386,54 @@ function loadClientProfile() {
   if (compEl) compEl.value = p.company;
   if (mailEl) mailEl.value = p.email;
   if (addrEl) addrEl.value = p.address;
-  if (tinEl) tinEl.value = p.tin;
+  if (tinEl) tinEl.value = p.tin || '';
 
   const invName = document.getElementById('invClientName');
   const invComp = document.getElementById('invClientCompany');
   const invMail = document.getElementById('invClientEmail');
   const invAddr = document.getElementById('invClientAddress');
   const invTinVal = document.getElementById('invTinValue');
+  const invTinContainer = document.getElementById('invTinContainer');
   const invListTinVal = document.getElementById('invListClientTin');
+  const invListTinSub = document.getElementById('invListTinSub');
 
   if (invName) invName.textContent = p.name;
   if (invComp) invComp.textContent = p.company;
   if (invMail) invMail.textContent = p.email;
   if (invAddr) invAddr.textContent = p.address;
-  if (invTinVal) invTinVal.textContent = p.tin;
-  if (invListTinVal) invListTinVal.textContent = p.tin;
+
+  // STRICT USER SPECIFICATION:
+  // "যদি ক্লায়েন্ট সেখানে ট্যাক্স আইডি বসায়, তবে সেটা ভিজিবল হবে এখানে বা ইনভয়েসেও আসবে।
+  // আর যদি সে ট্যাক্স আইডি না বসায়, তাহলে ইনভয়েসে ট্যাক্স আইডির কোনো ঘরই থাকবে না।"
+  const hasTin = p.tin && p.tin.trim().length > 0;
+  if (hasTin) {
+    // Show box on invoice
+    if (invTinContainer) invTinContainer.style.display = 'inline-block';
+    if (invTinVal) invTinVal.textContent = p.tin.trim();
+
+    // Show on Invoices List header card
+    if (invListTinVal) {
+      invListTinVal.textContent = p.tin.trim();
+      invListTinVal.style.color = '#0f172a';
+    }
+    if (invListTinSub) {
+      invListTinSub.textContent = 'Verified B2B Client Entity';
+      invListTinSub.style.color = '#059669';
+    }
+  } else {
+    // Hide box COMPLETELY on invoice - no trace of Tax ID box!
+    if (invTinContainer) invTinContainer.style.display = 'none';
+    if (invTinVal) invTinVal.textContent = '';
+
+    // Show clean placeholder with add button on list card
+    if (invListTinVal) {
+      invListTinVal.innerHTML = '<span style="color: #64748b; font-size: 13px; font-weight: 600;">None (Optional)</span> <button class="btn btn-outline btn-sm" onclick="openTaxIdModal()" style="padding: 2px 7px; font-size: 10px; margin-left: 6px;">+ Add</button>';
+    }
+    if (invListTinSub) {
+      invListTinSub.textContent = 'Click to add TIN / VAT if needed';
+      invListTinSub.style.color = '#94a3b8';
+    }
+  }
 
   const sideName = document.querySelector('.client-name');
   const sideMail = document.querySelector('.client-email');
@@ -2401,27 +2448,76 @@ function saveClientProfile(e) {
     company: document.getElementById('profCompany')?.value.trim() || 'Studio New York',
     email: document.getElementById('profEmail')?.value.trim() || 'sarah@jenkinsstudio.com',
     address: document.getElementById('profAddress')?.value.trim() || '450 West 33rd Street, New York, NY 10001',
-    tin: document.getElementById('profTin')?.value.trim() || 'US-EIN: 12-3456789'
+    tin: document.getElementById('profTin')?.value.trim() || ''
   };
   localStorage.setItem('shoaib_client_profile', JSON.stringify(p));
   loadClientProfile();
   renderInvoicesList();
-  alert('✓ Client profile and Tax ID updated across all invoices!');
+  alert('✓ Client profile updated!');
   switchPortalSection('dashboard');
 }
 
 function openTaxIdModal() {
-  const currentTin = document.getElementById('invTinValue')?.textContent || 'US-EIN: 12-3456789';
-  const newTin = prompt('Enter your Official Tax Identification Number (TIN / VAT / EIN / GST):', currentTin);
-  if (newTin && newTin.trim()) {
-    const saved = localStorage.getItem('shoaib_client_profile');
-    let p = { name: 'Sarah Jenkins', company: 'Studio New York', email: 'sarah@jenkinsstudio.com', address: '450 West 33rd Street, New York, NY 10001', tin: 'US-EIN: 12-3456789' };
-    if (saved) { try { p = Object.assign(p, JSON.parse(saved)); } catch(e) {} }
-    p.tin = newTin.trim();
-    localStorage.setItem('shoaib_client_profile', JSON.stringify(p));
-    loadClientProfile();
-    renderInvoicesList();
-    alert('✓ Tax ID updated to ' + newTin.trim() + ' on all invoices.');
+  const saved = localStorage.getItem('shoaib_client_profile');
+  let currentTin = '';
+  if (saved) {
+    try {
+      const p = JSON.parse(saved);
+      if (p.tin && p.tin !== 'US-EIN: 12-3456789') currentTin = p.tin;
+    } catch(e) {}
+  }
+
+  const input = document.getElementById('quickTinInput');
+  if (input) input.value = currentTin;
+  const modal = document.getElementById('taxIdModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  } else {
+    // Fallback prompt if modal not present
+    const newTin = prompt('Enter your Official Tax Identification Number (TIN / VAT / EIN / GST), or leave blank to remove:', currentTin);
+    if (newTin !== null) {
+      applyTinChange(newTin.trim());
+    }
+  }
+}
+
+function closeTaxIdModal() {
+  const modal = document.getElementById('taxIdModal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+}
+
+function saveQuickTin() {
+  const input = document.getElementById('quickTinInput');
+  const newTin = input ? input.value.trim() : '';
+  applyTinChange(newTin);
+  closeTaxIdModal();
+}
+
+function applyTinChange(newTin) {
+  const saved = localStorage.getItem('shoaib_client_profile');
+  let p = {
+    name: 'Sarah Jenkins',
+    company: 'Studio New York',
+    email: 'sarah@jenkinsstudio.com',
+    address: '450 West 33rd Street, New York, NY 10001',
+    tin: ''
+  };
+  if (saved) {
+    try { p = Object.assign(p, JSON.parse(saved)); } catch(e) {}
+  }
+  p.tin = newTin;
+  localStorage.setItem('shoaib_client_profile', JSON.stringify(p));
+  loadClientProfile();
+  renderInvoicesList();
+
+  if (p.tin) {
+    alert('✓ Tax ID updated to ' + p.tin + ' and visible on all invoices.');
+  } else {
+    alert('✓ Tax ID cleared. Tax ID box removed from all invoices.');
   }
 }
 

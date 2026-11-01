@@ -522,9 +522,21 @@ function approveWisePayment() {
 let currentTinOrderId = '084';
 function openAdminTinModal(id) {
   currentTinOrderId = id;
-  const clientName = (id === '084') ? 'Sarah Jenkins • Studio New York' : 'Sarah Jenkins • Studio New York';
+  const clientName = 'Sarah Jenkins • Studio New York';
   document.getElementById('admTinClientName').value = clientName;
-  const currentTin = localStorage.getItem('shoaib_client_tin') || 'US-EIN: 12-3456789';
+
+  let currentTin = '';
+  const savedProfile = localStorage.getItem('shoaib_client_profile');
+  if (savedProfile) {
+    try {
+      const p = JSON.parse(savedProfile);
+      if (p.tin && p.tin !== 'US-EIN: 12-3456789') currentTin = p.tin;
+    } catch(e) {}
+  }
+  if (!currentTin) {
+    const rawTin = localStorage.getItem('shoaib_client_tin');
+    if (rawTin && rawTin !== 'US-EIN: 12-3456789') currentTin = rawTin;
+  }
   document.getElementById('admTinInput').value = currentTin;
   document.getElementById('adminTinModal').style.display = 'flex';
 }
@@ -537,93 +549,24 @@ function saveAdminTin() {
   const val = document.getElementById('admTinInput').value.trim();
   localStorage.setItem('shoaib_client_tin', val);
   localStorage.setItem('shoaib_client_tin_' + currentTinOrderId, val);
-  alert('✓ Tax ID / TIN updated! It will appear on the client invoice.');
+
+  // Sync to shoaib_client_profile so client portal updates immediately
+  let p = { name: 'Sarah Jenkins', company: 'Studio New York', email: 'sarah@jenkinsstudio.com', address: '450 West 33rd Street, New York, NY 10001', tin: val };
+  const savedProfile = localStorage.getItem('shoaib_client_profile');
+  if (savedProfile) {
+    try { p = Object.assign(p, JSON.parse(savedProfile)); } catch(e) {}
+  }
+  p.tin = val;
+  localStorage.setItem('shoaib_client_profile', JSON.stringify(p));
+
+  if (val) {
+    alert('✓ Tax ID / TIN updated to ' + val + '. It will now appear on client invoices.');
+  } else {
+    alert('✓ Tax ID / TIN cleared. It has been removed from client invoices.');
+  }
   closeAdminTinModal();
 }
 
-
-// ADMIN ADDITIONAL WORK & EXTRA REVISION FEE MANAGEMENT
-let currentExtraOrderId = '084';
-function openAdminExtraFeeModal(id) {
-  currentExtraOrderId = id;
-  const clientName = (id === '084') ? 'Order #RS-2026-084 • Sarah Jenkins (Studio New York)' : 'Order #RS-2026-085 • Sarah Jenkins (Studio New York)';
-  document.getElementById('admExtraClientDisplay').value = clientName;
-
-  const extraSaved = localStorage.getItem('shoaib_extra_work_' + id);
-  if (extraSaved) {
-    try {
-      const extra = JSON.parse(extraSaved);
-      document.getElementById('admExtraDescInput').value = extra.desc || '';
-      document.getElementById('admExtraQtyInput').value = extra.qty || 5;
-      document.getElementById('admExtraRateInput').value = extra.rate || 10;
-    } catch(e) {}
-  }
-  calcAdmExtraTotal();
-  document.getElementById('adminExtraFeeModal').style.display = 'flex';
-}
-
-function closeAdminExtraFeeModal() {
-  document.getElementById('adminExtraFeeModal').style.display = 'none';
-}
-
-function calcAdmExtraTotal() {
-  const q = Number(document.getElementById('admExtraQtyInput').value) || 0;
-  const r = Number(document.getElementById('admExtraRateInput').value) || 0;
-  const total = q * r;
-  document.getElementById('admExtraTotalPreview').textContent = '+$' + total.toFixed(2) + ' USD';
-  return total;
-}
-
-function saveAdminExtraFee() {
-  const desc = document.getElementById('admExtraDescInput').value.trim();
-  const qty = Number(document.getElementById('admExtraQtyInput').value) || 1;
-  const rate = Number(document.getElementById('admExtraRateInput').value) || 0;
-  const amount = qty * rate;
-
-  if (!desc) {
-    alert('Please enter a description for the additional work.');
-    return;
-  }
-
-  const extraObj = { desc, qty, rate, amount };
-  localStorage.setItem('shoaib_extra_work_' + currentExtraOrderId, JSON.stringify(extraObj));
-  checkAdminExtraBadges();
-  closeAdminExtraFeeModal();
-  alert('✓ Additional work fee of $' + amount.toFixed(2) + ' added to client invoice!');
-}
-
-function clearAdminExtraFee() {
-  if (confirm('Remove additional work fee for this order?')) {
-    localStorage.removeItem('shoaib_extra_work_' + currentExtraOrderId);
-    checkAdminExtraBadges();
-    closeAdminExtraFeeModal();
-  }
-}
-
-function checkAdminExtraBadges() {
-  const saved = localStorage.getItem('shoaib_extra_work_084');
-  const badge = document.getElementById('admExtraBadge084');
-  const priceEl = document.getElementById('admPrice084');
-  if (saved && badge && priceEl) {
-    try {
-      const extra = JSON.parse(saved);
-      if (extra && extra.amount > 0) {
-        const total = 490 + Number(extra.amount);
-        priceEl.textContent = '$' + total.toFixed(2) + ' USD';
-        badge.style.display = 'inline-block';
-        badge.textContent = '+ Extra: $' + Number(extra.amount).toFixed(2) + ' (' + extra.desc.substring(0, 20) + '...)';
-        return;
-      }
-    } catch(e) {}
-  }
-  if (badge) badge.style.display = 'none';
-  if (priceEl) priceEl.textContent = '$490.00 USD';
-}
-
-window.addEventListener('DOMContentLoaded', checkAdminExtraBadges);
-
-
-// DYNAMIC ORDER SYNC FROM CLIENT PORTAL
 function loadCustomAdminOrders() {
   try {
     const raw = localStorage.getItem('shoaib_custom_orders');
