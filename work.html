@@ -1,47 +1,41 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Commercial photo retouching portfolio featuring luxury jewelry, high-fashion apparel ghost mannequin, and editorial beauty commissions.">
-<title>Selected Works | Retoucher Shoaib®</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selected Works &amp; Portfolio | Retoucher Shoaib®</title>
+<meta name="description" content="Commercial photo retouching portfolio by Retoucher Shoaib. Specialized in luxury jewelry, high-end fashion, editorial beauty, and commercial packshots.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..900;1,300..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 
+<style>
 :root {
-  --bg: #ffffff;
+  --bg: #fafaf7;
   --fg: #0a0a0a;
-  --mut: #82827e;
-  --line: #e8e8e4;
-  --soft: #f7f6f3;
-  --card: #ffffff;
-  --accent: #f26a1b;
-  --f: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --f-display: 'Plus Jakarta Sans', var(--f);
-  color-scheme: light;
-  box-sizing: border-box;
+  --mut: #70706c;
+  --line: rgba(0,0,0,0.08);
+  --accent: #ff4d00;
+  --f-display: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  --f-body: 'Inter Tight', -apple-system, sans-serif;
 }
 
-*, *::before, *::after {
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 70px;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--f-body);
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
-  background: var(--bg);
-  color: var(--fg);
-  font: 400 15px/1.6 var(--f);
   overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
@@ -49,197 +43,53 @@ a {
   text-decoration: none;
 }
 
-img, video {
-  display: block;
+img {
   max-width: 100%;
+  display: block;
 }
 
 .w {
-  max-width: 1360px;
+  width: 92%;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 0 clamp(20px, 4vw, 56px);
-}
-
-h1, h2, h3, h4, h5 {
-  font-family: var(--f-display);
-  font-weight: 700;
-  letter-spacing: -0.045em;
-  color: var(--fg);
-  line-height: 1.05;
-}
-
-.page-header {
-  padding-top: 130px;
-  padding-bottom: 50px;
-}
-
-.page-title {
-  font-size: clamp(48px, 9vw, 130px);
-  font-weight: 800;
-  letter-spacing: -0.065em;
-  line-height: 0.92;
-  margin-bottom: 24px;
-}
-
-.page-subtitle {
-  font-size: clamp(16px, 1.8vw, 22px);
-  line-height: 1.55;
-  color: #555;
-  max-width: 740px;
-}
-
-.lab {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--mut);
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font: 600 11px/1 var(--f);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 6px 12px;
-  border-radius: 99px;
-  background: var(--soft);
-  color: var(--fg);
-  border: 1px solid var(--line);
-}
-
-.badge.accent {
-  background: rgba(242, 106, 27, 0.08);
-  color: var(--accent);
-  border-color: rgba(242, 106, 27, 0.25);
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 14px 28px;
-  border-radius: 99px;
-  font: 600 13px var(--f);
-  letter-spacing: 0.02em;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: all 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
-  background: var(--fg);
-  color: #fff;
-}
-
-.btn:hover {
-  background: var(--accent);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(242, 106, 27, 0.28);
-}
-
-.btn.outline {
-  background: transparent;
-  color: var(--fg);
-  border-color: var(--fg);
-}
-
-.btn.outline:hover {
-  background: var(--fg);
-  color: #fff;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-}
-
-.btn.sm {
-  padding: 8px 18px;
-  font-size: 12px;
-}
-
-.pill {
-  display: inline-block;
-  padding: 8px 18px;
-  border-radius: 99px;
-  background: #f2f2ee;
-  color: #444;
-  font-size: 13px;
-  font-weight: 500;
-  transition: all 0.25s ease;
-  cursor: pointer;
-  border: 1px solid transparent;
-}
-
-.pill:hover, .pill.active {
-  background: var(--fg);
-  color: #fff;
-  border-color: var(--fg);
 }
 
 /* NAVBAR */
-nav {
-  position: fixed;
+#navbar {
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
   z-index: 100;
+  background: rgba(250, 250, 247, 0.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 16px clamp(20px, 4vw, 56px);
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(232, 232, 228, 0.75);
+  justify-content: space-between;
+  padding: 18px 4%;
 }
 
 .nav-brand {
   font-family: var(--f-display);
-  font-size: 17px;
+  font-size: 14px;
   font-weight: 800;
-  letter-spacing: -0.04em;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.nav-brand sup {
-  font-size: 9px;
-  color: var(--accent);
+  letter-spacing: -0.02em;
 }
 
 .nav-links {
   display: flex;
-  align-items: center;
-  gap: clamp(18px, 2.8vw, 36px);
-  font-size: 12px;
+  gap: 28px;
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
 .nav-links a {
-  position: relative;
-  padding: 6px 0;
-  color: #666;
+  color: var(--mut);
   transition: color 0.2s ease;
 }
 
-.nav-links a:hover, .nav-links a.active {
+.nav-links a:hover,
+.nav-links a.active {
   color: var(--fg);
-}
-
-.nav-links a::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0%;
-  height: 2px;
-  background: var(--fg);
-  transition: width 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
-}
-
-.nav-links a:hover::after, .nav-links a.active::after {
-  width: 100%;
 }
 
 .nav-time {
@@ -250,27 +100,217 @@ nav {
   text-transform: uppercase;
 }
 
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 22px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: var(--fg);
+  color: #fff;
+  transition: all 0.2s ease;
+}
+.btn:hover { background: #222; transform: translateY(-1px); }
+
 @media (max-width: 860px) {
-  .nav-links a:not(.show-mob), .nav-time {
-    display: none;
-  }
+  .nav-links a:not(.show-mob), .nav-time { display: none; }
+}
+
+/* GENERAL TYPOGRAPHY / LAB */
+.lab {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mut);
+}
+
+/* WORK HEADER */
+.work-header {
+  padding: 90px 0 50px;
+  border-bottom: 1px solid var(--line);
+}
+.work-header .page-title {
+  font-family: var(--f-display);
+  font-size: clamp(48px, 9vw, 110px);
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  line-height: 0.95;
+  margin-bottom: 20px;
+}
+.work-header .page-lead {
+  font-size: clamp(16px, 1.8vw, 22px);
+  line-height: 1.5;
+  color: #444;
+  max-width: 780px;
+}
+
+/* FILTER BAR */
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 40px 0 50px;
+}
+
+.pill {
+  padding: 10px 20px;
+  border-radius: 99px;
+  border: 1px solid var(--line);
+  background: transparent;
+  font-family: var(--f-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mut);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pill:hover,
+.pill.active {
+  background: var(--fg);
+  color: #fff;
+  border-color: var(--fg);
+}
+
+/* WORK GRID */
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(28px, 4vw, 56px);
+  margin-bottom: 90px;
+}
+
+.work-card {
+  cursor: pointer;
+  display: block;
+}
+
+.work-thumb {
+  width: 100%;
+  aspect-ratio: 4 / 3.4;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #f0f0ec;
+  margin-bottom: 18px;
+  position: relative;
+  box-shadow: 0 10px 30px -8px rgba(0,0,0,0.08);
+}
+
+.work-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.work-card:hover .work-thumb img {
+  transform: scale(1.04);
+}
+
+.work-thumb-badge {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.work-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 4px;
+}
+
+.work-cat {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--mut);
+}
+
+@media (max-width: 768px) {
+  .work-grid { grid-template-columns: 1fr; }
+}
+
+/* LIGHTBOX MODAL */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.76);
+  backdrop-filter: blur(14px);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal-overlay.active { display: flex; }
+
+.modal-box {
+  width: 100%;
+  max-width: 1060px;
+  max-height: 90vh;
+  background: #fff;
+  border-radius: 20px;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  position: relative;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+}
+
+.modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.06);
+  border: 0;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+.modal-close:hover {
+  background: #000;
+  color: #fff;
+}
+
+@media (max-width: 860px) {
+  .modal-box { grid-template-columns: 1fr; }
 }
 
 /* FOOTER */
 footer {
-  padding: 80px 0 40px;
   border-top: 1px solid var(--line);
-  background: #ffffff;
+  padding: 90px 0 50px;
+  background: #fafaf7;
 }
 
 .footer-giant-logo {
   font-family: var(--f-display);
-  font-size: clamp(60px, 15vw, 210px);
-  font-weight: 800;
-  letter-spacing: -0.065em;
-  line-height: 0.85;
+  font-size: clamp(38px, 9.8vw, 142px);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 0.88;
   color: var(--fg);
   margin-bottom: 50px;
+  cursor: pointer;
 }
 
 .footer-grid {
@@ -322,130 +362,7 @@ footer {
   }
 }
 
-
-.filter-bar {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 50px;
-}
-
-.work-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: clamp(28px, 4vw, 56px);
-  margin-bottom: 90px;
-}
-
-.work-card {
-  cursor: pointer;
-  display: block;
-}
-
-.work-thumb {
-  width: 100%;
-  aspect-ratio: 4 / 4.8;
-  border-radius: 16px;
-  overflow: hidden;
-  background: #f0f0ec;
-  margin-bottom: 18px;
-  position: relative;
-  box-shadow: 0 10px 30px -8px rgba(0,0,0,0.08);
-}
-
-.work-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.work-card:hover .work-thumb img {
-  transform: scale(1.04);
-}
-
-.work-thumb-badge {
-  position: absolute;
-  top: 18px;
-  right: 18px;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(8px);
-  padding: 6px 14px;
-  border-radius: 99px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.work-title {
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  margin-bottom: 4px;
-}
-
-.work-cat {
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: var(--mut);
-}
-
-@media (max-width: 768px) {
-  .work-grid { grid-template-columns: 1fr; }
-}
-
-/* LIGHTBOX MODAL */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(10, 10, 10, 0.72);
-  backdrop-filter: blur(12px);
-  z-index: 1000;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-}
-
-.modal-overlay.active { display: flex; }
-
-.modal-box {
-  width: 100%;
-  max-width: 1000px;
-  max-height: 90vh;
-  background: #fff;
-  border-radius: 20px;
-  overflow-y: auto;
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  position: relative;
-}
-
-.modal-close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #eee;
-  border: 0;
-  font-size: 18px;
-  cursor: pointer;
-  z-index: 10;
-}
-
-@media (max-width: 800px) {
-  .modal-box { grid-template-columns: 1fr; }
-}
-
-
-
-
-
-/* FOOTER GIANT LOGO SLICE ANIMATION (EXACTLY FROM v6.html - 100% STATIC, NO TRANSLATE) */
+/* FOOTER GIANT LOGO SLICE ANIMATION */
 @property --g {
   syntax: '<length>';
   inherits: false;
@@ -457,10 +374,6 @@ footer {
   45% { --g: 6px; }
 }
 
-.footer-giant-logo {
-  cursor: pointer;
-}
-
 .footer-giant-logo.slice,
 .footer-giant-logo:hover {
   animation: slice 1.4s ease-in-out;
@@ -468,8 +381,7 @@ footer {
   mask-image: repeating-linear-gradient(#000 0 calc(10px - var(--g)), transparent calc(10px - var(--g)) 10px);
 }
 
-
-/* WIPE PAGE TRANSITION (BOTTOM TO TOP BLACK SLIDE) */
+/* WIPE PAGE TRANSITION */
 #wipe {
   position: fixed;
   inset: 0;
@@ -478,15 +390,6 @@ footer {
   transform: translateY(100%);
   pointer-events: none;
 }
-@keyframes wipeIn {
-  0% { transform: translateY(100%); }
-  100% { transform: translateY(0%); }
-}
-@keyframes wipeOut {
-  0% { transform: translateY(0%); }
-  100% { transform: translateY(-100%); }
-}
-
 </style>
 </head>
 <body>
@@ -498,11 +401,11 @@ footer {
   </a>
 
   <div class="nav-links">
-    <a href="work.html" class="show-mob active">Work</a>
+    <a href="work.html" class="active show-mob">Work</a>
     <a href="services.html" class="show-mob">Services</a>
-    <a href="studio.html" class="">Studio</a>
-    <a href="feed.html" class="">Feed</a>
-    <a href="contact.html" class="show-mob ">Contact</a>
+    <a href="studio.html">Studio</a>
+    <a href="feed.html">Feed</a>
+    <a href="contact.html" class="show-mob">Contact</a>
   </div>
 
   <div class="nav-time" id="liveTimeIndicator">
@@ -510,153 +413,395 @@ footer {
   </div>
 
   <div>
-    <a href="contact.html" class="btn sm">Free Trial</a>
+    <a href="contact.html" class="btn">Free Trial</a>
   </div>
 </nav>
 
-<div class="w page-header">
-  <div class="lab" style="margin-bottom: 12px;">Dedicated Portfolio</div>
-  <h1 class="page-title">Selected Works</h1>
-  <p class="page-subtitle">
-    A curated collection of commercial retouching, ghost mannequin apparel, luxury jewelry polish, and high-fashion beauty campaigns executed for international brands.
-  </p>
+<main class="w">
+  <header class="work-header">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px;">
+      <div>
+        <div class="lab" style="margin-bottom: 12px;">Official Behance Portfolio</div>
+        <h1 class="page-title">Commercial Works</h1>
+        <p class="page-lead">
+          Selected high-end retouching projects, editorial fashion suites, and commercial packshots from our live Behance portfolio.
+        </p>
+      </div>
+      <div>
+        <a href="https://www.behance.net/retouchershoaib" target="_blank" rel="noopener" class="btn" style="background: #0057ff; color: #fff; padding: 12px 24px;">
+          Behance Profile ↗
+        </a>
+      </div>
+    </div>
+  </header>
 
   <div class="filter-bar">
-    <button class="pill active" onclick="filterProjects('all', this)">All Commissions</button>
-    <button class="pill" onclick="filterProjects('jewelry', this)">Luxury Jewelry</button>
-    <button class="pill" onclick="filterProjects('fashion', this)">Fashion & Apparel</button>
-    <button class="pill" onclick="filterProjects('beauty', this)">Model & Beauty</button>
-    <button class="pill" onclick="filterProjects('product', this)">Product & Still Life</button>
+    <button class="pill active" onclick="filterProjects('all', this)">All Commissions (12)</button>
+    <button class="pill" onclick="filterProjects('beauty', this)">Beauty &amp; Portrait (4)</button>
+    <button class="pill" onclick="filterProjects('fashion', this)">Fashion &amp; Apparel (3)</button>
+    <button class="pill" onclick="filterProjects('jewelry', this)">Luxury Jewelry (1)</button>
+    <button class="pill" onclick="filterProjects('product', this)">Product &amp; Commercial (4)</button>
   </div>
 
   <div class="work-grid" id="workGrid">
-    <!-- Item 1: Jewelry -->
-    <div class="work-card" data-cat="jewelry" onclick="openModal(0)">
+
+    <!-- Item 1: Studio Portrait Retouching - Black Background -->
+    <div class="work-card" data-cat="beauty" onclick="openModal(0)">
       <div class="work-thumb">
-        <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=1100&q=85" alt="Diamond Ring">
-        <div class="work-thumb-badge">Jewelry</div>
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/1bfcc6256193953.Y3JvcCwxMDAyLDc4NCwxMTEsMzI3.jpg" alt="Studio Portrait Retouching - Black Background" loading="lazy">
+        <div class="work-thumb-badge">Beauty & Portrait</div>
       </div>
-      <div class="work-title">The Imperial Diamond Suite</div>
-      <div class="work-cat">Focus Stacking • Specular Highlight Polish</div>
+      <div class="work-title">Studio Portrait Retouching - Black Background</div>
+      <div class="work-cat">Non-destructive frequency separation & skin texture</div>
     </div>
 
-    <!-- Item 2: Fashion -->
-    <div class="work-card" data-cat="fashion" onclick="openModal(1)">
+    <!-- Item 2: High-End Jewelry Retouching & Product Post-Processing -->
+    <div class="work-card" data-cat="jewelry" onclick="openModal(1)">
       <div class="work-thumb">
-        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1100&q=85" alt="Haute Couture Lookbook">
-        <div class="work-thumb-badge">Apparel</div>
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/dcf900256311631.Y3JvcCw5NDYsNzQwLDIyNywxNTQ.jpg" alt="High-End Jewelry Retouching & Product Post-Processing" loading="lazy">
+        <div class="work-thumb-badge">Luxury Jewelry</div>
       </div>
-      <div class="work-title">Monochrome Spring Lookbook</div>
-      <div class="work-cat">3D Ghost Mannequin • Symmetry Alignment</div>
+      <div class="work-title">High-End Jewelry Retouching & Product Post-Processing</div>
+      <div class="work-cat">Focus stacking alignment & specular diamond polish</div>
     </div>
 
-    <!-- Item 3: Beauty -->
-    <div class="work-card" data-cat="beauty" onclick="openModal(2)">
+    <!-- Item 3: Flat Lay Clothing Photo Retouching -->
+    <div class="work-card" data-cat="fashion" onclick="openModal(2)">
       <div class="work-thumb">
-        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1100&q=85" alt="Editorial Beauty">
-        <div class="work-thumb-badge">Beauty</div>
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/1384a9221210157.Y3JvcCw3NTUsNTkwLDI2LDIw.jpg" alt="Flat Lay Clothing Photo Retouching" loading="lazy">
+        <div class="work-thumb-badge">Fashion & Apparel</div>
       </div>
-      <div class="work-title">L'Étoile Editorial Portraiture</div>
-      <div class="work-cat">Frequency Separation • 100% Skin Texture</div>
+      <div class="work-title">Flat Lay Clothing Photo Retouching</div>
+      <div class="work-cat">Symmetrical shaping, wrinkle reduction & true fabric color</div>
     </div>
 
-    <!-- Item 4: Jewelry / Watch -->
-    <div class="work-card" data-cat="jewelry" onclick="openModal(3)">
+    <!-- Item 4: Suit & Menswear Photo Retouching -->
+    <div class="work-card" data-cat="fashion" onclick="openModal(3)">
       <div class="work-thumb">
-        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1100&q=85" alt="Swiss Chronograph">
-        <div class="work-thumb-badge">Watches</div>
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/607e06209459195.Y3JvcCwxMjAwLDkzOCwwLDEzMA.jpg" alt="Suit & Menswear Photo Retouching" loading="lazy">
+        <div class="work-thumb-badge">Fashion & Apparel</div>
       </div>
-      <div class="work-title">Geneva Chronograph Series</div>
-      <div class="work-cat">Brushed Metal Polish • Sapphire Anti-Reflection</div>
+      <div class="work-title">Suit & Menswear Photo Retouching</div>
+      <div class="work-cat">Lapel symmetry, fabric drape & 3D ghost styling</div>
     </div>
 
-    <!-- Item 5: Fashion Denim -->
+    <!-- Item 5: Fashion Images Retouching -->
     <div class="work-card" data-cat="fashion" onclick="openModal(4)">
       <div class="work-thumb">
-        <img src="https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=1100&q=85" alt="Denim Apparel">
-        <div class="work-thumb-badge">Apparel</div>
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/a90bd8206885799.Y3JvcCwxOTQ0LDE1MjAsMCww.jpg" alt="Fashion Images Retouching" loading="lazy">
+        <div class="work-thumb-badge">Fashion & Apparel</div>
       </div>
-      <div class="work-title">Nordic Denim Ghost Mannequin</div>
-      <div class="work-cat">Hollow Joint • Fabric Crease Smooth</div>
+      <div class="work-title">Fashion Images Retouching</div>
+      <div class="work-cat">Editorial color grading & high-fashion outfit styling</div>
     </div>
 
-    <!-- Item 6: Product Still Life -->
+    <!-- Item 6: Luxury Eyewear Retouching -->
     <div class="work-card" data-cat="product" onclick="openModal(5)">
       <div class="work-thumb">
-        <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1100&q=85" alt="Cosmetics Packshot">
-        <div class="work-thumb-badge">Cosmetics</div>
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/23137a206886527.Y3JvcCwzMjIyLDI1MjAsMCwzNTA.jpg" alt="Luxury Eyewear Retouching" loading="lazy">
+        <div class="work-thumb-badge">Product & Commercial</div>
       </div>
-      <div class="work-title">Botanique Luxury Serum Campaign</div>
-      <div class="work-cat">Glass Reflection • Pure White Studio</div>
+      <div class="work-title">Luxury Eyewear Retouching</div>
+      <div class="work-cat">Glare extraction, reflection control & frame polish</div>
     </div>
 
-    <!-- Item 7: High Jewelry Emerald -->
-    <div class="work-card" data-cat="jewelry" onclick="openModal(6)">
+    <!-- Item 7: Commercial Product Photo Retouching -->
+    <div class="work-card" data-cat="product" onclick="openModal(6)">
       <div class="work-thumb">
-        <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=1100&q=85" alt="Emerald Gemstone">
-        <div class="work-thumb-badge">Jewelry</div>
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/a5b029173540777.Y3JvcCw5NTgsNzUwLDIxLDA.jpg" alt="Commercial Product Photo Retouching" loading="lazy">
+        <div class="work-thumb-badge">Product & Commercial</div>
       </div>
-      <div class="work-title">Colombian Emerald Pendant</div>
-      <div class="work-cat">Gemstone Clarity • Micro-Scratch Removal</div>
+      <div class="work-title">Commercial Product Photo Retouching</div>
+      <div class="work-cat">Vector pen tool clipping, pure white & reflection</div>
     </div>
 
-    <!-- Item 8: High Fashion Editorial -->
+    <!-- Item 8: Corporate Headshot Retouching -->
     <div class="work-card" data-cat="beauty" onclick="openModal(7)">
       <div class="work-thumb">
-        <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1100&q=85" alt="Fashion Runway">
-        <div class="work-thumb-badge">Editorial</div>
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/12f781173539325.Y3JvcCw0NDgwLDM1MDQsMCw3ODc.jpg" alt="Corporate Headshot Retouching" loading="lazy">
+        <div class="work-thumb-badge">Beauty & Portrait</div>
       </div>
-      <div class="work-title">Vogue Runway Atelier Series</div>
-      <div class="work-cat">High-End Color Grading • Dodge & Burn</div>
+      <div class="work-title">Corporate Headshot Retouching</div>
+      <div class="work-cat">Executive portraits, eye clarity & subtle refinement</div>
+    </div>
+
+    <!-- Item 9: Studio Photography Photo Retouch -->
+    <div class="work-card" data-cat="beauty" onclick="openModal(8)">
+      <div class="work-thumb">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/f6eb85173672967.Y3JvcCw1Mzc2LDQyMDQsMCwxMjUw.jpg" alt="Studio Photography Photo Retouch" loading="lazy">
+        <div class="work-thumb-badge">Beauty & Portrait</div>
+      </div>
+      <div class="work-title">Studio Photography Photo Retouch</div>
+      <div class="work-cat">Full-body studio model, lighting balance & styling</div>
+    </div>
+
+    <!-- Item 10: Event & Lifestyle Photos Retouching -->
+    <div class="work-card" data-cat="beauty" onclick="openModal(9)">
+      <div class="work-thumb">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/63fa90173329495.Y3JvcCwzNjQxLDI4NDgsMzA2LDA.jpg" alt="Event & Lifestyle Photos Retouching" loading="lazy">
+        <div class="work-thumb-badge">Lifestyle & Event</div>
+      </div>
+      <div class="work-title">Event & Lifestyle Photos Retouching</div>
+      <div class="work-cat">House party atmosphere, ambient light & color grading</div>
+    </div>
+
+    <!-- Item 11: Professional Real Estate Photo Editing -->
+    <div class="work-card" data-cat="product" onclick="openModal(10)">
+      <div class="work-thumb">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/3bcc7f256615177.Y3JvcCw2OTg1LDU0NjQsMCww.jpg" alt="Professional Real Estate Photo Editing" loading="lazy">
+        <div class="work-thumb-badge">Real Estate & Architecture</div>
+      </div>
+      <div class="work-title">Professional Real Estate Photo Editing</div>
+      <div class="work-cat">HDR bracket blending, perspective correction & sky swap</div>
+    </div>
+
+    <!-- Item 12: Product Hero Image Design -->
+    <div class="work-card" data-cat="product" onclick="openModal(11)">
+      <div class="work-thumb">
+        <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/c3aafc189986215.Y3JvcCwxNTAwLDExNzMsMCwxNjM.png" alt="Product Hero Image Design" loading="lazy">
+        <div class="work-thumb-badge">Creative Advertising</div>
+      </div>
+      <div class="work-title">Product Hero Image Design</div>
+      <div class="work-cat">Dramatic lighting, splash effects & 3D compositing</div>
     </div>
   </div>
-
-  <div style="text-align: center; padding: 60px 0; border-top: 1px solid var(--line);">
-    <h3 style="font-size: 32px; margin-bottom: 16px;">Have a project requiring pixel-perfect retouching?</h3>
-    <p style="color: #666; margin-bottom: 28px;">We test your files for free with guaranteed 12–24h turnaround.</p>
-    <a href="contact.html" class="btn">Get Free Trial Retouch &rarr;</a>
-  </div>
-</div>
+</main>
 
 <!-- LIGHTBOX MODAL -->
 <div class="modal-overlay" id="projectModal" onclick="closeModalOnBg(event)">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal()">✕</button>
-    <div style="background: #f5f5f2; min-height: 400px;">
-      <img id="mImg" src="" style="width: 100%; height: 100%; object-fit: cover;">
+    <div style="background: #f5f5f2; min-height: 420px; display: flex; align-items: center; justify-content: center;">
+      <img id="mImg" src="" alt="Project Preview" style="width: 100%; height: 100%; object-fit: cover;">
     </div>
     <div style="padding: clamp(24px, 4vw, 44px); display: flex; flex-direction: column; justify-content: space-between;">
       <div>
         <div class="lab" id="mTag" style="color: var(--accent); margin-bottom: 8px;">Jewelry Retouching</div>
-        <h2 id="mTitle" style="font-size: 28px; margin-bottom: 14px;">Title</h2>
+        <h2 id="mTitle" style="font-size: 26px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 14px;">Title</h2>
         <p id="mDesc" style="color: #555; font-size: 14px; line-height: 1.7; margin-bottom: 24px;">Description</p>
         <div style="border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 14px 0; margin-bottom: 24px; font-size: 13px;">
-          <div style="margin-bottom: 6px;"><strong>Turnaround:</strong> <span id="mTurn">12 Hours</span></div>
+          <div style="margin-bottom: 8px;"><strong>Turnaround:</strong> <span id="mTurn">12-24 Hours</span></div>
           <div><strong>Delivery:</strong> <span id="mDelivery">Multi-Layer PSD + TIFF</span></div>
         </div>
       </div>
-      <a href="contact.html" class="btn" style="width: 100%;">Order Similar Retouch</a>
+      <div style="display: flex; gap: 10px; flex-direction: column;">
+        <a id="mBehanceBtn" href="#" target="_blank" rel="noopener" class="btn" style="width: 100%; background: #0057ff; color: #fff;">View Project on Behance ↗</a>
+        <a href="contact.html" class="btn" style="width: 100%;">Request Free Trial for Similar Files</a>
+      </div>
     </div>
   </div>
 </div>
 
+<footer>
+  <div class="w">
+    <div class="footer-giant-logo">
+      RETOUCHER SHOAIB<sup>&reg;</sup>
+    </div>
+
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h5>Retoucher Shoaib&reg;</h5>
+        <p style="font-size: 14px; line-height: 1.6; color: var(--mut); margin-top: 8px; max-width: 280px;">
+          Independent post-production specialist delivering precision commercial and editorial photo retouching to global studios, photographers, and luxury brands.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Explore</h5>
+        <ul>
+          <li><a href="work.html">Selected Works</a></li>
+          <li><a href="services.html">Services &amp; Scope</a></li>
+          <li><a href="studio.html">The Studio</a></li>
+          <li><a href="feed.html">Feed &amp; Insights</a></li>
+          <li><a href="contact.html">Request Free Trial</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Departments</h5>
+        <ul>
+          <li><a href="services.html">High-End Jewelry</a></li>
+          <li><a href="services.html">Fashion &amp; Apparel</a></li>
+          <li><a href="services.html">Editorial &amp; Beauty</a></li>
+          <li><a href="services.html">E-Commerce Packshots</a></li>
+          <li><a href="services.html">Still Life &amp; Cosmetics</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Connect</h5>
+        <ul>
+          <li><a href="https://www.behance.net/retouchershoaib" target="_blank" rel="noopener">Behance ↗</a></li>
+          <li><a href="https://wa.me/8801700000000" target="_blank" rel="noopener">WhatsApp Studio</a></li>
+          <li><a href="mailto:studio@retouchershoaib.com">studio@retouchershoaib.com</a></li>
+          <li><span style="color: var(--mut);">Available Mon &ndash; Sat</span></li>
+          <li><span style="color: var(--mut);">Worldwide (NYC / Berlin / Dhaka)</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>&copy; 2026 Retoucher Shoaib. All rights reserved.</div>
+      <div>Commercial Post-Production Studio</div>
+    </div>
+  </div>
+</footer>
+
 <script>
-const CASE_STUDIES = [
-  { title: "The Imperial Diamond Suite", tag: "Luxury Jewelry", desc: "Focus stacking alignment, microscopic dust cleanup on platinum prongs, and diamond facet refraction brilliance enhancement for high-end billboard & print.", img: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=1200&q=90", turn: "12 Hours", del: "16-bit Layered PSD + TIFF" },
-  { title: "Monochrome Spring Lookbook", tag: "Fashion Apparel", desc: "Apparel catalog featuring seamless 3D hollow mannequin neck joint, symmetrical hemline alignment, and fabric wrinkle refinement while preserving authentic cloth weave.", img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=90", turn: "24 Hours (150 images)", del: "Transparent PNG + WebP" },
-  { title: "L'Étoile Editorial Portraiture", tag: "Model Beauty", desc: "High-fashion beauty magazine editorial. Non-destructive frequency separation and micro dodge & burn to polish skin blemishes, flyaways, and makeup while retaining 100% natural epidermal texture.", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1200&q=90", turn: "18 Hours", del: "16-bit ProPhoto PSD" },
-  { title: "Geneva Chronograph Series", tag: "Luxury Watches", desc: "Brushed stainless steel bezel polishing, dial numeral sharpening, and sapphire crystal internal reflection removal for Swiss luxury chronograph catalog.", img: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1200&q=90", turn: "12 Hours", del: "PSD with Path Masks" },
-  { title: "Nordic Denim Ghost Mannequin", tag: "Apparel", desc: "High-volume e-commerce post-production for premium denim wear. Collar alignment, waistband leveling, and natural fabric crease smoothing.", img: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=1200&q=90", turn: "24 Hours", del: "Shopify Spec WebP & JPG" },
-  { title: "Botanique Luxury Serum Campaign", tag: "Cosmetics", desc: "Clear dropper bottle reflection mapping, cosmetic fluid density enhancement, and pure white studio backdrop creation.", img: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1200&q=90", turn: "12 Hours", del: "PSD with Separate Shadows" },
-  { title: "Colombian Emerald Pendant", tag: "Jewelry", desc: "Color cast correction, micro-prongs reflection balancing, and gemstone transparency enhancement.", img: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=1200&q=90", turn: "12 Hours", del: "Layered PSD" },
-  { title: "Vogue Runway Atelier Series", tag: "High Fashion", desc: "Complete haute couture runway lighting correction, silhouette tailoring, and non-destructive color balancing.", img: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1200&q=90", turn: "24 Hours", del: "16-bit Master TIFF" }
+const PROJECTS = [
+  {
+    "id": "256193953",
+    "title": "Studio Portrait Retouching - Black Background",
+    "cat": "beauty",
+    "badge": "Beauty & Portrait",
+    "sub": "Non-destructive frequency separation & skin texture",
+    "desc": "Professional studio portrait retouching against a dark background. Non-destructive frequency separation, manual dodge and burn on micro-contrast, flyaway hair cleanup, and 100% authentic epidermal skin texture retention.",
+    "img": "https://mir-s3-cdn-cf.behance.net/projects/max_808/1bfcc6256193953.Y3JvcCwxMDAyLDc4NCwxMTEsMzI3.jpg",
+    "link": "https://www.behance.net/gallery/256193953/Studio-Portrait-Retouching-Black-Background",
+    "turn": "12-24 Hours",
+    "del": "16-bit Layered PSD + TIFF"
+  },
+  {
+    "id": "256311631",
+    "title": "High-End Jewelry Retouching & Product Post-Processing",
+    "cat": "jewelry",
+    "badge": "Luxury Jewelry",
+    "sub": "Focus stacking alignment & specular diamond polish",
+    "desc": "Mastering macro jewelry and horology post-production: focus stacking alignment, microscopic dust and scratch cleanup on platinum and gold prongs, gemstone facet contrast shaping, and pristine specular highlight brilliance.",
+    "img": "https://mir-s3-cdn-cf.behance.net/projects/max_808/dcf900256311631.Y3JvcCw5NDYsNzQwLDIyNywxNTQ.jpg",
+    "link": "https://www.behance.net/gallery/256311631/High-End-Jewelry-Retouching-Product-Post-Processing",
+    "turn": "12-24 Hours",
+    "del": "16-bit Master PSD + TIFF"
+  },
+  {
+    "id": "221210157",
+    "title": "Flat Lay Clothing Photo Retouching",
+    "cat": "fashion",
+    "badge": "Fashion & Apparel",
+    "sub": "Symmetrical shaping, wrinkle reduction & true fabric color",
+    "desc": "E-commerce apparel flat-lay retouching: symmetrical hemline shaping, precision wrinkle softening while preserving natural textile weave, background cleaning, and Pantone-accurate fabric color balancing.",
+    "img": "https://mir-s3-cdn-cf.behance.net/projects/max_808/1384a9221210157.Y3JvcCw3NTUsNTkwLDI2LDIw.jpg",
+    "link": "https://www.behance.net/gallery/221210157/Flat-Lay-clothing-photo-retouching",
+    "turn": "24 Hours",
+    "del": "Hand-Drawn Clipping Path PSD + PNG"
+  },
+  {
+    "id": "209459195",
+    "title": "Suit & Menswear Photo Retouching",
+    "cat": "fashion",
+    "badge": "Fashion & Apparel",
+    "sub": "Lapel symmetry, fabric drape & 3D ghost styling",
+    "desc": "Luxury menswear and suit retouching: collar and lapel alignment, seam flattening, sleeve drape correction, precision ghost mannequin jointing, and lint removal for premium e-commerce catalogs.",
+    "img": "https://mir-s3-cdn-cf.behance.net/projects/max_808/607e06209459195.Y3JvcCwxMjAwLDkzOCwwLDEzMA.jpg",
+    "link": "https://www.behance.net/gallery/209459195/Suit-Photo-Retouching",
+    "turn": "24 Hours",
+    "del": "Layered Master PSD + sRGB WebP"
+  },
+  {
+    "id": "206885799",
+    "title": "Fashion Images Retouching",
+    "cat": "fashion",
+    "badge": "Fashion & Apparel",
+    "sub": "Editorial color grading & high-fashion outfit styling",
+    "desc": "High-fashion lookbook and campaign editorial post-production: luxury color grading, couture fabric refinement, backdrop cleanup, and magazine-ready visual polish.",
+    "img": "https://mir-s3-cdn-cf.behance.net/projects/max_808/a90bd8206885799.Y3JvcCwxOTQ0LDE1MjAsMCww.jpg",
+    "link": "https://www.behance.net/gallery/206885799/Fashion-Images-Retoucing",
+    "turn": "24 Hours",
+    "del": "16-bit Layered PSD + High-Res JPG"
+  },
+  {
+    "id": "206886527",
+    "title": "Luxury Eyewear Retouching",
+    "cat": "product",
+    "badge": "Product & Commercial",
+    "sub": "Glare extraction, reflection control & frame polish",
+    "desc": "High-precision eyewear and sunglasses retouching: unwanted reflection extraction, lens glare cleanup, frame symmetry correction, gradient temple polish, and clean alpha channel clipping.",
+    "img": "https://mir-s3-cdn-cf.behance.net/projects/max_808/23137a206886527.Y3JvcCwzMjIyLDI1MjAsMCwzNTA.jpg",
+    "link": "https://www.behance.net/gallery/206886527/Eyewear-Retouching",
+    "turn": "12-24 Hours",
+    "del": "Transparent PNG + Master PSD"
+  },
+  {
+    "id": "173540777",
+    "title": "Commercial Product Photo Retouching",
+    "cat": "product",
+    "badge": "Product & Commercial",
+    "sub": "Vector pen tool clipping, pure white & reflection",
+    "desc": "Catalog & Amazon/Shopify commercial product packshots: 100% hand-drawn pen tool paths, surface scratch cleaning, pure pure-white RGB (255,255,255) isolation, and realistic natural cast shadows.",
+    "img": "https://mir-s3-cdn-cf.behance.net/projects/max_808/a5b029173540777.Y3JvcCw5NTgsNzUwLDIxLDA.jpg",
+    "link": "https://www.behance.net/gallery/173540777/PRODUCT-PHOTO-RETOUCHING",
+    "turn": "12-24 Hours",
+    "del": "Hand-Drawn Clipping Path PSD + TIFF"
+  },
+  {
+    "id": "173539325",
+    "title": "Corporate Headshot Retouching",
+    "cat": "beauty",
+    "badge": "Beauty & Portrait",
+    "sub": "Executive portraits, eye clarity & subtle refinement",
+    "desc": "Executive & creative corporate headshot retouching: stray hair removal, teeth whitening, iris clarity boost, and gentle skin imperfection softening while maintaining natural character and authenticity.",
+    "img": "https://mir-s3-cdn-cf.behance.net/projects/max_808/12f781173539325.Y3JvcCw0NDgwLDM1MDQsMCw3ODc.jpg",
+    "link": "https://www.behance.net/gallery/173539325/HEADSHOT-RETOUCH",
+    "turn": "12-24 Hours",
+    "del": "Print Ready & Web Optimized Formats"
+  },
+  {
+    "id": "173672967",
+    "title": "Studio Photography Photo Retouch",
+    "cat": "beauty",
+    "badge": "Beauty & Portrait",
+    "sub": "Full-body studio model, lighting balance & styling",
+    "desc": "Commercial studio photo retouching: background seamless cyclone cleanup, dynamic tonal range optimization, gentle body shaping, and balanced studio lighting enhancement.",
+    "img": "https://mir-s3-cdn-cf.behance.net/projects/max_808/f6eb85173672967.Y3JvcCw1Mzc2LDQyMDQsMCwxMjUw.jpg",
+    "link": "https://www.behance.net/gallery/173672967/STUDIO-PHOTO-RETOUCH",
+    "turn": "24 Hours",
+    "del": "Multi-Layered PSD + sRGB JPG"
+  },
+  {
+    "id": "173329495",
+    "title": "Event & Lifestyle Photos Retouching",
+    "cat": "beauty",
+    "badge": "Lifestyle & Event",
+    "sub": "House party atmosphere, ambient light & color grading",
+    "desc": "Atmospheric event, night-life, and lifestyle photography retouching: ambient lighting preservation, exposure balancing, noise reduction, and modern cinematic color grading.",
+    "img": "https://mir-s3-cdn-cf.behance.net/projects/max_808/63fa90173329495.Y3JvcCwzNjQxLDI4NDgsMzA2LDA.jpg",
+    "link": "https://www.behance.net/gallery/173329495/House-Party-Photos-Retouching",
+    "turn": "24-48 Hours",
+    "del": "Color Graded High-Res JPG Batch"
+  },
+  {
+    "id": "256615177",
+    "title": "Professional Real Estate Photo Editing",
+    "cat": "product",
+    "badge": "Real Estate & Architecture",
+    "sub": "HDR bracket blending, perspective correction & sky swap",
+    "desc": "High-end real estate and architectural post-production: HDR exposure bracket fusion, vertical lens perspective alignment, clean window pulls, sky replacement, and lawn grass color enhancement.",
+    "img": "https://mir-s3-cdn-cf.behance.net/projects/max_808/3bcc7f256615177.Y3JvcCw2OTg1LDU0NjQsMCww.jpg",
+    "link": "https://www.behance.net/gallery/256615177/Professional-Real-Estate-Photo-Editing",
+    "turn": "12-24 Hours",
+    "del": "MLS-Compliant Web + High-Res Print JPG"
+  },
+  {
+    "id": "189986215",
+    "title": "Product Hero Image Design",
+    "cat": "product",
+    "badge": "Creative Advertising",
+    "sub": "Dramatic lighting, splash effects & 3D compositing",
+    "desc": "Creative commercial hero product banner design: custom atmospheric backgrounds, dramatic rim highlights, shadow compositing, and eye-catching visual storytelling for e-commerce advertising.",
+    "img": "https://mir-s3-cdn-cf.behance.net/projects/max_808/c3aafc189986215.Y3JvcCwxNTAwLDExNzMsMCwxNjM.png",
+    "link": "https://www.behance.net/gallery/189986215/Product-Hero-Image-Design",
+    "turn": "24 Hours",
+    "del": "Layered Composite Master PSD"
+  }
 ];
 
 function filterProjects(cat, btn) {
   document.querySelectorAll('.filter-bar .pill').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  document.querySelectorAll('.work-card').forEach(card => {
-    if (cat === 'all' || card.dataset.cat === cat) {
+
+  const cards = document.querySelectorAll('.work-card');
+  cards.forEach(card => {
+    if (cat === 'all' || card.getAttribute('data-cat') === cat) {
       card.style.display = 'block';
     } else {
       card.style.display = 'none';
@@ -665,14 +810,16 @@ function filterProjects(cat, btn) {
 }
 
 function openModal(idx) {
-  const c = CASE_STUDIES[idx];
-  if (!c) return;
-  document.getElementById('mImg').src = c.img;
-  document.getElementById('mTitle').textContent = c.title;
-  document.getElementById('mTag').textContent = c.tag;
-  document.getElementById('mDesc').textContent = c.desc;
-  document.getElementById('mTurn').textContent = c.turn;
-  document.getElementById('mDelivery').textContent = c.del;
+  const p = PROJECTS[idx];
+  if (!p) return;
+  document.getElementById('mTitle').textContent = p.title;
+  document.getElementById('mTag').textContent = p.badge;
+  document.getElementById('mDesc').textContent = p.desc;
+  document.getElementById('mTurn').textContent = p.turn;
+  document.getElementById('mDelivery').textContent = p.del;
+  document.getElementById('mImg').src = p.img;
+  document.getElementById('mBehanceBtn').href = p.link;
+
   document.getElementById('projectModal').classList.add('active');
   document.body.style.overflow = 'hidden';
 }
@@ -683,66 +830,14 @@ function closeModal() {
 }
 
 function closeModalOnBg(e) {
-  if (e.target === document.getElementById('projectModal')) closeModal();
+  if (e.target.id === 'projectModal') closeModal();
 }
 
-window.addEventListener('keydown', e => {
+document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeModal();
 });
-</script>
 
-<footer class="w">
-  <div class="footer-giant-logo">
-    RETOUCHER SHOAIB<sup>&reg;</sup>
-  </div>
-
-  <div class="footer-grid">
-    <div class="footer-col">
-      <h5>Retoucher Shoaib Studio</h5>
-      <p style="font-size: 14px; line-height: 1.7; color: #555; max-width: 280px;">
-        High-end commercial post-production studio directed by Shoaib. Serving brands across New York, London, Paris, and Milan with unmatched pixel discipline.
-      </p>
-    </div>
-
-    <div class="footer-col">
-      <h5>Core Disciplines</h5>
-      <ul>
-        <li><a href="work.html?cat=jewelry">Jewelry Retouching</a></li>
-        <li><a href="work.html?cat=fashion">Fashion & Clothing</a></li>
-        <li><a href="work.html?cat=beauty">Model & Beauty</a></li>
-        <li><a href="work.html?cat=product">E-Commerce Products</a></li>
-        <li><a href="work.html?cat=still-life">Still Life Cosmetics</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h5>Navigation</h5>
-      <ul>
-        <li><a href="work.html">Selected Works</a></li>
-        <li><a href="studio.html">Our Studio & Team</a></li>
-        <li><a href="feed.html">Journal & Insights</a></li>
-        <li><a href="contact.html">Free Trial Request</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h5>Connect</h5>
-      <ul>
-        <li><a href="mailto:hello@retouchershoaib.com">Email Us</a></li>
-        <li><a href="https://wa.me/8801700000000" target="_blank">WhatsApp Direct</a></li>
-        <li><a href="https://linkedin.com" target="_blank">LinkedIn Studio</a></li>
-        <li><a href="https://instagram.com" target="_blank">Instagram Portfolio</a></li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <div>&copy; 2016–2026 Retoucher Shoaib&reg;. All Rights Reserved.</div>
-    <div>Handcrafted with pure pixel precision.</div>
-  </div>
-</footer>
-
-<script>
+// LIVE STUDIO TIME SYNC
 function updateStudioTime() {
   const timeEl = document.getElementById('liveTimeIndicator');
   if (!timeEl) return;
@@ -753,14 +848,8 @@ function updateStudioTime() {
 }
 setInterval(updateStudioTime, 10000);
 updateStudioTime();
-</script>
-<script>
 
-
-
-</script>
-<script>
-// EXACT FOOTER SLICE ANIMATION FROM v6.html (ONLY FOR FOOTER)
+// FOOTER SLICE ANIMATION
 (function() {
   const fl = document.querySelector('.footer-giant-logo');
   if (fl && 'IntersectionObserver' in window) {
@@ -781,13 +870,13 @@ updateStudioTime();
   }
 })();
 </script>
+
 <script>
-// SMOOTH BLACK WIPE TRANSITION (BOTTOM TO TOP)
+// SMOOTH BLACK WIPE TRANSITION FOR OUTSIDE NAVIGATION
 (function() {
   const wipe = document.getElementById('wipe');
   if (!wipe) return;
 
-  // On page entry: if arriving from wipe navigation, slide smoothly out to top
   if (sessionStorage.getItem('pageWiped')) {
     sessionStorage.removeItem('pageWiped');
     wipe.style.transform = 'translateY(0%)';
@@ -797,7 +886,6 @@ updateStudioTime();
     });
   }
 
-  // Intercept internal page link clicks
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a');
     if (!a) return;
@@ -810,7 +898,7 @@ updateStudioTime();
     sessionStorage.setItem('pageWiped', '1');
     wipe.style.transition = 'none';
     wipe.style.transform = 'translateY(100%)';
-    void wipe.offsetWidth; // reflow
+    void wipe.offsetWidth;
     wipe.style.transition = 'transform 0.42s cubic-bezier(0.7, 0, 0.2, 1)';
     wipe.style.transform = 'translateY(0%)';
 
