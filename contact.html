@@ -438,12 +438,9 @@ footer {
   45% { --g: 6px; }
 }
 
-.footer-giant-logo {
-  cursor: pointer;
-}
+.footer-giant-logo { cursor: default; }
 
-.footer-giant-logo.slice,
-.footer-giant-logo:hover {
+.footer-giant-logo.slice {
   animation: slice 1.4s ease-in-out;
   -webkit-mask-image: repeating-linear-gradient(#000 0 calc(10px - var(--g)), transparent calc(10px - var(--g)) 10px);
   mask-image: repeating-linear-gradient(#000 0 calc(10px - var(--g)), transparent calc(10px - var(--g)) 10px);
@@ -717,21 +714,23 @@ function sendViaWhatsApp() {
 // FOOTER SLICE ANIMATION (EXACTLY FROM v6.html)
 (function() {
   const fl = document.querySelector('.footer-giant-logo');
-  if (fl && 'IntersectionObserver' in window) {
+  if (!fl) return;
+  let timer = null;
+  if ('IntersectionObserver' in window) {
     new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
+          fl.classList.remove('slice');
+          void fl.offsetWidth; // force reflow to restart animation cleanly
           fl.classList.add('slice');
-          setTimeout(() => fl.classList.remove('slice'), 1500);
+          clearTimeout(timer);
+          timer = setTimeout(() => fl.classList.remove('slice'), 1500);
+        } else {
+          fl.classList.remove('slice');
+          clearTimeout(timer);
         }
       });
-    }, { threshold: 0.5 }).observe(fl);
-  }
-  if (fl) {
-    fl.addEventListener('mouseenter', () => {
-      fl.classList.add('slice');
-      setTimeout(() => fl.classList.remove('slice'), 1500);
-    });
+    }, { threshold: 0.15 }).observe(fl);
   }
 })();
 </script>
