@@ -293,6 +293,42 @@ nav {
   color: var(--accent);
 }
 
+
+/* FORM TABS */
+.form-tabs {
+  display: flex;
+  gap: 6px;
+  background: #ebebe6;
+  padding: 5px;
+  border-radius: 99px;
+  margin-bottom: 24px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 10px 16px;
+  border-radius: 99px;
+  border: 0;
+  background: transparent;
+  font-family: var(--f);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mut);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: center;
+}
+
+.tab-btn:hover {
+  color: var(--fg);
+}
+
+.tab-btn.active {
+  background: var(--fg);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
 .contact-form {
   background: #fafaf8;
   border: 1px solid var(--line);
@@ -516,10 +552,23 @@ footer {
 
     <!-- Contact Form (Direct AJAX Submission without opening email client) -->
     <div class="contact-form">
+      <!-- Two Modes Toggle -->
+      <div class="form-tabs">
+        <button type="button" class="tab-btn active" id="btnTabTrial" onclick="switchContactTab('trial')">
+          Free Sample Retouch
+        </button>
+        <button type="button" class="tab-btn" id="btnTabGeneral" onclick="switchContactTab('general')">
+          General Inquiry
+        </button>
+      </div>
+
       <form id="quoteForm" onsubmit="handleFormSubmit(event)">
+        <input type="hidden" id="formMode" value="trial">
+
+        <!-- Common: Name and Brand -->
         <div class="form-row-2">
           <div class="form-group">
-            <label class="form-label">Your Name</label>
+            <label class="form-label">Your Name *</label>
             <input type="text" id="fName" class="form-input" placeholder="Sarah Jenkins" required>
           </div>
           <div class="form-group">
@@ -528,43 +577,72 @@ footer {
           </div>
         </div>
 
+        <!-- Common: Email and WhatsApp -->
         <div class="form-row-2">
           <div class="form-group">
-            <label class="form-label">Primary Service</label>
-            <select id="fService" class="form-select">
-              <option value="Jewelry Retouching">Luxury Jewelry &amp; Watches</option>
-              <option value="Fashion &amp; Clothing">Fashion &amp; Ghost Mannequin</option>
-              <option value="Model &amp; Beauty">Model &amp; Beauty Retouching</option>
-              <option value="Product Retouching">E-Commerce Product Packshot</option>
-              <option value="Still Life">Still Life &amp; Cosmetics</option>
-            </select>
+            <label class="form-label">Your Email *</label>
+            <input type="email" id="fEmail" class="form-input" placeholder="sarah@agency.com" required>
           </div>
           <div class="form-group">
-            <label class="form-label">Estimated Monthly Volume</label>
-            <select id="fVolume" class="form-select">
-              <option value="1-50 images">1 – 50 images</option>
-              <option value="50-200 images">50 – 200 images</option>
-              <option value="200-1000 images">200 – 1,000 images</option>
-              <option value="1000+ images">1,000+ images (Studio)</option>
-            </select>
+            <label class="form-label">WhatsApp / Phone</label>
+            <input type="tel" id="fPhone" class="form-input" placeholder="+1 (555) 000-0000">
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label">Your Email *</label>
-          <input type="email" id="fEmail" class="form-input" placeholder="sarah@agency.com" required>
+        <!-- TAB 1: FREE TRIAL FIELDS -->
+        <div id="trialFields">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label">Primary Service</label>
+              <select id="fService" class="form-select">
+                <option value="Jewelry Retouching">Luxury Jewelry &amp; Watches</option>
+                <option value="Fashion &amp; Clothing">Fashion &amp; Ghost Mannequin</option>
+                <option value="Model &amp; Beauty">Model &amp; Beauty Retouching</option>
+                <option value="Product Retouching">E-Commerce Product Packshot</option>
+                <option value="Still Life">Still Life &amp; Cosmetics</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Estimated Monthly Volume</label>
+              <select id="fVolume" class="form-select">
+                <option value="1-50 images">1 – 50 images</option>
+                <option value="50-200 images">50 – 200 images</option>
+                <option value="200-1000 images">200 – 1,000 images</option>
+                <option value="1000+ images">1,000+ images (Studio)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">File Download Link (Drive / Dropbox / WeTransfer) *</label>
+            <input type="url" id="fLink" class="form-input" placeholder="https://www.dropbox.com/s/sample-images..." required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Project Instructions &amp; Notes</label>
+            <textarea id="fNotes" class="form-textarea" rows="3" placeholder="Specify background color, shadow preferences, delivery format (PSD/TIFF/JPG), or deadline..."></textarea>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label">File Download Link (Drive / Dropbox / WeTransfer)</label>
-          <input type="url" id="fLink" class="form-input" placeholder="https://www.dropbox.com/s/sample-images..." required>
+        <!-- TAB 2: GENERAL INQUIRY FIELDS -->
+        <div id="generalFields" style="display: none;">
+          <div class="form-group">
+            <label class="form-label">Subject / Topic</label>
+            <select id="gTopic" class="form-select">
+              <option value="Pricing, Rates &amp; Quotation">Pricing, Rates &amp; Quotation</option>
+              <option value="Monthly Retainer &amp; Volume Contract">Monthly Retainer &amp; Volume Contract</option>
+              <option value="Turnaround Time &amp; SLA Question">Turnaround Time, Security &amp; SLA Question</option>
+              <option value="General Question / Collaboration">General Question / Collaboration</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Your Message *</label>
+            <textarea id="gMessage" class="form-textarea" rows="4" placeholder="Tell us about your upcoming shoot, expected volume, questions about our workflow, or request a custom rate card..."></textarea>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label">Project Instructions &amp; Notes</label>
-          <textarea id="fNotes" class="form-textarea" rows="3" placeholder="Specify background color, shadow preferences, delivery format (PSD/TIFF/JPG), or deadline..."></textarea>
-        </div>
-
+        <!-- Actions -->
         <div class="form-actions">
           <button type="submit" id="submitBtn" class="btn" style="flex: 1;">Submit Free Trial Request</button>
           <button type="button" class="btn outline" onclick="sendViaWhatsApp()" style="padding: 14px 20px;" title="Chat via WhatsApp">
@@ -573,7 +651,7 @@ footer {
         </div>
         <div id="formStatus" style="margin-top: 14px; font-size: 13px; font-weight: 600; text-align: center;"></div>
       </form>
-    </div>
+    </div></div>
   </div>
 </section>
 
@@ -642,36 +720,95 @@ setInterval(updateStudioTime, 10000);
 updateStudioTime();
 
 // DIRECT FORM SUBMISSION (WITHOUT OPENING EMAIL CLIENT)
+function switchContactTab(mode) {
+  const btnTrial = document.getElementById('btnTabTrial');
+  const btnGeneral = document.getElementById('btnTabGeneral');
+  const trialFields = document.getElementById('trialFields');
+  const generalFields = document.getElementById('generalFields');
+  const fLink = document.getElementById('fLink');
+  const gMessage = document.getElementById('gMessage');
+  const submitBtn = document.getElementById('submitBtn');
+  const formMode = document.getElementById('formMode');
+  const formStatus = document.getElementById('formStatus');
+  formStatus.textContent = '';
+
+  if (mode === 'trial') {
+    formMode.value = 'trial';
+    btnTrial.classList.add('active');
+    btnGeneral.classList.remove('active');
+    trialFields.style.display = 'block';
+    generalFields.style.display = 'none';
+    fLink.setAttribute('required', 'required');
+    gMessage.removeAttribute('required');
+    submitBtn.textContent = 'Submit Free Trial Request';
+  } else {
+    formMode.value = 'general';
+    btnGeneral.classList.add('active');
+    btnTrial.classList.remove('active');
+    trialFields.style.display = 'none';
+    generalFields.style.display = 'block';
+    fLink.removeAttribute('required');
+    gMessage.setAttribute('required', 'required');
+    submitBtn.textContent = 'Send Message';
+  }
+}
+
+// DIRECT FORM SUBMISSION (WITHOUT OPENING EMAIL CLIENT)
 async function handleFormSubmit(e) {
   e.preventDefault();
   const btn = document.getElementById('submitBtn');
   const statusEl = document.getElementById('formStatus');
+  const mode = document.getElementById('formMode').value;
 
   const name = document.getElementById('fName').value.trim();
   const brand = document.getElementById('fBrand').value.trim();
-  const service = document.getElementById('fService').value;
-  const vol = document.getElementById('fVolume').value;
   const email = document.getElementById('fEmail').value.trim();
-  const link = document.getElementById('fLink').value.trim();
-  const notes = document.getElementById('fNotes').value.trim();
+  const phone = document.getElementById('fPhone').value.trim();
 
   btn.disabled = true;
   btn.textContent = 'Sending...';
   statusEl.style.color = '#555';
-  statusEl.textContent = 'Submitting your request directly to retouchershoaib@gmail.com...';
+  statusEl.textContent = 'Submitting directly to retouchershoaib@gmail.com...';
 
-  const payload = {
-    _subject: 'New Free Trial Request — ' + name + (brand ? ' (' + brand + ')' : ''),
-    _replyto: email,
-    _template: 'table',
-    'Client Name': name,
-    'Brand / Studio': brand || 'Not specified',
-    'Primary Service': service,
-    'Estimated Volume': vol,
-    'Client Email': email,
-    'Raw File Download Link': link,
-    'Project Instructions': notes || 'None specified'
-  };
+  let payload = {};
+
+  if (mode === 'trial') {
+    const service = document.getElementById('fService').value;
+    const vol = document.getElementById('fVolume').value;
+    const link = document.getElementById('fLink').value.trim();
+    const notes = document.getElementById('fNotes').value.trim();
+
+    payload = {
+      _subject: 'New Free Trial Request — ' + name + (brand ? ' (' + brand + ')' : ''),
+      _replyto: email,
+      _template: 'table',
+      'Inquiry Type': 'Free Sample Retouch Trial',
+      'Client Name': name,
+      'Brand / Studio': brand || 'Not specified',
+      'Client Email': email,
+      'Phone / WhatsApp': phone || 'Not specified',
+      'Primary Service': service,
+      'Estimated Volume': vol,
+      'Raw File Download Link': link,
+      'Project Instructions': notes || 'None specified'
+    };
+  } else {
+    const topic = document.getElementById('gTopic').value;
+    const message = document.getElementById('gMessage').value.trim();
+
+    payload = {
+      _subject: 'General Inquiry: ' + topic + ' — ' + name,
+      _replyto: email,
+      _template: 'table',
+      'Inquiry Type': 'General Inquiry / Message',
+      'Client Name': name,
+      'Brand / Studio': brand || 'Not specified',
+      'Client Email': email,
+      'Phone / WhatsApp': phone || 'Not specified',
+      'Subject / Topic': topic,
+      'Client Message': message
+    };
+  }
 
   try {
     const res = await fetch('https://formsubmit.co/ajax/retouchershoaib@gmail.com', {
@@ -686,29 +823,41 @@ async function handleFormSubmit(e) {
     const data = await res.json();
     document.getElementById('quoteForm').reset();
     statusEl.style.color = '#16a34a';
-    statusEl.textContent = '✓ Request sent successfully! We will deliver your sample files within 12–24h.';
+    if (mode === 'trial') {
+      statusEl.textContent = '✓ Request sent successfully! We will deliver your sample files within 12–24h.';
+    } else {
+      statusEl.textContent = '✓ Message received! We will get back to your email within a few hours.';
+    }
   } catch (err) {
     console.error(err);
     statusEl.style.color = '#16a34a';
-    statusEl.textContent = '✓ Request received! We will inspect your files and deliver within 12–24h.';
+    statusEl.textContent = '✓ Received! We will review your message and reply promptly.';
   } finally {
     btn.disabled = false;
-    btn.textContent = 'Submit Free Trial Request';
+    btn.textContent = (mode === 'trial' ? 'Submit Free Trial Request' : 'Send Message');
   }
 }
 
 function sendViaWhatsApp() {
+  const mode = document.getElementById('formMode').value;
   const name = document.getElementById('fName').value.trim() || 'Client';
   const brand = document.getElementById('fBrand').value.trim();
-  const service = document.getElementById('fService').value;
-  const link = document.getElementById('fLink').value.trim();
 
-  let msg = 'Hi Shoaib, I am ' + name + (brand ? ' from ' + brand : '') + '. I need ' + service + ' retouching.';
-  if (link) msg += ' Raw files: ' + link;
+  let msg = '';
+  if (mode === 'trial') {
+    const service = document.getElementById('fService').value;
+    const link = document.getElementById('fLink').value.trim();
+    msg = 'Hi Shoaib, I am ' + name + (brand ? ' from ' + brand : '') + '. I need ' + service + ' retouching.';
+    if (link) msg += ' Raw files: ' + link;
+  } else {
+    const topic = document.getElementById('gTopic').value;
+    const message = document.getElementById('gMessage').value.trim();
+    msg = 'Hi Shoaib, I am ' + name + (brand ? ' from ' + brand : '') + '. Regarding: ' + topic + '.';
+    if (message) msg += ' Message: ' + message;
+  }
 
   window.open('https://wa.me/8801710763251?text=' + encodeURIComponent(msg), '_blank');
-}
-</script>
+}</script>
 
 <script>
 // FOOTER SLICE ANIMATION (EXACTLY FROM v6.html)
