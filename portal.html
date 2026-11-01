@@ -2,6 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Client Portal &amp; Dashboard | Retoucher Shoaib®</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1759,7 +1764,8 @@ const ORDERS = {
     images: '24 High-Fashion RAWs (.ARW)',
     format: 'Layered PSD + Transparent PNG + Clipping Path',
     deadline: '24 Hours Express SLA',
-    deadlineMs: Date.now() + (1.75 * 3600 * 1000), // 1h 45m remaining
+    totalDurationMs: 24 * 3600 * 1000,
+    deadlineMs: Date.now() + (18.5 * 3600 * 1000), // ~18.5h remaining out of 24h (starts in Green stage-green!)
     status: 'production',
     price: '$600.00 USD ($25/img)',
     isAgreed: false,
@@ -2225,11 +2231,13 @@ function loadInvoiceDetails() {
   const finalSubtotal = baseTotal + extraAmount;
   const subtotalEl = document.getElementById('invSubtotalDisplay');
   const totalPayableEl = document.getElementById('invTotalPayableDisplay');
-  const statInvoicedEl = document.getElementById('statInvoiced');
+  const statUnpaidEl = document.getElementById('statUnpaid');
+  const statUnpaidSub = document.getElementById('statUnpaidSub');
 
   if (subtotalEl) subtotalEl.textContent = '$' + finalSubtotal.toFixed(2);
   if (totalPayableEl) totalPayableEl.textContent = '$' + finalSubtotal.toFixed(2) + ' USD';
-  if (statInvoicedEl) statInvoicedEl.textContent = '$' + Math.round(finalSubtotal);
+  if (statUnpaidEl) statUnpaidEl.textContent = '$' + finalSubtotal.toFixed(2);
+  if (statUnpaidSub) statUnpaidSub.textContent = '1 Unpaid Invoice (Net 15)';
 
   const cardBtn = document.querySelector('#bankCARD .btn-green');
   if (cardBtn) {
