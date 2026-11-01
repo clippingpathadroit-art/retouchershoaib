@@ -1542,6 +1542,12 @@ body {
           </div>
 
           <form id="newOrderForm" onsubmit="handleNewOrderSubmit(event)">
+            <!-- PROJECT NAME INPUT (USER REQUEST) -->
+            <div class="form-field">
+              <label class="form-label">Project Name / Campaign Title *</label>
+              <input type="text" id="ordProjectName" class="form-input" placeholder="e.g. Summer Luxury Jewelry Campaign 2026" required value="Summer Luxury Jewelry Campaign">
+              <span style="font-size: 11px; color: var(--mut);">This project title will appear directly on your order details and official invoice</span>
+            </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
               <div class="form-field">
                 <label class="form-label">Service Department *</label>
