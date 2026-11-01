@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Core retouching disciplines of Retoucher Shoaib®: Luxury jewelry, fashion apparel 3D ghost mannequin, high-end editorial beauty portraiture, packshots, and cosmetics.">
+<title>Services & Disciplines | Retoucher Shoaib®</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #ffffff;
+  --fg: #0a0a0a;
+  --mut: #82827e;
+  --line: #e8e8e4;
+  --soft: #f7f6f3;
+  --card: #ffffff;
+  --accent: #f26a1b;
+  --f: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --f-display: 'Plus Jakarta Sans', var(--f);
+  color-scheme: light;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font: 400 15px/1.6 var(--f);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+.w { max-width: 1360px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 56px); }
+
+/* NAVBAR */
+nav#navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(20px, 4vw, 56px);
+  height: 64px;
+}
+
+.nav-brand {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: -0.03em;
+  color: var(--fg);
+}
+.nav-brand sup { color: var(--accent); font-size: 0.65em; margin-left: 2px; }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2.4vw, 32px);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nav-links a {
+  position: relative;
+  padding: 6px 0;
+  color: #666;
+  transition: color 0.2s ease;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--fg); }
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--fg);
+  transition: width 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+.nav-time {
+  font-size: 11px;
+  color: var(--mut);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 22px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: var(--fg);
+  color: #fff;
+  transition: all 0.2s ease;
+}
+.btn:hover { background: #222; transform: translateY(-1px); }
+
+@media (max-width: 860px) {
+  .nav-links a:not(.show-mob), .nav-time { display: none; }
+}
+
+/* PAGE HEADER */
+.page-header {
+  padding: 90px 0 50px;
+  border-bottom: 1px solid var(--line);
+}
+.page-title {
+  font-family: var(--f-display);
+  font-size: clamp(48px, 9vw, 110px);
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  line-height: 0.95;
+  margin-bottom: 20px;
+}
+.page-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+.page-lead {
+  font-size: clamp(16px, 1.8vw, 22px);
+  line-height: 1.5;
+  color: #444;
+  max-width: 780px;
+}
+
+/* SERVICES SECTION */
+.services-section {
+  padding: 60px 0 100px;
+}
+
+.section-intro-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 24px;
+  border-bottom: 2px solid var(--fg);
+  margin-bottom: 20px;
+}
+.section-intro-bar h2 {
+  font-family: var(--f-display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.section-intro-bar span {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--mut);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.service-row {
+  display: grid;
+  grid-template-columns: 80px 1.1fr 1.3fr;
+  gap: 36px;
+  padding: 48px 0;
+  border-bottom: 1px solid var(--line);
+  align-items: flex-start;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.service-row:hover {
+  background: rgba(247, 246, 243, 0.6);
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 12px;
+}
+
+.service-num {
+  font-family: var(--f-display);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--mut);
+  letter-spacing: -0.03em;
+  transition: color 0.25s ease;
+}
+
+.service-row.primary .service-num {
+  color: var(--accent);
+}
+
+.service-main h3 {
+  font-family: var(--f-display);
+  font-size: clamp(22px, 2.6vw, 36px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+
+.service-badge-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(242, 106, 27, 0.08);
+  padding: 4px 10px;
+  border-radius: 99px;
+  margin-bottom: 10px;
+}
+
+.service-badge-sub {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--mut);
+  margin-bottom: 8px;
+}
+
+.service-desc p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.service-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill {
+  font-size: 11px;
+  font-weight: 600;
+  color: #333;
+  background: #f0f0ed;
+  padding: 6px 14px;
+  border-radius: 99px;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 900px) {
+  .service-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 36px 0;
+  }
+}
+
+/* BEFORE / AFTER COMPARISON SLIDER SECTION */
+.ba-section {
+  padding: 90px 0;
+  background: var(--soft);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 80px;
+}
+
+.ba-header {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 40px;
+}
+.ba-header h2 {
+  font-family: var(--f-display);
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  margin-bottom: 10px;
+}
+.ba-header p {
+  font-size: 15px;
+  color: #666;
+}
+
+.ba-wrapper {
+  position: relative;
+  max-width: 1040px;
+  margin: 0 auto;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 30px 70px -15px rgba(0,0,0,0.18);
+  background: #fff;
+  border: 1px solid var(--line);
+  user-select: none;
+}
+
+.ba-slider-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  cursor: ew-resize;
+}
+
+.ba-img-after, .ba-img-before {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.ba-before-wrap {
+  position: absolute;
+  inset: 0;
+  width: 50%;
+  overflow: hidden;
+  border-right: 2px solid #ffffff;
+  box-shadow: 4px 0 20px rgba(0,0,0,0.3);
+}
+
+.ba-before-wrap .ba-img-before {
+  width: 1040px;
+  max-width: none;
+}
+
+.ba-handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: var(--fg);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+  border: 2px solid var(--fg);
+}
+
+.ba-badge {
+  position: absolute;
+  top: 16px;
+  background: rgba(10,10,10,0.75);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 99px;
+  pointer-events: none;
+}
+.ba-badge.left { left: 16px; }
+.ba-badge.right { right: 16px; }
+
+/* TRIAL BANNER CTA */
+.trial-banner {
+  background: #0a0a0a;
+  color: #ffffff;
+  border-radius: 20px;
+  padding: clamp(40px, 6vw, 70px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 90px;
+}
+.trial-banner h2 {
+  font-family: var(--f-display);
+  font-size: clamp(26px, 3.6vw, 46px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+.trial-banner p {
+  color: #a0a09e;
+  font-size: 15px;
+  max-width: 520px;
+}
+.trial-banner .btn {
+  background: #ffffff;
+  color: #0a0a0a;
+  font-size: 13px;
+  padding: 14px 28px;
+  white-space: nowrap;
+}
+.trial-banner .btn:hover {
+  background: var(--accent);
+  color: #ffffff;
+}
+@media (max-width: 800px) {
+  .trial-banner { flex-direction: column; text-align: center; }
+}
+
+/* FOOTER */
+footer {
+  padding: 80px 0 40px;
+  border-top: 1px solid var(--line);
+  background: #ffffff;
+}
+
+.footer-giant-logo {
+  font-family: var(--f-display);
+  font-size: clamp(60px, 15vw, 210px);
+  font-weight: 800;
+  letter-spacing: -0.065em;
+  line-height: 0.85;
+  color: var(--fg);
+  margin-bottom: 50px;
+  cursor: pointer;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(3, 1fr);
+  gap: 30px;
+  padding-bottom: 50px;
+  border-bottom: 1px solid var(--line);
+}
+
+.footer-col h5 {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mut);
+  margin-bottom: 18px;
+}
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+}
+.footer-col a { color: #444; transition: color 0.2s ease; }
+.footer-col a:hover { color: var(--fg); }
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 30px;
+  font-size: 12px;
+  color: var(--mut);
+}
+
+@media (max-width: 768px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* FOOTER GIANT LOGO SLICE ANIMATION (FROM v6.html) */
+@property --g {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+@keyframes slice {
+  0%, 100% { --g: 0px; }
+  45% { --g: 6px; }
+}
+.footer-giant-logo.slice,
+.footer-giant-logo:hover {
+  animation: slice 1.4s ease-in-out;
+  -webkit-mask-image: repeating-linear-gradient(#000 0 calc(10px - var(--g)), transparent calc(10px - var(--g)) 10px);
+  mask-image: repeating-linear-gradient(#000 0 calc(10px - var(--g)), transparent calc(10px - var(--g)) 10px);
+}
+
+
+/* WIPE PAGE TRANSITION (BOTTOM TO TOP BLACK SLIDE) */
+#wipe {
+  position: fixed;
+  inset: 0;
+  background: #0a0a0a;
+  z-index: 99999;
+  transform: translateY(100%);
+  pointer-events: none;
+}
+@keyframes wipeIn {
+  0% { transform: translateY(100%); }
+  100% { transform: translateY(0%); }
+}
+@keyframes wipeOut {
+  0% { transform: translateY(0%); }
+  100% { transform: translateY(-100%); }
+}
+
+</style>
+</head>
+<body>
+<div id="wipe"></div>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-brand">
+    RETOUCHER SHOAIB<sup>&reg;</sup>
+  </a>
+
+  <div class="nav-links">
+    <a href="work.html" class="show-mob">Work</a>
+    <a href="services.html" class="show-mob active">Services</a>
+    <a href="studio.html">Studio</a>
+    <a href="feed.html">Feed</a>
+    <a href="contact.html" class="show-mob">Contact</a>
+  </div>
+
+  <div class="nav-time" id="liveTimeIndicator">
+    NYC 08:30 AM • BERLIN 01:30 PM
+  </div>
+
+  <div>
+    <a href="contact.html" class="btn">Free Trial</a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<header class="page-header w">
+  <div class="page-eyebrow">Studio Capabilities</div>
+  <h1 class="page-title">Services & Disciplines</h1>
+  <p class="page-lead">
+    We elevate raw commercial imagery into editorial masterpieces for luxury labels, high-fashion houses, and international commercial brands.
+  </p>
+</header>
+
+<!-- MAIN SERVICES SECTION -->
+<main class="w services-section">
+  <div class="section-intro-bar">
+    <h2>05 Specialized Post-Production Departments</h2>
+    <span>Non-Destructive • 16-Bit ProPhoto</span>
+  </div>
+
+  <!-- Service 01: Jewelry Retouching -->
+  <div class="service-row primary">
+    <div class="service-num">01 /</div>
+    <div class="service-main">
+      <div class="service-badge-tag">Flagship Expertise</div>
+      <h3>Luxury Jewelry & Watch Retouching</h3>
+      <div class="service-badge-sub">Diamond Clarity • Metallic Luster • Crystal Reflections</div>
+    </div>
+    <div class="service-desc">
+      <p>
+        Specialized macro post-production for high-jewelry, diamonds, gemstones, and luxury horology. We remove microscopic dust, micro-scratches, and welding marks while preserving genuine faceting, brilliance, and authentic metal luster.
+      </p>
+      <div class="service-pills">
+        <span class="pill">Diamond & Gemstone Brilliance</span>
+        <span class="pill">Focus Stacking Alignment</span>
+        <span class="pill">Metal Luster Polishing</span>
+        <span class="pill">Dial & Crystal Anti-Reflection</span>
+        <span class="pill">Gold & Platinum Balancing</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Service 02: Fashion & Clothing Retouching -->
+  <div class="service-row primary">
+    <div class="service-num">02 /</div>
+    <div class="service-main">
+      <div class="service-badge-tag">Flagship Expertise</div>
+      <h3>Fashion & Clothing Retouching</h3>
+      <div class="service-badge-sub">3D Ghost Mannequin • Editorial Draping • Cloth Weave</div>
+    </div>
+    <div class="service-desc">
+      <p>
+        High-volume fashion apparel editing with flawless 3D hollow mannequin neck joints, symmetrical shape reshaping, and non-destructive fabric crease refinement. Your garments look naturally tailored and runway-ready without losing authentic cloth weave.
+      </p>
+      <div class="service-pills">
+        <span class="pill">3D Ghost Mannequin & Neck Joint</span>
+        <span class="pill">Symmetry & Hemline Straightening</span>
+        <span class="pill">Wrinkle & Crease Smoothing</span>
+        <span class="pill">Apparel Texture Preservation</span>
+        <span class="pill">Accurate Swatch Color Matching</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Service 03: Model & Beauty Portrait Retouching -->
+  <div class="service-row primary">
+    <div class="service-num">03 /</div>
+    <div class="service-main">
+      <div class="service-badge-tag">Flagship Expertise</div>
+      <h3>Model & Beauty Portrait Retouching</h3>
+      <div class="service-badge-sub">Non-Destructive D&B • Frequency Separation • Epidermal Pore Texture</div>
+    </div>
+    <div class="service-desc">
+      <p>
+        Editorial and commercial beauty retouching that respects real human skin micro-texture. We utilize manual dodge and burn with multi-frequency separation to eliminate blemishes, redness, and stray flyaway hairs while keeping natural skin pores 100% intact.
+      </p>
+      <div class="service-pills">
+        <span class="pill">Natural Skin Texture (Zero Blur)</span>
+        <span class="pill">Dodge & Burn Sculpting</span>
+        <span class="pill">Flyaway Hair & Eyebrow Cleanup</span>
+        <span class="pill">Catchlight & Eye Polish</span>
+        <span class="pill">Skin Tone & Cast Balancing</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Service 04: E-Commerce Product Retouching -->
+  <div class="service-row">
+    <div class="service-num">04 /</div>
+    <div class="service-main">
+      <div class="service-badge-tag" style="color: #444; background: #eee;">High-Volume Production</div>
+      <h3>E-Commerce Product Photo Retouching</h3>
+      <div class="service-badge-sub">Amazon & Shopify Ready • Hand-Drawn Pen Tool Paths</div>
+    </div>
+    <div class="service-desc">
+      <p>
+        Pure white background conversion (#FFFFFF), 100% hand-drawn Photoshop pen tool clipping paths, multi-angle cutouts, and hyper-realistic natural cast or reflection shadows designed to maximize conversion rates on Amazon, Shopify, and Net-a-Porter.
+      </p>
+      <div class="service-pills">
+        <span class="pill">100% Hand-Drawn Clipping Path</span>
+        <span class="pill">Pure White Background</span>
+        <span class="pill">Natural & Drop Shadow Creation</span>
+        <span class="pill">E-Com Spec Compliance</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Service 05: Still Life & Cosmetics Retouching -->
+  <div class="service-row">
+    <div class="service-num">05 /</div>
+    <div class="service-main">
+      <div class="service-badge-tag" style="color: #444; background: #eee;">Commercial Studio</div>
+      <h3>Still Life & Creative Commercial Retouching</h3>
+      <div class="service-badge-sub">Luxury Perfume & Cosmetics • Glassware Reflections</div>
+    </div>
+    <div class="service-desc">
+      <p>
+        Post-production for commercial still life, cosmetics bottles, glassware, and luxury accessories. Perfect balance of highlight diffusion, clean specular reflections, and color grading that commands attention on print and digital billboard campaigns.
+      </p>
+      <div class="service-pills">
+        <span class="pill">Glassware Reflection Control</span>
+        <span class="pill">Cosmetics & Dropper Cleanup</span>
+        <span class="pill">Composite Layer Blending</span>
+        <span class="pill">Luxury Color Grading</span>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- BEFORE / AFTER SLIDER SECTION -->
+<section class="ba-section">
+  <div class="w">
+    <div class="ba-header">
+      <h2>Precision at Pixel Level</h2>
+      <p>Slide horizontally to inspect the difference between raw capture and master retouch.</p>
+    </div>
+
+    <div class="ba-wrapper">
+      <div class="ba-slider-container" id="baSlider">
+        <img src="./assets/Jewelry After.jpg" alt="Jewelry Retouched After" class="ba-img-after">
+        <div class="ba-before-wrap" id="baBeforeWrap">
+          <img src="./assets/Jewelry Before.jpg" alt="Jewelry Raw Before" class="ba-img-before" id="baBeforeImg">
+        </div>
+        <div class="ba-handle" id="baHandle">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </div>
+        <div class="ba-badge left">Raw Capture</div>
+        <div class="ba-badge right">Retouched Master</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRIAL BANNER CTA -->
+<div class="w">
+  <div class="trial-banner">
+    <div>
+      <h2>Experience Our Precision On Your Own Images</h2>
+      <p>Send us 1 or 2 test photos. We will retouch them according to your exact studio style guide within 12–24 hours — free of charge.</p>
+    </div>
+    <a href="contact.html" class="btn">Request Free Trial &rarr;</a>
+  </div>
+</div>
+
+<footer class="w">
+  <div class="footer-giant-logo">
+    RETOUCHER SHOAIB<sup>&reg;</sup>
+  </div>
+
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h5>Retoucher Shoaib Studio</h5>
+      <p style="font-size: 14px; line-height: 1.7; color: #555; max-width: 280px;">
+        High-end commercial post-production studio directed by Shoaib. Serving brands across New York, London, Paris, and Milan with unmatched pixel discipline.
+      </p>
+    </div>
+
+    <div class="footer-col">
+      <h5>Core Disciplines</h5>
+      <ul>
+        <li><a href="services.html">Jewelry Retouching</a></li>
+        <li><a href="services.html">Fashion & Clothing</a></li>
+        <li><a href="services.html">Model & Beauty</a></li>
+        <li><a href="services.html">E-Commerce Products</a></li>
+        <li><a href="services.html">Still Life Cosmetics</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Navigation</h5>
+      <ul>
+        <li><a href="work.html">Selected Works</a></li>
+        <li><a href="services.html">Our Services</a></li>
+        <li><a href="studio.html">Our Studio & Team</a></li>
+        <li><a href="feed.html">Journal & Insights</a></li>
+        <li><a href="contact.html">Free Trial Request</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Connect</h5>
+      <ul>
+        <li><a href="mailto:hello@retouchershoaib.com">Email Us</a></li>
+        <li><a href="https://wa.me/8801700000000" target="_blank">WhatsApp Direct</a></li>
+        <li><a href="https://linkedin.com" target="_blank">LinkedIn Studio</a></li>
+        <li><a href="https://instagram.com" target="_blank">Instagram Portfolio</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div>&copy; 2016–2026 Retoucher Shoaib&reg;. All Rights Reserved.</div>
+    <div>Handcrafted with pure pixel precision.</div>
+  </div>
+</footer>
+
+<script>
+// LIVE STUDIO TIME SYNC
+function updateStudioTime() {
+  const timeEl = document.getElementById('liveTimeIndicator');
+  if (!timeEl) return;
+  const now = new Date();
+  const nyc = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hour12: true }).format(now);
+  const ber = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit', hour12: true }).format(now);
+  timeEl.textContent = `NYC ${nyc} • BERLIN ${ber}`;
+}
+setInterval(updateStudioTime, 10000);
+updateStudioTime();
+
+// BEFORE / AFTER SLIDER
+(function() {
+  const slider = document.getElementById('baSlider');
+  const beforeWrap = document.getElementById('baBeforeWrap');
+  const beforeImg = document.getElementById('baBeforeImg');
+  const handle = document.getElementById('baHandle');
+  if (!slider || !beforeWrap || !handle) return;
+
+  function syncImgWidth() {
+    if (beforeImg) beforeImg.style.width = slider.offsetWidth + 'px';
+  }
+  window.addEventListener('resize', syncImgWidth);
+  syncImgWidth();
+
+  let isSliding = false;
+
+  function updateSlider(e) {
+    const rect = slider.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    let pos = (clientX - rect.left) / rect.width;
+    pos = Math.max(0.02, Math.min(0.98, pos));
+    beforeWrap.style.width = (pos * 100).toFixed(2) + '%';
+    handle.style.left = (pos * 100).toFixed(2) + '%';
+    syncImgWidth();
+  }
+
+  slider.addEventListener('mousedown', (e) => { isSliding = true; updateSlider(e); });
+  window.addEventListener('mousemove', (e) => { if (isSliding) updateSlider(e); });
+  window.addEventListener('mouseup', () => { isSliding = false; });
+
+  slider.addEventListener('touchstart', (e) => { isSliding = true; updateSlider(e); }, { passive: true });
+  window.addEventListener('touchmove', (e) => { if (isSliding) updateSlider(e); }, { passive: true });
+  window.addEventListener('touchend', () => { isSliding = false; });
+})();
+
+// FOOTER SLICE ANIMATION
+(function() {
+  const fl = document.querySelector('.footer-giant-logo');
+  if (fl && 'IntersectionObserver' in window) {
+    new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          fl.classList.add('slice');
+          setTimeout(() => fl.classList.remove('slice'), 1500);
+        }
+      });
+    }, { threshold: 0.5 }).observe(fl);
+  }
+  if (fl) {
+    fl.addEventListener('mouseenter', () => {
+      fl.classList.add('slice');
+      setTimeout(() => fl.classList.remove('slice'), 1500);
+    });
+  }
+})();
+</script>
+
+<script>
+// SMOOTH BLACK WIPE TRANSITION (BOTTOM TO TOP)
+(function() {
+  const wipe = document.getElementById('wipe');
+  if (!wipe) return;
+
+  // On page entry: if arriving from wipe navigation, slide smoothly out to top
+  if (sessionStorage.getItem('pageWiped')) {
+    sessionStorage.removeItem('pageWiped');
+    wipe.style.transform = 'translateY(0%)';
+    requestAnimationFrame(() => {
+      wipe.style.transition = 'transform 0.45s cubic-bezier(0.7, 0, 0.2, 1)';
+      wipe.style.transform = 'translateY(-100%)';
+    });
+  }
+
+  // Intercept internal page link clicks
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a');
+    if (!a) return;
+    const href = a.getAttribute('href');
+    if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:') || href.startsWith('http') || a.target === '_blank') {
+      return;
+    }
+
+    e.preventDefault();
+    sessionStorage.setItem('pageWiped', '1');
+    wipe.style.transition = 'none';
+    wipe.style.transform = 'translateY(100%)';
+    void wipe.offsetWidth; // reflow
+    wipe.style.transition = 'transform 0.42s cubic-bezier(0.7, 0, 0.2, 1)';
+    wipe.style.transform = 'translateY(0%)';
+
+    setTimeout(() => {
+      window.location.href = href;
+    }, 400);
+  });
+})();
+</script>
+</body>
+</html>

@@ -422,9 +422,29 @@ footer {
   mask-image: repeating-linear-gradient(#000 0 calc(10px - var(--g)), transparent calc(10px - var(--g)) 10px);
 }
 
+
+/* WIPE PAGE TRANSITION (BOTTOM TO TOP BLACK SLIDE) */
+#wipe {
+  position: fixed;
+  inset: 0;
+  background: #0a0a0a;
+  z-index: 99999;
+  transform: translateY(100%);
+  pointer-events: none;
+}
+@keyframes wipeIn {
+  0% { transform: translateY(100%); }
+  100% { transform: translateY(0%); }
+}
+@keyframes wipeOut {
+  0% { transform: translateY(0%); }
+  100% { transform: translateY(-100%); }
+}
+
 </style>
 </head>
 <body>
+<div id="wipe"></div>
 
 <nav id="navbar">
   <a href="index.html" class="nav-brand">
@@ -433,6 +453,7 @@ footer {
 
   <div class="nav-links">
     <a href="work.html" class="show-mob ">Work</a>
+    <a href="services.html" class="show-mob">Services</a>
     <a href="studio.html" class="active">Studio</a>
     <a href="feed.html" class="">Feed</a>
     <a href="contact.html" class="show-mob ">Contact</a>
@@ -632,6 +653,45 @@ updateStudioTime();
       setTimeout(() => fl.classList.remove('slice'), 1500);
     });
   }
+})();
+</script>
+<script>
+// SMOOTH BLACK WIPE TRANSITION (BOTTOM TO TOP)
+(function() {
+  const wipe = document.getElementById('wipe');
+  if (!wipe) return;
+
+  // On page entry: if arriving from wipe navigation, slide smoothly out to top
+  if (sessionStorage.getItem('pageWiped')) {
+    sessionStorage.removeItem('pageWiped');
+    wipe.style.transform = 'translateY(0%)';
+    requestAnimationFrame(() => {
+      wipe.style.transition = 'transform 0.45s cubic-bezier(0.7, 0, 0.2, 1)';
+      wipe.style.transform = 'translateY(-100%)';
+    });
+  }
+
+  // Intercept internal page link clicks
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a');
+    if (!a) return;
+    const href = a.getAttribute('href');
+    if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:') || href.startsWith('http') || a.target === '_blank') {
+      return;
+    }
+
+    e.preventDefault();
+    sessionStorage.setItem('pageWiped', '1');
+    wipe.style.transition = 'none';
+    wipe.style.transform = 'translateY(100%)';
+    void wipe.offsetWidth; // reflow
+    wipe.style.transition = 'transform 0.42s cubic-bezier(0.7, 0, 0.2, 1)';
+    wipe.style.transform = 'translateY(0%)';
+
+    setTimeout(() => {
+      window.location.href = href;
+    }, 400);
+  });
 })();
 </script>
 </body>
