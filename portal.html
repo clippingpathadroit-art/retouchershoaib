@@ -1130,6 +1130,7 @@ body {
 
             <div style="display: flex; gap: 8px;">
               <button class="btn btn-outline btn-sm" onclick="openOrderDetails('085')">Order Details 👁️</button>
+                <button class="btn btn-primary btn-sm" onclick="viewOrderInvoice('085')">💳 Pay / View Invoice ($600)</button>
               <button class="btn btn-primary btn-sm" onclick="switchPortalSection('orders')">View Pipeline →</button>
             </div>
           </div>
@@ -1334,6 +1335,19 @@ body {
           </div>
 
           <!-- INVOICE SHEET -->
+          <!-- INVOICE SELECTION TABS (USER SPECIFICATION: ALL ORDERS / ADVANCE INVOICE) -->
+          <div style="display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap;">
+            <button class="btn btn-primary btn-sm" id="btnInvTabAll" onclick="selectInvoiceTab('all')">
+              💳 Total Outstanding Balance ($1,090.00)
+            </button>
+            <button class="btn btn-outline btn-sm" id="btnInvTab084" onclick="selectInvoiceTab('084')">
+              📄 Invoice #RS-2026-084 ($490.00 &bull; Jewelry Delivered)
+            </button>
+            <button class="btn btn-outline btn-sm" id="btnInvTab085" onclick="selectInvoiceTab('085')">
+              ⚡ Advance Invoice #RS-2026-085 ($600.00 &bull; Fashion In Production)
+            </button>
+          </div>
+
           <div class="invoice-sheet" id="invoiceSheet">
             <div class="inv-top-bar">
               <div>
@@ -2239,84 +2253,227 @@ loadClientProfile();
 // ========================================================
 // 9. DYNAMIC INVOICE & ADDITIONAL WORK MANAGEMENT (USER REQUEST)
 // ========================================================
+let activeInvoiceSelection = 'all';
+
+function selectInvoiceTab(tab) {
+  activeInvoiceSelection = tab;
+  ['btnInvTabAll', 'btnInvTab084', 'btnInvTab085'].forEach(id => {
+    const b = document.getElementById(id);
+    if (b) {
+      b.className = 'btn btn-outline btn-sm';
+    }
+  });
+
+  if (tab === 'all') document.getElementById('btnInvTabAll')?.classList.replace('btn-outline', 'btn-primary');
+  if (tab === '084') document.getElementById('btnInvTab084')?.classList.replace('btn-outline', 'btn-primary');
+  if (tab === '085') document.getElementById('btnInvTab085')?.classList.replace('btn-outline', 'btn-primary');
+
+  loadInvoiceDetails();
+}
+
+function viewOrderInvoice(id) {
+  switchPortalSection('invoices');
+  selectInvoiceTab(id);
+}
+
 function loadInvoiceDetails() {
-  const o = ORDERS['084'];
-  if (!o) return;
+  const o84 = ORDERS['084'];
+  const o85 = ORDERS['085'];
+  if (!o84 || !o85) return;
 
-  const pName = localStorage.getItem('shoaib_project_name_084') || o.title;
-  const imgCount = localStorage.getItem('shoaib_image_count_084') || 14;
+  // Check paid states
+  const isPaid84 = localStorage.getItem('shoaib_status_paid_084') === '1';
+  const isPaid85 = localStorage.getItem('shoaib_status_paid_085') === '1';
 
-  const pNameEl = document.getElementById('invProjectNameDisplay');
-  const imgCountEl = document.getElementById('invTotalImagesDisplay');
-  const unitRateEl = document.getElementById('invUnitRateDisplay');
-
-  if (pNameEl) pNameEl.textContent = pName;
-  if (imgCountEl) imgCountEl.textContent = imgCount + ' RAWs';
-  if (unitRateEl) unitRateEl.textContent = '$25.00 / img';
-
-  const line1Title = document.getElementById('invLine1Title');
-  const line1Desc = document.getElementById('invLine1Desc');
-  const line1Qty = document.getElementById('invLine1Qty');
-  const line1Rate = document.getElementById('invLine1Rate');
-  const line1Amt = document.getElementById('invLine1Amount');
-
-  const line2Qty = document.getElementById('invLine2Qty');
-  const line2Amt = document.getElementById('invLine2Amount');
-
-  const rate1 = 25.00;
-  const rate2 = 10.00;
-  const base1 = Number(imgCount) * rate1;
-  const base2 = Number(imgCount) * rate2;
-  const baseTotal = base1 + base2;
-
-  if (line1Title) line1Title.textContent = 'High-End Commercial Retouching (' + pName + ')';
-  if (line1Desc) line1Desc.textContent = 'Project: ' + pName + ' • ' + imgCount + ' focus-stacked RAW masters';
-  if (line1Qty) line1Qty.textContent = imgCount;
-  if (line1Rate) line1Rate.textContent = '$' + rate1.toFixed(2);
-  if (line1Amt) line1Amt.textContent = '$' + base1.toFixed(2);
-
-  if (line2Qty) line2Qty.textContent = imgCount;
-  if (line2Amt) line2Amt.textContent = '$' + base2.toFixed(2);
-
-  const extraRow = document.getElementById('invExtraWorkRow');
+  // Extra for 084
   const extraSaved = localStorage.getItem('shoaib_extra_work_084');
   let extraAmount = 0;
-
+  let extraDesc = '';
+  let extraQty = 0;
+  let extraRate = 0;
   if (extraSaved) {
     try {
-      const extra = JSON.parse(extraSaved);
-      if (extra && extra.amount > 0) {
-        extraAmount = Number(extra.amount);
-        if (extraRow) {
-          extraRow.style.display = 'table-row';
-          document.getElementById('invExtraTitle').textContent = '⚡ Additional Work: ' + extra.desc;
-          document.getElementById('invExtraDesc').textContent = 'Requested modifications after project completion (' + extra.qty + ' items @ $' + extra.rate + ')';
-          document.getElementById('invExtraQty').textContent = extra.qty;
-          document.getElementById('invExtraRate').textContent = '$' + Number(extra.rate).toFixed(2);
-          document.getElementById('invExtraAmount').textContent = '+$' + extraAmount.toFixed(2);
-        }
+      const ex = JSON.parse(extraSaved);
+      if (ex && ex.amount > 0) {
+        extraAmount = Number(ex.amount);
+        extraDesc = ex.desc;
+        extraQty = ex.qty;
+        extraRate = ex.rate;
       }
     } catch(e) {}
-  } else {
-    if (extraRow) extraRow.style.display = 'none';
   }
 
-  const finalSubtotal = baseTotal + extraAmount;
-  const subtotalEl = document.getElementById('invSubtotalDisplay');
-  const totalPayableEl = document.getElementById('invTotalPayableDisplay');
+  const amt84 = isPaid84 ? 0 : (490 + extraAmount);
+  const amt85 = isPaid85 ? 0 : 600;
+  const totalUnpaidAll = amt84 + amt85;
+
+  // UPDATE TOP METRIC CARD 1 (USER SPECIFICATION: TOTAL OF SUBMITTED + DELIVERED)
   const statUnpaidEl = document.getElementById('statUnpaid');
   const statUnpaidSub = document.getElementById('statUnpaidSub');
+  if (statUnpaidEl) {
+    statUnpaidEl.textContent = '$' + totalUnpaidAll.toFixed(2);
+  }
+  if (statUnpaidSub) {
+    if (totalUnpaidAll === 0) {
+      statUnpaidSub.textContent = 'All Invoices Settled ✓';
+      statUnpaidSub.style.color = '#059669';
+    } else if (amt84 > 0 && amt85 > 0) {
+      statUnpaidSub.textContent = '2 Orders Due ($490 Delivered • $600 In Production)';
+      statUnpaidSub.style.color = '#d97706';
+    } else if (amt85 > 0) {
+      statUnpaidSub.textContent = 'Order #085 Advance Due ($600 In Production)';
+      statUnpaidSub.style.color = '#d97706';
+    } else {
+      statUnpaidSub.textContent = 'Order #084 Due ($490 Delivered)';
+      statUnpaidSub.style.color = '#d97706';
+    }
+  }
 
-  if (subtotalEl) subtotalEl.textContent = '$' + finalSubtotal.toFixed(2);
-  if (totalPayableEl) totalPayableEl.textContent = '$' + finalSubtotal.toFixed(2) + ' USD';
-  if (statUnpaidEl) statUnpaidEl.textContent = '$' + finalSubtotal.toFixed(2);
-  if (statUnpaidSub) statUnpaidSub.textContent = '1 Unpaid Invoice (Net 15)';
+  // Update Invoice Sheet Display based on active tab
+  const invTableBody = document.getElementById('invTableBody');
+  const invNumberEl = document.querySelector('#invoiceSheet .inv-top-bar h2, #invoiceSheet .inv-top-bar div[style*="font-size: 22px"]');
+  const invProjectNameEl = document.getElementById('invProjectNameDisplay');
+  const invTotalImagesEl = document.getElementById('invTotalImagesDisplay');
+  const invUnitRateEl = document.getElementById('invUnitRateDisplay');
+  const invTurnaroundEl = document.getElementById('invTurnaroundDisplay');
+  const subtotalEl = document.getElementById('invSubtotalDisplay');
+  const totalPayableEl = document.getElementById('invTotalPayableDisplay');
+  const badgeEl = document.getElementById('invStatusBadge');
 
-  const cardBtn = document.querySelector('#bankCARD .btn-green');
-  if (cardBtn) {
-    cardBtn.innerHTML = '💳 Pay $' + finalSubtotal.toFixed(2) + ' USD via Card ↗';
+  if (activeInvoiceSelection === '085') {
+    // RENDER ORDER 085 INVOICE (ADVANCE / PRODUCTION)
+    if (invNumberEl) invNumberEl.textContent = 'PROFORMA INVOICE #RS-2026-085';
+    if (badgeEl) {
+      badgeEl.textContent = isPaid85 ? 'ADVANCE PAID ✓' : 'ADVANCE / IN PRODUCTION';
+      badgeEl.style.background = isPaid85 ? '#ecfdf5' : '#fef3c7';
+      badgeEl.style.color = isPaid85 ? '#065f46' : '#b45309';
+    }
+    if (invProjectNameEl) invProjectNameEl.textContent = 'Editorial Fashion Apparel Lookbook';
+    if (invTotalImagesEl) invTotalImagesEl.textContent = '24 RAWs';
+    if (invUnitRateEl) invUnitRateEl.textContent = '$25.00 / img';
+    if (invTurnaroundEl) invTurnaroundEl.textContent = '24h Express SLA';
+
+    if (invTableBody) {
+      invTableBody.innerHTML = `
+        <tr>
+          <td><strong>Fashion Apparel High-End Retouching</strong><br><span style="font-size: 12px; color: var(--mut);">Project: Editorial Fashion Apparel Lookbook &bull; 24 High-Fashion RAWs (.ARW)</span></td>
+          <td class="num">24</td>
+          <td class="num">$25.00</td>
+          <td class="num"><strong>$600.00</strong></td>
+        </tr>
+      `;
+    }
+    if (subtotalEl) subtotalEl.textContent = '$600.00';
+    if (totalPayableEl) totalPayableEl.textContent = '$600.00 USD';
+
+    const cardBtn = document.querySelector('#bankCARD .btn-green');
+    if (cardBtn) cardBtn.innerHTML = '💳 Pay $600.00 USD via Card ↗';
+
+  } else if (activeInvoiceSelection === '084') {
+    // RENDER ORDER 084 INVOICE
+    if (invNumberEl) invNumberEl.textContent = 'INVOICE #RS-2026-084';
+    if (badgeEl) {
+      badgeEl.textContent = isPaid84 ? 'PAID ✓' : 'PAYMENT PENDING';
+      badgeEl.style.background = isPaid84 ? '#ecfdf5' : '#fef3c7';
+      badgeEl.style.color = isPaid84 ? '#065f46' : '#b45309';
+    }
+    const pName = localStorage.getItem('shoaib_project_name_084') || 'Luxury Jewelry & Watches Suite';
+    if (invProjectNameEl) invProjectNameEl.textContent = pName;
+    if (invTotalImagesEl) invTotalImagesEl.textContent = '14 RAWs';
+    if (invUnitRateEl) invUnitRateEl.textContent = '$25.00 / img';
+    if (invTurnaroundEl) invTurnaroundEl.textContent = '24 Hours Express';
+
+    let rowsHtml = `
+      <tr>
+        <td><strong>High-End Commercial Retouching (${pName})</strong><br><span style="font-size: 12px; color: var(--mut);">Project: ${pName} &bull; 14 focus-stacked RAW masters</span></td>
+        <td class="num">14</td>
+        <td class="num">$25.00</td>
+        <td class="num"><strong>$350.00</strong></td>
+      </tr>
+      <tr>
+        <td><strong>Color-Calibrated Specular Highlight Master</strong><br><span style="font-size: 12px; color: var(--mut);">16-bit layered master PSD export with preserved alpha masks</span></td>
+        <td class="num">14</td>
+        <td class="num">$10.00</td>
+        <td class="num"><strong>$140.00</strong></td>
+      </tr>
+    `;
+
+    if (extraAmount > 0) {
+      rowsHtml += `
+        <tr style="background: #fffbeb;">
+          <td><strong style="color: #b45309;">⚡ Additional Work: ${extraDesc}</strong><br><span style="font-size: 12px; color: #78350f;">Requested modifications (${extraQty} items @ $${extraRate})</span></td>
+          <td class="num">${extraQty}</td>
+          <td class="num">$${Number(extraRate).toFixed(2)}</td>
+          <td class="num"><strong style="color: #b45309;">+$${extraAmount.toFixed(2)}</strong></td>
+        </tr>
+      `;
+    }
+
+    if (invTableBody) invTableBody.innerHTML = rowsHtml;
+    const inv84Tot = 490 + extraAmount;
+    if (subtotalEl) subtotalEl.textContent = '$' + inv84Tot.toFixed(2);
+    if (totalPayableEl) totalPayableEl.textContent = '$' + inv84Tot.toFixed(2) + ' USD';
+
+    const cardBtn = document.querySelector('#bankCARD .btn-green');
+    if (cardBtn) cardBtn.innerHTML = '💳 Pay $' + inv84Tot.toFixed(2) + ' USD via Card ↗';
+
+  } else {
+    // CONSOLIDATED STATEMENT / ALL ORDERS DUE (USER SPECIFICATION)
+    if (invNumberEl) invNumberEl.textContent = 'CONSOLIDATED STATEMENT #RS-2026-ALL';
+    if (badgeEl) {
+      badgeEl.textContent = (totalUnpaidAll === 0) ? 'ALL SETTLED ✓' : '2 ORDERS PENDING';
+      badgeEl.style.background = (totalUnpaidAll === 0) ? '#ecfdf5' : '#fef3c7';
+      badgeEl.style.color = (totalUnpaidAll === 0) ? '#065f46' : '#b45309';
+    }
+    if (invProjectNameEl) invProjectNameEl.textContent = 'All Active & Delivered Commercial Projects';
+    if (invTotalImagesEl) invTotalImagesEl.textContent = '38 Total RAWs';
+    if (invUnitRateEl) invUnitRateEl.textContent = '$25.00 avg';
+    if (invTurnaroundEl) invTurnaroundEl.textContent = 'Active Account';
+
+    let allRows = `
+      <tr>
+        <td>
+          <span style="background: #ecfdf5; color: #065f46; font-size: 11px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">DELIVERED</span>
+          <strong style="margin-left: 6px;">Order #RS-2026-084: Luxury Jewelry Suite</strong><br>
+          <span style="font-size: 12px; color: var(--mut);">14 Focus-Stacked RAWs &bull; Focus stacking, platinum scratch removal &amp; specular polish</span>
+        </td>
+        <td class="num">14</td>
+        <td class="num">$35.00</td>
+        <td class="num"><strong>$490.00</strong></td>
+      </tr>
+      <tr>
+        <td>
+          <span style="background: #fef3c7; color: #b45309; font-size: 11px; font-weight: 800; padding: 2px 6px; border-radius: 4px;">IN PRODUCTION</span>
+          <strong style="margin-left: 6px;">Order #RS-2026-085: Editorial Fashion Apparel Lookbook</strong><br>
+          <span style="font-size: 12px; color: var(--mut);">24 High-Fashion RAWs &bull; Symmetrical hemline, wrinkle removal &amp; ghost mannequin (Advance / Full)</span>
+        </td>
+        <td class="num">24</td>
+        <td class="num">$25.00</td>
+        <td class="num"><strong>$600.00</strong></td>
+      </tr>
+    `;
+
+    if (extraAmount > 0) {
+      allRows += `
+        <tr style="background: #fffbeb;">
+          <td><strong style="color: #b45309;">⚡ Additional Work: ${extraDesc}</strong><br><span style="font-size: 12px; color: #78350f;">Requested modifications (${extraQty} items @ $${extraRate})</span></td>
+          <td class="num">${extraQty}</td>
+          <td class="num">$${Number(extraRate).toFixed(2)}</td>
+          <td class="num"><strong style="color: #b45309;">+$${extraAmount.toFixed(2)}</strong></td>
+        </tr>
+      `;
+    }
+
+    if (invTableBody) invTableBody.innerHTML = allRows;
+    if (subtotalEl) subtotalEl.textContent = '$' + totalUnpaidAll.toFixed(2);
+    if (totalPayableEl) totalPayableEl.textContent = '$' + totalUnpaidAll.toFixed(2) + ' USD';
+
+    const cardBtn = document.querySelector('#bankCARD .btn-green');
+    if (cardBtn) cardBtn.innerHTML = '💳 Pay $' + totalUnpaidAll.toFixed(2) + ' USD via Card ↗';
   }
 }
+
+// Ensure function is called
 
 function openExtraWorkModal() {
   const extraSaved = localStorage.getItem('shoaib_extra_work_084');
