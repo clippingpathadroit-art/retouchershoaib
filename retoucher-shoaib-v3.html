@@ -700,6 +700,66 @@ footer {
   mask-image: repeating-linear-gradient(#000 0 calc(10px - var(--g)), transparent calc(10px - var(--g)) 10px);
 }
 
+
+.video-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  pointer-events: auto;
+}
+
+.video-ctrl-btn {
+  pointer-events: auto;
+  border: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: var(--f);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.video-ctrl-btn.sound-pill {
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 99px;
+  background: rgba(10, 10, 10, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.video-ctrl-btn.sound-pill:hover,
+.video-ctrl-btn.sound-pill.active {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.video-ctrl-btn.round-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: var(--fg);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.video-ctrl-btn.round-btn:hover {
+  background: var(--accent);
+  color: #ffffff;
+  transform: scale(1.08);
+}
+
 </style>
 </head>
 <body>
@@ -814,15 +874,30 @@ footer {
       </video>
 
       <div class="video-overlay-ctrls">
-        <div class="video-tag">Studio Showreel • 2026 Edition</div>
-        <button class="video-play-btn" id="videoToggleBtn" title="Play / Pause">
-          <svg id="playIcon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-            <rect x="6" y="4" width="4" height="16"></rect>
-            <rect x="14" y="4" width="4" height="16"></rect>
-          </svg>
-        </button>
+        <div class="video-tag">
+          Studio Showreel • 2026 Edition
+        </div>
+        
+        <div class="video-actions-group">
+          <!-- SOUND TOGGLE (MUTE / UNMUTE) -->
+          <button class="video-ctrl-btn sound-pill" id="videoSoundBtn" title="Click to Unmute / Mute Audio" aria-label="Toggle Sound">
+            <svg id="soundIcon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <line x1="23" y1="9" x2="17" y2="15"></line>
+              <line x1="17" y1="9" x2="23" y2="15"></line>
+            </svg>
+            <span id="soundText">Sound Off</span>
+          </button>
+
+          <!-- PLAY / PAUSE -->
+          <button class="video-ctrl-btn round-btn" id="videoToggleBtn" title="Play / Pause Showreel" aria-label="Toggle Play">
+            <svg id="playIcon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+              <rect x="6" y="4" width="4" height="16"></rect>
+              <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+          </button>
+        </div>
       </div>
-    </div>
   </div>
 </section>
 
@@ -1018,13 +1093,45 @@ if (cardInteractiveZone) {
   }
   animateHero();
 
-// VIDEO CONTROLLER
+// VIDEO & AUDIO CONTROLLER
 const kineticVideo = document.getElementById('kineticVideo');
 const videoToggleBtn = document.getElementById('videoToggleBtn');
+const videoSoundBtn = document.getElementById('videoSoundBtn');
 const playIcon = document.getElementById('playIcon');
+const soundIcon = document.getElementById('soundIcon');
+const soundText = document.getElementById('soundText');
+
+const soundOnSvg = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>';
+const soundOffSvg = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
+
+function updateSoundUI() {
+  if (!kineticVideo || !soundIcon || !soundText) return;
+  if (kineticVideo.muted) {
+    soundIcon.innerHTML = soundOffSvg;
+    soundText.textContent = 'Sound Off';
+    if (videoSoundBtn) videoSoundBtn.classList.remove('active');
+  } else {
+    soundIcon.innerHTML = soundOnSvg;
+    soundText.textContent = 'Sound On';
+    if (videoSoundBtn) videoSoundBtn.classList.add('active');
+  }
+}
+
+if (videoSoundBtn && kineticVideo) {
+  videoSoundBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    kineticVideo.muted = !kineticVideo.muted;
+    if (!kineticVideo.muted && kineticVideo.paused) {
+      kineticVideo.play();
+      if (playIcon) playIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>';
+    }
+    updateSoundUI();
+  });
+}
 
 if (videoToggleBtn && kineticVideo) {
-  videoToggleBtn.addEventListener('click', () => {
+  videoToggleBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
     if (kineticVideo.paused) {
       kineticVideo.play();
       playIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>';
@@ -1034,6 +1141,28 @@ if (videoToggleBtn && kineticVideo) {
     }
   });
 }
+
+// Clicking video card also un-mutes and toggles
+const videoCard = document.querySelector('.video-card-inner');
+if (videoCard && kineticVideo) {
+  videoCard.style.cursor = 'pointer';
+  videoCard.addEventListener('click', (e) => {
+    if (e.target.closest('button')) return;
+    if (kineticVideo.muted) {
+      kineticVideo.muted = false;
+      updateSoundUI();
+    }
+    if (kineticVideo.paused) {
+      kineticVideo.play();
+      if (playIcon) playIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>';
+    } else {
+      kineticVideo.pause();
+      if (playIcon) playIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"></polygon>';
+    }
+  });
+}
+
+updateSoundUI();
 </script>
 
 <footer class="w">
