@@ -148,12 +148,12 @@ nav#navbar {
   max-width: 780px;
 }
 
-/* SERVICES SECTION */
+/* SERVICES SECTION (FROM v6.html) */
 .services-section {
   padding: 60px 0 100px;
 }
 
-.section-intro-bar {
+.section-head {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -161,13 +161,13 @@ nav#navbar {
   border-bottom: 2px solid var(--fg);
   margin-bottom: 20px;
 }
-.section-intro-bar h2 {
+.section-head h2 {
   font-family: var(--f-display);
   font-size: 18px;
   font-weight: 700;
   letter-spacing: -0.02em;
 }
-.section-intro-bar span {
+.section-head span {
   font-size: 12px;
   font-weight: 600;
   color: var(--mut);
@@ -177,19 +177,29 @@ nav#navbar {
 
 .service-row {
   display: grid;
-  grid-template-columns: 80px 1.1fr 1.3fr;
+  grid-template-columns: 80px 1.15fr 1.35fr;
   gap: 36px;
   padding: 48px 0;
   border-bottom: 1px solid var(--line);
   align-items: flex-start;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background 0.25s ease, opacity 0.3s ease;
+  cursor: pointer;
 }
 
-.service-row:hover {
-  background: rgba(247, 246, 243, 0.6);
-  padding-left: 20px;
-  padding-right: 20px;
-  border-radius: 12px;
+.service-main, .service-num {
+  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), color 0.25s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .services-section:has(.service-row:hover) .service-row:not(:hover) {
+    opacity: 0.38;
+  }
+  .service-row:hover .service-main {
+    transform: translateX(12px);
+  }
+  .service-row:hover .service-num {
+    color: var(--accent);
+  }
 }
 
 .service-num {
@@ -198,7 +208,6 @@ nav#navbar {
   font-weight: 800;
   color: var(--mut);
   letter-spacing: -0.03em;
-  transition: color 0.25s ease;
 }
 
 .service-row.primary .service-num {
@@ -207,7 +216,7 @@ nav#navbar {
 
 .service-main h3 {
   font-family: var(--f-display);
-  font-size: clamp(22px, 2.6vw, 36px);
+  font-size: clamp(22px, 2.7vw, 38px);
   font-weight: 700;
   letter-spacing: -0.04em;
   line-height: 1.15;
@@ -257,6 +266,74 @@ nav#navbar {
   letter-spacing: 0.02em;
 }
 
+/* FLOATING CURSOR-FOLLOWING PREVIEW CARD (EXACTLY FROM v6.html) */
+#svcPreview {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: clamp(230px, 20vw, 310px);
+  aspect-ratio: 3 / 4;
+  border-radius: 16px;
+  overflow: hidden;
+  z-index: 250;
+  pointer-events: none;
+  opacity: 0;
+  scale: 0.9;
+  background: var(--soft);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 32px 75px -12px rgba(0, 0, 0, 0.32);
+  transition: opacity 0.3s ease, scale 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: transform;
+}
+
+#svcPreview.show {
+  opacity: 1;
+  scale: 1;
+}
+
+#svcPreview img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.1);
+  transition: opacity 0.4s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+#svcPreview img.on {
+  opacity: 1;
+  transform: none;
+}
+
+.svc-tag {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(10, 10, 10, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #ffffff;
+  font: 700 11px var(--f);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 99px;
+  white-space: nowrap;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.svc-thumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-top: 16px;
+}
+
 @media (max-width: 900px) {
   .service-row {
     grid-template-columns: 1fr;
@@ -264,111 +341,6 @@ nav#navbar {
     padding: 36px 0;
   }
 }
-
-/* BEFORE / AFTER COMPARISON SLIDER SECTION */
-.ba-section {
-  padding: 90px 0;
-  background: var(--soft);
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  margin-bottom: 80px;
-}
-
-.ba-header {
-  text-align: center;
-  max-width: 600px;
-  margin: 0 auto 40px;
-}
-.ba-header h2 {
-  font-family: var(--f-display);
-  font-size: clamp(28px, 4vw, 44px);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  margin-bottom: 10px;
-}
-.ba-header p {
-  font-size: 15px;
-  color: #666;
-}
-
-.ba-wrapper {
-  position: relative;
-  max-width: 1040px;
-  margin: 0 auto;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 30px 70px -15px rgba(0,0,0,0.18);
-  background: #fff;
-  border: 1px solid var(--line);
-  user-select: none;
-}
-
-.ba-slider-container {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
-  cursor: ew-resize;
-}
-
-.ba-img-after, .ba-img-before {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-}
-
-.ba-before-wrap {
-  position: absolute;
-  inset: 0;
-  width: 50%;
-  overflow: hidden;
-  border-right: 2px solid #ffffff;
-  box-shadow: 4px 0 20px rgba(0,0,0,0.3);
-}
-
-.ba-before-wrap .ba-img-before {
-  width: 1040px;
-  max-width: none;
-}
-
-.ba-handle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: #ffffff;
-  color: var(--fg);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  z-index: 10;
-  border: 2px solid var(--fg);
-}
-
-.ba-badge {
-  position: absolute;
-  top: 16px;
-  background: rgba(10,10,10,0.75);
-  backdrop-filter: blur(8px);
-  color: #ffffff;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 6px 14px;
-  border-radius: 99px;
-  pointer-events: none;
-}
-.ba-badge.left { left: 16px; }
-.ba-badge.right { right: 16px; }
 
 /* TRIAL BANNER CTA */
 .trial-banner {
@@ -467,7 +439,7 @@ footer {
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 
-/* FOOTER GIANT LOGO SLICE ANIMATION (FROM v6.html) */
+/* FOOTER GIANT LOGO SLICE ANIMATION (100% STATIC, NO TRANSLATE) */
 @property --g {
   syntax: '<length>';
   inherits: false;
@@ -484,8 +456,7 @@ footer {
   mask-image: repeating-linear-gradient(#000 0 calc(10px - var(--g)), transparent calc(10px - var(--g)) 10px);
 }
 
-
-/* WIPE PAGE TRANSITION (BOTTOM TO TOP BLACK SLIDE) */
+/* WIPE PAGE TRANSITION */
 #wipe {
   position: fixed;
   inset: 0;
@@ -494,15 +465,6 @@ footer {
   transform: translateY(100%);
   pointer-events: none;
 }
-@keyframes wipeIn {
-  0% { transform: translateY(100%); }
-  100% { transform: translateY(0%); }
-}
-@keyframes wipeOut {
-  0% { transform: translateY(0%); }
-  100% { transform: translateY(-100%); }
-}
-
 </style>
 </head>
 <body>
@@ -539,15 +501,15 @@ footer {
   </p>
 </header>
 
-<!-- MAIN SERVICES SECTION -->
-<main class="w services-section">
-  <div class="section-intro-bar">
+<!-- MAIN SERVICES SECTION (WITH HOVER PREVIEW) -->
+<main class="w services-section" id="servicesSection">
+  <div class="section-head">
     <h2>05 Specialized Post-Production Departments</h2>
     <span>Non-Destructive • 16-Bit ProPhoto</span>
   </div>
 
   <!-- Service 01: Jewelry Retouching -->
-  <div class="service-row primary">
+  <div class="service-row primary" data-index="0" data-img="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=1000&q=85">
     <div class="service-num">01 /</div>
     <div class="service-main">
       <div class="service-badge-tag">Flagship Expertise</div>
@@ -569,7 +531,7 @@ footer {
   </div>
 
   <!-- Service 02: Fashion & Clothing Retouching -->
-  <div class="service-row primary">
+  <div class="service-row primary" data-index="1" data-img="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1000&q=85">
     <div class="service-num">02 /</div>
     <div class="service-main">
       <div class="service-badge-tag">Flagship Expertise</div>
@@ -591,7 +553,7 @@ footer {
   </div>
 
   <!-- Service 03: Model & Beauty Portrait Retouching -->
-  <div class="service-row primary">
+  <div class="service-row primary" data-index="2" data-img="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1000&q=85">
     <div class="service-num">03 /</div>
     <div class="service-main">
       <div class="service-badge-tag">Flagship Expertise</div>
@@ -613,7 +575,7 @@ footer {
   </div>
 
   <!-- Service 04: E-Commerce Product Retouching -->
-  <div class="service-row">
+  <div class="service-row" data-index="3" data-img="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1000&q=85">
     <div class="service-num">04 /</div>
     <div class="service-main">
       <div class="service-badge-tag" style="color: #444; background: #eee;">High-Volume Production</div>
@@ -634,7 +596,7 @@ footer {
   </div>
 
   <!-- Service 05: Still Life & Cosmetics Retouching -->
-  <div class="service-row">
+  <div class="service-row" data-index="4" data-img="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1000&q=85">
     <div class="service-num">05 /</div>
     <div class="service-main">
       <div class="service-badge-tag" style="color: #444; background: #eee;">Commercial Studio</div>
@@ -654,32 +616,6 @@ footer {
     </div>
   </div>
 </main>
-
-<!-- BEFORE / AFTER SLIDER SECTION -->
-<section class="ba-section">
-  <div class="w">
-    <div class="ba-header">
-      <h2>Precision at Pixel Level</h2>
-      <p>Slide horizontally to inspect the difference between raw capture and master retouch.</p>
-    </div>
-
-    <div class="ba-wrapper">
-      <div class="ba-slider-container" id="baSlider">
-        <img src="./assets/Jewelry After.jpg" alt="Jewelry Retouched After" class="ba-img-after">
-        <div class="ba-before-wrap" id="baBeforeWrap">
-          <img src="./assets/Jewelry Before.jpg" alt="Jewelry Raw Before" class="ba-img-before" id="baBeforeImg">
-        </div>
-        <div class="ba-handle" id="baHandle">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-        </div>
-        <div class="ba-badge left">Raw Capture</div>
-        <div class="ba-badge right">Retouched Master</div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- TRIAL BANNER CTA -->
 <div class="w">
@@ -757,42 +693,86 @@ function updateStudioTime() {
 setInterval(updateStudioTime, 10000);
 updateStudioTime();
 
-// BEFORE / AFTER SLIDER
+// EXACT FLOATING CURSOR-FOLLOWING & SWAYING PREVIEW CARD (FROM v6.html)
 (function() {
-  const slider = document.getElementById('baSlider');
-  const beforeWrap = document.getElementById('baBeforeWrap');
-  const beforeImg = document.getElementById('baBeforeImg');
-  const handle = document.getElementById('baHandle');
-  if (!slider || !beforeWrap || !handle) return;
+  const rows = [...document.querySelectorAll('.service-row')];
+  if (!rows.length) return;
 
-  function syncImgWidth() {
-    if (beforeImg) beforeImg.style.width = slider.offsetWidth + 'px';
-  }
-  window.addEventListener('resize', syncImgWidth);
-  syncImgWidth();
+  const images = rows.map(r => r.dataset.img);
 
-  let isSliding = false;
-
-  function updateSlider(e) {
-    const rect = slider.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    let pos = (clientX - rect.left) / rect.width;
-    pos = Math.max(0.02, Math.min(0.98, pos));
-    beforeWrap.style.width = (pos * 100).toFixed(2) + '%';
-    handle.style.left = (pos * 100).toFixed(2) + '%';
-    syncImgWidth();
+  // Mobile / non-hover fallback
+  if (!matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    rows.forEach((r, i) => {
+      const m = new Image();
+      m.className = 'svc-thumb';
+      m.alt = '';
+      m.loading = 'lazy';
+      m.src = images[i];
+      r.querySelector('.service-main').appendChild(m);
+    });
+    return;
   }
 
-  slider.addEventListener('mousedown', (e) => { isSliding = true; updateSlider(e); });
-  window.addEventListener('mousemove', (e) => { if (isSliding) updateSlider(e); });
-  window.addEventListener('mouseup', () => { isSliding = false; });
+  // Create floating preview card
+  const box = document.createElement('div');
+  const tag = document.createElement('div');
+  const ims = rows.map(() => {
+    const m = new Image();
+    m.alt = '';
+    box.appendChild(m);
+    return m;
+  });
 
-  slider.addEventListener('touchstart', (e) => { isSliding = true; updateSlider(e); }, { passive: true });
-  window.addEventListener('touchmove', (e) => { if (isSliding) updateSlider(e); }, { passive: true });
-  window.addEventListener('touchend', () => { isSliding = false; });
+  box.id = 'svcPreview';
+  box.setAttribute('aria-hidden', 'true');
+  tag.className = 'svc-tag';
+  box.appendChild(tag);
+  document.body.appendChild(box);
+
+  let mx = 0, my = 0, x = 0, y = 0, rot = 0, on = false, cur = -1;
+  const W = () => box.offsetWidth, H = () => box.offsetHeight;
+
+  window.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+    if (!on) { x = mx; y = my; }
+  });
+
+  rows.forEach((r, i) => {
+    r.addEventListener('mouseenter', () => {
+      if (!ims[i].dataset.ok) {
+        ims[i].src = images[i];
+        ims[i].dataset.ok = '1';
+      }
+      ims.forEach((m, j) => m.classList.toggle('on', j === i));
+      tag.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(rows.length).padStart(2, '0');
+      cur = i;
+      on = true;
+      box.classList.add('show');
+    });
+
+    r.addEventListener('mouseleave', () => {
+      on = false;
+      box.classList.remove('show');
+    });
+  });
+
+  // Smooth spring physics loop with swaying rotation (দুলে দুলে মাউসের পেছন পেছন নড়াচড়া)
+  (function t() {
+    const left = mx > innerWidth - W() - 90;
+    const tx = left ? mx - W() - 36 : mx + 36;
+    const ty = Math.max(84, Math.min(innerHeight - H() - 20, my - H() / 2));
+    const px = x;
+    x += (tx - x) * 0.14;
+    y += (ty - y) * 0.14;
+    // Rotational sway based on horizontal velocity!
+    rot += (Math.max(-7, Math.min(7, (x - px) * 0.9)) - rot) * 0.15;
+    box.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) rotate(${rot.toFixed(2)}deg)`;
+    requestAnimationFrame(t);
+  })();
 })();
 
-// FOOTER SLICE ANIMATION
+// FOOTER SLICE ANIMATION (EXACT v6.html)
 (function() {
   const fl = document.querySelector('.footer-giant-logo');
   if (fl && 'IntersectionObserver' in window) {
@@ -820,7 +800,6 @@ updateStudioTime();
   const wipe = document.getElementById('wipe');
   if (!wipe) return;
 
-  // On page entry: if arriving from wipe navigation, slide smoothly out to top
   if (sessionStorage.getItem('pageWiped')) {
     sessionStorage.removeItem('pageWiped');
     wipe.style.transform = 'translateY(0%)';
@@ -830,7 +809,6 @@ updateStudioTime();
     });
   }
 
-  // Intercept internal page link clicks
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a');
     if (!a) return;
@@ -843,7 +821,7 @@ updateStudioTime();
     sessionStorage.setItem('pageWiped', '1');
     wipe.style.transition = 'none';
     wipe.style.transform = 'translateY(100%)';
-    void wipe.offsetWidth; // reflow
+    void wipe.offsetWidth;
     wipe.style.transition = 'transform 0.42s cubic-bezier(0.7, 0, 0.2, 1)';
     wipe.style.transform = 'translateY(0%)';
 
