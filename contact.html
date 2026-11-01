@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Request a free sample retouch or discuss high-volume commercial photo post-production with Retoucher Shoaib.">
+<title>Contact & Free Trial | Retoucher Shoaib®</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --bg: #ffffff;
+  --fg: #0a0a0a;
+  --mut: #82827e;
+  --line: #e8e8e4;
+  --soft: #f7f6f3;
+  --card: #ffffff;
+  --accent: #f26a1b;
+  --f: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --f-display: 'Plus Jakarta Sans', var(--f);
+  color-scheme: light;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 70px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font: 400 15px/1.6 var(--f);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img, video {
+  display: block;
+  max-width: 100%;
+}
+
+.w {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 56px);
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--f-display);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  color: var(--fg);
+  line-height: 1.05;
+}
+
+.page-header {
+  padding-top: 130px;
+  padding-bottom: 50px;
+}
+
+.page-title {
+  font-size: clamp(48px, 9vw, 130px);
+  font-weight: 800;
+  letter-spacing: -0.065em;
+  line-height: 0.92;
+  margin-bottom: 24px;
+}
+
+.page-subtitle {
+  font-size: clamp(16px, 1.8vw, 22px);
+  line-height: 1.55;
+  color: #555;
+  max-width: 740px;
+}
+
+.lab {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mut);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 600 11px/1 var(--f);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: 99px;
+  background: var(--soft);
+  color: var(--fg);
+  border: 1px solid var(--line);
+}
+
+.badge.accent {
+  background: rgba(242, 106, 27, 0.08);
+  color: var(--accent);
+  border-color: rgba(242, 106, 27, 0.25);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 99px;
+  font: 600 13px var(--f);
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+  background: var(--fg);
+  color: #fff;
+}
+
+.btn:hover {
+  background: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(242, 106, 27, 0.28);
+}
+
+.btn.outline {
+  background: transparent;
+  color: var(--fg);
+  border-color: var(--fg);
+}
+
+.btn.outline:hover {
+  background: var(--fg);
+  color: #fff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.btn.sm {
+  padding: 8px 18px;
+  font-size: 12px;
+}
+
+.pill {
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 99px;
+  background: #f2f2ee;
+  color: #444;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.pill:hover, .pill.active {
+  background: var(--fg);
+  color: #fff;
+  border-color: var(--fg);
+}
+
+/* NAVBAR */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px clamp(20px, 4vw, 56px);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(232, 232, 228, 0.75);
+}
+
+.nav-brand {
+  font-family: var(--f-display);
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-brand sup {
+  font-size: 9px;
+  color: var(--accent);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.8vw, 36px);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nav-links a {
+  position: relative;
+  padding: 6px 0;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover, .nav-links a.active {
+  color: var(--fg);
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--fg);
+  transition: width 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.nav-links a:hover::after, .nav-links a.active::after {
+  width: 100%;
+}
+
+.nav-time {
+  font-size: 11px;
+  color: var(--mut);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 860px) {
+  .nav-links a:not(.show-mob), .nav-time {
+    display: none;
+  }
+}
+
+/* FOOTER */
+footer {
+  padding: 80px 0 40px;
+  border-top: 1px solid var(--line);
+  background: #ffffff;
+}
+
+.footer-giant-logo {
+  font-family: var(--f-display);
+  font-size: clamp(60px, 15vw, 210px);
+  font-weight: 800;
+  letter-spacing: -0.065em;
+  line-height: 0.85;
+  color: var(--fg);
+  margin-bottom: 50px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(3, 1fr);
+  gap: 30px;
+  padding-bottom: 50px;
+  border-bottom: 1px solid var(--line);
+}
+
+.footer-col h5 {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mut);
+  margin-bottom: 18px;
+}
+
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.footer-col a {
+  color: #444;
+  transition: color 0.2s ease;
+}
+
+.footer-col a:hover {
+  color: var(--fg);
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 30px;
+  font-size: 12px;
+  color: var(--mut);
+}
+
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(40px, 6vw, 90px);
+  margin-bottom: 100px;
+}
+
+.contact-form-box {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: clamp(28px, 4vw, 48px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.04);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  font: inherit;
+  font-size: 14px;
+  color: var(--fg);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--fg);
+  box-shadow: 0 0 0 3px rgba(10, 10, 10, 0.08);
+}
+
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.direct-link-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.direct-link-row svg {
+  width: 20px;
+  height: 20px;
+  color: var(--accent);
+}
+
+@media (max-width: 860px) {
+  .contact-layout { grid-template-columns: 1fr; }
+}
+
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-brand">
+    RETOUCHER SHOAIB<sup>&reg;</sup>
+  </a>
+
+  <div class="nav-links">
+    <a href="work.html" class="show-mob ">Work</a>
+    <a href="studio.html" class="">Studio</a>
+    <a href="feed.html" class="">Feed</a>
+    <a href="contact.html" class="show-mob active">Contact</a>
+  </div>
+
+  <div class="nav-time" id="liveTimeIndicator">
+    NYC 08:30 AM • BERLIN 01:30 PM
+  </div>
+
+  <div>
+    <a href="contact.html" class="btn sm">Free Trial</a>
+  </div>
+</nav>
+
+<div class="w page-header">
+  <div class="lab" style="margin-bottom: 12px;">Get In Touch</div>
+  <h1 class="page-title">Start a Project</h1>
+  <p class="page-subtitle">
+    Send 1–2 test images for a 100% free trial retouch, or discuss long-term production contracts with our dedicated studio team.
+  </p>
+
+  <div class="contact-layout">
+    <div>
+      <h2 style="font-size: clamp(30px, 3.8vw, 48px); font-weight: 800; line-height: 1.1; margin-bottom: 20px;">
+        100% Free Sample Retouch. Delivered in 12–24 Hours.
+      </h2>
+      <p style="font-size: 16px; line-height: 1.7; color: #555; margin-bottom: 32px;">
+        We believe that the quality of our craft speaks louder than any sales pitch. Upload 1 or 2 raw files from your active photoshoot. We will return fully finished, multi-layered master files so you can evaluate our precision firsthand.
+      </p>
+
+      <div style="margin-bottom: 40px;">
+        <div class="direct-link-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          <a href="mailto:hello@retouchershoaib.com">hello@retouchershoaib.com</a>
+        </div>
+        <div class="direct-link-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+          <a href="https://wa.me/8801700000000" target="_blank">WhatsApp Direct (+880 1700-000000)</a>
+        </div>
+      </div>
+
+      <div class="badge accent" style="padding: 12px 20px; font-size: 12px;">
+        ⚡ 24/7 Dual Shift Production • USA & Europe Timezone Support
+      </div>
+    </div>
+
+    <!-- CONTACT FORM -->
+    <div class="contact-form-box">
+      <form id="contactForm" onsubmit="handleFormSubmit(event)">
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label">Your Name</label>
+            <input type="text" id="fName" class="form-input" placeholder="Sarah Jenkins" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Brand / Agency</label>
+            <input type="text" id="fBrand" class="form-input" placeholder="Studio New York">
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label">Primary Service</label>
+            <select id="fService" class="form-select">
+              <option value="Jewelry Retouching">Luxury Jewelry & Watches</option>
+              <option value="Fashion & Apparel">Fashion & 3D Ghost Mannequin</option>
+              <option value="Model & Beauty">Model & Beauty Retouching</option>
+              <option value="Product Retouching">E-Commerce Product Packshot</option>
+              <option value="Still Life">Still Life & Cosmetics</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Estimated Monthly Volume</label>
+            <select id="fVolume" class="form-select">
+              <option value="1-50 images">1 – 50 images</option>
+              <option value="50-200 images">50 – 200 images</option>
+              <option value="200-1000 images">200 – 1,000 images</option>
+              <option value="1000+ images">1,000+ images (Enterprise)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">File Download Link (Dropbox / WeTransfer / Drive)</label>
+          <input type="url" id="fLink" class="form-input" placeholder="https://www.dropbox.com/s/raw-photos..." required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Project Instructions & Notes</label>
+          <textarea id="fNotes" class="form-textarea" rows="3" placeholder="Specify background color, shadow preferences, delivery format (PSD/TIFF/JPG), or deadline..."></textarea>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 26px;">
+          <button type="submit" class="btn" style="flex: 1;">Submit Free Trial Request</button>
+          <button type="button" class="btn outline" onclick="sendViaWhatsApp()" style="padding: 14px 22px;">WhatsApp</button>
+        </div>
+        <div id="formMsg" style="margin-top: 14px; font-size: 13px; font-weight: 600; color: #16a34a; text-align: center;"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+function handleFormSubmit(e) {
+  e.preventDefault();
+  const name = document.getElementById('fName').value.trim();
+  const brand = document.getElementById('fBrand').value.trim();
+  const service = document.getElementById('fService').value;
+  const vol = document.getElementById('fVolume').value;
+  const link = document.getElementById('fLink').value.trim();
+  const notes = document.getElementById('fNotes').value.trim();
+
+  const msg = `Hi Shoaib,\nMy name is ${name}${brand ? ' from ' + brand : ''}.\nI would like to request a free trial retouch.\nService: ${service}\nVolume: ${vol}\nFile Link: ${link}\nNotes: ${notes || '-'}`;
+
+  const mailtoUrl = `mailto:hello@retouchershoaib.com?subject=${encodeURIComponent("Free Trial Request — " + name)}&body=${encodeURIComponent(msg)}`;
+  window.location.href = mailtoUrl;
+
+  document.getElementById('formMsg').textContent = '✓ Your request email draft is ready! We will deliver within 12–24h.';
+}
+
+function sendViaWhatsApp() {
+  const name = document.getElementById('fName').value.trim() || 'Client';
+  const brand = document.getElementById('fBrand').value.trim();
+  const service = document.getElementById('fService').value;
+  const link = document.getElementById('fLink').value.trim();
+
+  const msg = `Hi Shoaib, I am ${name}${brand ? ' from ' + brand : ''}. I need ${service} retouching.${link ? ' Files: ' + link : ''}`;
+  window.open(`https://wa.me/8801700000000?text=${encodeURIComponent(msg)}`, '_blank');
+}
+</script>
+
+<footer class="w">
+  <div class="footer-giant-logo">
+    SHOAIB<sup>&reg;</sup>
+  </div>
+
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h5>Retoucher Shoaib Studio</h5>
+      <p style="font-size: 14px; line-height: 1.7; color: #555; max-width: 280px;">
+        High-end commercial post-production studio directed by Shoaib. Serving brands across New York, London, Paris, and Milan with unmatched pixel discipline.
+      </p>
+    </div>
+
+    <div class="footer-col">
+      <h5>Core Disciplines</h5>
+      <ul>
+        <li><a href="work.html?cat=jewelry">Jewelry Retouching</a></li>
+        <li><a href="work.html?cat=fashion">Fashion & Clothing</a></li>
+        <li><a href="work.html?cat=beauty">Model & Beauty</a></li>
+        <li><a href="work.html?cat=product">E-Commerce Products</a></li>
+        <li><a href="work.html?cat=still-life">Still Life Cosmetics</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Navigation</h5>
+      <ul>
+        <li><a href="work.html">Selected Works</a></li>
+        <li><a href="studio.html">Our Studio & Team</a></li>
+        <li><a href="feed.html">Journal & Insights</a></li>
+        <li><a href="contact.html">Free Trial Request</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Connect</h5>
+      <ul>
+        <li><a href="mailto:hello@retouchershoaib.com">Email Us</a></li>
+        <li><a href="https://wa.me/8801700000000" target="_blank">WhatsApp Direct</a></li>
+        <li><a href="https://linkedin.com" target="_blank">LinkedIn Studio</a></li>
+        <li><a href="https://instagram.com" target="_blank">Instagram Portfolio</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div>&copy; 2016–2026 Retoucher Shoaib&reg;. All Rights Reserved.</div>
+    <div>Handcrafted with pure pixel precision.</div>
+  </div>
+</footer>
+
+<script>
+function updateStudioTime() {
+  const timeEl = document.getElementById('liveTimeIndicator');
+  if (!timeEl) return;
+  const now = new Date();
+  const nyc = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hour12: true }).format(now);
+  const ber = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit', hour12: true }).format(now);
+  timeEl.textContent = `NYC ${nyc} • BERLIN ${ber}`;
+}
+setInterval(updateStudioTime, 10000);
+updateStudioTime();
+</script>
+</body>
+</html>

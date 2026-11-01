@@ -1,0 +1,5 @@
+# Cloudflare Pages Clean URLs Rewrite Rules (200 Rewrite)
+/work       /work.html       200
+/studio     /studio.html     200
+/feed       /feed.html       200
+/contact    /contact.html    200

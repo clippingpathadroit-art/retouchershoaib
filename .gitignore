@@ -1,0 +1,17 @@
+# Cloudflare Pages & Git Ignore Rules
+
+# Ignore raw drafts / archive files (>25MB)
+_archive/
+*.wav
+*.mjs
+transcribe.mjs
+transcript.txt
+color_grade_preview.html
+
+# Ignore backup scratch files
+*-backup.html
+
+# OS metadata
+Thumbs.db
+Desktop.ini
+.DS_Store

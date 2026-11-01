@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Discover the story of Shoaib Siddique (10+ years experience) and our dedicated 10–15 person high-end commercial retouching team.">
+<title>Our Studio & Team | Retoucher Shoaib®</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --bg: #ffffff;
+  --fg: #0a0a0a;
+  --mut: #82827e;
+  --line: #e8e8e4;
+  --soft: #f7f6f3;
+  --card: #ffffff;
+  --accent: #f26a1b;
+  --f: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --f-display: 'Plus Jakarta Sans', var(--f);
+  color-scheme: light;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 70px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font: 400 15px/1.6 var(--f);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img, video {
+  display: block;
+  max-width: 100%;
+}
+
+.w {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 56px);
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--f-display);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  color: var(--fg);
+  line-height: 1.05;
+}
+
+.page-header {
+  padding-top: 130px;
+  padding-bottom: 50px;
+}
+
+.page-title {
+  font-size: clamp(48px, 9vw, 130px);
+  font-weight: 800;
+  letter-spacing: -0.065em;
+  line-height: 0.92;
+  margin-bottom: 24px;
+}
+
+.page-subtitle {
+  font-size: clamp(16px, 1.8vw, 22px);
+  line-height: 1.55;
+  color: #555;
+  max-width: 740px;
+}
+
+.lab {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mut);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 600 11px/1 var(--f);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: 99px;
+  background: var(--soft);
+  color: var(--fg);
+  border: 1px solid var(--line);
+}
+
+.badge.accent {
+  background: rgba(242, 106, 27, 0.08);
+  color: var(--accent);
+  border-color: rgba(242, 106, 27, 0.25);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 99px;
+  font: 600 13px var(--f);
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+  background: var(--fg);
+  color: #fff;
+}
+
+.btn:hover {
+  background: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(242, 106, 27, 0.28);
+}
+
+.btn.outline {
+  background: transparent;
+  color: var(--fg);
+  border-color: var(--fg);
+}
+
+.btn.outline:hover {
+  background: var(--fg);
+  color: #fff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.btn.sm {
+  padding: 8px 18px;
+  font-size: 12px;
+}
+
+.pill {
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 99px;
+  background: #f2f2ee;
+  color: #444;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.pill:hover, .pill.active {
+  background: var(--fg);
+  color: #fff;
+  border-color: var(--fg);
+}
+
+/* NAVBAR */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px clamp(20px, 4vw, 56px);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(232, 232, 228, 0.75);
+}
+
+.nav-brand {
+  font-family: var(--f-display);
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-brand sup {
+  font-size: 9px;
+  color: var(--accent);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.8vw, 36px);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nav-links a {
+  position: relative;
+  padding: 6px 0;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover, .nav-links a.active {
+  color: var(--fg);
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--fg);
+  transition: width 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.nav-links a:hover::after, .nav-links a.active::after {
+  width: 100%;
+}
+
+.nav-time {
+  font-size: 11px;
+  color: var(--mut);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 860px) {
+  .nav-links a:not(.show-mob), .nav-time {
+    display: none;
+  }
+}
+
+/* FOOTER */
+footer {
+  padding: 80px 0 40px;
+  border-top: 1px solid var(--line);
+  background: #ffffff;
+}
+
+.footer-giant-logo {
+  font-family: var(--f-display);
+  font-size: clamp(60px, 15vw, 210px);
+  font-weight: 800;
+  letter-spacing: -0.065em;
+  line-height: 0.85;
+  color: var(--fg);
+  margin-bottom: 50px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(3, 1fr);
+  gap: 30px;
+  padding-bottom: 50px;
+  border-bottom: 1px solid var(--line);
+}
+
+.footer-col h5 {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mut);
+  margin-bottom: 18px;
+}
+
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.footer-col a {
+  color: #444;
+  transition: color 0.2s ease;
+}
+
+.footer-col a:hover {
+  color: var(--fg);
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 30px;
+  font-size: 12px;
+  color: var(--mut);
+}
+
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+
+.studio-story-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(40px, 6vw, 80px);
+  align-items: center;
+  margin-bottom: 100px;
+}
+
+.studio-main-photo {
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 30px 70px -15px rgba(0,0,0,0.18);
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 100px;
+}
+
+.team-card {
+  background: var(--soft);
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.team-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--fg);
+  box-shadow: 0 15px 35px -8px rgba(0,0,0,0.1);
+  background: #fff;
+}
+
+.team-img {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 14px;
+  background: #eee;
+}
+
+.team-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.team-card:hover .team-img img {
+  transform: scale(1.05);
+}
+
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  padding: 60px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 80px;
+}
+
+@media (max-width: 900px) {
+  .studio-story-grid { grid-template-columns: 1fr; }
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+  .specs-grid { grid-template-columns: 1fr; }
+}
+
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-brand">
+    RETOUCHER SHOAIB<sup>&reg;</sup>
+  </a>
+
+  <div class="nav-links">
+    <a href="work.html" class="show-mob ">Work</a>
+    <a href="studio.html" class="active">Studio</a>
+    <a href="feed.html" class="">Feed</a>
+    <a href="contact.html" class="show-mob ">Contact</a>
+  </div>
+
+  <div class="nav-time" id="liveTimeIndicator">
+    NYC 08:30 AM • BERLIN 01:30 PM
+  </div>
+
+  <div>
+    <a href="contact.html" class="btn sm">Free Trial</a>
+  </div>
+</nav>
+
+<div class="w page-header">
+  <div class="lab" style="margin-bottom: 12px;">About the Studio</div>
+  <h1 class="page-title">We are Retoucher Shoaib<sup>&reg;</sup></h1>
+  <p class="page-subtitle">
+    A specialized commercial post-production studio built around pixel precision, color integrity, and non-destructive craft. Directed by Shoaib with a collective of 10–15 elite retouchers.
+  </p>
+
+  <!-- STORY SECTION -->
+  <div class="studio-story-grid">
+    <div class="studio-main-photo">
+      <img src="./assets/studio portright .jpg" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=85'" alt="Shoaib Siddique — Founder & Lead Retoucher">
+    </div>
+
+    <div>
+      <div class="lab" style="margin-bottom: 10px;">The Founder's Journey</div>
+      <h2 style="font-size: clamp(30px, 3.8vw, 50px); font-weight: 800; line-height: 1.1; margin-bottom: 20px;">
+        10+ Years of Dedication to High-End Post-Production.
+      </h2>
+      <p style="font-size: 16px; line-height: 1.7; color: #555; margin-bottom: 18px;">
+        My name is <strong>Shoaib</strong>. Over the last decade, I have collaborated with renowned commercial photographers, fashion designers, e-commerce empires, and jewelry studios across North America, the UK, Germany, and France.
+      </p>
+      <p style="font-size: 16px; line-height: 1.7; color: #555; margin-bottom: 24px;">
+        As the volume of international campaigns grew, I formed a hand-picked, specialized studio team of <strong>10 to 15 senior retouchers</strong>. Rather than running an impersonal bulk-outsourcing mill, our studio operates as a boutique collective: every image undergoes multi-pass manual quality control, non-destructive dodge & burn, and 100% zoom inspection.
+      </p>
+      <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+        <a href="contact.html" class="btn">Work with Our Studio</a>
+        <a href="work.html" class="btn outline">View Selected Works</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEAM GRID -->
+  <div class="section-head" style="margin-bottom: 30px;">
+    <div class="lab">Studio Leadership</div>
+    <div class="lead">Specialized discipline leads directing our 10–15 person production floor.</div>
+  </div>
+
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-img">
+        <img src="./assets/studio portright .jpg" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=85'" alt="Shoaib Siddique">
+      </div>
+      <h4 style="font-size: 17px; margin-bottom: 4px;">Shoaib Siddique</h4>
+      <div style="font-size: 12px; color: var(--accent); font-weight: 600; margin-bottom: 8px;">Founder & Studio Lead</div>
+      <p style="font-size: 13px; color: #666; line-height: 1.5;">10+ years directing high-end campaigns, client communication, and final art approval.</p>
+    </div>
+
+    <div class="team-card">
+      <div class="team-img">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=85" alt="Senior Beauty Lead">
+      </div>
+      <h4 style="font-size: 17px; margin-bottom: 4px;">Senior Beauty Specialist</h4>
+      <div style="font-size: 12px; color: var(--accent); font-weight: 600; margin-bottom: 8px;">Model & Skin Lead</div>
+      <p style="font-size: 13px; color: #666; line-height: 1.5;">Frequency separation, dodge & burn sculpting, and natural skin micro-texture preservation.</p>
+    </div>
+
+    <div class="team-card">
+      <div class="team-img">
+        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&q=85" alt="Jewelry Specialist">
+      </div>
+      <h4 style="font-size: 17px; margin-bottom: 4px;">Jewelry & Horology Lead</h4>
+      <div style="font-size: 12px; color: var(--accent); font-weight: 600; margin-bottom: 8px;">Macro Polish Specialist</div>
+      <p style="font-size: 13px; color: #666; line-height: 1.5;">Diamond facet brilliance, focus stacking alignment, and metallic luster refinement.</p>
+    </div>
+
+    <div class="team-card">
+      <div class="team-img">
+        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=500&q=85" alt="Fashion Apparel Lead">
+      </div>
+      <h4 style="font-size: 17px; margin-bottom: 4px;">Apparel & Ghost Lead</h4>
+      <div style="font-size: 12px; color: var(--accent); font-weight: 600; margin-bottom: 8px;">3D Hollow Joint Specialist</div>
+      <p style="font-size: 13px; color: #666; line-height: 1.5;">Garment symmetry, 3D neck joints, fabric crease smoothing, and e-com catalog scale.</p>
+    </div>
+  </div>
+
+  <!-- STUDIO SPECS -->
+  <div class="specs-grid">
+    <div>
+      <div class="lab" style="margin-bottom: 8px;">Hardware & Display</div>
+      <h4 style="font-size: 18px; margin-bottom: 8px;">EIZO ColorEdge & Wacom Pro</h4>
+      <p style="font-size: 14px; color: #666; line-height: 1.6;">Hardware-calibrated 4K displays covering 99% Adobe RGB and 100% sRGB for accurate client color delivery.</p>
+    </div>
+
+    <div>
+      <div class="lab" style="margin-bottom: 8px;">Software Pipelines</div>
+      <h4 style="font-size: 18px; margin-bottom: 8px;">Capture One & Photoshop 16-Bit</h4>
+      <p style="font-size: 14px; color: #666; line-height: 1.6;">Non-destructive layer workflows in ProPhoto RGB with full path masks, clipping layers, and adjustment stacks preserved.</p>
+    </div>
+
+    <div>
+      <div class="lab" style="margin-bottom: 8px;">Throughput Capacity</div>
+      <h4 style="font-size: 18px; margin-bottom: 8px;">500+ Complex Images / Day</h4>
+      <p style="font-size: 14px; color: #666; line-height: 1.6;">Operating in dual rotating shifts to guarantee 12 to 24-hour delivery on commercial volume batches.</p>
+    </div>
+  </div>
+</div>
+
+<footer class="w">
+  <div class="footer-giant-logo">
+    SHOAIB<sup>&reg;</sup>
+  </div>
+
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h5>Retoucher Shoaib Studio</h5>
+      <p style="font-size: 14px; line-height: 1.7; color: #555; max-width: 280px;">
+        High-end commercial post-production studio directed by Shoaib. Serving brands across New York, London, Paris, and Milan with unmatched pixel discipline.
+      </p>
+    </div>
+
+    <div class="footer-col">
+      <h5>Core Disciplines</h5>
+      <ul>
+        <li><a href="work.html?cat=jewelry">Jewelry Retouching</a></li>
+        <li><a href="work.html?cat=fashion">Fashion & Clothing</a></li>
+        <li><a href="work.html?cat=beauty">Model & Beauty</a></li>
+        <li><a href="work.html?cat=product">E-Commerce Products</a></li>
+        <li><a href="work.html?cat=still-life">Still Life Cosmetics</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Navigation</h5>
+      <ul>
+        <li><a href="work.html">Selected Works</a></li>
+        <li><a href="studio.html">Our Studio & Team</a></li>
+        <li><a href="feed.html">Journal & Insights</a></li>
+        <li><a href="contact.html">Free Trial Request</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Connect</h5>
+      <ul>
+        <li><a href="mailto:hello@retouchershoaib.com">Email Us</a></li>
+        <li><a href="https://wa.me/8801700000000" target="_blank">WhatsApp Direct</a></li>
+        <li><a href="https://linkedin.com" target="_blank">LinkedIn Studio</a></li>
+        <li><a href="https://instagram.com" target="_blank">Instagram Portfolio</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div>&copy; 2016–2026 Retoucher Shoaib&reg;. All Rights Reserved.</div>
+    <div>Handcrafted with pure pixel precision.</div>
+  </div>
+</footer>
+
+<script>
+function updateStudioTime() {
+  const timeEl = document.getElementById('liveTimeIndicator');
+  if (!timeEl) return;
+  const now = new Date();
+  const nyc = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hour12: true }).format(now);
+  const ber = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit', hour12: true }).format(now);
+  timeEl.textContent = `NYC ${nyc} • BERLIN ${ber}`;
+}
+setInterval(updateStudioTime, 10000);
+updateStudioTime();
+</script>
+</body>
+</html>

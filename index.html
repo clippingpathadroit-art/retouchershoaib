@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Retoucher Shoaib® is a high-end commercial post-production studio dedicated to fashion apparel, luxury jewelry, and editorial portraiture worldwide.">
+<title>Retoucher Shoaib® — High-End Photo Retouching Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --bg: #ffffff;
+  --fg: #0a0a0a;
+  --mut: #82827e;
+  --line: #e8e8e4;
+  --soft: #f7f6f3;
+  --card: #ffffff;
+  --accent: #f26a1b;
+  --f: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --f-display: 'Plus Jakarta Sans', var(--f);
+  color-scheme: light;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 70px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font: 400 15px/1.6 var(--f);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img, video {
+  display: block;
+  max-width: 100%;
+}
+
+.w {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 56px);
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--f-display);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  color: var(--fg);
+  line-height: 1.05;
+}
+
+.page-header {
+  padding-top: 130px;
+  padding-bottom: 50px;
+}
+
+.page-title {
+  font-size: clamp(48px, 9vw, 130px);
+  font-weight: 800;
+  letter-spacing: -0.065em;
+  line-height: 0.92;
+  margin-bottom: 24px;
+}
+
+.page-subtitle {
+  font-size: clamp(16px, 1.8vw, 22px);
+  line-height: 1.55;
+  color: #555;
+  max-width: 740px;
+}
+
+.lab {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mut);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 600 11px/1 var(--f);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: 99px;
+  background: var(--soft);
+  color: var(--fg);
+  border: 1px solid var(--line);
+}
+
+.badge.accent {
+  background: rgba(242, 106, 27, 0.08);
+  color: var(--accent);
+  border-color: rgba(242, 106, 27, 0.25);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 99px;
+  font: 600 13px var(--f);
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+  background: var(--fg);
+  color: #fff;
+}
+
+.btn:hover {
+  background: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(242, 106, 27, 0.28);
+}
+
+.btn.outline {
+  background: transparent;
+  color: var(--fg);
+  border-color: var(--fg);
+}
+
+.btn.outline:hover {
+  background: var(--fg);
+  color: #fff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.btn.sm {
+  padding: 8px 18px;
+  font-size: 12px;
+}
+
+.pill {
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 99px;
+  background: #f2f2ee;
+  color: #444;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.pill:hover, .pill.active {
+  background: var(--fg);
+  color: #fff;
+  border-color: var(--fg);
+}
+
+/* NAVBAR */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px clamp(20px, 4vw, 56px);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(232, 232, 228, 0.75);
+}
+
+.nav-brand {
+  font-family: var(--f-display);
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-brand sup {
+  font-size: 9px;
+  color: var(--accent);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.8vw, 36px);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nav-links a {
+  position: relative;
+  padding: 6px 0;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover, .nav-links a.active {
+  color: var(--fg);
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--fg);
+  transition: width 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.nav-links a:hover::after, .nav-links a.active::after {
+  width: 100%;
+}
+
+.nav-time {
+  font-size: 11px;
+  color: var(--mut);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 860px) {
+  .nav-links a:not(.show-mob), .nav-time {
+    display: none;
+  }
+}
+
+/* FOOTER */
+footer {
+  padding: 80px 0 40px;
+  border-top: 1px solid var(--line);
+  background: #ffffff;
+}
+
+.footer-giant-logo {
+  font-family: var(--f-display);
+  font-size: clamp(60px, 15vw, 210px);
+  font-weight: 800;
+  letter-spacing: -0.065em;
+  line-height: 0.85;
+  color: var(--fg);
+  margin-bottom: 50px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(3, 1fr);
+  gap: 30px;
+  padding-bottom: 50px;
+  border-bottom: 1px solid var(--line);
+}
+
+.footer-col h5 {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mut);
+  margin-bottom: 18px;
+}
+
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.footer-col a {
+  color: #444;
+  transition: color 0.2s ease;
+}
+
+.footer-col a:hover {
+  color: var(--fg);
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 30px;
+  font-size: 12px;
+  color: var(--mut);
+}
+
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  padding-top: 110px;
+  padding-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: clip;
+}
+
+.hero-top {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: flex-start;
+  gap: 30px;
+  margin-bottom: 20px;
+  z-index: 10;
+}
+
+.hero-statement {
+  max-width: 360px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #444;
+}
+
+.hero-statement strong {
+  color: var(--fg);
+  font-weight: 700;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 28px;
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.hero-stat-item .num {
+  font-family: var(--f-display);
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--fg);
+}
+
+.hero-stat-item .lbl {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--mut);
+}
+
+/* HERO 3-CARD STACK (ORGANIC MÖBIUS FAN-OUT & SCROLL LIFT) */
+.hero-stack-wrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0 20px;
+  z-index: 15;
+  will-change: transform;
+}
+
+.card-stage {
+  position: relative;
+  width: clamp(240px, 25vw, 340px);
+  aspect-ratio: 3 / 4.1;
+  cursor: pointer;
+  perspective: 1200px;
+}
+
+.stack-card {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 22px 55px -10px rgba(0, 0, 0, 0.22);
+  will-change: transform;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  background: #ffffff;
+  transition: box-shadow 0.4s ease, filter 0.4s ease;
+}
+
+.stack-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.card-label-pill {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(10, 10, 10, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 99px;
+  white-space: nowrap;
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  opacity: 0.9;
+}
+
+.card-left { z-index: 1; }
+.card-right { z-index: 2; }
+.card-center { z-index: 3; box-shadow: 0 32px 75px -12px rgba(0, 0, 0, 0.28); }
+
+/* GIANT BACKGROUND TYPOGRAPHY (SHOAIB® - ZERO CUTOFF) */
+.hero-giant-wrap {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  z-index: 5;
+  margin-top: -2vw;
+  user-select: none;
+}
+
+.hero-giant-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--mut);
+  margin-bottom: 6px;
+}
+
+.hero-giant-name {
+  font-family: var(--f-display);
+  font-size: clamp(65px, 17vw, 240px);
+  font-weight: 800;
+  letter-spacing: -0.065em;
+  line-height: 0.85;
+  color: var(--fg);
+  white-space: nowrap;
+}
+
+.hero-giant-name sup {
+  font-size: 0.28em;
+  vertical-align: top;
+  color: var(--accent);
+  margin-left: 2px;
+}
+
+.hero-footer-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--mut);
+  z-index: 10;
+}
+
+/* KINETIC SECTION */
+.kinetic-section {
+  position: relative;
+  padding: 100px 0 130px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.marquee-container {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow: hidden;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.marquee-track.left { animation: marqueeLeft 34s linear infinite; }
+.marquee-track.right { animation: marqueeRight 34s linear infinite; }
+
+.marquee-item {
+  font-family: var(--f-display);
+  font-size: clamp(54px, 11vw, 150px);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  white-space: nowrap;
+  padding: 0 30px;
+  color: #ebebea;
+  text-transform: uppercase;
+}
+
+.marquee-item .bullet {
+  display: inline-block;
+  margin: 0 24px;
+  font-size: 0.35em;
+  vertical-align: middle;
+  color: var(--accent);
+}
+
+@keyframes marqueeLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@keyframes marqueeRight { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
+
+.kinetic-video-wrapper {
+  position: relative;
+  max-width: 980px;
+  margin: -110px auto 0;
+  z-index: 10;
+  padding: 0 clamp(16px, 3vw, 36px);
+}
+
+.video-card-inner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #0a0a0a;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 35px 80px -15px rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.video-card-inner video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-overlay-ctrls {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  right: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.video-tag {
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  padding: 8px 16px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.video-play-btn {
+  pointer-events: auto;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--fg);
+  border: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.video-play-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/* SECTION HEAD */
+.section-head {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 40px;
+  margin-bottom: 60px;
+  align-items: flex-start;
+}
+
+.section-head .lead {
+  font-size: clamp(28px, 4.2vw, 54px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+}
+
+@media (max-width: 860px) {
+  .section-head { grid-template-columns: 1fr; gap: 16px; margin-bottom: 40px; }
+  .hero-top { grid-template-columns: 1fr; text-align: center; }
+  .hero-stats { justify-content: center; text-align: center; }
+}
+
+/* FEATURED WORK TEASER */
+.feat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 36px;
+  margin-bottom: 48px;
+}
+
+.feat-item {
+  position: relative;
+  display: block;
+}
+
+.feat-thumb {
+  width: 100%;
+  aspect-ratio: 4 / 4.6;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #eee;
+  margin-bottom: 16px;
+}
+
+.feat-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.feat-item:hover .feat-thumb img {
+  transform: scale(1.04);
+}
+
+.feat-title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.feat-cat {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--mut);
+  margin-top: 4px;
+}
+
+@media (max-width: 768px) {
+  .feat-grid { grid-template-columns: 1fr; }
+}
+
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-brand">
+    RETOUCHER SHOAIB<sup>&reg;</sup>
+  </a>
+
+  <div class="nav-links">
+    <a href="work.html" class="show-mob ">Work</a>
+    <a href="studio.html" class="">Studio</a>
+    <a href="feed.html" class="">Feed</a>
+    <a href="contact.html" class="show-mob ">Contact</a>
+  </div>
+
+  <div class="nav-time" id="liveTimeIndicator">
+    NYC 08:30 AM • BERLIN 01:30 PM
+  </div>
+
+  <div>
+    <a href="contact.html" class="btn sm">Free Trial</a>
+  </div>
+</nav>
+
+<!-- HERO SECTION -->
+<header class="hero w" id="heroSection">
+  <div class="hero-top">
+    <div class="hero-statement">
+      <strong>Retoucher Shoaib®</strong> is a high-end commercial post-production studio dedicated to fashion apparel, luxury jewelry, and editorial portraiture worldwide.
+    </div>
+
+    <div></div>
+
+    <div class="hero-stats">
+      <div class="hero-stat-item">
+        <div class="num">10+</div>
+        <div class="lbl">Years Craft</div>
+      </div>
+      <div class="hero-stat-item">
+        <div class="num">10–15</div>
+        <div class="lbl">Elite Team</div>
+      </div>
+      <div class="hero-stat-item">
+        <div class="num">24/7</div>
+        <div class="lbl">Turnaround</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE 3-CARD STACK (ORGANIC MÖBIUS FAN-OUT & SCROLL LIFT, NO ORANGE BUTTON) -->
+  <div class="hero-stack-wrap" id="cardStackWrap">
+    <a href="work.html" class="card-stage" id="cardStage" title="Hover to view cards • Click to view dedicated Work page">
+      <!-- Card 1: Left (Fashion Apparel) -->
+      <div class="stack-card card-left" id="cardLeft">
+        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=85" alt="Fashion Apparel Retouching">
+        <div class="card-label-pill">Fashion & Apparel</div>
+      </div>
+
+      <!-- Card 2: Right (Luxury Jewelry) -->
+      <div class="stack-card card-right" id="cardRight">
+        <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=85" alt="Luxury Diamond Jewelry">
+        <div class="card-label-pill">Luxury Jewelry</div>
+      </div>
+
+      <!-- Card 3: Center Front (Editorial Beauty) -->
+      <div class="stack-card card-center" id="cardCenter">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=85" alt="Editorial Beauty & Model Portrait">
+        <div class="card-label-pill">Editorial Beauty</div>
+      </div>
+    </a>
+  </div>
+
+  <!-- GIANT TYPOGRAPHY BANNER: SHOAIB® (NO TEXT CUTOFF!) -->
+  <div class="hero-giant-wrap">
+    <div class="hero-giant-eyebrow">RETOUCHER & POST-PRODUCTION STUDIO</div>
+    <div class="hero-giant-name" id="heroGiantName">
+      SHOAIB<sup>&reg;</sup>
+    </div>
+  </div>
+
+  <div class="hero-footer-bar">
+    <div>Based in South Asia • Serving USA, UK & Europe Brands</div>
+    <div>Hover cards to reveal images • Click to explore dedicated portfolio</div>
+  </div>
+</header>
+
+<!-- KINETIC SECTION: VIDEO WITH SLOWLY MOVING MARQUEE TEXT -->
+<section class="kinetic-section" id="kineticSection">
+  <div class="marquee-container">
+    <div class="marquee-track left">
+      <div class="marquee-item">
+        LUXURY JEWELRY <span class="bullet">•</span> FASHION APPAREL <span class="bullet">•</span> HIGH-END BEAUTY <span class="bullet">•</span> 100% MANUAL PATHS <span class="bullet">•</span>
+      </div>
+      <div class="marquee-item">
+        LUXURY JEWELRY <span class="bullet">•</span> FASHION APPAREL <span class="bullet">•</span> HIGH-END BEAUTY <span class="bullet">•</span> 100% MANUAL PATHS <span class="bullet">•</span>
+      </div>
+    </div>
+
+    <div class="marquee-track right">
+      <div class="marquee-item">
+        RETOUCHER SHOAIB STUDIO <span class="bullet">•</span> FLAWLESS IN MOTION <span class="bullet">•</span> 24/7 PRODUCTION <span class="bullet">•</span> PIXEL PRECISION <span class="bullet">•</span>
+      </div>
+      <div class="marquee-item">
+        RETOUCHER SHOAIB STUDIO <span class="bullet">•</span> FLAWLESS IN MOTION <span class="bullet">•</span> 24/7 PRODUCTION <span class="bullet">•</span> PIXEL PRECISION <span class="bullet">•</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="kinetic-video-wrapper">
+    <div class="video-card-inner">
+      <video id="kineticVideo" loop muted playsinline autoplay poster="./assets/speaker_graded.jpg">
+        <source src="./assets/Shoaib_Siddique_Kinetic_Showreel_2026.mp4" type="video/mp4">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-digital-grid-of-dots-8541-large.mp4" type="video/mp4">
+      </video>
+
+      <div class="video-overlay-ctrls">
+        <div class="video-tag">Studio Showreel • 2026 Edition</div>
+        <button class="video-play-btn" id="videoToggleBtn" title="Play / Pause">
+          <svg id="playIcon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <rect x="6" y="4" width="4" height="16"></rect>
+            <rect x="14" y="4" width="4" height="16"></rect>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED PORTFOLIO TEASER (LINKS TO WORK.HTML) -->
+<section class="w" style="padding: 100px 0;">
+  <div class="section-head">
+    <div class="lab">Selected Projects</div>
+    <div class="lead">
+      Editorial & commercial commissions for leading fashion, jewelry and luxury houses.
+    </div>
+  </div>
+
+  <div class="feat-grid">
+    <a href="work.html" class="feat-item">
+      <div class="feat-thumb">
+        <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=1000&q=85" alt="Jewelry Retouching">
+      </div>
+      <div class="feat-title">The Imperial Diamond Suite</div>
+      <div class="feat-cat">Luxury Jewelry Retouching</div>
+    </a>
+
+    <a href="work.html" class="feat-item">
+      <div class="feat-thumb">
+        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1000&q=85" alt="Fashion Apparel">
+      </div>
+      <div class="feat-title">Monochrome Haute Couture Lookbook</div>
+      <div class="feat-cat">Fashion & 3D Ghost Mannequin</div>
+    </a>
+
+    <a href="work.html" class="feat-item">
+      <div class="feat-thumb">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1000&q=85" alt="Beauty Retouching">
+      </div>
+      <div class="feat-title">L'Étoile Editorial Portraiture</div>
+      <div class="feat-cat">High-End Model & Beauty</div>
+    </a>
+
+    <a href="work.html" class="feat-item">
+      <div class="feat-thumb">
+        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1000&q=85" alt="Watch Retouching">
+      </div>
+      <div class="feat-title">Geneva Chronograph Series</div>
+      <div class="feat-cat">Luxury Horology & Metal Polish</div>
+    </a>
+  </div>
+
+  <div style="text-align: center; margin-top: 30px;">
+    <a href="work.html" class="btn">Explore All Portfolio Projects &rarr;</a>
+  </div>
+</section>
+
+<!-- STUDIO & PHILOSOPHY TEASER (LINKS TO STUDIO.HTML) -->
+<section style="padding: 100px 0; background: var(--soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+  <div class="w" style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: center;">
+    <div>
+      <div class="lab" style="margin-bottom: 14px;">The Studio & Team</div>
+      <h2 style="font-size: clamp(34px, 4.5vw, 60px); font-weight: 800; line-height: 1.05; margin-bottom: 24px;">
+        10+ Years of Craft, Powered by an Elite Studio Team.
+      </h2>
+      <p style="font-size: 16px; line-height: 1.7; color: #555; margin-bottom: 28px;">
+        Directed by <strong>Shoaib</strong> with a dedicated collective of 10 to 15 specialized retouchers. We provide round-the-clock production capacity without compromising single-pixel precision.
+      </p>
+      <a href="studio.html" class="btn outline">Learn About Our Studio &rarr;</a>
+    </div>
+
+    <div style="border-radius: 16px; overflow: hidden; box-shadow: 0 25px 60px -15px rgba(0,0,0,0.18);">
+      <img src="./assets/studio portright .jpg" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=85'" alt="Shoaib Siddique — Lead Retoucher">
+    </div>
+  </div>
+</section>
+
+<!-- CALL TO ACTION BANNER (LINKS TO CONTACT.HTML) -->
+<section class="w" style="padding: 110px 0; text-align: center;">
+  <div class="lab" style="margin-bottom: 14px;">Risk-Free Collaboration</div>
+  <h2 style="font-size: clamp(36px, 6vw, 80px); font-weight: 800; line-height: 1; margin-bottom: 24px;">
+    Experience Our Craft with a Free Trial.
+  </h2>
+  <p style="font-size: 17px; color: #555; max-width: 650px; margin: 0 auto 36px; line-height: 1.6;">
+    Send 1–2 test images. We will deliver complete, high-end retouched files within 12–24 hours — 100% free of charge.
+  </p>
+  <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+    <a href="contact.html" class="btn" style="padding: 16px 36px; font-size: 14px;">Start Free Trial Retouch</a>
+    <a href="https://wa.me/8801700000000" target="_blank" class="btn outline" style="padding: 16px 28px; font-size: 14px;">WhatsApp Direct</a>
+  </div>
+</section>
+
+<script>
+// HERO 3-CARD STACK: ORGANIC FAN-OUT & SCROLL LIFT
+const cardStage = document.getElementById('cardStage');
+const cardLeft = document.getElementById('cardLeft');
+const cardCenter = document.getElementById('cardCenter');
+const cardRight = document.getElementById('cardRight');
+const cardStackWrap = document.getElementById('cardStackWrap');
+const heroGiantName = document.getElementById('heroGiantName');
+const heroSection = document.getElementById('heroSection');
+const heroTop = document.querySelector('.hero-top');
+
+let mouseX = 0, mouseY = 0;
+let targetX = 0, targetY = 0;
+let hoverProgress = 0;
+let targetHoverProgress = 0;
+
+let targetScrollY = window.pageYOffset || document.documentElement.scrollTop;
+let currentScrollY = targetScrollY;
+
+window.addEventListener('scroll', () => {
+  targetScrollY = window.pageYOffset || document.documentElement.scrollTop;
+}, { passive: true });
+
+// Hover on card area: fans cards out wide side-by-side so bottom images are 100% visible
+// Mouse leave: smoothly gathers cards back together into one unified stack
+const cardInteractiveZone = cardStackWrap || cardStage;
+if (cardInteractiveZone) {
+  cardInteractiveZone.addEventListener('mouseenter', () => {
+    targetHoverProgress = 1.0;
+  });
+
+  cardInteractiveZone.addEventListener('mousemove', (e) => {
+    const rect = cardInteractiveZone.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    targetX = Math.max(-1, Math.min(1, (e.clientX - centerX) / (rect.width / 2)));
+    targetY = Math.max(-1, Math.min(1, (e.clientY - centerY) / (rect.height / 2)));
+    targetHoverProgress = 1.0;
+  });
+
+  cardInteractiveZone.addEventListener('mouseleave', () => {
+    targetX = 0;
+    targetY = 0;
+    targetHoverProgress = 0;
+  });
+}
+
+  function animateHero() {
+    mouseX += (targetX - mouseX) * 0.08;
+    mouseY += (targetY - mouseY) * 0.08;
+    hoverProgress += (targetHoverProgress - hoverProgress) * 0.08;
+    currentScrollY += (targetScrollY - currentScrollY) * 0.12;
+
+    if (cardStackWrap) {
+      const stackY = -currentScrollY * 0.88;
+      const stackScale = Math.max(0.68, 1 - (currentScrollY * 0.0006));
+      const stackOpacity = currentScrollY > 450 ? Math.max(0, 1 - (currentScrollY - 450) / 300) : 1;
+      cardStackWrap.style.transform = `translate3d(0, ${stackY.toFixed(2)}px, 0) scale(${stackScale.toFixed(3)})`;
+      cardStackWrap.style.opacity = stackOpacity.toFixed(2);
+    }
+
+    if (heroGiantName) {
+      const titleY = -currentScrollY * 0.35;
+      heroGiantName.style.transform = `translate3d(0, ${titleY.toFixed(2)}px, 0)`;
+    }
+
+    if (heroTop) {
+      const fadeProgress = Math.min(Math.max(currentScrollY / 240, 0), 1);
+      const topY = -currentScrollY * 0.45;
+      heroTop.style.opacity = (1 - fadeProgress).toFixed(2);
+      heroTop.style.transform = `translate3d(0, ${topY.toFixed(2)}px, 0)`;
+    }
+
+    // Dynamic Fan-Out: Bottom two images completely visible side-by-side on hover
+    const isMobile = window.innerWidth < 768;
+    const maxSpread = isMobile ? Math.min(window.innerWidth * 0.28, 140) : Math.min(window.innerWidth * 0.24, 275);
+    const baseLeftX = -46 - (hoverProgress * maxSpread);
+    const baseRightX = 48 + (hoverProgress * maxSpread);
+
+    const dynamicLeftX = baseLeftX - (mouseX * 40 * hoverProgress);
+    const dynamicRightX = baseRightX + (mouseX * 40 * hoverProgress);
+
+    const leftRot = -7 - (hoverProgress * 7) - (mouseX * 6);
+    const rightRot = 7 + (hoverProgress * 7) + (mouseX * 6);
+
+    const leftY = 12 + (mouseY * 16 * hoverProgress);
+    const rightY = 10 - (mouseY * 16 * hoverProgress);
+
+    if (cardLeft) {
+      cardLeft.style.transform = `translate3d(${dynamicLeftX.toFixed(2)}px, ${leftY.toFixed(2)}px, 0) rotate(${leftRot.toFixed(2)}deg)`;
+      cardLeft.style.filter = `brightness(${(0.94 + hoverProgress * 0.06).toFixed(2)})`;
+    }
+
+    if (cardRight) {
+      cardRight.style.transform = `translate3d(${dynamicRightX.toFixed(2)}px, ${rightY.toFixed(2)}px, 0) rotate(${rightRot.toFixed(2)}deg)`;
+      cardRight.style.filter = `brightness(${(0.95 + hoverProgress * 0.05).toFixed(2)})`;
+    }
+
+    if (cardCenter) {
+      const centerRot = -1 + (mouseX * 3 * hoverProgress);
+      const centerX = mouseX * 14 * hoverProgress;
+      const centerY = mouseY * 14 * hoverProgress;
+      cardCenter.style.transform = `translate3d(${centerX.toFixed(2)}px, ${centerY.toFixed(2)}px, 0) rotate(${centerRot.toFixed(2)}deg)`;
+    }
+
+    requestAnimationFrame(animateHero);
+  }
+  animateHero();
+
+// VIDEO CONTROLLER
+const kineticVideo = document.getElementById('kineticVideo');
+const videoToggleBtn = document.getElementById('videoToggleBtn');
+const playIcon = document.getElementById('playIcon');
+
+if (videoToggleBtn && kineticVideo) {
+  videoToggleBtn.addEventListener('click', () => {
+    if (kineticVideo.paused) {
+      kineticVideo.play();
+      playIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect>';
+    } else {
+      kineticVideo.pause();
+      playIcon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"></polygon>';
+    }
+  });
+}
+</script>
+
+<footer class="w">
+  <div class="footer-giant-logo">
+    SHOAIB<sup>&reg;</sup>
+  </div>
+
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h5>Retoucher Shoaib Studio</h5>
+      <p style="font-size: 14px; line-height: 1.7; color: #555; max-width: 280px;">
+        High-end commercial post-production studio directed by Shoaib. Serving brands across New York, London, Paris, and Milan with unmatched pixel discipline.
+      </p>
+    </div>
+
+    <div class="footer-col">
+      <h5>Core Disciplines</h5>
+      <ul>
+        <li><a href="work.html?cat=jewelry">Jewelry Retouching</a></li>
+        <li><a href="work.html?cat=fashion">Fashion & Clothing</a></li>
+        <li><a href="work.html?cat=beauty">Model & Beauty</a></li>
+        <li><a href="work.html?cat=product">E-Commerce Products</a></li>
+        <li><a href="work.html?cat=still-life">Still Life Cosmetics</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Navigation</h5>
+      <ul>
+        <li><a href="work.html">Selected Works</a></li>
+        <li><a href="studio.html">Our Studio & Team</a></li>
+        <li><a href="feed.html">Journal & Insights</a></li>
+        <li><a href="contact.html">Free Trial Request</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h5>Connect</h5>
+      <ul>
+        <li><a href="mailto:hello@retouchershoaib.com">Email Us</a></li>
+        <li><a href="https://wa.me/8801700000000" target="_blank">WhatsApp Direct</a></li>
+        <li><a href="https://linkedin.com" target="_blank">LinkedIn Studio</a></li>
+        <li><a href="https://instagram.com" target="_blank">Instagram Portfolio</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div>&copy; 2016–2026 Retoucher Shoaib&reg;. All Rights Reserved.</div>
+    <div>Handcrafted with pure pixel precision.</div>
+  </div>
+</footer>
+
+<script>
+function updateStudioTime() {
+  const timeEl = document.getElementById('liveTimeIndicator');
+  if (!timeEl) return;
+  const now = new Date();
+  const nyc = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hour12: true }).format(now);
+  const ber = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit', hour12: true }).format(now);
+  timeEl.textContent = `NYC ${nyc} • BERLIN ${ber}`;
+}
+setInterval(updateStudioTime, 10000);
+updateStudioTime();
+</script>
+</body>
+</html>
