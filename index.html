@@ -674,7 +674,10 @@ footer {
 }
 
 
-/* SLICE ANIMATION FROM v6.html */
+
+
+
+/* FOOTER GIANT LOGO SLICE ANIMATION (EXACTLY FROM v6.html - 100% STATIC, NO TRANSLATE) */
 @property --g {
   syntax: '<length>';
   inherits: false;
@@ -682,31 +685,16 @@ footer {
 }
 
 @keyframes slice {
-  0%, 100% {
-    --g: 0px;
-    transform: translateX(0);
-  }
-  20% {
-    transform: translateX(-4px);
-  }
-  45% {
-    --g: 6px;
-    transform: translateX(4px);
-  }
-  70% {
-    transform: translateX(-2px);
-  }
+  0%, 100% { --g: 0px; }
+  45% { --g: 6px; }
 }
 
-.footer-giant-logo,
-.hero-giant-name {
+.footer-giant-logo {
   cursor: pointer;
 }
 
 .footer-giant-logo.slice,
-.footer-giant-logo:hover,
-.hero-giant-name.slice,
-.hero-giant-name:hover {
+.footer-giant-logo:hover {
   animation: slice 1.4s ease-in-out;
   -webkit-mask-image: repeating-linear-gradient(#000 0 calc(10px - var(--g)), transparent calc(10px - var(--g)) 10px);
   mask-image: repeating-linear-gradient(#000 0 calc(10px - var(--g)), transparent calc(10px - var(--g)) 10px);
@@ -1113,30 +1101,30 @@ updateStudioTime();
 </script>
 <script>
 
-// SLICE ANIMATION OBSERVER FROM v6.html
+
+
+</script>
+<script>
+// EXACT FOOTER SLICE ANIMATION FROM v6.html (ONLY FOR FOOTER)
 (function() {
-  const giantTitles = document.querySelectorAll('.footer-giant-logo, .hero-giant-name');
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries) => {
+  const fl = document.querySelector('.footer-giant-logo');
+  if (fl && 'IntersectionObserver' in window) {
+    new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('slice');
-          setTimeout(() => entry.target.classList.remove('slice'), 1500);
+          fl.classList.add('slice');
+          setTimeout(() => fl.classList.remove('slice'), 1500);
         }
       });
-    }, { threshold: 0.3 });
-
-    giantTitles.forEach(el => observer.observe(el));
+    }, { threshold: 0.5 }).observe(fl);
   }
-
-  giantTitles.forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      el.classList.add('slice');
-      setTimeout(() => el.classList.remove('slice'), 1500);
+  if (fl) {
+    fl.addEventListener('mouseenter', () => {
+      fl.classList.add('slice');
+      setTimeout(() => fl.classList.remove('slice'), 1500);
     });
-  });
+  }
 })();
-
 </script>
 </body>
 </html>
