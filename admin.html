@@ -239,12 +239,12 @@ a { color: inherit; text-decoration: none; }
           <tr>
             <th>Order ID</th>
             <th>Client Agency</th>
-            <th>Service Department</th>
-            <th>RAWs</th>
+            <th>Service</th>
+            <th>SLA Countdown Timer</th>
+            <th>Agreed Price &amp; Offer</th>
             <th>Status</th>
             <th>Change Status</th>
-            <th>Finished Delivery Link</th>
-            <th>Google Drive</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -252,8 +252,14 @@ a { color: inherit; text-decoration: none; }
           <tr>
             <td><strong>#RS-2026-084</strong></td>
             <td>Studio New York<br><span style="font-size: 11px; color: #777;">sarah@jenkinsstudio.com</span></td>
-            <td>Luxury Jewelry &amp; Watches</td>
-            <td>14 Focus Stacks</td>
+            <td>Luxury Jewelry (14 Stacks)</td>
+            <td>
+              <span class="status-pill delivered" style="font-size: 11px;">✓ Completed (18h 30m)</span>
+            </td>
+            <td>
+              <strong style="color: #4ade80;">$490.00 USD</strong><br>
+              <span style="font-size: 11px; color: #777;">Agreed ✓ ($25/img)</span>
+            </td>
             <td><span class="status-pill delivered" id="badgeRow1">Delivered ✓</span></td>
             <td>
               <select class="status-select" id="selStatus1" onchange="updateOrderStatus('084', this.value)">
@@ -263,11 +269,10 @@ a { color: inherit; text-decoration: none; }
                 <option value="delivered" selected>Delivered (Ready)</option>
               </select>
             </td>
-            <td>
-              <button class="btn sm outline" onclick="openDelModal('084')">🔗 Set Delivery Link</button>
-            </td>
-            <td>
-              <a href="https://drive.google.com" target="_blank" class="btn sm outline" title="Open Google Drive">Drive ↗</a>
+            <td style="white-space: nowrap;">
+              <button class="btn sm outline" onclick="openDelModal('084')">🔗 Delivery Link</button>
+              <button class="btn sm outline" onclick="viewClientBrief('084')">Brief 👁️</button>
+              <a href="https://drive.google.com" target="_blank" class="btn sm outline">Drive ↗</a>
             </td>
           </tr>
 
@@ -275,8 +280,19 @@ a { color: inherit; text-decoration: none; }
           <tr>
             <td><strong>#RS-2026-085</strong></td>
             <td>Studio New York<br><span style="font-size: 11px; color: #777;">sarah@jenkinsstudio.com</span></td>
-            <td>Fashion Apparel Lookbook</td>
-            <td>24 RAWs</td>
+            <td>Fashion Lookbook (24 RAWs)</td>
+            <td>
+              <!-- LIVE TICKING COUNTDOWN ON ADMIN -->
+              <span id="admTimerBadge_085" style="font-size: 12px; font-weight: 800; font-family: var(--f-display); background: #222; border: 1px solid #444; padding: 4px 10px; border-radius: 6px; color: #f59e0b;">
+                ⏳ Calculating...
+              </span>
+            </td>
+            <td>
+              <div id="admPriceContainer_085">
+                <span style="color: #fbbf24; font-weight: 700;">$600.00 Offer</span><br>
+                <button class="btn sm green" style="padding: 3px 8px; font-size: 10px; margin-top: 4px;" onclick="acceptClientOffer('085', '$600.00 USD')">✓ Accept Offer</button>
+              </div>
+            </td>
             <td><span class="status-pill progress" id="badgeRow2">In Production</span></td>
             <td>
               <select class="status-select" id="selStatus2" onchange="updateOrderStatus('085', this.value)">
@@ -286,11 +302,10 @@ a { color: inherit; text-decoration: none; }
                 <option value="delivered">Delivered (Ready)</option>
               </select>
             </td>
-            <td>
-              <button class="btn sm outline" onclick="openDelModal('085')">🔗 Set Delivery Link</button>
-            </td>
-            <td>
-              <a href="https://drive.google.com" target="_blank" class="btn sm outline" title="Open Google Drive">Drive ↗</a>
+            <td style="white-space: nowrap;">
+              <button class="btn sm outline" onclick="openDelModal('085')">🔗 Delivery Link</button>
+              <button class="btn sm outline" onclick="viewClientBrief('085')">Brief 👁️</button>
+              <a href="https://drive.google.com" target="_blank" class="btn sm outline">Drive ↗</a>
             </td>
           </tr>
         </tbody>
@@ -431,6 +446,61 @@ function editCardPayUrl() {
     localStorage.setItem('shoaib_card_pay_url', newUrl.trim());
     document.getElementById('admCardUrlDisplay').textContent = newUrl.trim();
     alert('✓ Wise card payment link updated for client portal!');
+  }
+}
+
+
+// ADMIN SLA COUNTDOWN TICKER
+const deadline85 = Date.now() + (1.75 * 3600 * 1000);
+function updateAdminTimer() {
+  const badge = document.getElementById('admTimerBadge_085');
+  if (!badge) return;
+  const diffMs = deadline85 - Date.now();
+
+  if (diffMs > 0) {
+    const totalSec = Math.floor(diffMs / 1000);
+    const h = Math.floor(totalSec / 3600);
+    const m = Math.floor((totalSec % 3600) / 60);
+    const s = totalSec % 60;
+    const hStr = String(h).padStart(2, '0');
+    const mStr = String(m).padStart(2, '0');
+    const sStr = String(s).padStart(2, '0');
+    badge.style.color = (h < 2) ? '#f59e0b' : '#4ade80';
+    badge.style.borderColor = (h < 2) ? '#b45309' : '#166534';
+    badge.textContent = `⏳ ${hStr}h : ${mStr}m : ${sStr}s SLA`;
+  } else {
+    const absDiff = Math.abs(diffMs);
+    const totalSec = Math.floor(absDiff / 1000);
+    const h = Math.floor(totalSec / 3600);
+    const m = Math.floor((totalSec % 3600) / 60);
+    const s = totalSec % 60;
+    badge.style.color = '#ef4444';
+    badge.style.background = '#450a0a';
+    badge.style.borderColor = '#ef4444';
+    badge.textContent = `⚠️ OVERDUE: -${h}h:${m}m:${s}s`;
+  }
+}
+setInterval(updateAdminTimer, 1000);
+updateAdminTimer();
+
+// ACCEPT CLIENT OFFER
+function acceptClientOffer(id, amount) {
+  localStorage.setItem('shoaib_price_approved_' + id, '1');
+  localStorage.setItem('shoaib_agreed_price_' + id, amount);
+
+  const container = document.getElementById('admPriceContainer_' + id);
+  if (container) {
+    container.innerHTML = '<strong style="color: #4ade80;">' + amount + '</strong><br><span style="font-size: 11px; color: #777;">Agreed ✓ (Studio Confirmed)</span>';
+  }
+  alert('✓ Offer of ' + amount + ' for Order #' + id + ' approved! Synced with client portal.');
+}
+
+// VIEW CLIENT BRIEF MODAL
+function viewClientBrief(id) {
+  if (id === '084') {
+    alert("CLIENT BRIEF (#RS-2026-084):\n\n14 Focus-Stacked RAWs (.CR3)\nFormat: 16-bit Master PSD + WebP\n\nINSTRUCTIONS:\nPlease clean all microscopic dust and metal scratches on the platinum prongs without blunting the facet reflections.\nPreserve diamond natural scintillation highlights (do not blow out or flatten).\nDeliver on seamless off-white background with a delicate natural contact cast shadow.");
+  } else {
+    alert("CLIENT BRIEF (#RS-2026-085):\n\n24 High-Fashion RAWs (.ARW)\nFormat: Layered PSD + Transparent PNG + Clipping Path\n\nINSTRUCTIONS:\nSymmetrical hemline alignment, remove fabric travel wrinkles while keeping textile micro-weave crisp.\nGhost mannequin hollow neck joint alignment with collar label.\nExport with pure white RGB(255,255,255) background and separate hand-drawn pen tool path.");
   }
 }
 

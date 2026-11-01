@@ -274,6 +274,73 @@ img { max-width: 100%; display: block; }
   padding: 18px; margin-top: 20px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
 }
 
+
+/* LIVE COUNTDOWN TIMER STYLING */
+.timer-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px; border-radius: 99px;
+  font-family: var(--f-display); font-size: 12px; font-weight: 700;
+  background: #f0fdf4; border: 1px solid #86efac; color: #15803d;
+  letter-spacing: 0.02em;
+}
+.timer-pill.urgent {
+  background: #fffbeb; border-color: #fde68a; color: #b45309;
+}
+.timer-pill.overdue {
+  background: #fef2f2; border-color: #fca5a5; color: #b91c1c; font-weight: 800;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+  animation: pulseOverdue 2s infinite;
+}
+@keyframes pulseOverdue {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+.timer-pill.delivered {
+  background: #f0fdf4; border-color: #bbf7d0; color: #166534;
+}
+.timer-pill.flexible {
+  background: #f4f4f5; border-color: #e4e4e7; color: #52525b;
+}
+
+/* COMMERCIAL PRICE BADGE */
+.commercial-price-bar {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  background: #fafaf8; border: 1px solid var(--line); border-radius: 12px;
+  padding: 12px 18px; margin-top: 20px; font-size: 13px;
+}
+.price-tag-agreed {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: #166534; font-weight: 800;
+}
+.price-tag-pending {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: #b45309; font-weight: 700;
+}
+
+/* ORDER SPECS MODAL */
+#orderSpecsModal {
+  position: fixed; inset: 0; background: rgba(10, 10, 10, 0.76);
+  backdrop-filter: blur(12px); z-index: 10000;
+  display: none; align-items: center; justify-content: center; padding: 20px;
+}
+.specs-box {
+  background: #fff; border-radius: 20px; width: 100%; max-width: 760px;
+  max-height: 90vh; overflow-y: auto; padding: clamp(24px, 4vw, 44px);
+  position: relative; box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+}
+.specs-close {
+  position: absolute; top: 20px; right: 20px;
+  width: 36px; height: 36px; border-radius: 50%; background: #f0f0ed;
+  border: 0; font-size: 16px; font-weight: 700; cursor: pointer;
+}
+.specs-sec { margin-bottom: 22px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+.specs-sec:last-child { border-bottom: 0; margin-bottom: 0; padding-bottom: 0; }
+.specs-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.specs-instruction-box {
+  background: #fafaf8; border: 1px solid var(--line); border-radius: 10px;
+  padding: 16px; font-size: 14px; line-height: 1.6; color: #333; white-space: pre-line;
+}
+
 /* WIPE PAGE TRANSITION */
 #wipe {
   position: fixed; inset: 0; background: #0a0a0a; z-index: 99999;
@@ -352,14 +419,18 @@ img { max-width: 100%; display: block; }
 
   <!-- VIEW 1: ACTIVE ORDERS & TRACKER -->
   <div id="viewOrders">
-    <!-- ORDER 1: DELIVERED (READY FOR DOWNLOAD) -->
+    <!-- ORDER 1: DELIVERED -->
     <div class="order-card" id="cardOrder1">
       <div class="order-header-row">
         <div>
-          <div class="order-id">Order #RS-2026-084 &bull; Luxury Jewelry &amp; Watches Suite</div>
-          <div class="order-meta-info">Submitted: Today, 10:15 AM &bull; 14 Focus-Stacked RAWs &bull; Format: 16-bit Layered Master PSD</div>
+          <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 6px;">
+            <span class="order-id">Order #RS-2026-084 &bull; Luxury Jewelry &amp; Watches Suite</span>
+            <span class="timer-pill delivered" id="timerBadge_084">✓ Delivered On-Time (Completed in 18h 30m)</span>
+          </div>
+          <div class="order-meta-info">14 Focus-Stacked RAWs &bull; Format: 16-bit Master PSD + WebP &bull; Target SLA: 24h</div>
         </div>
-        <div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn sm outline" onclick="openOrderSpecsModal('084')">View Specs &amp; Instructions 👁️</button>
           <button class="btn sm" onclick="switchPortalTab('invoices', document.querySelectorAll('.portal-tab-btn')[2])">View Invoice ($490)</button>
         </div>
       </div>
@@ -391,6 +462,16 @@ img { max-width: 100%; display: block; }
         </div>
       </div>
 
+      <!-- COMMERCIAL AGREED PRICE BADGE -->
+      <div class="commercial-price-bar">
+        <div class="price-tag-agreed">
+          <span>🏷️ Agreed Commercial Rate:</span>
+          <strong>$490.00 USD</strong>
+          <span style="font-size: 11px; background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 4px; font-weight: 700;">Confirmed by Studio ✓</span>
+        </div>
+        <div style="font-size: 12px; color: var(--mut);">Scope: 14 images @ $25/img + Focus Alignment @ $10/img</div>
+      </div>
+
       <!-- DOWNLOAD DELIVERY BOX -->
       <div class="delivery-box" id="deliveryBox1">
         <div class="delivery-info">
@@ -405,14 +486,19 @@ img { max-width: 100%; display: block; }
       </div>
     </div>
 
-    <!-- ORDER 2: IN PRODUCTION -->
+    <!-- ORDER 2: IN PRODUCTION WITH LIVE TICKING COUNTDOWN -->
     <div class="order-card" id="cardOrder2">
       <div class="order-header-row">
         <div>
-          <div class="order-id">Order #RS-2026-085 &bull; Editorial Fashion Apparel Lookbook</div>
-          <div class="order-meta-info">Submitted: Today, 01:30 PM &bull; 24 High-Fashion RAWs &bull; Format: Layered PSD + Transparent PNG</div>
+          <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 6px;">
+            <span class="order-id">Order #RS-2026-085 &bull; Editorial Fashion Apparel Lookbook</span>
+            <!-- LIVE TICKING COUNTDOWN PILL -->
+            <span class="timer-pill" id="timerBadge_085">⏳ Calculating Countdown...</span>
+          </div>
+          <div class="order-meta-info">24 High-Fashion RAWs &bull; Format: Layered PSD + Transparent PNG &bull; Target SLA: 24h</div>
         </div>
-        <div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn sm outline" onclick="openOrderSpecsModal('085')">View Specs &amp; Instructions 👁️</button>
           <span class="btn sm outline" style="border-color: #f59e0b; color: #b45309; cursor: default;">In Production</span>
         </div>
       </div>
@@ -439,13 +525,23 @@ img { max-width: 100%; display: block; }
           <div class="tracker-step">
             <div class="step-circle">4</div>
             <div class="step-name">4. Delivered</div>
-            <div class="step-sub">Est: Tomorrow 04:00 PM</div>
+            <div class="step-sub">Countdown Active</div>
           </div>
         </div>
       </div>
 
-      <div style="background: #fafaf8; border: 1px solid var(--line); border-radius: 12px; padding: 16px 20px; font-size: 13px; color: #555;">
-        ⚡ <strong>Status Note from Studio Director:</strong> Senior fashion retoucher assigned. Mannequin hollow jointing and hemline symmetry alignment currently underway.
+      <!-- COMMERCIAL AGREED PRICE BADGE -->
+      <div class="commercial-price-bar">
+        <div class="price-tag-pending" id="priceBadgeContainer_085">
+          <span>🏷️ Proposed Budget:</span>
+          <strong id="priceDisplay_085">$600.00 USD ($25/img)</strong>
+          <span id="priceStatusTag_085" style="font-size: 11px; background: #fef3c7; color: #b45309; padding: 2px 8px; border-radius: 4px; font-weight: 700;">Under Studio Review ⏳</span>
+        </div>
+        <div style="font-size: 12px; color: var(--mut);">Turnaround: 24 Hours Express &bull; Client Target: Sarah Jenkins</div>
+      </div>
+
+      <div style="background: #fafaf8; border: 1px solid var(--line); border-radius: 12px; padding: 16px 20px; font-size: 13px; color: #555; margin-top: 18px;">
+        ⚡ <strong>Live Status from Studio Director:</strong> Senior fashion retoucher assigned. Mannequin hollow jointing and hemline symmetry alignment currently underway.
       </div>
     </div>
   </div>
@@ -472,8 +568,11 @@ img { max-width: 100%; display: block; }
           <div class="fg">
             <label class="flab">Turnaround Speed *</label>
             <select id="ordSpeed" class="fsel" required>
-              <option value="Standard Production (24-48 Hours)">Standard Production (24–48 Hours)</option>
-              <option value="Priority Rush (12-24 Hours)">Priority Rush (12–24 Hours) +25%</option>
+              <option value="12">12 Hours (Rush Production) +30%</option>
+              <option value="24" selected>24 Hours (Express Commercial SLA)</option>
+              <option value="48">48 Hours (Standard Studio Turnaround)</option>
+              <option value="72">72 Hours (Bulk Catalog / E-Commerce Scale)</option>
+              <option value="flexible">Flexible Time (No Rush / Standard Queue)</option>
             </select>
           </div>
         </div>
@@ -492,6 +591,21 @@ img { max-width: 100%; display: block; }
           <div class="fg">
             <label class="flab">Estimated Number of Images *</label>
             <input type="number" id="ordCount" class="fin" placeholder="e.g. 15" min="1" max="500" value="10" required>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="fg">
+            <label class="flab">Your Proposed Budget / Offer Price (Optional)</label>
+            <input type="text" id="ordOffer" class="fin" placeholder="e.g. $25/image or $350 Total USD">
+          </div>
+          <div class="fg">
+            <label class="flab">Billing Currency</label>
+            <select id="ordCurrency" class="fsel">
+              <option value="USD">USD ($)</option>
+              <option value="EUR">EUR (€)</option>
+              <option value="GBP">GBP (£)</option>
+            </select>
           </div>
         </div>
 
@@ -746,6 +860,164 @@ img { max-width: 100%; display: block; }
 </main>
 
 <script>
+
+// ORDER DATA STORE & COUNTDOWN TIMER ENGINE
+const ORDERS_DB = {
+  '084': {
+    id: '#RS-2026-084',
+    title: 'Luxury Jewelry & Watches Suite',
+    service: 'Luxury Jewelry & Horology',
+    images: '14 Focus-Stacked RAWs (.CR3)',
+    format: '16-bit Layered Master PSD + WebP',
+    slaHours: 24,
+    submittedTime: Date.now() - (18.5 * 3600 * 1000), // Submitted 18.5 hours ago
+    deadlineTime: Date.now() + (5.5 * 3600 * 1000),
+    status: 'delivered', // delivered stops timer
+    priceType: 'agreed',
+    priceText: '$490.00 USD ($25/img)',
+    driveLink: 'https://drive.google.com',
+    instructions: "Please clean all microscopic dust and metal scratches on the platinum prongs without blunting the facet reflections.\nPreserve diamond natural scintillation highlights (do not blow out or flatten).\nDeliver on seamless off-white background with a delicate natural contact cast shadow."
+  },
+  '085': {
+    id: '#RS-2026-085',
+    title: 'Editorial Fashion Apparel Lookbook',
+    service: 'Fashion & Apparel',
+    images: '24 High-Fashion RAWs (.ARW)',
+    format: 'Layered PSD + Transparent PNG + Clipping Path',
+    slaHours: 24,
+    // Set submitted time so exactly 1h 45m left to demonstrate active ticking!
+    submittedTime: Date.now() - (22.25 * 3600 * 1000),
+    deadlineTime: Date.now() + (1.75 * 3600 * 1000),
+    status: 'production',
+    priceType: 'pending',
+    priceText: '$600.00 USD ($25/img)',
+    driveLink: 'https://drive.google.com',
+    instructions: "Symmetrical hemline alignment, remove fabric travel wrinkles while keeping textile micro-weave crisp.\nGhost mannequin hollow neck joint alignment with collar label.\nExport with pure white RGB(255,255,255) background and separate hand-drawn pen tool path."
+  }
+};
+
+// COUNTDOWN TIMER TICKER (EVERY SECOND)
+function updateAllTimers() {
+  // Check Order 085
+  const o85 = ORDERS_DB['085'];
+  const timerBadge85 = document.getElementById('timerBadge_085');
+  if (timerBadge85 && o85.status !== 'delivered') {
+    const diff = o85.deadlineTime - Date.now();
+    timerBadge85.innerHTML = formatTimerDisplay(diff);
+  }
+
+  // Update modal timer if open
+  const modalTimer = document.getElementById('modalTimerBadge');
+  if (modalTimer && currentModalOrderId) {
+    const ord = ORDERS_DB[currentModalOrderId];
+    if (ord) {
+      if (ord.status === 'delivered') {
+        modalTimer.className = 'timer-pill delivered';
+        modalTimer.textContent = '✓ Delivered On-Time';
+      } else {
+        const diff = ord.deadlineTime - Date.now();
+        modalTimer.innerHTML = formatTimerDisplay(diff);
+      }
+    }
+  }
+}
+
+function formatTimerDisplay(diffMs) {
+  if (diffMs > 0) {
+    const totalSec = Math.floor(diffMs / 1000);
+    const h = Math.floor(totalSec / 3600);
+    const m = Math.floor((totalSec % 3600) / 60);
+    const s = totalSec % 60;
+    const hStr = String(h).padStart(2, '0');
+    const mStr = String(m).padStart(2, '0');
+    const sStr = String(s).padStart(2, '0');
+    const urgentClass = (h < 2) ? 'urgent' : '';
+    return `<span class="timer-pill ${urgentClass}">⏳ ${hStr}h : ${mStr}m : ${sStr}s Remaining</span>`;
+  } else {
+    // OVERDUE NEGATIVE COUNTDOWN (RED ALERT!)
+    const absDiff = Math.abs(diffMs);
+    const totalSec = Math.floor(absDiff / 1000);
+    const h = Math.floor(totalSec / 3600);
+    const m = Math.floor((totalSec % 3600) / 60);
+    const s = totalSec % 60;
+    const hStr = String(h).padStart(2, '0');
+    const mStr = String(m).padStart(2, '0');
+    const sStr = String(s).padStart(2, '0');
+    return `<span class="timer-pill overdue">⚠️ OVERDUE: -${hStr}h : ${mStr}m : ${sStr}s</span>`;
+  }
+}
+
+setInterval(updateAllTimers, 1000);
+updateAllTimers();
+
+// ORDER SPECS MODAL CONTROLLER
+let currentModalOrderId = null;
+function openOrderSpecsModal(id) {
+  currentModalOrderId = id;
+  const ord = ORDERS_DB[id];
+  if (!ord) return;
+
+  document.getElementById('modalOrderTitle').textContent = ord.id + ' — ' + ord.title;
+  document.getElementById('modalSlaText').textContent = ord.slaHours + ' Hours Commitment SLA';
+  document.getElementById('modalService').textContent = ord.service;
+  document.getElementById('modalFormat').textContent = ord.images + ' • ' + ord.format;
+  document.getElementById('modalInstructions').textContent = ord.instructions;
+  document.getElementById('modalDriveBtn').href = ord.driveLink;
+
+  // Commercial Price State
+  const priceStatus = document.getElementById('modalPriceStatus');
+  const priceAmount = document.getElementById('modalPriceAmount');
+  
+  // Check if admin approved this order's price
+  const isApproved = localStorage.getItem('shoaib_price_approved_' + id) === '1' || ord.priceType === 'agreed';
+  const customAgreedPrice = localStorage.getItem('shoaib_agreed_price_' + id);
+
+  if (isApproved) {
+    priceStatus.textContent = 'Agreed Commercial Rate • Confirmed by Studio ✓';
+    priceStatus.style.color = '#166534';
+    priceAmount.textContent = customAgreedPrice || ord.priceText;
+  } else {
+    priceStatus.textContent = 'Proposed Client Offer • Under Studio Review ⏳';
+    priceStatus.style.color = '#b45309';
+    priceAmount.textContent = ord.priceText;
+  }
+
+  // Update modal timer
+  updateAllTimers();
+
+  document.getElementById('orderSpecsModal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeOrderSpecsModal() {
+  document.getElementById('orderSpecsModal').style.display = 'none';
+  document.body.style.overflow = '';
+  currentModalOrderId = null;
+}
+
+function closeOrderSpecsOnBg(e) {
+  if (e.target.id === 'orderSpecsModal') closeOrderSpecsModal();
+}
+
+// SYNC ADMIN APPROVAL ON LOAD
+window.addEventListener('DOMContentLoaded', () => {
+  // Sync Order 085 price approval if done in Admin Panel
+  if (localStorage.getItem('shoaib_price_approved_085') === '1') {
+    const statusTag = document.getElementById('priceStatusTag_085');
+    const priceDisplay = document.getElementById('priceDisplay_085');
+    const custom = localStorage.getItem('shoaib_agreed_price_085');
+    if (statusTag) {
+      statusTag.textContent = 'Confirmed by Studio ✓';
+      statusTag.style.background = '#dcfce7';
+      statusTag.style.color = '#166534';
+    }
+    if (priceDisplay && custom) {
+      priceDisplay.textContent = custom;
+    }
+  }
+});
+
+
 // LIVE STUDIO TIME SYNC
 function updateStudioTime() {
   const timeEl = document.getElementById('liveTimeIndicator');
@@ -941,5 +1213,73 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 })();
 </script>
+
+<!-- ORDER FULL SPECS & INSTRUCTIONS MODAL -->
+<div id="orderSpecsModal" onclick="closeOrderSpecsOnBg(event)">
+  <div class="specs-box">
+    <button class="specs-close" onclick="closeOrderSpecsModal()">✕</button>
+    <div class="lab" style="margin-bottom: 8px;">Commission Details</div>
+    <h2 id="modalOrderTitle" style="font-size: 22px; font-weight: 800; margin-bottom: 20px;">Order Specifications</h2>
+
+    <!-- SLA & TIMER -->
+    <div class="specs-sec">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <span style="font-size: 11px; text-transform: uppercase; color: var(--mut); font-weight: 700;">Target Turnaround</span>
+          <div id="modalSlaText" style="font-size: 15px; font-weight: 800; margin-top: 2px;">24 Hours Express SLA</div>
+        </div>
+        <div id="modalTimerBadge" class="timer-pill">⏳ Calculating...</div>
+      </div>
+    </div>
+
+    <!-- PRICING & AGREED BUDGET -->
+    <div class="specs-sec">
+      <div class="specs-grid-2">
+        <div>
+          <span style="font-size: 11px; text-transform: uppercase; color: var(--mut); font-weight: 700;">Commercial Price Status</span>
+          <div id="modalPriceStatus" style="font-size: 15px; font-weight: 800; margin-top: 2px; color: #166534;">Confirmed by Studio ✓</div>
+        </div>
+        <div>
+          <span style="font-size: 11px; text-transform: uppercase; color: var(--mut); font-weight: 700;">Total Amount</span>
+          <div id="modalPriceAmount" style="font-size: 18px; font-weight: 800; margin-top: 2px; color: var(--accent);">$490.00 USD</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TECHNICAL SCOPE -->
+    <div class="specs-sec">
+      <div class="specs-grid-2">
+        <div>
+          <span style="font-size: 11px; text-transform: uppercase; color: var(--mut); font-weight: 700;">Service Department</span>
+          <div id="modalService" style="font-size: 14px; font-weight: 700; margin-top: 2px;">Luxury Jewelry &amp; Watches</div>
+        </div>
+        <div>
+          <span style="font-size: 11px; text-transform: uppercase; color: var(--mut); font-weight: 700;">Files Count &amp; Delivery Format</span>
+          <div id="modalFormat" style="font-size: 14px; font-weight: 700; margin-top: 2px;">14 RAWs &bull; 16-bit Master PSD + WebP</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INSTRUCTIONS -->
+    <div class="specs-sec">
+      <span style="font-size: 11px; text-transform: uppercase; color: var(--mut); font-weight: 700; display: block; margin-bottom: 8px;">Client's Creative Brief &amp; Retouching Instructions</span>
+      <div class="specs-instruction-box" id="modalInstructions">
+        Please clean all microscopic dust and metal scratches on the platinum prongs without blunting the facet reflections. 
+        Preserve diamond natural scintillation highlights (do not blow out or flatten). 
+        Deliver on seamless off-white background with a delicate natural contact cast shadow.
+      </div>
+    </div>
+
+    <!-- DRIVE LINK -->
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+      <div>
+        <span style="font-size: 11px; text-transform: uppercase; color: var(--mut); font-weight: 700;">Client Source Files</span>
+        <div style="font-size: 13px; color: #555;">Uploaded to Shoaib's Dedicated Client Google Drive</div>
+      </div>
+      <a id="modalDriveBtn" href="https://drive.google.com" target="_blank" class="btn sm outline">Open Google Drive ↗</a>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
