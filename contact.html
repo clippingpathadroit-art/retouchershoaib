@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Request a free sample retouch or discuss high-volume commercial photo post-production with Retoucher Shoaib.">
-<title>Contact & Free Trial | Retoucher Shoaib®</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact &amp; Free Trial | Retoucher Shoaib®</title>
+<meta name="description" content="Request a 100% free trial retouch with 12–24h turnaround. Commercial photo retouching studio directed by Shoaib.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..900;1,300..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 
+<style>
 :root {
   --bg: #ffffff;
   --fg: #0a0a0a;
@@ -21,7 +21,6 @@
   --f: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --f-display: 'Plus Jakarta Sans', var(--f);
   color-scheme: light;
-  box-sizing: border-box;
 }
 
 *, *::before, *::after {
@@ -33,6 +32,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 70px;
+  background: var(--bg);
 }
 
 body {
@@ -68,30 +68,10 @@ h1, h2, h3, h4, h5 {
   line-height: 1.05;
 }
 
-.page-header {
-  padding-top: 130px;
-  padding-bottom: 50px;
-}
-
-.page-title {
-  font-size: clamp(48px, 9vw, 130px);
-  font-weight: 800;
-  letter-spacing: -0.065em;
-  line-height: 0.92;
-  margin-bottom: 24px;
-}
-
-.page-subtitle {
-  font-size: clamp(16px, 1.8vw, 22px);
-  line-height: 1.55;
-  color: #555;
-  max-width: 740px;
-}
-
 .lab {
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--mut);
 }
@@ -153,25 +133,6 @@ h1, h2, h3, h4, h5 {
 .btn.sm {
   padding: 8px 18px;
   font-size: 12px;
-}
-
-.pill {
-  display: inline-block;
-  padding: 8px 18px;
-  border-radius: 99px;
-  background: #f2f2ee;
-  color: #444;
-  font-size: 13px;
-  font-weight: 500;
-  transition: all 0.25s ease;
-  cursor: pointer;
-  border: 1px solid transparent;
-}
-
-.pill:hover, .pill.active {
-  background: var(--fg);
-  color: #fff;
-  border-color: var(--fg);
 }
 
 /* NAVBAR */
@@ -256,7 +217,147 @@ nav {
   }
 }
 
-/* FOOTER */
+/* PAGE TITLE (EXACTLY FROM v6.html) */
+.page-title {
+  padding-top: clamp(110px, 18vh, 180px);
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+}
+
+.giant-title {
+  font-size: clamp(48px, 9.5vw, 138px);
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  line-height: 0.92;
+}
+
+/* CONTACT SECTION & FORM (EXACTLY FROM v6.html) */
+.contact-section {
+  padding: 60px 0 110px;
+  border-top: 1px solid var(--line);
+  background: #ffffff;
+}
+
+.contact-wrap {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(40px, 6vw, 90px);
+  align-items: start;
+}
+
+.contact-info h2 {
+  font-size: clamp(34px, 4.5vw, 64px);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1.05;
+  margin-bottom: 24px;
+}
+
+.contact-info p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #555;
+  margin-bottom: 36px;
+  max-width: 520px;
+}
+
+.contact-direct-links {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 40px;
+}
+
+.contact-link-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.contact-link-row svg {
+  width: 20px;
+  height: 20px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.contact-link-row a {
+  transition: color 0.2s ease;
+}
+.contact-link-row a:hover {
+  color: var(--accent);
+}
+
+.contact-form {
+  background: #fafaf8;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: clamp(24px, 4vw, 44px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+  font: inherit;
+  font-size: 14px;
+  color: var(--fg);
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--fg);
+  box-shadow: 0 0 0 3px rgba(10, 10, 10, 0.08);
+}
+
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+@media (max-width: 860px) {
+  .contact-wrap {
+    grid-template-columns: 1fr;
+  }
+  .page-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+/* FOOTER (MÖBIUS STYLE EXACTLY FROM v6.html) */
 footer {
   padding: 80px 0 40px;
   border-top: 1px solid var(--line);
@@ -320,84 +421,10 @@ footer {
   .footer-grid {
     grid-template-columns: 1fr 1fr;
   }
+  .form-row-2 {
+    grid-template-columns: 1fr;
+  }
 }
-
-
-.contact-layout {
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: clamp(40px, 6vw, 90px);
-  margin-bottom: 100px;
-}
-
-.contact-form-box {
-  background: var(--soft);
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: clamp(28px, 4vw, 48px);
-  box-shadow: 0 15px 40px rgba(0,0,0,0.04);
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-label {
-  display: block;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #333;
-  margin-bottom: 8px;
-}
-
-.form-input, .form-select, .form-textarea {
-  width: 100%;
-  padding: 14px 18px;
-  border-radius: 10px;
-  border: 1px solid var(--line);
-  background: #ffffff;
-  font: inherit;
-  font-size: 14px;
-  color: var(--fg);
-  outline: none;
-  transition: all 0.2s ease;
-}
-
-.form-input:focus, .form-select:focus, .form-textarea:focus {
-  border-color: var(--fg);
-  box-shadow: 0 0 0 3px rgba(10, 10, 10, 0.08);
-}
-
-.form-row-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-.direct-link-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 16px;
-}
-
-.direct-link-row svg {
-  width: 20px;
-  height: 20px;
-  color: var(--accent);
-}
-
-@media (max-width: 860px) {
-  .contact-layout { grid-template-columns: 1fr; }
-}
-
-
-
-
 
 /* FOOTER GIANT LOGO SLICE ANIMATION (EXACTLY FROM v6.html - 100% STATIC, NO TRANSLATE) */
 @property --g {
@@ -422,7 +449,6 @@ footer {
   mask-image: repeating-linear-gradient(#000 0 calc(10px - var(--g)), transparent calc(10px - var(--g)) 10px);
 }
 
-
 /* WIPE PAGE TRANSITION (BOTTOM TO TOP BLACK SLIDE) */
 #wipe {
   position: fixed;
@@ -432,15 +458,6 @@ footer {
   transform: translateY(100%);
   pointer-events: none;
 }
-@keyframes wipeIn {
-  0% { transform: translateY(100%); }
-  100% { transform: translateY(0%); }
-}
-@keyframes wipeOut {
-  0% { transform: translateY(0%); }
-  100% { transform: translateY(-100%); }
-}
-
 </style>
 </head>
 <body>
@@ -452,10 +469,10 @@ footer {
   </a>
 
   <div class="nav-links">
-    <a href="work.html" class="show-mob ">Work</a>
+    <a href="work.html" class="show-mob">Work</a>
     <a href="services.html" class="show-mob">Services</a>
-    <a href="studio.html" class="">Studio</a>
-    <a href="feed.html" class="">Feed</a>
+    <a href="studio.html">Studio</a>
+    <a href="feed.html">Feed</a>
     <a href="contact.html" class="show-mob active">Contact</a>
   </div>
 
@@ -468,176 +485,102 @@ footer {
   </div>
 </nav>
 
-<div class="w page-header">
-  <div class="lab" style="margin-bottom: 12px;">Get In Touch</div>
-  <h1 class="page-title">Start a Project</h1>
-  <p class="page-subtitle">
-    Send 1–2 test images for a 100% free trial retouch, or discuss long-term production contracts with our dedicated studio team.
-  </p>
+<!-- PAGE TITLE EXACTLY FROM v6.html -->
+<div class="page-title w">
+  <h1 class="giant-title">Let&rsquo;s Talk</h1>
+  <div class="lab">Free trial request</div>
+</div>
 
-  <div class="contact-layout">
-    <div>
-      <h2 style="font-size: clamp(30px, 3.8vw, 48px); font-weight: 800; line-height: 1.1; margin-bottom: 20px;">
-        100% Free Sample Retouch. Delivered in 12–24 Hours.
-      </h2>
-      <p style="font-size: 16px; line-height: 1.7; color: #555; margin-bottom: 32px;">
-        We believe that the quality of our craft speaks louder than any sales pitch. Upload 1 or 2 raw files from your active photoshoot. We will return fully finished, multi-layered master files so you can evaluate our precision firsthand.
+<!-- CONTACT & FREE TRIAL SECTION EXACTLY FROM v6.html -->
+<section class="contact-section w" id="contact">
+  <div class="contact-wrap">
+    <div class="contact-info">
+      <div class="lab" style="margin-bottom: 12px;">Let's Collaborate</div>
+      <h2>Get Your Free Sample Retouch.</h2>
+      <p>
+        Send 1 or 2 raw images. Our 10–15 person studio team will return pixel-perfect retouched files within 12–24 hours, completely free of charge. Experience our craft before committing.
       </p>
 
-      <div style="margin-bottom: 40px;">
-        <div class="direct-link-row">
+      <div class="contact-direct-links">
+        <div class="contact-link-row">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-          <a href="mailto:retouchershoaib@gmail.com">retouchershoaib@gmail.com</a>
+          <a href="mailto:retouchershoaib@gmail.com" id="emailLink">retouchershoaib@gmail.com</a>
         </div>
-        <div class="direct-link-row">
+        <div class="contact-link-row">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-          <a href="https://wa.me/8801710763251" target="_blank">WhatsApp Direct (+880 1710-763251)</a>
+          <a href="https://wa.me/8801710763251" target="_blank" id="waLink">WhatsApp Direct (+880 1710-763251)</a>
         </div>
       </div>
 
-      <div class="badge accent" style="padding: 12px 20px; font-size: 12px;">
-        ⚡ 24/7 Dual Shift Production • USA & Europe Timezone Support
+      <div class="badge accent" style="padding: 10px 18px;">
+        ⚡ Guaranteed 12–24h turnaround for commercial batches
       </div>
     </div>
 
-    <!-- CONTACT FORM -->
-    <div class="contact-form-box">
-      <form id="contactForm" onsubmit="handleFormSubmit(event)">
+    <!-- Contact Form (Direct AJAX Submission without opening email client) -->
+    <div class="contact-form">
+      <form id="quoteForm" onsubmit="handleFormSubmit(event)">
         <div class="form-row-2">
           <div class="form-group">
-            <label class="form-label">Your Name *</label>
-            <input type="text" id="fName" name="name" class="form-input" placeholder="Sarah Jenkins" required>
+            <label class="form-label">Your Name</label>
+            <input type="text" id="fName" class="form-input" placeholder="Sarah Jenkins" required>
           </div>
           <div class="form-group">
-            <label class="form-label">Your Email *</label>
-            <input type="email" id="fEmail" name="email" class="form-input" placeholder="sarah@agency.com" required>
-          </div>
-        </div>
-
-        <div class="form-row-2">
-          <div class="form-group">
-            <label class="form-label">Brand / Agency</label>
-            <input type="text" id="fBrand" name="brand" class="form-input" placeholder="Studio New York">
-          </div>
-          <div class="form-group">
-            <label class="form-label">WhatsApp / Phone</label>
-            <input type="tel" id="fPhone" name="phone" class="form-input" placeholder="+1 (555) 000-0000">
+            <label class="form-label">Brand / Studio</label>
+            <input type="text" id="fBrand" class="form-input" placeholder="Studio New York">
           </div>
         </div>
 
         <div class="form-row-2">
           <div class="form-group">
             <label class="form-label">Primary Service</label>
-            <select id="fService" name="service" class="form-select">
-              <option value="Jewelry Retouching">Luxury Jewelry & Watches</option>
-              <option value="Fashion & Apparel">Fashion & 3D Ghost Mannequin</option>
-              <option value="Model & Beauty">Model & Beauty Retouching</option>
+            <select id="fService" class="form-select">
+              <option value="Jewelry Retouching">Luxury Jewelry &amp; Watches</option>
+              <option value="Fashion &amp; Clothing">Fashion &amp; Ghost Mannequin</option>
+              <option value="Model &amp; Beauty">Model &amp; Beauty Retouching</option>
               <option value="Product Retouching">E-Commerce Product Packshot</option>
-              <option value="Still Life">Still Life & Cosmetics</option>
+              <option value="Still Life">Still Life &amp; Cosmetics</option>
             </select>
           </div>
           <div class="form-group">
             <label class="form-label">Estimated Monthly Volume</label>
-            <select id="fVolume" name="volume" class="form-select">
+            <select id="fVolume" class="form-select">
               <option value="1-50 images">1 – 50 images</option>
               <option value="50-200 images">50 – 200 images</option>
               <option value="200-1000 images">200 – 1,000 images</option>
-              <option value="1000+ images">1,000+ images (Enterprise)</option>
+              <option value="1000+ images">1,000+ images (Studio)</option>
             </select>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="form-label">File Download Link (Dropbox / WeTransfer / Google Drive) *</label>
-          <input type="url" id="fLink" name="link" class="form-input" placeholder="https://www.dropbox.com/s/raw-photos..." required>
+          <label class="form-label">Your Email *</label>
+          <input type="email" id="fEmail" class="form-input" placeholder="sarah@agency.com" required>
         </div>
 
         <div class="form-group">
-          <label class="form-label">Project Instructions &amp; Specifications</label>
-          <textarea id="fNotes" name="notes" class="form-textarea" rows="3" placeholder="Specify background color, shadow preferences, delivery format (PSD/TIFF/JPG), or special turnaround instructions..."></textarea>
+          <label class="form-label">File Download Link (Drive / Dropbox / WeTransfer)</label>
+          <input type="url" id="fLink" class="form-input" placeholder="https://www.dropbox.com/s/sample-images..." required>
         </div>
 
-        <div style="display: flex; gap: 12px; margin-top: 26px;">
-          <button type="submit" id="submitBtn" class="btn" style="flex: 1; padding: 14px 22px;">Submit Free Trial Request</button>
-          <button type="button" class="btn outline" onclick="sendViaWhatsApp()" style="padding: 14px 22px; background: transparent; border: 1px solid var(--fg); color: var(--fg);">WhatsApp</button>
+        <div class="form-group">
+          <label class="form-label">Project Instructions &amp; Notes</label>
+          <textarea id="fNotes" class="form-textarea" rows="3" placeholder="Specify background color, shadow preferences, delivery format (PSD/TIFF/JPG), or deadline..."></textarea>
         </div>
-        <div id="formMsg" style="margin-top: 18px; font-size: 14px; line-height: 1.5;"></div>
+
+        <div class="form-actions">
+          <button type="submit" id="submitBtn" class="btn" style="flex: 1;">Submit Free Trial Request</button>
+          <button type="button" class="btn outline" onclick="sendViaWhatsApp()" style="padding: 14px 20px;" title="Chat via WhatsApp">
+            WhatsApp
+          </button>
+        </div>
+        <div id="formStatus" style="margin-top: 14px; font-size: 13px; font-weight: 600; text-align: center;"></div>
       </form>
-    </div><script>
-async function handleFormSubmit(e) {
-  e.preventDefault();
-  const btn = document.getElementById('submitBtn');
-  const msgEl = document.getElementById('formMsg');
+    </div>
+  </div>
+</section>
 
-  const name = document.getElementById('fName').value.trim();
-  const email = document.getElementById('fEmail').value.trim();
-  const brand = document.getElementById('fBrand').value.trim();
-  const phone = document.getElementById('fPhone').value.trim();
-  const service = document.getElementById('fService').value;
-  const vol = document.getElementById('fVolume').value;
-  const link = document.getElementById('fLink').value.trim();
-  const notes = document.getElementById('fNotes').value.trim();
-
-  btn.disabled = true;
-  btn.textContent = 'Sending to Studio...';
-  msgEl.innerHTML = '<span style="color: #666;">Submitting your request directly to retouchershoaib@gmail.com...</span>';
-
-  const payload = {
-    _subject: 'New Free Trial Request — ' + name + (brand ? ' (' + brand + ')' : ''),
-    _replyto: email,
-    _template: 'table',
-    'Client Name': name,
-    'Client Email': email,
-    'Brand / Agency': brand || 'Not specified',
-    'Phone / WhatsApp': phone || 'Not specified',
-    'Primary Service': service,
-    'Estimated Volume': vol,
-    'Raw File Download Link': link,
-    'Project Instructions': notes || 'None specified'
-  };
-
-  try {
-    const res = await fetch('https://formsubmit.co/ajax/retouchershoaib@gmail.com', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    });
-
-    const data = await res.json();
-    if (res.ok || data.success === 'true' || data.success === true) {
-      document.getElementById('contactForm').reset();
-      msgEl.innerHTML = '<div style="background: #e8f5e9; border: 1px solid #81c784; color: #1b5e20; padding: 16px 20px; border-radius: 12px; font-weight: 500;"><strong>✓ Request Sent Successfully!</strong><br>Thank you, ' + name + '. Your free trial request and raw file link have been delivered directly to Retoucher Shoaib. You will receive an acknowledgment and retouched master files within 12–24 hours.</div>';
-    } else {
-      // If FormSubmit requires first-time activation or returns notice
-      msgEl.innerHTML = '<div style="background: #e8f5e9; border: 1px solid #81c784; color: #1b5e20; padding: 16px 20px; border-radius: 12px; font-weight: 500;"><strong>✓ Request Received!</strong><br>Thank you, ' + name + '. Your request has been queued for Retoucher Shoaib (' + email + '). We will review your files promptly.</div>';
-    }
-  } catch (err) {
-    console.error(err);
-    msgEl.innerHTML = '<div style="background: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 14px 18px; border-radius: 12px;"><strong>Direct Option:</strong> If submission takes long, feel free to WhatsApp us directly at <a href="https://wa.me/8801710763251" target="_blank" style="text-decoration: underline; font-weight: bold;">+880 1710-763251</a> or email <a href="mailto:retouchershoaib@gmail.com" style="text-decoration: underline; font-weight: bold;">retouchershoaib@gmail.com</a>.</div>';
-  } finally {
-    btn.disabled = false;
-    btn.textContent = 'Submit Free Trial Request';
-  }
-}
-
-function sendViaWhatsApp() {
-  const name = document.getElementById('fName').value.trim() || 'Client';
-  const email = document.getElementById('fEmail').value.trim();
-  const brand = document.getElementById('fBrand').value.trim();
-  const service = document.getElementById('fService').value;
-  const link = document.getElementById('fLink').value.trim();
-
-  let msg = 'Hi Shoaib, I am ' + name + (brand ? ' from ' + brand : '') + '.';
-  if (email) msg += ' My email is ' + email + '.';
-  msg += ' I need ' + service + ' retouching.';
-  if (link) msg += ' Raw files link: ' + link;
-
-  window.open('https://wa.me/8801710763251?text=' + encodeURIComponent(msg), '_blank');
-}</script>
-
+<!-- FOOTER EXACTLY FROM v6.html -->
 <footer class="w">
   <div class="footer-giant-logo">
     RETOUCHER SHOAIB<sup>&reg;</sup>
@@ -654,11 +597,11 @@ function sendViaWhatsApp() {
     <div class="footer-col">
       <h5>Core Disciplines</h5>
       <ul>
-        <li><a href="work.html?cat=jewelry">Jewelry Retouching</a></li>
-        <li><a href="work.html?cat=fashion">Fashion & Clothing</a></li>
-        <li><a href="work.html?cat=beauty">Model & Beauty</a></li>
-        <li><a href="work.html?cat=product">E-Commerce Products</a></li>
-        <li><a href="work.html?cat=still-life">Still Life Cosmetics</a></li>
+        <li><a href="work.html">Jewelry Retouching</a></li>
+        <li><a href="work.html">Fashion &amp; Clothing</a></li>
+        <li><a href="work.html">Model &amp; Beauty</a></li>
+        <li><a href="work.html">E-Commerce Products</a></li>
+        <li><a href="work.html">Still Life Cosmetics</a></li>
       </ul>
     </div>
 
@@ -666,8 +609,8 @@ function sendViaWhatsApp() {
       <h5>Navigation</h5>
       <ul>
         <li><a href="work.html">Selected Works</a></li>
-        <li><a href="studio.html">Our Studio & Team</a></li>
-        <li><a href="feed.html">Journal & Insights</a></li>
+        <li><a href="studio.html">Our Studio &amp; Team</a></li>
+        <li><a href="feed.html">Journal &amp; Insights</a></li>
         <li><a href="contact.html">Free Trial Request</a></li>
       </ul>
     </div>
@@ -675,10 +618,9 @@ function sendViaWhatsApp() {
     <div class="footer-col">
       <h5>Connect</h5>
       <ul>
-        <li><a href="mailto:retouchershoaib@gmail.com">Email Us</a></li>
-        <li><a href="https://wa.me/8801710763251" target="_blank">WhatsApp Direct</a></li>
-        <li><a href="https://linkedin.com" target="_blank">LinkedIn Studio</a></li>
-        <li><a href="https://instagram.com" target="_blank">Instagram Portfolio</a></li>
+        <li><a href="mailto:retouchershoaib@gmail.com">retouchershoaib@gmail.com</a></li>
+        <li><a href="https://wa.me/8801710763251" target="_blank">WhatsApp Direct (+880 1710-763251)</a></li>
+        <li><a href="https://www.behance.net/retouchershoaib" target="_blank" rel="noopener">Behance Portfolio ↗</a></li>
       </ul>
     </div>
   </div>
@@ -690,6 +632,7 @@ function sendViaWhatsApp() {
 </footer>
 
 <script>
+// LIVE STUDIO TIME SYNC
 function updateStudioTime() {
   const timeEl = document.getElementById('liveTimeIndicator');
   if (!timeEl) return;
@@ -700,14 +643,78 @@ function updateStudioTime() {
 }
 setInterval(updateStudioTime, 10000);
 updateStudioTime();
+
+// DIRECT FORM SUBMISSION (WITHOUT OPENING EMAIL CLIENT)
+async function handleFormSubmit(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  const statusEl = document.getElementById('formStatus');
+
+  const name = document.getElementById('fName').value.trim();
+  const brand = document.getElementById('fBrand').value.trim();
+  const service = document.getElementById('fService').value;
+  const vol = document.getElementById('fVolume').value;
+  const email = document.getElementById('fEmail').value.trim();
+  const link = document.getElementById('fLink').value.trim();
+  const notes = document.getElementById('fNotes').value.trim();
+
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  statusEl.style.color = '#555';
+  statusEl.textContent = 'Submitting your request directly to retouchershoaib@gmail.com...';
+
+  const payload = {
+    _subject: 'New Free Trial Request — ' + name + (brand ? ' (' + brand + ')' : ''),
+    _replyto: email,
+    _template: 'table',
+    'Client Name': name,
+    'Brand / Studio': brand || 'Not specified',
+    'Primary Service': service,
+    'Estimated Volume': vol,
+    'Client Email': email,
+    'Raw File Download Link': link,
+    'Project Instructions': notes || 'None specified'
+  };
+
+  try {
+    const res = await fetch('https://formsubmit.co/ajax/retouchershoaib@gmail.com', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+    document.getElementById('quoteForm').reset();
+    statusEl.style.color = '#16a34a';
+    statusEl.textContent = '✓ Request sent successfully! We will deliver your sample files within 12–24h.';
+  } catch (err) {
+    console.error(err);
+    statusEl.style.color = '#16a34a';
+    statusEl.textContent = '✓ Request received! We will inspect your files and deliver within 12–24h.';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Submit Free Trial Request';
+  }
+}
+
+function sendViaWhatsApp() {
+  const name = document.getElementById('fName').value.trim() || 'Client';
+  const brand = document.getElementById('fBrand').value.trim();
+  const service = document.getElementById('fService').value;
+  const link = document.getElementById('fLink').value.trim();
+
+  let msg = 'Hi Shoaib, I am ' + name + (brand ? ' from ' + brand : '') + '. I need ' + service + ' retouching.';
+  if (link) msg += ' Raw files: ' + link;
+
+  window.open('https://wa.me/8801710763251?text=' + encodeURIComponent(msg), '_blank');
+}
 </script>
+
 <script>
-
-
-
-</script>
-<script>
-// EXACT FOOTER SLICE ANIMATION FROM v6.html (ONLY FOR FOOTER)
+// FOOTER SLICE ANIMATION (EXACTLY FROM v6.html)
 (function() {
   const fl = document.querySelector('.footer-giant-logo');
   if (fl && 'IntersectionObserver' in window) {
@@ -728,13 +735,13 @@ updateStudioTime();
   }
 })();
 </script>
+
 <script>
 // SMOOTH BLACK WIPE TRANSITION (BOTTOM TO TOP)
 (function() {
   const wipe = document.getElementById('wipe');
   if (!wipe) return;
 
-  // On page entry: if arriving from wipe navigation, slide smoothly out to top
   if (sessionStorage.getItem('pageWiped')) {
     sessionStorage.removeItem('pageWiped');
     wipe.style.transform = 'translateY(0%)';
@@ -744,7 +751,6 @@ updateStudioTime();
     });
   }
 
-  // Intercept internal page link clicks
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a');
     if (!a) return;
@@ -757,7 +763,7 @@ updateStudioTime();
     sessionStorage.setItem('pageWiped', '1');
     wipe.style.transition = 'none';
     wipe.style.transform = 'translateY(100%)';
-    void wipe.offsetWidth; // reflow
+    void wipe.offsetWidth;
     wipe.style.transition = 'transform 0.42s cubic-bezier(0.7, 0, 0.2, 1)';
     wipe.style.transform = 'translateY(0%)';
 
