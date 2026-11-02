@@ -1779,23 +1779,17 @@ body {
                   </div>
                 </div>
 
-                <div style="margin-top: 8px; text-align: center;">
-                  <a href="https://drive.google.com/drive/folders/1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc?usp=drive_link" target="_blank" rel="noopener" class="btn btn-outline btn-sm" style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: #0284c7; border-color: #bae6fd; background: #f0f9ff; text-decoration: none;">
-                    📂 Open Shoaib's Cloud Upload Folder on Google Drive ↗
-                  </a>
-                </div>
-
-                <!-- SELECTED FILES PREVIEW -->
-                <div id="driveTargetNotice" style="margin-top: 10px; font-size: 12px; background: #f0f9ff; border: 1px dashed #7dd3fc; border-radius: 8px; padding: 10px 14px; color: #0369a1; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                <!-- SECURE CLIENT PRIVATE STORAGE NOTICE -->
+                <div id="driveTargetNotice" style="margin-top: 12px; font-size: 12px; background: #f0f9ff; border: 1px dashed #7dd3fc; border-radius: 8px; padding: 10px 14px; color: #0369a1; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
                   <div>
-                    <div style="font-size: 10px; text-transform: uppercase; font-weight: 800; color: #0284c7; letter-spacing: 0.05em;">📂 Shoaib's Google Drive Target Path:</div>
+                    <div style="font-size: 10px; text-transform: uppercase; font-weight: 800; color: #0284c7; letter-spacing: 0.05em;">🔒 Your Dedicated Studio Cloud Storage:</div>
                     <div style="font-family: monospace; font-size: 13px; font-weight: 700; color: #0f172a; margin-top: 2px;" id="driveTargetFolderDisplay">
                       [Your Full Email] &rsaquo; Order #RS-2026-XXXXX
                     </div>
                   </div>
-                  <a href="https://drive.google.com/drive/folders/1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc?usp=drive_link" target="_blank" rel="noopener" class="btn btn-outline btn-sm" style="font-size: 11px; padding: 4px 10px; border-color: #0284c7; color: #0284c7; text-decoration: none; white-space: nowrap;">
-                    Open Master Drive ↗
-                  </a>
+                  <button type="button" onclick="openClientDedicatedDriveFolder()" class="btn btn-outline btn-sm" style="font-size: 11px; padding: 5px 12px; border-color: #0284c7; color: #0284c7; background: #ffffff; font-weight: 700; cursor: pointer; white-space: nowrap;">
+                    🔒 Open Your Dedicated Folder ↗
+                  </button>
                 </div>
 
                 <div id="driveFilesListPreview" style="margin-top: 10px; display: none;">
@@ -2546,7 +2540,11 @@ function openOrderDetails(id) {
   if (serviceEl) serviceEl.textContent = o.service;
   if (formatEl) formatEl.textContent = o.images + ' • ' + o.format;
   if (instEl) instEl.textContent = o.instructions;
-  if (driveEl) { driveEl.href = o.drive || GOOGLE_DRIVE_FOLDER_URL; }
+  if (driveEl) {
+    const s = getClientSession();
+    const em = (s && s.email ? s.email : '').toLowerCase().trim();
+    driveEl.href = o.drive || (em ? localStorage.getItem('shoaib_client_drive_' + em) : '') || '#';
+  }
 
   const modalTimer = document.getElementById('modalTimer');
   if (modalTimer) {
@@ -3567,7 +3565,7 @@ function handleNewOrderSubmit(e) {
     clientCompany: clientCompany,
     clientFolder: '[' + clientEmail + ']',
     orderFolder: 'Order ' + fullOrderId,
-    drive: drive || GOOGLE_DRIVE_FOLDER_URL,
+    drive: drive || (clientEmail ? localStorage.getItem('shoaib_client_drive_' + clientEmail) : '') || '',
     instructions: notes,
     uploadedFiles: driveUploadedQueue.map(f => ({ name: f.name, size: f.size })),
     fileCount: driveUploadedQueue.length,
@@ -4114,7 +4112,34 @@ async function triggerCreateOrderDriveFolder(email, orderId) {
 const GOOGLE_CLIENT_ID = '197596089864-pu2l1snp7t1mkev70tjadr1n3g420fmv.apps.googleusercontent.com';
 const GOOGLE_DRIVE_API_KEY = 'AIzaSyC2-vUTUWfihaMxPpNmWtPmb74TCCTGiMk';
 const GOOGLE_DRIVE_FOLDER_ID = '1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc';
-const GOOGLE_DRIVE_FOLDER_URL = 'https://drive.google.com/drive/folders/1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc?usp=drive_link';
+const GOOGLE_DRIVE_FOLDER_URL = ''; // Strictly restricted to protect client privacy
+
+function openClientDedicatedDriveFolder() {
+  const sess = getClientSession();
+  const email = (sess && sess.email ? sess.email : '').toLowerCase().trim();
+  if (!email) {
+    showAuthToast('Please sign in or enter your email address first.');
+    return;
+  }
+
+  // 1. Check if client's private folder URL is already cached
+  const cachedUrl = localStorage.getItem('shoaib_client_drive_' + email);
+  if (cachedUrl && cachedUrl.startsWith('http')) {
+    window.open(cachedUrl, '_blank', 'noopener');
+    return;
+  }
+
+  // 2. Otherwise trigger webhook to get/create dedicated folder URL
+  showAuthToast('Opening your secure studio folder...');
+  triggerCreateClientDriveFolder(email).then((url) => {
+    const freshUrl = url || localStorage.getItem('shoaib_client_drive_' + email);
+    if (freshUrl && freshUrl.startsWith('http')) {
+      window.open(freshUrl, '_blank', 'noopener');
+    } else {
+      showAuthToast('Your studio folder is ready. Submit order to finalize.');
+    }
+  });
+}
 
 function showAuthToast(msg) {
   let toast = document.getElementById('shoaibAuthToast');
