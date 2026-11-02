@@ -862,9 +862,9 @@ function renderAdminTable() {
     displayOrders.forEach(ord => {
       const id = ord.numericId;
       const isApproved = ord.isAgreed;
-      const customAgreed = localStorage.getItem('shoaib_agreed_price_' + id);
+      const customAgreed = localStorage.getItem('shoaib_agreed_price_' + id) || localStorage.getItem('shoaib_agreed_price_RS-2026-' + id);
       const displayPrice = isApproved ? (customAgreed || ord.price) : ord.price;
-      const baseNum = ord.numericPrice;
+      const baseNum = parseFloat(String(displayPrice || ord.price || '').replace(/[^0-9.]/g, '')) || ord.numericPrice || 25;
 
       // Extra Work & Additional Fee Check (Unified Helper)
       const ex = getStoredExtraWork(id);
@@ -1754,10 +1754,18 @@ async function saveEditedPrice() {
 
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
 
+  // Sync to Cloud with both ID formats for 100% Google Apps Script compatibility
+  triggerSyncAdminActionToCloud({
+    action: 'accept_client_offer',
+    numericId: 'RS-2026-' + id,
+    proposedPrice: priceStr,
+    numericPrice: num
+  });
   triggerSyncAdminActionToCloud({
     action: 'accept_client_offer',
     numericId: id,
-    proposedPrice: priceStr
+    proposedPrice: priceStr,
+    numericPrice: num
   });
 
   showAdminToast('✓ Agreed price updated to ' + priceStr + ' for Order #' + id);
