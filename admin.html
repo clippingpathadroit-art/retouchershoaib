@@ -637,9 +637,30 @@ async function syncAdminFromCloud(showToastNotice = false) {
       }
 
       if (data.extraWork && typeof data.extraWork === 'object') {
+        const cloudExtraKeys = new Set();
         Object.keys(data.extraWork).forEach(k => {
-          localStorage.setItem('shoaib_extra_work_' + k, JSON.stringify(data.extraWork[k]));
+          const cleanK = normalizeNumericId(k);
+          const rawItem = data.extraWork[k];
+          const amt = Number(rawItem.extraFee || rawItem.amount || 0);
+          if (amt > 0 && cleanK) {
+            cloudExtraKeys.add(cleanK);
+            localStorage.setItem('shoaib_extra_work_' + cleanK, JSON.stringify(rawItem));
+            localStorage.setItem('shoaib_extra_work_RS-2026-' + cleanK, JSON.stringify(rawItem));
+          }
         });
+
+        // AUTO-PURGE: Purge removed extra fees from local storage
+        const extraKeysToRemove = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.startsWith('shoaib_extra_work_')) {
+            const idPart = normalizeNumericId(key.replace('shoaib_extra_work_', ''));
+            if (idPart && idPart !== '084' && idPart !== '085' && !cloudExtraKeys.has(idPart)) {
+              extraKeysToRemove.push(key);
+            }
+          }
+        }
+        extraKeysToRemove.forEach(k => localStorage.removeItem(k));
       }
 
       renderAdminTable();
@@ -1507,9 +1528,17 @@ function saveAdminExtraFee() {
 
 function clearAdminExtraFee() {
   const numId = normalizeNumericId(currentAdminModalId);
+  if (!numId) {
+    closeAdminExtraFeeModal();
+    return;
+  }
   localStorage.removeItem('shoaib_extra_work_' + numId);
   localStorage.removeItem('shoaib_extra_work_RS-2026-' + numId);
-  localStorage.removeItem('shoaib_extra_work_' + currentAdminModalId);
+  localStorage.removeItem('shoaib_extra_work_#' + numId);
+  localStorage.removeItem('shoaib_extra_work_#RS-2026-' + numId);
+  if (currentAdminModalId) {
+    localStorage.removeItem('shoaib_extra_work_' + currentAdminModalId);
+  }
   try {
     const raw = localStorage.getItem('shoaib_custom_orders');
     if (raw) {
@@ -1518,6 +1547,8 @@ function clearAdminExtraFee() {
         if (normalizeNumericId(o.numericId || o.id) === numId) {
           delete o.extraFee;
           delete o.extraDesc;
+          delete o.extraQty;
+          delete o.extraRate;
         }
       });
       localStorage.setItem('shoaib_custom_orders', JSON.stringify(list));
@@ -1526,9 +1557,14 @@ function clearAdminExtraFee() {
 
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
 
+  // Cloud backend sync with dual keys (numeric and prefixed)
   triggerSyncAdminActionToCloud({
     action: 'clear_extra_fee',
     numericId: numId
+  });
+  triggerSyncAdminActionToCloud({
+    action: 'clear_extra_fee',
+    numericId: 'RS-2026-' + numId
   });
 
   showAdminToast('✓ Additional fee removed from Order #' + numId);

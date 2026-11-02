@@ -5184,13 +5184,15 @@ async function syncPortalFromCloud() {
         changed = true;
       }
 
-      // 4. Sync extra fees from cloud (Normalized & Dual-Key)
+      // 4. Sync extra fees from cloud (Normalized & Dual-Key with Deletion Auto-Purge)
       if (data.extraWork && typeof data.extraWork === 'object') {
+        const cloudExtraKeys = new Set();
         Object.keys(data.extraWork).forEach(k => {
           const cleanK = normalizeNumericId(k);
           const rawItem = data.extraWork[k];
           const amt = Number(rawItem.extraFee || rawItem.amount || 0);
-          if (amt > 0) {
+          if (amt > 0 && cleanK) {
+            cloudExtraKeys.add(cleanK);
             const desc = rawItem.extraDesc || rawItem.desc || 'Additional Revision & Scope';
             const qty = Number(rawItem.extraQty || rawItem.qty || 1);
             const rate = Number(rawItem.extraRate || rawItem.rate || (amt / qty));
@@ -5199,6 +5201,46 @@ async function syncPortalFromCloud() {
             localStorage.setItem('shoaib_extra_work_RS-2026-' + cleanK, JSON.stringify(item));
           }
         });
+
+        // AUTO-PURGE: Purge local extra fees when removed from cloud
+        const extraKeysToRemove = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.startsWith('shoaib_extra_work_')) {
+            const idPart = normalizeNumericId(key.replace('shoaib_extra_work_', ''));
+            if (idPart && idPart !== '084' && idPart !== '085' && !cloudExtraKeys.has(idPart)) {
+              extraKeysToRemove.push(key);
+            }
+          }
+        }
+        if (extraKeysToRemove.length > 0) {
+          extraKeysToRemove.forEach(k => localStorage.removeItem(k));
+          changed = true;
+        }
+
+        // Clean custom orders if extra fee fields persist locally
+        try {
+          const rawCust = localStorage.getItem('shoaib_custom_orders');
+          if (rawCust) {
+            let list = JSON.parse(rawCust);
+            let custModified = false;
+            list.forEach(o => {
+              const num = normalizeNumericId(o.numericId || o.id);
+              if (num && !cloudExtraKeys.has(num) && (o.extraFee !== undefined || o.extraDesc !== undefined)) {
+                delete o.extraFee;
+                delete o.extraDesc;
+                delete o.extraQty;
+                delete o.extraRate;
+                custModified = true;
+              }
+            });
+            if (custModified) {
+              localStorage.setItem('shoaib_custom_orders', JSON.stringify(list));
+              changed = true;
+            }
+          }
+        } catch(e) {}
+
         changed = true;
       }
 
