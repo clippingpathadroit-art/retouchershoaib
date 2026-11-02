@@ -1828,7 +1828,7 @@ body {
                   <div>
                     <div style="font-size: 10px; text-transform: uppercase; font-weight: 800; color: #0284c7; letter-spacing: 0.05em;">🔒 Your Dedicated Studio Cloud Storage:</div>
                     <div style="font-family: monospace; font-size: 13px; font-weight: 700; color: #0f172a; margin-top: 2px;" id="driveTargetFolderDisplay">
-                      [Your Full Email] &rsaquo; Order #RS-2026-XXXXX
+                      [Your Full Email] &rsaquo; Order #XXXXX
                     </div>
                   </div>
                   <button type="button" onclick="openClientDedicatedDriveFolder()" class="btn btn-outline btn-sm" style="font-size: 11px; padding: 5px 12px; border-color: #0284c7; color: #0284c7; background: #ffffff; font-weight: 700; cursor: pointer; white-space: nowrap;">
@@ -2043,7 +2043,7 @@ function loadStoredCustomOrders() {
           const numId = normalizeNumericId(ord.numericId || ord.id);
           if (numId && localStorage.getItem('shoaib_deleted_' + numId) !== '1') {
             ord.numericId = numId;
-            ord.id = '#RS-2026-' + numId;
+            ord.id = '#' + numId;
             const statusOverride = localStorage.getItem('shoaib_status_' + numId) || localStorage.getItem('shoaib_status_RS-2026-' + numId);
             if (statusOverride) ord.status = statusOverride;
             const delUrl = localStorage.getItem('shoaib_del_url_' + numId) || localStorage.getItem('shoaib_del_url_RS-2026-' + numId);
@@ -3196,7 +3196,10 @@ function renderInvoicesList() {
       if (localStorage.getItem('shoaib_deleted_' + normInvId) === '1' || localStorage.getItem('shoaib_deleted_RS-2026-' + normInvId) === '1') {
         return;
       }
-      const isPaid = (localStorage.getItem('shoaib_status_paid_' + normInvId) === '1' || localStorage.getItem('shoaib_status_paid_' + id) === '1' || localStorage.getItem('shoaib_status_paid_RS-2026-' + normInvId) === '1') && (o.isPaid !== false);
+      const isPaid = (localStorage.getItem('shoaib_status_paid_' + normInvId) === '1' || 
+                      localStorage.getItem('shoaib_status_paid_' + id) === '1' || 
+                      localStorage.getItem('shoaib_status_paid_RS-2026-' + normInvId) === '1') || 
+                     (o.isPaid === true);
       const rawClaim = localStorage.getItem('shoaib_payment_claim_' + normInvId) || localStorage.getItem('shoaib_payment_claim_RS-2026-' + normInvId);
       let claimData = null;
       if (rawClaim) {
@@ -3433,8 +3436,8 @@ function loadInvoiceDetails() {
       const normId = normalizeNumericId(id);
       const isPaid = (localStorage.getItem('shoaib_status_paid_' + normId) === '1' || 
                       localStorage.getItem('shoaib_status_paid_' + id) === '1' ||
-                      localStorage.getItem('shoaib_status_paid_RS-2026-' + normId) === '1') && 
-                     (clientOrders[id].isPaid !== false);
+                      localStorage.getItem('shoaib_status_paid_RS-2026-' + normId) === '1') || 
+                     (clientOrders[id].isPaid === true);
       let ordAmt = clientOrders[id].numericPrice || 500;
       const ex = getStoredExtraWork(id);
       if (ex) ordAmt += ex.amount;
@@ -3587,8 +3590,8 @@ function loadInvoiceDetails() {
     // CUSTOM SUBMITTED ORDER INVOICE
     const isPaid = (localStorage.getItem('shoaib_status_paid_' + normInvId) === '1' || 
                    localStorage.getItem('shoaib_status_paid_RS-2026-' + normInvId) === '1' || 
-                   localStorage.getItem('shoaib_status_paid_' + activeInvoiceSelection) === '1') &&
-                   (o.isPaid !== false);
+                   localStorage.getItem('shoaib_status_paid_' + activeInvoiceSelection) === '1') ||
+                   (o.isPaid === true);
 
     if (isPaid) {
       localStorage.removeItem('shoaib_payment_claim_' + normInvId);
@@ -3930,7 +3933,7 @@ function handleNewOrderSubmit(e) {
   const nextNum = Math.max(savedLastNum + randomStep, 10480 + (timeSeed % 8000) + 20);
   localStorage.setItem('shoaib_last_order_num', String(nextNum));
   const idStr = String(nextNum);
-  const fullOrderId = '#RS-2026-' + idStr;
+  const fullOrderId = '#' + idStr;
 
   const durationHours = parseFloat(hours) || 24;
   const deadlineMs = Date.now() + (durationHours * 3600 * 1000);
@@ -3977,7 +3980,7 @@ function handleNewOrderSubmit(e) {
     clientAddress: curProf?.address || curSess?.address || '',
     clientTin: curProf?.tin || curSess?.tin || '',
     clientFolder: '[' + clientEmail + ']',
-    orderFolder: 'Order ' + fullOrderId,
+    orderFolder: 'Order #' + idStr,
     drive: drive || (clientEmail ? localStorage.getItem('shoaib_client_drive_' + clientEmail) : '') || '',
     instructions: notes,
     uploadedFiles: driveUploadedQueue.map(f => ({ name: f.name, size: f.size })),
@@ -4004,7 +4007,7 @@ function handleNewOrderSubmit(e) {
   };
 
   // Asynchronously trigger dedicated order sub-folder creation, email notifications, and upload image files
-  triggerCreateOrderDriveFolder(clientEmail, fullOrderId, orderMeta).then(async (data) => {
+  triggerCreateOrderDriveFolder(clientEmail, idStr, orderMeta).then(async (data) => {
     if (data && (data.orderFolderUrl || data.folderUrl)) {
       const orderUrl = data.orderFolderUrl || data.folderUrl;
       const orderFolderId = data.orderFolderId || data.folderId;
@@ -4033,7 +4036,7 @@ function handleNewOrderSubmit(e) {
           }
         }
         if (uploadedCount > 0) {
-          showAuthToast('✓ Successfully uploaded ' + uploadedCount + ' image(s) to Google Drive Order #' + fullOrderId + '!');
+          showAuthToast('✓ Successfully uploaded ' + uploadedCount + ' image(s) to Google Drive Order #' + idStr + '!');
         }
       }
     }
@@ -5286,7 +5289,7 @@ function updateDriveTargetDisplay() {
   const nextNumPreview = Math.max(savedLastNum, 10480) + 14;
   const displayEl = document.getElementById('driveTargetFolderDisplay');
   if (displayEl) {
-    displayEl.textContent = '[' + email + '] › Order #RS-2026-' + nextNumPreview;
+    displayEl.textContent = '[' + email + '] › Order #' + nextNumPreview;
   }
 }
 document.addEventListener('DOMContentLoaded', updateDriveTargetDisplay);
@@ -5357,7 +5360,7 @@ async function syncPortalFromCloud() {
           const isFreshLocal = o.createdAt && (Date.now() - new Date(o.createdAt).getTime() < 120000);
           if (cloudIdSet.has(num) || isFreshLocal) {
             o.numericId = num;
-            o.id = '#RS-2026-' + num;
+            o.id = '#' + num;
             orderMap[num] = o;
           }
         });
@@ -5370,27 +5373,36 @@ async function syncPortalFromCloud() {
                             (data.deletedOrders && (data.deletedOrders[num] || data.deletedOrders['RS-2026-' + num]));
           if (num && !isDeleted) {
             co.numericId = num;
-            co.id = '#RS-2026-' + num;
+            co.id = '#' + num;
 
             const isPriceAgreed = localStorage.getItem('shoaib_price_approved_' + num) === '1' || 
                                   localStorage.getItem('shoaib_price_approved_RS-2026-' + num) === '1' ||
+                                  (data.agreedPrices && (data.agreedPrices[num] || data.agreedPrices['#' + num])) ||
                                   co.isAgreed === true;
             const customPrice = localStorage.getItem('shoaib_agreed_price_' + num) || 
                                 localStorage.getItem('shoaib_agreed_price_RS-2026-' + num) ||
+                                (data.agreedPrices && typeof data.agreedPrices[num] === 'string' ? data.agreedPrices[num] : null) ||
                                 co.price;
-            if (isPriceAgreed) co.isAgreed = true;
+            if (isPriceAgreed) {
+              co.isAgreed = true;
+              localStorage.setItem('shoaib_price_approved_' + num, '1');
+            }
             if (customPrice) {
               co.price = customPrice;
+              localStorage.setItem('shoaib_agreed_price_' + num, customPrice);
             }
             co.numericPrice = parseFloat(String(co.price || '').replace(/[^0-9.]/g, '')) || co.numericPrice || 25;
 
-            if (co.isPaid === true) {
+            const isPaidCloud = (co.isPaid === true) || 
+                                (data.paidStatuses && (data.paidStatuses[num] === true || data.paidStatuses['#' + num] === true || data.paidStatuses['RS-2026-' + num] === true));
+            if (isPaidCloud) {
               localStorage.setItem('shoaib_status_paid_' + num, '1');
               localStorage.setItem('shoaib_status_paid_RS-2026-' + num, '1');
               localStorage.removeItem('shoaib_payment_claim_' + num);
               localStorage.removeItem('shoaib_payment_claim_RS-2026-' + num);
               localStorage.removeItem('shoaib_payment_claim');
-            } else {
+              co.isPaid = true;
+            } else if (data.paidStatuses && (data.paidStatuses[num] === false || data.paidStatuses['#' + num] === false)) {
               localStorage.removeItem('shoaib_status_paid_' + num);
               localStorage.removeItem('shoaib_status_paid_RS-2026-' + num);
               co.isPaid = false;

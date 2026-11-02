@@ -27,12 +27,21 @@ function getOrCreateDatabaseFile(rootFolder) {
   }
 }
 
+function normalizeGasId(raw) {
+  if (!raw) return '';
+  var str = String(raw).trim().replace(/#?RS-?2026-?/i, '').replace(/#?RS-?/i, '').replace('#', '');
+  if (str.indexOf('2026') === 0 && str.length > 5) {
+    str = str.substring(4);
+  }
+  return str.replace(/[^0-9]/g, '');
+}
+
 function getDatabase(rootFolder) {
   try {
     var file = getOrCreateDatabaseFile(rootFolder);
     var content = file.getBlob().getDataAsString();
     if (!content || content.trim().length === 0) {
-      return { status: "success", orders: [], users: {}, statuses: {}, deliveries: {}, extraWork: {}, paidStatuses: {}, paymentClaims: {}, deletedOrders: {} };
+      return { status: "success", orders: [], users: {}, statuses: {}, deliveries: {}, extraWork: {}, paidStatuses: {}, paymentClaims: {}, deletedOrders: {}, agreedPrices: {} };
     }
     var db = JSON.parse(content);
     if (!db.orders || !Array.isArray(db.orders)) db.orders = [];
@@ -43,10 +52,32 @@ function getDatabase(rootFolder) {
     if (!db.paidStatuses || typeof db.paidStatuses !== "object") db.paidStatuses = {};
     if (!db.paymentClaims || typeof db.paymentClaims !== "object") db.paymentClaims = {};
     if (!db.deletedOrders || typeof db.deletedOrders !== "object") db.deletedOrders = {};
+    if (!db.agreedPrices || typeof db.agreedPrices !== "object") db.agreedPrices = {};
+
+    // Auto-heal orders: normalize ID, sync isPaid and isAgreed
+    for (var k = 0; k < db.orders.length; k++) {
+      var ord = db.orders[k];
+      if (ord) {
+        var cleanNum = normalizeGasId(ord.numericId || ord.id);
+        if (cleanNum) {
+          ord.numericId = cleanNum;
+          ord.id = "#" + cleanNum;
+        }
+        if (db.paidStatuses && (db.paidStatuses[cleanNum] || db.paidStatuses["#" + cleanNum] || db.paidStatuses["RS-2026-" + cleanNum])) {
+          ord.isPaid = true;
+          ord.isAgreed = true;
+        }
+        if (db.agreedPrices && (db.agreedPrices[cleanNum] || db.agreedPrices["#" + cleanNum] || db.agreedPrices["RS-2026-" + cleanNum])) {
+          ord.isAgreed = true;
+          if (typeof db.agreedPrices[cleanNum] === 'string') ord.price = db.agreedPrices[cleanNum];
+        }
+      }
+    }
+
     db.status = "success";
     return db;
   } catch(e) {
-    return { status: "success", orders: [], users: {}, statuses: {}, deliveries: {}, extraWork: {}, paidStatuses: {}, paymentClaims: {}, deletedOrders: {} };
+    return { status: "success", orders: [], users: {}, statuses: {}, deliveries: {}, extraWork: {}, paidStatuses: {}, paymentClaims: {}, deletedOrders: {}, agreedPrices: {} };
   }
 }
 
@@ -79,20 +110,18 @@ function doGet(e) {
 }
 
 // 3. POST REQUEST HANDLER (ACTIONS, ORDER CREATION & TWO-WAY SYNC)
-function normalizeGasId(raw) {
-  if (!raw) return '';
-  var str = String(raw).trim().replace(/#?RS-?2026-?/i, '').replace(/#?RS-?/i, '');
-  if (str.indexOf('2026') === 0 && str.length > 5) {
-    str = str.substring(4);
-  }
-  return str.replace(/[^0-9]/g, '');
-}
 
 function doPost(e) {
   try {
     var data = JSON.parse(e.postData.contents);
     var rootFolder = DriveApp.getFolderById(ROOT_FOLDER_ID);
     
+    if (data.action === "get_database") {
+      var db = getDatabase(rootFolder);
+      return ContentService.createTextOutput(JSON.stringify(db))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
     // (A) ক্লায়েন্ট ফোল্ডার তৈরি বা রিটার্ন করা
     if (data.action === "create_client_folder") {
       var email = data.email.toLowerCase().trim();
@@ -156,7 +185,7 @@ function doPost(e) {
     // (C) নতুন অর্ডার ড্রাইভ ফোল্ডার তৈরি + ক্লাউড ডাটাবেজে সেভ + ইমেইল নোটিফিকেশন
     if (data.action === "create_order_folder") {
       var email = data.email.toLowerCase().trim();
-      var orderId = String(data.orderId).replace(/[^0-9]/g, "").trim();
+      var orderId = normalizeGasId(data.orderId || (data.orderData ? data.orderData.numericId : ""));
       var clientFolders = rootFolder.getFoldersByName(email);
       var clientFolder = clientFolders.hasNext() ? clientFolders.next() : rootFolder.createFolder(email);
       
@@ -181,7 +210,7 @@ function doPost(e) {
 
       // অর্ডার অবজেক্ট ক্লাউড ডাটাবেজে পার্মানেন্টলি সেভ করা
       var orderObj = data.orderData || {};
-      orderObj.id = "#RS-2026-" + orderId;
+      orderObj.id = "#" + orderId;
       orderObj.numericId = orderId;
       if (!orderObj.title) orderObj.title = data.projectTitle || "Commercial Project";
       if (!orderObj.service) orderObj.service = data.service || "Commercial Retouching";
@@ -203,7 +232,7 @@ function doPost(e) {
         var db = getDatabase(rootFolder);
         var matchIdx = -1;
         for (var i = 0; i < db.orders.length; i++) {
-          if (String(db.orders[i].numericId) === orderId) {
+          if (normalizeGasId(db.orders[i].numericId || db.orders[i].id) === orderId) {
             matchIdx = i;
             break;
           }
@@ -330,7 +359,7 @@ function doPost(e) {
     // (E1) পেমেন্ট ক্লেইম সাবমিট (Client -> Cloud)
     if (data.action === "claim_payment") {
       var rawId = String(data.numericId || "");
-      var cleanNum = rawId.replace(/[^0-9]/g, "");
+      var cleanNum = normalizeGasId(rawId);
       var ref = String(data.ref || "").trim();
       var lock = LockService.getScriptLock();
       lock.tryLock(10000);
@@ -350,6 +379,7 @@ function doPost(e) {
         db.paymentClaims[rawId] = claimObj;
         if (cleanNum) {
           db.paymentClaims[cleanNum] = claimObj;
+          db.paymentClaims["#" + cleanNum] = claimObj;
           db.paymentClaims["RS-2026-" + cleanNum] = claimObj;
           db.paymentClaims["#RS-2026-" + cleanNum] = claimObj;
         }
@@ -425,7 +455,7 @@ function doPost(e) {
     // (E2) অর্ডার পেইড মার্ক করা (Admin -> Cloud)
     if (data.action === "mark_order_paid") {
       var rawId = String(data.numericId || "");
-      var cleanNum = rawId.replace(/[^0-9]/g, "");
+      var cleanNum = normalizeGasId(rawId);
       var lock = LockService.getScriptLock();
       lock.tryLock(10000);
       var clientEmail = "";
@@ -437,6 +467,7 @@ function doPost(e) {
         db.paidStatuses[rawId] = true;
         if (cleanNum) {
           db.paidStatuses[cleanNum] = true;
+          db.paidStatuses["#" + cleanNum] = true;
           db.paidStatuses["RS-2026-" + cleanNum] = true;
           db.paidStatuses["#RS-2026-" + cleanNum] = true;
         }
@@ -446,10 +477,11 @@ function doPost(e) {
           delete db.paymentClaims[rawId];
           if (cleanNum) {
             delete db.paymentClaims[cleanNum];
+            delete db.paymentClaims["#" + cleanNum];
             delete db.paymentClaims["RS-2026-" + cleanNum];
             delete db.paymentClaims["#RS-2026-" + cleanNum];
             Object.keys(db.paymentClaims).forEach(function(k) {
-              if (String(k).replace(/[^0-9]/g, "") === cleanNum) {
+              if (normalizeGasId(k) === cleanNum) {
                 delete db.paymentClaims[k];
               }
             });
@@ -457,8 +489,8 @@ function doPost(e) {
         }
 
         for (var i = 0; i < db.orders.length; i++) {
-          var oNum = String(db.orders[i].numericId || db.orders[i].id || "").replace(/[^0-9]/g, "");
-          if (oNum === cleanNum || String(db.orders[i].numericId) === rawId) {
+          var oNum = normalizeGasId(db.orders[i].numericId || db.orders[i].id || "");
+          if (oNum === cleanNum || String(db.orders[i].numericId) === rawId || String(db.orders[i].id) === rawId) {
             db.orders[i].isPaid = true;
             clientEmail = db.orders[i].clientEmail || db.orders[i].email || "";
             clientName = db.orders[i].clientName || "";
@@ -474,13 +506,13 @@ function doPost(e) {
       // ক্লায়েন্টকে পেইড ট্যাক্স রিসিট কনফার্মেশন ইমেইল পাঠানো
       try {
         if (clientEmail && clientEmail.indexOf("@") !== -1) {
-          var paidSubject = "✓ Payment Received & Official Receipt Issued: Order #RS-2026-" + (cleanNum || rawId);
+          var paidSubject = "✓ Payment Received & Official Receipt Issued: Order #" + (cleanNum || rawId);
           var paidBody = "Dear " + (clientName || "Valued Client") + ",\n\n" +
-            "Thank you! Your payment for Order #RS-2026-" + (cleanNum || rawId) + " (" + orderTitle + ") has been verified and marked as PAID ✓.\n\n" +
+            "Thank you! Your payment for Order #" + (cleanNum || rawId) + " (" + orderTitle + ") has been verified and marked as PAID ✓.\n\n" +
             "═════════════════════════════════════════════\n" +
             "OFFICIAL PAYMENT RECEIPT\n" +
             "═════════════════════════════════════════════\n" +
-            "• Order ID: #RS-2026-" + (cleanNum || rawId) + "\n" +
+            "• Order ID: #" + (cleanNum || rawId) + "\n" +
             "• Status: PAID ✓ (All settled)\n" +
             "• Studio: Retoucher Shoaib High-End Commercial Post-Production\n\n" +
             "Your official printable tax invoice & receipt is ready in your Client Portal:\n" +
@@ -508,7 +540,7 @@ function doPost(e) {
     // (E3) অর্ডার রিভার্ট করে আনপেইড করা (Admin -> Cloud Revert to Unpaid)
     if (data.action === "mark_order_unpaid") {
       var rawId = String(data.numericId || "");
-      var cleanNum = rawId.replace(/[^0-9]/g, "");
+      var cleanNum = normalizeGasId(rawId);
       var lock = LockService.getScriptLock();
       lock.tryLock(10000);
       try {
@@ -517,10 +549,11 @@ function doPost(e) {
           delete db.paidStatuses[rawId];
           if (cleanNum) {
             delete db.paidStatuses[cleanNum];
+            delete db.paidStatuses["#" + cleanNum];
             delete db.paidStatuses["RS-2026-" + cleanNum];
             delete db.paidStatuses["#RS-2026-" + cleanNum];
             Object.keys(db.paidStatuses).forEach(function(k) {
-              if (String(k).replace(/[^0-9]/g, "") === cleanNum) {
+              if (normalizeGasId(k) === cleanNum) {
                 delete db.paidStatuses[k];
               }
             });
@@ -530,17 +563,18 @@ function doPost(e) {
           delete db.paymentClaims[rawId];
           if (cleanNum) {
             delete db.paymentClaims[cleanNum];
+            delete db.paymentClaims["#" + cleanNum];
             delete db.paymentClaims["RS-2026-" + cleanNum];
             delete db.paymentClaims["#RS-2026-" + cleanNum];
             Object.keys(db.paymentClaims).forEach(function(k) {
-              if (String(k).replace(/[^0-9]/g, "") === cleanNum) {
+              if (normalizeGasId(k) === cleanNum) {
                 delete db.paymentClaims[k];
               }
             });
           }
         }
         for (var i = 0; i < db.orders.length; i++) {
-          var oNum = String(db.orders[i].numericId || db.orders[i].id || "").replace(/[^0-9]/g, "");
+          var oNum = normalizeGasId(db.orders[i].numericId || db.orders[i].id || "");
           if (oNum === cleanNum || String(db.orders[i].numericId) === rawId) {
             db.orders[i].isPaid = false;
             break;
@@ -557,7 +591,7 @@ function doPost(e) {
     // (E4) পেমেন্ট ক্লেইম ক্লিয়ার / রিজেক্ট করা (Admin -> Cloud Clear Claim)
     if (data.action === "clear_payment_claim") {
       var rawId = String(data.numericId || "");
-      var cleanNum = rawId.replace(/[^0-9]/g, "");
+      var cleanNum = normalizeGasId(rawId);
       var lock = LockService.getScriptLock();
       lock.tryLock(10000);
       try {
@@ -566,10 +600,11 @@ function doPost(e) {
           delete db.paymentClaims[rawId];
           if (cleanNum) {
             delete db.paymentClaims[cleanNum];
+            delete db.paymentClaims["#" + cleanNum];
             delete db.paymentClaims["RS-2026-" + cleanNum];
             delete db.paymentClaims["#RS-2026-" + cleanNum];
             Object.keys(db.paymentClaims).forEach(function(k) {
-              if (String(k).replace(/[^0-9]/g, "") === cleanNum) {
+              if (normalizeGasId(k) === cleanNum) {
                 delete db.paymentClaims[k];
               }
             });
@@ -582,23 +617,24 @@ function doPost(e) {
       return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
         .setMimeType(ContentService.MimeType.JSON);
     }
-
     // (E) অর্ডার স্ট্যাটাস আপডেট (Admin -> Cloud)
     if (data.action === "update_order_status") {
       var rawId = String(data.numericId || "");
-      var cleanNum = rawId.replace(/[^0-9]/g, "");
+      var cleanNum = normalizeGasId(rawId);
       var lock = LockService.getScriptLock();
       lock.tryLock(10000);
       try {
         var db = getDatabase(rootFolder);
+        if (!db.statuses) db.statuses = {};
         db.statuses[rawId] = data.status;
         if (cleanNum) {
           db.statuses[cleanNum] = data.status;
+          db.statuses["#" + cleanNum] = data.status;
           db.statuses["RS-2026-" + cleanNum] = data.status;
         }
         for (var i = 0; i < db.orders.length; i++) {
-          var oNum = String(db.orders[i].numericId || db.orders[i].id || "").replace(/[^0-9]/g, "");
-          if (oNum === cleanNum || String(db.orders[i].numericId) === rawId) {
+          var oNum = normalizeGasId(db.orders[i].numericId || db.orders[i].id || "");
+          if (oNum === cleanNum || String(db.orders[i].numericId) === rawId || String(db.orders[i].id) === rawId) {
             db.orders[i].status = data.status;
             break;
           }
@@ -613,13 +649,24 @@ function doPost(e) {
 
     // (F) ক্লায়েন্ট অফার অনুমোদন (Accept Client Offer)
     if (data.action === "accept_client_offer") {
-      var numId = String(data.numericId);
+      var rawId = String(data.numericId || data.orderId || "");
+      var cleanNum = normalizeGasId(rawId);
       var lock = LockService.getScriptLock();
       lock.tryLock(10000);
       try {
         var db = getDatabase(rootFolder);
+        if (!db.agreedPrices) db.agreedPrices = {};
+        if (cleanNum) {
+          db.agreedPrices[cleanNum] = data.proposedPrice || true;
+          db.agreedPrices["#" + cleanNum] = data.proposedPrice || true;
+          db.agreedPrices["RS-2026-" + cleanNum] = data.proposedPrice || true;
+        }
+        if (rawId) {
+          db.agreedPrices[rawId] = data.proposedPrice || true;
+        }
         for (var i = 0; i < db.orders.length; i++) {
-          if (String(db.orders[i].numericId) === numId) {
+          var oNum = normalizeGasId(db.orders[i].numericId || db.orders[i].id || "");
+          if (oNum === cleanNum || String(db.orders[i].numericId) === rawId || String(db.orders[i].id) === rawId) {
             db.orders[i].isAgreed = true;
             if (data.proposedPrice) db.orders[i].price = data.proposedPrice;
             break;
@@ -635,15 +682,27 @@ function doPost(e) {
 
     // (G) ডেলিভারি গুগল ড্রাইভ লিংক সেভ করা
     if (data.action === "update_delivery_link") {
-      var numId = String(data.numericId);
+      var rawId = String(data.numericId || "");
+      var cleanNum = normalizeGasId(rawId);
       var lock = LockService.getScriptLock();
       lock.tryLock(10000);
       try {
         var db = getDatabase(rootFolder);
-        db.deliveries[numId] = data.drive;
-        db.statuses[numId] = data.status || "delivered";
+        if (!db.deliveries) db.deliveries = {};
+        if (!db.statuses) db.statuses = {};
+        if (cleanNum) {
+          db.deliveries[cleanNum] = data.drive;
+          db.deliveries["#" + cleanNum] = data.drive;
+          db.statuses[cleanNum] = data.status || "delivered";
+          db.statuses["#" + cleanNum] = data.status || "delivered";
+        }
+        if (rawId) {
+          db.deliveries[rawId] = data.drive;
+          db.statuses[rawId] = data.status || "delivered";
+        }
         for (var i = 0; i < db.orders.length; i++) {
-          if (String(db.orders[i].numericId) === numId) {
+          var oNum = normalizeGasId(db.orders[i].numericId || db.orders[i].id || "");
+          if (oNum === cleanNum || String(db.orders[i].numericId) === rawId || String(db.orders[i].id) === rawId) {
             db.orders[i].drive = data.drive;
             db.orders[i].status = data.status || "delivered";
             break;
@@ -659,7 +718,8 @@ function doPost(e) {
 
     // (H) অতিরিক্ত ফি / রিভিশন ফি যোগ করা (Extra Fee - Dual Compatible)
     if (data.action === "update_extra_fee") {
-      var numId = String(data.numericId).replace(/[^0-9]/g, "");
+      var rawId = String(data.numericId || "");
+      var cleanNum = normalizeGasId(rawId);
       var amt = Number(data.extraFee || data.amount || 0);
       var desc = data.extraDesc || data.desc || "Additional Revision & Scope";
       var qty = Number(data.extraQty || data.qty || 1);
@@ -669,7 +729,8 @@ function doPost(e) {
       lock.tryLock(10000);
       try {
         var db = getDatabase(rootFolder);
-        db.extraWork[numId] = {
+        if (!db.extraWork) db.extraWork = {};
+        var feeObj = {
           amount: amt,
           extraFee: amt,
           desc: desc,
@@ -679,8 +740,22 @@ function doPost(e) {
           rate: rate,
           extraRate: rate
         };
-        // Also save under RS-2026-numId for seamless key lookup
-        db.extraWork["RS-2026-" + numId] = db.extraWork[numId];
+        if (cleanNum) {
+          db.extraWork[cleanNum] = feeObj;
+          db.extraWork["#" + cleanNum] = feeObj;
+          db.extraWork["RS-2026-" + cleanNum] = feeObj;
+        }
+        if (rawId) db.extraWork[rawId] = feeObj;
+        for (var i = 0; i < db.orders.length; i++) {
+          var oNum = normalizeGasId(db.orders[i].numericId || db.orders[i].id || "");
+          if (oNum === cleanNum || String(db.orders[i].numericId) === rawId || String(db.orders[i].id) === rawId) {
+            db.orders[i].extraFee = amt;
+            db.orders[i].extraDesc = desc;
+            db.orders[i].extraQty = qty;
+            db.orders[i].extraRate = rate;
+            break;
+          }
+        }
         saveDatabase(rootFolder, db);
       } finally {
         lock.releaseLock();
@@ -692,7 +767,7 @@ function doPost(e) {
     // (I) অতিরিক্ত ফি রিমুভ করা (সব ভ্যারিয়েন্ট ও নিউমেরিক ফরম্যাট সহ)
     if (data.action === "clear_extra_fee") {
       var rawId = String(data.numericId || "");
-      var cleanNum = rawId.replace(/[^0-9]/g, "");
+      var cleanNum = normalizeGasId(rawId);
       var lock = LockService.getScriptLock();
       lock.tryLock(10000);
       try {
@@ -701,13 +776,24 @@ function doPost(e) {
           delete db.extraWork[rawId];
           if (cleanNum) {
             delete db.extraWork[cleanNum];
+            delete db.extraWork["#" + cleanNum];
             delete db.extraWork["RS-2026-" + cleanNum];
             delete db.extraWork["#RS-2026-" + cleanNum];
             Object.keys(db.extraWork).forEach(function(k) {
-              if (String(k).replace(/[^0-9]/g, "") === cleanNum) {
+              if (normalizeGasId(k) === cleanNum) {
                 delete db.extraWork[k];
               }
             });
+          }
+        }
+        for (var i = 0; i < db.orders.length; i++) {
+          var oNum = normalizeGasId(db.orders[i].numericId || db.orders[i].id || "");
+          if (oNum === cleanNum || String(db.orders[i].numericId) === rawId || String(db.orders[i].id) === rawId) {
+            delete db.orders[i].extraFee;
+            delete db.orders[i].extraDesc;
+            delete db.orders[i].extraQty;
+            delete db.orders[i].extraRate;
+            break;
           }
         }
         saveDatabase(rootFolder, db);
@@ -735,6 +821,7 @@ function doPost(e) {
           if (!obj || typeof obj !== 'object') return;
           delete obj[rawId];
           delete obj[targetId];
+          delete obj["#" + targetId];
           delete obj["RS-2026-" + targetId];
           delete obj["#RS-2026-" + targetId];
           delete obj["2026" + targetId];
@@ -750,10 +837,12 @@ function doPost(e) {
         purgeKeys(db.extraWork);
         purgeKeys(db.paidStatuses);
         purgeKeys(db.paymentClaims);
+        purgeKeys(db.agreedPrices);
 
         if (!db.deletedOrders || typeof db.deletedOrders !== "object") db.deletedOrders = {};
         if (targetId) {
           db.deletedOrders[targetId] = true;
+          db.deletedOrders["#" + targetId] = true;
           db.deletedOrders["RS-2026-" + targetId] = true;
           db.deletedOrders["#RS-2026-" + targetId] = true;
           db.deletedOrders["2026" + targetId] = true;

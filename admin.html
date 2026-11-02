@@ -640,7 +640,7 @@ async function syncAdminFromCloud(showToastNotice = false) {
           const isFresh = o.createdAt && (Date.now() - new Date(o.createdAt).getTime() < 120000);
           if (cloudIdSet.has(cleanId) || isFresh) {
             o.numericId = cleanId;
-            o.id = '#RS-2026-' + cleanId;
+            o.id = '#' + cleanId;
             orderMap[cleanId] = o;
           }
         });
@@ -653,7 +653,15 @@ async function syncAdminFromCloud(showToastNotice = false) {
                             (data.deletedOrders && (data.deletedOrders[cleanId] || data.deletedOrders['RS-2026-' + cleanId]));
           if (cleanId && !isDeleted) {
             co.numericId = cleanId;
-            co.id = '#RS-2026-' + cleanId;
+            co.id = '#' + cleanId;
+            if (localStorage.getItem('shoaib_price_approved_' + cleanId) === '1' || co.isAgreed === true) {
+              co.isAgreed = true;
+            }
+            const agreedPr = localStorage.getItem('shoaib_agreed_price_' + cleanId) || co.price;
+            if (agreedPr) co.price = agreedPr;
+            if (localStorage.getItem('shoaib_status_paid_' + cleanId) === '1' || co.isPaid === true) {
+              co.isPaid = true;
+            }
             orderMap[cleanId] = Object.assign({}, orderMap[cleanId] || {}, co);
           }
         });
@@ -903,7 +911,7 @@ function renderAdminTable() {
           if (numId && !seenOrderIds.has(numId) && localStorage.getItem('shoaib_deleted_' + numId) !== '1') {
             seenOrderIds.add(numId);
             ord.numericId = numId;
-            ord.id = '#RS-2026-' + numId;
+            ord.id = '#' + numId;
             cleanOrdersMap[numId] = ord;
 
             const clientEmail = (ord.clientEmail || 'client@studio.com').toLowerCase().trim();
@@ -1254,18 +1262,37 @@ function updateOrderStatus(id, val) {
 
 // ACCEPT CLIENT OFFER
 function acceptClientOffer(id, proposedPrice) {
-  localStorage.setItem('shoaib_price_approved_' + id, '1');
-  localStorage.setItem('shoaib_agreed_price_' + id, proposedPrice);
+  const cleanId = normalizeNumericId(id);
+  localStorage.setItem('shoaib_price_approved_' + cleanId, '1');
+  localStorage.setItem('shoaib_price_approved_RS-2026-' + cleanId, '1');
+  localStorage.setItem('shoaib_agreed_price_' + cleanId, proposedPrice);
+  localStorage.setItem('shoaib_agreed_price_RS-2026-' + cleanId, proposedPrice);
+
+  try {
+    const raw = localStorage.getItem('shoaib_custom_orders');
+    if (raw) {
+      const list = JSON.parse(raw);
+      list.forEach(o => {
+        if (normalizeNumericId(o.numericId || o.id) === cleanId) {
+          o.isAgreed = true;
+          o.price = proposedPrice;
+          o.numericPrice = parseFloat(String(proposedPrice).replace(/[^0-9.]/g, '')) || o.numericPrice;
+        }
+      });
+      localStorage.setItem('shoaib_custom_orders', JSON.stringify(list));
+    }
+  } catch(e) {}
+
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
 
   // Cloud backend sync
   triggerSyncAdminActionToCloud({
     action: 'accept_client_offer',
-    numericId: id,
+    numericId: cleanId,
     proposedPrice: proposedPrice
   });
 
-  showAdminToast('✓ Commercial rate approved for Order #' + id + ': ' + proposedPrice);
+  showAdminToast('✓ Commercial rate approved for Order #' + cleanId + ': ' + proposedPrice);
   renderAdminTable();
 }
 
@@ -1277,14 +1304,17 @@ function deleteAdminOrder(id) {
     try {
       const orders = JSON.parse(raw);
       const ord = orders.find(o => normalizeNumericId(o.numericId || o.id) === cleanId);
-      if (ord && ord.status !== 'archived') {
+      const effectiveStatus = localStorage.getItem('shoaib_status_' + cleanId) || 
+                              localStorage.getItem('shoaib_status_RS-2026-' + cleanId) || 
+                              (ord ? ord.status : '');
+      if (effectiveStatus !== 'archived') {
         alert('⚠️ Active orders cannot be deleted. Please move the order to Archive first before deleting.');
         return;
       }
     } catch(e) {}
   }
 
-  if (!confirm('⚠️ Are you sure you want to permanently delete Archived Order #RS-2026-' + cleanId + '?\n\nThis will permanently delete this order and its invoice from BOTH Studio Admin and the Client Portal.')) {
+  if (!confirm('⚠️ Are you sure you want to permanently delete Archived Order #' + cleanId + '?\n\nThis will permanently delete this order and its invoice from BOTH Studio Admin and the Client Portal.')) {
     return;
   }
 
@@ -1322,7 +1352,7 @@ function deleteAdminOrder(id) {
   triggerSyncAdminActionToCloud({
     action: 'delete_order',
     numericId: cleanId,
-    id: id
+    id: '#' + cleanId
   });
   if (cleanId) {
     triggerSyncAdminActionToCloud({
@@ -1332,7 +1362,7 @@ function deleteAdminOrder(id) {
     });
   }
 
-  showAdminToast('🗑️ Order #RS-2026-' + cleanId + ' permanently deleted from all dashboards.');
+  showAdminToast('🗑️ Order #' + cleanId + ' permanently deleted from all dashboards.');
   renderAdminTable();
 }
 
@@ -1355,7 +1385,7 @@ function openClientDetailModal(id) {
     const raw = localStorage.getItem('shoaib_custom_orders');
     if (raw) {
       const orders = JSON.parse(raw);
-      const ord = orders.find(o => String(o.numericId) === String(id) || o.id === '#RS-2026-' + id || o.id === id);
+      const ord = orders.find(o => normalizeNumericId(o.numericId || o.id) === normalizeNumericId(id) || o.id === id);
       if (ord) {
         const emailLower = (ord.clientEmail || 'client@studio.com').toLowerCase().trim();
         let userProfile = null;
@@ -1418,7 +1448,7 @@ function openClientDetailModal(id) {
     const raw = localStorage.getItem('shoaib_custom_orders');
     if (raw) {
       const ords = JSON.parse(raw);
-      matchOrd = ords.find(o => String(o.numericId) === String(id) || o.id === '#RS-2026-' + id || o.id === id);
+      matchOrd = ords.find(o => normalizeNumericId(o.numericId || o.id) === normalizeNumericId(id) || o.id === id);
     }
   } catch(e) {}
 
@@ -2012,7 +2042,7 @@ function openEditPriceModal(id, currentPrice) {
   const numId = normalizeNumericId(id);
   const idEl = document.getElementById('admEditPriceOrderId');
   const valEl = document.getElementById('admEditPriceValue') || document.getElementById('admEditPriceAmount');
-  if (idEl) idEl.value = '#RS-2026-' + numId;
+  if (idEl) idEl.value = '#' + numId;
   if (valEl) {
     const rawNum = parseFloat(String(currentPrice).replace(/[^0-9.]/g, '')) || 25;
     valEl.value = rawNum;
@@ -2106,7 +2136,7 @@ function openPaymentReviewModal(id) {
   const tot = base + (ex ? ex.amount : 0);
 
   const elId = document.getElementById('admRevOrderId');
-  if (elId) elId.textContent = '#RS-2026-' + numId;
+  if (elId) elId.textContent = '#' + numId;
   const elClient = document.getElementById('admRevClientName');
   if (elClient) elClient.textContent = (order ? order.clientName : 'Client') + (order ? ' (' + order.clientEmail + ')' : '');
   const elAmt = document.getElementById('admRevAmount');
@@ -2173,20 +2203,20 @@ function markAdminOrderPaid(id) {
     }).catch(e => console.warn('Cloud mark paid error:', e));
   }
 
-  showAdminToast('✓ Order #RS-2026-' + numId + ' marked as PAID! Invoice & balance updated.');
+  showAdminToast('✓ Order #' + numId + ' marked as PAID! Invoice & balance updated.');
   renderAdminTable();
 }
 
 function markAdminOrderPaidDirect(id) {
   const numId = normalizeNumericId(id);
-  if (confirm('Mark Order #RS-2026-' + numId + ' as PAID?\n\nThis will mark the client invoice as PAID and deduct this amount from their unpaid balance.')) {
+  if (confirm('Mark Order #' + numId + ' as PAID?\n\nThis will mark the client invoice as PAID and deduct this amount from their unpaid balance.')) {
     markAdminOrderPaid(numId);
   }
 }
 
 function rejectPaymentClaim(id) {
   const numId = normalizeNumericId(id);
-  if (confirm('Reject / Reset payment claim for Order #RS-2026-' + numId + '?\n\nThis will remove the pending claim and allow the client to resubmit.')) {
+  if (confirm('Reject / Reset payment claim for Order #' + numId + '?\n\nThis will remove the pending claim and allow the client to resubmit.')) {
     localStorage.removeItem('shoaib_payment_claim_' + numId);
     localStorage.removeItem('shoaib_payment_claim_RS-2026-' + numId);
     localStorage.setItem('shoaib_sync_ping', Date.now().toString());
@@ -2199,14 +2229,14 @@ function rejectPaymentClaim(id) {
       }).catch(e => console.warn('Cloud clear claim error:', e));
     }
 
-    showAdminToast('Payment claim cleared for Order #RS-2026-' + numId);
+    showAdminToast('Payment claim cleared for Order #' + numId);
     renderAdminTable();
   }
 }
 
 function revertAdminOrderToUnpaid(id) {
   const numId = normalizeNumericId(id);
-  if (confirm('Are you sure you want to revert Order #RS-2026-' + numId + ' back to UNPAID?\n\nThis will:\n• Mark the invoice as UNPAID on the client portal\n• Restore the order amount back into their Unpaid Balance\n• Remove the official receipt and re-enable payment instructions.')) {
+  if (confirm('Are you sure you want to revert Order #' + numId + ' back to UNPAID?\n\nThis will:\n• Mark the invoice as UNPAID on the client portal\n• Restore the order amount back into their Unpaid Balance\n• Remove the official receipt and re-enable payment instructions.')) {
     localStorage.removeItem('shoaib_status_paid_' + numId);
     localStorage.removeItem('shoaib_status_paid_RS-2026-' + numId);
     localStorage.removeItem('shoaib_payment_claim_' + numId);
@@ -2240,7 +2270,7 @@ function revertAdminOrderToUnpaid(id) {
       }).catch(e => console.warn('Cloud revert unpaid error:', e));
     }
 
-    showAdminToast('↩️ Order #RS-2026-' + numId + ' reverted to UNPAID. Balance restored.');
+    showAdminToast('↩️ Order #' + numId + ' reverted to UNPAID. Balance restored.');
     renderAdminTable();
   }
 }
