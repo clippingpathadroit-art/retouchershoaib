@@ -1139,7 +1139,7 @@ body {
           <span class="nav-item-icon">⚡</span>
           <span>Active Orders</span>
         </div>
-        <span class="nav-pill pill-amber" id="badgeActiveOrders">1</span>
+        <span class="nav-pill pill-amber" id="badgeActiveOrders">0</span>
       </button>
 
       <!-- DEDICATED ARCHIVE / COMPLETED SECTION (USER REQUEST) -->
@@ -1156,7 +1156,7 @@ body {
           <span class="nav-item-icon">💳</span>
           <span>Invoices &amp; Billing</span>
         </div>
-        <span class="nav-pill pill-purple" id="badgeInvoices">1</span>
+        <span class="nav-pill pill-purple" id="badgeInvoices">0</span>
       </button>
 
       <div class="nav-section-title">-- ACCOUNT &amp; SETTINGS</div>
@@ -2306,6 +2306,10 @@ function renderDashboardOverview() {
   if (badgeActiveOrdersEl) badgeActiveOrdersEl.textContent = totalActiveCount;
   if (statCompletedEl) statCompletedEl.textContent = totalArchivedCount + ' Orders';
   if (badgeArchiveEl) badgeArchiveEl.textContent = totalArchivedCount;
+  const badgeInvoicesEl = document.getElementById('badgeInvoices');
+  if (badgeInvoicesEl && typeof unpaidCount !== 'undefined') {
+    badgeInvoicesEl.textContent = unpaidCount;
+  }
 
   // If new user has 0 orders (Clean Slate)
   if (!isDemo && activeOrderList.length === 0) {
@@ -3260,6 +3264,12 @@ function renderInvoicesList() {
       ? 'All Invoices Settled ✓' 
       : unpaidCount + ' Invoice' + (unpaidCount > 1 ? 's' : '') + ' Pending Payment';
     listCountEl.style.color = unpaidCount === 0 ? '#059669' : '#d97706';
+  }
+
+  // Update Sidebar Invoices Badge
+  const badgeInvoicesEl = document.getElementById('badgeInvoices');
+  if (badgeInvoicesEl) {
+    badgeInvoicesEl.textContent = unpaidCount;
   }
 
   // Update Dashboard Card 1
