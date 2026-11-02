@@ -758,15 +758,14 @@ footer {
 }
 
 
-/* FAST CRISP PAGE TRANSITION */
+/* SMOOTH EDITORIAL BLACK WIPE TRANSITION */
 #wipe {
   position: fixed;
   inset: 0;
   background: #0a0a0a;
   z-index: 99999;
-  opacity: 0;
+  transform: translateY(100%);
   pointer-events: none;
-  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 
@@ -1273,22 +1272,20 @@ updateStudioTime();
 })();
 </script>
 <script>
-// SMOOTH BLACK WIPE TRANSITION (BOTTOM TO TOP)
+// SMOOTH EDITORIAL BLACK WIPE TRANSITION
 (function() {
   const wipe = document.getElementById('wipe');
   if (!wipe) return;
 
-  // On page entry: if arriving from wipe navigation, slide smoothly out to top
   if (sessionStorage.getItem('pageWiped')) {
     sessionStorage.removeItem('pageWiped');
     wipe.style.transform = 'translateY(0%)';
     requestAnimationFrame(() => {
-      wipe.style.transition = 'transform 0.45s cubic-bezier(0.7, 0, 0.2, 1)';
+      wipe.style.transition = 'transform 0.35s cubic-bezier(0.77, 0, 0.175, 1)';
       wipe.style.transform = 'translateY(-100%)';
     });
   }
 
-  // Intercept internal page link clicks
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a');
     if (!a) return;
@@ -1301,13 +1298,13 @@ updateStudioTime();
     sessionStorage.setItem('pageWiped', '1');
     wipe.style.transition = 'none';
     wipe.style.transform = 'translateY(100%)';
-    void wipe.offsetWidth; // reflow
-    wipe.style.transition = 'transform 0.42s cubic-bezier(0.7, 0, 0.2, 1)';
+    void wipe.offsetWidth;
+    wipe.style.transition = 'transform 0.32s cubic-bezier(0.77, 0, 0.175, 1)';
     wipe.style.transform = 'translateY(0%)';
 
     setTimeout(() => {
       window.location.href = href;
-    }, 400);
+    }, 310);
   });
 })();
 

@@ -1007,7 +1007,7 @@ body {
 }
 
 </style>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://accounts.google.com/gsi/client" async defer onload="initGoogleSignIn()"></script>
 </head>
 <body>
 
@@ -2004,12 +2004,8 @@ function loadStoredCustomOrders() {
     if (status85) ORDERS['085'].status = status85;
     const status84 = localStorage.getItem('shoaib_status_084');
     if (status84) ORDERS['084'].status = status84;
-  } catch(e) {
-    console.error('Error loading custom orders:', e);
-  }
-}
 
-// Spec overrides for 085 if edited
+    // Spec overrides for 085 if edited
     const savedPName = localStorage.getItem('shoaib_project_name_085');
     if (savedPName) ORDERS['085'].title = savedPName;
     const savedCount = localStorage.getItem('shoaib_image_count_085');
