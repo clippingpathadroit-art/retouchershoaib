@@ -1258,96 +1258,14 @@ body {
           <div class="stat-info">
             <div class="stat-label">Total Projects</div>
             <div class="stat-value" id="statTotalProjects">49 Projects</div>
-            <div class="stat-sub" style="color: #7c3aed;">1 Active &bull; 48 Archived</div>
+            <div class="stat-sub" style="color: #7c3aed;" id="statTotalSub">1 Active &bull; 48 Archived</div>
           </div>
         </div>
       </div>
 
       <!-- SECTION 1: DASHBOARD OVERVIEW -->
       <div id="viewDashboard">
-        <!-- ACTIVE JOB SUMMARY WITH LIVE TICKER -->
-        <div class="app-card">
-          <div class="app-card-header">
-            <div>
-              <div class="app-card-title">
-                ⚡ Active Production Job
-                <span class="timer-pill" id="dashboardLiveTimer">⏳ Calculating Countdown...</span>
-              </div>
-              <div class="app-card-subtitle">Order #RS-2026-085 &bull; Editorial Fashion Apparel Lookbook (24 RAWs)</div>
-            </div>
-
-            <div style="display: flex; gap: 8px;">
-              <button class="btn btn-outline btn-sm" onclick="openOrderDetails('085')">Order Details 👁️</button>
-                <button class="btn btn-primary btn-sm" onclick="viewOrderInvoice('085')">💳 Pay / View Invoice ($600)</button>
-              <button class="btn btn-primary btn-sm" onclick="switchPortalSection('orders')">View Pipeline →</button>
-            </div>
-          </div>
-
-          <!-- SPECS PILLS -->
-          <div class="specs-bar">
-            <span class="spec-tag">📷 24 High-Fashion RAWs</span>
-            <span class="spec-tag">📁 Layered PSD + PNG Path</span>
-            <span class="spec-tag">⏱️ 24h Express SLA</span>
-            <span class="spec-tag amber" id="quickBudgetBadge">🏷️ Proposed Budget: $600.00 USD (Reviewing ⏳)</span>
-          </div>
-
-          <!-- PROGRESS TRACKER -->
-          <div class="tracker-row">
-            <div class="tracker-steps">
-              <div class="tracker-line"><div class="tracker-line-fill" style="width: 48%;"></div></div>
-              <div class="tracker-step done">
-                <div class="step-circle">✓</div>
-                <div class="step-name">1. Received</div>
-                <div class="step-sub">RAWs Checked</div>
-              </div>
-              <div class="tracker-step active">
-                <div class="step-circle">2</div>
-                <div class="step-name">2. In Production</div>
-                <div class="step-sub">Ghost Mannequin / D&amp;B</div>
-              </div>
-              <div class="tracker-step">
-                <div class="step-circle">3</div>
-                <div class="step-name">3. Quality Review</div>
-                <div class="step-sub">100% Zoom Check</div>
-              </div>
-              <div class="tracker-step">
-                <div class="step-circle">4</div>
-                <div class="step-name">4. Delivered</div>
-                <div class="step-sub">Ready for Download</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- RECENT DELIVERED JOB PREVIEW -->
-        <div class="app-card">
-          <div class="app-card-header">
-            <div>
-              <div class="app-card-title">
-                📥 Recent Delivery Ready for Download
-                <span class="timer-pill delivered">✓ Delivered On-Time</span>
-              </div>
-              <div class="app-card-subtitle">Order #RS-2026-084 &bull; Luxury Jewelry &amp; Watches Suite (14 Stacks)</div>
-            </div>
-
-            <div style="display: flex; gap: 8px;">
-              <button class="btn btn-outline btn-sm" onclick="openOrderDetails('084')">Order Details 👁️</button>
-              <a href="https://drive.google.com" target="_blank" class="btn btn-green btn-sm">📥 Download Master PSDs</a>
-            </div>
-          </div>
-
-          <div class="download-box">
-            <div>
-              <h4>✓ Retouch Completed &bull; Your Files Are Ready for Download</h4>
-              <p>14 Focus-Stacked 16-bit Master PSDs + sRGB WebP with preserved transparency alpha channels.</p>
-            </div>
-            <div>
-              <a href="https://drive.google.com" target="_blank" class="btn btn-green">
-                📥 Download Finished ZIP Archive (1.8 GB)
-              </a>
-            </div>
-          </div>
-        </div>
+        <div id="dashboardOverviewContainer"></div>
       </div>
 
       <!-- SECTION 2: ACTIVE ORDERS PIPELINE -->
@@ -1369,66 +1287,7 @@ body {
 
       <!-- SECTION 3: ARCHIVE & COMPLETED FOLDER (USER REQUEST) -->
       <div id="viewArchive" style="display: none;">
-        <div class="app-card">
-          <div class="app-card-header">
-            <div>
-              <div class="app-card-title">📁 Completed Projects Archive</div>
-              <div class="app-card-subtitle">All historical finished orders stored securely. Re-download master files anytime.</div>
-            </div>
-            <div>
-              <span style="font-size: 12px; font-weight: 700; color: #059669; background: #ecfdf5; padding: 6px 12px; border-radius: 99px;">
-                ✓ 48 Total Delivered Master Files
-              </span>
-            </div>
-          </div>
-
-          <!-- ARCHIVE ITEM 1: ORDER 084 -->
-          <div style="border: 1px solid var(--line); border-radius: 12px; padding: 22px; margin-bottom: 20px; background: #fff;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px;">
-              <div>
-                <div style="display: flex; align-items: center; gap: 8px;">
-                  <span style="background: #e2e8f0; font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 4px;">ARCHIVED</span>
-                  <h3 style="font-size: 18px; font-weight: 800; font-family: var(--f-display);">
-                    Order #RS-2026-084 &bull; Luxury Jewelry &amp; Watches Suite
-                  </h3>
-                </div>
-                <div style="font-size: 13px; color: var(--mut); margin-top: 3px;">
-                  Delivered Nov 02, 2026 &bull; 14 Focus-Stacked RAWs (.CR3)
-                </div>
-              </div>
-
-              <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-                <span class="timer-pill delivered">✓ Delivered On-Time (18h 30m)</span>
-                <button class="btn btn-outline btn-sm" onclick="openOrderDetails('084')">Order Details 👁️</button>
-                <button class="btn btn-primary btn-sm" onclick="switchPortalSection('invoices')">View Invoice ($490)</button>
-              </div>
-            </div>
-
-            <div class="specs-bar">
-              <span class="spec-tag">📷 14 RAW Files</span>
-              <span class="spec-tag">📁 16-bit Master PSD + WebP</span>
-              <span class="spec-tag">⏱️ 24h Turnaround</span>
-              <span class="spec-tag green">🏷️ Agreed Price: $490.00 USD ✓</span>
-            </div>
-
-            <div class="download-box" style="margin-top: 10px;">
-              <div>
-                <h4 style="font-size: 14px;">✓ Ready for Download &bull; High-Res Masters</h4>
-                <p>Checked and certified by Shoaib. Preserved 16-bit alpha channels.</p>
-              </div>
-              <div>
-                <a href="https://drive.google.com" target="_blank" class="btn btn-green btn-sm">
-                  📥 Download Files (ZIP)
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <!-- HISTORICAL PREVIOUS BATCH SUMMARY -->
-          <div style="background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 12px; padding: 18px; text-align: center; color: var(--mut); font-size: 13px;">
-            📁 <strong>Previous Archive Batches:</strong> 47 earlier client projects (Batches #001 to #083) are backed up on cold studio cloud storage. Contact studio support to request immediate cloud link restore.
-          </div>
-        </div>
+        <div id="archiveContainer"></div>
       </div>
 
       <!-- SECTION 4: INVOICES & BILLING (OFFICIAL PRINTABLE INVOICE) -->
@@ -2214,6 +2073,264 @@ updateCountdown();
 // ========================================================
 // 3. RENDER ACTIVE ORDERS PIPELINE
 // ========================================================
+
+// ========================================================
+// DYNAMIC DASHBOARD OVERVIEW & ARCHIVE (CLEAN SLATE ISOLATION)
+// ========================================================
+function renderDashboardOverview() {
+  const container = document.getElementById('dashboardOverviewContainer');
+  if (!container) return;
+
+  const isDemo = isCurrentUserDemo();
+  const sess = getCurrentSession();
+  const clientName = sess?.name || 'Valued Client';
+
+  let activeOrderList = [];
+  let deliveredOrderList = [];
+
+  if (isDemo) {
+    if (ORDERS['085'] && ORDERS['085'].status !== 'delivered') activeOrderList.push(ORDERS['085']);
+    if (ORDERS['084']) deliveredOrderList.push(ORDERS['084']);
+    Object.keys(ORDERS).forEach(k => {
+      if (k !== '084' && k !== '085') {
+        if (ORDERS[k].status === 'delivered') deliveredOrderList.push(ORDERS[k]);
+        else activeOrderList.push(ORDERS[k]);
+      }
+    });
+  } else {
+    // Isolated for authenticated client
+    Object.keys(ORDERS).forEach(k => {
+      if (k !== '084' && k !== '085') {
+        if (ORDERS[k].status === 'delivered') deliveredOrderList.push(ORDERS[k]);
+        else activeOrderList.push(ORDERS[k]);
+      }
+    });
+  }
+
+  // Update Top Stats
+  const statCompletedEl = document.getElementById('statCompleted');
+  const statTotalProjectsEl = document.getElementById('statTotalProjects');
+  const statTotalSubEl = document.getElementById('statTotalSub');
+  const statActiveEl = document.getElementById('statActive');
+  const badgeActiveOrdersEl = document.getElementById('badgeActiveOrders');
+
+  if (isDemo) {
+    if (statActiveEl) statActiveEl.textContent = activeOrderList.length;
+    if (badgeActiveOrdersEl) badgeActiveOrdersEl.textContent = activeOrderList.length;
+    if (statCompletedEl) statCompletedEl.textContent = (47 + deliveredOrderList.length) + ' Orders';
+    if (statTotalProjectsEl) statTotalProjectsEl.textContent = (47 + deliveredOrderList.length + activeOrderList.length) + ' Projects';
+    if (statTotalSubEl) statTotalSubEl.textContent = activeOrderList.length + ' Active • ' + (47 + deliveredOrderList.length) + ' Archived';
+  } else {
+    if (statActiveEl) statActiveEl.textContent = activeOrderList.length;
+    if (badgeActiveOrdersEl) badgeActiveOrdersEl.textContent = activeOrderList.length;
+    if (statCompletedEl) statCompletedEl.textContent = deliveredOrderList.length + ' Orders';
+    if (statTotalProjectsEl) statTotalProjectsEl.textContent = (activeOrderList.length + deliveredOrderList.length) + ' Projects';
+    if (statTotalSubEl) statTotalSubEl.textContent = activeOrderList.length + ' Active • ' + deliveredOrderList.length + ' Archived';
+  }
+
+  // If new user has 0 orders (Clean Slate)
+  if (!isDemo && activeOrderList.length === 0 && deliveredOrderList.length === 0) {
+    container.innerHTML = `
+      <div class="app-card" style="text-align: center; padding: 60px 24px; border: 1px dashed var(--line); border-radius: 16px; background: #fff; margin-bottom: 24px;">
+        <div style="font-size: 48px; margin-bottom: 16px;">✨</div>
+        <h2 style="font-size: 24px; font-weight: 800; font-family: var(--f-display); margin-bottom: 10px; color: #0f172a;">
+          Welcome to Your Private Studio Workspace, ${clientName}!
+        </h2>
+        <p style="font-size: 14px; color: var(--mut); max-width: 520px; margin: 0 auto 24px; line-height: 1.6;">
+          Your post-production dashboard is clean and ready with <strong>0 active orders</strong>. Ready to elevate your commercial photography with color-calibrated retouching?
+        </p>
+        <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+          <button type="button" class="btn btn-primary" onclick="switchPortalSection('new-order')" style="padding: 13px 28px; font-size: 14px; font-weight: 700;">
+            + Submit Your First Project
+          </button>
+          <button type="button" class="btn btn-outline" onclick="openProfileModal()" style="padding: 13px 22px; font-size: 14px;">
+            ✎ Verify Billing Details
+          </button>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  // Build Dashboard cards
+  let html = '';
+
+  // 1. Active Job Card (if any)
+  if (activeOrderList.length > 0) {
+    const o = activeOrderList[0];
+    const timerId = (o.numericId === '085') ? 'dashboardLiveTimer' : ('dash_timer_' + o.numericId);
+    const isAgreed = localStorage.getItem('shoaib_price_approved_' + o.numericId) === '1' || o.isAgreed;
+    const customAgreed = localStorage.getItem('shoaib_agreed_price_' + o.numericId);
+    const displayPrice = isAgreed ? (customAgreed || o.price) : o.price;
+
+    html += `
+      <div class="app-card">
+        <div class="app-card-header">
+          <div>
+            <div class="app-card-title">
+              ⚡ Active Production Job
+              <span class="timer-pill stage-green" id="${timerId}">⏳ Calculating Countdown...</span>
+            </div>
+            <div class="app-card-subtitle">Order ${o.id} &bull; ${o.title} (${o.images})</div>
+          </div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="btn btn-outline btn-sm" onclick="openOrderDetails('${o.numericId}')">Order Details 👁️</button>
+            <button class="btn btn-primary btn-sm" onclick="viewOrderInvoice('${o.numericId}')">💳 Pay / View Invoice</button>
+            <button class="btn btn-primary btn-sm" onclick="switchPortalSection('orders')">View Pipeline →</button>
+          </div>
+        </div>
+        <div class="specs-bar">
+          <span class="spec-tag">📷 ${o.images}</span>
+          <span class="spec-tag">📁 ${o.format}</span>
+          <span class="spec-tag">⏱️ ${o.deadline}</span>
+          <span class="spec-tag ${isAgreed ? 'green' : 'amber'}">🏷️ ${isAgreed ? 'Agreed Budget: ' + displayPrice + ' ✓' : 'Proposed Budget: ' + displayPrice + ' (Reviewing ⏳)'}</span>
+        </div>
+        <div class="tracker-row">
+          <div class="tracker-steps">
+            <div class="tracker-line"><div class="tracker-line-fill" style="width: 48%;"></div></div>
+            <div class="tracker-step done"><div class="step-circle">✓</div><div class="step-name">1. Received</div><div class="step-sub">RAWs Checked</div></div>
+            <div class="tracker-step active"><div class="step-circle">2</div><div class="step-name">2. In Production</div><div class="step-sub">${o.service}</div></div>
+            <div class="tracker-step"><div class="step-circle">3</div><div class="step-name">3. Quality Review</div><div class="step-sub">100% Zoom Check</div></div>
+            <div class="tracker-step"><div class="step-circle">4</div><div class="step-name">4. Delivered</div><div class="step-sub">Ready for Download</div></div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // 2. Recent Delivered Job Card (if any)
+  if (deliveredOrderList.length > 0) {
+    const o = deliveredOrderList[0];
+    const dlLink = o.drive || 'https://drive.google.com';
+    html += `
+      <div class="app-card">
+        <div class="app-card-header">
+          <div>
+            <div class="app-card-title">
+              📥 Recent Delivery Ready for Download
+              <span class="timer-pill delivered">✓ Delivered On-Time</span>
+            </div>
+            <div class="app-card-subtitle">Order ${o.id} &bull; ${o.title} (${o.images})</div>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-outline btn-sm" onclick="openOrderDetails('${o.numericId}')">Order Details 👁️</button>
+            <a href="${dlLink}" target="_blank" class="btn btn-green btn-sm">📥 Download Master PSDs</a>
+          </div>
+        </div>
+        <div class="download-box">
+          <div>
+            <h4>✓ Retouch Completed &bull; Your Files Are Ready for Download</h4>
+            <p>${o.images} ${o.format} with color calibration and preserved transparency.</p>
+          </div>
+          <div>
+            <a href="${dlLink}" target="_blank" class="btn btn-green">
+              📥 Download Finished ZIP Archive
+            </a>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  container.innerHTML = html;
+}
+
+function renderArchiveSection() {
+  const container = document.getElementById('archiveContainer');
+  if (!container) return;
+
+  const isDemo = isCurrentUserDemo();
+  let deliveredList = [];
+
+  if (isDemo) {
+    if (ORDERS['084']) deliveredList.push(ORDERS['084']);
+    Object.keys(ORDERS).forEach(k => {
+      if (k !== '084' && k !== '085' && ORDERS[k].status === 'delivered') deliveredList.push(ORDERS[k]);
+    });
+  } else {
+    Object.keys(ORDERS).forEach(k => {
+      if (k !== '084' && k !== '085' && ORDERS[k].status === 'delivered') deliveredList.push(ORDERS[k]);
+    });
+  }
+
+  if (deliveredList.length === 0) {
+    container.innerHTML = `
+      <div class="app-card">
+        <div class="app-card-header">
+          <div>
+            <div class="app-card-title">📁 Completed Projects Archive</div>
+            <div class="app-card-subtitle">All historical finished orders stored securely. Re-download master files anytime.</div>
+          </div>
+          <div>
+            <span style="font-size: 12px; font-weight: 700; color: #64748b; background: #f1f5f9; padding: 6px 12px; border-radius: 99px;">
+              0 Delivered Projects
+            </span>
+          </div>
+        </div>
+        <div style="text-align: center; padding: 48px 20px; border: 1px dashed var(--line); border-radius: 12px; background: #f8fafc; margin-top: 10px;">
+          <div style="font-size: 38px; margin-bottom: 12px;">📁</div>
+          <h3 style="font-size: 18px; font-weight: 800; font-family: var(--f-display); margin-bottom: 6px; color: #0f172a;">Archive Empty</h3>
+          <p style="font-size: 13px; color: var(--mut); max-width: 440px; margin: 0 auto 18px;">Your finished retouching orders and certified 16-bit master PSD files will automatically be archived here for cloud download once delivered.</p>
+          <button type="button" class="btn btn-outline btn-sm" onclick="switchPortalSection('new-order')">+ Submit New Order</button>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  let rows = '';
+  deliveredList.forEach(o => {
+    rows += `
+      <div style="border: 1px solid var(--line); border-radius: 12px; padding: 22px; margin-bottom: 20px; background: #fff;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 14px;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="background: #e2e8f0; font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 4px;">ARCHIVED</span>
+              <h3 style="font-size: 18px; font-weight: 800; font-family: var(--f-display);">Order ${o.id} &bull; ${o.title}</h3>
+            </div>
+            <div style="font-size: 13px; color: var(--mut); margin-top: 3px;">
+              Delivered ${o.createdAt || 'Nov 02, 2026'} &bull; ${o.images} (${o.service})
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <span class="timer-pill delivered">✓ Delivered On-Time</span>
+            <button class="btn btn-outline btn-sm" onclick="openOrderDetails('${o.numericId}')">Order Details 👁️</button>
+            <button class="btn btn-primary btn-sm" onclick="showSingleInvoice('${o.numericId}')">View Invoice</button>
+          </div>
+        </div>
+        <div class="download-box" style="margin-top: 14px;">
+          <div>
+            <h4 style="font-size: 14px;">✓ Ready for Download &bull; High-Res Masters</h4>
+            <p>Checked and certified by Shoaib. Preserved 16-bit alpha channels.</p>
+          </div>
+          <div>
+            <a href="${o.drive || 'https://drive.google.com'}" target="_blank" class="btn btn-green btn-sm">
+              📥 Download Files (ZIP)
+            </a>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = `
+    <div class="app-card">
+      <div class="app-card-header">
+        <div>
+          <div class="app-card-title">📁 Completed Projects Archive</div>
+          <div class="app-card-subtitle">All historical finished orders stored securely. Re-download master files anytime.</div>
+        </div>
+        <div>
+          <span style="font-size: 12px; font-weight: 700; color: #059669; background: #ecfdf5; padding: 6px 12px; border-radius: 99px;">
+            ✓ ${isDemo ? (47 + deliveredList.length) : deliveredList.length} Total Delivered Master Files
+          </span>
+        </div>
+      </div>
+      ${rows}
+    </div>
+  `;
+}
+
 function renderActiveOrdersPipeline() {
   const container = document.getElementById('activeOrdersContainer');
   if (!container) return;
@@ -3315,6 +3432,8 @@ function handleNewOrderSubmit(e) {
   document.getElementById('newOrderForm')?.reset();
 
   // Re-render UI
+  renderDashboardOverview();
+  renderArchiveSection();
   renderActiveOrdersPipeline();
   renderInvoicesList();
   updateCountdown();
@@ -3423,6 +3542,8 @@ function filterOrdersBySearch(q) {
 // Document ready initialization
 document.addEventListener('DOMContentLoaded', () => {
   loadClientProfile();
+  renderDashboardOverview();
+  renderArchiveSection();
   renderActiveOrdersPipeline();
   renderInvoicesList();
   initDriveDropzone();
@@ -3766,6 +3887,8 @@ function handleGoogleCredentialResponse(response) {
 
     checkAuthGate();
     loadClientProfile();
+    renderDashboardOverview();
+    renderArchiveSection();
     renderActiveOrdersPipeline();
     renderInvoicesList();
     loadInvoiceDetails();
@@ -3836,6 +3959,8 @@ function handleGoogleSignIn() {
 
     checkAuthGate();
     loadClientProfile();
+    renderDashboardOverview();
+    renderArchiveSection();
     renderActiveOrdersPipeline();
     renderInvoicesList();
     loadInvoiceDetails();
@@ -3886,6 +4011,8 @@ function handleAuthLogin(e) {
 
   checkAuthGate();
   loadClientProfile();
+  renderDashboardOverview();
+  renderArchiveSection();
   renderActiveOrdersPipeline();
   renderInvoicesList();
   loadInvoiceDetails();
@@ -3917,6 +4044,8 @@ function handleAuthSignup(e) {
 
   checkAuthGate();
   loadClientProfile();
+  renderDashboardOverview();
+  renderArchiveSection();
   renderActiveOrdersPipeline();
   renderInvoicesList();
   loadInvoiceDetails();
@@ -3940,6 +4069,8 @@ function loginWithDemoAccount() {
 
   checkAuthGate();
   loadClientProfile();
+  renderDashboardOverview();
+  renderArchiveSection();
   renderActiveOrdersPipeline();
   renderInvoicesList();
   loadInvoiceDetails();
