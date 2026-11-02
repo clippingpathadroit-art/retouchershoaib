@@ -140,6 +140,34 @@ a { color: inherit; text-decoration: none; }
   width: 100%; padding: 12px 16px; background: #0f0f0f; border: 1px solid #333;
   color: #fff; border-radius: 8px; font-size: 14px; margin: 16px 0; outline: none;
 }
+
+/* ADMIN TOAST NOTIFICATION */
+#adminToast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999999;
+  background: #059669;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 13px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.25s ease;
+  transform: translateY(100px);
+  opacity: 0;
+  pointer-events: none;
+}
+#adminToast.show {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
 </style>
 </head>
 <body>
@@ -233,90 +261,36 @@ a { color: inherit; text-decoration: none; }
       <button class="btn sm" onclick="alert('Google Drive service account sync ready.')">☁️ Open Master Drive</button>
     </div>
 
+    
+    <!-- LIVE SEARCH BAR & CLIENTS DATABASE ACTION -->
+    <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 20px; flex-wrap: wrap;">
+      <div style="flex: 1; min-width: 280px; position: relative;">
+        <input type="text" id="adminOrderSearchInput" placeholder="🔍 Search by Client Email, Name, or Order ID..." oninput="filterAdminOrders()"
+               style="width: 100%; padding: 12px 18px; background: #111; border: 1px solid #333; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);">
+      </div>
+      <button type="button" class="btn sm" onclick="openAllClientsModal()" style="background: #2563eb; color: #fff; font-weight: 700; padding: 11px 18px; border-radius: 8px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+        👥 All Clients Database
+      </button>
+      <a href="https://drive.google.com/drive/folders/1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc?usp=drive_link" target="_blank" class="btn sm outline" style="font-size: 11px; padding: 10px 14px; border-color: #444;">
+        📂 Master Drive ↗
+      </a>
+    </div>
+
     <div style="overflow-x: auto;">
-      <table class="orders-table">
+      <table class="orders-table" id="adminOrdersTable">
         <thead>
           <tr>
-            <th>Order ID</th>
-            <th>Client Agency</th>
-            <th>Service</th>
-            <th>SLA Countdown Timer</th>
-            <th>Agreed Price &amp; Offer</th>
-            <th>Status</th>
-            <th>Change Status</th>
-            <th>Actions</th>
+            <th style="width: 140px;">Order ID</th>
+            <th style="min-width: 200px;">Client Info</th>
+            <th style="min-width: 220px;">Service &amp; Brief</th>
+            <th style="width: 170px;">SLA Countdown Timer</th>
+            <th style="width: 150px;">Agreed Price &amp; Offer</th>
+            <th style="width: 160px;">Status</th>
+            <th style="width: 200px; text-align: right;">Actions</th>
           </tr>
         </thead>
-        <tbody>
-          <!-- ORDER 1 -->
-          <tr>
-            <td><strong>#RS-2026-084</strong></td>
-            <td><a href="javascript:void(0)" onclick="openClientDetailModal('084')" style="color: #60a5fa; font-weight: 700; text-decoration: underline;" title="Click to view client audit details & real IP">Studio New York 👁️</a><br><span style="font-size: 11px; color: #777;">sarah@jenkinsstudio.com</span></td>
-            <td>Luxury Jewelry (14 Stacks)</td>
-            <td>
-              <span class="status-pill delivered" style="font-size: 11px;">✓ Completed (18h 30m)</span>
-            </td>
-            <td>
-              <strong style="color: #4ade80;" id="admPrice084">$490.00 USD</strong><br>
-              <span style="font-size: 11px; color: #777;">Agreed ✓ ($25/img)</span>
-              <div id="admExtraBadge084" style="display: none; margin-top: 4px; font-size: 11px; color: #f59e0b; background: rgba(245,158,11,0.15); padding: 2px 6px; border-radius: 4px;"></div>
-            </td>
-            <td><span class="status-pill delivered" id="badgeRow1">Delivered ✓</span></td>
-            <td>
-              <select class="status-select" id="selStatus1" onchange="updateOrderStatus('084', this.value)">
-                <option value="received">Received</option>
-                <option value="production">In Production</option>
-                <option value="qc">Quality Review</option>
-                <option value="delivered" selected>Delivered (Ready)</option>
-              </select>
-            </td>
-            <td style="white-space: nowrap;">
-              <button class="btn sm outline" onclick="openAdminExtraFeeModal('084')">💰 + Extra</button>
-              <button class="btn sm outline" onclick="openAdminTinModal('084')">🏷️ Client TIN</button>
-              <button class="btn sm outline" onclick="openStudioTinModal('084')">🏢 Studio TIN</button>
-              <button class="btn sm outline" onclick="openDelModal('084')">🔗 Delivery Link</button>
-              <button class="btn sm outline" onclick="viewClientBrief('084')">Brief 👁️</button>
-              <button class="btn sm" style="background: #dc2626; color: #fff; border: 0;" onclick="deleteAdminOrder('084')">🗑️ Delete</button>
-              <a href="https://drive.google.com" target="_blank" class="btn sm outline">Drive ↗</a>
-            </td>
-          </tr>
-
-          <!-- ORDER 2 -->
-          <tr>
-            <td><strong>#RS-2026-085</strong></td>
-            <td><a href="javascript:void(0)" onclick="openClientDetailModal('085')" style="color: #60a5fa; font-weight: 700; text-decoration: underline;" title="Click to view client audit details & real IP">Studio New York 👁️</a><br><span style="font-size: 11px; color: #777;">sarah@jenkinsstudio.com</span></td>
-            <td>Fashion Lookbook (24 RAWs)</td>
-            <td>
-              <!-- LIVE TICKING COUNTDOWN ON ADMIN -->
-              <span id="admTimerBadge_085" style="font-size: 12px; font-weight: 800; font-family: var(--f-display); background: #222; border: 1px solid #444; padding: 4px 10px; border-radius: 6px; color: #f59e0b;">
-                ⏳ Calculating...
-              </span>
-            </td>
-            <td>
-              <div id="admPriceContainer_085">
-                <span style="color: #fbbf24; font-weight: 700;">$600.00 Offer</span><br>
-                <button class="btn sm green" style="padding: 3px 8px; font-size: 10px; margin-top: 4px;" onclick="acceptClientOffer('085', '$600.00 USD')">✓ Accept Offer</button>
-              </div>
-            </td>
-            <td><span class="status-pill progress" id="badgeRow2">In Production</span></td>
-            <td>
-              <select class="status-select" id="selStatus2" onchange="updateOrderStatus('085', this.value)">
-                <option value="received">Received</option>
-                <option value="production" selected>In Production</option>
-                <option value="qc">Quality Review</option>
-                <option value="delivered">Delivered (Ready)</option>
-              </select>
-            </td>
-            <td style="white-space: nowrap;">
-              <button class="btn sm outline" onclick="openAdminExtraFeeModal('085')">💰 + Extra</button>
-              <button class="btn sm outline" onclick="openAdminTinModal('085')">🏷️ Client TIN</button>
-              <button class="btn sm outline" onclick="openStudioTinModal('085')">🏢 Studio TIN</button>
-              <button class="btn sm outline" onclick="openDelModal('085')">🔗 Delivery Link</button>
-              <button class="btn sm outline" onclick="viewClientBrief('085')">Brief 👁️</button>
-              <button class="btn sm" style="background: #dc2626; color: #fff; border: 0;" onclick="deleteAdminOrder('085')">🗑️ Delete</button>
-              <a href="https://drive.google.com" target="_blank" class="btn sm outline">Drive ↗</a>
-            </td>
-          </tr>
+        <tbody id="adminOrdersTbody">
+          <!-- Populated dynamically by renderAdminTable() -->
         </tbody>
       </table>
     </div>
@@ -364,54 +338,421 @@ a { color: inherit; text-decoration: none; }
 </main>
 
 <script>
-// PIN AUTHENTICATION
-function verifyPin(e) {
-  e.preventDefault();
-  const pin = document.getElementById('adminPinInput').value.trim();
-  const errorMsg = document.getElementById('pinErrorMsg');
+// ADMIN AUTH LOCK PIN
+const ADMIN_PIN = '2026';
+let currentAdminModalId = '084';
 
-  if (pin === '8800' || pin === '1234') {
-    sessionStorage.setItem('shoaib_admin_auth', '1');
+function verifyPin() {
+  const pinInput = document.getElementById('adminPinInput');
+  const err = document.getElementById('pinError');
+  if (pinInput.value === ADMIN_PIN) {
     document.getElementById('pinLockModal').style.display = 'none';
+    sessionStorage.setItem('shoaib_admin_unlocked', '1');
+    renderAdminTable();
   } else {
-    errorMsg.textContent = 'Invalid Studio PIN. Try 8800';
+    err.style.display = 'block';
+    pinInput.value = '';
+    pinInput.focus();
   }
 }
 
 function lockAdmin() {
-  sessionStorage.removeItem('shoaib_admin_auth');
+  sessionStorage.removeItem('shoaib_admin_unlocked');
   document.getElementById('pinLockModal').style.display = 'flex';
+  document.getElementById('adminPinInput').value = '';
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-  if (sessionStorage.getItem('shoaib_admin_auth') === '1') {
-    document.getElementById('pinLockModal').style.display = 'none';
-  }
-  checkPaymentClaims();
-  loadCustomAdminOrders();
-});
+// TOAST NOTIFICATION (NO BROWSER ALERT)
+function showAdminToast(msg) {
+  let toast = document.getElementById('adminToast');
+  if (!toast) return;
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 4000);
+}
 
-// STATUS UPDATES
-function updateOrderStatus(id, val) {
-  const badge = (id === '084') ? document.getElementById('badgeRow1') : document.getElementById('badgeRow2');
-  if (val === 'delivered') {
-    badge.className = 'status-pill delivered';
-    badge.textContent = 'Delivered ✓';
-    localStorage.setItem('shoaib_status_' + id, 'delivered');
-  } else if (val === 'production') {
-    badge.className = 'status-pill progress';
-    badge.textContent = 'In Production';
-    localStorage.setItem('shoaib_status_' + id, 'production');
-  } else if (val === 'qc') {
-    badge.className = 'status-pill progress';
-    badge.textContent = 'Quality Review';
-    localStorage.setItem('shoaib_status_' + id, 'qc');
-  } else {
-    badge.className = 'status-pill received';
-    badge.textContent = 'Received';
-    localStorage.setItem('shoaib_status_' + id, 'received');
+// RENDER ADMIN ORDERS TABLE (CLEAN 7 COLUMNS)
+function renderAdminTable() {
+  const tbody = document.getElementById('adminOrdersTbody');
+  if (!tbody) return;
+
+  // Aggregate orders
+  let ordersList = [];
+
+  // Order 084 (Demo 1)
+  if (localStorage.getItem('shoaib_deleted_084') !== '1') {
+    ordersList.push({
+      id: '#RS-2026-084',
+      numericId: '084',
+      clientName: 'Sarah Jenkins',
+      clientEmail: 'sarah@jenkinsstudio.com',
+      service: 'Luxury Jewelry & Horology',
+      instructions: '14 RAW focus stacks: clean microscopic dust & prong alignment, 16-bit master PSDs.',
+      price: '$490.00 USD',
+      status: localStorage.getItem('shoaib_status_084') || 'delivered',
+      drive: localStorage.getItem('shoaib_del_url_084') || 'https://drive.google.com/drive/folders/1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc?usp=drive_link',
+      deadlineMs: Date.now() - 3600000,
+      isAgreed: true
+    });
   }
-  alert('Order #' + id + ' status updated to ' + val + '. Client portal synced.');
+
+  // Order 085 (Demo 2)
+  if (localStorage.getItem('shoaib_deleted_085') !== '1') {
+    ordersList.push({
+      id: '#RS-2026-085',
+      numericId: '085',
+      clientName: 'Sarah Jenkins',
+      clientEmail: 'sarah@jenkinsstudio.com',
+      service: 'Editorial Fashion Lookbook',
+      instructions: 'Ghost mannequin editorial retouching, color consistency across apparel lookbook.',
+      price: '$600.00 USD',
+      status: localStorage.getItem('shoaib_status_085') || 'production',
+      drive: localStorage.getItem('shoaib_del_url_085') || 'https://drive.google.com/drive/folders/1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc?usp=drive_link',
+      deadlineMs: Date.now() + (18.5 * 3600 * 1000),
+      isAgreed: true
+    });
+  }
+
+  // Custom client orders
+  try {
+    const raw = localStorage.getItem('shoaib_custom_orders');
+    if (raw) {
+      const customOrders = JSON.parse(raw);
+      if (Array.isArray(customOrders)) {
+        customOrders.forEach(ord => {
+          if (ord && ord.numericId && localStorage.getItem('shoaib_deleted_' + ord.numericId) !== '1') {
+            ordersList.push({
+              id: ord.id,
+              numericId: ord.numericId,
+              clientName: ord.clientName || 'Studio Client',
+              clientEmail: (ord.clientEmail || 'client@studio.com').toLowerCase(),
+              service: ord.service || ord.title,
+              instructions: ord.instructions || 'Standard commercial retouching specifications.',
+              price: ord.price || '$500.00 USD',
+              status: localStorage.getItem('shoaib_status_' + ord.numericId) || ord.status || 'pending',
+              drive: localStorage.getItem('shoaib_del_url_' + ord.numericId) || ord.drive || 'https://drive.google.com/drive/folders/1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc?usp=drive_link',
+              deadlineMs: ord.deadlineMs || (Date.now() + 24 * 3600 * 1000),
+              isAgreed: localStorage.getItem('shoaib_price_approved_' + ord.numericId) === '1' || ord.isAgreed
+            });
+          }
+        });
+      }
+    }
+  } catch(e) {
+    console.error('Error loading custom orders:', e);
+  }
+
+  // Update Top Stats
+  const totalOrdersEl = document.getElementById('admTotalOrders');
+  if (totalOrdersEl) totalOrdersEl.textContent = ordersList.length;
+
+  let activeCount = 0;
+  ordersList.forEach(o => { if (o.status !== 'delivered') activeCount++; });
+  const activeCommissionsEl = document.getElementById('admActiveJobs');
+  if (activeCommissionsEl) activeCommissionsEl.textContent = activeCount;
+
+  // Build Table Rows
+  let html = '';
+  ordersList.forEach(ord => {
+    const id = ord.numericId;
+    const isApproved = ord.isAgreed;
+    const customAgreed = localStorage.getItem('shoaib_agreed_price_' + id);
+    const displayPrice = isApproved ? (customAgreed || ord.price) : ord.price;
+
+    html += `
+      <tr id="admRow_${id}">
+        <td><strong style="color: #fff; font-family: var(--f-display);">${ord.id}</strong></td>
+        <td>
+          <a href="javascript:void(0)" onclick="openClientDetailModal('${id}')" style="color: #60a5fa; font-weight: 700; text-decoration: underline;" title="Click for Full Profile, WhatsApp &amp; Audit">
+            ${ord.clientName} 👁️
+          </a>
+          <div style="font-size: 11px; color: #94a3b8; font-family: monospace; margin-top: 2px;">${ord.clientEmail}</div>
+        </td>
+        <td>
+          <strong style="color: #e2e8f0;">${ord.service}</strong>
+          <div style="font-size: 11px; color: #777; max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 2px;">
+            ${ord.instructions}
+          </div>
+        </td>
+        <td>
+          <span id="admTimerBadge_${id}" class="status-pill progress" style="font-size: 11px; font-weight: 800;">
+            ⏳ Calculating...
+          </span>
+        </td>
+        <td>
+          <div id="admPriceContainer_${id}">
+            <strong style="color: ${isApproved ? '#4ade80' : '#fbbf24'}; font-size: 13px;">${displayPrice}</strong><br>
+            ${!isApproved 
+              ? `<button class="btn sm green" style="padding: 2px 7px; font-size: 10px; margin-top: 4px;" onclick="acceptClientOffer('${id}', '${ord.price}')">✓ Accept Offer</button>` 
+              : `<span style="font-size: 10px; color: #4ade80;">Agreed ✓</span>`}
+          </div>
+        </td>
+        <td>
+          <select class="status-select" id="selStatus_${id}" onchange="updateOrderStatus('${id}', this.value)" style="background: #111; color: #fff; border: 1px solid #444; padding: 6px 10px; border-radius: 6px; font-weight: 700; font-size: 12px; cursor: pointer; width: 100%;">
+            <option value="pending" ${ord.status === 'pending' ? 'selected' : ''}>⏳ Pending</option>
+            <option value="received" ${ord.status === 'received' ? 'selected' : ''}>📥 Received</option>
+            <option value="production" ${ord.status === 'production' ? 'selected' : ''}>⚙️ In Production</option>
+            <option value="qc" ${ord.status === 'qc' ? 'selected' : ''}>🔍 QC / Review</option>
+            <option value="delivered" ${ord.status === 'delivered' ? 'selected' : ''}>✅ Delivered</option>
+          </select>
+        </td>
+        <td style="text-align: right; white-space: nowrap;">
+          <div style="display: flex; gap: 6px; justify-content: flex-end; align-items: center;">
+            <a href="${ord.drive}" target="_blank" class="btn sm outline" style="font-size: 11px; padding: 5px 9px;" title="Open Order Google Drive Folder">📂 Drive ↗</a>
+            <button class="btn sm outline" onclick="openDelModal('${id}')" style="font-size: 11px; padding: 5px 9px;" title="Upload or Paste Delivery Link">🔗 Delivery</button>
+            <button class="btn sm" style="background: #dc2626; color: #fff; border: 0; font-size: 11px; padding: 5px 9px;" onclick="deleteAdminOrder('${id}')" title="Delete Order">🗑️</button>
+          </div>
+        </td>
+      </tr>
+    `;
+  });
+
+  tbody.innerHTML = html;
+  filterAdminOrders();
+  updateAllAdminTimers();
+}
+
+// SEARCH / FILTER FUNCTION
+function filterAdminOrders() {
+  const query = (document.getElementById('adminOrderSearchInput')?.value || '').toLowerCase().trim();
+  const rows = document.querySelectorAll('#adminOrdersTbody tr');
+  rows.forEach(row => {
+    const text = row.innerText.toLowerCase();
+    row.style.display = text.includes(query) ? '' : 'none';
+  });
+}
+
+// UPDATE STATUS WITH LIVE STORAGE BROADCAST
+function updateOrderStatus(id, val) {
+  localStorage.setItem('shoaib_status_' + id, val);
+  
+  // Also update custom orders array if present
+  try {
+    const raw = localStorage.getItem('shoaib_custom_orders');
+    if (raw) {
+      let orders = JSON.parse(raw);
+      orders.forEach(o => {
+        if (o.numericId === id || o.id === '#RS-2026-' + id) {
+          o.status = val;
+        }
+      });
+      localStorage.setItem('shoaib_custom_orders', JSON.stringify(orders));
+    }
+  } catch(e) {}
+
+  // Broadcast sync to client portal
+  localStorage.setItem('shoaib_sync_ping', Date.now().toString());
+
+  showAdminToast('✓ Order #' + id + ' status updated to ' + val.toUpperCase() + '. Client portal synced!');
+  renderAdminTable();
+}
+
+// ACCEPT CLIENT OFFER
+function acceptClientOffer(id, proposedPrice) {
+  localStorage.setItem('shoaib_price_approved_' + id, '1');
+  localStorage.setItem('shoaib_agreed_price_' + id, proposedPrice);
+  localStorage.setItem('shoaib_sync_ping', Date.now().toString());
+  showAdminToast('✓ Commercial rate approved for Order #' + id + ': ' + proposedPrice);
+  renderAdminTable();
+}
+
+// DELETE ORDER PERMANENTLY
+function deleteAdminOrder(id) {
+  if (!confirm('⚠️ Are you sure you want to permanently delete Order #' + id + '?\n\nThis will remove the order from the Studio Console, delete its invoice, and sync immediately with the Client Portal.')) {
+    return;
+  }
+  localStorage.setItem('shoaib_deleted_' + id, '1');
+  try {
+    const raw = localStorage.getItem('shoaib_custom_orders');
+    if (raw) {
+      let orders = JSON.parse(raw);
+      orders = orders.filter(o => o.numericId !== id && o.id !== '#RS-2026-' + id);
+      localStorage.setItem('shoaib_custom_orders', JSON.stringify(orders));
+    }
+  } catch(e) {}
+
+  localStorage.setItem('shoaib_sync_ping', Date.now().toString());
+  showAdminToast('🗑️ Order #' + id + ' deleted permanently.');
+  renderAdminTable();
+}
+
+// CLIENT DETAIL SECURITY & AUDIT MODAL
+function openClientDetailModal(id) {
+  currentAdminModalId = id;
+
+  let p = {
+    name: 'Sarah Jenkins',
+    company: 'Studio New York',
+    email: 'sarah@jenkinsstudio.com',
+    address: '450 West 33rd Street, New York, NY 10001, USA',
+    phone: '+1 (212) 555-0199',
+    tin: '',
+    instructions: '14 RAW focus stacks: clean microscopic dust & prong alignment, 16-bit master PSDs.'
+  };
+
+  if (id !== '084' && id !== '085') {
+    try {
+      const raw = localStorage.getItem('shoaib_custom_orders');
+      if (raw) {
+        const orders = JSON.parse(raw);
+        const ord = orders.find(o => o.numericId === id || o.id === '#RS-2026-' + id);
+        if (ord) {
+          p = {
+            name: ord.clientName || 'Studio Client',
+            company: ord.clientCompany || ord.clientName || 'Studio Client',
+            email: (ord.clientEmail || 'client@studio.com').toLowerCase(),
+            address: ord.clientAddress || 'Studio Commercial Client',
+            phone: ord.clientPhone || '+1 (212) 555-0199',
+            tin: ord.clientTin || 'None (Optional)',
+            instructions: ord.instructions || 'Standard commercial retouching instructions.'
+          };
+        }
+      }
+    } catch(e) {}
+  }
+
+  document.getElementById('cdmName').textContent = p.name;
+  document.getElementById('cdmCompany').textContent = p.company;
+  document.getElementById('cdmEmail').textContent = p.email;
+  document.getElementById('cdmAddress').textContent = p.address;
+  document.getElementById('cdmTin').textContent = p.tin || 'None (Optional)';
+  document.getElementById('cdmPhone').textContent = p.phone;
+  document.getElementById('cdmInstructions').textContent = p.instructions;
+
+  // WhatsApp Link
+  const phoneDigits = p.phone.replace(/[^0-9]/g, '');
+  const waBtn = document.getElementById('cdmWhatsAppBtn');
+  if (waBtn) {
+    waBtn.href = 'https://wa.me/' + (phoneDigits.length >= 7 ? phoneDigits : '8801710763251');
+  }
+
+  // Client Drive Root Link
+  const driveBtn = document.getElementById('cdmDriveLink');
+  if (driveBtn) {
+    driveBtn.href = 'https://drive.google.com/drive/folders/1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc?usp=drive_link';
+  }
+
+  // Studio TIN Button state
+  const isStudioTinEnabled = localStorage.getItem('shoaib_studio_tin_enabled_' + id) === '1';
+  const tinBtn = document.getElementById('cdmTinToggleBtn');
+  if (tinBtn) {
+    tinBtn.textContent = isStudioTinEnabled ? '✓ Studio TIN Active' : '🏷️ Enable Studio TIN';
+    tinBtn.style.color = isStudioTinEnabled ? '#4ade80' : '#fff';
+  }
+
+  // IP & Country Audit
+  const savedIp = localStorage.getItem('shoaib_client_ip_' + id) || '68.195.12.84';
+  const savedCountry = localStorage.getItem('shoaib_client_country_' + id) || 'United States';
+  document.getElementById('cdmIp').textContent = savedIp;
+  document.getElementById('cdmCountry').textContent = '🇺🇸 ' + savedCountry + ' (Verified)';
+
+  document.getElementById('adminClientDetailModal').style.display = 'flex';
+}
+
+function closeClientDetailModal() {
+  document.getElementById('adminClientDetailModal').style.display = 'none';
+}
+
+function toggleStudioTinInModal() {
+  const current = localStorage.getItem('shoaib_studio_tin_enabled_' + currentAdminModalId) === '1';
+  localStorage.setItem('shoaib_studio_tin_enabled_' + currentAdminModalId, current ? '0' : '1');
+  localStorage.setItem('shoaib_sync_ping', Date.now().toString());
+  showAdminToast('Official Studio TIN ' + (!current ? 'Enabled' : 'Disabled') + ' for Order #' + currentAdminModalId);
+  openClientDetailModal(currentAdminModalId);
+}
+
+function openExtraFeeFromModal() {
+  closeClientDetailModal();
+  openAdminExtraFeeModal(currentAdminModalId);
+}
+
+// ALL CLIENTS DATABASE MODAL
+function openAllClientsModal() {
+  const tbody = document.getElementById('allClientsTbody');
+  if (!tbody) return;
+
+  // Aggregate clients by email
+  const clientsMap = {};
+
+  // Add Sarah Jenkins (Demo)
+  clientsMap['sarah@jenkinsstudio.com'] = {
+    name: 'Sarah Jenkins',
+    email: 'sarah@jenkinsstudio.com',
+    company: 'Studio New York',
+    ordersCount: 2,
+    phone: '+1 (212) 555-0199'
+  };
+
+  // Add custom orders clients
+  try {
+    const raw = localStorage.getItem('shoaib_custom_orders');
+    if (raw) {
+      const orders = JSON.parse(raw);
+      if (Array.isArray(orders)) {
+        orders.forEach(o => {
+          const email = (o.clientEmail || 'client@studio.com').toLowerCase();
+          if (!clientsMap[email]) {
+            clientsMap[email] = {
+              name: o.clientName || 'Studio Client',
+              email: email,
+              company: o.clientCompany || o.clientName || 'Client Studio',
+              ordersCount: 0,
+              phone: o.clientPhone || '+1 (212) 555-0199'
+            };
+          }
+          clientsMap[email].ordersCount += 1;
+        });
+      }
+    }
+  } catch(e) {}
+
+  let rowsHtml = '';
+  Object.keys(clientsMap).forEach(email => {
+    const c = clientsMap[email];
+    const phoneDigits = c.phone.replace(/[^0-9]/g, '');
+    rowsHtml += `
+      <tr>
+        <td>
+          <strong style="color: #fff; font-size: 13px;">${c.name}</strong>
+          <div style="font-size: 11px; color: #888;">${c.company}</div>
+        </td>
+        <td>
+          <span style="color: #38bdf8; font-family: monospace; font-weight: 700;">${c.email}</span>
+        </td>
+        <td style="text-align: center;">
+          <span class="status-pill delivered" style="font-size: 11px;">${c.ordersCount} Project${c.ordersCount > 1 ? 's' : ''}</span>
+        </td>
+        <td>
+          <a href="https://wa.me/${phoneDigits.length >= 7 ? phoneDigits : '8801710763251'}" target="_blank" class="btn sm green" style="font-size: 10px; padding: 4px 8px; text-decoration: none;">
+            💬 WhatsApp ↗
+          </a>
+        </td>
+        <td style="text-align: right; white-space: nowrap;">
+          <button class="btn sm outline" onclick="filterByClientEmail('${c.email}')" style="font-size: 11px; padding: 4px 10px;">
+            🔍 View Orders
+          </button>
+        </td>
+      </tr>
+    `;
+  });
+
+  tbody.innerHTML = rowsHtml;
+  document.getElementById('allClientsModal').style.display = 'flex';
+}
+
+function closeAllClientsModal() {
+  document.getElementById('allClientsModal').style.display = 'none';
+}
+
+function filterByClientEmail(email) {
+  closeAllClientsModal();
+  const searchInput = document.getElementById('adminOrderSearchInput');
+  if (searchInput) {
+    searchInput.value = email;
+    filterAdminOrders();
+  }
 }
 
 // DELIVERY LINK MODAL
@@ -429,349 +770,103 @@ function closeDelModal() {
 function saveDeliveryLink() {
   const url = document.getElementById('delInputUrl').value.trim();
   if (!url) {
-    alert('Please enter the delivery link.');
+    showAdminToast('⚠️ Please enter a valid delivery link');
     return;
   }
   localStorage.setItem('shoaib_del_url_' + targetOrderId, url);
-  closeDelModal();
-  alert('✓ Delivery link saved! Client can now click download on portal.html.');
-}
-
-// CHECK INCOMING PAYMENT CLAIM
-function checkPaymentClaims() {
-  const raw = localStorage.getItem('shoaib_payment_claim');
-  if (raw) {
-    const data = JSON.parse(raw);
-    document.getElementById('paymentClaimSection').style.display = 'block';
-    document.getElementById('claimRefCode').textContent = data.ref;
-    document.getElementById('claimTime').textContent = data.time;
-    document.getElementById('admClaimCount').textContent = '1';
-  }
-}
-
-function editCardPayUrl() {
-  const current = localStorage.getItem('shoaib_card_pay_url') || 'https://wise.com/pay/me/mdshoaibs';
-  const newUrl = prompt('Enter your Wise payment request link / Wise.me link:', current);
-  if (newUrl && newUrl.trim()) {
-    localStorage.setItem('shoaib_card_pay_url', newUrl.trim());
-    document.getElementById('admCardUrlDisplay').textContent = newUrl.trim();
-    alert('✓ Wise card payment link updated for client portal!');
-  }
-}
-
-
-// ADMIN SLA COUNTDOWN TICKER
-const deadline85 = Date.now() + (1.75 * 3600 * 1000);
-function updateAdminTimer() {
-  const badge = document.getElementById('admTimerBadge_085');
-  if (!badge) return;
-  const diffMs = deadline85 - Date.now();
-
-  if (diffMs > 0) {
-    const totalSec = Math.floor(diffMs / 1000);
-    const h = Math.floor(totalSec / 3600);
-    const m = Math.floor((totalSec % 3600) / 60);
-    const s = totalSec % 60;
-    const hStr = String(h).padStart(2, '0');
-    const mStr = String(m).padStart(2, '0');
-    const sStr = String(s).padStart(2, '0');
-    badge.style.color = (h < 2) ? '#f59e0b' : '#4ade80';
-    badge.style.borderColor = (h < 2) ? '#b45309' : '#166534';
-    badge.textContent = `⏳ ${hStr}h : ${mStr}m : ${sStr}s SLA`;
-  } else {
-    const absDiff = Math.abs(diffMs);
-    const totalSec = Math.floor(absDiff / 1000);
-    const h = Math.floor(totalSec / 3600);
-    const m = Math.floor((totalSec % 3600) / 60);
-    const s = totalSec % 60;
-    badge.style.color = '#ef4444';
-    badge.style.background = '#450a0a';
-    badge.style.borderColor = '#ef4444';
-    badge.textContent = `⚠️ OVERDUE: -${h}h:${m}m:${s}s`;
-  }
-}
-setInterval(updateAdminTimer, 1000);
-updateAdminTimer();
-
-// ACCEPT CLIENT OFFER
-function acceptClientOffer(id, amount) {
-  localStorage.setItem('shoaib_price_approved_' + id, '1');
-  localStorage.setItem('shoaib_agreed_price_' + id, amount);
-
-  const container = document.getElementById('admPriceContainer_' + id);
-  if (container) {
-    container.innerHTML = '<strong style="color: #4ade80;">' + amount + '</strong><br><span style="font-size: 11px; color: #777;">Agreed ✓ (Studio Confirmed)</span>';
-  }
-  alert('✓ Offer of ' + amount + ' for Order #' + id + ' approved! Synced with client portal.');
-}
-
-// VIEW CLIENT BRIEF MODAL
-function viewClientBrief(id) {
-  if (id === '084') {
-    alert("CLIENT BRIEF (#RS-2026-084):\n\n14 Focus-Stacked RAWs (.CR3)\nFormat: 16-bit Master PSD + WebP\n\nINSTRUCTIONS:\nPlease clean all microscopic dust and metal scratches on the platinum prongs without blunting the facet reflections.\nPreserve diamond natural scintillation highlights (do not blow out or flatten).\nDeliver on seamless off-white background with a delicate natural contact cast shadow.");
-  } else {
-    alert("CLIENT BRIEF (#RS-2026-085):\n\n24 High-Fashion RAWs (.ARW)\nFormat: Layered PSD + Transparent PNG + Clipping Path\n\nINSTRUCTIONS:\nSymmetrical hemline alignment, remove fabric travel wrinkles while keeping textile micro-weave crisp.\nGhost mannequin hollow neck joint alignment with collar label.\nExport with pure white RGB(255,255,255) background and separate hand-drawn pen tool path.");
-  }
-}
-
-function approveWisePayment() {
-  localStorage.setItem('shoaib_inv_paid', '1');
-  localStorage.removeItem('shoaib_payment_claim');
-  document.getElementById('paymentClaimSection').style.display = 'none';
-  document.getElementById('admClaimCount').textContent = '0';
-  alert('✓ Payment approved! Invoice is now marked as PAID on client portal.');
-}
-
-// ADMIN TIN MANAGEMENT
-let currentTinOrderId = '084';
-function openAdminTinModal(id) {
-  currentTinOrderId = id;
-  const clientName = 'Sarah Jenkins • Studio New York';
-  document.getElementById('admTinClientName').value = clientName;
-
-  let currentTin = '';
-  const savedProfile = localStorage.getItem('shoaib_client_profile');
-  if (savedProfile) {
-    try {
-      const p = JSON.parse(savedProfile);
-      if (p.tin && p.tin !== 'US-EIN: 12-3456789') currentTin = p.tin;
-    } catch(e) {}
-  }
-  if (!currentTin) {
-    const rawTin = localStorage.getItem('shoaib_client_tin');
-    if (rawTin && rawTin !== 'US-EIN: 12-3456789') currentTin = rawTin;
-  }
-  document.getElementById('admTinInput').value = currentTin;
-  document.getElementById('adminTinModal').style.display = 'flex';
-}
-
-function closeAdminTinModal() {
-  document.getElementById('adminTinModal').style.display = 'none';
-}
-
-function saveAdminTin() {
-  const val = document.getElementById('admTinInput').value.trim();
-  localStorage.setItem('shoaib_client_tin', val);
-  localStorage.setItem('shoaib_client_tin_' + currentTinOrderId, val);
-
-  // Sync to shoaib_client_profile so client portal updates immediately
-  let p = { name: 'Sarah Jenkins', company: 'Studio New York', email: 'sarah@jenkinsstudio.com', address: '450 West 33rd Street, New York, NY 10001', tin: val };
-  const savedProfile = localStorage.getItem('shoaib_client_profile');
-  if (savedProfile) {
-    try { p = Object.assign(p, JSON.parse(savedProfile)); } catch(e) {}
-  }
-  p.tin = val;
-  localStorage.setItem('shoaib_client_profile', JSON.stringify(p));
-
-  if (val) {
-    alert('✓ Tax ID / TIN updated to ' + val + '. It will now appear on client invoices.');
-  } else {
-    alert('✓ Tax ID / TIN cleared. It has been removed from client invoices.');
-  }
-  closeAdminTinModal();
-}
-
-function loadCustomAdminOrders() {
-  try {
-    const raw = localStorage.getItem('shoaib_custom_orders');
-    if (!raw) return;
-    const customOrders = JSON.parse(raw);
-    if (!Array.isArray(customOrders) || customOrders.length === 0) return;
-
-    const tbody = document.querySelector('.orders-table tbody');
-    if (!tbody) return;
-
-    const totalOrdersEl = document.getElementById('admTotalOrders');
-    if (totalOrdersEl) {
-      totalOrdersEl.textContent = 2 + customOrders.length;
-    }
-
-    customOrders.forEach(ord => {
-      const id = ord.numericId;
-      if (document.getElementById('admRow_' + id)) return;
-
-      const isDelivered = localStorage.getItem('shoaib_status_' + id) === 'delivered';
-      const tr = document.createElement('tr');
-      tr.id = 'admRow_' + id;
-      const clientAgency = ord.clientCompany || ord.clientName || 'Studio Client';
-      const clientEmail = ord.clientEmail || 'client@studio.com';
-
-      tr.innerHTML = `
-        <td><strong>${ord.id}</strong></td>
-        <td><a href="javascript:void(0)" onclick="openClientDetailModal('${id}')" style="color: #60a5fa; font-weight: 700; text-decoration: underline;" title="Click to view client audit details & real IP">${clientAgency} 👁️</a><br><span style="font-size: 11px; color: #777;">${clientEmail}</span></td>
-        <td>${ord.title}<br><span style="font-size: 11px; color: #777;">${ord.service} (${ord.images})</span></td>
-        <td>
-          <span id="admTimerBadge_${id}" style="font-size: 12px; font-weight: 800; font-family: var(--f-display); background: #222; border: 1px solid #444; padding: 4px 10px; border-radius: 6px; color: #22c55e;">
-            ⏳ Calculating...
-          </span>
-        </td>
-        <td>
-          <div id="admPriceContainer_${id}">
-            <span style="color: #fbbf24; font-weight: 700;">${ord.price} Offer</span><br>
-            <button class="btn sm green" style="padding: 3px 8px; font-size: 10px; margin-top: 4px;" onclick="acceptClientOffer('${id}', '${ord.price}')">✓ Accept Offer</button>
-          </div>
-        </td>
-        <td><span class="status-pill ${isDelivered ? 'delivered' : 'progress'}" id="badgeRow_${id}">${isDelivered ? 'Delivered ✓' : 'In Production'}</span></td>
-        <td>
-          <select class="status-select" id="selStatus_${id}" onchange="updateOrderStatus('${id}', this.value)">
-            <option value="received">Received</option>
-            <option value="production" ${!isDelivered ? 'selected' : ''}>In Production</option>
-            <option value="qc">Quality Review</option>
-            <option value="delivered" ${isDelivered ? 'selected' : ''}>Delivered (Ready)</option>
-          </select>
-        </td>
-        <td style="white-space: nowrap;">
-          <button class="btn sm outline" onclick="openAdminExtraFeeModal('${id}')">💰 + Extra</button>
-          <button class="btn sm outline" onclick="openAdminTinModal('${id}')">🏷️ Client TIN</button>
-          <button class="btn sm outline" onclick="openStudioTinModal('${id}')">🏢 Studio TIN</button>
-          <button class="btn sm outline" onclick="openDelModal('${id}')">🔗 Delivery Link</button>
-          <button class="btn sm outline" onclick="viewClientBrief('${id}')">Brief 👁️</button>
-          <button class="btn sm" style="background: #dc2626; color: #fff; border: 0;" onclick="deleteAdminOrder('${id}')">🗑️ Delete</button>
-          <a href="${ord.drive || 'https://drive.google.com/drive/folders/1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc?usp=drive_link'}" target="_blank" class="btn sm outline">Drive ↗</a>
-        </td>
-      `;
-      tbody.appendChild(tr);
-    });
-  } catch(e) {
-    console.error('Error loading custom admin orders:', e);
-  }
-}
-window.addEventListener('DOMContentLoaded', loadCustomAdminOrders);
-
-// ========================================================
-// STUDIO TIN MANAGEMENT (PER-ORDER TOGGLE)
-// ========================================================
-let currentStudioTinOrderId = '084';
-function openStudioTinModal(id) {
-  currentStudioTinOrderId = id;
-  const savedTin = localStorage.getItem('shoaib_studio_tin') || 'BD-TIN: 8492019381';
-  document.getElementById('admStudioTinInput').value = savedTin;
-  const isEnabled = localStorage.getItem('shoaib_studio_tin_show_' + id) === '1';
-  document.getElementById('admStudioTinCheck').checked = isEnabled;
-  document.getElementById('adminStudioTinModal').style.display = 'flex';
-}
-
-function closeStudioTinModal() {
-  document.getElementById('adminStudioTinModal').style.display = 'none';
-}
-
-function saveStudioTin() {
-  const tinVal = document.getElementById('admStudioTinInput').value.trim();
-  const isEnabled = document.getElementById('admStudioTinCheck').checked;
-  localStorage.setItem('shoaib_studio_tin', tinVal);
-  localStorage.setItem('shoaib_studio_tin_show_' + currentStudioTinOrderId, isEnabled ? '1' : '0');
+  localStorage.setItem('shoaib_status_' + targetOrderId, 'delivered');
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
-  alert('✓ Studio TIN settings saved for Order #' + currentStudioTinOrderId + '!\n' + (isEnabled ? 'It will now be displayed on the client invoice.' : 'It will be completely hidden from the client invoice.'));
-  closeStudioTinModal();
+  showAdminToast('✓ Delivery master link saved & client portal synced!');
+  closeDelModal();
+  renderAdminTable();
 }
 
-// ========================================================
-// CLIENT DETAILS & FRAUD PREVENTION AUDIT MODAL
-// ========================================================
-function openClientDetailModal(id) {
-  const savedProfile = localStorage.getItem('shoaib_client_profile');
-  let p = {
-    name: 'Sarah Jenkins',
-    company: 'Studio New York',
-    email: 'sarah@jenkinsstudio.com',
-    address: '450 West 33rd Street, New York, NY 10001, USA',
-    tin: ''
-  };
-  if (savedProfile) {
-    try { p = Object.assign(p, JSON.parse(savedProfile)); } catch(e) {}
-  }
-
-  // If this is a custom client order, load specific order client details
-  if (id !== '084' && id !== '085') {
-    try {
-      const raw = localStorage.getItem('shoaib_custom_orders');
-      if (raw) {
-        const orders = JSON.parse(raw);
-        const ord = orders.find(o => o.numericId === id || o.id === '#RS-2026-' + id);
-        if (ord && (ord.clientName || ord.clientEmail)) {
-          p = {
-            name: ord.clientName || p.name,
-            company: ord.clientCompany || ord.clientName || p.company,
-            email: ord.clientEmail || p.email,
-            address: ord.clientAddress || p.address,
-            tin: ord.clientTin || ''
-          };
-        }
-      }
-    } catch(e) {}
-  }
-
-  document.getElementById('cdmName').textContent = p.name;
-  document.getElementById('cdmCompany').textContent = p.company;
-  document.getElementById('cdmEmail').textContent = p.email;
-  document.getElementById('cdmAddress').textContent = p.address;
-  document.getElementById('cdmTin').textContent = p.tin || 'None (Optional)';
-
-  // IP & Country Audit
-  const savedIp = localStorage.getItem('shoaib_client_ip_' + id) || localStorage.getItem('shoaib_client_ip') || '68.195.12.84';
-  const savedCountry = localStorage.getItem('shoaib_client_country_' + id) || localStorage.getItem('shoaib_client_country') || 'United States';
-  
-  document.getElementById('cdmIp').textContent = savedIp;
-  document.getElementById('cdmCountry').textContent = (savedCountry.includes('United States') ? '🇺🇸 ' : '🌐 ') + savedCountry;
-
-  const statusBox = document.getElementById('cdmStatus');
-  const isAsianMismatch = (savedCountry.includes('Bangladesh') || savedCountry.includes('India') || savedCountry.includes('Pakistan')) && p.address.includes('New York');
-
-  if (isAsianMismatch) {
-    statusBox.innerHTML = '<span style="background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid #dc2626; padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: 700;">⚠️ Origin Warning: Location Mismatch</span>';
-  } else {
-    statusBox.innerHTML = '<span style="background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid #16a34a; padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: 700;">✓ Verified Origin Location</span>';
-  }
-
-  document.getElementById('adminClientDetailModal').style.display = 'flex';
+// EXTRA FEE MODAL
+function openAdminExtraFeeModal(id) {
+  currentAdminModalId = id;
+  const modal = document.getElementById('adminExtraFeeModal');
+  if (modal) modal.style.display = 'flex';
 }
 
-function closeClientDetailModal() {
-  document.getElementById('adminClientDetailModal').style.display = 'none';
+function closeAdminExtraFeeModal() {
+  const modal = document.getElementById('adminExtraFeeModal');
+  if (modal) modal.style.display = 'none';
 }
 
-// ========================================================
-// DELETE ORDER CAPABILITY (WITH FULL SYNC)
-// ========================================================
-function deleteAdminOrder(id) {
-  if (!confirm('⚠️ Are you sure you want to permanently delete Order #' + id + '?\n\nThis will remove the order from the Studio Console, delete its invoice, and sync immediately with the Client Portal.')) {
+function saveAdminExtraFee() {
+  const desc = document.getElementById('extraFeeDesc')?.value.trim();
+  const qty = parseFloat(document.getElementById('extraFeeQty')?.value) || 0;
+  const rate = parseFloat(document.getElementById('extraFeeRate')?.value) || 0;
+  const total = qty * rate;
+
+  if (total <= 0) {
+    showAdminToast('⚠️ Please enter a valid quantity and rate');
     return;
   }
 
-  // Mark deleted flag
-  localStorage.setItem('shoaib_deleted_' + id, '1');
+  localStorage.setItem('shoaib_extra_work_' + currentAdminModalId, JSON.stringify({
+    desc: desc || 'Additional Work',
+    qty: qty,
+    rate: rate,
+    amount: total
+  }));
 
-  // Remove from custom orders if it was a custom submitted order
-  try {
-    const raw = localStorage.getItem('shoaib_custom_orders');
-    if (raw) {
-      let orders = JSON.parse(raw);
-      orders = orders.filter(o => o.numericId !== id && o.id !== '#RS-2026-' + id);
-      localStorage.setItem('shoaib_custom_orders', JSON.stringify(orders));
-    }
-  } catch(e) {}
-
-  // Remove row from table
-  const row = document.getElementById('admRow_' + id) || (id === '084' ? document.getElementById('badgeRow1')?.closest('tr') : document.getElementById('badgeRow2')?.closest('tr'));
-  if (row) row.remove();
-
-  // Decrement total commissions
-  const totalEl = document.getElementById('admTotalOrders');
-  if (totalEl) {
-    const cur = parseInt(totalEl.textContent, 10) || 1;
-    totalEl.textContent = Math.max(0, cur - 1);
-  }
-
-  // Ping sync to portal
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
-  alert('✓ Order #' + id + ' permanently deleted and synced with Client Portal!');
+  showAdminToast('✓ Additional fee of $' + total.toFixed(2) + ' added to Order #' + currentAdminModalId);
+  closeAdminExtraFeeModal();
+  renderAdminTable();
 }
 
-// TWO-WAY REAL TIME SYNC
+// LIVE COUNTDOWN TIMER TICKER IN ADMIN
+function updateAllAdminTimers() {
+  const badges = document.querySelectorAll('[id^="admTimerBadge_"]');
+  badges.forEach(badge => {
+    const id = badge.id.replace('admTimerBadge_', '');
+    const isDelivered = localStorage.getItem('shoaib_status_' + id) === 'delivered';
+    if (isDelivered) {
+      badge.className = 'status-pill delivered';
+      badge.textContent = '✓ Delivered';
+    } else {
+      let deadlineMs = Date.now() + (18.5 * 3600 * 1000);
+      try {
+        const raw = localStorage.getItem('shoaib_custom_orders');
+        if (raw) {
+          const orders = JSON.parse(raw);
+          const ord = orders.find(o => o.numericId === id);
+          if (ord && ord.deadlineMs) deadlineMs = ord.deadlineMs;
+        }
+      } catch(e) {}
+
+      const diff = deadlineMs - Date.now();
+      if (diff <= 0) {
+        badge.className = 'status-pill received';
+        badge.textContent = '⏱️ SLA Due';
+      } else {
+        const totalSec = Math.floor(diff / 1000);
+        const hrs = Math.floor(totalSec / 3600);
+        const mins = Math.floor((totalSec % 3600) / 60);
+        const secs = totalSec % 60;
+        badge.className = 'status-pill progress';
+        badge.textContent = '⏳ ' + String(hrs).padStart(2, '0') + 'h ' + String(mins).padStart(2, '0') + 'm ' + String(secs).padStart(2, '0') + 's';
+      }
+    }
+  });
+}
+setInterval(updateAllAdminTimers, 1000);
+
+// INITIAL LOAD
+document.addEventListener('DOMContentLoaded', () => {
+  if (sessionStorage.getItem('shoaib_admin_unlocked') === '1') {
+    document.getElementById('pinLockModal').style.display = 'none';
+  }
+  renderAdminTable();
+});
+renderAdminTable();
+
+// LIVE TWO-WAY STORAGE SYNC FROM CLIENT PORTAL
 window.addEventListener('storage', (e) => {
-  if (e.key === 'shoaib_custom_orders' || e.key === 'shoaib_payment_claim' || e.key === 'shoaib_sync_ping') {
-    loadCustomAdminOrders();
-    checkPaymentClaims();
+  if (e.key === 'shoaib_sync_ping' || e.key === 'shoaib_custom_orders' || (e.key && e.key.startsWith('shoaib_status_'))) {
+    renderAdminTable();
   }
 });
 </script>
@@ -883,16 +978,17 @@ window.addEventListener('storage', (e) => {
      2. CLIENT PROFILE & SECURITY AUDIT MODAL (REAL IP & LOCATION)
      ======================================================== -->
 <div class="modal" id="adminClientDetailModal" onclick="if(event.target === this) closeClientDetailModal()">
-  <div class="modal-box" style="max-width: 540px;">
+  <div class="modal-box" style="max-width: 580px;">
     <button class="modal-close" onclick="closeClientDetailModal()">✕</button>
     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
-      <h3 style="font-size: 18px; font-weight: 800; color: #fff;">🛡️ Client Security &amp; Audit Profile</h3>
+      <h3 style="font-size: 18px; font-weight: 800; color: #fff;">🛡️ Client Profile &amp; Order Audit</h3>
     </div>
-    <p style="font-size: 13px; color: #aaa; margin-bottom: 18px;">
-      Verified origin location, public IP, and billing profile details.
+    <p style="font-size: 13px; color: #aaa; margin-bottom: 16px;">
+      Verified client username, contact details, creative brief instructions, and security audit.
     </p>
 
-    <div style="background: #161616; border: 1px solid #333; border-radius: 10px; padding: 16px; margin-bottom: 16px;">
+    <!-- CLIENT CORE CREDENTIALS -->
+    <div style="background: #161616; border: 1px solid #333; border-radius: 10px; padding: 16px; margin-bottom: 14px;">
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 13px;">
         <div>
           <div style="font-size: 11px; text-transform: uppercase; color: #777;">Client Full Name</div>
@@ -903,21 +999,68 @@ window.addEventListener('storage', (e) => {
           <strong style="color: #60a5fa;" id="cdmCompany">Studio New York</strong>
         </div>
         <div>
-          <div style="font-size: 11px; text-transform: uppercase; color: #777;">Email Address</div>
-          <span style="color: #ccc;" id="cdmEmail">sarah@jenkinsstudio.com</span>
+          <div style="font-size: 11px; text-transform: uppercase; color: #777;">Unique Username (Full Email)</div>
+          <span style="color: #38bdf8; font-family: monospace; font-weight: 700;" id="cdmEmail">sarah@jenkinsstudio.com</span>
         </div>
         <div>
-          <div style="font-size: 11px; text-transform: uppercase; color: #777;">Client Tax ID</div>
+          <div style="font-size: 11px; text-transform: uppercase; color: #777;">Client Tax ID / VAT</div>
           <span style="color: #fbbf24;" id="cdmTin">None (Optional)</span>
         </div>
       </div>
+
       <div style="margin-top: 12px; font-size: 13px; border-top: 1px solid #262626; padding-top: 10px;">
         <div style="font-size: 11px; text-transform: uppercase; color: #777;">Billing Address</div>
         <span style="color: #aaa;" id="cdmAddress">450 West 33rd Street, New York, NY 10001, USA</span>
       </div>
+
+      <!-- WHATSAPP DIRECT CHAT BUTTON -->
+      <div id="cdmWhatsAppRow" style="margin-top: 12px; display: flex; align-items: center; justify-content: space-between; background: #064e3b; border: 1px solid #059669; padding: 8px 12px; border-radius: 8px;">
+        <div>
+          <div style="font-size: 10px; text-transform: uppercase; color: #a7f3d0; font-weight: 700;">Direct WhatsApp / Phone:</div>
+          <span style="font-size: 13px; color: #fff; font-weight: 800;" id="cdmPhone">+1 (212) 555-0199</span>
+        </div>
+        <a id="cdmWhatsAppBtn" href="https://wa.me/8801710763251" target="_blank" class="btn sm" style="background: #10b981; color: #fff; font-weight: 800; border: none; text-decoration: none; font-size: 11px; padding: 5px 12px;">
+          💬 Chat on WhatsApp ↗
+        </a>
+      </div>
+
+      <!-- GOOGLE DRIVE CLIENT ROOT FOLDER LINK -->
+      <div style="margin-top: 10px;">
+        <a id="cdmDriveLink" href="https://drive.google.com/drive/folders/1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc?usp=drive_link" target="_blank" class="btn sm outline" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; border-color: #3b82f6; color: #60a5fa; font-size: 11px; padding: 7px;">
+          📂 Open Client's Root Google Drive Hub ↗
+        </a>
+      </div>
     </div>
 
-    <!-- FRAUD & IP SECURITY AUDIT TILE -->
+    <!-- CREATIVE BRIEF & INSTRUCTIONS BOX -->
+    <div style="background: #111; border: 1px solid #333; border-radius: 10px; padding: 14px; margin-bottom: 14px;">
+      <div style="font-size: 11px; text-transform: uppercase; color: #888; font-weight: 700; margin-bottom: 6px;">
+        📝 Creative Brief &amp; Retouching Instructions:
+      </div>
+      <div id="cdmInstructions" style="font-size: 12px; color: #ddd; max-height: 110px; overflow-y: auto; line-height: 1.5; white-space: pre-wrap;">
+        Clean dust, micro scratches on metal surface, preserve natural diamond facets.
+      </div>
+    </div>
+
+    <!-- STUDIO TIN TOGGLE & EXTRA FEE ACTIONS -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
+      <div style="background: #161616; border: 1px solid #333; border-radius: 8px; padding: 10px; display: flex; flex-direction: column; justify-content: space-between;">
+        <div style="font-size: 11px; color: #888; margin-bottom: 4px;">Studio Official TIN:</div>
+        <div style="font-size: 12px; font-weight: 700; color: #fff; margin-bottom: 6px;">8249-1092-4819</div>
+        <button type="button" class="btn sm outline" id="cdmTinToggleBtn" onclick="toggleStudioTinInModal()" style="font-size: 10px; padding: 4px 8px;">
+          🏷️ Toggle Studio TIN
+        </button>
+      </div>
+
+      <div style="background: #161616; border: 1px solid #333; border-radius: 8px; padding: 10px; display: flex; flex-direction: column; justify-content: space-between;">
+        <div style="font-size: 11px; color: #888; margin-bottom: 4px;">Additional Revision Fee:</div>
+        <div style="font-size: 12px; font-weight: 700; color: #f59e0b; margin-bottom: 6px;">Add stacks / revisions</div>
+        <button type="button" class="btn sm" onclick="openExtraFeeFromModal()" style="background: #f59e0b; color: #000; font-weight: 700; border: none; font-size: 10px; padding: 4px 8px;">
+          💰 + Add Extra Fee
+        </button>
+      </div>
+    </div>
+<!-- FRAUD & IP SECURITY AUDIT TILE -->
     <div style="background: #0f172a; border: 1.5px solid #334155; border-radius: 10px; padding: 16px; margin-bottom: 20px;">
       <div style="font-size: 11px; text-transform: uppercase; color: #94a3b8; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 8px;">
         🌐 Real-Time Location &amp; IP Verification
@@ -940,5 +1083,50 @@ window.addEventListener('storage', (e) => {
     </div>
   </div>
 </div>
+
+<!-- ========================================================
+     ALL CLIENTS DATABASE MODAL
+     ======================================================== -->
+<div class="modal" id="allClientsModal" onclick="if(event.target === this) closeAllClientsModal()">
+  <div class="modal-box" style="max-width: 780px;">
+    <button class="modal-close" onclick="closeAllClientsModal()">✕</button>
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+      <div>
+        <h3 style="font-size: 20px; font-weight: 800; color: #fff;">👥 All Clients Database</h3>
+        <p style="font-size: 13px; color: #aaa; margin-top: 2px;">
+          Registered studio clients with verified emails, total orders, and direct communication links.
+        </p>
+      </div>
+      <a href="https://drive.google.com/drive/folders/1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc?usp=drive_link" target="_blank" class="btn sm outline" style="border-color: #3b82f6; color: #60a5fa;">
+        📂 Root Drive ↗
+      </a>
+    </div>
+
+    <div style="overflow-x: auto; max-height: 420px; margin-bottom: 16px;">
+      <table class="orders-table" style="font-size: 12px;">
+        <thead>
+          <tr>
+            <th>Client Name</th>
+            <th>Unique Username (Email)</th>
+            <th style="text-align: center;">Total Orders</th>
+            <th>Direct Chat</th>
+            <th style="text-align: right;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="allClientsTbody">
+          <!-- Populated dynamically by renderAllClientsModal() -->
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end;">
+      <button class="btn sm outline" onclick="closeAllClientsModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- FLOATING TOAST -->
+<div id="adminToast"></div>
+
 </body>
 </html>

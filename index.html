@@ -758,23 +758,17 @@ footer {
 }
 
 
-/* WIPE PAGE TRANSITION (BOTTOM TO TOP BLACK SLIDE) */
+/* FAST CRISP PAGE TRANSITION */
 #wipe {
   position: fixed;
   inset: 0;
   background: #0a0a0a;
   z-index: 99999;
-  transform: translateY(100%);
+  opacity: 0;
   pointer-events: none;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
-@keyframes wipeIn {
-  0% { transform: translateY(100%); }
-  100% { transform: translateY(0%); }
-}
-@keyframes wipeOut {
-  0% { transform: translateY(0%); }
-  100% { transform: translateY(-100%); }
-}
+
 
 </style>
 </head>

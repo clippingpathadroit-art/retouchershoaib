@@ -1381,7 +1381,7 @@ body {
                 <div style="text-align: right;">
                   <div style="font-size: 22px; font-weight: 800; font-family: var(--f-display);" id="invSheetNumberDisplay">INVOICE #RS-2026-084</div>
                   <div style="margin-top: 6px;">
-                    <span class="inv-badge-pending" id="invStatusBadge">PAYMENT PENDING</span>
+                    <span class="inv-badge-pending" id="invStatusBadge">UNPAID</span>
                   </div>
                 </div>
               </div>
@@ -1786,6 +1786,18 @@ body {
                 </div>
 
                 <!-- SELECTED FILES PREVIEW -->
+                <div id="driveTargetNotice" style="margin-top: 10px; font-size: 12px; background: #f0f9ff; border: 1px dashed #7dd3fc; border-radius: 8px; padding: 10px 14px; color: #0369a1; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                  <div>
+                    <div style="font-size: 10px; text-transform: uppercase; font-weight: 800; color: #0284c7; letter-spacing: 0.05em;">📂 Shoaib's Google Drive Target Path:</div>
+                    <div style="font-family: monospace; font-size: 13px; font-weight: 700; color: #0f172a; margin-top: 2px;" id="driveTargetFolderDisplay">
+                      [Your Full Email] &rsaquo; Order #RS-2026-XXXXX
+                    </div>
+                  </div>
+                  <a href="https://drive.google.com/drive/folders/1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc?usp=drive_link" target="_blank" rel="noopener" class="btn btn-outline btn-sm" style="font-size: 11px; padding: 4px 10px; border-color: #0284c7; color: #0284c7; text-decoration: none; white-space: nowrap;">
+                    Open Master Drive ↗
+                  </a>
+                </div>
+
                 <div id="driveFilesListPreview" style="margin-top: 10px; display: none;">
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
                     <strong style="font-size: 12px; color: #059669;" id="driveFilesCountText">0 Files Queued</strong>
@@ -1977,12 +1989,27 @@ function loadStoredCustomOrders() {
       if (Array.isArray(customOrders)) {
         customOrders.forEach(ord => {
           if (ord && ord.numericId) {
+            // Check status override from admin
+            const statusOverride = localStorage.getItem('shoaib_status_' + ord.numericId);
+            if (statusOverride) ord.status = statusOverride;
+            // Check delivery link override
+            const delUrl = localStorage.getItem('shoaib_del_url_' + ord.numericId);
+            if (delUrl) ord.drive = delUrl;
             ORDERS[ord.numericId] = ord;
           }
         });
       }
     }
-    // Spec overrides for 085 if edited
+    const status85 = localStorage.getItem('shoaib_status_085');
+    if (status85) ORDERS['085'].status = status85;
+    const status84 = localStorage.getItem('shoaib_status_084');
+    if (status84) ORDERS['084'].status = status84;
+  } catch(e) {
+    console.error('Error loading custom orders:', e);
+  }
+}
+
+// Spec overrides for 085 if edited
     const savedPName = localStorage.getItem('shoaib_project_name_085');
     if (savedPName) ORDERS['085'].title = savedPName;
     const savedCount = localStorage.getItem('shoaib_image_count_085');
@@ -2034,17 +2061,104 @@ function getTimerClassAndText(diff, totalDurationMs) {
   return { className, text };
 }
 
+
+function renderTrackerHTML(status, serviceName) {
+  status = (status || 'pending').toLowerCase();
+  let step1Class = '', step1Circle = '1', step1Name = '1. Order Pending', step1Sub = 'Under Review';
+  let step2Class = '', step2Circle = '2', step2Name = '2. In Production', step2Sub = serviceName || 'Retouching';
+  let step3Class = '', step3Circle = '3', step3Name = '3. Quality Review', step3Sub = '100% Zoom Check';
+  let step4Class = '', step4Circle = '4', step4Name = '4. Delivered', step4Sub = 'Ready for Download';
+  let lineWidth = '0%';
+
+  if (status === 'pending') {
+    step1Class = 'active';
+    step1Circle = '1';
+    step1Name = '1. Order Pending';
+    step1Sub = 'Awaiting Review';
+    lineWidth = '5%';
+  } else if (status === 'received') {
+    step1Class = 'done';
+    step1Circle = '✓';
+    step1Name = '1. Received';
+    step1Sub = 'RAWs Checked';
+    lineWidth = '25%';
+  } else if (status === 'production') {
+    step1Class = 'done';
+    step1Circle = '✓';
+    step1Name = '1. Received';
+    step1Sub = 'RAWs Checked';
+    step2Class = 'active';
+    lineWidth = '50%';
+  } else if (status === 'qc') {
+    step1Class = 'done';
+    step1Circle = '✓';
+    step1Name = '1. Received';
+    step1Sub = 'RAWs Checked';
+    step2Class = 'done';
+    step2Circle = '✓';
+    step3Class = 'active';
+    lineWidth = '75%';
+  } else if (status === 'delivered') {
+    step1Class = 'done';
+    step1Circle = '✓';
+    step1Name = '1. Received';
+    step1Sub = 'RAWs Checked';
+    step2Class = 'done';
+    step2Circle = '✓';
+    step3Class = 'done';
+    step3Circle = '✓';
+    step4Class = 'done';
+    step4Circle = '✓';
+    lineWidth = '100%';
+  }
+
+  return `
+    <div class="tracker-row">
+      <div class="tracker-steps">
+        <div class="tracker-line"><div class="tracker-line-fill" style="width: ${lineWidth};"></div></div>
+        <div class="tracker-step ${step1Class}"><div class="step-circle">${step1Circle}</div><div class="step-name">${step1Name}</div><div class="step-sub">${step1Sub}</div></div>
+        <div class="tracker-step ${step2Class}"><div class="step-circle">${step2Circle}</div><div class="step-name">${step2Name}</div><div class="step-sub">${step2Sub}</div></div>
+        <div class="tracker-step ${step3Class}"><div class="step-circle">${step3Circle}</div><div class="step-name">${step3Name}</div><div class="step-sub">${step3Sub}</div></div>
+        <div class="tracker-step ${step4Class}"><div class="step-circle">${step4Circle}</div><div class="step-name">${step4Name}</div><div class="step-sub">${step4Sub}</div></div>
+      </div>
+    </div>
+  `;
+}
+
 function updateCountdown() {
-  // Update dashboard live timer (tracks primary active job 085)
+  const isDemo = isCurrentUserDemo();
+  
+  // Find primary active order for dashboard
+  let primaryActiveOrder = null;
+  if (isDemo && ORDERS['085'] && ORDERS['085'].status !== 'delivered') {
+    primaryActiveOrder = ORDERS['085'];
+  } else {
+    // First non-delivered custom order for this client
+    const activeKeys = Object.keys(ORDERS).filter(k => k !== '084' && k !== '085' && ORDERS[k].status !== 'delivered');
+    if (activeKeys.length > 0) {
+      primaryActiveOrder = ORDERS[activeKeys[0]];
+    }
+  }
+
+  // Update dashboardLiveTimer
+  const dashTimer = document.getElementById('dashboardLiveTimer');
+  if (dashTimer) {
+    if (primaryActiveOrder && primaryActiveOrder.deadlineMs) {
+      const diff = primaryActiveOrder.deadlineMs - Date.now();
+      const res = getTimerClassAndText(diff, primaryActiveOrder.totalDurationMs || (24 * 3600 * 1000));
+      dashTimer.className = 'timer-pill ' + res.className;
+      dashTimer.innerHTML = res.text;
+    } else {
+      dashTimer.className = 'timer-pill stage-green';
+      dashTimer.innerHTML = '✓ All Orders Delivered';
+    }
+  }
+
+  // Update orderPipelineTimer for 085 if demo
   const o85 = ORDERS['085'];
   if (o85 && o85.deadlineMs) {
     const diff85 = o85.deadlineMs - Date.now();
     const res85 = getTimerClassAndText(diff85, o85.totalDurationMs || (24 * 3600 * 1000));
-    const dashTimer = document.getElementById('dashboardLiveTimer');
-    if (dashTimer) {
-      dashTimer.className = 'timer-pill ' + res85.className;
-      dashTimer.innerHTML = res85.text;
-    }
     const pipeTimer85 = document.getElementById('orderPipelineTimer');
     if (pipeTimer85) {
       pipeTimer85.className = 'timer-pill ' + res85.className;
@@ -2052,10 +2166,10 @@ function updateCountdown() {
     }
   }
 
-  // Update timers for all active orders in pipeline
+  // Update all timers in pipeline and dashboard
   Object.keys(ORDERS).forEach(id => {
     const o = ORDERS[id];
-    if (o.status !== 'delivered' && o.deadlineMs) {
+    if (o.deadlineMs) {
       const diff = o.deadlineMs - Date.now();
       const res = getTimerClassAndText(diff, o.totalDurationMs || (24 * 3600 * 1000));
       const el = document.getElementById('timer_order_' + id);
@@ -2063,9 +2177,14 @@ function updateCountdown() {
         el.className = 'timer-pill ' + res.className;
         el.innerHTML = res.text;
       }
+      const dashOrdTimer = document.getElementById('dash_timer_' + id);
+      if (dashOrdTimer) {
+        dashOrdTimer.className = 'timer-pill ' + res.className;
+        dashOrdTimer.innerHTML = res.text;
+      }
       if (currentModalId === id) {
         const modalTimer = document.getElementById('modalTimer');
-        if (modalTimer) {
+        if (modalTimer && o.status !== 'delivered') {
           modalTimer.className = 'timer-pill ' + res.className;
           modalTimer.innerHTML = res.text;
         }
@@ -2073,6 +2192,7 @@ function updateCountdown() {
     }
   });
 }
+
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
@@ -2164,7 +2284,7 @@ function renderDashboardOverview() {
   // 1. Active Job Card (if any)
   if (activeOrderList.length > 0) {
     const o = activeOrderList[0];
-    const timerId = (o.numericId === '085') ? 'dashboardLiveTimer' : ('dash_timer_' + o.numericId);
+    const timerId = 'dashboardLiveTimer';
     const isAgreed = localStorage.getItem('shoaib_price_approved_' + o.numericId) === '1' || o.isAgreed;
     const customAgreed = localStorage.getItem('shoaib_agreed_price_' + o.numericId);
     const displayPrice = isAgreed ? (customAgreed || o.price) : o.price;
@@ -2191,15 +2311,7 @@ function renderDashboardOverview() {
           <span class="spec-tag">⏱️ ${o.deadline}</span>
           <span class="spec-tag ${isAgreed ? 'green' : 'amber'}">🏷️ ${isAgreed ? 'Agreed Budget: ' + displayPrice + ' ✓' : 'Proposed Budget: ' + displayPrice + ' (Reviewing ⏳)'}</span>
         </div>
-        <div class="tracker-row">
-          <div class="tracker-steps">
-            <div class="tracker-line"><div class="tracker-line-fill" style="width: 48%;"></div></div>
-            <div class="tracker-step done"><div class="step-circle">✓</div><div class="step-name">1. Received</div><div class="step-sub">RAWs Checked</div></div>
-            <div class="tracker-step active"><div class="step-circle">2</div><div class="step-name">2. In Production</div><div class="step-sub">${o.service}</div></div>
-            <div class="tracker-step"><div class="step-circle">3</div><div class="step-name">3. Quality Review</div><div class="step-sub">100% Zoom Check</div></div>
-            <div class="tracker-step"><div class="step-circle">4</div><div class="step-name">4. Delivered</div><div class="step-sub">Ready for Download</div></div>
-          </div>
-        </div>
+        ${renderTrackerHTML(o.status, o.service)}v>
       </div>
     `;
   }
@@ -2406,15 +2518,7 @@ function renderActiveOrdersPipeline() {
           <span class="spec-tag ${isAgreed ? 'green' : 'amber'}" id="pipeBudgetBadge_${id}">🏷️ ${isAgreed ? 'Agreed Budget: ' + displayPrice + ' ✓' : 'Proposed Budget: ' + displayPrice + ' (Reviewing ⏳)'}</span>
         </div>
 
-        <div class="tracker-row">
-          <div class="tracker-steps">
-            <div class="tracker-line"><div class="tracker-line-fill" style="width: 48%;"></div></div>
-            <div class="tracker-step done"><div class="step-circle">✓</div><div class="step-name">1. Received</div></div>
-            <div class="tracker-step active"><div class="step-circle">2</div><div class="step-name">2. In Production</div></div>
-            <div class="tracker-step"><div class="step-circle">3</div><div class="step-name">3. Quality Review</div></div>
-            <div class="tracker-step"><div class="step-circle">4</div><div class="step-name">4. Delivered</div></div>
-          </div>
-        </div>
+        ${renderTrackerHTML(o.status, o.service)}v>
 
         <div style="background: #f8fafc; border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #475569;">
           ⚡ <strong>Studio Production Note:</strong> Senior commercial retoucher assigned. Color-calibrated display profiling active for ${o.service}.
@@ -2845,7 +2949,7 @@ function renderInvoicesList() {
       <td style="text-align: center;">
         ${isPaid84 
           ? '<span class="inv-badge-paid">PAID ✓</span>' 
-          : '<span class="inv-badge-unpaid">UNPAID (Net 15)</span>'}
+          : '<span class="inv-badge-unpaid">UNPAID</span>'}
       </td>
       <td style="text-align: right; white-space: nowrap;">
         <button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); showSingleInvoice('084')">View Invoice 👁️</button>
@@ -2880,7 +2984,7 @@ function renderInvoicesList() {
       <td style="text-align: center;">
         ${isPaid85 
           ? '<span class="inv-badge-paid">PAID ✓</span>' 
-          : '<span class="inv-badge-advance">ADVANCE DUE</span>'}
+          : '<span class="inv-badge-advance">UNPAID</span>'}
       </td>
       <td style="text-align: right; white-space: nowrap;">
         <button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); showSingleInvoice('085')">View Invoice 👁️</button>
@@ -2919,7 +3023,7 @@ function renderInvoicesList() {
           <td style="text-align: center;">
             ${isPaid 
               ? '<span class="inv-badge-paid">PAID ✓</span>' 
-              : '<span class="inv-badge-advance">ADVANCE DUE</span>'}
+              : '<span class="inv-badge-advance">UNPAID</span>'}
           </td>
           <td style="text-align: right; white-space: nowrap;">
             <button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); showSingleInvoice('${id}')">View Invoice 👁️</button>
@@ -2996,24 +3100,52 @@ function renderInvoiceTabs(activeTab) {
   const container = document.getElementById('invoiceTabsContainer');
   if (!container) return;
 
-  let tabsHtml = `
-    <button class="btn ${activeTab === 'all' ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectInvoiceTab('all')">
-      💳 Total Outstanding Balance
-    </button>
-    <button class="btn ${activeTab === '084' ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectInvoiceTab('084')">
-      📄 Invoice #RS-2026-084 ($490.00 &bull; Jewelry)
-    </button>
-    <button class="btn ${activeTab === '085' ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectInvoiceTab('085')">
-      ⚡ Advance Invoice #RS-2026-085 ($600.00 &bull; Fashion)
-    </button>
-  `;
+  const isDemo = isCurrentUserDemo();
+  let tabsHtml = '';
 
+  if (isDemo) {
+    tabsHtml += `
+      <button class="btn ${activeTab === 'all' ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectInvoiceTab('all')">
+        💳 Total Outstanding Balance
+      </button>
+      <button class="btn ${activeTab === '084' ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectInvoiceTab('084')">
+        📄 Invoice #RS-2026-084 ($490.00 &bull; Jewelry)
+      </button>
+      <button class="btn ${activeTab === '085' ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectInvoiceTab('085')">
+        ⚡ Invoice #RS-2026-085 ($600.00 &bull; Fashion)
+      </button>
+    `;
+  } else {
+    // Isolated strictly for this authenticated client! Never show 084 or 085!
+    const clientOrderKeys = Object.keys(ORDERS).filter(k => k !== '084' && k !== '085');
+    if (clientOrderKeys.length === 0) {
+      container.innerHTML = '<div style="font-size: 13px; color: var(--mut); padding: 8px 0;">No invoices issued yet. Submit your first project to generate your custom invoice.</div>';
+      return;
+    }
+    tabsHtml += `
+      <button class="btn ${activeTab === 'all' ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectInvoiceTab('all')">
+        💳 All Client Invoices
+      </button>
+    `;
+    clientOrderKeys.forEach(id => {
+      const o = ORDERS[id];
+      tabsHtml += `
+        <button class="btn ${activeTab === id ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectInvoiceTab('${id}')">
+          📄 Invoice ${o.id} ($${(o.numericPrice || 500).toFixed(2)})
+        </button>
+      `;
+    });
+    container.innerHTML = tabsHtml;
+    return;
+  }
+
+  // Also append custom orders for demo if any
   Object.keys(ORDERS).forEach(id => {
     if (id !== '084' && id !== '085') {
       const o = ORDERS[id];
       tabsHtml += `
         <button class="btn ${activeTab === id ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectInvoiceTab('${id}')">
-          ⚡ Advance Invoice ${o.id} ($${(o.numericPrice || 500).toFixed(2)})
+          📄 Invoice ${o.id} ($${(o.numericPrice || 500).toFixed(2)})
         </button>
       `;
     }
@@ -3076,9 +3208,9 @@ function loadInvoiceDetails() {
 
   if (activeInvoiceSelection === '085') {
     // ORDER 085 INVOICE
-    if (invNumberEl) invNumberEl.textContent = 'PROFORMA INVOICE #RS-2026-085';
+    if (invNumberEl) invNumberEl.textContent = 'INVOICE #RS-2026-085';
     if (badgeEl) {
-      badgeEl.textContent = isPaid85 ? 'ADVANCE PAID ✓' : 'ADVANCE / IN PRODUCTION';
+      badgeEl.textContent = isPaid85 ? 'PAID ✓' : 'UNPAID';
       badgeEl.style.background = isPaid85 ? '#ecfdf5' : '#eff6ff';
       badgeEl.style.color = isPaid85 ? '#065f46' : '#2563eb';
     }
@@ -3118,7 +3250,7 @@ function loadInvoiceDetails() {
     // ORDER 084 INVOICE
     if (invNumberEl) invNumberEl.textContent = 'INVOICE #RS-2026-084';
     if (badgeEl) {
-      badgeEl.textContent = isPaid84 ? 'PAID ✓' : 'PAYMENT PENDING';
+      badgeEl.textContent = isPaid84 ? 'PAID ✓' : 'UNPAID';
       badgeEl.style.background = isPaid84 ? '#ecfdf5' : '#fff1f2';
       badgeEl.style.color = isPaid84 ? '#065f46' : '#e11d48';
     }
@@ -3179,9 +3311,9 @@ function loadInvoiceDetails() {
     const ordPrice = o.numericPrice || 500;
     const ordPriceFormatted = '$' + ordPrice.toFixed(2);
 
-    if (invNumberEl) invNumberEl.textContent = 'PROFORMA INVOICE ' + o.id;
+    if (invNumberEl) invNumberEl.textContent = 'INVOICE ' + o.id;
     if (badgeEl) {
-      badgeEl.textContent = isPaid ? 'ADVANCE PAID ✓' : 'ADVANCE / IN PRODUCTION';
+      badgeEl.textContent = isPaid ? 'PAID ✓' : 'UNPAID';
       badgeEl.style.background = isPaid ? '#ecfdf5' : '#eff6ff';
       badgeEl.style.color = isPaid ? '#065f46' : '#2563eb';
     }
@@ -3374,7 +3506,7 @@ function handleNewOrderSubmit(e) {
   if (formatCheckboxes.length === 0) {
     if (formatError) formatError.style.display = 'block';
     document.getElementById('formatFieldWrapper')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    alert('Please select at least one Desired Returning File Format (PSD, JPEG, WEBP, TIFF, or PNG).');
+    showAuthToast('⚠️ Please select at least one Desired Returning File Format.');
     return;
   }
   const selectedFormats = Array.from(formatCheckboxes).map(cb => cb.value).join(' + ');
@@ -3386,21 +3518,23 @@ function handleNewOrderSubmit(e) {
   if (!hasDroppedFiles && !hasDriveLink) {
     if (uploadError) uploadError.style.display = 'block';
     document.getElementById('uploadFieldWrapper')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    alert('Please provide your project files: either drag & drop files into Option A or paste a Google Drive/Dropbox link in Option B.');
+    showAuthToast('⚠️ Please provide project files: either drag & drop into Option A or paste a Drive link in Option B.');
     return;
   }
 
   // 3. Validate Instructions
   if (!notes) {
-    alert('Please provide your retouching instructions or creative brief.');
+    showAuthToast('⚠️ Please provide your retouching instructions or creative brief.');
     document.getElementById('ordNotes')?.focus();
     return;
   }
 
-  // Generate Next Order ID
-  const allNumericKeys = Object.keys(ORDERS).map(k => parseInt(k, 10)).filter(n => !isNaN(n));
-  const nextNum = Math.max(85, ...allNumericKeys) + 1;
-  const idStr = String(nextNum).padStart(3, '0');
+  // Monotonically increasing random order ID (never decreases, starts 10480 + random jump)
+  const savedLastNum = parseInt(localStorage.getItem('shoaib_last_order_num') || '10480', 10);
+  const randomJump = Math.floor(Math.random() * 32) + 14; // jump between 14 and 45
+  const nextNum = Math.max(savedLastNum, 10480) + randomJump;
+  localStorage.setItem('shoaib_last_order_num', String(nextNum));
+  const idStr = String(nextNum);
   const fullOrderId = '#RS-2026-' + idStr;
 
   const durationHours = parseFloat(hours) || 24;
@@ -3414,7 +3548,7 @@ function handleNewOrderSubmit(e) {
   const curSess = getCurrentSession();
   const curProf = JSON.parse(localStorage.getItem('shoaib_client_profile') || '{}');
   const clientName = curSess?.name || curProf?.name || 'Studio Client';
-  const clientEmail = curSess?.email || curProf?.email || 'client@studio.com';
+  const clientEmail = (curSess?.email || curProf?.email || 'client@studio.com').toLowerCase();
   const clientCompany = curSess?.company || curProf?.company || 'Client Studio';
 
   const newOrder = {
@@ -3428,55 +3562,54 @@ function handleNewOrderSubmit(e) {
     deadline: durationHours + ' Hours Express SLA',
     totalDurationMs: durationHours * 3600 * 1000,
     deadlineMs: deadlineMs,
-    status: 'production',
+    status: 'pending', // INITIAL STATUS IS PENDING UNDER REVIEW (NO AUTO CHECKMARK)
     price: budgetFormatted,
     numericPrice: budgetNum,
     isAgreed: false,
+    clientName: clientName,
+    clientEmail: clientEmail, // FULL EMAIL IS 100% UNIQUE IDENTIFIER / USERNAME
+    clientCompany: clientCompany,
+    clientFolder: '[' + clientEmail + ']',
+    orderFolder: 'Order ' + fullOrderId,
     drive: drive || GOOGLE_DRIVE_FOLDER_URL,
     instructions: notes,
-    createdAt: 'Today, ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-    clientName: clientName,
-    clientEmail: clientEmail,
-    clientCompany: clientCompany
+    uploadedFiles: driveUploadedQueue.map(f => ({ name: f.name, size: f.size })),
+    fileCount: driveUploadedQueue.length,
+    createdAt: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })
   };
 
-  // Add to in-memory orders
   ORDERS[idStr] = newOrder;
 
   // Persist to localStorage
-  let customOrders = [];
   try {
-    const raw = localStorage.getItem('shoaib_custom_orders');
-    if (raw) customOrders = JSON.parse(raw);
-  } catch(e) {}
-  customOrders.push(newOrder);
-  localStorage.setItem('shoaib_custom_orders', JSON.stringify(customOrders));
-
-  // Record attached files summary on the order
-  if (driveUploadedQueue && driveUploadedQueue.length > 0) {
-    newOrder.attachedFiles = driveUploadedQueue.map(f => f.name);
+    const existing = JSON.parse(localStorage.getItem('shoaib_custom_orders') || '[]');
+    existing.push(newOrder);
+    localStorage.setItem('shoaib_custom_orders', JSON.stringify(existing));
+    // Trigger sync broadcast
+    localStorage.setItem('shoaib_sync_ping', Date.now().toString());
+  } catch(err) {
+    console.error('Failed to save order to localStorage:', err);
   }
 
-  // Clear form and queue
-  clearDriveQueue();
+  // Clear Form & Queue
   document.getElementById('newOrderForm')?.reset();
+  clearDriveQueue();
 
   // Re-render UI
+  renderActiveOrdersPipeline();
   renderDashboardOverview();
   renderArchiveSection();
-  renderActiveOrdersPipeline();
   renderInvoicesList();
-  updateCountdown();
+  renderInvoiceTabs('all');
 
-  alert('✓ Order ' + fullOrderId + ' Created Successfully!\n\n' +
-        'Project: ' + pName + '\n' +
-        'Service: ' + service + '\n' +
-        'Images: ' + count + ' RAWs\n' +
-        'Turnaround: ' + durationHours + ' Hours SLA\n' +
-        'Proposed Budget: ' + budgetFormatted + '\n\n' +
-        'Production SLA has started ticking. Redirecting to your Active Orders pipeline.');
+  // Success Notification
+  showAuthToast('🎉 Order ' + fullOrderId + ' submitted successfully! Awaiting studio review.');
 
-  switchPortalSection('orders');
+  // Auto navigate to active pipeline
+  setTimeout(() => {
+    switchPortalSection('orders');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, 1200);
 }
 
 // ========================================================
@@ -4421,5 +4554,32 @@ document.addEventListener('DOMContentLoaded', checkAuthGate);
     </form>
   </div>
 </div>
+<script>
+function updateDriveTargetDisplay() {
+  const curSess = getCurrentSession();
+  const curProf = JSON.parse(localStorage.getItem('shoaib_client_profile') || '{}');
+  const email = (curSess?.email || curProf?.email || 'client@studio.com').toLowerCase();
+  const savedLastNum = parseInt(localStorage.getItem('shoaib_last_order_num') || '10480', 10);
+  const nextNumPreview = Math.max(savedLastNum, 10480) + 14;
+  const displayEl = document.getElementById('driveTargetFolderDisplay');
+  if (displayEl) {
+    displayEl.textContent = '[' + email + '] › Order #RS-2026-' + nextNumPreview;
+  }
+}
+document.addEventListener('DOMContentLoaded', updateDriveTargetDisplay);
+
+// TWO-WAY LIVE STORAGE SYNC WITH ADMIN CONSOLE
+window.addEventListener('storage', function(e) {
+  if (e.key === 'shoaib_sync_ping' || e.key === 'shoaib_custom_orders' || (e.key && e.key.startsWith('shoaib_status_')) || (e.key && e.key.startsWith('shoaib_price_'))) {
+    console.log('Live Storage Sync Received from Admin:', e.key);
+    loadStoredCustomOrders();
+    renderDashboardOverview();
+    renderActiveOrdersPipeline();
+    renderArchiveSection();
+    renderInvoicesList();
+    if (typeof loadInvoiceDetails === 'function') loadInvoiceDetails();
+  }
+});
+</script>
 </body>
 </html>
