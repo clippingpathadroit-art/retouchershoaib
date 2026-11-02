@@ -141,6 +141,57 @@ a { color: inherit; text-decoration: none; }
   color: #fff; border-radius: 8px; font-size: 14px; margin: 16px 0; outline: none;
 }
 
+
+/* GENERIC FLOATING MODAL OVERLAYS */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+.modal-box {
+  background: #18181b;
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 28px;
+  width: 100%;
+  max-width: 620px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+  color: #fff;
+}
+.modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: #27272a;
+  border: 1px solid #3f3f46;
+  color: #aaa;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s;
+  z-index: 10;
+}
+.modal-close:hover {
+  background: #ef4444;
+  color: #fff;
+  border-color: #ef4444;
+}
+
 /* ADMIN TOAST NOTIFICATION */
 #adminToast {
   position: fixed;
@@ -183,7 +234,7 @@ a { color: inherit; text-decoration: none; }
       <input type="password" id="adminPinInput" class="pin-input" placeholder="••••" maxlength="6" autofocus required>
       <button type="submit" class="btn" style="width: 100%; padding: 12px;">Unlock Director Panel</button>
       <div id="pinErrorMsg" style="color: #ef4444; font-size: 12px; font-weight: bold; margin-top: 12px;"></div>
-      <div style="font-size: 11px; color: #666; margin-top: 14px;">(Default Studio PIN: 8800)</div>
+      <div style="font-size: 11px; color: #666; margin-top: 14px;">(Studio Director PIN: 2026)</div>
     </form>
   </div>
 </div>
@@ -345,7 +396,7 @@ let currentAdminModalId = '084';
 
 function verifyPin() {
   const pinInput = document.getElementById('adminPinInput');
-  const err = document.getElementById('pinError');
+  const err = document.getElementById('pinErrorMsg') || document.getElementById('pinError');
   if (pinInput.value === ADMIN_PIN) {
     document.getElementById('pinLockModal').style.display = 'none';
     sessionStorage.setItem('shoaib_admin_unlocked', '1');
@@ -379,44 +430,9 @@ function renderAdminTable() {
   const tbody = document.getElementById('adminOrdersTbody');
   if (!tbody) return;
 
-  // Aggregate orders
+  // Aggregate orders from shoaib_custom_orders
   let ordersList = [];
 
-  // Order 084 (Demo 1)
-  if (localStorage.getItem('shoaib_deleted_084') !== '1') {
-    ordersList.push({
-      id: '#RS-2026-084',
-      numericId: '084',
-      clientName: 'Sarah Jenkins',
-      clientEmail: 'sarah@jenkinsstudio.com',
-      service: 'Luxury Jewelry & Horology',
-      instructions: '14 RAW focus stacks: clean microscopic dust & prong alignment, 16-bit master PSDs.',
-      price: '$490.00 USD',
-      status: localStorage.getItem('shoaib_status_084') || 'delivered',
-      drive: localStorage.getItem('shoaib_del_url_084') || 'https://drive.google.com/drive/folders/1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc?usp=drive_link',
-      deadlineMs: Date.now() - 3600000,
-      isAgreed: true
-    });
-  }
-
-  // Order 085 (Demo 2)
-  if (localStorage.getItem('shoaib_deleted_085') !== '1') {
-    ordersList.push({
-      id: '#RS-2026-085',
-      numericId: '085',
-      clientName: 'Sarah Jenkins',
-      clientEmail: 'sarah@jenkinsstudio.com',
-      service: 'Editorial Fashion Lookbook',
-      instructions: 'Ghost mannequin editorial retouching, color consistency across apparel lookbook.',
-      price: '$600.00 USD',
-      status: localStorage.getItem('shoaib_status_085') || 'production',
-      drive: localStorage.getItem('shoaib_del_url_085') || 'https://drive.google.com/drive/folders/1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc?usp=drive_link',
-      deadlineMs: Date.now() + (18.5 * 3600 * 1000),
-      isAgreed: true
-    });
-  }
-
-  // Custom client orders
   try {
     const raw = localStorage.getItem('shoaib_custom_orders');
     if (raw) {
@@ -424,18 +440,31 @@ function renderAdminTable() {
       if (Array.isArray(customOrders)) {
         customOrders.forEach(ord => {
           if (ord && ord.numericId && localStorage.getItem('shoaib_deleted_' + ord.numericId) !== '1') {
+            const numId = String(ord.numericId);
+            const clientEmail = (ord.clientEmail || 'client@studio.com').toLowerCase().trim();
+            const fullId = ord.id || ('#RS-2026-' + numId);
+            
+            // Resolve dedicated order drive folder (never master root folder!)
+            let orderDrive = ord.drive || localStorage.getItem('shoaib_client_drive_' + clientEmail) || '';
+            if (!orderDrive || orderDrive.includes('1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc')) {
+              orderDrive = 'https://drive.google.com/drive/search?q=' + encodeURIComponent(fullId);
+            }
+
             ordersList.push({
-              id: ord.id,
-              numericId: ord.numericId,
+              id: fullId,
+              numericId: numId,
               clientName: ord.clientName || 'Studio Client',
-              clientEmail: (ord.clientEmail || 'client@studio.com').toLowerCase(),
-              service: ord.service || ord.title,
+              clientEmail: clientEmail,
+              clientCompany: ord.clientCompany || 'Client Studio',
+              clientPhone: ord.clientPhone || '',
+              service: ord.service || ord.title || 'High-End Retouching',
               instructions: ord.instructions || 'Standard commercial retouching specifications.',
               price: ord.price || '$500.00 USD',
-              status: localStorage.getItem('shoaib_status_' + ord.numericId) || ord.status || 'pending',
-              drive: localStorage.getItem('shoaib_del_url_' + ord.numericId) || ord.drive || 'https://drive.google.com/drive/folders/1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc?usp=drive_link',
+              numericPrice: parseFloat(ord.numericPrice) || parseFloat(String(ord.price || '').replace(/[^0-9.]/g, '')) || 500,
+              status: localStorage.getItem('shoaib_status_' + numId) || ord.status || 'pending',
+              drive: localStorage.getItem('shoaib_del_url_' + numId) || orderDrive,
               deadlineMs: ord.deadlineMs || (Date.now() + 24 * 3600 * 1000),
-              isAgreed: localStorage.getItem('shoaib_price_approved_' + ord.numericId) === '1' || ord.isAgreed
+              isAgreed: localStorage.getItem('shoaib_price_approved_' + numId) === '1' || ord.isAgreed === true
             });
           }
         });
@@ -445,70 +474,136 @@ function renderAdminTable() {
     console.error('Error loading custom orders:', e);
   }
 
-  // Update Top Stats
+  // Calculate & Update Overview Stats Dynamically
   const totalOrdersEl = document.getElementById('admTotalOrders');
   if (totalOrdersEl) totalOrdersEl.textContent = ordersList.length;
 
   let activeCount = 0;
-  ordersList.forEach(o => { if (o.status !== 'delivered') activeCount++; });
-  const activeCommissionsEl = document.getElementById('admActiveJobs');
-  if (activeCommissionsEl) activeCommissionsEl.textContent = activeCount;
+  let deliveredCount = 0;
+  ordersList.forEach(o => {
+    if (o.status === 'delivered') deliveredCount++;
+    else activeCount++;
+  });
+
+  const activeJobsEl = document.querySelector('.stat-box:nth-child(2) .stat-num');
+  if (activeJobsEl) activeJobsEl.textContent = activeCount;
+
+  const deliveredEl = document.getElementById('admDeliveredCount');
+  if (deliveredEl) deliveredEl.textContent = deliveredCount;
 
   // Build Table Rows
   let html = '';
-  ordersList.forEach(ord => {
-    const id = ord.numericId;
-    const isApproved = ord.isAgreed;
-    const customAgreed = localStorage.getItem('shoaib_agreed_price_' + id);
-    const displayPrice = isApproved ? (customAgreed || ord.price) : ord.price;
-
-    html += `
-      <tr id="admRow_${id}">
-        <td><strong style="color: #fff; font-family: var(--f-display);">${ord.id}</strong></td>
-        <td>
-          <a href="javascript:void(0)" onclick="openClientDetailModal('${id}')" style="color: #60a5fa; font-weight: 700; text-decoration: underline;" title="Click for Full Profile, WhatsApp &amp; Audit">
-            ${ord.clientName} 👁️
-          </a>
-          <div style="font-size: 11px; color: #94a3b8; font-family: monospace; margin-top: 2px;">${ord.clientEmail}</div>
-        </td>
-        <td>
-          <strong style="color: #e2e8f0;">${ord.service}</strong>
-          <div style="font-size: 11px; color: #777; max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 2px;">
-            ${ord.instructions}
-          </div>
-        </td>
-        <td>
-          <span id="admTimerBadge_${id}" class="status-pill progress" style="font-size: 11px; font-weight: 800;">
-            ⏳ Calculating...
-          </span>
-        </td>
-        <td>
-          <div id="admPriceContainer_${id}">
-            <strong style="color: ${isApproved ? '#4ade80' : '#fbbf24'}; font-size: 13px;">${displayPrice}</strong><br>
-            ${!isApproved 
-              ? `<button class="btn sm green" style="padding: 2px 7px; font-size: 10px; margin-top: 4px;" onclick="acceptClientOffer('${id}', '${ord.price}')">✓ Accept Offer</button>` 
-              : `<span style="font-size: 10px; color: #4ade80;">Agreed ✓</span>`}
-          </div>
-        </td>
-        <td>
-          <select class="status-select" id="selStatus_${id}" onchange="updateOrderStatus('${id}', this.value)" style="background: #111; color: #fff; border: 1px solid #444; padding: 6px 10px; border-radius: 6px; font-weight: 700; font-size: 12px; cursor: pointer; width: 100%;">
-            <option value="pending" ${ord.status === 'pending' ? 'selected' : ''}>⏳ Pending</option>
-            <option value="received" ${ord.status === 'received' ? 'selected' : ''}>📥 Received</option>
-            <option value="production" ${ord.status === 'production' ? 'selected' : ''}>⚙️ In Production</option>
-            <option value="qc" ${ord.status === 'qc' ? 'selected' : ''}>🔍 QC / Review</option>
-            <option value="delivered" ${ord.status === 'delivered' ? 'selected' : ''}>✅ Delivered</option>
-          </select>
-        </td>
-        <td style="text-align: right; white-space: nowrap;">
-          <div style="display: flex; gap: 6px; justify-content: flex-end; align-items: center;">
-            <a href="${ord.drive}" target="_blank" class="btn sm outline" style="font-size: 11px; padding: 5px 9px;" title="Open Order Google Drive Folder">📂 Drive ↗</a>
-            <button class="btn sm outline" onclick="openDelModal('${id}')" style="font-size: 11px; padding: 5px 9px;" title="Upload or Paste Delivery Link">🔗 Delivery</button>
-            <button class="btn sm" style="background: #dc2626; color: #fff; border: 0; font-size: 11px; padding: 5px 9px;" onclick="deleteAdminOrder('${id}')" title="Delete Order">🗑️</button>
+  if (ordersList.length === 0) {
+    html = `
+      <tr>
+        <td colspan="7" style="text-align: center; padding: 48px 20px; color: #888;">
+          <div style="font-size: 36px; margin-bottom: 12px;">📭</div>
+          <div style="font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px;">No Active Client Orders in Queue</div>
+          <div style="font-size: 13px; color: #777; max-width: 480px; margin: 0 auto;">
+            Orders placed by clients via the <a href="portal.html" target="_blank" style="color: #60a5fa; text-decoration: underline;">Client Portal</a> will automatically appear here in real time.
           </div>
         </td>
       </tr>
     `;
-  });
+  } else {
+    ordersList.forEach(ord => {
+      const id = ord.numericId;
+      const isApproved = ord.isAgreed;
+      const customAgreed = localStorage.getItem('shoaib_agreed_price_' + id);
+      const displayPrice = isApproved ? (customAgreed || ord.price) : ord.price;
+      const baseNum = ord.numericPrice;
+
+      // Extra Work & Additional Fee Check
+      const extraSaved = localStorage.getItem('shoaib_extra_work_' + id);
+      let extraAmount = 0;
+      let extraDesc = '';
+      let extraQty = 0;
+      let extraRate = 0;
+      if (extraSaved) {
+        try {
+          const ex = JSON.parse(extraSaved);
+          if (ex && ex.amount > 0) {
+            extraAmount = Number(ex.amount);
+            extraDesc = ex.desc || 'Additional Revision & Scope';
+            extraQty = ex.qty || 1;
+            extraRate = ex.rate || extraAmount;
+          }
+        } catch(e) {}
+      }
+
+      // WhatsApp link if phone exists
+      const phoneDigits = (ord.clientPhone || '').replace(/[^0-9]/g, '');
+      const waLink = phoneDigits.length >= 7 ? ('https://wa.me/' + phoneDigits) : 'https://wa.me/8801710763251';
+
+      html += `
+        <tr id="admRow_${id}">
+          <td>
+            <strong style="color: #fff; font-family: var(--f-display);">${ord.id}</strong>
+          </td>
+          <td>
+            <a href="javascript:void(0)" onclick="openClientDetailModal('${id}')" style="color: #60a5fa; font-weight: 700; text-decoration: underline;" title="Click for Full Profile, WhatsApp &amp; Audit">
+              ${ord.clientName} 👁️
+            </a>
+            <div style="font-size: 11px; color: #94a3b8; font-family: monospace; margin-top: 2px;">
+              ${ord.clientEmail}
+            </div>
+            ${ord.clientPhone ? `<a href="${waLink}" target="_blank" style="font-size: 10px; color: #4ade80; text-decoration: none; display: inline-block; margin-top: 3px;">💬 WhatsApp Client</a>` : ''}
+          </td>
+          <td>
+            <strong style="color: #e2e8f0;">${ord.service}</strong>
+            <div style="font-size: 11px; color: #777; max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 2px;" title="${ord.instructions}">
+              ${ord.instructions}
+            </div>
+          </td>
+          <td>
+            <span id="admTimerBadge_${id}" class="status-pill progress" style="font-size: 11px; font-weight: 800; letter-spacing: 0.04em;">
+              ⏳ Calculating...
+            </span>
+          </td>
+          <td>
+            <div id="admPriceContainer_${id}">
+              <strong style="color: ${isApproved ? '#4ade80' : '#fbbf24'}; font-size: 13px;">${displayPrice}</strong>
+              ${!isApproved 
+                ? `<br><button class="btn sm green" style="padding: 2px 7px; font-size: 10px; margin-top: 4px;" onclick="acceptClientOffer('${id}', '${ord.price}')">✓ Accept Offer</button>` 
+                : `<span style="font-size: 10px; color: #4ade80; margin-left: 4px;">✓ Agreed</span>`}
+              
+              <!-- Additional Work & Revision Fee Display -->
+              ${extraAmount > 0 ? `
+                <div style="font-size: 11px; color: #fbbf24; font-weight: 700; margin-top: 3px; background: rgba(245, 158, 11, 0.1); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(245, 158, 11, 0.3);">
+                  ⚡ +$${extraAmount.toFixed(2)} Extra
+                  <div style="font-size: 10px; color: #aaa; font-weight: normal;">Total: $${(baseNum + extraAmount).toFixed(2)}</div>
+                </div>
+              ` : ''}
+
+              <!-- Extra Work Action Button -->
+              <div>
+                <button type="button" class="btn sm" onclick="openAdminExtraFeeModal('${id}')" 
+                        style="margin-top: 5px; font-size: 10px; padding: 2px 8px; border-radius: 4px; ${extraAmount > 0 ? 'background: #f59e0b; color: #000; font-weight: 800; border: none;' : 'background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);'}">
+                  ${extraAmount > 0 ? '✏️ Edit Extra ($' + extraAmount.toFixed(2) + ')' : '💰 + Extra Fee'}
+                </button>
+              </div>
+            </div>
+          </td>
+          <td>
+            <select class="status-select" id="selStatus_${id}" onchange="updateOrderStatus('${id}', this.value)" style="background: #111; color: #fff; border: 1px solid #444; padding: 6px 10px; border-radius: 6px; font-weight: 700; font-size: 12px; cursor: pointer; width: 100%;">
+              <option value="pending" ${ord.status === 'pending' ? 'selected' : ''}>⏳ Pending</option>
+              <option value="received" ${ord.status === 'received' ? 'selected' : ''}>📥 Received</option>
+              <option value="production" ${ord.status === 'production' ? 'selected' : ''}>⚙️ In Production</option>
+              <option value="qc" ${ord.status === 'qc' ? 'selected' : ''}>🔍 QC / Review</option>
+              <option value="delivered" ${ord.status === 'delivered' ? 'selected' : ''}>✅ Delivered</option>
+            </select>
+          </td>
+          <td style="text-align: right; white-space: nowrap;">
+            <div style="display: flex; gap: 6px; justify-content: flex-end; align-items: center;">
+              <a href="${ord.drive}" target="_blank" class="btn sm outline" style="font-size: 11px; padding: 5px 9px;" title="Open Specific Order Google Drive Subfolder">📂 Drive ↗</a>
+              <button class="btn sm outline" onclick="openDelModal('${id}')" style="font-size: 11px; padding: 5px 9px;" title="Upload or Paste Final Delivery Link">🔗 Delivery</button>
+              <button class="btn sm" style="background: #dc2626; color: #fff; border: 0; font-size: 11px; padding: 5px 9px;" onclick="deleteAdminOrder('${id}')" title="Permanently Delete Order">🗑️</button>
+            </div>
+          </td>
+        </tr>
+      `;
+    });
+  }
 
   tbody.innerHTML = html;
   filterAdminOrders();
@@ -520,7 +615,11 @@ function filterAdminOrders() {
   const query = (document.getElementById('adminOrderSearchInput')?.value || '').toLowerCase().trim();
   const rows = document.querySelectorAll('#adminOrdersTbody tr');
   rows.forEach(row => {
-    const text = row.innerText.toLowerCase();
+    if (!query) {
+      row.style.display = '';
+      return;
+    }
+    const text = row.textContent.toLowerCase();
     row.style.display = text.includes(query) ? '' : 'none';
   });
 }
@@ -528,14 +627,14 @@ function filterAdminOrders() {
 // UPDATE STATUS WITH LIVE STORAGE BROADCAST
 function updateOrderStatus(id, val) {
   localStorage.setItem('shoaib_status_' + id, val);
-  
+
   // Also update custom orders array if present
   try {
     const raw = localStorage.getItem('shoaib_custom_orders');
     if (raw) {
-      let orders = JSON.parse(raw);
+      const orders = JSON.parse(raw);
       orders.forEach(o => {
-        if (o.numericId === id || o.id === '#RS-2026-' + id) {
+        if (String(o.numericId) === String(id) || o.id === id) {
           o.status = val;
         }
       });
@@ -569,7 +668,7 @@ function deleteAdminOrder(id) {
     const raw = localStorage.getItem('shoaib_custom_orders');
     if (raw) {
       let orders = JSON.parse(raw);
-      orders = orders.filter(o => o.numericId !== id && o.id !== '#RS-2026-' + id);
+      orders = orders.filter(o => String(o.numericId) !== String(id) && o.id !== '#RS-2026-' + id);
       localStorage.setItem('shoaib_custom_orders', JSON.stringify(orders));
     }
   } catch(e) {}
@@ -584,55 +683,67 @@ function openClientDetailModal(id) {
   currentAdminModalId = id;
 
   let p = {
-    name: 'Sarah Jenkins',
-    company: 'Studio New York',
-    email: 'sarah@jenkinsstudio.com',
-    address: '450 West 33rd Street, New York, NY 10001, USA',
-    phone: '+1 (212) 555-0199',
-    tin: '',
-    instructions: '14 RAW focus stacks: clean microscopic dust & prong alignment, 16-bit master PSDs.'
+    name: 'Studio Client',
+    company: 'Creative Studio',
+    email: 'client@studio.com',
+    address: 'Commercial Studio Client',
+    phone: 'Not provided',
+    tin: 'None (Optional)',
+    instructions: 'Standard commercial retouching specifications.',
+    drive: ''
   };
 
-  if (id !== '084' && id !== '085') {
-    try {
-      const raw = localStorage.getItem('shoaib_custom_orders');
-      if (raw) {
-        const orders = JSON.parse(raw);
-        const ord = orders.find(o => o.numericId === id || o.id === '#RS-2026-' + id);
-        if (ord) {
-          p = {
-            name: ord.clientName || 'Studio Client',
-            company: ord.clientCompany || ord.clientName || 'Studio Client',
-            email: (ord.clientEmail || 'client@studio.com').toLowerCase(),
-            address: ord.clientAddress || 'Studio Commercial Client',
-            phone: ord.clientPhone || '+1 (212) 555-0199',
-            tin: ord.clientTin || 'None (Optional)',
-            instructions: ord.instructions || 'Standard commercial retouching instructions.'
-          };
+  try {
+    const raw = localStorage.getItem('shoaib_custom_orders');
+    if (raw) {
+      const orders = JSON.parse(raw);
+      const ord = orders.find(o => String(o.numericId) === String(id) || o.id === '#RS-2026-' + id || o.id === id);
+      if (ord) {
+        const emailLower = (ord.clientEmail || 'client@studio.com').toLowerCase().trim();
+        let userProfile = null;
+        try {
+          const users = JSON.parse(localStorage.getItem('shoaib_users') || '{}');
+          if (users[emailLower]) userProfile = users[emailLower];
+        } catch(e) {}
+
+        let driveLink = ord.drive || localStorage.getItem('shoaib_client_drive_' + emailLower) || '';
+        if (!driveLink || driveLink.includes('1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc')) {
+          driveLink = 'https://drive.google.com/drive/search?q=' + encodeURIComponent(ord.id || id);
         }
+
+        p = {
+          name: ord.clientName || userProfile?.name || 'Studio Client',
+          company: ord.clientCompany || userProfile?.company || 'Client Studio',
+          email: emailLower,
+          address: ord.clientAddress || userProfile?.address || 'Commercial Studio Client',
+          phone: ord.clientPhone || userProfile?.phone || '',
+          tin: ord.clientTin || userProfile?.tin || 'None (Optional)',
+          instructions: ord.instructions || 'Standard commercial retouching instructions.',
+          drive: driveLink
+        };
       }
-    } catch(e) {}
-  }
+    }
+  } catch(e) {}
 
   document.getElementById('cdmName').textContent = p.name;
   document.getElementById('cdmCompany').textContent = p.company;
   document.getElementById('cdmEmail').textContent = p.email;
   document.getElementById('cdmAddress').textContent = p.address;
   document.getElementById('cdmTin').textContent = p.tin || 'None (Optional)';
-  document.getElementById('cdmPhone').textContent = p.phone;
+  document.getElementById('cdmPhone').textContent = p.phone || 'Not provided';
   document.getElementById('cdmInstructions').textContent = p.instructions;
 
   // WhatsApp Link
-  const phoneDigits = p.phone.replace(/[^0-9]/g, '');
+  const phoneDigits = (p.phone || '').replace(/[^0-9]/g, '');
   const waBtn = document.getElementById('cdmWhatsAppBtn');
   if (waBtn) {
-    waBtn.href = 'https://wa.me/' + (phoneDigits.length >= 7 ? phoneDigits : '8801710763251');
+    waBtn.href = phoneDigits.length >= 7 ? ('https://wa.me/' + phoneDigits) : 'https://wa.me/8801710763251';
   }
 
-  // Client Drive Root Link
+  // Client Dedicated Order Drive Link (Never master root folder!)
   const driveBtn = document.getElementById('cdmDriveLink');
   if (driveBtn) {
-    driveBtn.href = 'https://drive.google.com/drive/folders/1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc?usp=drive_link';
+    driveBtn.href = p.drive;
   }
 
   // Studio TIN Button state
@@ -644,16 +755,18 @@ function openClientDetailModal(id) {
   }
 
   // IP & Country Audit
-  const savedIp = localStorage.getItem('shoaib_client_ip_' + id) || '68.195.12.84';
-  const savedCountry = localStorage.getItem('shoaib_client_country_' + id) || 'United States';
+  const savedIp = localStorage.getItem('shoaib_client_ip_' + id) || localStorage.getItem('shoaib_client_ip') || '68.195.12.84';
+  const savedCountry = localStorage.getItem('shoaib_client_country_' + id) || localStorage.getItem('shoaib_client_country') || 'United States';
   document.getElementById('cdmIp').textContent = savedIp;
-  document.getElementById('cdmCountry').textContent = '🇺🇸 ' + savedCountry + ' (Verified)';
+  document.getElementById('cdmCountry').textContent = '🌐 ' + savedCountry + ' (Verified)';
 
-  document.getElementById('adminClientDetailModal').style.display = 'flex';
+  const modal = document.getElementById('adminClientDetailModal');
+  if (modal) modal.style.display = 'flex';
 }
 
 function closeClientDetailModal() {
-  document.getElementById('adminClientDetailModal').style.display = 'none';
+  const modal = document.getElementById('adminClientDetailModal');
+  if (modal) modal.style.display = 'none';
 }
 
 function toggleStudioTinInModal() {
@@ -674,118 +787,119 @@ function openAllClientsModal() {
   const tbody = document.getElementById('allClientsTbody');
   if (!tbody) return;
 
-  // Aggregate clients by email
   const clientsMap = {};
 
-  // Add Sarah Jenkins (Demo)
-  clientsMap['sarah@jenkinsstudio.com'] = {
-    name: 'Sarah Jenkins',
-    email: 'sarah@jenkinsstudio.com',
-    company: 'Studio New York',
-    ordersCount: 2,
-    phone: '+1 (212) 555-0199'
-  };
-
-  // Add registered users pool (clients who signed up)
+  // 1. Registered users pool
   try {
     const rawUsers = localStorage.getItem('shoaib_users');
     if (rawUsers) {
       const users = JSON.parse(rawUsers);
       Object.keys(users).forEach(em => {
         const u = users[em];
-        const emailLower = em.toLowerCase();
+        const emailLower = em.toLowerCase().trim();
         if (!clientsMap[emailLower]) {
           clientsMap[emailLower] = {
             name: u.name || 'Studio Client',
             email: emailLower,
             company: u.company || 'Client Studio',
             ordersCount: 0,
-            phone: u.phone || '+1 (212) 555-0199'
+            phone: u.phone || ''
           };
         }
       });
     }
   } catch(e) {}
 
-  // Add currently active client profile if exists
+  // 2. Active client profile
   try {
     const rawProf = localStorage.getItem('shoaib_client_profile');
     if (rawProf) {
       const cp = JSON.parse(rawProf);
       if (cp && cp.email) {
-        const emailLower = cp.email.toLowerCase();
+        const emailLower = cp.email.toLowerCase().trim();
         if (!clientsMap[emailLower]) {
           clientsMap[emailLower] = {
             name: cp.name || 'Studio Client',
             email: emailLower,
             company: cp.company || 'Client Studio',
             ordersCount: 0,
-            phone: '+1 (212) 555-0199'
+            phone: cp.phone || ''
           };
+        } else {
+          if (cp.phone && !clientsMap[emailLower].phone) clientsMap[emailLower].phone = cp.phone;
+          if (cp.name && clientsMap[emailLower].name === 'Studio Client') clientsMap[emailLower].name = cp.name;
         }
       }
     }
   } catch(e) {}
 
-  // Add custom orders clients
+  // 3. Custom orders pool
   try {
     const raw = localStorage.getItem('shoaib_custom_orders');
     if (raw) {
       const orders = JSON.parse(raw);
       if (Array.isArray(orders)) {
         orders.forEach(o => {
-          const email = (o.clientEmail || 'client@studio.com').toLowerCase();
-          if (!clientsMap[email]) {
-            clientsMap[email] = {
+          const emailLower = (o.clientEmail || 'client@studio.com').toLowerCase().trim();
+          if (!clientsMap[emailLower]) {
+            clientsMap[emailLower] = {
               name: o.clientName || 'Studio Client',
-              email: email,
+              email: emailLower,
               company: o.clientCompany || o.clientName || 'Client Studio',
               ordersCount: 0,
-              phone: o.clientPhone || '+1 (212) 555-0199'
+              phone: o.clientPhone || ''
             };
           }
-          clientsMap[email].ordersCount += 1;
+          clientsMap[emailLower].ordersCount += 1;
         });
       }
     }
   } catch(e) {}
 
   let rowsHtml = '';
-  Object.keys(clientsMap).forEach(email => {
-    const c = clientsMap[email];
-    const phoneDigits = c.phone.replace(/[^0-9]/g, '');
-    rowsHtml += `
-      <tr>
-        <td>
-          <strong style="color: #fff; font-size: 13px;">${c.name}</strong>
-          <div style="font-size: 11px; color: #888;">${c.company}</div>
-        </td>
-        <td>
-          <span style="color: #38bdf8; font-family: monospace; font-weight: 700;">${c.email}</span>
-        </td>
-        <td style="text-align: center;">
-          <span class="status-pill delivered" style="font-size: 11px;">${c.ordersCount} Project${c.ordersCount > 1 ? 's' : ''}</span>
-        </td>
-        <td>
-          <a href="https://wa.me/${phoneDigits.length >= 7 ? phoneDigits : '8801710763251'}" target="_blank" class="btn sm green" style="font-size: 10px; padding: 4px 8px; text-decoration: none;">
-            💬 WhatsApp ↗
-          </a>
-        </td>
-        <td style="text-align: right; white-space: nowrap;">
-          <button class="btn sm outline" onclick="filterByClientEmail('${c.email}')" style="font-size: 11px; padding: 4px 10px;">
-            🔍 View Orders
-          </button>
-        </td>
-      </tr>
-    `;
-  });
+  const clientKeys = Object.keys(clientsMap);
+  if (clientKeys.length === 0) {
+    rowsHtml = '<tr><td colspan="5" style="text-align: center; padding: 30px; color: #888;">No registered clients found yet. Clients will automatically appear here upon sign-up or order submission.</td></tr>';
+  } else {
+    clientKeys.forEach(email => {
+      const c = clientsMap[email];
+      const phoneDigits = (c.phone || '').replace(/[^0-9]/g, '');
+      const waLink = phoneDigits.length >= 7 ? ('https://wa.me/' + phoneDigits) : 'https://wa.me/8801710763251';
+      rowsHtml += `
+        <tr>
+          <td>
+            <strong style="color: #fff; font-size: 13px;">${c.name}</strong>
+            <div style="font-size: 11px; color: #888;">${c.company}</div>
+          </td>
+          <td>
+            <span style="color: #38bdf8; font-family: monospace; font-weight: 700;">${c.email}</span>
+          </td>
+          <td style="text-align: center;">
+            <span class="status-pill delivered" style="font-size: 11px;">${c.ordersCount} Project${c.ordersCount !== 1 ? 's' : ''}</span>
+          </td>
+          <td>
+            <a href="${waLink}" target="_blank" class="btn sm green" style="font-size: 10px; padding: 4px 8px; text-decoration: none;">
+              💬 WhatsApp ↗
+            </a>
+          </td>
+          <td style="text-align: right; white-space: nowrap;">
+            <button class="btn sm outline" onclick="filterByClientEmail('${c.email}')" style="font-size: 11px; padding: 4px 10px;">
+              🔍 View Orders
+            </button>
+          </td>
+        </tr>
+      `;
+    });
+  }
 
   tbody.innerHTML = rowsHtml;
-  document.getElementById('allClientsModal').style.display = 'flex';
+  const modal = document.getElementById('allClientsModal');
+  if (modal) modal.style.display = 'flex';
 }
 
 function closeAllClientsModal() {
-  document.getElementById('allClientsModal').style.display = 'none';
+  const modal = document.getElementById('allClientsModal');
+  if (modal) modal.style.display = 'none';
 }
 
 function filterByClientEmail(email) {
@@ -798,34 +912,87 @@ function filterByClientEmail(email) {
 }
 
 // DELIVERY LINK MODAL
-let targetOrderId = '084';
+let targetOrderId = '';
 function openDelModal(id) {
   targetOrderId = id;
-  document.getElementById('delInputUrl').value = localStorage.getItem('shoaib_del_url_' + id) || '';
-  document.getElementById('delModal').style.display = 'flex';
+  const input = document.getElementById('delInputUrl');
+  if (input) input.value = localStorage.getItem('shoaib_del_url_' + id) || '';
+  const modal = document.getElementById('delModal');
+  if (modal) modal.style.display = 'flex';
 }
 
 function closeDelModal() {
-  document.getElementById('delModal').style.display = 'none';
+  const modal = document.getElementById('delModal');
+  if (modal) modal.style.display = 'none';
 }
 
 function saveDeliveryLink() {
-  const url = document.getElementById('delInputUrl').value.trim();
+  const url = (document.getElementById('delInputUrl')?.value || '').trim();
   if (!url) {
     showAdminToast('⚠️ Please enter a valid delivery link');
     return;
   }
   localStorage.setItem('shoaib_del_url_' + targetOrderId, url);
   localStorage.setItem('shoaib_status_' + targetOrderId, 'delivered');
+
+  // Also update shoaib_custom_orders
+  try {
+    const raw = localStorage.getItem('shoaib_custom_orders');
+    if (raw) {
+      let list = JSON.parse(raw);
+      list.forEach(o => {
+        if (String(o.numericId) === String(targetOrderId) || o.id === targetOrderId) {
+          o.status = 'delivered';
+          o.drive = url;
+        }
+      });
+      localStorage.setItem('shoaib_custom_orders', JSON.stringify(list));
+    }
+  } catch(e) {}
+
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
   showAdminToast('✓ Delivery master link saved & client portal synced!');
   closeDelModal();
   renderAdminTable();
 }
 
-// EXTRA FEE MODAL
+// EXTRA FEE MODAL FUNCTIONS
 function openAdminExtraFeeModal(id) {
   currentAdminModalId = id;
+  let clientDisplay = '#' + id;
+  try {
+    const raw = localStorage.getItem('shoaib_custom_orders');
+    if (raw) {
+      const orders = JSON.parse(raw);
+      const ord = orders.find(o => String(o.numericId) === String(id) || o.id === id);
+      if (ord) clientDisplay = (ord.id || ('#' + id)) + ' — ' + (ord.clientName || ord.clientEmail);
+    }
+  } catch(e) {}
+
+  const displayEl = document.getElementById('admExtraClientDisplay');
+  if (displayEl) displayEl.value = clientDisplay;
+
+  const descInput = document.getElementById('admExtraDescInput');
+  const qtyInput = document.getElementById('admExtraQtyInput');
+  const rateInput = document.getElementById('admExtraRateInput');
+  const previewEl = document.getElementById('admExtraTotalPreview');
+
+  const existing = localStorage.getItem('shoaib_extra_work_' + id);
+  if (existing) {
+    try {
+      const ex = JSON.parse(existing);
+      if (descInput) descInput.value = ex.desc || '';
+      if (qtyInput) qtyInput.value = ex.qty || 1;
+      if (rateInput) rateInput.value = ex.rate || 0;
+      if (previewEl) previewEl.textContent = '+$' + Number(ex.amount || 0).toFixed(2) + ' USD';
+    } catch(e) {}
+  } else {
+    if (descInput) descInput.value = 'Additional 5 Clipping Paths & High-Res Transparent PNGs';
+    if (qtyInput) qtyInput.value = '5';
+    if (rateInput) rateInput.value = '10';
+    if (previewEl) previewEl.textContent = '+$50.00 USD';
+  }
+
   const modal = document.getElementById('adminExtraFeeModal');
   if (modal) modal.style.display = 'flex';
 }
@@ -835,26 +1002,74 @@ function closeAdminExtraFeeModal() {
   if (modal) modal.style.display = 'none';
 }
 
+function calcAdmExtraTotal() {
+  const qty = parseFloat(document.getElementById('admExtraQtyInput')?.value) || 0;
+  const rate = parseFloat(document.getElementById('admExtraRateInput')?.value) || 0;
+  const total = qty * rate;
+  const preview = document.getElementById('admExtraTotalPreview');
+  if (preview) preview.textContent = '+$' + total.toFixed(2) + ' USD';
+}
+
 function saveAdminExtraFee() {
-  const desc = document.getElementById('extraFeeDesc')?.value.trim();
-  const qty = parseFloat(document.getElementById('extraFeeQty')?.value) || 0;
-  const rate = parseFloat(document.getElementById('extraFeeRate')?.value) || 0;
+  const desc = (document.getElementById('admExtraDescInput')?.value || '').trim() || 'Additional Revision & Scope';
+  const qty = parseFloat(document.getElementById('admExtraQtyInput')?.value) || 1;
+  const rate = parseFloat(document.getElementById('admExtraRateInput')?.value) || 0;
   const total = qty * rate;
 
   if (total <= 0) {
-    showAdminToast('⚠️ Please enter a valid quantity and rate');
+    showAdminToast('⚠️ Please enter a valid quantity and rate greater than zero');
     return;
   }
 
-  localStorage.setItem('shoaib_extra_work_' + currentAdminModalId, JSON.stringify({
-    desc: desc || 'Additional Work',
+  const feeData = {
+    desc: desc,
     qty: qty,
     rate: rate,
-    amount: total
-  }));
+    amount: total,
+    updatedAt: new Date().toISOString()
+  };
+
+  localStorage.setItem('shoaib_extra_work_' + currentAdminModalId, JSON.stringify(feeData));
+
+  // Sync with shoaib_custom_orders
+  try {
+    const raw = localStorage.getItem('shoaib_custom_orders');
+    if (raw) {
+      let list = JSON.parse(raw);
+      list.forEach(o => {
+        if (String(o.numericId) === String(currentAdminModalId) || o.id === currentAdminModalId) {
+          o.extraFee = total;
+          o.extraDesc = desc;
+        }
+      });
+      localStorage.setItem('shoaib_custom_orders', JSON.stringify(list));
+    }
+  } catch(e) {}
 
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
-  showAdminToast('✓ Additional fee of $' + total.toFixed(2) + ' added to Order #' + currentAdminModalId);
+  showAdminToast('✓ Additional fee of $' + total.toFixed(2) + ' USD added to Order #' + currentAdminModalId);
+  closeAdminExtraFeeModal();
+  renderAdminTable();
+}
+
+function clearAdminExtraFee() {
+  localStorage.removeItem('shoaib_extra_work_' + currentAdminModalId);
+  try {
+    const raw = localStorage.getItem('shoaib_custom_orders');
+    if (raw) {
+      let list = JSON.parse(raw);
+      list.forEach(o => {
+        if (String(o.numericId) === String(currentAdminModalId) || o.id === currentAdminModalId) {
+          delete o.extraFee;
+          delete o.extraDesc;
+        }
+      });
+      localStorage.setItem('shoaib_custom_orders', JSON.stringify(list));
+    }
+  } catch(e) {}
+
+  localStorage.setItem('shoaib_sync_ping', Date.now().toString());
+  showAdminToast('✓ Additional fee removed from Order #' + currentAdminModalId);
   closeAdminExtraFeeModal();
   renderAdminTable();
 }
@@ -867,28 +1082,46 @@ function updateAllAdminTimers() {
     const isDelivered = localStorage.getItem('shoaib_status_' + id) === 'delivered';
     if (isDelivered) {
       badge.className = 'status-pill delivered';
+      badge.style.background = 'rgba(22, 163, 74, 0.2)';
+      badge.style.color = '#4ade80';
+      badge.style.borderColor = 'rgba(22, 163, 74, 0.4)';
       badge.textContent = '✓ Delivered';
     } else {
-      let deadlineMs = Date.now() + (18.5 * 3600 * 1000);
+      let deadlineMs = 0;
       try {
         const raw = localStorage.getItem('shoaib_custom_orders');
         if (raw) {
           const orders = JSON.parse(raw);
-          const ord = orders.find(o => o.numericId === id);
-          if (ord && ord.deadlineMs) deadlineMs = ord.deadlineMs;
+          const ord = orders.find(o => String(o.numericId) === id || o.id === id);
+          if (ord && ord.deadlineMs) deadlineMs = Number(ord.deadlineMs);
         }
       } catch(e) {}
 
+      if (!deadlineMs) {
+        deadlineMs = Date.now() + (24 * 3600 * 1000);
+      }
+
       const diff = deadlineMs - Date.now();
       if (diff <= 0) {
+        const abs = Math.abs(diff);
+        const totalSec = Math.floor(abs / 1000);
+        const hrs = Math.floor(totalSec / 3600);
+        const mins = Math.floor((totalSec % 3600) / 60);
+        const secs = totalSec % 60;
         badge.className = 'status-pill received';
-        badge.textContent = '⏱️ SLA Due';
+        badge.style.background = 'rgba(239, 68, 68, 0.2)';
+        badge.style.color = '#ef4444';
+        badge.style.borderColor = 'rgba(239, 68, 68, 0.4)';
+        badge.textContent = '⏱️ Overdue +' + String(hrs).padStart(2, '0') + 'h ' + String(mins).padStart(2, '0') + 'm ' + String(secs).padStart(2, '0') + 's';
       } else {
         const totalSec = Math.floor(diff / 1000);
         const hrs = Math.floor(totalSec / 3600);
         const mins = Math.floor((totalSec % 3600) / 60);
         const secs = totalSec % 60;
         badge.className = 'status-pill progress';
+        badge.style.background = 'rgba(245, 158, 11, 0.2)';
+        badge.style.color = '#fbbf24';
+        badge.style.borderColor = 'rgba(245, 158, 11, 0.4)';
         badge.textContent = '⏳ ' + String(hrs).padStart(2, '0') + 'h ' + String(mins).padStart(2, '0') + 'm ' + String(secs).padStart(2, '0') + 's';
       }
     }
@@ -899,7 +1132,8 @@ setInterval(updateAllAdminTimers, 1000);
 // INITIAL LOAD
 document.addEventListener('DOMContentLoaded', () => {
   if (sessionStorage.getItem('shoaib_admin_unlocked') === '1') {
-    document.getElementById('pinLockModal').style.display = 'none';
+    const pinModal = document.getElementById('pinLockModal');
+    if (pinModal) pinModal.style.display = 'none';
   }
   renderAdminTable();
 });
@@ -907,10 +1141,11 @@ renderAdminTable();
 
 // LIVE TWO-WAY STORAGE SYNC FROM CLIENT PORTAL
 window.addEventListener('storage', (e) => {
-  if (e.key === 'shoaib_sync_ping' || e.key === 'shoaib_custom_orders' || (e.key && e.key.startsWith('shoaib_status_'))) {
+  if (e.key === 'shoaib_sync_ping' || e.key === 'shoaib_custom_orders' || (e.key && e.key.startsWith('shoaib_status_')) || (e.key && e.key.startsWith('shoaib_extra_work_'))) {
     renderAdminTable();
   }
 });
+
 </script>
 
 <!-- ADMIN TIN / TAX ID MODAL -->

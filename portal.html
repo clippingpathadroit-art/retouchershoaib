@@ -1883,6 +1883,8 @@ body {
           <div id="modalPriceAmount" style="font-size: 18px; font-weight: 800; color: #ff4d00;">$490.00 USD</div>
         </div>
       </div>
+      <!-- EXTRA FEE BANNER -->
+      <div id="modalExtraFeeBanner" style="display: none; background: #fffbeb; border: 1px solid #f59e0b; border-radius: 8px; padding: 12px 14px; margin-top: 12px;"></div>
     </div>
 
     <!-- SPECS -->
@@ -2602,6 +2604,32 @@ function openOrderDetails(id) {
     }
   }
 
+  // Extra Fee Alert Banner
+  const extraSaved = localStorage.getItem('shoaib_extra_work_' + orderKey);
+  const extraBannerEl = document.getElementById('modalExtraFeeBanner');
+  if (extraSaved) {
+    try {
+      const ex = JSON.parse(extraSaved);
+      if (ex && ex.amount > 0) {
+        if (extraBannerEl) {
+          const formattedRate = Number(ex.rate || ex.amount).toFixed(2);
+          const formattedAmt = Number(ex.amount).toFixed(2);
+          const formattedTot = ((o.numericPrice || 500) + Number(ex.amount)).toFixed(2);
+          extraBannerEl.style.display = 'block';
+          extraBannerEl.innerHTML = '<div style="font-size: 12px; font-weight: 800; color: #92400e; margin-bottom: 2px;">⚡ Additional Work &amp; Revision Added by Studio:</div>' +
+            '<div style="font-size: 12px; color: #78350f;"><strong>' + (ex.desc || 'Additional Revision') + '</strong> (' + (ex.qty || 1) + ' @ $' + formattedRate + ') — <strong style="color: #b45309;">+$' + formattedAmt + ' USD</strong></div>' +
+            '<div style="font-size: 11px; color: #92400e; margin-top: 4px;">Adjusted Total: <strong>$' + formattedTot + ' USD</strong> (Itemized on your Invoice)</div>';
+        }
+      } else if (extraBannerEl) {
+        extraBannerEl.style.display = 'none';
+      }
+    } catch(e) {
+      if (extraBannerEl) extraBannerEl.style.display = 'none';
+    }
+  } else if (extraBannerEl) {
+    extraBannerEl.style.display = 'none';
+  }
+
   // Download Action Container
   const dlBox = document.getElementById('modalDownloadContainer');
   if (dlBox) {
@@ -3026,7 +3054,18 @@ function renderInvoicesList() {
     if (id !== '084' && id !== '085') {
       const o = ORDERS[id];
       const isPaid = localStorage.getItem('shoaib_status_paid_' + id) === '1';
-      const ordAmt = o.numericPrice || 500;
+      let ordAmt = o.numericPrice || 500;
+      let hasExtra = false;
+      const exSaved = localStorage.getItem('shoaib_extra_work_' + id);
+      if (exSaved) {
+        try {
+          const ex = JSON.parse(exSaved);
+          if (ex && ex.amount > 0) {
+            ordAmt += Number(ex.amount);
+            hasExtra = true;
+          }
+        } catch(e) {}
+      }
       if (!isPaid) {
         totalUnpaid += ordAmt;
         unpaidCount++;
@@ -3156,9 +3195,17 @@ function renderInvoiceTabs(activeTab) {
     `;
     clientOrderKeys.forEach(id => {
       const o = ORDERS[id];
+      let tabAmt = o.numericPrice || 500;
+      const exSaved = localStorage.getItem('shoaib_extra_work_' + id);
+      if (exSaved) {
+        try {
+          const ex = JSON.parse(exSaved);
+          if (ex && ex.amount > 0) tabAmt += Number(ex.amount);
+        } catch(e) {}
+      }
       tabsHtml += `
         <button class="btn ${activeTab === id ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectInvoiceTab('${id}')">
-          📄 Invoice ${o.id} ($${(o.numericPrice || 500).toFixed(2)})
+          📄 Invoice ${o.id} ($${tabAmt.toFixed(2)})
         </button>
       `;
     });
@@ -3217,7 +3264,15 @@ function loadInvoiceDetails() {
   Object.keys(ORDERS).forEach(id => {
     if (id !== '084' && id !== '085') {
       const isPaid = localStorage.getItem('shoaib_status_paid_' + id) === '1';
-      if (!isPaid) totalUnpaidAll += (ORDERS[id].numericPrice || 500);
+      let ordAmt = ORDERS[id].numericPrice || 500;
+      const exSaved = localStorage.getItem('shoaib_extra_work_' + id);
+      if (exSaved) {
+        try {
+          const ex = JSON.parse(exSaved);
+          if (ex && ex.amount > 0) ordAmt += Number(ex.amount);
+        } catch(e) {}
+      }
+      if (!isPaid) totalUnpaidAll += ordAmt;
     }
   });
 
@@ -3336,6 +3391,27 @@ function loadInvoiceDetails() {
     const o = ORDERS[activeInvoiceSelection];
     const isPaid = localStorage.getItem('shoaib_status_paid_' + activeInvoiceSelection) === '1';
     const ordPrice = o.numericPrice || 500;
+
+    // Check Extra Work for this custom order
+    const extraSaved = localStorage.getItem('shoaib_extra_work_' + activeInvoiceSelection);
+    let extraAmount = 0;
+    let extraDesc = '';
+    let extraQty = 0;
+    let extraRate = 0;
+    if (extraSaved) {
+      try {
+        const ex = JSON.parse(extraSaved);
+        if (ex && ex.amount > 0) {
+          extraAmount = Number(ex.amount);
+          extraDesc = ex.desc || 'Additional Revision & Scope';
+          extraQty = ex.qty || 1;
+          extraRate = ex.rate || extraAmount;
+        }
+      } catch(e) {}
+    }
+
+    const totalPayableNum = ordPrice + extraAmount;
+    const totalPayableFormatted = '$' + totalPayableNum.toFixed(2);
     const ordPriceFormatted = '$' + ordPrice.toFixed(2);
 
     if (invNumberEl) invNumberEl.textContent = 'INVOICE ' + o.id;
@@ -3360,21 +3436,32 @@ function loadInvoiceDetails() {
       `;
     }
 
-    if (invTableBody) {
-      invTableBody.innerHTML = `
-        <tr>
-          <td><strong>${o.service} Commercial Retouching</strong><br><span style="font-size: 12px; color: var(--mut);">Project: ${o.title} &bull; ${o.images} &bull; Formats: ${o.format}</span></td>
-          <td class="num">${o.rawCount || 1}</td>
-          <td class="num">$${rateCalc.toFixed(2)}</td>
-          <td class="num"><strong>${ordPriceFormatted}</strong></td>
+    let rowsHtml = `
+      <tr>
+        <td><strong>${o.service} Commercial Retouching</strong><br><span style="font-size: 12px; color: var(--mut);">Project: ${o.title} &bull; ${o.images} &bull; Formats: ${o.format}</span></td>
+        <td class="num">${o.rawCount || 1}</td>
+        <td class="num">$${rateCalc.toFixed(2)}</td>
+        <td class="num"><strong>${ordPriceFormatted}</strong></td>
+      </tr>
+    `;
+
+    if (extraAmount > 0) {
+      rowsHtml += `
+        <tr style="background: #fffbeb;">
+          <td><strong style="color: #b45309;">⚡ Additional Work: ${extraDesc}</strong><br><span style="font-size: 12px; color: #78350f;">Requested modifications (${extraQty} items @ $${Number(extraRate).toFixed(2)})</span></td>
+          <td class="num">${extraQty}</td>
+          <td class="num">$${Number(extraRate).toFixed(2)}</td>
+          <td class="num"><strong style="color: #b45309;">+$${extraAmount.toFixed(2)}</strong></td>
         </tr>
       `;
     }
-    if (subtotalEl) subtotalEl.textContent = ordPriceFormatted;
-    if (totalPayableEl) totalPayableEl.textContent = ordPriceFormatted + ' USD';
+
+    if (invTableBody) invTableBody.innerHTML = rowsHtml;
+    if (subtotalEl) subtotalEl.textContent = totalPayableFormatted;
+    if (totalPayableEl) totalPayableEl.textContent = totalPayableFormatted + ' USD';
 
     const cardBtn = document.querySelector('#bankCARD .btn-green');
-    if (cardBtn) cardBtn.innerHTML = '💳 Pay ' + ordPriceFormatted + ' USD via Card ↗';
+    if (cardBtn) cardBtn.innerHTML = '💳 Pay ' + totalPayableFormatted + ' USD via Card ↗';
 
   } else {
     // CONSOLIDATED STATEMENT / ALL ORDERS DUE
@@ -3596,6 +3683,9 @@ function handleNewOrderSubmit(e) {
     clientName: clientName,
     clientEmail: clientEmail, // FULL EMAIL IS 100% UNIQUE IDENTIFIER / USERNAME
     clientCompany: clientCompany,
+    clientPhone: curProf?.phone || curSess?.phone || '',
+    clientAddress: curProf?.address || curSess?.address || '',
+    clientTin: curProf?.tin || curSess?.tin || '',
     clientFolder: '[' + clientEmail + ']',
     orderFolder: 'Order ' + fullOrderId,
     drive: drive || (clientEmail ? localStorage.getItem('shoaib_client_drive_' + clientEmail) : '') || '',
