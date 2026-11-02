@@ -3508,12 +3508,23 @@ function loadInvoiceDetails() {
     const cardBtn = document.querySelector('#bankCARD .btn-green');
     if (cardBtn) cardBtn.innerHTML = '💳 Pay $' + inv84Tot.toFixed(2) + ' USD via Card ↗';
 
-  } else if (ORDERS[activeInvoiceSelection]) {
-    // CUSTOM SUBMITTED ORDER INVOICE
-    const o = ORDERS[activeInvoiceSelection] || (typeof getClientOrders === 'function' ? getClientOrders()[activeInvoiceSelection] : null);
-    if (!o) return;
+  } else if (activeInvoiceSelection && activeInvoiceSelection !== 'all') {
     const normInvId = normalizeNumericId(activeInvoiceSelection);
-    const isPaid = localStorage.getItem('shoaib_status_paid_' + normInvId) === '1' || localStorage.getItem('shoaib_status_paid_' + activeInvoiceSelection) === '1';
+    const clientOrders = (typeof getClientOrders === 'function') ? getClientOrders() : {};
+    const o = ORDERS[activeInvoiceSelection] || ORDERS[normInvId] || clientOrders[activeInvoiceSelection] || clientOrders[normInvId];
+    if (!o) return;
+
+    // CUSTOM SUBMITTED ORDER INVOICE
+    const isPaid = localStorage.getItem('shoaib_status_paid_' + normInvId) === '1' || 
+                   localStorage.getItem('shoaib_status_paid_RS-2026-' + normInvId) === '1' || 
+                   localStorage.getItem('shoaib_status_paid_' + activeInvoiceSelection) === '1' ||
+                   o.isPaid === true;
+
+    if (isPaid) {
+      localStorage.removeItem('shoaib_payment_claim_' + normInvId);
+      localStorage.removeItem('shoaib_payment_claim_RS-2026-' + normInvId);
+      localStorage.removeItem('shoaib_payment_claim');
+    }
     const customAgreedPrice = localStorage.getItem('shoaib_agreed_price_' + normInvId) || localStorage.getItem('shoaib_agreed_price_RS-2026-' + normInvId) || o.price;
     if (customAgreedPrice) {
       o.price = customAgreedPrice;
@@ -3738,9 +3749,17 @@ function submitPaymentConfirmation() {
   const normInvId = normalizeNumericId(activeInvoiceSelection);
   const sess = getCurrentSession();
   const clientOrders = (typeof getClientOrders === 'function') ? getClientOrders() : ORDERS;
-  const currOrd = clientOrders[activeInvoiceSelection] || clientOrders[normInvId] || {};
+  const currOrd = clientOrders[activeInvoiceSelection] || clientOrders[normInvId] || ORDERS[activeInvoiceSelection] || ORDERS[normInvId] || {};
   const ex = getStoredExtraWork(normInvId);
-  const amt = (parseFloat(currOrd.numericPrice) || 0) + (ex ? ex.amount : 0);
+
+  let amt = 0;
+  if (normInvId === '084') {
+    amt = 490 + (ex ? ex.amount : 0);
+  } else if (normInvId === '085') {
+    amt = 250;
+  } else {
+    amt = (parseFloat(String(currOrd.numericPrice || currOrd.price || '').replace(/[^0-9.]/g, '')) || 0) + (ex ? ex.amount : 0);
+  }
 
   const claimData = {
     ref: ref,
@@ -5245,6 +5264,14 @@ async function syncPortalFromCloud() {
               }
               co.numericPrice = parseFloat(String(co.price || '').replace(/[^0-9.]/g, '')) || co.numericPrice || 25;
 
+              if (co.isPaid === true) {
+                localStorage.setItem('shoaib_status_paid_' + num, '1');
+                localStorage.setItem('shoaib_status_paid_RS-2026-' + num, '1');
+                localStorage.removeItem('shoaib_payment_claim_' + num);
+                localStorage.removeItem('shoaib_payment_claim_RS-2026-' + num);
+                localStorage.removeItem('shoaib_payment_claim');
+              }
+
               orderMap[num] = Object.assign({}, orderMap[num] || {}, co);
               ORDERS[num] = orderMap[num];
             }
@@ -5339,22 +5366,27 @@ async function syncPortalFromCloud() {
             cloudPaidKeys.add(cleanK);
             localStorage.setItem('shoaib_status_paid_' + cleanK, '1');
             localStorage.setItem('shoaib_status_paid_RS-2026-' + cleanK, '1');
+            localStorage.removeItem('shoaib_payment_claim_' + cleanK);
+            localStorage.removeItem('shoaib_payment_claim_RS-2026-' + cleanK);
+            localStorage.removeItem('shoaib_payment_claim');
           }
         });
 
-        const paidKeysToRemove = [];
-        for (let i = 0; i < localStorage.length; i++) {
-          const key = localStorage.key(i);
-          if (key && key.startsWith('shoaib_status_paid_')) {
-            const idPart = normalizeNumericId(key.replace('shoaib_status_paid_', ''));
-            if (idPart && idPart !== '084' && idPart !== '085' && !cloudPaidKeys.has(idPart)) {
-              paidKeysToRemove.push(key);
+        if (Object.keys(data.paidStatuses).length > 0) {
+          const paidKeysToRemove = [];
+          for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith('shoaib_status_paid_')) {
+              const idPart = normalizeNumericId(key.replace('shoaib_status_paid_', ''));
+              if (idPart && idPart !== '084' && idPart !== '085' && !cloudPaidKeys.has(idPart)) {
+                paidKeysToRemove.push(key);
+              }
             }
           }
-        }
-        if (paidKeysToRemove.length > 0) {
-          paidKeysToRemove.forEach(k => localStorage.removeItem(k));
-          changed = true;
+          if (paidKeysToRemove.length > 0) {
+            paidKeysToRemove.forEach(k => localStorage.removeItem(k));
+            changed = true;
+          }
         }
       }
 

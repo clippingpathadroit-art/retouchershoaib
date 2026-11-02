@@ -672,21 +672,25 @@ async function syncAdminFromCloud(showToastNotice = false) {
             cloudPaidKeys.add(cleanK);
             localStorage.setItem('shoaib_status_paid_' + cleanK, '1');
             localStorage.setItem('shoaib_status_paid_RS-2026-' + cleanK, '1');
+            localStorage.removeItem('shoaib_payment_claim_' + cleanK);
+            localStorage.removeItem('shoaib_payment_claim_RS-2026-' + cleanK);
           }
         });
 
-        // AUTO-PURGE: Purge local paid status if reverted in cloud
-        const paidKeysToRemove = [];
-        for (let i = 0; i < localStorage.length; i++) {
-          const key = localStorage.key(i);
-          if (key && key.startsWith('shoaib_status_paid_')) {
-            const idPart = normalizeNumericId(key.replace('shoaib_status_paid_', ''));
-            if (idPart && idPart !== '084' && idPart !== '085' && !cloudPaidKeys.has(idPart)) {
-              paidKeysToRemove.push(key);
+        // AUTO-PURGE: Purge local paid status if reverted in cloud (only if cloud provided records)
+        if (Object.keys(data.paidStatuses).length > 0) {
+          const paidKeysToRemove = [];
+          for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith('shoaib_status_paid_')) {
+              const idPart = normalizeNumericId(key.replace('shoaib_status_paid_', ''));
+              if (idPart && idPart !== '084' && idPart !== '085' && !cloudPaidKeys.has(idPart)) {
+                paidKeysToRemove.push(key);
+              }
             }
           }
+          paidKeysToRemove.forEach(k => localStorage.removeItem(k));
         }
-        paidKeysToRemove.forEach(k => localStorage.removeItem(k));
       }
 
       // 5. Sync Payment Claims from Cloud (with auto-purge)
@@ -2032,6 +2036,27 @@ function markAdminOrderPaid(id) {
   const numId = normalizeNumericId(id);
   localStorage.setItem('shoaib_status_paid_' + numId, '1');
   localStorage.setItem('shoaib_status_paid_RS-2026-' + numId, '1');
+  localStorage.removeItem('shoaib_payment_claim_' + numId);
+  localStorage.removeItem('shoaib_payment_claim_RS-2026-' + numId);
+  localStorage.removeItem('shoaib_payment_claim');
+
+  try {
+    const raw = localStorage.getItem('shoaib_custom_orders');
+    if (raw) {
+      const list = JSON.parse(raw);
+      let changed = false;
+      list.forEach(o => {
+        if (normalizeNumericId(o.numericId || o.id) === numId) {
+          o.isPaid = true;
+          changed = true;
+        }
+      });
+      if (changed) {
+        localStorage.setItem('shoaib_custom_orders', JSON.stringify(list));
+      }
+    }
+  } catch(e) {}
+
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
 
   if (GOOGLE_DRIVE_WEBHOOK_URL) {
@@ -2080,6 +2105,25 @@ function revertAdminOrderToUnpaid(id) {
     localStorage.removeItem('shoaib_status_paid_RS-2026-' + numId);
     localStorage.removeItem('shoaib_payment_claim_' + numId);
     localStorage.removeItem('shoaib_payment_claim_RS-2026-' + numId);
+    localStorage.removeItem('shoaib_payment_claim');
+
+    try {
+      const raw = localStorage.getItem('shoaib_custom_orders');
+      if (raw) {
+        const list = JSON.parse(raw);
+        let changed = false;
+        list.forEach(o => {
+          if (normalizeNumericId(o.numericId || o.id) === numId) {
+            o.isPaid = false;
+            changed = true;
+          }
+        });
+        if (changed) {
+          localStorage.setItem('shoaib_custom_orders', JSON.stringify(list));
+        }
+      }
+    } catch(e) {}
+
     localStorage.setItem('shoaib_sync_ping', Date.now().toString());
 
     if (GOOGLE_DRIVE_WEBHOOK_URL) {

@@ -324,10 +324,11 @@ function doPost(e) {
       var ref = String(data.ref || "").trim();
       var lock = LockService.getScriptLock();
       lock.tryLock(10000);
+      var claimObj = null;
       try {
         var db = getDatabase(rootFolder);
         if (!db.paymentClaims) db.paymentClaims = {};
-        var claimObj = {
+        claimObj = {
           ref: ref,
           orderId: cleanNum || rawId,
           amount: Number(data.amount || 0),
@@ -346,6 +347,67 @@ function doPost(e) {
       } finally {
         lock.releaseLock();
       }
+
+      // (ক) শোয়েবকে তাৎক্ষণিক পেমেন্ট ভেরিফিকেশন ইমেইল অ্যালার্ট পাঠানো
+      try {
+        var adminEmails = ["retouchershoaib@gmail.com", "s.siddique.me@gmail.com"];
+        var adminSubject = "💳 Payment Claim Submitted: Order #" + (cleanNum || rawId) + " ($" + Number(data.amount || 0).toFixed(2) + " USD) - " + (data.clientName || "Studio Client");
+        var adminBody = "A client has submitted payment transfer confirmation on Retoucher Shoaib Studio Portal.\n\n" +
+          "═════════════════════════════════════════════\n" +
+          "PAYMENT CLAIM DETAILS\n" +
+          "═════════════════════════════════════════════\n" +
+          "• Order ID: #RS-2026-" + (cleanNum || rawId) + "\n" +
+          "• Client Name: " + (data.clientName || "Studio Client") + "\n" +
+          "• Client Email: " + (data.clientEmail || "Not provided") + "\n" +
+          "• Claimed Amount: $" + Number(data.amount || 0).toFixed(2) + " USD\n" +
+          "• Transfer Reference / TX: #" + ref + "\n" +
+          "• Submission Timestamp: " + (data.time || "") + " " + (data.date || "") + "\n\n" +
+          "═════════════════════════════════════════════\n" +
+          "ACTION IN STUDIO ADMIN CONSOLE\n" +
+          "═════════════════════════════════════════════\n" +
+          "1. Check your Wise or Bank account for reference #" + ref + ".\n" +
+          "2. Open Admin Console:\n" +
+          "   https://retouchershoaib.pages.dev/admin\n" +
+          "3. In '⚡ Incoming Payment Claims', click [ Review & Mark Paid ] to confirm.\n" +
+          "   This will instantly mark the client invoice as PAID ✓ and issue their official receipt.\n";
+
+        MailApp.sendEmail({
+          to: adminEmails[0],
+          cc: adminEmails[1],
+          subject: adminSubject,
+          body: adminBody,
+          name: "Retoucher Shoaib Billing Desk"
+        });
+      } catch(errMailAdmin) {
+        console.error("Admin payment notification error:", errMailAdmin);
+      }
+
+      // (খ) ক্লায়েন্টকে প্রাপ্তিস্বীকার ইমেইল পাঠানো
+      try {
+        var clientEmail = data.clientEmail || "";
+        if (clientEmail && clientEmail.indexOf("@") !== -1) {
+          var clientSubject = "⏳ Payment Verification in Progress: Order #RS-2026-" + (cleanNum || rawId);
+          var clientBody = "Dear " + (data.clientName || "Valued Client") + ",\n\n" +
+            "Thank you! We have received your payment transfer confirmation (Ref #" + ref + ") for Order #RS-2026-" + (cleanNum || rawId) + ".\n\n" +
+            "Studio Director Shoaib Siddique is verifying the funds with bank records. Once verified, your status will update to PAID ✓ and your certified tax invoice receipt will be available for download.\n\n" +
+            "Check live status anytime:\n" +
+            "https://retouchershoaib.pages.dev/portal\n\n" +
+            "Warm regards,\n" +
+            "Retoucher Shoaib Studio\n" +
+            "https://retouchershoaib.pages.dev\n";
+
+          MailApp.sendEmail({
+            to: clientEmail,
+            subject: clientSubject,
+            body: clientBody,
+            name: "Retoucher Shoaib Studio",
+            replyTo: "s.siddique.me@gmail.com"
+          });
+        }
+      } catch(errMailCl) {
+        console.error("Client claim acknowledgement error:", errMailCl);
+      }
+
       return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
         .setMimeType(ContentService.MimeType.JSON);
     }
@@ -356,6 +418,9 @@ function doPost(e) {
       var cleanNum = rawId.replace(/[^0-9]/g, "");
       var lock = LockService.getScriptLock();
       lock.tryLock(10000);
+      var clientEmail = "";
+      var clientName = "";
+      var orderTitle = "Commercial Retouching";
       try {
         var db = getDatabase(rootFolder);
         if (!db.paidStatuses) db.paidStatuses = {};
@@ -365,10 +430,29 @@ function doPost(e) {
           db.paidStatuses["RS-2026-" + cleanNum] = true;
           db.paidStatuses["#RS-2026-" + cleanNum] = true;
         }
+
+        // ক্লেইম লিস্ট থেকে এই অর্ডার সফলভাবে পেইড হওয়ায় ক্লিয়ার করা
+        if (db.paymentClaims) {
+          delete db.paymentClaims[rawId];
+          if (cleanNum) {
+            delete db.paymentClaims[cleanNum];
+            delete db.paymentClaims["RS-2026-" + cleanNum];
+            delete db.paymentClaims["#RS-2026-" + cleanNum];
+            Object.keys(db.paymentClaims).forEach(function(k) {
+              if (String(k).replace(/[^0-9]/g, "") === cleanNum) {
+                delete db.paymentClaims[k];
+              }
+            });
+          }
+        }
+
         for (var i = 0; i < db.orders.length; i++) {
           var oNum = String(db.orders[i].numericId || db.orders[i].id || "").replace(/[^0-9]/g, "");
           if (oNum === cleanNum || String(db.orders[i].numericId) === rawId) {
             db.orders[i].isPaid = true;
+            clientEmail = db.orders[i].clientEmail || db.orders[i].email || "";
+            clientName = db.orders[i].clientName || "";
+            orderTitle = db.orders[i].projectTitle || db.orders[i].title || "Commercial Retouching";
             break;
           }
         }
@@ -376,6 +460,37 @@ function doPost(e) {
       } finally {
         lock.releaseLock();
       }
+
+      // ক্লায়েন্টকে পেইড ট্যাক্স রিসিট কনফার্মেশন ইমেইল পাঠানো
+      try {
+        if (clientEmail && clientEmail.indexOf("@") !== -1) {
+          var paidSubject = "✓ Payment Received & Official Receipt Issued: Order #RS-2026-" + (cleanNum || rawId);
+          var paidBody = "Dear " + (clientName || "Valued Client") + ",\n\n" +
+            "Thank you! Your payment for Order #RS-2026-" + (cleanNum || rawId) + " (" + orderTitle + ") has been verified and marked as PAID ✓.\n\n" +
+            "═════════════════════════════════════════════\n" +
+            "OFFICIAL PAYMENT RECEIPT\n" +
+            "═════════════════════════════════════════════\n" +
+            "• Order ID: #RS-2026-" + (cleanNum || rawId) + "\n" +
+            "• Status: PAID ✓ (All settled)\n" +
+            "• Studio: Retoucher Shoaib High-End Commercial Post-Production\n\n" +
+            "Your official printable tax invoice & receipt is ready in your Client Portal:\n" +
+            "https://retouchershoaib.pages.dev/portal\n\n" +
+            "Warm regards,\n" +
+            "Retoucher Shoaib Billing Desk\n" +
+            "https://retouchershoaib.pages.dev\n";
+
+          MailApp.sendEmail({
+            to: clientEmail,
+            subject: paidSubject,
+            body: paidBody,
+            name: "Retoucher Shoaib Studio",
+            replyTo: "s.siddique.me@gmail.com"
+          });
+        }
+      } catch(errMailPaid) {
+        console.error("Client paid receipt email error:", errMailPaid);
+      }
+
       return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
         .setMimeType(ContentService.MimeType.JSON);
     }
