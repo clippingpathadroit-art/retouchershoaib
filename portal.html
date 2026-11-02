@@ -3574,9 +3574,14 @@ function handleNewOrderSubmit(e) {
 
   ORDERS[idStr] = newOrder;
 
-  // Asynchronously trigger dedicated order sub-folder creation in Shoaib's Google Drive
-  triggerCreateOrderDriveFolder(clientEmail, fullOrderId).then(orderUrl => {
-    if (orderUrl) {
+  // Snapshot queued files to upload before clearing queue
+  const filesToUpload = [...driveUploadedQueue];
+
+  // Asynchronously trigger dedicated order sub-folder creation and upload image files
+  triggerCreateOrderDriveFolder(clientEmail, fullOrderId).then(async (data) => {
+    if (data && (data.orderFolderUrl || data.folderUrl)) {
+      const orderUrl = data.orderFolderUrl || data.folderUrl;
+      const orderFolderId = data.orderFolderId || data.folderId;
       newOrder.drive = orderUrl;
       try {
         const raw = localStorage.getItem('shoaib_custom_orders');
@@ -3589,6 +3594,22 @@ function handleNewOrderSubmit(e) {
           localStorage.setItem('shoaib_sync_ping', Date.now().toString());
         }
       } catch(e) {}
+
+      // Automatically upload queued image files directly into Google Drive order folder
+      if (filesToUpload.length > 0 && orderFolderId) {
+        showAuthToast('☁️ Uploading ' + filesToUpload.length + ' image(s) directly to your Google Drive order folder...');
+        let uploadedCount = 0;
+        for (let i = 0; i < filesToUpload.length; i++) {
+          const f = filesToUpload[i];
+          const result = await uploadFileToOrderDrive(orderFolderId, f);
+          if (result && result.status === 'success') {
+            uploadedCount++;
+          }
+        }
+        if (uploadedCount > 0) {
+          showAuthToast('✓ Successfully uploaded ' + uploadedCount + ' image(s) to Google Drive Order #' + fullOrderId + '!');
+        }
+      }
     }
   });
 
@@ -3720,49 +3741,15 @@ function initDriveDropzone() {
   zone.addEventListener('drop', (e) => {
     const dt = e.dataTransfer;
     if (dt && dt.files && dt.files.length) {
-      handlePickedFiles(dt.files);
+      addFilesToDriveQueue(dt.files);
     }
   });
 
   fileInput.addEventListener('change', (e) => {
     if (e.target.files && e.target.files.length) {
-      handlePickedFiles(e.target.files);
+      addFilesToDriveQueue(e.target.files);
     }
   });
-}
-
-function handlePickedFiles(files) {
-  for (let i = 0; i < files.length; i++) {
-    const f = files[i];
-    driveUploadedQueue.push({
-      name: f.name,
-      size: (f.size / (1024 * 1024)).toFixed(2) + ' MB'
-    });
-  }
-  updateDriveFilesPreview();
-  const uploadError = document.getElementById('uploadErrorText');
-  if (uploadError) uploadError.style.display = 'none';
-}
-
-function updateDriveFilesPreview() {
-  const container = document.getElementById('zoneFilesList');
-  if (!container) return;
-  if (driveUploadedQueue.length === 0) {
-    container.innerHTML = '';
-    return;
-  }
-  let html = '<div style="font-size: 11px; font-weight: 700; color: #166534; margin-bottom: 6px;">✓ ' + driveUploadedQueue.length + ' file(s) queued for Direct Google Drive sync:</div>';
-  driveUploadedQueue.forEach((f, idx) => {
-    html += '<div style="display: flex; justify-content: space-between; font-size: 11px; background: #fff; padding: 4px 8px; border-radius: 4px; margin-bottom: 3px; border: 1px solid #bbf7d0;">' +
-      '<span>📄 ' + f.name + '</span><span style="color: #64748b;">' + f.size + '</span>' +
-      '</div>';
-  });
-  container.innerHTML = html;
-}
-
-function clearDriveQueue() {
-  driveUploadedQueue = [];
-  updateDriveFilesPreview();
 }
 
 function updateLiveClock() {
@@ -4099,14 +4086,53 @@ async function triggerCreateOrderDriveFolder(email, orderId) {
       })
     });
     const data = await res.json();
-    if (data && data.orderFolderUrl) {
-      console.log('✓ Google Drive order subfolder created:', data.orderFolderUrl);
-      return data.orderFolderUrl;
+    if (data && (data.orderFolderUrl || data.folderUrl)) {
+      console.log('✓ Google Drive order subfolder created:', data.orderFolderUrl || data.folderUrl);
+      return data; // Return full object: { status, orderFolderId, orderFolderUrl }
     }
   } catch(err) {
     console.error('Drive webhook order folder error:', err);
   }
   return null;
+}
+
+// UPLOAD IMAGE FILE DIRECTLY INTO ORDER GOOGLE DRIVE FOLDER
+async function uploadFileToOrderDrive(orderFolderId, file) {
+  return new Promise((resolve) => {
+    if (!orderFolderId || !file || !GOOGLE_DRIVE_WEBHOOK_URL) return resolve(null);
+    if (!(file instanceof Blob)) return resolve(null);
+    if (file.size > 45 * 1024 * 1024) {
+      console.warn('File exceeds 45MB web limit:', file.name);
+      return resolve({ status: 'skipped_too_large' });
+    }
+
+    const reader = new FileReader();
+    reader.onload = async () => {
+      try {
+        const base64 = (reader.result || '').toString().split(',')[1];
+        if (!base64) return resolve(null);
+
+        const res = await fetch(GOOGLE_DRIVE_WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'upload_file_to_order',
+            orderFolderId: orderFolderId,
+            fileName: file.name,
+            mimeType: file.type || 'application/octet-stream',
+            base64: base64
+          })
+        });
+        const resp = await res.json();
+        resolve(resp);
+      } catch(e) {
+        console.warn('File upload failed for ' + file.name + ':', e);
+        resolve(null);
+      }
+    };
+    reader.onerror = () => resolve(null);
+    reader.readAsDataURL(file);
+  });
 }
 
 const GOOGLE_CLIENT_ID = '197596089864-pu2l1snp7t1mkev70tjadr1n3g420fmv.apps.googleusercontent.com';
