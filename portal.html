@@ -2096,15 +2096,17 @@ function renderTrackerHTML(status, serviceName) {
 function updateCountdown() {
   const isDemo = isCurrentUserDemo();
   
+  const clientOrders = (typeof getClientOrders === 'function') ? getClientOrders() : ORDERS;
+
   // Find primary active order for dashboard
   let primaryActiveOrder = null;
-  if (isDemo && ORDERS['085'] && ORDERS['085'].status !== 'delivered') {
-    primaryActiveOrder = ORDERS['085'];
+  if (isDemo && clientOrders['085'] && clientOrders['085'].status !== 'delivered') {
+    primaryActiveOrder = clientOrders['085'];
   } else {
-    // First non-delivered custom order for this client
-    const activeKeys = Object.keys(ORDERS).filter(k => k !== '084' && k !== '085' && ORDERS[k].status !== 'delivered');
+    // First non-delivered custom order strictly for this authenticated client
+    const activeKeys = Object.keys(clientOrders).filter(k => k !== '084' && k !== '085' && clientOrders[k].status !== 'delivered');
     if (activeKeys.length > 0) {
-      primaryActiveOrder = ORDERS[activeKeys[0]];
+      primaryActiveOrder = clientOrders[activeKeys[0]];
     }
   }
 
@@ -2182,21 +2184,23 @@ function renderDashboardOverview() {
   let activeOrderList = [];
   let deliveredOrderList = [];
 
+  const clientOrders = (typeof getClientOrders === 'function') ? getClientOrders() : ORDERS;
+
   if (isDemo) {
-    if (ORDERS['085'] && ORDERS['085'].status !== 'delivered') activeOrderList.push(ORDERS['085']);
-    if (ORDERS['084']) deliveredOrderList.push(ORDERS['084']);
-    Object.keys(ORDERS).forEach(k => {
+    if (clientOrders['085'] && clientOrders['085'].status !== 'delivered') activeOrderList.push(clientOrders['085']);
+    if (clientOrders['084']) deliveredOrderList.push(clientOrders['084']);
+    Object.keys(clientOrders).forEach(k => {
       if (k !== '084' && k !== '085') {
-        if (ORDERS[k].status === 'delivered') deliveredOrderList.push(ORDERS[k]);
-        else activeOrderList.push(ORDERS[k]);
+        if (clientOrders[k].status === 'delivered') deliveredOrderList.push(clientOrders[k]);
+        else activeOrderList.push(clientOrders[k]);
       }
     });
   } else {
-    // Isolated for authenticated client
-    Object.keys(ORDERS).forEach(k => {
+    // Strictly isolated for this authenticated client
+    Object.keys(clientOrders).forEach(k => {
       if (k !== '084' && k !== '085') {
-        if (ORDERS[k].status === 'delivered') deliveredOrderList.push(ORDERS[k]);
-        else activeOrderList.push(ORDERS[k]);
+        if (clientOrders[k].status === 'delivered') deliveredOrderList.push(clientOrders[k]);
+        else activeOrderList.push(clientOrders[k]);
       }
     });
   }
@@ -2329,14 +2333,16 @@ function renderArchiveSection() {
   const isDemo = isCurrentUserDemo();
   let deliveredList = [];
 
+  const clientOrders = (typeof getClientOrders === 'function') ? getClientOrders() : ORDERS;
+
   if (isDemo) {
-    if (ORDERS['084']) deliveredList.push(ORDERS['084']);
-    Object.keys(ORDERS).forEach(k => {
-      if (k !== '084' && k !== '085' && ORDERS[k].status === 'delivered') deliveredList.push(ORDERS[k]);
+    if (clientOrders['084']) deliveredList.push(clientOrders['084']);
+    Object.keys(clientOrders).forEach(k => {
+      if (k !== '084' && k !== '085' && clientOrders[k].status === 'delivered') deliveredList.push(clientOrders[k]);
     });
   } else {
-    Object.keys(ORDERS).forEach(k => {
-      if (k !== '084' && k !== '085' && ORDERS[k].status === 'delivered') deliveredList.push(ORDERS[k]);
+    Object.keys(clientOrders).forEach(k => {
+      if (k !== '084' && k !== '085' && clientOrders[k].status === 'delivered') deliveredList.push(clientOrders[k]);
     });
   }
 
@@ -2423,12 +2429,13 @@ function renderActiveOrdersPipeline() {
   if (!container) return;
 
   const isDemo = isCurrentUserDemo();
+  const clientOrders = (typeof getClientOrders === 'function') ? getClientOrders() : ORDERS;
   let activeIds = [];
   if (isDemo) {
-    activeIds = Object.keys(ORDERS).filter(k => ORDERS[k].status !== 'delivered');
+    activeIds = Object.keys(clientOrders).filter(k => clientOrders[k].status !== 'delivered');
   } else {
-    // Non-demo client: only show orders placed by this client (never demo orders 084 & 085)
-    activeIds = Object.keys(ORDERS).filter(k => k !== '084' && k !== '085' && ORDERS[k].status !== 'delivered');
+    // Non-demo client: strictly orders placed by this verified client
+    activeIds = Object.keys(clientOrders).filter(k => k !== '084' && k !== '085' && clientOrders[k].status !== 'delivered');
   }
   const count = activeIds.length;
 
@@ -2455,7 +2462,7 @@ function renderActiveOrdersPipeline() {
 
   let html = '';
   activeIds.forEach(id => {
-    const o = ORDERS[id];
+    const o = clientOrders[id] || ORDERS[id];
     const isAgreed = localStorage.getItem('shoaib_price_approved_' + id) === '1' || o.isAgreed;
     const customAgreed = localStorage.getItem('shoaib_agreed_price_' + id);
     const displayPrice = isAgreed ? (customAgreed || o.price) : o.price;
@@ -2726,7 +2733,46 @@ function getCurrentSession() {
 }
 
 function isCurrentUserDemo() {
+  const sess = getCurrentSession();
+  if (sess && sess.isDemo === true) return true;
+  if (sess && (sess.email || '').toLowerCase().trim() === 'sarah@jenkinsstudio.com') return true;
   return false;
+}
+
+// STRICT TENANT ISOLATION: GUARANTEES CLIENTS ONLY SEE THEIR OWN PROJECTS & INVOICES
+function getClientOrders() {
+  const isDemo = isCurrentUserDemo();
+  const sess = getCurrentSession();
+  const curEmail = (sess?.email || '').toLowerCase().trim();
+  const filtered = {};
+
+  if (isDemo) {
+    if (ORDERS['084']) filtered['084'] = ORDERS['084'];
+    if (ORDERS['085']) filtered['085'] = ORDERS['085'];
+    // In demo mode, also allow custom demo orders placed by Sarah Jenkins
+    Object.keys(ORDERS).forEach(k => {
+      if (k !== '084' && k !== '085') {
+        const o = ORDERS[k];
+        if (o && (o.clientEmail || '').toLowerCase().trim() === 'sarah@jenkinsstudio.com') {
+          filtered[k] = o;
+        }
+      }
+    });
+  } else {
+    // Authenticated real client: STRICTLY orders matching this client's verified email
+    if (curEmail) {
+      Object.keys(ORDERS).forEach(k => {
+        if (k !== '084' && k !== '085') {
+          const o = ORDERS[k];
+          if (o && (o.clientEmail || '').toLowerCase().trim() === curEmail) {
+            filtered[k] = o;
+          }
+        }
+      });
+    }
+  }
+
+  return filtered;
 }
 
 function loadClientProfile() {
@@ -3024,10 +3070,11 @@ function renderInvoicesList() {
   `;
   } // end if (isDemo)
 
-  // 3. Custom orders in ORDERS
-  Object.keys(ORDERS).forEach(id => {
+  // 3. Custom orders strictly for this authenticated client
+  const clientOrders = (typeof getClientOrders === 'function') ? getClientOrders() : ORDERS;
+  Object.keys(clientOrders).forEach(id => {
     if (id !== '084' && id !== '085') {
-      const o = ORDERS[id];
+      const o = clientOrders[id];
       const isPaid = localStorage.getItem('shoaib_status_paid_' + id) === '1';
       let ordAmt = o.numericPrice || 500;
       let hasExtra = false;
@@ -3157,8 +3204,9 @@ function renderInvoiceTabs(activeTab) {
       </button>
     `;
   } else {
-    // Isolated strictly for this authenticated client! Never show 084 or 085!
-    const clientOrderKeys = Object.keys(ORDERS).filter(k => k !== '084' && k !== '085');
+    // Isolated strictly for this authenticated client! Never show other clients orders or demo orders!
+    const clientOrders = (typeof getClientOrders === 'function') ? getClientOrders() : ORDERS;
+    const clientOrderKeys = Object.keys(clientOrders).filter(k => k !== '084' && k !== '085');
     if (clientOrderKeys.length === 0) {
       container.innerHTML = '<div style="font-size: 13px; color: var(--mut); padding: 8px 0;">No invoices issued yet. Submit your first project to generate your custom invoice.</div>';
       return;
@@ -3169,7 +3217,7 @@ function renderInvoiceTabs(activeTab) {
       </button>
     `;
     clientOrderKeys.forEach(id => {
-      const o = ORDERS[id];
+      const o = clientOrders[id] || ORDERS[id];
       let tabAmt = o.numericPrice || 500;
       const exSaved = localStorage.getItem('shoaib_extra_work_' + id);
       if (exSaved) {
@@ -3236,10 +3284,11 @@ function loadInvoiceDetails() {
   const amt85 = (!isDemo || isPaid85) ? 0 : 600;
   let totalUnpaidAll = amt84 + amt85;
 
-  Object.keys(ORDERS).forEach(id => {
+  const clientOrders = (typeof getClientOrders === 'function') ? getClientOrders() : ORDERS;
+  Object.keys(clientOrders).forEach(id => {
     if (id !== '084' && id !== '085') {
       const isPaid = localStorage.getItem('shoaib_status_paid_' + id) === '1';
-      let ordAmt = ORDERS[id].numericPrice || 500;
+      let ordAmt = clientOrders[id].numericPrice || 500;
       const exSaved = localStorage.getItem('shoaib_extra_work_' + id);
       if (exSaved) {
         try {
@@ -3628,10 +3677,11 @@ function handleNewOrderSubmit(e) {
     return;
   }
 
-  // Monotonically increasing random order ID (never decreases, starts 10480 + random jump)
+  // Monotonically increasing collision-proof order sequence (starts 10480 + safe increment)
   const savedLastNum = parseInt(localStorage.getItem('shoaib_last_order_num') || '10480', 10);
-  const randomJump = Math.floor(Math.random() * 32) + 14; // jump between 14 and 45
-  const nextNum = Math.max(savedLastNum, 10480) + randomJump;
+  const timeSeed = parseInt(Date.now().toString().slice(-4), 10);
+  const randomStep = Math.floor(Math.random() * 9) + 1;
+  const nextNum = Math.max(savedLastNum + randomStep, 10480 + (timeSeed % 8000) + 20);
   localStorage.setItem('shoaib_last_order_num', String(nextNum));
   const idStr = String(nextNum);
   const fullOrderId = '#RS-2026-' + idStr;
@@ -4721,6 +4771,13 @@ function logoutClient() {
   if (sName) sName.value = '';
   if (sEmail) sEmail.value = '';
   if (sPass) sPass.value = '';
+
+  // Flush views for clean tenant boundary
+  loadStoredCustomOrders();
+  renderDashboardOverview();
+  renderArchiveSection();
+  renderActiveOrdersPipeline();
+  renderInvoicesList();
 
   checkAuthGate();
   showAuthToast('✓ You have logged out successfully.');

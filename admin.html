@@ -554,8 +554,32 @@ async function syncAdminFromCloud(showToastNotice = false) {
 
   try {
     const res = await fetch(GOOGLE_DRIVE_WEBHOOK_URL + '?action=get_database');
-    const data = await res.json();
+    const rawText = await res.text();
+    let data = null;
+    try {
+      data = JSON.parse(rawText);
+    } catch(errJson) {
+      console.warn('Apps Script returned non-JSON (pending deployment):', rawText.slice(0, 80));
+      if (syncBtn) {
+        syncBtn.innerHTML = '⚠️ Deploy Apps Script ↗';
+        syncBtn.title = 'Click to see Google Apps Script deployment instructions';
+        syncBtn.style.opacity = '1';
+        syncBtn.style.color = '#fbbf24';
+        syncBtn.style.borderColor = '#d97706';
+        syncBtn.onclick = () => openAppsScriptGuideModal();
+      }
+      if (showToastNotice) {
+        showAdminToast('⚠️ Google Apps Script needs New Version deployment on script.google.com to enable live cloud sync.');
+      }
+      return;
+    }
+
     if (data && data.status === 'success') {
+      if (syncBtn) {
+        syncBtn.style.color = '#38bdf8';
+        syncBtn.style.borderColor = '#334155';
+        syncBtn.onclick = () => syncAdminFromCloud(true);
+      }
       let ordersUpdated = false;
 
       // 1. Sync Orders from Cloud Drive Database
@@ -1512,7 +1536,83 @@ setInterval(() => {
   }
 }, 15000);
 
+// APPS SCRIPT DEPLOYMENT GUIDE MODAL & 1-CLICK CONNECTION TEST
+function openAppsScriptGuideModal() {
+  let m = document.getElementById('appsScriptGuideModal');
+  if (m) m.style.display = 'flex';
+}
+
+function closeAppsScriptGuideModal() {
+  let m = document.getElementById('appsScriptGuideModal');
+  if (m) m.style.display = 'none';
+}
+
+async function testAppsScriptLiveConnection() {
+  const resultEl = document.getElementById('appsScriptTestResult');
+  if (resultEl) {
+    resultEl.innerHTML = '<span style="color: #38bdf8;">🔄 Testing live connection to script.google.com...</span>';
+  }
+  try {
+    const res = await fetch(GOOGLE_DRIVE_WEBHOOK_URL + '?action=get_database');
+    const txt = await res.text();
+    let parsed = null;
+    try { parsed = JSON.parse(txt); } catch(e) {}
+
+    if (parsed && parsed.status === 'success') {
+      if (resultEl) {
+        resultEl.innerHTML = '<span style="color: #22c55e; font-weight: 700;">🟢 CONNECTED! Apps Script database is active! (' + (parsed.orders ? parsed.orders.length : 0) + ' orders found)</span>';
+      }
+      syncAdminFromCloud(true);
+    } else {
+      if (resultEl) {
+        resultEl.innerHTML = '<span style="color: #f59e0b; font-weight: 700;">⚠️ Old version active (' + txt.slice(0, 40) + '...). Follow the 3 steps below to deploy New Version.</span>';
+      }
+    }
+  } catch(err) {
+    if (resultEl) {
+      resultEl.innerHTML = '<span style="color: #ef4444; font-weight: 700;">❌ Network Error: ' + err.message + '</span>';
+    }
+  }
+}
+
 </script>
+
+<!-- APPS SCRIPT DEPLOYMENT GUIDE MODAL -->
+<div class="modal" id="appsScriptGuideModal" onclick="if(event.target === this) closeAppsScriptGuideModal()">
+  <div class="modal-box" style="max-width: 560px; background: #0f172a; border: 1px solid #334155;">
+    <button class="modal-close" onclick="closeAppsScriptGuideModal()">✕</button>
+    <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 6px; color: #fff; display: flex; align-items: center; gap: 8px;">
+      ☁️ Google Drive Cloud Database Setup
+    </h3>
+    <p style="font-size: 13px; color: #94a3b8; margin-bottom: 16px; line-height: 1.5;">
+      Your Client Portal sends orders and registrations directly to your Google Drive root folder. To enable live 2-way sync with this Admin Console, your Google Apps Script needs to be running the latest database code.
+    </p>
+
+    <div style="background: #1e293b; border-radius: 8px; padding: 14px; margin-bottom: 16px;">
+      <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 700; margin-bottom: 6px;">Live Connection Status:</div>
+      <div id="appsScriptTestResult" style="font-size: 13px; margin-bottom: 10px;">
+        <span style="color: #f59e0b;">Pending Verification</span>
+      </div>
+      <button type="button" class="btn sm" onclick="testAppsScriptLiveConnection()" style="background: #0284c7; color: #fff; font-size: 12px; padding: 6px 14px;">
+        ⚡ Test Live Connection Now
+      </button>
+    </div>
+
+    <div style="font-size: 13px; color: #cbd5e1; line-height: 1.6; margin-bottom: 16px;">
+      <strong>How to deploy in 3 quick steps:</strong>
+      <ol style="margin: 8px 0 0 18px; padding: 0;">
+        <li>Open <a href="https://script.google.com" target="_blank" style="color: #38bdf8; text-decoration: underline;">script.google.com</a> and select your Retoucher Shoaib project.</li>
+        <li>Paste the updated code from <code>GoogleAppsScript_Master.js</code> and click Save (💾).</li>
+        <li>Click <strong>Deploy &gt; Manage deployments &gt; Edit (Pencil) &gt; Version: New version &gt; Deploy</strong>.</li>
+      </ol>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; gap: 10px;">
+      <a href="https://script.google.com" target="_blank" class="btn sm" style="background: #38bdf8; color: #000; font-weight: 700;">Open script.google.com ↗</a>
+      <button type="button" class="btn sm outline" onclick="closeAppsScriptGuideModal()">Close</button>
+    </div>
+  </div>
+</div>
 
 <!-- ADMIN TIN / TAX ID MODAL -->
 <div class="modal" id="adminTinModal" onclick="if(event.target === this) closeAdminTinModal()">
