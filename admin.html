@@ -641,6 +641,22 @@ async function syncAdminFromCloud(showToastNotice = false) {
           o.id = '#' + cleanId;
           const localStatus = localStorage.getItem('shoaib_status_' + cleanId) || localStorage.getItem('shoaib_status_RS-2026-' + cleanId);
           if (localStatus) o.status = localStatus;
+
+          const cloudAgreedStr = (data.agreedPrices && (
+            (typeof data.agreedPrices[cleanId] === 'string' && data.agreedPrices[cleanId]) ||
+            (typeof data.agreedPrices['#' + cleanId] === 'string' && data.agreedPrices['#' + cleanId]) ||
+            (typeof data.agreedPrices['RS-2026-' + cleanId] === 'string' && data.agreedPrices['RS-2026-' + cleanId]) ||
+            (typeof data.agreedPrices['#RS-2026-' + cleanId] === 'string' && data.agreedPrices['#RS-2026-' + cleanId])
+          )) || null;
+
+          if (cloudAgreedStr || localStorage.getItem('shoaib_price_approved_' + cleanId) === '1' || localStorage.getItem('shoaib_price_approved_RS-2026-' + cleanId) === '1' || o.isAgreed) {
+            o.isAgreed = true;
+            const agPrice = cloudAgreedStr || localStorage.getItem('shoaib_agreed_price_' + cleanId) || localStorage.getItem('shoaib_agreed_price_RS-2026-' + cleanId) || o.price;
+            if (agPrice) {
+              o.price = agPrice;
+              o.numericPrice = parseFloat(String(agPrice).replace(/[^0-9.]/g, '')) || o.numericPrice || 25;
+            }
+          }
           orderMap[cleanId] = o;
         });
 
@@ -659,11 +675,24 @@ async function syncAdminFromCloud(showToastNotice = false) {
             const cloudStatus = (data.statuses && (data.statuses[cleanId] || data.statuses['#' + cleanId])) || co.status;
             co.status = localStatus || cloudStatus || 'pending';
 
-            if (localStorage.getItem('shoaib_price_approved_' + cleanId) === '1' || co.isAgreed === true) {
+            const cloudAgreedStr = (data.agreedPrices && (
+              (typeof data.agreedPrices[cleanId] === 'string' && data.agreedPrices[cleanId]) ||
+              (typeof data.agreedPrices['#' + cleanId] === 'string' && data.agreedPrices['#' + cleanId]) ||
+              (typeof data.agreedPrices['RS-2026-' + cleanId] === 'string' && data.agreedPrices['RS-2026-' + cleanId]) ||
+              (typeof data.agreedPrices['#RS-2026-' + cleanId] === 'string' && data.agreedPrices['#RS-2026-' + cleanId])
+            )) || null;
+
+            if (cloudAgreedStr || localStorage.getItem('shoaib_price_approved_' + cleanId) === '1' || localStorage.getItem('shoaib_price_approved_RS-2026-' + cleanId) === '1' || co.isAgreed === true) {
               co.isAgreed = true;
+              localStorage.setItem('shoaib_price_approved_' + cleanId, '1');
+              localStorage.setItem('shoaib_price_approved_RS-2026-' + cleanId, '1');
             }
-            const agreedPr = localStorage.getItem('shoaib_agreed_price_' + cleanId) || co.price;
-            if (agreedPr) co.price = agreedPr;
+            const agreedPr = cloudAgreedStr || localStorage.getItem('shoaib_agreed_price_' + cleanId) || localStorage.getItem('shoaib_agreed_price_RS-2026-' + cleanId) || co.price;
+            if (agreedPr) {
+              co.price = agreedPr;
+              localStorage.setItem('shoaib_agreed_price_' + cleanId, agreedPr);
+              localStorage.setItem('shoaib_agreed_price_RS-2026-' + cleanId, agreedPr);
+            }
 
             // Check paid status strictly from data.paidStatuses if available
             const isPaidCloud = !!(data.paidStatuses && (data.paidStatuses[cleanId] === true || data.paidStatuses['#' + cleanId] === true || data.paidStatuses['RS-2026-' + cleanId] === true || data.paidStatuses['#RS-2026-' + cleanId] === true));
@@ -791,6 +820,21 @@ async function syncAdminFromCloud(showToastNotice = false) {
           }
         }
         claimKeysToRemove.forEach(k => localStorage.removeItem(k));
+      }
+
+      // 6. Sync Agreed Commercial Prices from Cloud (Dual-Key Persistence)
+      if (data.agreedPrices && typeof data.agreedPrices === 'object') {
+        Object.keys(data.agreedPrices).forEach(k => {
+          const cleanK = normalizeNumericId(k);
+          const pr = data.agreedPrices[k];
+          if (cleanK && typeof pr === 'string' && pr.trim().length > 0) {
+            localStorage.setItem('shoaib_agreed_price_' + cleanK, pr);
+            localStorage.setItem('shoaib_agreed_price_RS-2026-' + cleanK, pr);
+            localStorage.setItem('shoaib_price_approved_' + cleanK, '1');
+            localStorage.setItem('shoaib_price_approved_RS-2026-' + cleanK, '1');
+          }
+        });
+        ordersUpdated = true;
       }
 
       renderAdminTable();
@@ -1303,7 +1347,12 @@ function acceptClientOffer(id, proposedPrice) {
 
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
 
-  // Cloud backend sync
+  // Cloud backend sync with dual-key dispatch
+  triggerSyncAdminActionToCloud({
+    action: 'accept_client_offer',
+    numericId: 'RS-2026-' + cleanId,
+    proposedPrice: proposedPrice
+  });
   triggerSyncAdminActionToCloud({
     action: 'accept_client_offer',
     numericId: cleanId,

@@ -73,9 +73,16 @@ function getDatabase(rootFolder) {
         if (db.statuses && (db.statuses[cleanNum] || db.statuses["#" + cleanNum])) {
           ord.status = db.statuses[cleanNum] || db.statuses["#" + cleanNum];
         }
-        if (db.agreedPrices && (db.agreedPrices[cleanNum] || db.agreedPrices["#" + cleanNum] || db.agreedPrices["RS-2026-" + cleanNum] || db.agreedPrices["#RS-2026-" + cleanNum])) {
+        var agreedVal = db.agreedPrices && (
+          (typeof db.agreedPrices[cleanNum] === 'string' && db.agreedPrices[cleanNum]) ||
+          (typeof db.agreedPrices["#" + cleanNum] === 'string' && db.agreedPrices["#" + cleanNum]) ||
+          (typeof db.agreedPrices["RS-2026-" + cleanNum] === 'string' && db.agreedPrices["RS-2026-" + cleanNum]) ||
+          (typeof db.agreedPrices["#RS-2026-" + cleanNum] === 'string' && db.agreedPrices["#RS-2026-" + cleanNum]) ||
+          db.agreedPrices[cleanNum] || db.agreedPrices["#" + cleanNum] || db.agreedPrices["RS-2026-" + cleanNum]
+        );
+        if (agreedVal) {
           ord.isAgreed = true;
-          if (typeof db.agreedPrices[cleanNum] === 'string') ord.price = db.agreedPrices[cleanNum];
+          if (typeof agreedVal === 'string') ord.price = agreedVal;
         }
       }
     }
@@ -653,8 +660,8 @@ function doPost(e) {
         .setMimeType(ContentService.MimeType.JSON);
     }
 
-    // (F) ক্লায়েন্ট অফার অনুমোদন (Accept Client Offer)
-    if (data.action === "accept_client_offer") {
+    // (F) ক্লায়েন্ট অফার অনুমোদন বা প্রাইস আপডেট (Accept Client Offer / Update Order Price)
+    if (data.action === "accept_client_offer" || data.action === "update_order_price") {
       var rawId = String(data.numericId || data.orderId || "");
       var cleanNum = normalizeGasId(rawId);
       var lock = LockService.getScriptLock();
@@ -662,20 +669,21 @@ function doPost(e) {
       try {
         var db = getDatabase(rootFolder);
         if (!db.agreedPrices) db.agreedPrices = {};
+        var priceToSet = data.proposedPrice || data.price || true;
         if (cleanNum) {
-          db.agreedPrices[cleanNum] = data.proposedPrice || true;
-          db.agreedPrices["#" + cleanNum] = data.proposedPrice || true;
-          db.agreedPrices["RS-2026-" + cleanNum] = data.proposedPrice || true;
+          db.agreedPrices[cleanNum] = priceToSet;
+          db.agreedPrices["#" + cleanNum] = priceToSet;
+          db.agreedPrices["RS-2026-" + cleanNum] = priceToSet;
         }
         if (rawId) {
-          db.agreedPrices[rawId] = data.proposedPrice || true;
+          db.agreedPrices[rawId] = priceToSet;
         }
+        var newPrice = data.proposedPrice || data.price;
         for (var i = 0; i < db.orders.length; i++) {
           var oNum = normalizeGasId(db.orders[i].numericId || db.orders[i].id || "");
           if (oNum === cleanNum || String(db.orders[i].numericId) === rawId || String(db.orders[i].id) === rawId) {
             db.orders[i].isAgreed = true;
-            if (data.proposedPrice) db.orders[i].price = data.proposedPrice;
-            break;
+            if (newPrice) db.orders[i].price = newPrice;
           }
         }
         saveDatabase(rootFolder, db);
