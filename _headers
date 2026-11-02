@@ -1,6 +1,5 @@
 # Cloudflare Pages Caching Rules
-# Main website marketing pages & assets load blazing-fast from cache
-# ONLY Client Portal & Admin Panel are set to instant real-time revalidation
+# Marketing assets load blazing-fast; Portal & Admin Panel always fetch fresh real-time code
 
 # Global security headers for all routes
 /*
@@ -8,21 +7,21 @@
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Cache-Control: public, max-age=3600
 
 # High-speed long-term caching for static media assets (images, fonts, videos)
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
-# ONLY Client Dashboard & Admin Panel: always fresh real-time data
+# Dynamic HTML endpoints: always fresh real-time data, zero stale CDN caching
 /portal
-  Cache-Control: no-cache, no-store, must-revalidate
+  Cache-Control: no-cache, no-store, must-revalidate, max-age=0
 
 /portal.html
-  Cache-Control: no-cache, no-store, must-revalidate
+  Cache-Control: no-cache, no-store, must-revalidate, max-age=0
 
 /admin
-  Cache-Control: no-cache, no-store, must-revalidate
+  Cache-Control: no-cache, no-store, must-revalidate, max-age=0
 
 /admin.html
-  Cache-Control: no-cache, no-store, must-revalidate
+  Cache-Control: no-cache, no-store, must-revalidate, max-age=0
+
