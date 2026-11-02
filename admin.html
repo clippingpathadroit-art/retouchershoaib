@@ -593,9 +593,12 @@ function loadCustomAdminOrders() {
       const isDelivered = localStorage.getItem('shoaib_status_' + id) === 'delivered';
       const tr = document.createElement('tr');
       tr.id = 'admRow_' + id;
+      const clientAgency = ord.clientCompany || ord.clientName || 'Studio Client';
+      const clientEmail = ord.clientEmail || 'client@studio.com';
+
       tr.innerHTML = `
         <td><strong>${ord.id}</strong></td>
-        <td>Studio New York<br><span style="font-size: 11px; color: #777;">sarah@jenkinsstudio.com</span></td>
+        <td><a href="javascript:void(0)" onclick="openClientDetailModal('${id}')" style="color: #60a5fa; font-weight: 700; text-decoration: underline;" title="Click to view client audit details & real IP">${clientAgency} 👁️</a><br><span style="font-size: 11px; color: #777;">${clientEmail}</span></td>
         <td>${ord.title}<br><span style="font-size: 11px; color: #777;">${ord.service} (${ord.images})</span></td>
         <td>
           <span id="admTimerBadge_${id}" style="font-size: 12px; font-weight: 800; font-family: var(--f-display); background: #222; border: 1px solid #444; padding: 4px 10px; border-radius: 6px; color: #22c55e;">
@@ -618,10 +621,12 @@ function loadCustomAdminOrders() {
           </select>
         </td>
         <td style="white-space: nowrap;">
-          <button class="btn sm outline" onclick="openAdminExtraFeeModal('${id}')">💰 + Extra Fee</button>
-          <button class="btn sm outline" onclick="openAdminTinModal('${id}')">🏷️ Tax ID / TIN</button>
+          <button class="btn sm outline" onclick="openAdminExtraFeeModal('${id}')">💰 + Extra</button>
+          <button class="btn sm outline" onclick="openAdminTinModal('${id}')">🏷️ Client TIN</button>
+          <button class="btn sm outline" onclick="openStudioTinModal('${id}')">🏢 Studio TIN</button>
           <button class="btn sm outline" onclick="openDelModal('${id}')">🔗 Delivery Link</button>
           <button class="btn sm outline" onclick="viewClientBrief('${id}')">Brief 👁️</button>
+          <button class="btn sm" style="background: #dc2626; color: #fff; border: 0;" onclick="deleteAdminOrder('${id}')">🗑️ Delete</button>
           <a href="${ord.drive || 'https://drive.google.com'}" target="_blank" class="btn sm outline">Drive ↗</a>
         </td>
       `;
@@ -674,6 +679,26 @@ function openClientDetailModal(id) {
   };
   if (savedProfile) {
     try { p = Object.assign(p, JSON.parse(savedProfile)); } catch(e) {}
+  }
+
+  // If this is a custom client order, load specific order client details
+  if (id !== '084' && id !== '085') {
+    try {
+      const raw = localStorage.getItem('shoaib_custom_orders');
+      if (raw) {
+        const orders = JSON.parse(raw);
+        const ord = orders.find(o => o.numericId === id || o.id === '#RS-2026-' + id);
+        if (ord && (ord.clientName || ord.clientEmail)) {
+          p = {
+            name: ord.clientName || p.name,
+            company: ord.clientCompany || ord.clientName || p.company,
+            email: ord.clientEmail || p.email,
+            address: ord.clientAddress || p.address,
+            tin: ord.clientTin || ''
+          };
+        }
+      }
+    } catch(e) {}
   }
 
   document.getElementById('cdmName').textContent = p.name;
