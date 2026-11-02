@@ -1576,22 +1576,22 @@ body {
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
               <div class="form-field">
                 <label class="form-label">Full Name *</label>
-                <input type="text" id="profName" class="form-input" required value="Sarah Jenkins">
+                <input type="text" id="profName" class="form-input" required value="" placeholder="Your Full Name">
               </div>
               <div class="form-field">
                 <label class="form-label">Company / Agency *</label>
-                <input type="text" id="profCompany" class="form-input" required value="Studio New York">
+                <input type="text" id="profCompany" class="form-input" value="" placeholder="Company / Agency Name (Optional)">
               </div>
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
               <div class="form-field">
                 <label class="form-label">Email Address *</label>
-                <input type="email" id="profEmail" class="form-input" required value="sarah@jenkinsstudio.com">
+                <input type="email" id="profEmail" class="form-input" required value="" placeholder="name@example.com">
               </div>
               <div class="form-field">
                 <label class="form-label">WhatsApp / Phone</label>
-                <input type="tel" id="profPhone" class="form-input" value="+1 (212) 555-0198">
+                <input type="tel" id="profPhone" class="form-input" value="" placeholder="+1 (555) 000-0000 (Optional)">
               </div>
             </div>
 
@@ -1608,7 +1608,7 @@ body {
 
             <div class="form-field">
               <label class="form-label">Billing Address</label>
-              <textarea id="profAddress" class="form-textarea" rows="2">450 West 33rd Street, New York, NY 10001, United States</textarea>
+              <textarea id="profAddress" class="form-textarea" rows="2" placeholder="Billing / Studio Address (Optional)"></textarea>
             </div>
 
             <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 10px;">
@@ -2505,7 +2505,13 @@ function closeOrderModalOnBg(e) {
 // ========================================================
 // 5. PORTAL VIEW SWITCHER
 // ========================================================
+function openProfileModal() { switchPortalSection("profile"); }
+
 function switchPortalSection(section) {
+  // Support aliases seamlessly
+  if (section === 'new-order' || section === 'submit-order') section = 'new';
+  if (section === 'billing') section = 'profile';
+
   const views = ['viewDashboard', 'viewOrders', 'viewArchive', 'viewInvoices', 'viewProfile', 'viewNewOrder'];
   views.forEach(v => {
     const el = document.getElementById(v);
@@ -2595,10 +2601,11 @@ function loadClientProfile() {
   const isDemo = sess ? !!sess.isDemo : true;
   const saved = localStorage.getItem('shoaib_client_profile');
   let p = {
-    name: isDemo ? 'Sarah Jenkins' : (sess?.name || 'Client'),
-    company: isDemo ? 'Studio New York' : (sess?.company || 'Client Studio'),
-    email: isDemo ? 'sarah@jenkinsstudio.com' : (sess?.email || 'client@studio.com'),
-    address: isDemo ? '450 West 33rd Street, New York, NY 10001' : (sess?.address || 'United States'),
+    name: isDemo ? 'Sarah Jenkins' : (sess?.name || ''),
+    company: isDemo ? 'Studio New York' : (sess?.company || ''),
+    email: isDemo ? 'sarah@jenkinsstudio.com' : (sess?.email || ''),
+    phone: isDemo ? '+1 (212) 555-0198' : (sess?.phone || ''),
+    address: isDemo ? '450 West 33rd Street, New York, NY 10001' : (sess?.address || ''),
     picture: sess?.picture || '',
     tin: '' // 100% BLANK BY DEFAULT (USER SPECIFICATION)
   };
@@ -2622,8 +2629,16 @@ function loadClientProfile() {
   const nameEl = document.getElementById('profName');
   const compEl = document.getElementById('profCompany');
   const mailEl = document.getElementById('profEmail');
+  const phoneEl = document.getElementById('profPhone');
   const addrEl = document.getElementById('profAddress');
   const tinEl = document.getElementById('profTin');
+
+  if (nameEl) nameEl.value = p.name || '';
+  if (compEl) compEl.value = p.company || '';
+  if (mailEl) mailEl.value = p.email || '';
+  if (phoneEl) phoneEl.value = p.phone || '';
+  if (addrEl) addrEl.value = p.address || '';
+  if (tinEl) tinEl.value = p.tin || '';
 
   if (nameEl) nameEl.value = p.name;
   if (compEl) compEl.value = p.company;
@@ -2690,12 +2705,16 @@ function loadClientProfile() {
 
 function saveClientProfile(e) {
   e.preventDefault();
+  const existingProf = JSON.parse(localStorage.getItem('shoaib_client_profile') || '{}');
   const p = {
-    name: document.getElementById('profName')?.value.trim() || 'Sarah Jenkins',
-    company: document.getElementById('profCompany')?.value.trim() || 'Studio New York',
-    email: document.getElementById('profEmail')?.value.trim() || 'sarah@jenkinsstudio.com',
-    address: document.getElementById('profAddress')?.value.trim() || '450 West 33rd Street, New York, NY 10001',
-    tin: document.getElementById('profTin')?.value.trim() || ''
+    name: document.getElementById('profName')?.value.trim() || '',
+    company: document.getElementById('profCompany')?.value.trim() || '',
+    email: document.getElementById('profEmail')?.value.trim() || '',
+    phone: document.getElementById('profPhone')?.value.trim() || '',
+    address: document.getElementById('profAddress')?.value.trim() || '',
+    tin: document.getElementById('profTin')?.value.trim() || '',
+    picture: existingProf.picture || '',
+    isDemo: existingProf.isDemo || false
   };
   localStorage.setItem('shoaib_client_profile', JSON.stringify(p));
   loadClientProfile();
@@ -3427,6 +3446,11 @@ function handleNewOrderSubmit(e) {
   customOrders.push(newOrder);
   localStorage.setItem('shoaib_custom_orders', JSON.stringify(customOrders));
 
+  // Record attached files summary on the order
+  if (driveUploadedQueue && driveUploadedQueue.length > 0) {
+    newOrder.attachedFiles = driveUploadedQueue.map(f => f.name);
+  }
+
   // Clear form and queue
   clearDriveQueue();
   document.getElementById('newOrderForm')?.reset();
@@ -3450,13 +3474,80 @@ function handleNewOrderSubmit(e) {
 }
 
 // ========================================================
-// 10. GOOGLE DRIVE DROPZONE QUEUE
+// 10. GOOGLE DRIVE DROPZONE & FILE QUEUE SYSTEM
 // ========================================================
 let driveUploadedQueue = [];
 
+function handleDriveFileSelect(e) {
+  const files = e.target.files;
+  if (!files || files.length === 0) return;
+  addFilesToDriveQueue(files);
+}
+
+function addFilesToDriveQueue(files) {
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    if (!driveUploadedQueue.some(f => f.name === file.name && f.size === file.size)) {
+      driveUploadedQueue.push(file);
+    }
+  }
+  updateDriveQueueUI();
+}
+
+function updateDriveQueueUI() {
+  const preview = document.getElementById('driveFilesListPreview');
+  const countText = document.getElementById('driveFilesCountText');
+  const container = document.getElementById('driveFilesItemsContainer');
+  const imgCountInput = document.getElementById('ordImgCount');
+
+  if (!preview || !countText || !container) return;
+
+  if (driveUploadedQueue.length === 0) {
+    preview.style.display = 'none';
+    container.innerHTML = '';
+    return;
+  }
+
+  preview.style.display = 'block';
+  countText.textContent = driveUploadedQueue.length + ' Files Ready for Upload';
+
+  if (imgCountInput) {
+    imgCountInput.value = driveUploadedQueue.length;
+  }
+
+  let html = '';
+  driveUploadedQueue.forEach((f, idx) => {
+    const sizeMb = (f.size / (1024 * 1024)).toFixed(2);
+    html += `
+      <div style="display: flex; justify-content: space-between; align-items: center; background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 7px 12px; font-size: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+          <span>📄</span>
+          <strong style="color: #0f172a;">${f.name}</strong>
+          <span style="color: #64748b; font-size: 11px;">(${sizeMb} MB)</span>
+        </div>
+        <button type="button" onclick="removeFileFromDriveQueue(${idx})" style="background: none; border: none; color: #ef4444; font-weight: 700; cursor: pointer; padding: 2px 6px;">✕</button>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+}
+
+function removeFileFromDriveQueue(idx) {
+  driveUploadedQueue.splice(idx, 1);
+  updateDriveQueueUI();
+}
+
+function clearDriveQueue() {
+  driveUploadedQueue = [];
+  const fileInput = document.getElementById('fileUploadInput');
+  if (fileInput) fileInput.value = '';
+  updateDriveQueueUI();
+}
+
 function initDriveDropzone() {
   const zone = document.getElementById('driveDropzone');
-  const fileInput = document.getElementById('zoneFileInput');
+  const fileInput = document.getElementById('fileUploadInput');
   if (!zone || !fileInput) return;
 
   ['dragenter', 'dragover'].forEach(name => {
@@ -3851,13 +3942,14 @@ function handleGoogleCredentialResponse(response) {
     const email = (googleUser.email || '').toLowerCase();
     const name = googleUser.name || email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
     const picture = googleUser.picture || '';
-    const company = (googleUser.given_name || name) + ' Studio';
 
+    // ONLY Google Verified Data! Company, Phone, Address, TIN are 100% BLANK
     let p = {
       name: name,
-      company: company,
+      company: '',
       email: email,
-      address: 'United States',
+      phone: '',
+      address: '',
       picture: picture,
       tin: '',
       isDemo: false
