@@ -32,7 +32,7 @@ function getDatabase(rootFolder) {
     var file = getOrCreateDatabaseFile(rootFolder);
     var content = file.getBlob().getDataAsString();
     if (!content || content.trim().length === 0) {
-      return { status: "success", orders: [], users: {}, statuses: {}, deliveries: {}, extraWork: {}, paidStatuses: {}, paymentClaims: {} };
+      return { status: "success", orders: [], users: {}, statuses: {}, deliveries: {}, extraWork: {}, paidStatuses: {}, paymentClaims: {}, deletedOrders: {} };
     }
     var db = JSON.parse(content);
     if (!db.orders || !Array.isArray(db.orders)) db.orders = [];
@@ -42,10 +42,11 @@ function getDatabase(rootFolder) {
     if (!db.extraWork || typeof db.extraWork !== "object") db.extraWork = {};
     if (!db.paidStatuses || typeof db.paidStatuses !== "object") db.paidStatuses = {};
     if (!db.paymentClaims || typeof db.paymentClaims !== "object") db.paymentClaims = {};
+    if (!db.deletedOrders || typeof db.deletedOrders !== "object") db.deletedOrders = {};
     db.status = "success";
     return db;
   } catch(e) {
-    return { status: "success", orders: [], users: {}, statuses: {}, deliveries: {}, extraWork: {}, paidStatuses: {}, paymentClaims: {} };
+    return { status: "success", orders: [], users: {}, statuses: {}, deliveries: {}, extraWork: {}, paidStatuses: {}, paymentClaims: {}, deletedOrders: {} };
   }
 }
 
@@ -735,6 +736,38 @@ function doPost(e) {
               delete db.extraWork[k];
             }
           });
+        }
+        if (db.paidStatuses && typeof db.paidStatuses === "object") {
+          delete db.paidStatuses[rawId];
+          if (cleanNum) {
+            delete db.paidStatuses[cleanNum];
+            delete db.paidStatuses["RS-2026-" + cleanNum];
+            Object.keys(db.paidStatuses).forEach(function(k) {
+              if (String(k).replace(/[^0-9]/g, "") === cleanNum) {
+                delete db.paidStatuses[k];
+              }
+            });
+          }
+        }
+        if (db.paymentClaims && typeof db.paymentClaims === "object") {
+          delete db.paymentClaims[rawId];
+          if (cleanNum) {
+            delete db.paymentClaims[cleanNum];
+            delete db.paymentClaims["RS-2026-" + cleanNum];
+            Object.keys(db.paymentClaims).forEach(function(k) {
+              if (String(k).replace(/[^0-9]/g, "") === cleanNum) {
+                delete db.paymentClaims[k];
+              }
+            });
+          }
+        }
+        if (!db.deletedOrders || typeof db.deletedOrders !== "object") db.deletedOrders = {};
+        if (cleanNum) {
+          db.deletedOrders[cleanNum] = true;
+          db.deletedOrders["RS-2026-" + cleanNum] = true;
+        }
+        if (rawId) {
+          db.deletedOrders[rawId] = true;
         }
         saveDatabase(rootFolder, db);
       } finally {

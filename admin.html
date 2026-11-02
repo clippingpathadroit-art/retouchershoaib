@@ -592,16 +592,53 @@ async function syncAdminFromCloud(showToastNotice = false) {
       }
       let ordersUpdated = false;
 
-      // 1. Sync Orders from Cloud Drive Database (Normalized & Deduplicated)
+      // 0. Sync Deleted Orders from Cloud
+      if (data.deletedOrders && typeof data.deletedOrders === 'object') {
+        Object.keys(data.deletedOrders).forEach(k => {
+          const cleanK = normalizeNumericId(k);
+          if (cleanK) {
+            localStorage.setItem('shoaib_deleted_' + cleanK, '1');
+            localStorage.setItem('shoaib_deleted_RS-2026-' + cleanK, '1');
+            localStorage.setItem('shoaib_deleted_#RS-2026-' + cleanK, '1');
+            localStorage.removeItem('shoaib_status_paid_' + cleanK);
+            localStorage.removeItem('shoaib_status_paid_RS-2026-' + cleanK);
+            localStorage.removeItem('shoaib_payment_claim_' + cleanK);
+            localStorage.removeItem('shoaib_payment_claim_RS-2026-' + cleanK);
+            localStorage.removeItem('shoaib_extra_work_' + cleanK);
+            localStorage.removeItem('shoaib_extra_work_RS-2026-' + cleanK);
+            localStorage.removeItem('shoaib_status_' + cleanK);
+            localStorage.removeItem('shoaib_status_RS-2026-' + cleanK);
+            localStorage.removeItem('shoaib_del_url_' + cleanK);
+            localStorage.removeItem('shoaib_del_url_RS-2026-' + cleanK);
+            localStorage.removeItem('shoaib_price_approved_' + cleanK);
+            localStorage.removeItem('shoaib_agreed_price_' + cleanK);
+          }
+        });
+      }
+
+      // 1. Sync Orders from Cloud Drive Database (Normalized, Deduplicated & Deletion-Synced)
       if (Array.isArray(data.orders)) {
+        const cloudIdSet = new Set();
+        data.orders.forEach(co => {
+          const clean = normalizeNumericId(co.numericId || co.id);
+          if (clean) cloudIdSet.add(clean);
+        });
+
         const localRaw = localStorage.getItem('shoaib_custom_orders');
         let localOrders = localRaw ? JSON.parse(localRaw) : [];
         const orderMap = {};
 
+        // Only retain local orders if they still exist in the cloud or are brand new (< 120s) AND not marked deleted
         localOrders.forEach(o => {
           if (!o) return;
           const cleanId = normalizeNumericId(o.numericId || o.id);
-          if (cleanId) {
+          const isDeleted = localStorage.getItem('shoaib_deleted_' + cleanId) === '1' ||
+                            localStorage.getItem('shoaib_deleted_RS-2026-' + cleanId) === '1' ||
+                            (data.deletedOrders && (data.deletedOrders[cleanId] || data.deletedOrders['RS-2026-' + cleanId]));
+          if (!cleanId || isDeleted) return;
+
+          const isFresh = o.createdAt && (Date.now() - new Date(o.createdAt).getTime() < 120000);
+          if (cloudIdSet.has(cleanId) || isFresh) {
             o.numericId = cleanId;
             o.id = '#RS-2026-' + cleanId;
             orderMap[cleanId] = o;
@@ -611,7 +648,10 @@ async function syncAdminFromCloud(showToastNotice = false) {
         data.orders.forEach(co => {
           if (!co) return;
           const cleanId = normalizeNumericId(co.numericId || co.id);
-          if (cleanId && localStorage.getItem('shoaib_deleted_' + cleanId) !== '1') {
+          const isDeleted = localStorage.getItem('shoaib_deleted_' + cleanId) === '1' ||
+                            localStorage.getItem('shoaib_deleted_RS-2026-' + cleanId) === '1' ||
+                            (data.deletedOrders && (data.deletedOrders[cleanId] || data.deletedOrders['RS-2026-' + cleanId]));
+          if (cleanId && !isDeleted) {
             co.numericId = cleanId;
             co.id = '#RS-2026-' + cleanId;
             orderMap[cleanId] = Object.assign({}, orderMap[cleanId] || {}, co);
@@ -1136,12 +1176,12 @@ function renderAdminTable() {
               `)}
               ${ord.status === 'archived' ? `
                 <button class="btn sm" onclick="restoreOrderToActive('${id}')" style="background: #8b5cf6; color: #fff; font-size: 11px; padding: 5px 9px;" title="Restore Order to Active Pipeline">↩️ Restore</button>
+                <button class="btn sm" style="background: #dc2626; color: #fff; border: 0; font-size: 11px; padding: 5px 9px;" onclick="deleteAdminOrder('${id}')" title="Permanently Delete Archived Order">🗑️ Delete</button>
               ` : (ord.status === 'delivered' ? `
                 <button class="btn sm" onclick="archiveAdminOrder('${id}')" style="background: #4f46e5; color: #fff; border: 0; font-size: 11px; padding: 5px 9px;" title="Move Order to Completed Archive">📦 Archive</button>
               ` : '')}
               <a href="${ord.drive}" target="_blank" class="btn sm outline" style="font-size: 11px; padding: 5px 9px;" title="Open Specific Order Google Drive Subfolder">📂 Drive ↗</a>
               <button class="btn sm outline" onclick="openDelModal('${id}')" style="font-size: 11px; padding: 5px 9px;" title="Upload or Paste Final Delivery Link">🔗 Delivery</button>
-              <button class="btn sm" style="background: #dc2626; color: #fff; border: 0; font-size: 11px; padding: 5px 9px;" onclick="deleteAdminOrder('${id}')" title="Permanently Delete Order">🗑️</button>
             </div>
           </td>
         </tr>
@@ -1229,30 +1269,62 @@ function acceptClientOffer(id, proposedPrice) {
   renderAdminTable();
 }
 
-// DELETE ORDER PERMANENTLY
+// DELETE ORDER PERMANENTLY (ONLY ALLOWED FROM ARCHIVED ORDERS)
 function deleteAdminOrder(id) {
-  if (!confirm('⚠️ Are you sure you want to permanently delete Order #' + id + '?\n\nThis will remove the order from the Studio Console, delete its invoice, and sync immediately with the Client Portal.')) {
+  const cleanId = normalizeNumericId(id);
+  const raw = localStorage.getItem('shoaib_custom_orders');
+  if (raw) {
+    try {
+      const orders = JSON.parse(raw);
+      const ord = orders.find(o => normalizeNumericId(o.numericId || o.id) === cleanId);
+      if (ord && ord.status !== 'archived') {
+        alert('⚠️ Active orders cannot be deleted. Please move the order to Archive first before deleting.');
+        return;
+      }
+    } catch(e) {}
+  }
+
+  if (!confirm('⚠️ Are you sure you want to permanently delete Archived Order #RS-2026-' + cleanId + '?\n\nThis will permanently delete this order and its invoice from BOTH Studio Admin and the Client Portal.')) {
     return;
   }
-  localStorage.setItem('shoaib_deleted_' + id, '1');
+
+  localStorage.setItem('shoaib_deleted_' + cleanId, '1');
+  localStorage.setItem('shoaib_deleted_RS-2026-' + cleanId, '1');
+  localStorage.setItem('shoaib_deleted_#RS-2026-' + cleanId, '1');
+  localStorage.removeItem('shoaib_status_paid_' + cleanId);
+  localStorage.removeItem('shoaib_status_paid_RS-2026-' + cleanId);
+  localStorage.removeItem('shoaib_payment_claim_' + cleanId);
+  localStorage.removeItem('shoaib_payment_claim_RS-2026-' + cleanId);
+  localStorage.removeItem('shoaib_payment_claim');
+  localStorage.removeItem('shoaib_extra_work_' + cleanId);
+  localStorage.removeItem('shoaib_extra_work_RS-2026-' + cleanId);
+  localStorage.removeItem('shoaib_status_' + cleanId);
+  localStorage.removeItem('shoaib_status_RS-2026-' + cleanId);
+  localStorage.removeItem('shoaib_del_url_' + cleanId);
+  localStorage.removeItem('shoaib_del_url_RS-2026-' + cleanId);
+  localStorage.removeItem('shoaib_price_approved_' + cleanId);
+  localStorage.removeItem('shoaib_price_approved_RS-2026-' + cleanId);
+  localStorage.removeItem('shoaib_agreed_price_' + cleanId);
+  localStorage.removeItem('shoaib_agreed_price_RS-2026-' + cleanId);
+
   try {
-    const raw = localStorage.getItem('shoaib_custom_orders');
-    if (raw) {
-      let orders = JSON.parse(raw);
-      orders = orders.filter(o => String(o.numericId) !== String(id) && o.id !== '#RS-2026-' + id);
+    const rawCust = localStorage.getItem('shoaib_custom_orders');
+    if (rawCust) {
+      let orders = JSON.parse(rawCust);
+      orders = orders.filter(o => normalizeNumericId(o.numericId || o.id) !== cleanId);
       localStorage.setItem('shoaib_custom_orders', JSON.stringify(orders));
     }
   } catch(e) {}
 
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
 
-  // Cloud backend sync
+  // Cloud backend sync (permanently purge from cloud DB)
   triggerSyncAdminActionToCloud({
     action: 'delete_order',
-    numericId: id
+    numericId: cleanId
   });
 
-  showAdminToast('🗑️ Order #' + id + ' deleted permanently.');
+  showAdminToast('🗑️ Order #RS-2026-' + cleanId + ' permanently deleted from all dashboards.');
   renderAdminTable();
 }
 
