@@ -2312,6 +2312,46 @@ function approveWisePayment() {
   showAdminToast('No pending payment claims to review.');
 }
 
+function editCardPayUrl() {
+  const current = localStorage.getItem('shoaib_card_pay_url') || 'https://wise.com/pay/me/mdshoaibs';
+  const newUrl = prompt('Enter your Direct Card Payment link (e.g. Wise Pay / Stripe):', current);
+  if (newUrl && newUrl.trim()) {
+    const trimmed = newUrl.trim();
+    localStorage.setItem('shoaib_card_pay_url', trimmed);
+    const display = document.getElementById('admCardUrlDisplay');
+    if (display) display.textContent = trimmed;
+    showAdminToast('✓ Card Payment link updated!');
+  }
+}
+
+function closeAdminTinModal() {
+  const m = document.getElementById('adminTinModal');
+  if (m) m.classList.remove('open');
+}
+
+function saveAdminTin() {
+  const input = document.getElementById('admTinInput');
+  if (input && input.value) {
+    localStorage.setItem('shoaib_studio_tin_custom', input.value.trim());
+    showAdminToast('✓ Tax ID saved!');
+  }
+  closeAdminTinModal();
+}
+
+function closeStudioTinModal() {
+  const m = document.getElementById('adminStudioTinModal');
+  if (m) m.classList.remove('open');
+}
+
+function saveStudioTin() {
+  const input = document.getElementById('admStudioTinInput');
+  const chk = document.getElementById('admStudioTinCheck');
+  if (input) localStorage.setItem('shoaib_studio_tin_val', input.value.trim());
+  if (chk) localStorage.setItem('shoaib_studio_tin_enabled', chk.checked ? '1' : '0');
+  showAdminToast('✓ Studio TIN preferences updated!');
+  closeStudioTinModal();
+}
+
 </script>
 
 <!-- APPS SCRIPT DEPLOYMENT GUIDE MODAL -->
