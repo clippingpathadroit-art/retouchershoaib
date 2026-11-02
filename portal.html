@@ -1502,8 +1502,39 @@ body {
                 </div>
               </div>
 
+              <!-- OFFICIAL PAID RECEIPT NOTICE (SHOWN WHEN INVOICE IS SETTLED) -->
+              <div id="invoicePaidOfficialReceipt" style="display: none; background: #ecfdf5; border: 1.5px solid #10b981; border-radius: 12px; padding: 22px; margin-top: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+                  <div>
+                    <div style="font-size: 16px; font-weight: 800; color: #065f46; display: flex; align-items: center; gap: 8px;">
+                      <span>✓</span> Official Commercial Tax Invoice &amp; Receipt Settled
+                    </div>
+                    <p style="font-size: 13px; color: #047857; margin-top: 4px;">
+                      Payment verified &amp; certified by Studio Director MD Shoaib Siddique. Preserved for commercial accounting &amp; tax records.
+                    </p>
+                  </div>
+                  <div>
+                    <button type="button" class="btn btn-outline" onclick="printOfficialInvoiceOnly()" style="background: #fff; border-color: #10b981; color: #065f46; font-weight: 700; padding: 10px 18px;">
+                      🖨️ Download / Print PDF Receipt
+                    </button>
+                  </div>
+                </div>
+              </div>
+
               <!-- PAYMENT OPTIONS AREA (HIDDEN AUTOMATICALLY ON PDF PRINT) -->
               <div id="paymentToggleArea" style="background: #f8fafc; border: 1px solid var(--line); border-radius: 12px; padding: 22px; margin-top: 20px;">
+                <!-- PENDING VERIFICATION ALERT BANNER -->
+                <div id="invoicePendingBanner" style="display: none; background: #fffbeb; border: 1.5px solid #f59e0b; border-radius: 10px; padding: 16px 20px; margin-bottom: 18px;">
+                  <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 26px;">⏳</span>
+                    <div>
+                      <div style="font-size: 14px; font-weight: 800; color: #92400e;">Payment Submitted &amp; Under Studio Review</div>
+                      <div id="invoicePendingBannerText" style="font-size: 12px; color: #b45309; margin-top: 2px;">
+                        Shoaib's studio is verifying your Wise / Bank transfer reference. Once confirmed, this invoice will be marked PAID ✓.
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <h4 style="font-size: 15px; font-weight: 800; margin-bottom: 4px;">Choose Payment Currency &amp; Bank Details</h4>
                 <p style="font-size: 13px; color: var(--mut); margin-bottom: 16px;">Domestic bank routing powered by Wise with zero international wire charges.</p>
 
@@ -2234,32 +2265,29 @@ function renderDashboardOverview() {
   const clientName = sess?.name || 'Valued Client';
 
   let activeOrderList = [];
-  let deliveredOrderList = [];
   let archivedOrderList = [];
 
   const clientOrders = (typeof getClientOrders === 'function') ? getClientOrders() : ORDERS;
 
   if (isDemo) {
-    if (clientOrders['085'] && clientOrders['085'].status !== 'delivered' && clientOrders['085'].status !== 'archived') activeOrderList.push(clientOrders['085']);
+    if (clientOrders['085'] && clientOrders['085'].status !== 'archived') activeOrderList.push(clientOrders['085']);
     if (clientOrders['084']) {
       if (clientOrders['084'].status === 'archived') archivedOrderList.push(clientOrders['084']);
-      else deliveredOrderList.push(clientOrders['084']);
+      else activeOrderList.push(clientOrders['084']);
     }
     Object.keys(clientOrders).forEach(k => {
       if (k !== '084' && k !== '085') {
         const o = clientOrders[k];
         if (o.status === 'archived') archivedOrderList.push(o);
-        else if (o.status === 'delivered') deliveredOrderList.push(o);
         else activeOrderList.push(o);
       }
     });
   } else {
-    // Strictly isolated for this authenticated client
+    // Strictly isolated for this authenticated client: delivered orders remain ACTIVE until archived!
     Object.keys(clientOrders).forEach(k => {
       if (k !== '084' && k !== '085') {
         const o = clientOrders[k];
         if (o.status === 'archived') archivedOrderList.push(o);
-        else if (o.status === 'delivered') deliveredOrderList.push(o);
         else activeOrderList.push(o);
       }
     });
@@ -2271,7 +2299,7 @@ function renderDashboardOverview() {
   const badgeActiveOrdersEl = document.getElementById('badgeActiveOrders');
   const badgeArchiveEl = document.getElementById('badgeArchive');
 
-  const totalArchivedCount = isDemo ? (47 + archivedOrderList.length + deliveredOrderList.length) : (archivedOrderList.length + deliveredOrderList.length);
+  const totalArchivedCount = isDemo ? (47 + archivedOrderList.length) : archivedOrderList.length;
   const totalActiveCount = activeOrderList.length;
 
   if (statActiveEl) statActiveEl.textContent = totalActiveCount;
@@ -2280,7 +2308,7 @@ function renderDashboardOverview() {
   if (badgeArchiveEl) badgeArchiveEl.textContent = totalArchivedCount;
 
   // If new user has 0 orders (Clean Slate)
-  if (!isDemo && activeOrderList.length === 0 && deliveredOrderList.length === 0) {
+  if (!isDemo && activeOrderList.length === 0) {
     container.innerHTML = `
       <div class="app-card" style="text-align: center; padding: 60px 24px; border: 1px dashed var(--line); border-radius: 16px; background: #fff; margin-bottom: 24px;">
         <div style="font-size: 48px; margin-bottom: 16px;">✨</div>
@@ -2346,44 +2374,22 @@ function renderDashboardOverview() {
             <span class="spec-tag ${isAgreed ? 'green' : 'amber'}">🏷️ ${isAgreed ? 'Agreed Budget: ' + displayPrice + ' ✓' : 'Proposed Budget: ' + displayPrice + ' (Reviewing ⏳)'}</span>
           </div>
           ${renderTrackerHTML(o.status, o.service)}
+          ${o.status === 'delivered' ? `
+            <div class="download-box" style="margin-top: 18px;">
+              <div>
+                <h4 style="font-size: 14px;">✓ Ready for Download &bull; High-Res Masters</h4>
+                <p>Checked and certified by Shoaib. Preserved 16-bit alpha channels.</p>
+              </div>
+              <div>
+                <a href="${o.drive || 'https://drive.google.com'}" target="_blank" class="btn btn-green btn-sm">
+                  📥 Download Files (ZIP)
+                </a>
+              </div>
+            </div>
+          ` : ''}
         </div>
       `;
     });
-  }
-
-  // 2. Recent Delivered Job Card (if any)
-  if (deliveredOrderList.length > 0) {
-    const o = deliveredOrderList[0];
-    const dlLink = o.drive || 'https://drive.google.com';
-    html += `
-      <div class="app-card">
-        <div class="app-card-header">
-          <div>
-            <div class="app-card-title">
-              📥 Recent Delivery Ready for Download
-              <span class="timer-pill delivered">✓ Delivered On-Time</span>
-            </div>
-            <div class="app-card-subtitle">Order ${o.id} &bull; ${o.title} (${o.images})</div>
-          </div>
-          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button class="btn btn-outline btn-sm" onclick="openOrderDetails('${o.numericId}')">Order Details 👁️</button>
-            <button class="btn btn-primary btn-sm" onclick="viewOrderInvoice('${o.numericId}')">💳 Pay / View Invoice</button>
-            <a href="${dlLink}" target="_blank" class="btn btn-green btn-sm">📥 Download Master PSDs</a>
-          </div>
-        </div>
-        <div class="download-box">
-          <div>
-            <h4>✓ Retouch Completed &bull; Your Files Are Ready for Download</h4>
-            <p>${o.images} ${o.format} with color calibration and preserved transparency.</p>
-          </div>
-          <div>
-            <a href="${dlLink}" target="_blank" class="btn btn-green">
-              📥 Download Finished ZIP Archive
-            </a>
-          </div>
-        </div>
-      </div>
-    `;
   }
 
   container.innerHTML = html;
@@ -2399,13 +2405,14 @@ function renderArchiveSection() {
   const clientOrders = (typeof getClientOrders === 'function') ? getClientOrders() : ORDERS;
 
   if (isDemo) {
-    if (clientOrders['084']) deliveredList.push(clientOrders['084']);
+    if (clientOrders['084'] && clientOrders['084'].status === 'archived') deliveredList.push(clientOrders['084']);
     Object.keys(clientOrders).forEach(k => {
-      if (k !== '084' && k !== '085' && (clientOrders[k].status === 'delivered' || clientOrders[k].status === 'archived')) deliveredList.push(clientOrders[k]);
+      if (k !== '084' && k !== '085' && clientOrders[k].status === 'archived') deliveredList.push(clientOrders[k]);
     });
   } else {
+    // Only orders explicitly archived appear in the Completed Archive!
     Object.keys(clientOrders).forEach(k => {
-      if (k !== '084' && k !== '085' && (clientOrders[k].status === 'delivered' || clientOrders[k].status === 'archived')) deliveredList.push(clientOrders[k]);
+      if (k !== '084' && k !== '085' && clientOrders[k].status === 'archived') deliveredList.push(clientOrders[k]);
     });
   }
 
@@ -2495,10 +2502,10 @@ function renderActiveOrdersPipeline() {
   const clientOrders = (typeof getClientOrders === 'function') ? getClientOrders() : ORDERS;
   let activeIds = [];
   if (isDemo) {
-    activeIds = Object.keys(clientOrders).filter(k => clientOrders[k].status !== 'delivered' && clientOrders[k].status !== 'archived');
+    activeIds = Object.keys(clientOrders).filter(k => clientOrders[k].status !== 'archived');
   } else {
-    // Non-demo client: strictly orders placed by this verified client
-    activeIds = Object.keys(clientOrders).filter(k => k !== '084' && k !== '085' && clientOrders[k].status !== 'delivered' && clientOrders[k].status !== 'archived');
+    // Non-demo client: delivered orders remain in active pipeline until archived by admin!
+    activeIds = Object.keys(clientOrders).filter(k => k !== '084' && k !== '085' && clientOrders[k].status !== 'archived');
   }
   const count = activeIds.length;
 
@@ -2564,6 +2571,20 @@ function renderActiveOrdersPipeline() {
         </div>
 
         ${renderTrackerHTML(o.status, o.service)}
+
+        ${o.status === 'delivered' ? `
+          <div class="download-box" style="margin-top: 14px; margin-bottom: 14px;">
+            <div>
+              <h4 style="font-size: 14px;">✓ Ready for Download &bull; High-Res Masters</h4>
+              <p>Checked and certified by Shoaib. Preserved 16-bit alpha channels.</p>
+            </div>
+            <div>
+              <a href="${o.drive || 'https://drive.google.com'}" target="_blank" class="btn btn-green btn-sm">
+                📥 Download Files (ZIP)
+              </a>
+            </div>
+          </div>
+        ` : ''}
 
         <div style="background: #f8fafc; border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #475569;">
           ⚡ <strong>Studio Production Note:</strong> Senior commercial retoucher assigned. Color-calibrated display profiling active for ${o.service}.
@@ -3144,8 +3165,13 @@ function renderInvoicesList() {
   Object.keys(clientOrders).forEach(id => {
     if (id !== '084' && id !== '085') {
       const o = clientOrders[id];
-      const isPaid = localStorage.getItem('shoaib_status_paid_' + id) === '1';
       const normInvId = normalizeNumericId(id);
+      const isPaid = localStorage.getItem('shoaib_status_paid_' + normInvId) === '1' || localStorage.getItem('shoaib_status_paid_' + id) === '1' || localStorage.getItem('shoaib_status_paid_RS-2026-' + normInvId) === '1';
+      const rawClaim = localStorage.getItem('shoaib_payment_claim_' + normInvId) || localStorage.getItem('shoaib_payment_claim_RS-2026-' + normInvId);
+      let claimData = null;
+      if (rawClaim) {
+        try { claimData = JSON.parse(rawClaim); } catch(e) {}
+      };
       const customAgreedPrice = localStorage.getItem('shoaib_agreed_price_' + normInvId) || localStorage.getItem('shoaib_agreed_price_RS-2026-' + normInvId) || o.price;
       if (customAgreedPrice) {
         o.price = customAgreedPrice;
@@ -3181,7 +3207,9 @@ function renderInvoicesList() {
           <td style="text-align: center;">
             ${isPaid 
               ? '<span class="inv-badge-paid">PAID ✓</span>' 
-              : '<span class="inv-badge-advance">UNPAID</span>'}
+              : (claimData && claimData.ref 
+                  ? '<span class="inv-badge-advance" style="background: #fffbeb; color: #b45309; border: 1px solid #f59e0b;">PENDING ⏳</span>'
+                  : '<span class="inv-badge-advance">UNPAID</span>')}
           </td>
           <td style="text-align: right; white-space: nowrap;">
             <button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); showSingleInvoice('${id}')">View Invoice 👁️</button>
@@ -3504,11 +3532,51 @@ function loadInvoiceDetails() {
     const totalPayableFormatted = '$' + totalPayableNum.toFixed(2);
     const ordPriceFormatted = '$' + ordPrice.toFixed(2);
 
+    const rawClaim = localStorage.getItem('shoaib_payment_claim_' + normInvId) || localStorage.getItem('shoaib_payment_claim_RS-2026-' + normInvId);
+    let claimData = null;
+    if (rawClaim) {
+      try { claimData = JSON.parse(rawClaim); } catch(e) {}
+    }
+
+    const payArea = document.getElementById('paymentToggleArea');
+    const receiptBox = document.getElementById('invoicePaidOfficialReceipt');
+    const pendingBanner = document.getElementById('invoicePendingBanner');
+    const pendingBannerText = document.getElementById('invoicePendingBannerText');
+
     if (invNumberEl) invNumberEl.textContent = 'INVOICE ' + o.id;
-    if (badgeEl) {
-      badgeEl.textContent = isPaid ? 'PAID ✓' : 'UNPAID';
-      badgeEl.style.background = isPaid ? '#ecfdf5' : '#eff6ff';
-      badgeEl.style.color = isPaid ? '#065f46' : '#2563eb';
+    if (isPaid) {
+      if (badgeEl) {
+        badgeEl.textContent = 'PAID ✓';
+        badgeEl.style.background = '#ecfdf5';
+        badgeEl.style.color = '#065f46';
+        badgeEl.style.border = '1px solid #10b981';
+      }
+      if (payArea) payArea.style.display = 'none';
+      if (receiptBox) receiptBox.style.display = 'block';
+      if (pendingBanner) pendingBanner.style.display = 'none';
+    } else if (claimData && claimData.ref) {
+      if (badgeEl) {
+        badgeEl.textContent = 'PENDING VERIFICATION ⏳';
+        badgeEl.style.background = '#fffbeb';
+        badgeEl.style.color = '#b45309';
+        badgeEl.style.border = '1px solid #f59e0b';
+      }
+      if (payArea) payArea.style.display = 'block';
+      if (receiptBox) receiptBox.style.display = 'none';
+      if (pendingBanner) pendingBanner.style.display = 'block';
+      if (pendingBannerText) {
+        pendingBannerText.textContent = 'Transfer Reference: #' + claimData.ref + ' (Logged ' + (claimData.time || '') + ' ' + (claimData.date || '') + '). Shoaib\'s studio is verifying with bank records.';
+      }
+    } else {
+      if (badgeEl) {
+        badgeEl.textContent = 'UNPAID';
+        badgeEl.style.background = '#fef2f2';
+        badgeEl.style.color = '#dc2626';
+        badgeEl.style.border = '1px solid #fca5a5';
+      }
+      if (payArea) payArea.style.display = 'block';
+      if (receiptBox) receiptBox.style.display = 'none';
+      if (pendingBanner) pendingBanner.style.display = 'none';
     }
     if (invProjectNameEl) invProjectNameEl.textContent = o.title;
     if (invProjectSubEl) invProjectSubEl.textContent = 'Commercial Post-Production Master Deliverables';
@@ -3667,18 +3735,47 @@ function submitPaymentConfirmation() {
     alert('Please enter your Wise or Bank reference number.');
     return;
   }
+  const normInvId = normalizeNumericId(activeInvoiceSelection);
+  const sess = getCurrentSession();
+  const clientOrders = (typeof getClientOrders === 'function') ? getClientOrders() : ORDERS;
+  const currOrd = clientOrders[activeInvoiceSelection] || clientOrders[normInvId] || {};
+  const ex = getStoredExtraWork(normInvId);
+  const amt = (parseFloat(currOrd.numericPrice) || 0) + (ex ? ex.amount : 0);
+
   const claimData = {
     ref: ref,
+    orderId: normInvId || activeInvoiceSelection,
+    amount: amt,
+    clientName: sess?.name || 'Studio Client',
+    clientEmail: sess?.email || 'client@studio.com',
     time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     date: new Date().toLocaleDateString()
   };
+
+  localStorage.setItem('shoaib_payment_claim_' + normInvId, JSON.stringify(claimData));
+  localStorage.setItem('shoaib_payment_claim_RS-2026-' + normInvId, JSON.stringify(claimData));
   localStorage.setItem('shoaib_payment_claim', JSON.stringify(claimData));
+  localStorage.setItem('shoaib_sync_ping', Date.now().toString());
+
+  if (GOOGLE_DRIVE_WEBHOOK_URL) {
+    try {
+      fetch(GOOGLE_DRIVE_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(Object.assign({ action: 'claim_payment', numericId: normInvId }, claimData))
+      }).catch(e => console.warn('Cloud claim dispatch error:', e));
+    } catch(e) {}
+  }
+
   const msg = document.getElementById('confirmStatusMsg');
   if (msg) {
     msg.style.color = '#059669';
-    msg.textContent = '✓ Transfer reference logged: ' + ref + '. Shoaib will verify and issue receipt within Net 15.';
+    msg.textContent = '✓ Transfer reference logged: #' + ref + '. Shoaib\'s studio will verify and issue receipt!';
   }
   if (input) input.value = '';
+
+  loadInvoiceDetails();
+  renderInvoicesList();
 }
 
 function printOfficialInvoiceOnly() {
@@ -5231,6 +5328,63 @@ async function syncPortalFromCloud() {
         } catch(e) {}
 
         changed = true;
+      }
+
+      // 5. Sync Paid Statuses from Cloud (with bidirectional auto-purge)
+      if (data.paidStatuses && typeof data.paidStatuses === 'object') {
+        const cloudPaidKeys = new Set();
+        Object.keys(data.paidStatuses).forEach(k => {
+          const cleanK = normalizeNumericId(k);
+          if (cleanK && data.paidStatuses[k]) {
+            cloudPaidKeys.add(cleanK);
+            localStorage.setItem('shoaib_status_paid_' + cleanK, '1');
+            localStorage.setItem('shoaib_status_paid_RS-2026-' + cleanK, '1');
+          }
+        });
+
+        const paidKeysToRemove = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.startsWith('shoaib_status_paid_')) {
+            const idPart = normalizeNumericId(key.replace('shoaib_status_paid_', ''));
+            if (idPart && idPart !== '084' && idPart !== '085' && !cloudPaidKeys.has(idPart)) {
+              paidKeysToRemove.push(key);
+            }
+          }
+        }
+        if (paidKeysToRemove.length > 0) {
+          paidKeysToRemove.forEach(k => localStorage.removeItem(k));
+          changed = true;
+        }
+      }
+
+      // 6. Sync Payment Claims from Cloud (with auto-purge)
+      if (data.paymentClaims && typeof data.paymentClaims === 'object') {
+        const cloudClaimKeys = new Set();
+        Object.keys(data.paymentClaims).forEach(k => {
+          const cleanK = normalizeNumericId(k);
+          const cObj = data.paymentClaims[k];
+          if (cleanK && cObj && cObj.ref) {
+            cloudClaimKeys.add(cleanK);
+            localStorage.setItem('shoaib_payment_claim_' + cleanK, JSON.stringify(cObj));
+            localStorage.setItem('shoaib_payment_claim_RS-2026-' + cleanK, JSON.stringify(cObj));
+          }
+        });
+
+        const claimKeysToRemove = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.startsWith('shoaib_payment_claim_')) {
+            const idPart = normalizeNumericId(key.replace('shoaib_payment_claim_', ''));
+            if (idPart && !cloudClaimKeys.has(idPart)) {
+              claimKeysToRemove.push(key);
+            }
+          }
+        }
+        if (claimKeysToRemove.length > 0) {
+          claimKeysToRemove.forEach(k => localStorage.removeItem(k));
+          changed = true;
+        }
       }
 
       if (changed) {

@@ -663,6 +663,58 @@ async function syncAdminFromCloud(showToastNotice = false) {
         extraKeysToRemove.forEach(k => localStorage.removeItem(k));
       }
 
+      // 4. Sync Paid Statuses from Cloud (with bidirectional auto-purge)
+      if (data.paidStatuses && typeof data.paidStatuses === 'object') {
+        const cloudPaidKeys = new Set();
+        Object.keys(data.paidStatuses).forEach(k => {
+          const cleanK = normalizeNumericId(k);
+          if (cleanK && data.paidStatuses[k]) {
+            cloudPaidKeys.add(cleanK);
+            localStorage.setItem('shoaib_status_paid_' + cleanK, '1');
+            localStorage.setItem('shoaib_status_paid_RS-2026-' + cleanK, '1');
+          }
+        });
+
+        // AUTO-PURGE: Purge local paid status if reverted in cloud
+        const paidKeysToRemove = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.startsWith('shoaib_status_paid_')) {
+            const idPart = normalizeNumericId(key.replace('shoaib_status_paid_', ''));
+            if (idPart && idPart !== '084' && idPart !== '085' && !cloudPaidKeys.has(idPart)) {
+              paidKeysToRemove.push(key);
+            }
+          }
+        }
+        paidKeysToRemove.forEach(k => localStorage.removeItem(k));
+      }
+
+      // 5. Sync Payment Claims from Cloud (with auto-purge)
+      if (data.paymentClaims && typeof data.paymentClaims === 'object') {
+        const cloudClaimKeys = new Set();
+        Object.keys(data.paymentClaims).forEach(k => {
+          const cleanK = normalizeNumericId(k);
+          const cObj = data.paymentClaims[k];
+          if (cleanK && cObj && cObj.ref) {
+            cloudClaimKeys.add(cleanK);
+            localStorage.setItem('shoaib_payment_claim_' + cleanK, JSON.stringify(cObj));
+            localStorage.setItem('shoaib_payment_claim_RS-2026-' + cleanK, JSON.stringify(cObj));
+          }
+        });
+
+        const claimKeysToRemove = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.startsWith('shoaib_payment_claim_')) {
+            const idPart = normalizeNumericId(key.replace('shoaib_payment_claim_', ''));
+            if (idPart && !cloudClaimKeys.has(idPart)) {
+              claimKeysToRemove.push(key);
+            }
+          }
+        }
+        claimKeysToRemove.forEach(k => localStorage.removeItem(k));
+      }
+
       renderAdminTable();
 
       if (syncBtn) {
@@ -850,6 +902,47 @@ function renderAdminTable() {
   const tabArcEl = document.getElementById('tabArchivedCount');
   if (tabArcEl) tabArcEl.textContent = archivedCount;
 
+  // Calculate Pending Payment Claims & Update Banner Dynamically
+  let pendingClaimsCount = 0;
+  const pendingClaimsList = [];
+  ordersList.forEach(o => {
+    const cleanId = normalizeNumericId(o.numericId);
+    const isPaid = localStorage.getItem('shoaib_status_paid_' + cleanId) === '1' || localStorage.getItem('shoaib_status_paid_RS-2026-' + cleanId) === '1';
+    const rawClaim = localStorage.getItem('shoaib_payment_claim_' + cleanId) || localStorage.getItem('shoaib_payment_claim_RS-2026-' + cleanId);
+    let claimData = null;
+    if (rawClaim) {
+      try { claimData = JSON.parse(rawClaim); } catch(e) {}
+    }
+    if (!isPaid && claimData && claimData.ref) {
+      pendingClaimsCount++;
+      pendingClaimsList.push({ order: o, claim: claimData });
+    }
+  });
+
+  const claimCountEl = document.getElementById('admClaimCount');
+  if (claimCountEl) claimCountEl.textContent = pendingClaimsCount;
+
+  const claimSec = document.getElementById('paymentClaimSection');
+  if (claimSec) {
+    if (pendingClaimsList.length > 0) {
+      claimSec.style.display = 'block';
+      let claimsHtml = '<div class="section-head" style="border-color: rgba(22, 163, 74, 0.3);"><div class="section-title" style="color: #4ade80;">⚡ Incoming Payment Claims to Verify (' + pendingClaimsList.length + ')</div><span class="status-pill delivered">Action Required</span></div>';
+      pendingClaimsList.forEach(item => {
+        const o = item.order;
+        const c = item.claim;
+        const ex = getStoredExtraWork(o.numericId);
+        const tot = (parseFloat(o.numericPrice) || 0) + (ex ? ex.amount : 0);
+        claimsHtml += '<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.08);">' +
+          '<div><p style="font-size: 14px; margin-bottom: 4px;">Client <strong>' + o.clientName + '</strong> (' + o.clientEmail + ') reported transfer for <strong>' + o.id + '</strong> — <strong>' + D + tot.toFixed(2) + ' USD</strong>.</p>' +
+          '<p style="font-size: 13px; color: #aaa;">Transfer Reference: <strong style="color: #fbbf24; background: #000; padding: 2px 8px; border-radius: 4px; font-family: monospace;">#' + c.ref + '</strong> &bull; Time: <span style="color: #fff;">' + (c.time || '') + ' ' + (c.date || '') + '</span></p></div>' +
+          '<div style="display: flex; gap: 8px;"><button class="btn green sm" onclick="openPaymentReviewModal(\'' + o.numericId + '\')">💳 Review &amp; Mark Paid</button></div></div>';
+      });
+      claimSec.innerHTML = claimsHtml;
+    } else {
+      claimSec.style.display = 'none';
+    }
+  }
+
   // Filter orders by active tab
   const currentTab = window.adminOrderTab || 'active';
   const displayOrders = ordersList.filter(o => {
@@ -899,6 +992,16 @@ function renderAdminTable() {
       let extraDesc = ex ? ex.desc : '';
       let extraQty = ex ? ex.qty : 0;
       let extraRate = ex ? ex.rate : 0;
+
+      // Payment Verification & Paid Status Check
+      const cleanId = normalizeNumericId(id);
+      const isPaid = localStorage.getItem('shoaib_status_paid_' + cleanId) === '1' || localStorage.getItem('shoaib_status_paid_RS-2026-' + cleanId) === '1';
+      const rawClaim = localStorage.getItem('shoaib_payment_claim_' + cleanId) || localStorage.getItem('shoaib_payment_claim_RS-2026-' + cleanId);
+      let claimData = null;
+      if (rawClaim) {
+        try { claimData = JSON.parse(rawClaim); } catch(e) {}
+      }
+      const finalTotal = baseNum + extraAmount;
 
       // WhatsApp link if phone exists
       const cleanPhone = (ord.clientPhone || '').replace(/[^0-9]/g, '');
@@ -950,6 +1053,24 @@ function renderAdminTable() {
               ${extraAmount > 0 ? `
                 <div style="font-size: 10px; color: #aaa; margin-top: 2px;">Total: $${(baseNum + extraAmount).toFixed(2)}</div>
               ` : ''}
+
+              ${isPaid ? `
+                <div style="margin-top: 6px;">
+                  <span style="display: inline-block; background: #065f46; color: #34d399; font-weight: 800; padding: 2px 8px; border-radius: 4px; font-size: 11px;">🟢 PAID (${finalTotal.toFixed(2)}) ✓</span>
+                  <br>
+                  <button type="button" class="btn sm" onclick="revertAdminOrderToUnpaid('${id}')" 
+                          style="font-size: 10px; padding: 2px 7px; margin-top: 4px; background: #27272a; color: #f87171; border: 1px solid #3f3f46; border-radius: 4px;" 
+                          title="Accidentally marked as paid? Revert to UNPAID">
+                    ↩️ Mark Unpaid
+                  </button>
+                </div>
+              ` : (claimData && claimData.ref ? `
+                <div style="margin-top: 6px;">
+                  <span style="display: inline-block; background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); font-weight: 700; padding: 2px 7px; border-radius: 4px; font-size: 10px;">
+                    ⚡ Ref: #${claimData.ref} (Pending Review)
+                  </span>
+                </div>
+              ` : '')}
             </div>
           </td>
           <td>
@@ -964,6 +1085,25 @@ function renderAdminTable() {
           </td>
           <td style="text-align: right; white-space: nowrap;">
             <div style="display: flex; gap: 6px; justify-content: flex-end; align-items: center;">
+              ${!isPaid && claimData && claimData.ref ? `
+                <button class="btn sm" onclick="openPaymentReviewModal('${id}')" 
+                        style="background: #10b981; color: #000; font-weight: 800; font-size: 11px; padding: 5px 9px; border: none; box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);" 
+                        title="Client submitted payment reference. Review & Confirm">
+                  💳 Review Payment
+                </button>
+              ` : (!isPaid ? `
+                <button class="btn sm outline" onclick="markAdminOrderPaidDirect('${id}')" 
+                        style="font-size: 10px; padding: 4px 7px; color: #10b981; border-color: #059669;" 
+                        title="Mark this order as PAID directly">
+                  ✓ Mark Paid
+                </button>
+              ` : `
+                <button class="btn sm" onclick="revertAdminOrderToUnpaid('${id}')" 
+                        style="background: #374151; color: #f87171; border: 1px solid #4b5563; font-size: 11px; padding: 5px 9px;" 
+                        title="Revert this order back to UNPAID">
+                  ↩️ Unpaid
+                </button>
+              `)}
               ${ord.status === 'archived' ? `
                 <button class="btn sm" onclick="restoreOrderToActive('${id}')" style="background: #8b5cf6; color: #fff; font-size: 11px; padding: 5px 9px;" title="Restore Order to Active Pipeline">↩️ Restore</button>
               ` : (ord.status === 'delivered' ? `
@@ -1829,6 +1969,151 @@ async function saveEditedPrice() {
   renderAdminTable();
 }
 
+// ========================================================
+// PAYMENT REVIEW & CONFIRMATION / REVERT TO UNPAID WORKFLOW
+// ========================================================
+let currentReviewOrderId = '';
+
+function openPaymentReviewModal(id) {
+  const numId = normalizeNumericId(id);
+  currentReviewOrderId = numId;
+  let order = null;
+  try {
+    const raw = localStorage.getItem('shoaib_custom_orders');
+    if (raw) {
+      const list = JSON.parse(raw);
+      order = list.find(o => normalizeNumericId(o.numericId || o.id) === numId);
+    }
+  } catch(e) {}
+
+  let claim = {};
+  try {
+    claim = JSON.parse(localStorage.getItem('shoaib_payment_claim_' + numId) || localStorage.getItem('shoaib_payment_claim_RS-2026-' + numId) || '{}');
+  } catch(e) {}
+
+  const ex = getStoredExtraWork(numId);
+  const base = order ? (parseFloat(order.numericPrice) || parseFloat(String(order.price || '').replace(/[^0-9.]/g, '')) || 0) : 0;
+  const tot = base + (ex ? ex.amount : 0);
+
+  const elId = document.getElementById('admRevOrderId');
+  if (elId) elId.textContent = '#RS-2026-' + numId;
+  const elClient = document.getElementById('admRevClientName');
+  if (elClient) elClient.textContent = (order ? order.clientName : 'Client') + (order ? ' (' + order.clientEmail + ')' : '');
+  const elAmt = document.getElementById('admRevAmount');
+  if (elAmt) elAmt.textContent = '$' + tot.toFixed(2) + ' USD';
+  const elRef = document.getElementById('admRevRef');
+  if (elRef) elRef.textContent = '#' + (claim.ref || '-');
+  const elTime = document.getElementById('admRevTime');
+  if (elTime) elTime.textContent = (claim.time || '') + ' ' + (claim.date || '');
+
+  const modal = document.getElementById('adminPaymentReviewModal');
+  if (modal) modal.style.display = 'flex';
+}
+
+function closePaymentReviewModal() {
+  const modal = document.getElementById('adminPaymentReviewModal');
+  if (modal) modal.style.display = 'none';
+  currentReviewOrderId = '';
+}
+
+function confirmPaymentFromModal() {
+  if (!currentReviewOrderId) return;
+  markAdminOrderPaid(currentReviewOrderId);
+  closePaymentReviewModal();
+}
+
+function rejectPaymentClaimFromModal() {
+  if (!currentReviewOrderId) return;
+  rejectPaymentClaim(currentReviewOrderId);
+  closePaymentReviewModal();
+}
+
+function markAdminOrderPaid(id) {
+  const numId = normalizeNumericId(id);
+  localStorage.setItem('shoaib_status_paid_' + numId, '1');
+  localStorage.setItem('shoaib_status_paid_RS-2026-' + numId, '1');
+  localStorage.setItem('shoaib_sync_ping', Date.now().toString());
+
+  if (GOOGLE_DRIVE_WEBHOOK_URL) {
+    fetch(GOOGLE_DRIVE_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action: 'mark_order_paid', numericId: numId })
+    }).catch(e => console.warn('Cloud mark paid error:', e));
+  }
+
+  showAdminToast('✓ Order #RS-2026-' + numId + ' marked as PAID! Invoice & balance updated.');
+  renderAdminTable();
+}
+
+function markAdminOrderPaidDirect(id) {
+  const numId = normalizeNumericId(id);
+  if (confirm('Mark Order #RS-2026-' + numId + ' as PAID?\n\nThis will mark the client invoice as PAID and deduct this amount from their unpaid balance.')) {
+    markAdminOrderPaid(numId);
+  }
+}
+
+function rejectPaymentClaim(id) {
+  const numId = normalizeNumericId(id);
+  if (confirm('Reject / Reset payment claim for Order #RS-2026-' + numId + '?\n\nThis will remove the pending claim and allow the client to resubmit.')) {
+    localStorage.removeItem('shoaib_payment_claim_' + numId);
+    localStorage.removeItem('shoaib_payment_claim_RS-2026-' + numId);
+    localStorage.setItem('shoaib_sync_ping', Date.now().toString());
+
+    if (GOOGLE_DRIVE_WEBHOOK_URL) {
+      fetch(GOOGLE_DRIVE_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'clear_payment_claim', numericId: numId })
+      }).catch(e => console.warn('Cloud clear claim error:', e));
+    }
+
+    showAdminToast('Payment claim cleared for Order #RS-2026-' + numId);
+    renderAdminTable();
+  }
+}
+
+function revertAdminOrderToUnpaid(id) {
+  const numId = normalizeNumericId(id);
+  if (confirm('Are you sure you want to revert Order #RS-2026-' + numId + ' back to UNPAID?\n\nThis will:\n• Mark the invoice as UNPAID on the client portal\n• Restore the order amount back into their Unpaid Balance\n• Remove the official receipt and re-enable payment instructions.')) {
+    localStorage.removeItem('shoaib_status_paid_' + numId);
+    localStorage.removeItem('shoaib_status_paid_RS-2026-' + numId);
+    localStorage.removeItem('shoaib_payment_claim_' + numId);
+    localStorage.removeItem('shoaib_payment_claim_RS-2026-' + numId);
+    localStorage.setItem('shoaib_sync_ping', Date.now().toString());
+
+    if (GOOGLE_DRIVE_WEBHOOK_URL) {
+      fetch(GOOGLE_DRIVE_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'mark_order_unpaid', numericId: numId })
+      }).catch(e => console.warn('Cloud revert unpaid error:', e));
+    }
+
+    showAdminToast('↩️ Order #RS-2026-' + numId + ' reverted to UNPAID. Balance restored.');
+    renderAdminTable();
+  }
+}
+
+function approveWisePayment() {
+  const rawOrders = localStorage.getItem('shoaib_custom_orders');
+  if (rawOrders) {
+    try {
+      const list = JSON.parse(rawOrders);
+      for (let i = 0; i < list.length; i++) {
+        const nid = normalizeNumericId(list[i].numericId || list[i].id);
+        const isP = localStorage.getItem('shoaib_status_paid_' + nid) === '1';
+        const c = localStorage.getItem('shoaib_payment_claim_' + nid);
+        if (!isP && c) {
+          openPaymentReviewModal(nid);
+          return;
+        }
+      }
+    } catch(e) {}
+  }
+  showAdminToast('No pending payment claims to review.');
+}
+
 </script>
 
 <!-- APPS SCRIPT DEPLOYMENT GUIDE MODAL -->
@@ -2149,6 +2434,50 @@ async function saveEditedPrice() {
       <button type="button" class="btn sm outline" onclick="closeEditPriceModal()">Cancel</button>
       <button type="button" class="btn sm" onclick="saveEditedPrice()" style="background: #10b981; color: #fff; font-weight: 700;">
         ✓ Save Agreed Price &amp; Sync
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- PAYMENT REVIEW & CONFIRMATION MODAL -->
+<div class="modal" id="adminPaymentReviewModal" onclick="if(event.target === this) closePaymentReviewModal()">
+  <div class="modal-box" style="max-width: 540px; background: #0f172a; border: 1px solid #334155;">
+    <button class="modal-close" onclick="closePaymentReviewModal()">✕</button>
+    <div style="font-size: 28px; margin-bottom: 8px;">💳</div>
+    <h3 style="font-size: 19px; font-weight: 800; margin-bottom: 4px; color: #fff;">Review Client Payment Transfer</h3>
+    <p style="font-size: 13px; color: #94a3b8; margin-bottom: 20px;">
+      Verify the client's bank or Wise transfer reference before issuing the official paid receipt.
+    </p>
+
+    <div style="background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 18px; margin-bottom: 22px;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 13px;">
+        <span style="color: #94a3b8;">Order ID:</span>
+        <strong id="admRevOrderId" style="color: #fff; font-family: monospace;">-</strong>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 13px;">
+        <span style="color: #94a3b8;">Client:</span>
+        <strong id="admRevClientName" style="color: #fff;">-</strong>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 13px;">
+        <span style="color: #94a3b8;">Order Total:</span>
+        <strong id="admRevAmount" style="color: #4ade80; font-size: 15px;">-</strong>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px dashed #334155; font-size: 13px;">
+        <span style="color: #94a3b8;">Transfer Reference:</span>
+        <span id="admRevRef" style="color: #fbbf24; background: #000; padding: 4px 10px; border-radius: 6px; font-family: monospace; font-weight: 800; border: 1px solid #444;">-</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 12px; color: #64748b;">
+        <span>Submitted:</span>
+        <span id="admRevTime">-</span>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap;">
+      <button type="button" class="btn sm" onclick="rejectPaymentClaimFromModal()" style="background: #27272a; color: #f87171; border: 1px solid #3f3f46;">
+        ✕ Reject / Reset Claim
+      </button>
+      <button type="button" class="btn green sm" onclick="confirmPaymentFromModal()" style="font-weight: 800; padding: 10px 18px;">
+        ✓ Confirm &amp; Mark as PAID
       </button>
     </div>
   </div>

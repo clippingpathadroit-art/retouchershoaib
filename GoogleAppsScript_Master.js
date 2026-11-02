@@ -19,7 +19,9 @@ function getOrCreateDatabaseFile(rootFolder) {
       users: {},
       statuses: {},
       deliveries: {},
-      extraWork: {}
+      extraWork: {},
+      paidStatuses: {},
+      paymentClaims: {}
     };
     return rootFolder.createFile(DB_FILE_NAME, JSON.stringify(initial, null, 2), "application/json");
   }
@@ -30,7 +32,7 @@ function getDatabase(rootFolder) {
     var file = getOrCreateDatabaseFile(rootFolder);
     var content = file.getBlob().getDataAsString();
     if (!content || content.trim().length === 0) {
-      return { status: "success", orders: [], users: {}, statuses: {}, deliveries: {}, extraWork: {} };
+      return { status: "success", orders: [], users: {}, statuses: {}, deliveries: {}, extraWork: {}, paidStatuses: {}, paymentClaims: {} };
     }
     var db = JSON.parse(content);
     if (!db.orders || !Array.isArray(db.orders)) db.orders = [];
@@ -38,10 +40,12 @@ function getDatabase(rootFolder) {
     if (!db.statuses || typeof db.statuses !== "object") db.statuses = {};
     if (!db.deliveries || typeof db.deliveries !== "object") db.deliveries = {};
     if (!db.extraWork || typeof db.extraWork !== "object") db.extraWork = {};
+    if (!db.paidStatuses || typeof db.paidStatuses !== "object") db.paidStatuses = {};
+    if (!db.paymentClaims || typeof db.paymentClaims !== "object") db.paymentClaims = {};
     db.status = "success";
     return db;
   } catch(e) {
-    return { status: "success", orders: [], users: {}, statuses: {}, deliveries: {}, extraWork: {} };
+    return { status: "success", orders: [], users: {}, statuses: {}, deliveries: {}, extraWork: {}, paidStatuses: {}, paymentClaims: {} };
   }
 }
 
@@ -311,6 +315,147 @@ function doPost(e) {
         fileUrl: file.getUrl(),
         fileName: file.getName()
       })).setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // (E1) পেমেন্ট ক্লেইম সাবমিট (Client -> Cloud)
+    if (data.action === "claim_payment") {
+      var rawId = String(data.numericId || "");
+      var cleanNum = rawId.replace(/[^0-9]/g, "");
+      var ref = String(data.ref || "").trim();
+      var lock = LockService.getScriptLock();
+      lock.tryLock(10000);
+      try {
+        var db = getDatabase(rootFolder);
+        if (!db.paymentClaims) db.paymentClaims = {};
+        var claimObj = {
+          ref: ref,
+          orderId: cleanNum || rawId,
+          amount: Number(data.amount || 0),
+          clientName: data.clientName || "",
+          clientEmail: data.clientEmail || "",
+          time: data.time || "",
+          date: data.date || ""
+        };
+        db.paymentClaims[rawId] = claimObj;
+        if (cleanNum) {
+          db.paymentClaims[cleanNum] = claimObj;
+          db.paymentClaims["RS-2026-" + cleanNum] = claimObj;
+          db.paymentClaims["#RS-2026-" + cleanNum] = claimObj;
+        }
+        saveDatabase(rootFolder, db);
+      } finally {
+        lock.releaseLock();
+      }
+      return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // (E2) অর্ডার পেইড মার্ক করা (Admin -> Cloud)
+    if (data.action === "mark_order_paid") {
+      var rawId = String(data.numericId || "");
+      var cleanNum = rawId.replace(/[^0-9]/g, "");
+      var lock = LockService.getScriptLock();
+      lock.tryLock(10000);
+      try {
+        var db = getDatabase(rootFolder);
+        if (!db.paidStatuses) db.paidStatuses = {};
+        db.paidStatuses[rawId] = true;
+        if (cleanNum) {
+          db.paidStatuses[cleanNum] = true;
+          db.paidStatuses["RS-2026-" + cleanNum] = true;
+          db.paidStatuses["#RS-2026-" + cleanNum] = true;
+        }
+        for (var i = 0; i < db.orders.length; i++) {
+          var oNum = String(db.orders[i].numericId || db.orders[i].id || "").replace(/[^0-9]/g, "");
+          if (oNum === cleanNum || String(db.orders[i].numericId) === rawId) {
+            db.orders[i].isPaid = true;
+            break;
+          }
+        }
+        saveDatabase(rootFolder, db);
+      } finally {
+        lock.releaseLock();
+      }
+      return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // (E3) অর্ডার রিভার্ট করে আনপেইড করা (Admin -> Cloud Revert to Unpaid)
+    if (data.action === "mark_order_unpaid") {
+      var rawId = String(data.numericId || "");
+      var cleanNum = rawId.replace(/[^0-9]/g, "");
+      var lock = LockService.getScriptLock();
+      lock.tryLock(10000);
+      try {
+        var db = getDatabase(rootFolder);
+        if (db.paidStatuses) {
+          delete db.paidStatuses[rawId];
+          if (cleanNum) {
+            delete db.paidStatuses[cleanNum];
+            delete db.paidStatuses["RS-2026-" + cleanNum];
+            delete db.paidStatuses["#RS-2026-" + cleanNum];
+            Object.keys(db.paidStatuses).forEach(function(k) {
+              if (String(k).replace(/[^0-9]/g, "") === cleanNum) {
+                delete db.paidStatuses[k];
+              }
+            });
+          }
+        }
+        if (db.paymentClaims) {
+          delete db.paymentClaims[rawId];
+          if (cleanNum) {
+            delete db.paymentClaims[cleanNum];
+            delete db.paymentClaims["RS-2026-" + cleanNum];
+            delete db.paymentClaims["#RS-2026-" + cleanNum];
+            Object.keys(db.paymentClaims).forEach(function(k) {
+              if (String(k).replace(/[^0-9]/g, "") === cleanNum) {
+                delete db.paymentClaims[k];
+              }
+            });
+          }
+        }
+        for (var i = 0; i < db.orders.length; i++) {
+          var oNum = String(db.orders[i].numericId || db.orders[i].id || "").replace(/[^0-9]/g, "");
+          if (oNum === cleanNum || String(db.orders[i].numericId) === rawId) {
+            db.orders[i].isPaid = false;
+            break;
+          }
+        }
+        saveDatabase(rootFolder, db);
+      } finally {
+        lock.releaseLock();
+      }
+      return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // (E4) পেমেন্ট ক্লেইম ক্লিয়ার / রিজেক্ট করা (Admin -> Cloud Clear Claim)
+    if (data.action === "clear_payment_claim") {
+      var rawId = String(data.numericId || "");
+      var cleanNum = rawId.replace(/[^0-9]/g, "");
+      var lock = LockService.getScriptLock();
+      lock.tryLock(10000);
+      try {
+        var db = getDatabase(rootFolder);
+        if (db.paymentClaims) {
+          delete db.paymentClaims[rawId];
+          if (cleanNum) {
+            delete db.paymentClaims[cleanNum];
+            delete db.paymentClaims["RS-2026-" + cleanNum];
+            delete db.paymentClaims["#RS-2026-" + cleanNum];
+            Object.keys(db.paymentClaims).forEach(function(k) {
+              if (String(k).replace(/[^0-9]/g, "") === cleanNum) {
+                delete db.paymentClaims[k];
+              }
+            });
+          }
+        }
+        saveDatabase(rootFolder, db);
+      } finally {
+        lock.releaseLock();
+      }
+      return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
+        .setMimeType(ContentService.MimeType.JSON);
     }
 
     // (E) অর্ডার স্ট্যাটাস আপডেট (Admin -> Cloud)
