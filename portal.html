@@ -4061,6 +4061,7 @@ function handleNewOrderSubmit(e) {
   clearDriveQueue();
 
   // Re-render UI
+  loadStoredCustomOrders();
   renderActiveOrdersPipeline();
   renderDashboardOverview();
   renderArchiveSection();
@@ -5351,7 +5352,7 @@ async function syncPortalFromCloud() {
         let localOrders = raw ? JSON.parse(raw) : [];
         const orderMap = {};
 
-        // Retain only local orders that still exist in cloud or are fresh (placed < 120s ago) AND not deleted
+        // Retain all valid local orders that are not marked deleted
         localOrders.forEach(o => {
           if (!o) return;
           const num = normalizeNumericId(o.numericId || o.id);
@@ -5360,14 +5361,11 @@ async function syncPortalFromCloud() {
                             (data.deletedOrders && (data.deletedOrders[num] || data.deletedOrders['RS-2026-' + num]));
           if (!num || isDeleted) return;
 
-          const isFreshLocal = o.createdAt && (Date.now() - new Date(o.createdAt).getTime() < 120000);
-          if (cloudIdSet.has(num) || isFreshLocal) {
-            o.numericId = num;
-            o.id = '#' + num;
-            const localStatus = localStorage.getItem('shoaib_status_' + num) || localStorage.getItem('shoaib_status_RS-2026-' + num);
-            if (localStatus) o.status = localStatus;
-            orderMap[num] = o;
-          }
+          o.numericId = num;
+          o.id = '#' + num;
+          const localStatus = localStorage.getItem('shoaib_status_' + num) || localStorage.getItem('shoaib_status_RS-2026-' + num);
+          if (localStatus) o.status = localStatus;
+          orderMap[num] = o;
         });
 
         data.orders.forEach(co => {

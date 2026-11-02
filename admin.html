@@ -628,7 +628,7 @@ async function syncAdminFromCloud(showToastNotice = false) {
         let localOrders = localRaw ? JSON.parse(localRaw) : [];
         const orderMap = {};
 
-        // Only retain local orders if they still exist in the cloud or are brand new (< 120s) AND not marked deleted
+        // Retain all valid local orders that are not marked deleted
         localOrders.forEach(o => {
           if (!o) return;
           const cleanId = normalizeNumericId(o.numericId || o.id);
@@ -637,12 +637,11 @@ async function syncAdminFromCloud(showToastNotice = false) {
                             (data.deletedOrders && (data.deletedOrders[cleanId] || data.deletedOrders['RS-2026-' + cleanId]));
           if (!cleanId || isDeleted) return;
 
-          const isFresh = o.createdAt && (Date.now() - new Date(o.createdAt).getTime() < 120000);
-          if (cloudIdSet.has(cleanId) || isFresh) {
-            o.numericId = cleanId;
-            o.id = '#' + cleanId;
-            orderMap[cleanId] = o;
-          }
+          o.numericId = cleanId;
+          o.id = '#' + cleanId;
+          const localStatus = localStorage.getItem('shoaib_status_' + cleanId) || localStorage.getItem('shoaib_status_RS-2026-' + cleanId);
+          if (localStatus) o.status = localStatus;
+          orderMap[cleanId] = o;
         });
 
         data.orders.forEach(co => {
