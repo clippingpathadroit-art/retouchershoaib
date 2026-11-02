@@ -1145,7 +1145,7 @@ body {
           <span class="nav-item-icon">📁</span>
           <span>Archive &amp; Completed</span>
         </div>
-        <span class="nav-pill pill-green" id="badgeArchive">48</span>
+        <span class="nav-pill pill-green" id="badgeArchive">0</span>
       </button>
 
       <button class="nav-item" id="sideNavInvoices" onclick="switchPortalSection('invoices')">
@@ -1961,6 +1961,16 @@ let activeInvoiceSelection = 'all';
 const ORDERS = {};
 
 // Load dynamically submitted custom orders from localStorage
+function normalizeNumericId(raw) {
+  if (!raw) return '';
+  let str = String(raw).trim();
+  str = str.replace(/#?RS-?2026-?/i, '').replace(/#?RS-?/i, '');
+  if (str.startsWith('2026') && str.length > 5) {
+    str = str.slice(4);
+  }
+  return str.replace(/[^0-9]/g, '');
+}
+
 function loadStoredCustomOrders() {
   for (const k in ORDERS) {
     if (Object.prototype.hasOwnProperty.call(ORDERS, k)) {
@@ -1973,16 +1983,28 @@ function loadStoredCustomOrders() {
     if (raw) {
       const customOrders = JSON.parse(raw);
       if (Array.isArray(customOrders)) {
+        const orderMap = {};
         customOrders.forEach(ord => {
-          if (ord && ord.numericId && localStorage.getItem('shoaib_deleted_' + ord.numericId) !== '1') {
-            const numId = String(ord.numericId);
-            const statusOverride = localStorage.getItem('shoaib_status_' + numId);
+          if (!ord) return;
+          const numId = normalizeNumericId(ord.numericId || ord.id);
+          if (numId && localStorage.getItem('shoaib_deleted_' + numId) !== '1') {
+            ord.numericId = numId;
+            ord.id = '#RS-2026-' + numId;
+            const statusOverride = localStorage.getItem('shoaib_status_' + numId) || localStorage.getItem('shoaib_status_RS-2026-' + numId);
             if (statusOverride) ord.status = statusOverride;
-            const delUrl = localStorage.getItem('shoaib_del_url_' + numId);
+            const delUrl = localStorage.getItem('shoaib_del_url_' + numId) || localStorage.getItem('shoaib_del_url_RS-2026-' + numId);
             if (delUrl) ord.drive = delUrl;
-            ORDERS[numId] = ord;
+            const agreedOverride = localStorage.getItem('shoaib_price_approved_' + numId) === '1' || localStorage.getItem('shoaib_price_approved_RS-2026-' + numId) === '1';
+            if (agreedOverride) ord.isAgreed = true;
+            const customPrice = localStorage.getItem('shoaib_agreed_price_' + numId) || localStorage.getItem('shoaib_agreed_price_RS-2026-' + numId);
+            if (customPrice) ord.price = customPrice;
+
+            orderMap[numId] = Object.assign({}, orderMap[numId] || {}, ord);
+            ORDERS[numId] = orderMap[numId];
           }
         });
+        // Deduplicate and persist cleaned array
+        localStorage.setItem('shoaib_custom_orders', JSON.stringify(Object.values(orderMap)));
       }
     }
   } catch(e) {
@@ -2212,18 +2234,21 @@ function renderDashboardOverview() {
   const statActiveEl = document.getElementById('statActive');
   const badgeActiveOrdersEl = document.getElementById('badgeActiveOrders');
 
+  const badgeArchiveEl = document.getElementById('badgeArchive');
   if (isDemo) {
     if (statActiveEl) statActiveEl.textContent = activeOrderList.length;
     if (badgeActiveOrdersEl) badgeActiveOrdersEl.textContent = activeOrderList.length;
     if (statCompletedEl) statCompletedEl.textContent = (47 + deliveredOrderList.length) + ' Orders';
     if (statTotalProjectsEl) statTotalProjectsEl.textContent = (47 + deliveredOrderList.length + activeOrderList.length) + ' Projects';
     if (statTotalSubEl) statTotalSubEl.textContent = activeOrderList.length + ' Active • ' + (47 + deliveredOrderList.length) + ' Archived';
+    if (badgeArchiveEl) badgeArchiveEl.textContent = 47 + deliveredOrderList.length;
   } else {
     if (statActiveEl) statActiveEl.textContent = activeOrderList.length;
     if (badgeActiveOrdersEl) badgeActiveOrdersEl.textContent = activeOrderList.length;
     if (statCompletedEl) statCompletedEl.textContent = deliveredOrderList.length + ' Orders';
     if (statTotalProjectsEl) statTotalProjectsEl.textContent = (activeOrderList.length + deliveredOrderList.length) + ' Projects';
     if (statTotalSubEl) statTotalSubEl.textContent = activeOrderList.length + ' Active • ' + deliveredOrderList.length + ' Archived';
+    if (badgeArchiveEl) badgeArchiveEl.textContent = deliveredOrderList.length;
   }
 
   // If new user has 0 orders (Clean Slate)
@@ -2303,8 +2328,9 @@ function renderDashboardOverview() {
             </div>
             <div class="app-card-subtitle">Order ${o.id} &bull; ${o.title} (${o.images})</div>
           </div>
-          <div style="display: flex; gap: 8px;">
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
             <button class="btn btn-outline btn-sm" onclick="openOrderDetails('${o.numericId}')">Order Details 👁️</button>
+            <button class="btn btn-primary btn-sm" onclick="viewOrderInvoice('${o.numericId}')">💳 Pay / View Invoice</button>
             <a href="${dlLink}" target="_blank" class="btn btn-green btn-sm">📥 Download Master PSDs</a>
           </div>
         </div>
@@ -3700,9 +3726,18 @@ function handleNewOrderSubmit(e) {
   const clientEmail = (curSess?.email || curProf?.email || 'client@studio.com').toLowerCase();
   const clientCompany = curSess?.company || curProf?.company || 'Client Studio';
 
+  const realTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+  let regionName = 'International Client';
+  if (realTimezone.includes('Dhaka') || realTimezone.includes('Asia/')) regionName = 'Bangladesh / Asia (' + realTimezone + ')';
+  else if (realTimezone.includes('London') || realTimezone.includes('Europe/')) regionName = 'Europe (' + realTimezone + ')';
+  else if (realTimezone.includes('New_York') || realTimezone.includes('America/')) regionName = 'North America (' + realTimezone + ')';
+  else regionName = realTimezone;
+
   const newOrder = {
     id: fullOrderId,
     numericId: idStr,
+    clientLocation: regionName,
+    clientIp: localStorage.getItem('shoaib_client_ip') || 'Direct Web Client',
     title: pName,
     service: service,
     images: count + ' RAWs',
@@ -5045,19 +5080,28 @@ async function syncPortalFromCloud() {
     if (data && data.status === 'success') {
       let changed = false;
 
-      // 1. Sync custom orders from cloud
+      // 1. Sync custom orders from cloud (Normalized & Deduplicated)
       if (Array.isArray(data.orders)) {
         const raw = localStorage.getItem('shoaib_custom_orders');
         let localOrders = raw ? JSON.parse(raw) : [];
         const orderMap = {};
         localOrders.forEach(o => {
-          if (o && o.numericId) orderMap[String(o.numericId)] = o;
+          if (o) {
+            const num = normalizeNumericId(o.numericId || o.id);
+            if (num) {
+              o.numericId = num;
+              o.id = '#RS-2026-' + num;
+              orderMap[num] = o;
+            }
+          }
         });
         data.orders.forEach(co => {
-          if (co && co.numericId) {
-            const numId = String(co.numericId);
-            if (localStorage.getItem('shoaib_deleted_' + numId) !== '1') {
-              orderMap[numId] = Object.assign({}, orderMap[numId] || {}, co);
+          if (co) {
+            const num = normalizeNumericId(co.numericId || co.orderId || co.id);
+            if (num && localStorage.getItem('shoaib_deleted_' + num) !== '1') {
+              co.numericId = num;
+              co.id = '#RS-2026-' + num;
+              orderMap[num] = Object.assign({}, orderMap[num] || {}, co);
             }
           }
         });

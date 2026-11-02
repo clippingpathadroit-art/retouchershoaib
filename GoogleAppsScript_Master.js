@@ -142,7 +142,7 @@ function doPost(e) {
     // (C) নতুন অর্ডার ড্রাইভ ফোল্ডার তৈরি + ক্লাউড ডাটাবেজে সেভ + ইমেইল নোটিফিকেশন
     if (data.action === "create_order_folder") {
       var email = data.email.toLowerCase().trim();
-      var orderId = String(data.orderId).replace("#", "").trim();
+      var orderId = String(data.orderId).replace(/[^0-9]/g, "").trim();
       var clientFolders = rootFolder.getFoldersByName(email);
       var clientFolder = clientFolders.hasNext() ? clientFolders.next() : rootFolder.createFolder(email);
       
@@ -166,22 +166,20 @@ function doPost(e) {
       var orderUrl = orderFolder.getUrl();
 
       // অর্ডার অবজেক্ট ক্লাউড ডাটাবেজে পার্মানেন্টলি সেভ করা
-      var orderObj = data.orderData || {
-        id: "#RS-2026-" + orderId,
-        numericId: orderId,
-        title: data.projectTitle || "Commercial Project",
-        service: data.service || "Commercial Retouching",
-        images: data.images || "RAW files",
-        deadline: data.deadline || "Express SLA",
-        price: data.price || "$0.00 USD",
-        clientName: data.clientName || "Studio Client",
-        clientEmail: email,
-        clientCompany: data.clientCompany || "Studio",
-        status: "pending",
-        instructions: data.instructions || "",
-        createdAt: Utilities.formatDate(new Date(), "GMT", "MMM dd, yyyy")
-      };
+      var orderObj = data.orderData || {};
+      orderObj.id = "#RS-2026-" + orderId;
       orderObj.numericId = orderId;
+      if (!orderObj.title) orderObj.title = data.projectTitle || "Commercial Project";
+      if (!orderObj.service) orderObj.service = data.service || "Commercial Retouching";
+      if (!orderObj.images) orderObj.images = data.images || "RAW files";
+      if (!orderObj.deadline) orderObj.deadline = data.deadline || "Express SLA";
+      if (!orderObj.price) orderObj.price = data.price || "$0.00 USD";
+      if (!orderObj.clientName) orderObj.clientName = data.clientName || "Studio Client";
+      if (!orderObj.clientEmail) orderObj.clientEmail = email;
+      if (!orderObj.clientCompany) orderObj.clientCompany = data.clientCompany || "Studio";
+      if (!orderObj.status) orderObj.status = "pending";
+      if (!orderObj.instructions) orderObj.instructions = data.instructions || "";
+      if (!orderObj.createdAt) orderObj.createdAt = Utilities.formatDate(new Date(), "GMT", "MMM dd, yyyy");
       orderObj.drive = orderUrl;
       orderObj.orderFolder = "Order #" + orderId;
 

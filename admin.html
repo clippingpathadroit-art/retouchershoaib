@@ -671,6 +671,27 @@ async function triggerSyncAdminActionToCloud(payload) {
 }
 
 // RENDER ADMIN ORDERS TABLE (CLEAN 7 COLUMNS)
+function normalizeNumericId(raw) {
+  if (!raw) return '';
+  let str = String(raw).trim();
+  str = str.replace(/#?RS-?2026-?/i, '').replace(/#?RS-?/i, '');
+  if (str.startsWith('2026') && str.length > 5) {
+    str = str.slice(4);
+  }
+  return str.replace(/[^0-9]/g, '');
+}
+
+function switchAdminOrderTab(tab) {
+  window.adminOrderTab = tab;
+  renderAdminTable();
+}
+
+function restoreOrderToActive(id) {
+  const numId = String(id).replace(/[^0-9]/g, '');
+  updateOrderStatus(numId, 'delivered');
+  showAdminToast('✓ Order #' + numId + ' restored from Archive back to Active Pipeline!');
+}
+
 function renderAdminTable() {
   const tbody = document.getElementById('adminOrdersTbody');
   if (!tbody) return;
@@ -1869,6 +1890,37 @@ async function testAppsScriptLiveConnection() {
 </div>
 
 <!-- FLOATING TOAST -->
+
+<!-- EDIT AGREED PRICE MODAL -->
+<div class="modal" id="adminEditPriceModal" onclick="if(event.target === this) closeEditPriceModal()">
+  <div class="modal-box" style="max-width: 440px; background: #0f172a; border: 1px solid #334155;">
+    <button class="modal-close" onclick="closeEditPriceModal()">✕</button>
+    <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 6px; color: #fff; display: flex; align-items: center; gap: 8px;">
+      🏷️ Negotiate / Edit Agreed Price
+    </h3>
+    <p style="font-size: 13px; color: #94a3b8; margin-bottom: 16px;">
+      Enter the custom negotiated rate agreed with the client for this project.
+    </p>
+
+    <div class="form-field" style="margin-bottom: 14px;">
+      <label style="display: block; font-size: 12px; color: #ccc; margin-bottom: 6px;">Order ID</label>
+      <input type="text" id="admEditPriceOrderId" readonly style="width: 100%; padding: 10px; background: #1e293b; border: 1px solid #334155; color: #fff; border-radius: 6px;">
+    </div>
+
+    <div class="form-field" style="margin-bottom: 20px;">
+      <label style="display: block; font-size: 12px; color: #ccc; margin-bottom: 6px;">Agreed Commercial Rate (USD)</label>
+      <input type="text" id="admEditPriceValue" placeholder="e.g. 35.00" style="width: 100%; padding: 10px; background: #1e293b; border: 1px solid #38bdf8; color: #fff; border-radius: 6px; font-weight: 700; font-size: 15px;">
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; gap: 10px;">
+      <button type="button" class="btn sm outline" onclick="closeEditPriceModal()">Cancel</button>
+      <button type="button" class="btn sm" onclick="saveEditedPrice()" style="background: #10b981; color: #fff; font-weight: 700;">
+        ✓ Save Agreed Price &amp; Sync
+      </button>
+    </div>
+  </div>
+</div>
+
 <div id="adminToast"></div>
 
 </body>
