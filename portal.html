@@ -3246,10 +3246,15 @@ function loadInvoiceDetails() {
       badgeEl.style.background = isPaid85 ? '#ecfdf5' : '#eff6ff';
       badgeEl.style.color = isPaid85 ? '#065f46' : '#2563eb';
     }
-    const pName = ORDERS['085'].title;
+    const o85 = ORDERS['085'] || {
+      title: localStorage.getItem('shoaib_project_name_085') || 'Editorial Fashion Apparel Lookbook',
+      images: '24 RAWs',
+      format: 'PSD, TIFF'
+    };
+    const pName = o85.title;
     if (invProjectNameEl) invProjectNameEl.textContent = pName;
     if (invProjectSubEl) invProjectSubEl.textContent = 'High-End Editorial Ghost Mannequin & Color Alignment';
-    if (invTotalImagesEl) invTotalImagesEl.textContent = ORDERS['085'].images;
+    if (invTotalImagesEl) invTotalImagesEl.textContent = o85.images;
     if (invUnitRateEl) invUnitRateEl.textContent = '$25.00 / img';
     if (invTurnaroundEl) invTurnaroundEl.textContent = '24 Hours Express';
 
@@ -3265,7 +3270,7 @@ function loadInvoiceDetails() {
     if (invTableBody) {
       invTableBody.innerHTML = `
         <tr>
-          <td><strong>Fashion Apparel High-End Retouching</strong><br><span style="font-size: 12px; color: var(--mut);">Project: ${pName} &bull; ${ORDERS['085'].images} &bull; ${ORDERS['085'].format}</span></td>
+          <td><strong>Fashion Apparel High-End Retouching</strong><br><span style="font-size: 12px; color: var(--mut);">Project: ${pName} &bull; ${o85.images} &bull; ${o85.format}</span></td>
           <td class="num">24</td>
           <td class="num">$25.00</td>
           <td class="num"><strong>$600.00</strong></td>
@@ -3286,7 +3291,12 @@ function loadInvoiceDetails() {
       badgeEl.style.background = isPaid84 ? '#ecfdf5' : '#fff1f2';
       badgeEl.style.color = isPaid84 ? '#065f46' : '#e11d48';
     }
-    const pName = ORDERS['084'].title;
+    const o84 = ORDERS['084'] || {
+      title: localStorage.getItem('shoaib_project_name_084') || 'Luxury Jewelry & Watches Suite',
+      images: '14 RAWs',
+      format: 'PSD, TIFF'
+    };
+    const pName = o84.title;
     if (invProjectNameEl) invProjectNameEl.textContent = pName;
     if (invProjectSubEl) invProjectSubEl.textContent = 'Focus Stacking & Diamond Scintillation Polish';
     if (invTotalImagesEl) invTotalImagesEl.textContent = '14 RAWs';
@@ -4283,11 +4293,42 @@ function handleGoogleCredentialResponse(response) {
     const googleUser = JSON.parse(jsonPayload);
     console.log('Google Authenticated:', googleUser);
 
-    const email = (googleUser.email || '').toLowerCase();
+    const email = (googleUser.email || '').toLowerCase().trim();
     const name = googleUser.name || email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
     const picture = googleUser.picture || '';
 
-    // ONLY Google Verified Data! Company, Phone, Address, TIN are 100% BLANK
+    // ========================================================
+    // STUDIO DIRECTOR GOOGLE LOGIN PRIVILEGE
+    // ========================================================
+    if (email === 'retouchershoaib@gmail.com') {
+      sessionStorage.setItem('shoaib_admin_unlocked', '1');
+      sessionStorage.setItem('shoaib_admin_user', JSON.stringify({
+        email: email,
+        name: 'Shoaib (Director)',
+        picture: picture
+      }));
+
+      const directorSess = {
+        email: email,
+        name: 'Shoaib (Director)',
+        company: 'Retoucher Shoaib Studio',
+        address: 'Studio HQ',
+        picture: picture,
+        isDemo: false,
+        isDirector: true
+      };
+      localStorage.setItem('shoaib_client_session', JSON.stringify(directorSess));
+      sessionStorage.setItem('shoaib_client_session', JSON.stringify(directorSess));
+      localStorage.setItem('shoaib_sync_ping', Date.now().toString());
+
+      showAuthToast('👑 Welcome, Studio Director Shoaib! Opening Admin Console...');
+      setTimeout(() => {
+        window.location.href = 'admin.html';
+      }, 600);
+      return;
+    }
+
+    // ONLY Google Verified Data! Company, Phone, Address, TIN are 100% BLANK for real clients
     let p = {
       name: name,
       company: '',
@@ -4320,14 +4361,15 @@ function handleGoogleCredentialResponse(response) {
 
     localStorage.setItem('shoaib_client_session', JSON.stringify(sess));
     sessionStorage.setItem('shoaib_client_session', JSON.stringify(sess));
+    localStorage.setItem('shoaib_sync_ping', Date.now().toString());
 
     checkAuthGate();
-    loadClientProfile();
-    renderDashboardOverview();
-    renderArchiveSection();
-    renderActiveOrdersPipeline();
-    renderInvoicesList();
-    loadInvoiceDetails();
+    try { loadClientProfile(); } catch(e) { console.error('loadClientProfile error:', e); }
+    try { renderDashboardOverview(); } catch(e) { console.error('renderDashboardOverview error:', e); }
+    try { renderArchiveSection(); } catch(e) { console.error('renderArchiveSection error:', e); }
+    try { renderActiveOrdersPipeline(); } catch(e) { console.error('renderActiveOrdersPipeline error:', e); }
+    try { renderInvoicesList(); } catch(e) { console.error('renderInvoicesList error:', e); }
+    try { loadInvoiceDetails(); } catch(e) { console.error('loadInvoiceDetails error:', e); }
 
     showAuthToast('✓ Welcome, ' + p.name + '! Signed in with Google.');
     triggerCreateClientDriveFolder(email);
@@ -4342,6 +4384,7 @@ function initGoogleSignIn() {
       google.accounts.id.initialize({
         client_id: GOOGLE_CLIENT_ID,
         callback: handleGoogleCredentialResponse,
+        ux_mode: 'popup',
         auto_select: false,
         cancel_on_tap_outside: true
       });
