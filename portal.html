@@ -3166,7 +3166,7 @@ function renderInvoicesList() {
     if (id !== '084' && id !== '085') {
       const o = clientOrders[id];
       const normInvId = normalizeNumericId(id);
-      const isPaid = localStorage.getItem('shoaib_status_paid_' + normInvId) === '1' || localStorage.getItem('shoaib_status_paid_' + id) === '1' || localStorage.getItem('shoaib_status_paid_RS-2026-' + normInvId) === '1';
+      const isPaid = (localStorage.getItem('shoaib_status_paid_' + normInvId) === '1' || localStorage.getItem('shoaib_status_paid_' + id) === '1' || localStorage.getItem('shoaib_status_paid_RS-2026-' + normInvId) === '1') && (o.isPaid !== false);
       const rawClaim = localStorage.getItem('shoaib_payment_claim_' + normInvId) || localStorage.getItem('shoaib_payment_claim_RS-2026-' + normInvId);
       let claimData = null;
       if (rawClaim) {
@@ -3515,10 +3515,10 @@ function loadInvoiceDetails() {
     if (!o) return;
 
     // CUSTOM SUBMITTED ORDER INVOICE
-    const isPaid = localStorage.getItem('shoaib_status_paid_' + normInvId) === '1' || 
+    const isPaid = (localStorage.getItem('shoaib_status_paid_' + normInvId) === '1' || 
                    localStorage.getItem('shoaib_status_paid_RS-2026-' + normInvId) === '1' || 
-                   localStorage.getItem('shoaib_status_paid_' + activeInvoiceSelection) === '1' ||
-                   o.isPaid === true;
+                   localStorage.getItem('shoaib_status_paid_' + activeInvoiceSelection) === '1') &&
+                   (o.isPaid !== false);
 
     if (isPaid) {
       localStorage.removeItem('shoaib_payment_claim_' + normInvId);
@@ -5270,6 +5270,10 @@ async function syncPortalFromCloud() {
                 localStorage.removeItem('shoaib_payment_claim_' + num);
                 localStorage.removeItem('shoaib_payment_claim_RS-2026-' + num);
                 localStorage.removeItem('shoaib_payment_claim');
+              } else {
+                localStorage.removeItem('shoaib_status_paid_' + num);
+                localStorage.removeItem('shoaib_status_paid_RS-2026-' + num);
+                co.isPaid = false;
               }
 
               orderMap[num] = Object.assign({}, orderMap[num] || {}, co);
@@ -5372,34 +5376,36 @@ async function syncPortalFromCloud() {
           }
         });
 
-        if (Object.keys(data.paidStatuses).length > 0) {
-          const paidKeysToRemove = [];
-          for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key && key.startsWith('shoaib_status_paid_')) {
-              const idPart = normalizeNumericId(key.replace('shoaib_status_paid_', ''));
-              if (idPart && idPart !== '084' && idPart !== '085' && !cloudPaidKeys.has(idPart)) {
-                paidKeysToRemove.push(key);
-              }
+        const paidKeysToRemove = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.startsWith('shoaib_status_paid_')) {
+            const idPart = normalizeNumericId(key.replace('shoaib_status_paid_', ''));
+            if (idPart && idPart !== '084' && idPart !== '085' && !cloudPaidKeys.has(idPart)) {
+              paidKeysToRemove.push(key);
             }
           }
-          if (paidKeysToRemove.length > 0) {
-            paidKeysToRemove.forEach(k => localStorage.removeItem(k));
-            changed = true;
-          }
+        }
+        if (paidKeysToRemove.length > 0) {
+          paidKeysToRemove.forEach(k => localStorage.removeItem(k));
+          changed = true;
         }
       }
 
-      // 6. Sync Payment Claims from Cloud (with auto-purge)
+      // 6. Sync Payment Claims from Cloud (with auto-purge & deduplication)
       if (data.paymentClaims && typeof data.paymentClaims === 'object') {
         const cloudClaimKeys = new Set();
+        const processedClaimKeys = new Set();
         Object.keys(data.paymentClaims).forEach(k => {
           const cleanK = normalizeNumericId(k);
-          const cObj = data.paymentClaims[k];
-          if (cleanK && cObj && cObj.ref) {
-            cloudClaimKeys.add(cleanK);
-            localStorage.setItem('shoaib_payment_claim_' + cleanK, JSON.stringify(cObj));
-            localStorage.setItem('shoaib_payment_claim_RS-2026-' + cleanK, JSON.stringify(cObj));
+          if (cleanK && !processedClaimKeys.has(cleanK)) {
+            processedClaimKeys.add(cleanK);
+            const cObj = data.paymentClaims[k];
+            if (cObj && cObj.ref) {
+              cloudClaimKeys.add(cleanK);
+              localStorage.setItem('shoaib_payment_claim_' + cleanK, JSON.stringify(cObj));
+              localStorage.setItem('shoaib_payment_claim_RS-2026-' + cleanK, JSON.stringify(cObj));
+            }
           }
         });
 

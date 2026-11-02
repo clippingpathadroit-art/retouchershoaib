@@ -592,22 +592,29 @@ async function syncAdminFromCloud(showToastNotice = false) {
       }
       let ordersUpdated = false;
 
-      // 1. Sync Orders from Cloud Drive Database
+      // 1. Sync Orders from Cloud Drive Database (Normalized & Deduplicated)
       if (Array.isArray(data.orders)) {
         const localRaw = localStorage.getItem('shoaib_custom_orders');
         let localOrders = localRaw ? JSON.parse(localRaw) : [];
         const orderMap = {};
 
         localOrders.forEach(o => {
-          if (o && o.numericId) orderMap[String(o.numericId)] = o;
+          if (!o) return;
+          const cleanId = normalizeNumericId(o.numericId || o.id);
+          if (cleanId) {
+            o.numericId = cleanId;
+            o.id = '#RS-2026-' + cleanId;
+            orderMap[cleanId] = o;
+          }
         });
 
         data.orders.forEach(co => {
-          if (co && co.numericId) {
-            const numId = String(co.numericId);
-            if (localStorage.getItem('shoaib_deleted_' + numId) !== '1') {
-              orderMap[numId] = Object.assign({}, orderMap[numId] || {}, co);
-            }
+          if (!co) return;
+          const cleanId = normalizeNumericId(co.numericId || co.id);
+          if (cleanId && localStorage.getItem('shoaib_deleted_' + cleanId) !== '1') {
+            co.numericId = cleanId;
+            co.id = '#RS-2026-' + cleanId;
+            orderMap[cleanId] = Object.assign({}, orderMap[cleanId] || {}, co);
           }
         });
 
@@ -677,32 +684,34 @@ async function syncAdminFromCloud(showToastNotice = false) {
           }
         });
 
-        // AUTO-PURGE: Purge local paid status if reverted in cloud (only if cloud provided records)
-        if (Object.keys(data.paidStatuses).length > 0) {
-          const paidKeysToRemove = [];
-          for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key && key.startsWith('shoaib_status_paid_')) {
-              const idPart = normalizeNumericId(key.replace('shoaib_status_paid_', ''));
-              if (idPart && idPart !== '084' && idPart !== '085' && !cloudPaidKeys.has(idPart)) {
-                paidKeysToRemove.push(key);
-              }
+        // AUTO-PURGE: Purge local paid status if reverted in cloud
+        const paidKeysToRemove = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.startsWith('shoaib_status_paid_')) {
+            const idPart = normalizeNumericId(key.replace('shoaib_status_paid_', ''));
+            if (idPart && idPart !== '084' && idPart !== '085' && !cloudPaidKeys.has(idPart)) {
+              paidKeysToRemove.push(key);
             }
           }
-          paidKeysToRemove.forEach(k => localStorage.removeItem(k));
         }
+        paidKeysToRemove.forEach(k => localStorage.removeItem(k));
       }
 
-      // 5. Sync Payment Claims from Cloud (with auto-purge)
+      // 5. Sync Payment Claims from Cloud (with auto-purge & deduplication)
       if (data.paymentClaims && typeof data.paymentClaims === 'object') {
         const cloudClaimKeys = new Set();
+        const processedClaimKeys = new Set();
         Object.keys(data.paymentClaims).forEach(k => {
           const cleanK = normalizeNumericId(k);
-          const cObj = data.paymentClaims[k];
-          if (cleanK && cObj && cObj.ref) {
-            cloudClaimKeys.add(cleanK);
-            localStorage.setItem('shoaib_payment_claim_' + cleanK, JSON.stringify(cObj));
-            localStorage.setItem('shoaib_payment_claim_RS-2026-' + cleanK, JSON.stringify(cObj));
+          if (cleanK && !processedClaimKeys.has(cleanK)) {
+            processedClaimKeys.add(cleanK);
+            const cObj = data.paymentClaims[k];
+            if (cObj && cObj.ref) {
+              cloudClaimKeys.add(cleanK);
+              localStorage.setItem('shoaib_payment_claim_' + cleanK, JSON.stringify(cObj));
+              localStorage.setItem('shoaib_payment_claim_RS-2026-' + cleanK, JSON.stringify(cObj));
+            }
           }
         });
 
@@ -838,19 +847,27 @@ function renderAdminTable() {
   const tbody = document.getElementById('adminOrdersTbody');
   if (!tbody) return;
 
-  // Aggregate orders from shoaib_custom_orders
+  // Aggregate orders from shoaib_custom_orders with strict deduplication
   let ordersList = [];
+  const seenOrderIds = new Set();
 
   try {
     const raw = localStorage.getItem('shoaib_custom_orders');
     if (raw) {
       const customOrders = JSON.parse(raw);
       if (Array.isArray(customOrders)) {
+        const cleanOrdersMap = {};
         customOrders.forEach(ord => {
-          if (ord && ord.numericId && localStorage.getItem('shoaib_deleted_' + ord.numericId) !== '1') {
-            const numId = String(ord.numericId);
+          if (!ord) return;
+          const numId = normalizeNumericId(ord.numericId || ord.id);
+          if (numId && !seenOrderIds.has(numId) && localStorage.getItem('shoaib_deleted_' + numId) !== '1') {
+            seenOrderIds.add(numId);
+            ord.numericId = numId;
+            ord.id = '#RS-2026-' + numId;
+            cleanOrdersMap[numId] = ord;
+
             const clientEmail = (ord.clientEmail || 'client@studio.com').toLowerCase().trim();
-            const fullId = ord.id || ('#RS-2026-' + numId);
+            const fullId = ord.id;
             
             // Resolve dedicated order drive folder (never master root folder!)
             let orderDrive = ord.drive || localStorage.getItem('shoaib_client_drive_' + clientEmail) || '';
@@ -872,10 +889,15 @@ function renderAdminTable() {
               status: localStorage.getItem('shoaib_status_' + numId) || ord.status || 'pending',
               drive: localStorage.getItem('shoaib_del_url_' + numId) || orderDrive,
               deadlineMs: ord.deadlineMs || (Date.now() + 24 * 3600 * 1000),
-              isAgreed: localStorage.getItem('shoaib_price_approved_' + numId) === '1' || ord.isAgreed === true
+              isAgreed: localStorage.getItem('shoaib_price_approved_' + numId) === '1' || ord.isAgreed === true,
+              isPaid: ord.isPaid
             });
           }
         });
+        // Self-heal: persist deduplicated orders back to localStorage immediately
+        if (customOrders.length !== Object.keys(cleanOrdersMap).length) {
+          localStorage.setItem('shoaib_custom_orders', JSON.stringify(Object.values(cleanOrdersMap)));
+        }
       }
     }
   } catch(e) {
@@ -906,12 +928,16 @@ function renderAdminTable() {
   const tabArcEl = document.getElementById('tabArchivedCount');
   if (tabArcEl) tabArcEl.textContent = archivedCount;
 
-  // Calculate Pending Payment Claims & Update Banner Dynamically
+  // Calculate Pending Payment Claims & Update Banner Dynamically (Strictly Deduplicated)
   let pendingClaimsCount = 0;
   const pendingClaimsList = [];
+  const processedClaimIds = new Set();
   ordersList.forEach(o => {
     const cleanId = normalizeNumericId(o.numericId);
-    const isPaid = localStorage.getItem('shoaib_status_paid_' + cleanId) === '1' || localStorage.getItem('shoaib_status_paid_RS-2026-' + cleanId) === '1';
+    if (processedClaimIds.has(cleanId)) return;
+    processedClaimIds.add(cleanId);
+
+    const isPaid = (localStorage.getItem('shoaib_status_paid_' + cleanId) === '1' || localStorage.getItem('shoaib_status_paid_RS-2026-' + cleanId) === '1') && (o.isPaid !== false);
     const rawClaim = localStorage.getItem('shoaib_payment_claim_' + cleanId) || localStorage.getItem('shoaib_payment_claim_RS-2026-' + cleanId);
     let claimData = null;
     if (rawClaim) {
