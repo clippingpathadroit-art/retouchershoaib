@@ -654,14 +654,32 @@ async function syncAdminFromCloud(showToastNotice = false) {
           if (cleanId && !isDeleted) {
             co.numericId = cleanId;
             co.id = '#' + cleanId;
+
+            // Prioritize local admin status override over stale cloud status
+            const localStatus = localStorage.getItem('shoaib_status_' + cleanId) || localStorage.getItem('shoaib_status_RS-2026-' + cleanId);
+            const cloudStatus = (data.statuses && (data.statuses[cleanId] || data.statuses['#' + cleanId])) || co.status;
+            co.status = localStatus || cloudStatus || 'pending';
+
             if (localStorage.getItem('shoaib_price_approved_' + cleanId) === '1' || co.isAgreed === true) {
               co.isAgreed = true;
             }
             const agreedPr = localStorage.getItem('shoaib_agreed_price_' + cleanId) || co.price;
             if (agreedPr) co.price = agreedPr;
-            if (localStorage.getItem('shoaib_status_paid_' + cleanId) === '1' || co.isPaid === true) {
+
+            // Check paid status strictly from data.paidStatuses if available
+            const isPaidCloud = !!(data.paidStatuses && (data.paidStatuses[cleanId] === true || data.paidStatuses['#' + cleanId] === true || data.paidStatuses['RS-2026-' + cleanId] === true || data.paidStatuses['#RS-2026-' + cleanId] === true));
+            if (isPaidCloud) {
+              localStorage.setItem('shoaib_status_paid_' + cleanId, '1');
+              localStorage.setItem('shoaib_status_paid_RS-2026-' + cleanId, '1');
               co.isPaid = true;
+            } else if (data.paidStatuses && typeof data.paidStatuses === 'object') {
+              localStorage.removeItem('shoaib_status_paid_' + cleanId);
+              localStorage.removeItem('shoaib_status_paid_RS-2026-' + cleanId);
+              co.isPaid = false;
+            } else {
+              co.isPaid = (localStorage.getItem('shoaib_status_paid_' + cleanId) === '1');
             }
+
             orderMap[cleanId] = Object.assign({}, orderMap[cleanId] || {}, co);
           }
         });
@@ -912,6 +930,7 @@ function renderAdminTable() {
             seenOrderIds.add(numId);
             ord.numericId = numId;
             ord.id = '#' + numId;
+            ord.isPaid = (localStorage.getItem('shoaib_status_paid_' + numId) === '1' || localStorage.getItem('shoaib_status_paid_RS-2026-' + numId) === '1');
             cleanOrdersMap[numId] = ord;
 
             const clientEmail = (ord.clientEmail || 'client@studio.com').toLowerCase().trim();
@@ -938,7 +957,7 @@ function renderAdminTable() {
               drive: localStorage.getItem('shoaib_del_url_' + numId) || orderDrive,
               deadlineMs: ord.deadlineMs || (Date.now() + 24 * 3600 * 1000),
               isAgreed: localStorage.getItem('shoaib_price_approved_' + numId) === '1' || ord.isAgreed === true,
-              isPaid: ord.isPaid
+              isPaid: (localStorage.getItem('shoaib_status_paid_' + numId) === '1' || localStorage.getItem('shoaib_status_paid_RS-2026-' + numId) === '1')
             });
           }
         });

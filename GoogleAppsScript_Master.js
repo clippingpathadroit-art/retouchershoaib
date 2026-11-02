@@ -63,11 +63,17 @@ function getDatabase(rootFolder) {
           ord.numericId = cleanNum;
           ord.id = "#" + cleanNum;
         }
-        if (db.paidStatuses && (db.paidStatuses[cleanNum] || db.paidStatuses["#" + cleanNum] || db.paidStatuses["RS-2026-" + cleanNum])) {
+        var isMarkedPaid = db.paidStatuses && (db.paidStatuses[cleanNum] || db.paidStatuses["#" + cleanNum] || db.paidStatuses["RS-2026-" + cleanNum] || db.paidStatuses["#RS-2026-" + cleanNum]);
+        if (isMarkedPaid) {
           ord.isPaid = true;
           ord.isAgreed = true;
+        } else {
+          ord.isPaid = false;
         }
-        if (db.agreedPrices && (db.agreedPrices[cleanNum] || db.agreedPrices["#" + cleanNum] || db.agreedPrices["RS-2026-" + cleanNum])) {
+        if (db.statuses && (db.statuses[cleanNum] || db.statuses["#" + cleanNum])) {
+          ord.status = db.statuses[cleanNum] || db.statuses["#" + cleanNum];
+        }
+        if (db.agreedPrices && (db.agreedPrices[cleanNum] || db.agreedPrices["#" + cleanNum] || db.agreedPrices["RS-2026-" + cleanNum] || db.agreedPrices["#RS-2026-" + cleanNum])) {
           ord.isAgreed = true;
           if (typeof db.agreedPrices[cleanNum] === 'string') ord.price = db.agreedPrices[cleanNum];
         }

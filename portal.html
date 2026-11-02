@@ -2059,6 +2059,9 @@ function loadStoredCustomOrders() {
               ord.price = customPrice;
             }
             ord.numericPrice = parseFloat(String(ord.price || '').replace(/[^0-9.]/g, '')) || ord.numericPrice || 25;
+            const isPaidOverride = localStorage.getItem('shoaib_status_paid_' + numId) === '1' || 
+                                   localStorage.getItem('shoaib_status_paid_RS-2026-' + numId) === '1';
+            ord.isPaid = isPaidOverride;
 
             orderMap[numId] = Object.assign({}, orderMap[numId] || {}, ord);
             ORDERS[numId] = orderMap[numId];
@@ -2462,7 +2465,7 @@ function renderArchiveSection() {
           <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
             <span class="timer-pill delivered">✓ Delivered On-Time</span>
             <button class="btn btn-outline btn-sm" onclick="openOrderDetails('${o.numericId}')">Order Details 👁️</button>
-            <button class="btn btn-primary btn-sm" onclick="showSingleInvoice('${o.numericId}')">View Invoice</button>
+            <button class="btn btn-primary btn-sm" onclick="viewOrderInvoice('${o.numericId}')">View Invoice</button>
           </div>
         </div>
         <div class="download-box" style="margin-top: 14px;">
@@ -2853,14 +2856,15 @@ function getClientOrders() {
   if (isDemo) {
     if (ORDERS['084'] && !isPortalOrderDeleted('084')) filtered['084'] = ORDERS['084'];
     if (ORDERS['085'] && !isPortalOrderDeleted('085')) filtered['085'] = ORDERS['085'];
-    // In demo mode, also allow custom demo orders placed by Sarah Jenkins
+    // In demo mode, also allow custom demo orders
     Object.keys(ORDERS).forEach(k => {
       if (k !== '084' && k !== '085') {
         const o = ORDERS[k];
         if (isPortalOrderDeleted(k) || isPortalOrderDeleted(o.numericId) || isPortalOrderDeleted(o.id)) {
           return;
         }
-        if (o && (o.clientEmail || '').toLowerCase().trim() === 'sarah@jenkinsstudio.com') {
+        const ordEmail = (o && o.clientEmail ? o.clientEmail : '').toLowerCase().trim();
+        if (!ordEmail || ordEmail === curEmail || ordEmail === 'sarah@jenkinsstudio.com' || ordEmail === 'client@studio.com') {
           filtered[k] = o;
         }
       }
@@ -3198,8 +3202,7 @@ function renderInvoicesList() {
       }
       const isPaid = (localStorage.getItem('shoaib_status_paid_' + normInvId) === '1' || 
                       localStorage.getItem('shoaib_status_paid_' + id) === '1' || 
-                      localStorage.getItem('shoaib_status_paid_RS-2026-' + normInvId) === '1') || 
-                     (o.isPaid === true);
+                      localStorage.getItem('shoaib_status_paid_RS-2026-' + normInvId) === '1');
       const rawClaim = localStorage.getItem('shoaib_payment_claim_' + normInvId) || localStorage.getItem('shoaib_payment_claim_RS-2026-' + normInvId);
       let claimData = null;
       if (rawClaim) {
@@ -3291,6 +3294,9 @@ function renderInvoicesList() {
 }
 
 function showSingleInvoice(id, scrollToPay = false) {
+  if (typeof switchPortalSection === 'function') {
+    switchPortalSection('invoices');
+  }
   const listView = document.getElementById('invoicesListView');
   const singleView = document.getElementById('singleInvoiceView');
   if (listView) listView.style.display = 'none';
@@ -3436,8 +3442,7 @@ function loadInvoiceDetails() {
       const normId = normalizeNumericId(id);
       const isPaid = (localStorage.getItem('shoaib_status_paid_' + normId) === '1' || 
                       localStorage.getItem('shoaib_status_paid_' + id) === '1' ||
-                      localStorage.getItem('shoaib_status_paid_RS-2026-' + normId) === '1') || 
-                     (clientOrders[id].isPaid === true);
+                      localStorage.getItem('shoaib_status_paid_RS-2026-' + normId) === '1');
       let ordAmt = clientOrders[id].numericPrice || 500;
       const ex = getStoredExtraWork(id);
       if (ex) ordAmt += ex.amount;
@@ -3590,8 +3595,7 @@ function loadInvoiceDetails() {
     // CUSTOM SUBMITTED ORDER INVOICE
     const isPaid = (localStorage.getItem('shoaib_status_paid_' + normInvId) === '1' || 
                    localStorage.getItem('shoaib_status_paid_RS-2026-' + normInvId) === '1' || 
-                   localStorage.getItem('shoaib_status_paid_' + activeInvoiceSelection) === '1') ||
-                   (o.isPaid === true);
+                   localStorage.getItem('shoaib_status_paid_' + activeInvoiceSelection) === '1');
 
     if (isPaid) {
       localStorage.removeItem('shoaib_payment_claim_' + normInvId);
@@ -3756,8 +3760,7 @@ function loadInvoiceDetails() {
         const o = ORDERS[id];
         const isPaid = (localStorage.getItem('shoaib_status_paid_' + normId) === '1' || 
                         localStorage.getItem('shoaib_status_paid_' + id) === '1' ||
-                        localStorage.getItem('shoaib_status_paid_RS-2026-' + normId) === '1') && 
-                       (o.isPaid !== false);
+                        localStorage.getItem('shoaib_status_paid_RS-2026-' + normId) === '1');
         if (!isPaid) {
           combinedRows += `
             <tr>
@@ -5361,6 +5364,8 @@ async function syncPortalFromCloud() {
           if (cloudIdSet.has(num) || isFreshLocal) {
             o.numericId = num;
             o.id = '#' + num;
+            const localStatus = localStorage.getItem('shoaib_status_' + num) || localStorage.getItem('shoaib_status_RS-2026-' + num);
+            if (localStatus) o.status = localStatus;
             orderMap[num] = o;
           }
         });
@@ -5374,6 +5379,11 @@ async function syncPortalFromCloud() {
           if (num && !isDeleted) {
             co.numericId = num;
             co.id = '#' + num;
+
+            // Prioritize local admin status override over stale cloud status
+            const localStatus = localStorage.getItem('shoaib_status_' + num) || localStorage.getItem('shoaib_status_RS-2026-' + num);
+            const cloudStatus = (data.statuses && (data.statuses[num] || data.statuses['#' + num])) || co.status;
+            co.status = localStatus || cloudStatus || 'pending';
 
             const isPriceAgreed = localStorage.getItem('shoaib_price_approved_' + num) === '1' || 
                                   localStorage.getItem('shoaib_price_approved_RS-2026-' + num) === '1' ||
@@ -5393,8 +5403,7 @@ async function syncPortalFromCloud() {
             }
             co.numericPrice = parseFloat(String(co.price || '').replace(/[^0-9.]/g, '')) || co.numericPrice || 25;
 
-            const isPaidCloud = (co.isPaid === true) || 
-                                (data.paidStatuses && (data.paidStatuses[num] === true || data.paidStatuses['#' + num] === true || data.paidStatuses['RS-2026-' + num] === true));
+            const isPaidCloud = !!(data.paidStatuses && (data.paidStatuses[num] === true || data.paidStatuses['#' + num] === true || data.paidStatuses['RS-2026-' + num] === true || data.paidStatuses['#RS-2026-' + num] === true));
             if (isPaidCloud) {
               localStorage.setItem('shoaib_status_paid_' + num, '1');
               localStorage.setItem('shoaib_status_paid_RS-2026-' + num, '1');
@@ -5402,7 +5411,7 @@ async function syncPortalFromCloud() {
               localStorage.removeItem('shoaib_payment_claim_RS-2026-' + num);
               localStorage.removeItem('shoaib_payment_claim');
               co.isPaid = true;
-            } else if (data.paidStatuses && (data.paidStatuses[num] === false || data.paidStatuses['#' + num] === false)) {
+            } else {
               localStorage.removeItem('shoaib_status_paid_' + num);
               localStorage.removeItem('shoaib_status_paid_RS-2026-' + num);
               co.isPaid = false;
