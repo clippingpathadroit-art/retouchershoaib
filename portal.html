@@ -2288,39 +2288,40 @@ function renderDashboardOverview() {
   // Build Dashboard cards
   let html = '';
 
-  // 1. Active Job Card (if any)
+  // 1. Active Job Cards (render ALL active orders for this client!)
   if (activeOrderList.length > 0) {
-    const o = activeOrderList[0];
-    const timerId = 'dashboardLiveTimer';
-    const isAgreed = localStorage.getItem('shoaib_price_approved_' + o.numericId) === '1' || o.isAgreed;
-    const customAgreed = localStorage.getItem('shoaib_agreed_price_' + o.numericId);
-    const displayPrice = isAgreed ? (customAgreed || o.price) : o.price;
+    activeOrderList.forEach((o, idx) => {
+      const timerId = (idx === 0) ? 'dashboardLiveTimer' : ('dash_timer_' + o.numericId);
+      const isAgreed = localStorage.getItem('shoaib_price_approved_' + o.numericId) === '1' || o.isAgreed;
+      const customAgreed = localStorage.getItem('shoaib_agreed_price_' + o.numericId);
+      const displayPrice = isAgreed ? (customAgreed || o.price) : o.price;
 
-    html += `
-      <div class="app-card">
-        <div class="app-card-header">
-          <div>
-            <div class="app-card-title">
-              ⚡ Active Production Job
-              <span class="timer-pill stage-green" id="${timerId}">⏳ Calculating Countdown...</span>
+      html += `
+        <div class="app-card" style="margin-bottom: 24px;">
+          <div class="app-card-header">
+            <div>
+              <div class="app-card-title">
+                ⚡ Active Production Job ${activeOrderList.length > 1 ? '#' + (idx + 1) : ''}
+                <span class="timer-pill stage-green" id="${timerId}">⏳ Calculating Countdown...</span>
+              </div>
+              <div class="app-card-subtitle">Order ${o.id} &bull; ${o.title} (${o.images})</div>
             </div>
-            <div class="app-card-subtitle">Order ${o.id} &bull; ${o.title} (${o.images})</div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button class="btn btn-outline btn-sm" onclick="openOrderDetails('${o.numericId}')">Order Details 👁️</button>
+              <button class="btn btn-primary btn-sm" onclick="viewOrderInvoice('${o.numericId}')">💳 Pay / View Invoice</button>
+              <button class="btn btn-primary btn-sm" onclick="switchPortalSection('orders')">View Pipeline →</button>
+            </div>
           </div>
-          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button class="btn btn-outline btn-sm" onclick="openOrderDetails('${o.numericId}')">Order Details 👁️</button>
-            <button class="btn btn-primary btn-sm" onclick="viewOrderInvoice('${o.numericId}')">💳 Pay / View Invoice</button>
-            <button class="btn btn-primary btn-sm" onclick="switchPortalSection('orders')">View Pipeline →</button>
+          <div class="specs-bar">
+            <span class="spec-tag">📷 ${o.images}</span>
+            <span class="spec-tag">📁 ${o.format}</span>
+            <span class="spec-tag">⏱️ ${o.deadline}</span>
+            <span class="spec-tag ${isAgreed ? 'green' : 'amber'}">🏷️ ${isAgreed ? 'Agreed Budget: ' + displayPrice + ' ✓' : 'Proposed Budget: ' + displayPrice + ' (Reviewing ⏳)'}</span>
           </div>
+          ${renderTrackerHTML(o.status, o.service)}
         </div>
-        <div class="specs-bar">
-          <span class="spec-tag">📷 ${o.images}</span>
-          <span class="spec-tag">📁 ${o.format}</span>
-          <span class="spec-tag">⏱️ ${o.deadline}</span>
-          <span class="spec-tag ${isAgreed ? 'green' : 'amber'}">🏷️ ${isAgreed ? 'Agreed Budget: ' + displayPrice + ' ✓' : 'Proposed Budget: ' + displayPrice + ' (Reviewing ⏳)'}</span>
-        </div>
-        ${renderTrackerHTML(o.status, o.service)}v>
-      </div>
-    `;
+      `;
+    });
   }
 
   // 2. Recent Delivered Job Card (if any)
@@ -2525,7 +2526,7 @@ function renderActiveOrdersPipeline() {
           <span class="spec-tag ${isAgreed ? 'green' : 'amber'}" id="pipeBudgetBadge_${id}">🏷️ ${isAgreed ? 'Agreed Budget: ' + displayPrice + ' ✓' : 'Proposed Budget: ' + displayPrice + ' (Reviewing ⏳)'}</span>
         </div>
 
-        ${renderTrackerHTML(o.status, o.service)}v>
+        ${renderTrackerHTML(o.status, o.service)}
 
         <div style="background: #f8fafc; border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #475569;">
           ⚡ <strong>Studio Production Note:</strong> Senior commercial retoucher assigned. Color-calibrated display profiling active for ${o.service}.
@@ -2542,8 +2543,19 @@ function renderActiveOrdersPipeline() {
 // ========================================================
 function openOrderDetails(id) {
   currentModalId = id;
-  const o = ORDERS[id];
-  if (!o) return;
+  let o = ORDERS[id];
+  if (!o) {
+    const numId = String(id).replace(/[^0-9]/g, '');
+    o = ORDERS[numId];
+    if (!o) {
+      const k = Object.keys(ORDERS).find(key => key === numId || ORDERS[key].id === id || ORDERS[key].numericId === numId);
+      if (k) o = ORDERS[k];
+    }
+  }
+  if (!o) {
+    console.warn('Order not found for modal ID:', id);
+    return;
+  }
 
   const titleEl = document.getElementById('modalTitle');
   const deadlineEl = document.getElementById('modalDeadline');
@@ -2556,11 +2568,19 @@ function openOrderDetails(id) {
   if (deadlineEl) deadlineEl.textContent = o.deadline;
   if (serviceEl) serviceEl.textContent = o.service;
   if (formatEl) formatEl.textContent = o.images + ' • ' + o.format;
-  if (instEl) instEl.textContent = o.instructions;
+  if (instEl) instEl.textContent = o.instructions || 'No special instructions provided.';
+  
   if (driveEl) {
-    const s = getClientSession();
+    const s = getCurrentSession();
     const em = (s && s.email ? s.email : '').toLowerCase().trim();
-    driveEl.href = o.drive || (em ? localStorage.getItem('shoaib_client_drive_' + em) : '') || '#';
+    const targetDrive = o.drive || (em ? localStorage.getItem('shoaib_client_drive_' + em) : '') || '';
+    if (targetDrive && targetDrive.startsWith('http')) {
+      driveEl.href = targetDrive;
+      driveEl.style.display = 'inline-flex';
+      driveEl.textContent = 'Open Order Drive Folder ↗';
+    } else {
+      driveEl.style.display = 'none';
+    }
   }
 
   const modalTimer = document.getElementById('modalTimer');
@@ -2574,8 +2594,9 @@ function openOrderDetails(id) {
   }
 
   // Price & Budget Sync
-  const isApproved = localStorage.getItem('shoaib_price_approved_' + id) === '1' || o.isAgreed;
-  const customAgreed = localStorage.getItem('shoaib_agreed_price_' + id);
+  const orderKey = o.numericId || id;
+  const isApproved = localStorage.getItem('shoaib_price_approved_' + orderKey) === '1' || o.isAgreed;
+  const customAgreed = localStorage.getItem('shoaib_agreed_price_' + orderKey);
   const statusEl = document.getElementById('modalPriceStatus');
   const amountEl = document.getElementById('modalPriceAmount');
 
@@ -2595,7 +2616,8 @@ function openOrderDetails(id) {
   const dlBox = document.getElementById('modalDownloadContainer');
   if (dlBox) {
     if (o.status === 'delivered') {
-      dlBox.innerHTML = '<a href="https://drive.google.com" target="_blank" class="btn btn-green btn-sm">📥 Download Master ZIP</a>';
+      const dlLink = o.drive || '#';
+      dlBox.innerHTML = '<a href="' + dlLink + '" target="_blank" class="btn btn-green btn-sm">📥 Download Master ZIP</a>';
     } else {
       dlBox.innerHTML = '<span style="font-size: 12px; color: #b45309; font-weight: 700;">In Production (SLA Active)</span>';
     }
@@ -2704,6 +2726,10 @@ function toggleSidebar() {
 // ========================================================
 // 6. CLIENT PROFILE & TAX ID MANAGEMENT
 // ========================================================
+function getClientSession() {
+  return getCurrentSession();
+}
+
 function getCurrentSession() {
   try {
     const raw = sessionStorage.getItem('shoaib_client_session') || localStorage.getItem('shoaib_client_session');
