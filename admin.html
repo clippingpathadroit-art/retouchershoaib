@@ -1424,6 +1424,7 @@ function openAdminExtraFeeModal(id) {
     if (previewEl) previewEl.textContent = '+$0.00 USD';
   }
 
+  calcAdmExtraTotal();
   const modal = document.getElementById('adminExtraFeeModal');
   if (modal) modal.style.display = 'flex';
 }
@@ -1435,13 +1436,14 @@ function closeAdminExtraFeeModal() {
   currentAdminModalId = null;
 }
 
-function updateAdminExtraTotal() {
+function calcAdmExtraTotal() {
   const qty = parseFloat(document.getElementById('admExtraQtyInput')?.value) || 0;
   const rate = parseFloat(document.getElementById('admExtraRateInput')?.value) || 0;
   const total = qty * rate;
   const preview = document.getElementById('admExtraTotalPreview');
   if (preview) preview.textContent = '+$' + total.toFixed(2) + ' USD';
 }
+const updateAdminExtraTotal = calcAdmExtraTotal;
 
 function saveAdminExtraFee() {
   const desc = (document.getElementById('admExtraDescInput')?.value || '').trim() || 'Additional Revision & Scope';
@@ -1851,11 +1853,11 @@ async function saveEditedPrice() {
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
       <div class="form-field">
         <label style="display: block; font-size: 12px; color: #ccc; margin-bottom: 6px;">Quantity *</label>
-        <input type="number" id="admExtraQtyInput" min="1" max="100" value="5" oninput="calcAdmExtraTotal()" style="width: 100%; padding: 10px; background: #161616; border: 1px solid #555; color: #fff; border-radius: 6px;">
+        <input type="number" id="admExtraQtyInput" min="1" max="100" value="5" oninput="calcAdmExtraTotal()" onkeyup="calcAdmExtraTotal()" style="width: 100%; padding: 10px; background: #161616; border: 1px solid #555; color: #fff; border-radius: 6px;">
       </div>
       <div class="form-field">
         <label style="display: block; font-size: 12px; color: #ccc; margin-bottom: 6px;">Rate per item ($ USD) *</label>
-        <input type="number" id="admExtraRateInput" min="1" max="500" value="10" oninput="calcAdmExtraTotal()" style="width: 100%; padding: 10px; background: #161616; border: 1px solid #555; color: #fff; border-radius: 6px;">
+        <input type="number" id="admExtraRateInput" min="1" max="500" value="10" oninput="calcAdmExtraTotal()" onkeyup="calcAdmExtraTotal()" style="width: 100%; padding: 10px; background: #161616; border: 1px solid #555; color: #fff; border-radius: 6px;">
       </div>
     </div>
 
