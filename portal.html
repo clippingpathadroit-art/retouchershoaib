@@ -4061,6 +4061,56 @@ function switchAuthTab(tab) {
 // ========================================================
 // OFFICIAL GOOGLE IDENTITY SERVICES (GIS) INTEGRATION
 // ========================================================
+const GOOGLE_DRIVE_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxCKnMGx3cjlFHEMOLK-Dh7R6X5eFiFrGQk05KJfyN6WTlaMuN8pSg3fTaTPJwR6snL/exec';
+
+// AUTOMATIC GOOGLE DRIVE FOLDER CREATION
+async function triggerCreateClientDriveFolder(email) {
+  if (!email || !GOOGLE_DRIVE_WEBHOOK_URL) return;
+  email = email.toLowerCase().trim();
+  try {
+    const res = await fetch(GOOGLE_DRIVE_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'create_client_folder',
+        email: email
+      })
+    });
+    const data = await res.json();
+    if (data && data.folderUrl) {
+      localStorage.setItem('shoaib_client_drive_' + email, data.folderUrl);
+      localStorage.setItem('shoaib_client_drive_id_' + email, data.folderId);
+      console.log('✓ Google Drive client root folder verified:', data.folderUrl);
+    }
+  } catch(err) {
+    console.error('Drive webhook client folder error:', err);
+  }
+}
+
+async function triggerCreateOrderDriveFolder(email, orderId) {
+  if (!email || !orderId || !GOOGLE_DRIVE_WEBHOOK_URL) return null;
+  email = email.toLowerCase().trim();
+  try {
+    const res = await fetch(GOOGLE_DRIVE_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'create_order_folder',
+        email: email,
+        orderId: orderId.replace('#', '').trim()
+      })
+    });
+    const data = await res.json();
+    if (data && data.orderFolderUrl) {
+      console.log('✓ Google Drive order subfolder created:', data.orderFolderUrl);
+      return data.orderFolderUrl;
+    }
+  } catch(err) {
+    console.error('Drive webhook order folder error:', err);
+  }
+  return null;
+}
+
 const GOOGLE_CLIENT_ID = '197596089864-pu2l1snp7t1mkev70tjadr1n3g420fmv.apps.googleusercontent.com';
 const GOOGLE_DRIVE_API_KEY = 'AIzaSyC2-vUTUWfihaMxPpNmWtPmb74TCCTGiMk';
 const GOOGLE_DRIVE_FOLDER_ID = '1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc';
