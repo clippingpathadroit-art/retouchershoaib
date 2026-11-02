@@ -1321,8 +1321,16 @@ function deleteAdminOrder(id) {
   // Cloud backend sync (permanently purge from cloud DB)
   triggerSyncAdminActionToCloud({
     action: 'delete_order',
-    numericId: cleanId
+    numericId: cleanId,
+    id: id
   });
+  if (cleanId) {
+    triggerSyncAdminActionToCloud({
+      action: 'delete_order',
+      numericId: 'RS-2026-' + cleanId,
+      id: '#RS-2026-' + cleanId
+    });
+  }
 
   showAdminToast('🗑️ Order #RS-2026-' + cleanId + ' permanently deleted from all dashboards.');
   renderAdminTable();

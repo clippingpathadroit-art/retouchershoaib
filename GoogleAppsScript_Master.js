@@ -79,6 +79,15 @@ function doGet(e) {
 }
 
 // 3. POST REQUEST HANDLER (ACTIONS, ORDER CREATION & TWO-WAY SYNC)
+function normalizeGasId(raw) {
+  if (!raw) return '';
+  var str = String(raw).trim().replace(/#?RS-?2026-?/i, '').replace(/#?RS-?/i, '');
+  if (str.indexOf('2026') === 0 && str.length > 5) {
+    str = str.substring(4);
+  }
+  return str.replace(/[^0-9]/g, '');
+}
+
 function doPost(e) {
   try {
     var data = JSON.parse(e.postData.contents);
@@ -709,62 +718,45 @@ function doPost(e) {
         .setMimeType(ContentService.MimeType.JSON);
     }
 
-    // (J) অর্ডার স্থায়ীভাবে মুছে ফেলা (Admin Order Deletion)
+    // (J) অর্ডার স্থায়ীভাবে মুছে ফেলা (Admin Order Deletion - Universal Normalized Match)
     if (data.action === "delete_order") {
-      var rawId = String(data.numericId || "");
-      var cleanNum = rawId.replace(/[^0-9]/g, "");
+      var rawId = String(data.numericId || data.id || "");
+      var targetId = normalizeGasId(rawId);
       var lock = LockService.getScriptLock();
       lock.tryLock(10000);
       try {
         var db = getDatabase(rootFolder);
         db.orders = db.orders.filter(function(o) { 
-          var oNum = String(o.numericId || o.id || "").replace(/[^0-9]/g, "");
-          return oNum !== cleanNum && String(o.numericId) !== rawId; 
+          var oNum = normalizeGasId(o.numericId || o.id || o.orderId);
+          return oNum !== targetId && String(o.numericId) !== rawId && String(o.id) !== rawId; 
         });
-        delete db.statuses[rawId];
-        delete db.deliveries[rawId];
-        delete db.extraWork[rawId];
-        if (cleanNum) {
-          delete db.statuses[cleanNum];
-          delete db.statuses["RS-2026-" + cleanNum];
-          delete db.deliveries[cleanNum];
-          delete db.deliveries["RS-2026-" + cleanNum];
-          delete db.extraWork[cleanNum];
-          delete db.extraWork["RS-2026-" + cleanNum];
-          Object.keys(db.extraWork).forEach(function(k) {
-            if (String(k).replace(/[^0-9]/g, "") === cleanNum) {
-              delete db.extraWork[k];
+
+        function purgeKeys(obj) {
+          if (!obj || typeof obj !== 'object') return;
+          delete obj[rawId];
+          delete obj[targetId];
+          delete obj["RS-2026-" + targetId];
+          delete obj["#RS-2026-" + targetId];
+          delete obj["2026" + targetId];
+          Object.keys(obj).forEach(function(k) {
+            if (normalizeGasId(k) === targetId) {
+              delete obj[k];
             }
           });
         }
-        if (db.paidStatuses && typeof db.paidStatuses === "object") {
-          delete db.paidStatuses[rawId];
-          if (cleanNum) {
-            delete db.paidStatuses[cleanNum];
-            delete db.paidStatuses["RS-2026-" + cleanNum];
-            Object.keys(db.paidStatuses).forEach(function(k) {
-              if (String(k).replace(/[^0-9]/g, "") === cleanNum) {
-                delete db.paidStatuses[k];
-              }
-            });
-          }
-        }
-        if (db.paymentClaims && typeof db.paymentClaims === "object") {
-          delete db.paymentClaims[rawId];
-          if (cleanNum) {
-            delete db.paymentClaims[cleanNum];
-            delete db.paymentClaims["RS-2026-" + cleanNum];
-            Object.keys(db.paymentClaims).forEach(function(k) {
-              if (String(k).replace(/[^0-9]/g, "") === cleanNum) {
-                delete db.paymentClaims[k];
-              }
-            });
-          }
-        }
+
+        purgeKeys(db.statuses);
+        purgeKeys(db.deliveries);
+        purgeKeys(db.extraWork);
+        purgeKeys(db.paidStatuses);
+        purgeKeys(db.paymentClaims);
+
         if (!db.deletedOrders || typeof db.deletedOrders !== "object") db.deletedOrders = {};
-        if (cleanNum) {
-          db.deletedOrders[cleanNum] = true;
-          db.deletedOrders["RS-2026-" + cleanNum] = true;
+        if (targetId) {
+          db.deletedOrders[targetId] = true;
+          db.deletedOrders["RS-2026-" + targetId] = true;
+          db.deletedOrders["#RS-2026-" + targetId] = true;
+          db.deletedOrders["2026" + targetId] = true;
         }
         if (rawId) {
           db.deletedOrders[rawId] = true;
@@ -773,7 +765,7 @@ function doPost(e) {
       } finally {
         lock.releaseLock();
       }
-      return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
+      return ContentService.createTextOutput(JSON.stringify({ status: "success", targetId: targetId }))
         .setMimeType(ContentService.MimeType.JSON);
     }
 

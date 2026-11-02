@@ -2830,6 +2830,16 @@ function isCurrentUserDemo() {
 }
 
 // STRICT TENANT ISOLATION: GUARANTEES CLIENTS ONLY SEE THEIR OWN PROJECTS & INVOICES
+function isPortalOrderDeleted(id) {
+  if (!id) return false;
+  const num = normalizeNumericId(id);
+  return localStorage.getItem('shoaib_deleted_' + num) === '1' ||
+         localStorage.getItem('shoaib_deleted_RS-2026-' + num) === '1' ||
+         localStorage.getItem('shoaib_deleted_#' + num) === '1' ||
+         localStorage.getItem('shoaib_deleted_#RS-2026-' + num) === '1' ||
+         localStorage.getItem('shoaib_deleted_' + id) === '1';
+}
+
 function getClientOrders() {
   const isDemo = isCurrentUserDemo();
   const sess = getCurrentSession();
@@ -2837,12 +2847,15 @@ function getClientOrders() {
   const filtered = {};
 
   if (isDemo) {
-    if (ORDERS['084']) filtered['084'] = ORDERS['084'];
-    if (ORDERS['085']) filtered['085'] = ORDERS['085'];
+    if (ORDERS['084'] && !isPortalOrderDeleted('084')) filtered['084'] = ORDERS['084'];
+    if (ORDERS['085'] && !isPortalOrderDeleted('085')) filtered['085'] = ORDERS['085'];
     // In demo mode, also allow custom demo orders placed by Sarah Jenkins
     Object.keys(ORDERS).forEach(k => {
       if (k !== '084' && k !== '085') {
         const o = ORDERS[k];
+        if (isPortalOrderDeleted(k) || isPortalOrderDeleted(o.numericId) || isPortalOrderDeleted(o.id)) {
+          return;
+        }
         if (o && (o.clientEmail || '').toLowerCase().trim() === 'sarah@jenkinsstudio.com') {
           filtered[k] = o;
         }
@@ -2854,8 +2867,7 @@ function getClientOrders() {
       Object.keys(ORDERS).forEach(k => {
         if (k !== '084' && k !== '085') {
           const o = ORDERS[k];
-          const num = normalizeNumericId(o.numericId || o.id || k);
-          if (num && (localStorage.getItem('shoaib_deleted_' + num) === '1' || localStorage.getItem('shoaib_deleted_RS-2026-' + num) === '1')) {
+          if (isPortalOrderDeleted(k) || isPortalOrderDeleted(o.numericId) || isPortalOrderDeleted(o.id)) {
             return;
           }
           if (o && (o.clientEmail || '').toLowerCase().trim() === curEmail) {
@@ -3092,76 +3104,83 @@ function renderInvoicesList() {
   let unpaidCount = 0;
   let rowsHtml = '';
 
-  if (isDemo) {
-  // 1. Order 084 Row
-  const amt84 = 490 + extraAmount;
-  if (!isPaid84) {
-    totalUnpaid += amt84;
-    unpaidCount++;
-  }
-  const pName84 = localStorage.getItem('shoaib_project_name_084') || 'Luxury Jewelry & Watches Suite';
-  rowsHtml += `
-    <tr class="inv-list-row" onclick="showSingleInvoice('084')">
-      <td>
-        <span style="font-family: var(--f-display); font-weight: 800; font-size: 13px; color: #0f172a;">#RS-2026-084</span>
-      </td>
-      <td>
-        <div style="font-weight: 700; color: #0f172a;">${pName84}</div>
-        <div style="font-size: 12px; color: #64748b;">14 RAWs &bull; Luxury Jewelry &amp; Horology</div>
-      </td>
-      <td>
-        <div style="font-size: 13px; font-weight: 600;">Nov 02, 2026</div>
-        <div style="font-size: 11px; color: #64748b;">Net 15 Terms (Delivered)</div>
-      </td>
-      <td style="text-align: right;">
-        <span style="font-family: var(--f-display); font-size: 15px; font-weight: 800; color: #0f172a;">$${amt84.toFixed(2)}</span>
-      </td>
-      <td style="text-align: center;">
-        ${isPaid84 
-          ? '<span class="inv-badge-paid">PAID ✓</span>' 
-          : '<span class="inv-badge-unpaid">UNPAID</span>'}
-      </td>
-      <td style="text-align: right; white-space: nowrap;">
-        <button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); showSingleInvoice('084')">View Invoice 👁️</button>
-        ${!isPaid84 ? `<button class="btn btn-primary btn-sm" style="margin-left: 6px;" onclick="event.stopPropagation(); showSingleInvoice('084', true)">Pay 💳</button>` : ''}
-      </td>
-    </tr>
-  `;
+  const isDel84 = isPortalOrderDeleted('084');
+  const isDel85 = isPortalOrderDeleted('085');
 
-  // 2. Order 085 Row
-  const amt85 = 600;
-  if (!isPaid85) {
-    totalUnpaid += amt85;
-    unpaidCount++;
+  if (isDemo) {
+  // 1. Order 084 Row (Only if NOT deleted)
+  if (!isDel84) {
+    const amt84 = 490 + extraAmount;
+    if (!isPaid84) {
+      totalUnpaid += amt84;
+      unpaidCount++;
+    }
+    const pName84 = localStorage.getItem('shoaib_project_name_084') || 'Luxury Jewelry & Watches Suite';
+    rowsHtml += `
+      <tr class="inv-list-row" onclick="showSingleInvoice('084')">
+        <td>
+          <span style="font-family: var(--f-display); font-weight: 800; font-size: 13px; color: #0f172a;">#RS-2026-084</span>
+        </td>
+        <td>
+          <div style="font-weight: 700; color: #0f172a;">${pName84}</div>
+          <div style="font-size: 12px; color: #64748b;">14 RAWs &bull; Luxury Jewelry &amp; Horology</div>
+        </td>
+        <td>
+          <div style="font-size: 13px; font-weight: 600;">Nov 02, 2026</div>
+          <div style="font-size: 11px; color: #64748b;">Net 15 Terms (Delivered)</div>
+        </td>
+        <td style="text-align: right;">
+          <span style="font-family: var(--f-display); font-size: 15px; font-weight: 800; color: #0f172a;">$${amt84.toFixed(2)}</span>
+        </td>
+        <td style="text-align: center;">
+          ${isPaid84 
+            ? '<span class="inv-badge-paid">PAID ✓</span>' 
+            : '<span class="inv-badge-unpaid">UNPAID</span>'}
+        </td>
+        <td style="text-align: right; white-space: nowrap;">
+          <button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); showSingleInvoice('084')">View Invoice 👁️</button>
+          ${!isPaid84 ? `<button class="btn btn-primary btn-sm" style="margin-left: 6px;" onclick="event.stopPropagation(); showSingleInvoice('084', true)">Pay 💳</button>` : ''}
+        </td>
+      </tr>
+    `;
   }
-  const pName85 = localStorage.getItem('shoaib_project_name_085') || 'Editorial Fashion Apparel Lookbook';
-  rowsHtml += `
-    <tr class="inv-list-row" onclick="showSingleInvoice('085')">
-      <td>
-        <span style="font-family: var(--f-display); font-weight: 800; font-size: 13px; color: #0f172a;">#RS-2026-085</span>
-      </td>
-      <td>
-        <div style="font-weight: 700; color: #0f172a;">${pName85}</div>
-        <div style="font-size: 12px; color: #64748b;">24 RAWs &bull; Fashion &amp; Apparel</div>
-      </td>
-      <td>
-        <div style="font-size: 13px; font-weight: 600;">Nov 02, 2026</div>
-        <div style="font-size: 11px; color: #64748b;">Advance Due (In Production)</div>
-      </td>
-      <td style="text-align: right;">
-        <span style="font-family: var(--f-display); font-size: 15px; font-weight: 800; color: #0f172a;">$${amt85.toFixed(2)}</span>
-      </td>
-      <td style="text-align: center;">
-        ${isPaid85 
-          ? '<span class="inv-badge-paid">PAID ✓</span>' 
-          : '<span class="inv-badge-advance">UNPAID</span>'}
-      </td>
-      <td style="text-align: right; white-space: nowrap;">
-        <button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); showSingleInvoice('085')">View Invoice 👁️</button>
-        ${!isPaid85 ? `<button class="btn btn-primary btn-sm" style="margin-left: 6px;" onclick="event.stopPropagation(); showSingleInvoice('085', true)">Pay 💳</button>` : ''}
-      </td>
-    </tr>
-  `;
+
+  // 2. Order 085 Row (Only if NOT deleted)
+  if (!isDel85) {
+    const amt85 = 600;
+    if (!isPaid85) {
+      totalUnpaid += amt85;
+      unpaidCount++;
+    }
+    const pName85 = localStorage.getItem('shoaib_project_name_085') || 'Editorial Fashion Apparel Lookbook';
+    rowsHtml += `
+      <tr class="inv-list-row" onclick="showSingleInvoice('085')">
+        <td>
+          <span style="font-family: var(--f-display); font-weight: 800; font-size: 13px; color: #0f172a;">#RS-2026-085</span>
+        </td>
+        <td>
+          <div style="font-weight: 700; color: #0f172a;">${pName85}</div>
+          <div style="font-size: 12px; color: #64748b;">24 RAWs &bull; Fashion &amp; Apparel</div>
+        </td>
+        <td>
+          <div style="font-size: 13px; font-weight: 600;">Nov 02, 2026</div>
+          <div style="font-size: 11px; color: #64748b;">Advance Due (In Production)</div>
+        </td>
+        <td style="text-align: right;">
+          <span style="font-family: var(--f-display); font-size: 15px; font-weight: 800; color: #0f172a;">$${amt85.toFixed(2)}</span>
+        </td>
+        <td style="text-align: center;">
+          ${isPaid85 
+            ? '<span class="inv-badge-paid">PAID ✓</span>' 
+            : '<span class="inv-badge-advance">UNPAID</span>'}
+        </td>
+        <td style="text-align: right; white-space: nowrap;">
+          <button class="btn btn-outline btn-sm" onclick="event.stopPropagation(); showSingleInvoice('085')">View Invoice 👁️</button>
+          ${!isPaid85 ? `<button class="btn btn-primary btn-sm" style="margin-left: 6px;" onclick="event.stopPropagation(); showSingleInvoice('085', true)">Pay 💳</button>` : ''}
+        </td>
+      </tr>
+    `;
+  }
   } // end if (isDemo)
 
   // 3. Custom orders strictly for this authenticated client
@@ -3296,22 +3315,33 @@ function renderInvoiceTabs(activeTab) {
   const isDemo = isCurrentUserDemo();
   let tabsHtml = '';
 
+  const isDel84 = isPortalOrderDeleted('084');
+  const isDel85 = isPortalOrderDeleted('085');
+
   if (isDemo) {
     tabsHtml += `
       <button class="btn ${activeTab === 'all' ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectInvoiceTab('all')">
         💳 Total Outstanding Balance
       </button>
-      <button class="btn ${activeTab === '084' ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectInvoiceTab('084')">
-        📄 Invoice #RS-2026-084 ($490.00 &bull; Jewelry)
-      </button>
-      <button class="btn ${activeTab === '085' ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectInvoiceTab('085')">
-        ⚡ Invoice #RS-2026-085 ($600.00 &bull; Fashion)
-      </button>
     `;
+    if (!isDel84) {
+      tabsHtml += `
+        <button class="btn ${activeTab === '084' ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectInvoiceTab('084')">
+          📄 Invoice #RS-2026-084 ($490.00 &bull; Jewelry)
+        </button>
+      `;
+    }
+    if (!isDel85) {
+      tabsHtml += `
+        <button class="btn ${activeTab === '085' ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectInvoiceTab('085')">
+          ⚡ Invoice #RS-2026-085 ($600.00 &bull; Fashion)
+        </button>
+      `;
+    }
   } else {
     // Isolated strictly for this authenticated client! Never show other clients orders or demo orders!
     const clientOrders = (typeof getClientOrders === 'function') ? getClientOrders() : ORDERS;
-    const clientOrderKeys = Object.keys(clientOrders).filter(k => k !== '084' && k !== '085');
+    const clientOrderKeys = Object.keys(clientOrders).filter(k => k !== '084' && k !== '085' && !isPortalOrderDeleted(k));
     if (clientOrderKeys.length === 0) {
       container.innerHTML = '<div style="font-size: 13px; color: var(--mut); padding: 8px 0;">No invoices issued yet. Submit your first project to generate your custom invoice.</div>';
       return;
@@ -3338,7 +3368,7 @@ function renderInvoiceTabs(activeTab) {
 
   // Also append custom orders for demo if any
   Object.keys(ORDERS).forEach(id => {
-    if (id !== '084' && id !== '085') {
+    if (id !== '084' && id !== '085' && !isPortalOrderDeleted(id)) {
       const o = ORDERS[id];
       tabsHtml += `
         <button class="btn ${activeTab === id ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectInvoiceTab('${id}')">
@@ -3380,14 +3410,21 @@ function loadInvoiceDetails() {
   }
 
   const isDemo = isCurrentUserDemo();
-  const amt84 = (!isDemo || isPaid84) ? 0 : (490 + extraAmount);
-  const amt85 = (!isDemo || isPaid85) ? 0 : 600;
+  const isDel84 = isPortalOrderDeleted('084');
+  const isDel85 = isPortalOrderDeleted('085');
+
+  const amt84 = (!isDemo || isPaid84 || isDel84) ? 0 : (490 + extraAmount);
+  const amt85 = (!isDemo || isPaid85 || isDel85) ? 0 : 600;
   let totalUnpaidAll = amt84 + amt85;
 
   const clientOrders = (typeof getClientOrders === 'function') ? getClientOrders() : ORDERS;
   Object.keys(clientOrders).forEach(id => {
-    if (id !== '084' && id !== '085') {
-      const isPaid = localStorage.getItem('shoaib_status_paid_' + id) === '1';
+    if (id !== '084' && id !== '085' && !isPortalOrderDeleted(id)) {
+      const normId = normalizeNumericId(id);
+      const isPaid = (localStorage.getItem('shoaib_status_paid_' + normId) === '1' || 
+                      localStorage.getItem('shoaib_status_paid_' + id) === '1' ||
+                      localStorage.getItem('shoaib_status_paid_RS-2026-' + normId) === '1') && 
+                     (clientOrders[id].isPaid !== false);
       let ordAmt = clientOrders[id].numericPrice || 500;
       const ex = getStoredExtraWork(id);
       if (ex) ordAmt += ex.amount;
@@ -3406,6 +3443,15 @@ function loadInvoiceDetails() {
   const totalPayableEl = document.getElementById('invTotalPayableDisplay');
   const badgeEl = document.getElementById('invStatusBadge');
   const detailsMetaEl = document.getElementById('invDetailsMetaDisplay');
+
+  if (activeInvoiceSelection === '084' && isDel84) {
+    selectInvoiceTab('all');
+    return;
+  }
+  if (activeInvoiceSelection === '085' && isDel85) {
+    selectInvoiceTab('all');
+    return;
+  }
 
   if (activeInvoiceSelection === '085') {
     // ORDER 085 INVOICE
@@ -3670,7 +3716,7 @@ function loadInvoiceDetails() {
     }
 
     let combinedRows = '';
-    if (!isPaid84) {
+    if (!isPaid84 && !isDel84) {
       combinedRows += `
         <tr>
           <td><strong>#RS-2026-084: Luxury Jewelry Suite</strong><br><span style="font-size: 12px; color: var(--mut);">14 focus-stacked RAW masters &bull; Delivered &bull; Net 15 terms</span></td>
@@ -3680,7 +3726,7 @@ function loadInvoiceDetails() {
         </tr>
       `;
     }
-    if (!isPaid85) {
+    if (!isPaid85 && !isDel85) {
       combinedRows += `
         <tr>
           <td><strong>#RS-2026-085: Editorial Fashion Apparel Lookbook</strong><br><span style="font-size: 12px; color: var(--mut);">24 High-Fashion RAWs &bull; In Production &bull; Advance invoice</span></td>
@@ -3692,10 +3738,14 @@ function loadInvoiceDetails() {
     }
 
     Object.keys(ORDERS).forEach(id => {
-      if (id !== '084' && id !== '085') {
-        const isPaid = localStorage.getItem('shoaib_status_paid_' + id) === '1';
+      if (id !== '084' && id !== '085' && !isPortalOrderDeleted(id)) {
+        const normId = normalizeNumericId(id);
+        const o = ORDERS[id];
+        const isPaid = (localStorage.getItem('shoaib_status_paid_' + normId) === '1' || 
+                        localStorage.getItem('shoaib_status_paid_' + id) === '1' ||
+                        localStorage.getItem('shoaib_status_paid_RS-2026-' + normId) === '1') && 
+                       (o.isPaid !== false);
         if (!isPaid) {
-          const o = ORDERS[id];
           combinedRows += `
             <tr>
               <td><strong>${o.id}: ${o.title}</strong><br><span style="font-size: 12px; color: var(--mut);">${o.images} &bull; ${o.service} &bull; New Order Advance</span></td>
