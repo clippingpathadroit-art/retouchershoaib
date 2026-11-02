@@ -315,14 +315,20 @@ function doPost(e) {
 
     // (E) অর্ডার স্ট্যাটাস আপডেট (Admin -> Cloud)
     if (data.action === "update_order_status") {
-      var numId = String(data.numericId);
+      var rawId = String(data.numericId || "");
+      var cleanNum = rawId.replace(/[^0-9]/g, "");
       var lock = LockService.getScriptLock();
       lock.tryLock(10000);
       try {
         var db = getDatabase(rootFolder);
-        db.statuses[numId] = data.status;
+        db.statuses[rawId] = data.status;
+        if (cleanNum) {
+          db.statuses[cleanNum] = data.status;
+          db.statuses["RS-2026-" + cleanNum] = data.status;
+        }
         for (var i = 0; i < db.orders.length; i++) {
-          if (String(db.orders[i].numericId) === numId) {
+          var oNum = String(db.orders[i].numericId || db.orders[i].id || "").replace(/[^0-9]/g, "");
+          if (oNum === cleanNum || String(db.orders[i].numericId) === rawId) {
             db.orders[i].status = data.status;
             break;
           }

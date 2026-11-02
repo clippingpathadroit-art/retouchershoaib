@@ -737,9 +737,15 @@ function switchAdminOrderTab(tab) {
 }
 
 function restoreOrderToActive(id) {
-  const numId = String(id).replace(/[^0-9]/g, '');
+  const numId = normalizeNumericId(id);
   updateOrderStatus(numId, 'delivered');
   showAdminToast('✓ Order #' + numId + ' restored from Archive back to Active Pipeline!');
+}
+
+function archiveAdminOrder(id) {
+  const numId = normalizeNumericId(id);
+  updateOrderStatus(numId, 'archived');
+  showAdminToast('📦 Order #' + numId + ' moved to Archive.');
 }
 
 
@@ -960,7 +966,9 @@ function renderAdminTable() {
             <div style="display: flex; gap: 6px; justify-content: flex-end; align-items: center;">
               ${ord.status === 'archived' ? `
                 <button class="btn sm" onclick="restoreOrderToActive('${id}')" style="background: #8b5cf6; color: #fff; font-size: 11px; padding: 5px 9px;" title="Restore Order to Active Pipeline">↩️ Restore</button>
-              ` : ''}
+              ` : (ord.status === 'delivered' ? `
+                <button class="btn sm" onclick="archiveAdminOrder('${id}')" style="background: #4f46e5; color: #fff; border: 0; font-size: 11px; padding: 5px 9px;" title="Move Order to Completed Archive">📦 Archive</button>
+              ` : '')}
               <a href="${ord.drive}" target="_blank" class="btn sm outline" style="font-size: 11px; padding: 5px 9px;" title="Open Specific Order Google Drive Subfolder">📂 Drive ↗</a>
               <button class="btn sm outline" onclick="openDelModal('${id}')" style="font-size: 11px; padding: 5px 9px;" title="Upload or Paste Final Delivery Link">🔗 Delivery</button>
               <button class="btn sm" style="background: #dc2626; color: #fff; border: 0; font-size: 11px; padding: 5px 9px;" onclick="deleteAdminOrder('${id}')" title="Permanently Delete Order">🗑️</button>
@@ -992,7 +1000,12 @@ function filterAdminOrders() {
 
 // UPDATE STATUS WITH LIVE STORAGE BROADCAST
 function updateOrderStatus(id, val) {
+  const cleanNum = normalizeNumericId(id);
   localStorage.setItem('shoaib_status_' + id, val);
+  if (cleanNum) {
+    localStorage.setItem('shoaib_status_' + cleanNum, val);
+    localStorage.setItem('shoaib_status_RS-2026-' + cleanNum, val);
+  }
 
   // Also update custom orders array if present
   try {
@@ -1000,7 +1013,7 @@ function updateOrderStatus(id, val) {
     if (raw) {
       const orders = JSON.parse(raw);
       orders.forEach(o => {
-        if (String(o.numericId) === String(id) || o.id === id) {
+        if (String(o.numericId) === String(id) || o.id === id || normalizeNumericId(o.numericId || o.id) === cleanNum) {
           o.status = val;
         }
       });
@@ -1011,12 +1024,19 @@ function updateOrderStatus(id, val) {
   // Broadcast sync to client portal
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
 
-  // Cloud backend sync
+  // Cloud backend sync with dual-key compatibility
   triggerSyncAdminActionToCloud({
     action: 'update_order_status',
     numericId: id,
     status: val
   });
+  if (cleanNum && cleanNum !== id) {
+    triggerSyncAdminActionToCloud({
+      action: 'update_order_status',
+      numericId: 'RS-2026-' + cleanNum,
+      status: val
+    });
+  }
 
   showAdminToast('✓ Order #' + id + ' status updated to ' + val.toUpperCase() + '. Client portal synced!');
   renderAdminTable();

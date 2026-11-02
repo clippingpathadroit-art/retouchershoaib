@@ -396,9 +396,12 @@ body {
 /* COLORFUL STATS CARDS (SCREENSHOT STYLE) */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   margin-bottom: 28px;
+}
+@media (max-width: 900px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
 }
 .stat-card {
   background: #ffffff;
@@ -1267,18 +1270,8 @@ body {
           <div class="stat-icon-wrap stat-icon-green">📁</div>
           <div class="stat-info">
             <div class="stat-label">Archived Orders</div>
-            <div class="stat-value" id="statCompleted">48 Orders</div>
+            <div class="stat-value" id="statCompleted">0 Orders</div>
             <div class="stat-sub" style="color: #059669;">Delivered &amp; Stored</div>
-          </div>
-        </div>
-
-        <!-- CARD 4: TOTAL PROJECTS / LIFETIME ORDERS (REPLACES SLA - USER REQUEST) -->
-        <div class="stat-card" onclick="switchPortalSection('archive')" style="cursor: pointer;">
-          <div class="stat-icon-wrap stat-icon-purple">📦</div>
-          <div class="stat-info">
-            <div class="stat-label">Total Projects</div>
-            <div class="stat-value" id="statTotalProjects">49 Projects</div>
-            <div class="stat-sub" style="color: #7c3aed;" id="statTotalSub">1 Active &bull; 48 Archived</div>
           </div>
         </div>
       </div>
@@ -2242,51 +2235,49 @@ function renderDashboardOverview() {
 
   let activeOrderList = [];
   let deliveredOrderList = [];
+  let archivedOrderList = [];
 
   const clientOrders = (typeof getClientOrders === 'function') ? getClientOrders() : ORDERS;
 
   if (isDemo) {
-    if (clientOrders['085'] && clientOrders['085'].status !== 'delivered') activeOrderList.push(clientOrders['085']);
-    if (clientOrders['084']) deliveredOrderList.push(clientOrders['084']);
+    if (clientOrders['085'] && clientOrders['085'].status !== 'delivered' && clientOrders['085'].status !== 'archived') activeOrderList.push(clientOrders['085']);
+    if (clientOrders['084']) {
+      if (clientOrders['084'].status === 'archived') archivedOrderList.push(clientOrders['084']);
+      else deliveredOrderList.push(clientOrders['084']);
+    }
     Object.keys(clientOrders).forEach(k => {
       if (k !== '084' && k !== '085') {
-        if (clientOrders[k].status === 'delivered') deliveredOrderList.push(clientOrders[k]);
-        else activeOrderList.push(clientOrders[k]);
+        const o = clientOrders[k];
+        if (o.status === 'archived') archivedOrderList.push(o);
+        else if (o.status === 'delivered') deliveredOrderList.push(o);
+        else activeOrderList.push(o);
       }
     });
   } else {
     // Strictly isolated for this authenticated client
     Object.keys(clientOrders).forEach(k => {
       if (k !== '084' && k !== '085') {
-        if (clientOrders[k].status === 'delivered') deliveredOrderList.push(clientOrders[k]);
-        else activeOrderList.push(clientOrders[k]);
+        const o = clientOrders[k];
+        if (o.status === 'archived') archivedOrderList.push(o);
+        else if (o.status === 'delivered') deliveredOrderList.push(o);
+        else activeOrderList.push(o);
       }
     });
   }
 
-  // Update Top Stats
+  // Update Top Stats (3 Clean Cards: Unpaid, Active, Archived)
   const statCompletedEl = document.getElementById('statCompleted');
-  const statTotalProjectsEl = document.getElementById('statTotalProjects');
-  const statTotalSubEl = document.getElementById('statTotalSub');
   const statActiveEl = document.getElementById('statActive');
   const badgeActiveOrdersEl = document.getElementById('badgeActiveOrders');
-
   const badgeArchiveEl = document.getElementById('badgeArchive');
-  if (isDemo) {
-    if (statActiveEl) statActiveEl.textContent = activeOrderList.length;
-    if (badgeActiveOrdersEl) badgeActiveOrdersEl.textContent = activeOrderList.length;
-    if (statCompletedEl) statCompletedEl.textContent = (47 + deliveredOrderList.length) + ' Orders';
-    if (statTotalProjectsEl) statTotalProjectsEl.textContent = (47 + deliveredOrderList.length + activeOrderList.length) + ' Projects';
-    if (statTotalSubEl) statTotalSubEl.textContent = activeOrderList.length + ' Active • ' + (47 + deliveredOrderList.length) + ' Archived';
-    if (badgeArchiveEl) badgeArchiveEl.textContent = 47 + deliveredOrderList.length;
-  } else {
-    if (statActiveEl) statActiveEl.textContent = activeOrderList.length;
-    if (badgeActiveOrdersEl) badgeActiveOrdersEl.textContent = activeOrderList.length;
-    if (statCompletedEl) statCompletedEl.textContent = deliveredOrderList.length + ' Orders';
-    if (statTotalProjectsEl) statTotalProjectsEl.textContent = (activeOrderList.length + deliveredOrderList.length) + ' Projects';
-    if (statTotalSubEl) statTotalSubEl.textContent = activeOrderList.length + ' Active • ' + deliveredOrderList.length + ' Archived';
-    if (badgeArchiveEl) badgeArchiveEl.textContent = deliveredOrderList.length;
-  }
+
+  const totalArchivedCount = isDemo ? (47 + archivedOrderList.length + deliveredOrderList.length) : (archivedOrderList.length + deliveredOrderList.length);
+  const totalActiveCount = activeOrderList.length;
+
+  if (statActiveEl) statActiveEl.textContent = totalActiveCount;
+  if (badgeActiveOrdersEl) badgeActiveOrdersEl.textContent = totalActiveCount;
+  if (statCompletedEl) statCompletedEl.textContent = totalArchivedCount + ' Orders';
+  if (badgeArchiveEl) badgeArchiveEl.textContent = totalArchivedCount;
 
   // If new user has 0 orders (Clean Slate)
   if (!isDemo && activeOrderList.length === 0 && deliveredOrderList.length === 0) {
@@ -2410,11 +2401,11 @@ function renderArchiveSection() {
   if (isDemo) {
     if (clientOrders['084']) deliveredList.push(clientOrders['084']);
     Object.keys(clientOrders).forEach(k => {
-      if (k !== '084' && k !== '085' && clientOrders[k].status === 'delivered') deliveredList.push(clientOrders[k]);
+      if (k !== '084' && k !== '085' && (clientOrders[k].status === 'delivered' || clientOrders[k].status === 'archived')) deliveredList.push(clientOrders[k]);
     });
   } else {
     Object.keys(clientOrders).forEach(k => {
-      if (k !== '084' && k !== '085' && clientOrders[k].status === 'delivered') deliveredList.push(clientOrders[k]);
+      if (k !== '084' && k !== '085' && (clientOrders[k].status === 'delivered' || clientOrders[k].status === 'archived')) deliveredList.push(clientOrders[k]);
     });
   }
 
@@ -2504,10 +2495,10 @@ function renderActiveOrdersPipeline() {
   const clientOrders = (typeof getClientOrders === 'function') ? getClientOrders() : ORDERS;
   let activeIds = [];
   if (isDemo) {
-    activeIds = Object.keys(clientOrders).filter(k => clientOrders[k].status !== 'delivered');
+    activeIds = Object.keys(clientOrders).filter(k => clientOrders[k].status !== 'delivered' && clientOrders[k].status !== 'archived');
   } else {
     // Non-demo client: strictly orders placed by this verified client
-    activeIds = Object.keys(clientOrders).filter(k => k !== '084' && k !== '085' && clientOrders[k].status !== 'delivered');
+    activeIds = Object.keys(clientOrders).filter(k => k !== '084' && k !== '085' && clientOrders[k].status !== 'delivered' && clientOrders[k].status !== 'archived');
   }
   const count = activeIds.length;
 
@@ -2517,8 +2508,6 @@ function renderActiveOrdersPipeline() {
   if (badgeEl) badgeEl.textContent = count;
   const statActiveEl = document.getElementById('statActive');
   if (statActiveEl) statActiveEl.textContent = count;
-  const statTotalEl = document.getElementById('statTotalProjects');
-  if (statTotalEl) statTotalEl.textContent = isDemo ? ((48 + count) + ' Projects') : (count + ' Projects');
 
   if (count === 0) {
     container.innerHTML = `
