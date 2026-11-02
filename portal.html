@@ -1055,7 +1055,7 @@ body {
     <form id="authLoginForm" onsubmit="handleAuthLogin(event)">
       <div style="margin-bottom: 14px;">
         <label style="display: block; font-size: 12px; font-weight: 600; color: #d1d5db; margin-bottom: 6px;">Work / Studio Email</label>
-        <input type="email" id="authLoginEmail" required placeholder="e.g. sarah@studio.com" style="width: 100%; padding: 10px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
+        <input type="email" id="authLoginEmail" required placeholder="e.g. client@brand.com" style="width: 100%; padding: 10px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
       </div>
       <div style="margin-bottom: 20px;">
         <label style="display: block; font-size: 12px; font-weight: 600; color: #d1d5db; margin-bottom: 6px;">Password</label>
@@ -1070,19 +1070,19 @@ body {
     <form id="authSignupForm" onsubmit="handleAuthSignup(event)" style="display: none;">
       <div style="margin-bottom: 12px;">
         <label style="display: block; font-size: 12px; font-weight: 600; color: #d1d5db; margin-bottom: 4px;">Your Full Name *</label>
-        <input type="text" id="authSignName" required placeholder="e.g. Sarah Jenkins" style="width: 100%; padding: 9px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
+        <input type="text" id="authSignName" required placeholder="e.g. Alexander Vance" style="width: 100%; padding: 9px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
       </div>
       <div style="margin-bottom: 12px;">
         <label style="display: block; font-size: 12px; font-weight: 600; color: #d1d5db; margin-bottom: 4px;">Studio / Agency / Brand Name *</label>
-        <input type="text" id="authSignCompany" required placeholder="e.g. Studio New York" style="width: 100%; padding: 9px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
+        <input type="text" id="authSignCompany" required placeholder="e.g. Vance Creative / Vogue" style="width: 100%; padding: 9px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
       </div>
       <div style="margin-bottom: 12px;">
         <label style="display: block; font-size: 12px; font-weight: 600; color: #d1d5db; margin-bottom: 4px;">Work / Studio Email *</label>
-        <input type="email" id="authSignEmail" required placeholder="e.g. sarah@studio.com" style="width: 100%; padding: 9px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
+        <input type="email" id="authSignEmail" required placeholder="e.g. client@brand.com" style="width: 100%; padding: 9px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
       </div>
       <div style="margin-bottom: 12px;">
         <label style="display: block; font-size: 12px; font-weight: 600; color: #d1d5db; margin-bottom: 4px;">Billing Address / Country *</label>
-        <input type="text" id="authSignAddress" required placeholder="e.g. 450 West 33rd Street, New York, NY 10001" style="width: 100%; padding: 9px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
+        <input type="text" id="authSignAddress" required placeholder="e.g. 100 Broadway, New York, NY 10005" style="width: 100%; padding: 9px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
       </div>
       <div style="margin-bottom: 18px;">
         <label style="display: block; font-size: 12px; font-weight: 600; color: #d1d5db; margin-bottom: 4px;">Create Password *</label>
@@ -1093,12 +1093,7 @@ body {
       </button>
     </form>
 
-    <!-- TEST DEMO ACCOUNT SHORTCUT -->
-    <div style="margin-top: 20px; text-align: center; border-top: 1px solid #1f2937; padding-top: 14px;">
-      <button type="button" onclick="loginWithDemoAccount()" style="background: none; border: 1px dashed #4b5563; color: #9ca3af; border-radius: 6px; padding: 6px 14px; font-size: 12px; cursor: pointer; transition: color 0.2s ease;">
-        🧪 Test Sample Studio Account (Sarah Jenkins)
-      </button>
-    </div>
+
   </div>
 </div>
 
@@ -1118,8 +1113,8 @@ body {
         <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80" alt="Client Avatar" class="avatar-img" id="sidebarAvatar">
         <div class="avatar-badge-online" title="Studio Connection Active"></div>
       </div>
-      <div class="client-name-display" id="sidebarClientName">Sarah Jenkins</div>
-      <div class="client-email-display" id="sidebarClientEmail">sarah@jenkinsstudio.com</div>
+      <div class="client-name-display" id="sidebarClientName">Studio Client</div>
+      <div class="client-email-display" id="sidebarClientEmail">client@studio.com</div>
       <button class="profile-edit-btn" onclick="openProfileModal()">
         ✎ Edit Billing Details
       </button>
@@ -1398,9 +1393,9 @@ body {
                 <div>
                   <div class="inv-meta-label">Billed To</div>
                   <p style="font-size: 14px; line-height: 1.6;" id="invBilledToDisplay">
-                    <strong id="invClientName">Sarah Jenkins</strong><br>
+                    <strong id="invClientName">Studio Client</strong><br>
                     <span id="invClientCompany">Studio New York</span><br>
-                    <span id="invClientEmail">sarah@jenkinsstudio.com</span><br>
+                    <span id="invClientEmail">client@studio.com</span><br>
                     <span id="invClientAddress">450 West 33rd Street, New York, NY 10001</span>
                   </p>
 
@@ -1944,77 +1939,33 @@ body {
 let currentModalId = null;
 let activeInvoiceSelection = 'all';
 
-const ORDERS = {
-  '084': {
-    id: '#RS-2026-084',
-    numericId: '084',
-    title: 'Luxury Jewelry & Watches Suite',
-    service: 'Luxury Jewelry & Horology',
-    images: '14 Focus-Stacked RAWs (.CR3)',
-    rawCount: 14,
-    format: '16-bit Layered Master PSD + WebP',
-    deadline: '24 Hours Express SLA',
-    status: 'delivered',
-    price: '$490.00 USD ($25/img)',
-    numericPrice: 490,
-    isAgreed: true,
-    drive: 'https://drive.google.com',
-    instructions: "Please clean all microscopic dust and metal scratches on the platinum prongs without blunting the facet reflections.\nPreserve diamond natural scintillation highlights (do not blow out or flatten).\nDeliver on seamless off-white background with a delicate natural contact cast shadow.",
-    createdAt: 'Nov 02, 2026'
-  },
-  '085': {
-    id: '#RS-2026-085',
-    numericId: '085',
-    title: 'Editorial Fashion Apparel Lookbook',
-    service: 'Fashion & Apparel',
-    images: '24 High-Fashion RAWs (.ARW)',
-    rawCount: 24,
-    format: 'Layered PSD + Transparent PNG + Clipping Path',
-    deadline: '24 Hours Express SLA',
-    totalDurationMs: 24 * 3600 * 1000,
-    deadlineMs: Date.now() + (18.5 * 3600 * 1000), // ~18.5h remaining out of 24h (starts in Green stage-green!)
-    status: 'production',
-    price: '$600.00 USD ($25/img)',
-    numericPrice: 600,
-    isAgreed: false,
-    drive: 'https://drive.google.com',
-    instructions: "Symmetrical hemline alignment, remove fabric travel wrinkles while keeping textile micro-weave crisp.\nGhost mannequin hollow neck joint alignment with collar label.\nExport with pure white RGB(255,255,255) background and separate hand-drawn pen tool path.",
-    createdAt: 'Today, 01:30 PM'
-  }
-};
+// Clean Production Orders Pool (Populated strictly by real submitted orders)
+const ORDERS = {};
 
 // Load dynamically submitted custom orders from localStorage
 function loadStoredCustomOrders() {
+  for (const k in ORDERS) {
+    if (Object.prototype.hasOwnProperty.call(ORDERS, k)) {
+      delete ORDERS[k];
+    }
+  }
+
   try {
     const raw = localStorage.getItem('shoaib_custom_orders');
     if (raw) {
       const customOrders = JSON.parse(raw);
       if (Array.isArray(customOrders)) {
         customOrders.forEach(ord => {
-          if (ord && ord.numericId) {
-            // Check status override from admin
-            const statusOverride = localStorage.getItem('shoaib_status_' + ord.numericId);
+          if (ord && ord.numericId && localStorage.getItem('shoaib_deleted_' + ord.numericId) !== '1') {
+            const numId = String(ord.numericId);
+            const statusOverride = localStorage.getItem('shoaib_status_' + numId);
             if (statusOverride) ord.status = statusOverride;
-            // Check delivery link override
-            const delUrl = localStorage.getItem('shoaib_del_url_' + ord.numericId);
+            const delUrl = localStorage.getItem('shoaib_del_url_' + numId);
             if (delUrl) ord.drive = delUrl;
-            ORDERS[ord.numericId] = ord;
+            ORDERS[numId] = ord;
           }
         });
       }
-    }
-    const status85 = localStorage.getItem('shoaib_status_085');
-    if (status85) ORDERS['085'].status = status85;
-    const status84 = localStorage.getItem('shoaib_status_084');
-    if (status84) ORDERS['084'].status = status84;
-
-    // Spec overrides for 085 if edited
-    const savedPName = localStorage.getItem('shoaib_project_name_085');
-    if (savedPName) ORDERS['085'].title = savedPName;
-    const savedCount = localStorage.getItem('shoaib_image_count_085');
-    if (savedCount) {
-      ORDERS['085'].rawCount = parseInt(savedCount, 10);
-      ORDERS['085'].images = savedCount + ' RAWs';
     }
   } catch(e) {
     console.error('Error loading custom orders:', e);
@@ -2757,8 +2708,7 @@ function getCurrentSession() {
 }
 
 function isCurrentUserDemo() {
-  const sess = getCurrentSession();
-  return !!(sess && sess.isDemo);
+  return false;
 }
 
 function loadClientProfile() {
@@ -4466,45 +4416,63 @@ setTimeout(() => clearInterval(gisCheckTimer), 7000);
 
 function handleAuthLogin(e) {
   e.preventDefault();
-  const email = document.getElementById('authLoginEmail').value.trim();
-  const pass = document.getElementById('authLoginPass').value.trim();
+  const email = (document.getElementById('authLoginEmail')?.value || '').trim();
+  const pass = (document.getElementById('authLoginPass')?.value || '').trim();
   const emailLower = email.toLowerCase();
 
-  let isDemo = false;
-  let name = email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-  let company = name + ' Studio';
-  let address = 'United States';
+  if (!email || !pass) {
+    showAuthToast('⚠️ Please enter both your email and password.');
+    return;
+  }
 
-  // Restore registered user info if previously signed up
+  // Look up registered user in shoaib_users
+  let users = {};
   try {
-    const users = JSON.parse(localStorage.getItem('shoaib_users') || '{}');
-    if (users[emailLower]) {
-      name = users[emailLower].name || name;
-      company = users[emailLower].company || company;
-      address = users[emailLower].address || address;
-    }
+    users = JSON.parse(localStorage.getItem('shoaib_users') || '{}');
   } catch(err) {}
 
-  if (emailLower.includes('sarah') || emailLower.includes('demo') || emailLower === 'sarah@jenkinsstudio.com') {
-    name = 'Sarah Jenkins';
-    company = 'Studio New York';
-    address = '450 West 33rd Street, New York, NY 10001, USA';
-    isDemo = true;
+  const registeredUser = users[emailLower];
+  if (!registeredUser) {
+    showAuthToast('⚠️ No studio account found with this email. Please click "Sign Up" above to register.');
+    return;
   }
+
+  // Validate password
+  if (registeredUser.pass && registeredUser.pass !== pass) {
+    showAuthToast('⚠️ Incorrect password. Please verify and try again.');
+    document.getElementById('authLoginPass')?.focus();
+    return;
+  }
+
+  const name = registeredUser.name || email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  const company = registeredUser.company || (name + ' Studio');
+  const address = registeredUser.address || 'Commercial Studio Client';
+  const phone = registeredUser.phone || '';
+  const tin = registeredUser.tin || '';
 
   const p = {
     name: name,
     company: company,
-    email: email,
+    email: emailLower,
     address: address,
-    tin: '',
-    isDemo: isDemo
+    phone: phone,
+    tin: tin,
+    isDemo: false
   };
   localStorage.setItem('shoaib_client_profile', JSON.stringify(p));
 
-  const sess = { email: email, name: name, company: company, address: address, isDemo: isDemo };
+  const sess = {
+    email: emailLower,
+    name: name,
+    company: company,
+    address: address,
+    phone: phone,
+    isDemo: false
+  };
   localStorage.setItem('shoaib_client_session', JSON.stringify(sess));
   sessionStorage.setItem('shoaib_client_session', JSON.stringify(sess));
+
+  localStorage.setItem('shoaib_sync_ping', Date.now().toString());
 
   checkAuthGate();
   loadClientProfile();
@@ -4515,41 +4483,74 @@ function handleAuthLogin(e) {
   loadInvoiceDetails();
 
   showAuthToast('✓ Welcome back, ' + name + '!');
-
-  // Trigger Google Drive folder creation for email client
-  if (!isDemo && email) {
-    triggerCreateClientDriveFolder(email);
-  }
+  triggerCreateClientDriveFolder(emailLower);
 }
 
 function handleAuthSignup(e) {
   e.preventDefault();
-  const name = document.getElementById('authSignName').value.trim();
-  const company = document.getElementById('authSignCompany').value.trim();
-  const email = document.getElementById('authSignEmail').value.trim();
-  const address = document.getElementById('authSignAddress').value.trim();
-  const pass = document.getElementById('authSignPass').value.trim();
+  const name = (document.getElementById('authSignName')?.value || '').trim();
+  const company = (document.getElementById('authSignCompany')?.value || '').trim() || (name + ' Studio');
+  const email = (document.getElementById('authSignEmail')?.value || '').trim();
+  const address = (document.getElementById('authSignAddress')?.value || '').trim() || 'Commercial Studio Client';
+  const pass = (document.getElementById('authSignPass')?.value || '').trim();
+  const emailLower = email.toLowerCase();
+
+  if (!email || !pass || !name) {
+    showAuthToast('⚠️ Please fill in all required fields (Name, Email, Password).');
+    return;
+  }
+
+  // Check if account already exists
+  let users = {};
+  try {
+    users = JSON.parse(localStorage.getItem('shoaib_users') || '{}');
+  } catch(err) {}
+
+  if (users[emailLower]) {
+    showAuthToast('⚠️ An account already exists with this email. Please select "Log In" above.');
+    switchAuthTab('login');
+    const lEmail = document.getElementById('authLoginEmail');
+    if (lEmail) { lEmail.value = email; }
+    document.getElementById('authLoginPass')?.focus();
+    return;
+  }
 
   // Save to persistent users directory
-  try {
-    const users = JSON.parse(localStorage.getItem('shoaib_users') || '{}');
-    users[email.toLowerCase()] = { name, company, email, address, pass };
-    localStorage.setItem('shoaib_users', JSON.stringify(users));
-  } catch(err) {}
+  users[emailLower] = {
+    name: name,
+    company: company,
+    email: emailLower,
+    address: address,
+    phone: '',
+    tin: '',
+    pass: pass,
+    createdAt: new Date().toISOString()
+  };
+  localStorage.setItem('shoaib_users', JSON.stringify(users));
 
   const p = {
     name: name,
     company: company,
-    email: email,
+    email: emailLower,
     address: address,
+    phone: '',
     tin: '',
     isDemo: false
   };
-
   localStorage.setItem('shoaib_client_profile', JSON.stringify(p));
-  const sess = { email: email, name: name, company: company, address: address, isDemo: false };
+
+  const sess = {
+    email: emailLower,
+    name: name,
+    company: company,
+    address: address,
+    phone: '',
+    isDemo: false
+  };
   localStorage.setItem('shoaib_client_session', JSON.stringify(sess));
   sessionStorage.setItem('shoaib_client_session', JSON.stringify(sess));
+
+  localStorage.setItem('shoaib_sync_ping', Date.now().toString());
 
   checkAuthGate();
   loadClientProfile();
@@ -4559,12 +4560,8 @@ function handleAuthSignup(e) {
   renderInvoicesList();
   loadInvoiceDetails();
 
-  showAuthToast('✓ Welcome, ' + name + '! Your studio workspace is ready.');
-
-  // Trigger Google Drive folder creation for new email client
-  if (email) {
-    triggerCreateClientDriveFolder(email);
-  }
+  showAuthToast('🎉 Welcome, ' + name + '! Your studio workspace has been created successfully.');
+  triggerCreateClientDriveFolder(emailLower);
 }
 
 function loginWithDemoAccount() {
@@ -4596,6 +4593,10 @@ function logoutClient() {
   if (!confirm('Log out from your studio workspace?')) return;
   localStorage.removeItem('shoaib_client_session');
   sessionStorage.removeItem('shoaib_client_session');
+  localStorage.removeItem('shoaib_client_profile');
+
+  // Broadcast sync so index.html and other tabs immediately flip header state to logged-out!
+  localStorage.setItem('shoaib_sync_ping', Date.now().toString());
 
   const lEmail = document.getElementById('authLoginEmail');
   const lPass = document.getElementById('authLoginPass');
@@ -4862,17 +4863,37 @@ function updateDriveTargetDisplay() {
 document.addEventListener('DOMContentLoaded', updateDriveTargetDisplay);
 
 // TWO-WAY LIVE STORAGE SYNC WITH ADMIN CONSOLE
+// EVENT-DRIVEN SILENT SYNC & TAB WAKEUP (NO PAGE RELOAD / FLICKER)
+function silentPortalSync() {
+  loadStoredCustomOrders();
+  loadClientProfile();
+  renderDashboardOverview();
+  renderActiveOrdersPipeline();
+  renderArchiveSection();
+  renderInvoicesList();
+  if (typeof loadInvoiceDetails === 'function') loadInvoiceDetails();
+}
+
 window.addEventListener('storage', function(e) {
-  if (e.key === 'shoaib_sync_ping' || e.key === 'shoaib_custom_orders' || (e.key && e.key.startsWith('shoaib_status_')) || (e.key && e.key.startsWith('shoaib_price_'))) {
-    console.log('Live Storage Sync Received from Admin:', e.key);
-    loadStoredCustomOrders();
-    renderDashboardOverview();
-    renderActiveOrdersPipeline();
-    renderArchiveSection();
-    renderInvoicesList();
-    if (typeof loadInvoiceDetails === 'function') loadInvoiceDetails();
+  if (e.key === 'shoaib_sync_ping' || e.key === 'shoaib_custom_orders' || e.key === 'shoaib_client_session' || e.key === 'shoaib_users' || (e.key && e.key.startsWith('shoaib_status_')) || (e.key && e.key.startsWith('shoaib_extra_work_')) || (e.key && e.key.startsWith('shoaib_price_'))) {
+    silentPortalSync();
   }
 });
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    silentPortalSync();
+  }
+});
+
+window.addEventListener('focus', () => {
+  silentPortalSync();
+});
+
+// Silent Background Heartbeat (every 60 seconds - keeps data 100% fresh)
+setInterval(() => {
+  silentPortalSync();
+}, 60000);
 </script>
 </body>
 </html>

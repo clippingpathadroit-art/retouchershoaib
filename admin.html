@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Studio Director Admin Panel | Retoucher Shoaib®</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -883,9 +886,14 @@ function openAllClientsModal() {
             </a>
           </td>
           <td style="text-align: right; white-space: nowrap;">
-            <button class="btn sm outline" onclick="filterByClientEmail('${c.email}')" style="font-size: 11px; padding: 4px 10px;">
-              🔍 View Orders
-            </button>
+            <div style="display: flex; gap: 6px; justify-content: flex-end; align-items: center;">
+              <button class="btn sm outline" onclick="filterByClientEmail('${c.email}')" style="font-size: 11px; padding: 4px 10px;" title="Filter orders by this client">
+                🔍 View Orders
+              </button>
+              <button class="btn sm" onclick="deleteClientFromDatabase('${c.email}')" style="background: #dc2626; color: #fff; border: 0; font-size: 11px; padding: 4px 8px; border-radius: 6px; cursor: pointer;" title="Permanently delete client from database">
+                🗑️ Delete
+              </button>
+            </div>
           </td>
         </tr>
       `;
@@ -900,6 +908,43 @@ function openAllClientsModal() {
 function closeAllClientsModal() {
   const modal = document.getElementById('allClientsModal');
   if (modal) modal.style.display = 'none';
+}
+
+// PERMANENTLY DELETE CLIENT FROM DATABASE (USER REQUEST)
+function deleteClientFromDatabase(email) {
+  if (!confirm('⚠️ Are you sure you want to permanently delete client "' + email + '" from the studio database?\n\nThis will remove their profile and registered account. Their data will no longer appear in the clients database.')) {
+    return;
+  }
+  email = email.toLowerCase().trim();
+
+  // 1. Remove from shoaib_users
+  try {
+    const rawUsers = localStorage.getItem('shoaib_users');
+    if (rawUsers) {
+      let users = JSON.parse(rawUsers);
+      delete users[email];
+      localStorage.setItem('shoaib_users', JSON.stringify(users));
+    }
+  } catch(e) {}
+
+  // 2. Clear from shoaib_client_profile if this was the active client
+  try {
+    const rawProf = localStorage.getItem('shoaib_client_profile');
+    if (rawProf) {
+      const p = JSON.parse(rawProf);
+      if (p.email && p.email.toLowerCase() === email) {
+        localStorage.removeItem('shoaib_client_profile');
+        localStorage.removeItem('shoaib_client_session');
+      }
+    }
+  } catch(e) {}
+
+  // 3. Broadcast sync to all windows
+  localStorage.setItem('shoaib_sync_ping', Date.now().toString());
+
+  showAdminToast('🗑️ Client ' + email + ' has been permanently deleted from database.');
+  openAllClientsModal();
+  renderAdminTable();
 }
 
 function filterByClientEmail(email) {
@@ -1141,10 +1186,25 @@ renderAdminTable();
 
 // LIVE TWO-WAY STORAGE SYNC FROM CLIENT PORTAL
 window.addEventListener('storage', (e) => {
-  if (e.key === 'shoaib_sync_ping' || e.key === 'shoaib_custom_orders' || (e.key && e.key.startsWith('shoaib_status_')) || (e.key && e.key.startsWith('shoaib_extra_work_'))) {
+  if (e.key === 'shoaib_sync_ping' || e.key === 'shoaib_custom_orders' || e.key === 'shoaib_users' || (e.key && e.key.startsWith('shoaib_status_')) || (e.key && e.key.startsWith('shoaib_extra_work_'))) {
     renderAdminTable();
   }
 });
+
+// EVENT-DRIVEN SILENT SYNC & TAB WAKEUP (NO PAGE RELOAD / FLICKER)
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    renderAdminTable();
+  }
+});
+window.addEventListener('focus', () => {
+  renderAdminTable();
+});
+
+// Silent Background Heartbeat (every 60 seconds - always fresh without reload)
+setInterval(() => {
+  renderAdminTable();
+}, 60000);
 
 </script>
 

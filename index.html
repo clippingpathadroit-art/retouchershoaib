@@ -1308,32 +1308,46 @@ updateStudioTime();
   });
 })();
 
-// DYNAMIC CLIENT ACCESS HEADER PAIRING (USER SPECIFICATION)
+// DYNAMIC CLIENT ACCESS HEADER PAIRING (STRICT AUTH CHECK)
 function syncHeaderClientState() {
-  const session = localStorage.getItem('shoaib_client_session') || localStorage.getItem('shoaib_client_profile');
+  const sessionRaw = localStorage.getItem('shoaib_client_session');
   const loginBtn = document.getElementById('navClientAccessBtn');
   const ctaBtn = document.getElementById('navMainCtaBtn');
   if (!loginBtn || !ctaBtn) return;
 
-  if (session) {
-    let name = 'Sarah J.';
+  let session = null;
+  if (sessionRaw) {
     try {
-      const p = JSON.parse(session);
-      if (p.name) name = p.name.split(' ')[0];
+      session = JSON.parse(sessionRaw);
     } catch(e) {}
-    loginBtn.href = 'portal.html';
+  }
+
+  if (session && session.email) {
+    let name = session.name ? session.name.split(' ')[0] : 'Client';
+    loginBtn.href = 'portal.html#new';
     loginBtn.innerHTML = '+ Place Order';
     ctaBtn.href = 'portal.html';
     ctaBtn.innerHTML = '🟢 ' + name + ' (Dashboard ↗)';
   } else {
     loginBtn.href = 'portal.html';
     loginBtn.innerHTML = 'Log In';
-    ctaBtn.href = 'contact.html';
-    ctaBtn.innerHTML = 'Free Trial';
+    ctaBtn.href = 'portal.html';
+    ctaBtn.innerHTML = 'Client Portal ↗';
   }
 }
 document.addEventListener('DOMContentLoaded', syncHeaderClientState);
 syncHeaderClientState();
+
+// Real-Time Auth & Logout Sync Across Tabs
+window.addEventListener('storage', (e) => {
+  if (e.key === 'shoaib_client_session' || e.key === 'shoaib_client_profile' || e.key === 'shoaib_sync_ping') {
+    syncHeaderClientState();
+  }
+});
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') syncHeaderClientState();
+});
+window.addEventListener('focus', syncHeaderClientState);
 </script>
 </body>
 </html>
