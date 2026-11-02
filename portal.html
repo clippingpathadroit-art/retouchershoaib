@@ -3576,6 +3576,24 @@ function handleNewOrderSubmit(e) {
 
   ORDERS[idStr] = newOrder;
 
+  // Asynchronously trigger dedicated order sub-folder creation in Shoaib's Google Drive
+  triggerCreateOrderDriveFolder(clientEmail, fullOrderId).then(orderUrl => {
+    if (orderUrl) {
+      newOrder.drive = orderUrl;
+      try {
+        const raw = localStorage.getItem('shoaib_custom_orders');
+        if (raw) {
+          let list = JSON.parse(raw);
+          list.forEach(o => {
+            if (o.numericId === idStr || o.id === fullOrderId) o.drive = orderUrl;
+          });
+          localStorage.setItem('shoaib_custom_orders', JSON.stringify(list));
+          localStorage.setItem('shoaib_sync_ping', Date.now().toString());
+        }
+      } catch(e) {}
+    }
+  });
+
   // Persist to localStorage
   try {
     const existing = JSON.parse(localStorage.getItem('shoaib_custom_orders') || '[]');
@@ -4124,6 +4142,7 @@ function handleGoogleCredentialResponse(response) {
     loadInvoiceDetails();
 
     showAuthToast('✓ Welcome, ' + p.name + '! Signed in with Google.');
+    triggerCreateClientDriveFolder(email);
   } catch(err) {
     console.error('Error handling Google credential:', err);
   }
