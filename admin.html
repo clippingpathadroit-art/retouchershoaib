@@ -937,7 +937,7 @@ function renderAdminTable() {
         const ex = getStoredExtraWork(o.numericId);
         const tot = (parseFloat(o.numericPrice) || 0) + (ex ? ex.amount : 0);
         claimsHtml += '<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.08);">' +
-          '<div><p style="font-size: 14px; margin-bottom: 4px;">Client <strong>' + o.clientName + '</strong> (' + o.clientEmail + ') reported transfer for <strong>' + o.id + '</strong> — <strong>' + D + tot.toFixed(2) + ' USD</strong>.</p>' +
+          '<div><p style="font-size: 14px; margin-bottom: 4px;">Client <strong>' + o.clientName + '</strong> (' + o.clientEmail + ') reported transfer for <strong>' + o.id + '</strong> — <strong>$' + tot.toFixed(2) + ' USD</strong>.</p>' +
           '<p style="font-size: 13px; color: #aaa;">Transfer Reference: <strong style="color: #fbbf24; background: #000; padding: 2px 8px; border-radius: 4px; font-family: monospace;">#' + c.ref + '</strong> &bull; Time: <span style="color: #fff;">' + (c.time || '') + ' ' + (c.date || '') + '</span></p></div>' +
           '<div style="display: flex; gap: 8px;"><button class="btn green sm" onclick="openPaymentReviewModal(\'' + o.numericId + '\')">💳 Review &amp; Mark Paid</button></div></div>';
       });
