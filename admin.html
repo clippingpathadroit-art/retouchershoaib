@@ -1103,10 +1103,19 @@ function openClientDetailModal(id) {
   }
 
   // IP & Country Audit
-  const savedIp = localStorage.getItem('shoaib_client_ip_' + id) || localStorage.getItem('shoaib_client_ip') || '68.195.12.84';
-  const savedCountry = localStorage.getItem('shoaib_client_country_' + id) || localStorage.getItem('shoaib_client_country') || 'United States';
-  document.getElementById('cdmIp').textContent = savedIp;
-  document.getElementById('cdmCountry').textContent = '🌐 ' + savedCountry + ' (Verified)';
+  let matchOrd = null;
+  try {
+    const raw = localStorage.getItem('shoaib_custom_orders');
+    if (raw) {
+      const ords = JSON.parse(raw);
+      matchOrd = ords.find(o => String(o.numericId) === String(id) || o.id === '#RS-2026-' + id || o.id === id);
+    }
+  } catch(e) {}
+
+  const locFromOrder = (matchOrd && matchOrd.clientLocation) ? matchOrd.clientLocation : (localStorage.getItem('shoaib_client_country_' + id) || localStorage.getItem('shoaib_client_country') || 'Bangladesh / Asia (Asia/Dhaka)');
+  const ipFromOrder = (matchOrd && matchOrd.clientIp) ? matchOrd.clientIp : (localStorage.getItem('shoaib_client_ip_' + id) || localStorage.getItem('shoaib_client_ip') || 'Verified Client IP');
+  document.getElementById('cdmIp').textContent = ipFromOrder;
+  document.getElementById('cdmCountry').textContent = '🌐 ' + locFromOrder + ' (Verified)';
 
   const modal = document.getElementById('adminClientDetailModal');
   if (modal) modal.style.display = 'flex';
@@ -1960,7 +1969,7 @@ async function saveEditedPrice() {
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
         <div>
           <div style="font-size: 15px; font-weight: 800; color: #fff;" id="cdmCountry">🇺🇸 United States (New York)</div>
-          <div style="font-size: 12px; color: #64748b; margin-top: 2px;">Public IP: <strong style="color: #38bdf8;" id="cdmIp">68.195.12.84</strong></div>
+          <div style="font-size: 12px; color: #64748b; margin-top: 2px;">Public IP: <strong style="color: #38bdf8;" id="cdmIp">Verified Client IP</strong></div>
         </div>
         <div id="cdmStatus">
           <span style="background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid #16a34a; padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: 700;">
