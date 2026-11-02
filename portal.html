@@ -4287,6 +4287,16 @@ function handleAuthLogin(e) {
   let company = name + ' Studio';
   let address = 'United States';
 
+  // Restore registered user info if previously signed up
+  try {
+    const users = JSON.parse(localStorage.getItem('shoaib_users') || '{}');
+    if (users[emailLower]) {
+      name = users[emailLower].name || name;
+      company = users[emailLower].company || company;
+      address = users[emailLower].address || address;
+    }
+  } catch(err) {}
+
   if (emailLower.includes('sarah') || emailLower.includes('demo') || emailLower === 'sarah@jenkinsstudio.com') {
     name = 'Sarah Jenkins';
     company = 'Studio New York';
@@ -4317,6 +4327,11 @@ function handleAuthLogin(e) {
   loadInvoiceDetails();
 
   showAuthToast('✓ Welcome back, ' + name + '!');
+
+  // Trigger Google Drive folder creation for email client
+  if (!isDemo && email) {
+    triggerCreateClientDriveFolder(email);
+  }
 }
 
 function handleAuthSignup(e) {
@@ -4326,6 +4341,13 @@ function handleAuthSignup(e) {
   const email = document.getElementById('authSignEmail').value.trim();
   const address = document.getElementById('authSignAddress').value.trim();
   const pass = document.getElementById('authSignPass').value.trim();
+
+  // Save to persistent users directory
+  try {
+    const users = JSON.parse(localStorage.getItem('shoaib_users') || '{}');
+    users[email.toLowerCase()] = { name, company, email, address, pass };
+    localStorage.setItem('shoaib_users', JSON.stringify(users));
+  } catch(err) {}
 
   const p = {
     name: name,
@@ -4350,6 +4372,11 @@ function handleAuthSignup(e) {
   loadInvoiceDetails();
 
   showAuthToast('✓ Welcome, ' + name + '! Your studio workspace is ready.');
+
+  // Trigger Google Drive folder creation for new email client
+  if (email) {
+    triggerCreateClientDriveFolder(email);
+  }
 }
 
 function loginWithDemoAccount() {

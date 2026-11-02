@@ -686,6 +686,47 @@ function openAllClientsModal() {
     phone: '+1 (212) 555-0199'
   };
 
+  // Add registered users pool (clients who signed up)
+  try {
+    const rawUsers = localStorage.getItem('shoaib_users');
+    if (rawUsers) {
+      const users = JSON.parse(rawUsers);
+      Object.keys(users).forEach(em => {
+        const u = users[em];
+        const emailLower = em.toLowerCase();
+        if (!clientsMap[emailLower]) {
+          clientsMap[emailLower] = {
+            name: u.name || 'Studio Client',
+            email: emailLower,
+            company: u.company || 'Client Studio',
+            ordersCount: 0,
+            phone: u.phone || '+1 (212) 555-0199'
+          };
+        }
+      });
+    }
+  } catch(e) {}
+
+  // Add currently active client profile if exists
+  try {
+    const rawProf = localStorage.getItem('shoaib_client_profile');
+    if (rawProf) {
+      const cp = JSON.parse(rawProf);
+      if (cp && cp.email) {
+        const emailLower = cp.email.toLowerCase();
+        if (!clientsMap[emailLower]) {
+          clientsMap[emailLower] = {
+            name: cp.name || 'Studio Client',
+            email: emailLower,
+            company: cp.company || 'Client Studio',
+            ordersCount: 0,
+            phone: '+1 (212) 555-0199'
+          };
+        }
+      }
+    }
+  } catch(e) {}
+
   // Add custom orders clients
   try {
     const raw = localStorage.getItem('shoaib_custom_orders');
