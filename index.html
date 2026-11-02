@@ -1210,6 +1210,7 @@ updateSoundUI();
         <li><a href="feed.html">Journal & Insights</a></li>
         <li><a href="contact.html">Free Trial Request</a></li>
           <li><a href="portal.html">Client Portal</a></li>
+          <li><a href="admin.html" style="color: #ff4d00; font-weight: 700;">Studio Director Console 🔒</a></li>
       </ul>
     </div>
 
@@ -1323,11 +1324,19 @@ function syncHeaderClientState() {
   }
 
   if (session && session.email) {
+    const isDirector = (session.email || '').toLowerCase().trim() === 'retouchershoaib@gmail.com';
     let name = session.name ? session.name.split(' ')[0] : 'Client';
-    loginBtn.href = 'portal.html#new';
-    loginBtn.innerHTML = '+ Place Order';
-    ctaBtn.href = 'portal.html';
-    ctaBtn.innerHTML = '🟢 ' + name + ' (Dashboard ↗)';
+    if (isDirector) {
+      loginBtn.href = 'admin.html';
+      loginBtn.innerHTML = '🛡️ Director Console';
+      ctaBtn.href = 'admin.html';
+      ctaBtn.innerHTML = '👑 Director Shoaib (Admin ↗)';
+    } else {
+      loginBtn.href = 'portal.html#new';
+      loginBtn.innerHTML = '+ Place Order';
+      ctaBtn.href = 'portal.html';
+      ctaBtn.innerHTML = '🟢 ' + name + ' (Dashboard ↗)';
+    }
   } else {
     loginBtn.href = 'portal.html';
     loginBtn.innerHTML = 'Log In';

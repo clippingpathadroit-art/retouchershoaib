@@ -445,7 +445,7 @@ function handleDirectorGoogleCredential(response) {
     sessionStorage.setItem('shoaib_admin_unlocked', '1');
     sessionStorage.setItem('shoaib_admin_user', JSON.stringify({
       email: authenticatedEmail,
-      name: payload.name || 'Shoaib',
+      name: payload.name || 'Shoaib (Director)',
       picture: payload.picture || ''
     }));
 
@@ -455,7 +455,13 @@ function handleDirectorGoogleCredential(response) {
     showAdminToast('✓ Welcome, Director Shoaib! Security gateway verified.');
     renderAdminTable();
   } else {
-    // REJECT ANY OTHER GOOGLE ACCOUNT WITH CLEAR RED WARNING
+    // HARD REJECTION & PURGE: PURGE ANY PREVIOUS UNLOCK TO PREVENT BYPASS
+    sessionStorage.removeItem('shoaib_admin_unlocked');
+    sessionStorage.removeItem('shoaib_admin_user');
+    
+    const modal = document.getElementById('directorAuthModal');
+    if (modal) modal.style.display = 'flex';
+
     if (errEl) {
       errEl.style.display = 'block';
       errEl.innerHTML = '⛔ <strong>Access Denied (' + authenticatedEmail + ')</strong><br>This Google account is unauthorized. Only official Studio Director (<strong style="color: #fff;">' + AUTHORIZED_DIRECTOR_EMAIL + '</strong>) is permitted to access this console.';
@@ -472,6 +478,7 @@ function initDirectorGoogleAuth() {
       google.accounts.id.initialize({
         client_id: GOOGLE_CLIENT_ID,
         callback: handleDirectorGoogleCredential,
+        ux_mode: 'popup',
         auto_select: false,
         cancel_on_tap_outside: false
       });
@@ -1278,9 +1285,18 @@ setInterval(updateAllAdminTimers, 1000);
 // INITIAL LOAD
 document.addEventListener('DOMContentLoaded', () => {
   const modal = document.getElementById('directorAuthModal');
-  if (sessionStorage.getItem('shoaib_admin_unlocked') === '1') {
+  let adminUser = {};
+  try {
+    adminUser = JSON.parse(sessionStorage.getItem('shoaib_admin_user') || '{}');
+  } catch(e) {}
+
+  // STRICT WHITELIST CHECK: Only retouchershoaib@gmail.com is allowed!
+  if (sessionStorage.getItem('shoaib_admin_unlocked') === '1' && (adminUser.email || '').toLowerCase().trim() === AUTHORIZED_DIRECTOR_EMAIL) {
     if (modal) modal.style.display = 'none';
   } else {
+    // Purge any unauthorized or stale session keys
+    sessionStorage.removeItem('shoaib_admin_unlocked');
+    sessionStorage.removeItem('shoaib_admin_user');
     if (modal) modal.style.display = 'flex';
     initDirectorGoogleAuth();
   }

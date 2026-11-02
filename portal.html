@@ -1179,6 +1179,14 @@ body {
         </div>
       </button>
 
+      <!-- STUDIO DIRECTOR SHORTCUT (VISIBLE ONLY WHEN SHOAIB LOGS IN) -->
+      <a href="admin.html" id="sideNavDirectorLink" class="nav-item" style="display: none; background: rgba(255, 77, 0, 0.14); border: 1px solid rgba(255, 77, 0, 0.35); margin-top: 10px; border-radius: 8px;">
+        <div class="nav-item-left">
+          <span class="nav-item-icon">🛡️</span>
+          <span style="color: #ff4d00; font-weight: 800;">Director Console</span>
+        </div>
+        <span style="font-size: 10px; background: #ff4d00; color: #fff; padding: 2px 6px; border-radius: 4px; font-weight: 700;">Admin ↗</span>
+      </a>
       
     </nav>
 
@@ -1191,6 +1199,16 @@ body {
 
   <!-- 2. MAIN APPLICATION CONTENT AREA -->
   <div class="main-area">
+    <!-- DIRECTOR NOTICE BANNER (VISIBLE ONLY TO SHOAIB) -->
+    <div id="directorNoticeBanner" style="display: none; background: #0f172a; color: #fff; padding: 10px 24px; border-bottom: 2px solid #ff4d00; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 13px;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span>🛡️</span>
+        <span><strong>Studio Director Mode</strong> (<span style="color: #38bdf8;">retouchershoaib@gmail.com</span>)</span>
+      </div>
+      <a href="admin.html" class="btn btn-sm" style="background: #ff4d00; color: #fff; font-weight: 700; padding: 6px 14px; border-radius: 6px; text-decoration: none;">
+        Open Studio Director Console ↗
+      </a>
+    </div>
     <!-- TOP APP BAR -->
     <header class="top-appbar">
       <div class="topbar-left">
@@ -2816,6 +2834,13 @@ function loadClientProfile() {
   if (sideAvatar && p.picture) {
     sideAvatar.src = p.picture;
   }
+
+  // STUDIO DIRECTOR PRIVILEGE SHORTCUTS
+  const isDirector = (p.email || '').toLowerCase().trim() === 'retouchershoaib@gmail.com';
+  const dirBanner = document.getElementById('directorNoticeBanner');
+  if (dirBanner) dirBanner.style.display = isDirector ? 'flex' : 'none';
+  const dirSideLink = document.getElementById('sideNavDirectorLink');
+  if (dirSideLink) dirSideLink.style.display = isDirector ? 'flex' : 'none';
 }
 
 function saveClientProfile(e) {
@@ -4465,6 +4490,21 @@ function handleAuthLogin(e) {
 
   if (!email || !pass) {
     showAuthToast('⚠️ Please enter both your email and password.');
+    return;
+  }
+
+  // DIRECT ACCESS FOR STUDIO DIRECTOR
+  if (emailLower === 'retouchershoaib@gmail.com') {
+    sessionStorage.setItem('shoaib_admin_unlocked', '1');
+    sessionStorage.setItem('shoaib_admin_user', JSON.stringify({
+      email: emailLower,
+      name: 'Shoaib (Director)',
+      picture: ''
+    }));
+    showAuthToast('👑 Welcome, Studio Director Shoaib! Opening Admin Console...');
+    setTimeout(() => {
+      window.location.href = 'admin.html';
+    }, 600);
     return;
   }
 
