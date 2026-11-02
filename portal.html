@@ -4037,21 +4037,25 @@ window.addEventListener('storage', (e) => {
 // ========================================================
 async function captureClientIpLocation() {
   try {
-    const res = await fetch('https://ipapi.co/json/');
+    const res = await fetch('https://api.ipify.org?format=json');
     if (res.ok) {
       const data = await res.json();
       if (data && data.ip) {
         localStorage.setItem('shoaib_client_ip', data.ip);
-        localStorage.setItem('shoaib_client_country', data.country_name + (data.city ? (' (' + data.city + ')') : ''));
       }
     }
-  } catch(e) {
-    // Fallback default
-    if (!localStorage.getItem('shoaib_client_ip')) {
-      localStorage.setItem('shoaib_client_ip', '68.195.12.84');
-      localStorage.setItem('shoaib_client_country', 'United States (New York)');
-    }
+  } catch(e) {}
+
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Asia/Dhaka';
+  let countryName = 'Bangladesh / Asia (' + tz + ')';
+  if (tz.includes('New_York') || tz.includes('Chicago') || tz.includes('Los_Angeles') || tz.includes('America')) {
+    countryName = 'United States (' + tz + ')';
+  } else if (tz.includes('London')) {
+    countryName = 'United Kingdom (' + tz + ')';
+  } else if (tz.includes('Berlin') || tz.includes('Paris')) {
+    countryName = 'Europe (' + tz + ')';
   }
+  localStorage.setItem('shoaib_client_country', countryName);
 }
 captureClientIpLocation();
 

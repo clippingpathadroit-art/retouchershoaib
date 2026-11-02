@@ -339,7 +339,17 @@ a { color: inherit; text-decoration: none; }
       </a>
     </div>
 
-    <div style="overflow-x: auto;">
+        <!-- PIPELINE VS ARCHIVED TABS -->
+    <div style="display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 1px solid var(--line); padding-bottom: 12px;">
+      <button type="button" id="tabActiveBtn" class="btn sm" onclick="switchAdminOrderTab('active')" style="background: var(--accent); color: #fff; font-weight: 800; border-radius: 6px;">
+        ⚡ Active Orders Pipeline (<span id="tabActiveCount">0</span>)
+      </button>
+      <button type="button" id="tabArchivedBtn" class="btn sm outline" onclick="switchAdminOrderTab('archived')" style="color: #94a3b8; font-weight: 700; border-radius: 6px;">
+        📦 Archived Orders (<span id="tabArchivedCount">0</span>)
+      </button>
+    </div>
+
+<div style="overflow-x: auto;">
       <table class="orders-table" id="adminOrdersTable">
         <thead>
           <tr>
@@ -682,7 +692,26 @@ function normalizeNumericId(raw) {
 }
 
 function switchAdminOrderTab(tab) {
-  window.adminOrderTab = tab;
+  window.adminOrderTab = tab || 'active';
+  const actBtn = document.getElementById('tabActiveBtn');
+  const arcBtn = document.getElementById('tabArchivedBtn');
+  if (actBtn && arcBtn) {
+    if (window.adminOrderTab === 'archived') {
+      arcBtn.style.background = '#8b5cf6';
+      arcBtn.style.color = '#fff';
+      arcBtn.classList.remove('outline');
+      actBtn.style.background = 'transparent';
+      actBtn.style.color = '#94a3b8';
+      actBtn.classList.add('outline');
+    } else {
+      actBtn.style.background = 'var(--accent)';
+      actBtn.style.color = '#fff';
+      actBtn.classList.remove('outline');
+      arcBtn.style.background = 'transparent';
+      arcBtn.style.color = '#94a3b8';
+      arcBtn.classList.add('outline');
+    }
+  }
   renderAdminTable();
 }
 
@@ -746,8 +775,10 @@ function renderAdminTable() {
 
   let activeCount = 0;
   let deliveredCount = 0;
+  let archivedCount = 0;
   ordersList.forEach(o => {
-    if (o.status === 'delivered') deliveredCount++;
+    if (o.status === 'archived') archivedCount++;
+    else if (o.status === 'delivered') deliveredCount++;
     else activeCount++;
   });
 
@@ -757,22 +788,48 @@ function renderAdminTable() {
   const deliveredEl = document.getElementById('admDeliveredCount');
   if (deliveredEl) deliveredEl.textContent = deliveredCount;
 
+  const tabActEl = document.getElementById('tabActiveCount');
+  if (tabActEl) tabActEl.textContent = activeCount + deliveredCount;
+  const tabArcEl = document.getElementById('tabArchivedCount');
+  if (tabArcEl) tabArcEl.textContent = archivedCount;
+
+  // Filter orders by active tab
+  const currentTab = window.adminOrderTab || 'active';
+  const displayOrders = ordersList.filter(o => {
+    if (currentTab === 'archived') return o.status === 'archived';
+    return o.status !== 'archived';
+  });
+
   // Build Table Rows
   let html = '';
-  if (ordersList.length === 0) {
-    html = `
-      <tr>
-        <td colspan="7" style="text-align: center; padding: 48px 20px; color: #888;">
-          <div style="font-size: 36px; margin-bottom: 12px;">📭</div>
-          <div style="font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px;">No Active Client Orders in Queue</div>
-          <div style="font-size: 13px; color: #777; max-width: 480px; margin: 0 auto;">
-            Orders placed by clients via the <a href="portal.html" target="_blank" style="color: #60a5fa; text-decoration: underline;">Client Portal</a> will automatically appear here in real time.
-          </div>
-        </td>
-      </tr>
-    `;
+  if (displayOrders.length === 0) {
+    if (currentTab === 'archived') {
+      html = `
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 48px 20px; color: #888;">
+            <div style="font-size: 36px; margin-bottom: 12px;">📦</div>
+            <div style="font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px;">No Archived Orders</div>
+            <div style="font-size: 13px; color: #777; max-width: 480px; margin: 0 auto;">
+              Completed orders moved to Archived status will appear here. You can restore them to the active pipeline anytime.
+            </div>
+          </td>
+        </tr>
+      `;
+    } else {
+      html = `
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 48px 20px; color: #888;">
+            <div style="font-size: 36px; margin-bottom: 12px;">📭</div>
+            <div style="font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px;">No Active Client Orders in Queue</div>
+            <div style="font-size: 13px; color: #777; max-width: 480px; margin: 0 auto;">
+              Orders placed by clients via the <a href="portal.html" target="_blank" style="color: #60a5fa; text-decoration: underline;">Client Portal</a> will automatically appear here in real time.
+            </div>
+          </td>
+        </tr>
+      `;
+    }
   } else {
-    ordersList.forEach(ord => {
+    displayOrders.forEach(ord => {
       const id = ord.numericId;
       const isApproved = ord.isAgreed;
       const customAgreed = localStorage.getItem('shoaib_agreed_price_' + id);
@@ -798,8 +855,8 @@ function renderAdminTable() {
       }
 
       // WhatsApp link if phone exists
-      const phoneDigits = (ord.clientPhone || '').replace(/[^0-9]/g, '');
-      const waLink = phoneDigits.length >= 7 ? ('https://wa.me/' + phoneDigits) : 'https://wa.me/8801710763251';
+      const cleanPhone = (ord.clientPhone || '').replace(/[^0-9]/g, '');
+      const waLink = cleanPhone.length >= 7 ? ('https://wa.me/' + cleanPhone) : 'https://wa.me/8801710763251';
 
       html += `
         <tr id="admRow_${id}">
@@ -807,13 +864,13 @@ function renderAdminTable() {
             <strong style="color: #fff; font-family: var(--f-display);">${ord.id}</strong>
           </td>
           <td>
-            <a href="javascript:void(0)" onclick="openClientDetailModal('${id}')" style="color: #60a5fa; font-weight: 700; text-decoration: underline;" title="Click for Full Profile, WhatsApp &amp; Audit">
-              ${ord.clientName} 👁️
+            <a href="javascript:void(0)" onclick="openClientDetailModal('${id}')" style="color: #60a5fa; font-weight: 700; text-decoration: underline;" title="Click for Full Profile, WhatsApp & Audit">
+              ${ord.clientName} ↗
             </a>
             <div style="font-size: 11px; color: #94a3b8; font-family: monospace; margin-top: 2px;">
               ${ord.clientEmail}
             </div>
-            ${ord.clientPhone ? `<a href="${waLink}" target="_blank" style="font-size: 10px; color: #4ade80; text-decoration: none; display: inline-block; margin-top: 3px;">💬 WhatsApp Client</a>` : ''}
+            ${ord.clientPhone ? `<a href="${waLink}" target="_blank" style="font-size: 10px; color: #4ade80; text-decoration: none; display: inline-block; margin-top: 3px;">📱 WhatsApp Client</a>` : ''}
           </td>
           <td>
             <strong style="color: #e2e8f0;">${ord.service}</strong>
@@ -833,34 +890,37 @@ function renderAdminTable() {
                 ? `<br><button class="btn sm green" style="padding: 2px 7px; font-size: 10px; margin-top: 4px;" onclick="acceptClientOffer('${id}', '${ord.price}')">✓ Accept Offer</button>` 
                 : `<span style="font-size: 10px; color: #4ade80; margin-left: 4px;">✓ Agreed</span>`}
               
-              <!-- Additional Work & Revision Fee Display -->
-              ${extraAmount > 0 ? `
-                <div style="font-size: 11px; color: #fbbf24; font-weight: 700; margin-top: 3px; background: rgba(245, 158, 11, 0.1); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(245, 158, 11, 0.3);">
-                  ⚡ +$${extraAmount.toFixed(2)} Extra
-                  <div style="font-size: 10px; color: #aaa; font-weight: normal;">Total: $${(baseNum + extraAmount).toFixed(2)}</div>
-                </div>
-              ` : ''}
-
-              <!-- Extra Work Action Button -->
-              <div>
+              <div style="margin-top: 4px; display: flex; gap: 4px; flex-wrap: wrap;">
+                <button type="button" class="btn sm outline" onclick="openEditPriceModal('${id}', '${displayPrice}')" 
+                        style="font-size: 10px; padding: 2px 7px; border-radius: 4px; color: #38bdf8; border-color: #0284c7;" title="Negotiate & Edit Agreed Price">
+                  ✏️ Edit Price
+                </button>
                 <button type="button" class="btn sm" onclick="openAdminExtraFeeModal('${id}')" 
-                        style="margin-top: 5px; font-size: 10px; padding: 2px 8px; border-radius: 4px; ${extraAmount > 0 ? 'background: #f59e0b; color: #000; font-weight: 800; border: none;' : 'background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);'}">
-                  ${extraAmount > 0 ? '✏️ Edit Extra ($' + extraAmount.toFixed(2) + ')' : '💰 + Extra Fee'}
+                        style="font-size: 10px; padding: 2px 7px; border-radius: 4px; ${extraAmount > 0 ? 'background: #f59e0b; color: #000; font-weight: 800; border: none;' : 'background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4);'}">
+                  ${extraAmount > 0 ? '+$' + extraAmount.toFixed(2) + ' Extra' : '💰 + Extra'}
                 </button>
               </div>
+
+              ${extraAmount > 0 ? `
+                <div style="font-size: 10px; color: #aaa; margin-top: 2px;">Total: $${(baseNum + extraAmount).toFixed(2)}</div>
+              ` : ''}
             </div>
           </td>
           <td>
             <select class="status-select" id="selStatus_${id}" onchange="updateOrderStatus('${id}', this.value)" style="background: #111; color: #fff; border: 1px solid #444; padding: 6px 10px; border-radius: 6px; font-weight: 700; font-size: 12px; cursor: pointer; width: 100%;">
               <option value="pending" ${ord.status === 'pending' ? 'selected' : ''}>⏳ Pending</option>
               <option value="received" ${ord.status === 'received' ? 'selected' : ''}>📥 Received</option>
-              <option value="production" ${ord.status === 'production' ? 'selected' : ''}>⚙️ In Production</option>
+              <option value="production" ${ord.status === 'production' ? 'selected' : ''}>⚡ In Production</option>
               <option value="qc" ${ord.status === 'qc' ? 'selected' : ''}>🔍 QC / Review</option>
-              <option value="delivered" ${ord.status === 'delivered' ? 'selected' : ''}>✅ Delivered</option>
+              <option value="delivered" ${ord.status === 'delivered' ? 'selected' : ''}>✓ Delivered</option>
+              <option value="archived" ${ord.status === 'archived' ? 'selected' : ''}>📦 Archived</option>
             </select>
           </td>
           <td style="text-align: right; white-space: nowrap;">
             <div style="display: flex; gap: 6px; justify-content: flex-end; align-items: center;">
+              ${ord.status === 'archived' ? `
+                <button class="btn sm" onclick="restoreOrderToActive('${id}')" style="background: #8b5cf6; color: #fff; font-size: 11px; padding: 5px 9px;" title="Restore Order to Active Pipeline">↩️ Restore</button>
+              ` : ''}
               <a href="${ord.drive}" target="_blank" class="btn sm outline" style="font-size: 11px; padding: 5px 9px;" title="Open Specific Order Google Drive Subfolder">📂 Drive ↗</a>
               <button class="btn sm outline" onclick="openDelModal('${id}')" style="font-size: 11px; padding: 5px 9px;" title="Upload or Paste Final Delivery Link">🔗 Delivery</button>
               <button class="btn sm" style="background: #dc2626; color: #fff; border: 0; font-size: 11px; padding: 5px 9px;" onclick="deleteAdminOrder('${id}')" title="Permanently Delete Order">🗑️</button>
@@ -1594,6 +1654,74 @@ async function testAppsScriptLiveConnection() {
       resultEl.innerHTML = '<span style="color: #ef4444; font-weight: 700;">❌ Network Error: ' + err.message + '</span>';
     }
   }
+}
+
+
+// ========================================================
+// EDIT AGREED PRICE (NEGOTIATION) HANDLER
+// ========================================================
+let currentEditPriceId = null;
+
+function openEditPriceModal(id, currentPrice) {
+  currentEditPriceId = id;
+  const numId = String(id).replace(/[^0-9]/g, '');
+  const idEl = document.getElementById('admEditPriceOrderId');
+  const valEl = document.getElementById('admEditPriceAmount');
+  if (idEl) idEl.value = '#RS-2026-' + numId;
+  if (valEl) {
+    const rawNum = parseFloat(String(currentPrice).replace(/[^0-9.]/g, '')) || 25;
+    valEl.value = rawNum;
+  }
+  const modal = document.getElementById('adminEditPriceModal');
+  if (modal) modal.style.display = 'flex';
+}
+
+function closeEditPriceModal() {
+  const modal = document.getElementById('adminEditPriceModal');
+  if (modal) modal.style.display = 'none';
+  currentEditPriceId = null;
+}
+
+async function saveEditedPrice() {
+  if (!currentEditPriceId) return;
+  const valEl = document.getElementById('admEditPriceAmount');
+  const num = parseFloat(valEl ? valEl.value : '');
+  if (!num || isNaN(num) || num <= 0) {
+    alert('Please enter a valid agreed price amount.');
+    return;
+  }
+  const id = String(currentEditPriceId).replace(/[^0-9]/g, '');
+  const priceStr = '$' + num.toFixed(2) + ' USD';
+
+  localStorage.setItem('shoaib_agreed_price_' + id, priceStr);
+  localStorage.setItem('shoaib_price_approved_' + id, '1');
+
+  try {
+    const raw = localStorage.getItem('shoaib_custom_orders');
+    if (raw) {
+      const orders = JSON.parse(raw);
+      orders.forEach(o => {
+        if (String(o.numericId) === id || o.id === '#RS-2026-' + id) {
+          o.price = priceStr;
+          o.numericPrice = num;
+          o.isAgreed = true;
+        }
+      });
+      localStorage.setItem('shoaib_custom_orders', JSON.stringify(orders));
+    }
+  } catch(e) {}
+
+  localStorage.setItem('shoaib_sync_ping', Date.now().toString());
+
+  triggerSyncAdminActionToCloud({
+    action: 'accept_client_offer',
+    numericId: id,
+    proposedPrice: priceStr
+  });
+
+  showAdminToast('✓ Agreed price updated to ' + priceStr + ' for Order #' + id);
+  closeEditPriceModal();
+  renderAdminTable();
 }
 
 </script>
