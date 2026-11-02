@@ -2024,10 +2024,17 @@ function loadStoredCustomOrders() {
             if (statusOverride) ord.status = statusOverride;
             const delUrl = localStorage.getItem('shoaib_del_url_' + numId) || localStorage.getItem('shoaib_del_url_RS-2026-' + numId);
             if (delUrl) ord.drive = delUrl;
-            const agreedOverride = localStorage.getItem('shoaib_price_approved_' + numId) === '1' || localStorage.getItem('shoaib_price_approved_RS-2026-' + numId) === '1';
+            const agreedOverride = localStorage.getItem('shoaib_price_approved_' + numId) === '1' || 
+                                   localStorage.getItem('shoaib_price_approved_RS-2026-' + numId) === '1' || 
+                                   ord.isAgreed === true;
             if (agreedOverride) ord.isAgreed = true;
-            const customPrice = localStorage.getItem('shoaib_agreed_price_' + numId) || localStorage.getItem('shoaib_agreed_price_RS-2026-' + numId);
-            if (customPrice) ord.price = customPrice;
+            const customPrice = localStorage.getItem('shoaib_agreed_price_' + numId) || 
+                                localStorage.getItem('shoaib_agreed_price_RS-2026-' + numId) ||
+                                (ord.isAgreed ? ord.price : null);
+            if (customPrice) {
+              ord.price = customPrice;
+              ord.numericPrice = parseFloat(String(customPrice).replace(/[^0-9.]/g, '')) || ord.numericPrice || 500;
+            }
 
             orderMap[numId] = Object.assign({}, orderMap[numId] || {}, ord);
             ORDERS[numId] = orderMap[numId];
@@ -2312,9 +2319,17 @@ function renderDashboardOverview() {
   if (activeOrderList.length > 0) {
     activeOrderList.forEach((o, idx) => {
       const timerId = (idx === 0) ? 'dashboardLiveTimer' : ('dash_timer_' + o.numericId);
-      const isAgreed = localStorage.getItem('shoaib_price_approved_' + o.numericId) === '1' || o.isAgreed;
-      const customAgreed = localStorage.getItem('shoaib_agreed_price_' + o.numericId);
+      const normOId = normalizeNumericId(o.numericId || o.id);
+      const isAgreed = localStorage.getItem('shoaib_price_approved_' + normOId) === '1' || 
+                       localStorage.getItem('shoaib_price_approved_RS-2026-' + normOId) === '1' || 
+                       o.isAgreed;
+      const customAgreed = localStorage.getItem('shoaib_agreed_price_' + normOId) || 
+                           localStorage.getItem('shoaib_agreed_price_RS-2026-' + normOId);
       const displayPrice = isAgreed ? (customAgreed || o.price) : o.price;
+      if (customAgreed) {
+        o.price = customPrice = customAgreed;
+        o.numericPrice = parseFloat(String(customAgreed).replace(/[^0-9.]/g, '')) || o.numericPrice;
+      }
 
       html += `
         <div class="app-card" style="margin-bottom: 24px;">
@@ -2519,9 +2534,17 @@ function renderActiveOrdersPipeline() {
   let html = '';
   activeIds.forEach(id => {
     const o = clientOrders[id] || ORDERS[id];
-    const isAgreed = localStorage.getItem('shoaib_price_approved_' + id) === '1' || o.isAgreed;
-    const customAgreed = localStorage.getItem('shoaib_agreed_price_' + id);
+    const normPId = normalizeNumericId(id);
+    const isAgreed = localStorage.getItem('shoaib_price_approved_' + normPId) === '1' || 
+                     localStorage.getItem('shoaib_price_approved_RS-2026-' + normPId) === '1' || 
+                     o.isAgreed;
+    const customAgreed = localStorage.getItem('shoaib_agreed_price_' + normPId) || 
+                         localStorage.getItem('shoaib_agreed_price_RS-2026-' + normPId);
     const displayPrice = isAgreed ? (customAgreed || o.price) : o.price;
+    if (customAgreed) {
+      o.price = customAgreed;
+      o.numericPrice = parseFloat(String(customAgreed).replace(/[^0-9.]/g, '')) || o.numericPrice;
+    }
     const timerId = (id === '085') ? 'orderPipelineTimer' : ('timer_order_' + id);
 
     html += `
@@ -3132,6 +3155,12 @@ function renderInvoicesList() {
     if (id !== '084' && id !== '085') {
       const o = clientOrders[id];
       const isPaid = localStorage.getItem('shoaib_status_paid_' + id) === '1';
+      const normInvId = normalizeNumericId(id);
+      const customAgreedPrice = localStorage.getItem('shoaib_agreed_price_' + normInvId) || localStorage.getItem('shoaib_agreed_price_RS-2026-' + normInvId);
+      if (customAgreedPrice) {
+        o.price = customAgreedPrice;
+        o.numericPrice = parseFloat(String(customAgreedPrice).replace(/[^0-9.]/g, '')) || o.numericPrice || 500;
+      }
       let ordAmt = o.numericPrice || 500;
       let hasExtra = false;
       const ex = getStoredExtraWork(id);
@@ -3464,7 +3493,13 @@ function loadInvoiceDetails() {
   } else if (ORDERS[activeInvoiceSelection]) {
     // CUSTOM SUBMITTED ORDER INVOICE
     const o = ORDERS[activeInvoiceSelection];
-    const isPaid = localStorage.getItem('shoaib_status_paid_' + activeInvoiceSelection) === '1';
+    const normInvId = normalizeNumericId(activeInvoiceSelection);
+    const isPaid = localStorage.getItem('shoaib_status_paid_' + normInvId) === '1' || localStorage.getItem('shoaib_status_paid_' + activeInvoiceSelection) === '1';
+    const customAgreedPrice = localStorage.getItem('shoaib_agreed_price_' + normInvId) || localStorage.getItem('shoaib_agreed_price_RS-2026-' + normInvId);
+    if (customAgreedPrice) {
+      o.price = customAgreedPrice;
+      o.numericPrice = parseFloat(String(customAgreedPrice).replace(/[^0-9.]/g, '')) || o.numericPrice || 500;
+    }
     const ordPrice = o.numericPrice || 500;
 
     // Check Extra Work for this custom order (Unified Helper)
@@ -5109,6 +5144,19 @@ async function syncPortalFromCloud() {
             if (num && localStorage.getItem('shoaib_deleted_' + num) !== '1') {
               co.numericId = num;
               co.id = '#RS-2026-' + num;
+
+              const isPriceAgreed = localStorage.getItem('shoaib_price_approved_' + num) === '1' || 
+                                    localStorage.getItem('shoaib_price_approved_RS-2026-' + num) === '1' ||
+                                    co.isAgreed === true;
+              const customPrice = localStorage.getItem('shoaib_agreed_price_' + num) || 
+                                  localStorage.getItem('shoaib_agreed_price_RS-2026-' + num) ||
+                                  (isPriceAgreed ? co.price : null);
+              if (isPriceAgreed) co.isAgreed = true;
+              if (customPrice) {
+                co.price = customPrice;
+                co.numericPrice = parseFloat(String(customPrice).replace(/[^0-9.]/g, '')) || co.numericPrice || 500;
+              }
+
               orderMap[num] = Object.assign({}, orderMap[num] || {}, co);
             }
           }

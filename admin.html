@@ -1428,6 +1428,13 @@ function openAdminExtraFeeModal(id) {
   if (modal) modal.style.display = 'flex';
 }
 
+
+function closeAdminExtraFeeModal() {
+  const modal = document.getElementById('adminExtraFeeModal');
+  if (modal) modal.style.display = 'none';
+  currentAdminModalId = null;
+}
+
 function updateAdminExtraTotal() {
   const qty = parseFloat(document.getElementById('admExtraQtyInput')?.value) || 0;
   const rate = parseFloat(document.getElementById('admExtraRateInput')?.value) || 0;
@@ -1497,13 +1504,16 @@ function saveAdminExtraFee() {
 }
 
 function clearAdminExtraFee() {
+  const numId = normalizeNumericId(currentAdminModalId);
+  localStorage.removeItem('shoaib_extra_work_' + numId);
+  localStorage.removeItem('shoaib_extra_work_RS-2026-' + numId);
   localStorage.removeItem('shoaib_extra_work_' + currentAdminModalId);
   try {
     const raw = localStorage.getItem('shoaib_custom_orders');
     if (raw) {
       let list = JSON.parse(raw);
       list.forEach(o => {
-        if (String(o.numericId) === String(currentAdminModalId) || o.id === currentAdminModalId) {
+        if (normalizeNumericId(o.numericId || o.id) === numId) {
           delete o.extraFee;
           delete o.extraDesc;
         }
@@ -1514,13 +1524,12 @@ function clearAdminExtraFee() {
 
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
 
-  // Cloud backend sync
   triggerSyncAdminActionToCloud({
     action: 'clear_extra_fee',
-    numericId: currentAdminModalId
+    numericId: numId
   });
 
-  showAdminToast('✓ Additional fee removed from Order #' + currentAdminModalId);
+  showAdminToast('✓ Additional fee removed from Order #' + numId);
   closeAdminExtraFeeModal();
   renderAdminTable();
 }
