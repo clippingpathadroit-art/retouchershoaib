@@ -3685,7 +3685,7 @@ function handleNewOrderSubmit(e) {
   // Snapshot queued files to upload before clearing queue
   const filesToUpload = [...driveUploadedQueue];
 
-  // Package metadata for instant email notification & confirmation
+  // Package metadata for instant email notification & confirmation + cloud database persistence
   const orderMeta = {
     clientName: clientName,
     clientCompany: clientCompany,
@@ -3694,7 +3694,8 @@ function handleNewOrderSubmit(e) {
     images: count + ' RAWs (' + selectedFormats + ')',
     deadline: durationHours + ' Hours Express SLA',
     price: budgetFormatted,
-    instructions: notes
+    instructions: notes,
+    orderData: newOrder
   };
 
   // Asynchronously trigger dedicated order sub-folder creation, email notifications, and upload image files
@@ -4169,6 +4170,23 @@ function switchAuthTab(tab) {
 const GOOGLE_DRIVE_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyFQyV8BmfMGWDd3rv3I-chTT6iIn7TH5GqCev_0_SHHOmueYZznGPCiOcO5Q7AA5QHhg/exec';
 
 // AUTOMATIC GOOGLE DRIVE FOLDER CREATION
+async function triggerRegisterUserCloud(userData) {
+  if (!userData || !userData.email || !GOOGLE_DRIVE_WEBHOOK_URL) return;
+  try {
+    await fetch(GOOGLE_DRIVE_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'register_user',
+        user: userData
+      })
+    });
+    console.log('✓ Registered client synced to Google Drive cloud database:', userData.email);
+  } catch(e) {
+    console.warn('Cloud client registration sync warning:', e);
+  }
+}
+
 async function triggerCreateClientDriveFolder(email) {
   if (!email || !GOOGLE_DRIVE_WEBHOOK_URL) return;
   email = email.toLowerCase().trim();
@@ -4398,6 +4416,15 @@ function handleGoogleCredentialResponse(response) {
 
     showAuthToast('✓ Welcome, ' + p.name + '! Signed in with Google.');
     triggerCreateClientDriveFolder(email);
+    triggerRegisterUserCloud({
+      name: p.name,
+      company: p.company,
+      email: email,
+      address: p.address,
+      phone: '',
+      tin: '',
+      createdAt: new Date().toISOString()
+    });
   } catch(err) {
     console.error('Error handling Google credential:', err);
   }
@@ -4610,6 +4637,9 @@ function handleAuthSignup(e) {
     createdAt: new Date().toISOString()
   };
   localStorage.setItem('shoaib_users', JSON.stringify(users));
+
+  // Sync new client registration to Google Drive cloud database
+  triggerRegisterUserCloud(users[emailLower]);
 
   const p = {
     name: name,
@@ -4947,6 +4977,72 @@ document.addEventListener('DOMContentLoaded', updateDriveTargetDisplay);
 
 // TWO-WAY LIVE STORAGE SYNC WITH ADMIN CONSOLE
 // EVENT-DRIVEN SILENT SYNC & TAB WAKEUP (NO PAGE RELOAD / FLICKER)
+// CLOUD DATABASE 2-WAY SYNC (CLIENT PORTAL <-> GOOGLE DRIVE DATABASE)
+let isPortalSyncing = false;
+async function syncPortalFromCloud() {
+  if (isPortalSyncing || !GOOGLE_DRIVE_WEBHOOK_URL) return;
+  isPortalSyncing = true;
+  try {
+    const res = await fetch(GOOGLE_DRIVE_WEBHOOK_URL + '?action=get_database');
+    const data = await res.json();
+    if (data && data.status === 'success') {
+      let changed = false;
+
+      // 1. Sync custom orders from cloud
+      if (Array.isArray(data.orders)) {
+        const raw = localStorage.getItem('shoaib_custom_orders');
+        let localOrders = raw ? JSON.parse(raw) : [];
+        const orderMap = {};
+        localOrders.forEach(o => {
+          if (o && o.numericId) orderMap[String(o.numericId)] = o;
+        });
+        data.orders.forEach(co => {
+          if (co && co.numericId) {
+            const numId = String(co.numericId);
+            if (localStorage.getItem('shoaib_deleted_' + numId) !== '1') {
+              orderMap[numId] = Object.assign({}, orderMap[numId] || {}, co);
+            }
+          }
+        });
+        localStorage.setItem('shoaib_custom_orders', JSON.stringify(Object.values(orderMap)));
+        changed = true;
+      }
+
+      // 2. Sync statuses from cloud
+      if (data.statuses && typeof data.statuses === 'object') {
+        Object.keys(data.statuses).forEach(k => {
+          localStorage.setItem('shoaib_status_' + k, data.statuses[k]);
+        });
+        changed = true;
+      }
+
+      // 3. Sync deliveries from cloud
+      if (data.deliveries && typeof data.deliveries === 'object') {
+        Object.keys(data.deliveries).forEach(k => {
+          localStorage.setItem('shoaib_del_url_' + k, data.deliveries[k]);
+        });
+        changed = true;
+      }
+
+      // 4. Sync extra fees from cloud
+      if (data.extraWork && typeof data.extraWork === 'object') {
+        Object.keys(data.extraWork).forEach(k => {
+          localStorage.setItem('shoaib_extra_work_' + k, JSON.stringify(data.extraWork[k]));
+        });
+        changed = true;
+      }
+
+      if (changed) {
+        silentPortalSync();
+      }
+    }
+  } catch(e) {
+    console.warn('Portal cloud sync offline:', e);
+  } finally {
+    isPortalSyncing = false;
+  }
+}
+
 function silentPortalSync() {
   loadStoredCustomOrders();
   loadClientProfile();
@@ -4973,10 +5069,28 @@ window.addEventListener('focus', () => {
   silentPortalSync();
 });
 
-// Silent Background Heartbeat (every 60 seconds - keeps data 100% fresh)
+// Cloud Sync & Storage Event Listeners
+document.addEventListener('DOMContentLoaded', () => {
+  syncPortalFromCloud();
+});
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    silentPortalSync();
+    syncPortalFromCloud();
+  }
+});
+
+window.addEventListener('focus', () => {
+  silentPortalSync();
+  syncPortalFromCloud();
+});
+
+// Silent Background Heartbeat (every 20 seconds - pulls latest cloud deliveries & approvals)
 setInterval(() => {
   silentPortalSync();
-}, 60000);
+  syncPortalFromCloud();
+}, 20000);
 </script>
 </body>
 </html>

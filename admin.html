@@ -269,6 +269,9 @@ a { color: inherit; text-decoration: none; }
   </div>
 
   <div style="display: flex; gap: 10px; align-items: center;">
+    <button type="button" id="admCloudSyncBtn" class="btn sm" onclick="syncAdminFromCloud()" style="background: #1e293b; color: #38bdf8; border: 1px solid #334155; font-size: 11px; padding: 7px 14px; gap: 6px;">
+      ☁️ Sync Cloud Orders
+    </button>
     <a href="portal.html" target="_blank" class="btn sm outline">View Live Client Portal ↗</a>
     <button class="btn sm outline" onclick="lockAdmin()">Lock 🔒</button>
   </div>
@@ -454,6 +457,7 @@ function handleDirectorGoogleCredential(response) {
 
     showAdminToast('✓ Welcome, Director Shoaib! Security gateway verified.');
     renderAdminTable();
+    syncAdminFromCloud(true);
   } else {
     // HARD REJECTION & PURGE: PURGE ANY PREVIOUS UNLOCK TO PREVENT BYPASS
     sessionStorage.removeItem('shoaib_admin_unlocked');
@@ -534,6 +538,112 @@ function showAdminToast(msg) {
   setTimeout(() => {
     toast.classList.remove('show');
   }, 4000);
+}
+
+// CLOUD DATABASE 2-WAY SYNC (GOOGLE APPS SCRIPT / DRIVE BACKEND)
+let isSyncingCloud = false;
+
+async function syncAdminFromCloud(showToastNotice = false) {
+  if (isSyncingCloud) return;
+  isSyncingCloud = true;
+  const syncBtn = document.getElementById('admCloudSyncBtn');
+  if (syncBtn) {
+    syncBtn.innerHTML = '🔄 Syncing...';
+    syncBtn.style.opacity = '0.7';
+  }
+
+  try {
+    const res = await fetch(GOOGLE_DRIVE_WEBHOOK_URL + '?action=get_database');
+    const data = await res.json();
+    if (data && data.status === 'success') {
+      let ordersUpdated = false;
+
+      // 1. Sync Orders from Cloud Drive Database
+      if (Array.isArray(data.orders)) {
+        const localRaw = localStorage.getItem('shoaib_custom_orders');
+        let localOrders = localRaw ? JSON.parse(localRaw) : [];
+        const orderMap = {};
+
+        localOrders.forEach(o => {
+          if (o && o.numericId) orderMap[String(o.numericId)] = o;
+        });
+
+        data.orders.forEach(co => {
+          if (co && co.numericId) {
+            const numId = String(co.numericId);
+            if (localStorage.getItem('shoaib_deleted_' + numId) !== '1') {
+              orderMap[numId] = Object.assign({}, orderMap[numId] || {}, co);
+            }
+          }
+        });
+
+        const mergedList = Object.values(orderMap);
+        localStorage.setItem('shoaib_custom_orders', JSON.stringify(mergedList));
+        ordersUpdated = true;
+      }
+
+      // 2. Sync Registered Clients from Cloud Drive Database
+      if (data.users && typeof data.users === 'object') {
+        const localUsers = JSON.parse(localStorage.getItem('shoaib_users') || '{}');
+        const mergedUsers = Object.assign({}, localUsers, data.users);
+        localStorage.setItem('shoaib_users', JSON.stringify(mergedUsers));
+      }
+
+      // 3. Sync Cloud Statuses, Delivery URLs & Extra Fees
+      if (data.statuses && typeof data.statuses === 'object') {
+        Object.keys(data.statuses).forEach(k => {
+          localStorage.setItem('shoaib_status_' + k, data.statuses[k]);
+        });
+      }
+
+      if (data.deliveries && typeof data.deliveries === 'object') {
+        Object.keys(data.deliveries).forEach(k => {
+          localStorage.setItem('shoaib_del_url_' + k, data.deliveries[k]);
+        });
+      }
+
+      if (data.extraWork && typeof data.extraWork === 'object') {
+        Object.keys(data.extraWork).forEach(k => {
+          localStorage.setItem('shoaib_extra_work_' + k, JSON.stringify(data.extraWork[k]));
+        });
+      }
+
+      renderAdminTable();
+
+      if (syncBtn) {
+        syncBtn.innerHTML = '🟢 Synced (' + (data.orders ? data.orders.length : 0) + ') ✓';
+        syncBtn.style.opacity = '1';
+        setTimeout(() => {
+          if (syncBtn) syncBtn.innerHTML = '☁️ Sync Cloud Orders';
+        }, 3000);
+      }
+
+      if (showToastNotice) {
+        showAdminToast('✓ Cloud orders synced: ' + (data.orders ? data.orders.length : 0) + ' active order(s) loaded.');
+      }
+    }
+  } catch(err) {
+    console.warn('Cloud sync offline or using cached local state:', err);
+    if (syncBtn) {
+      syncBtn.innerHTML = '☁️ Sync Cloud Orders';
+      syncBtn.style.opacity = '1';
+    }
+  } finally {
+    isSyncingCloud = false;
+  }
+}
+
+async function triggerSyncAdminActionToCloud(payload) {
+  if (!GOOGLE_DRIVE_WEBHOOK_URL) return;
+  try {
+    await fetch(GOOGLE_DRIVE_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+  } catch(e) {
+    console.warn('Cloud action sync queued:', e);
+  }
 }
 
 // RENDER ADMIN ORDERS TABLE (CLEAN 7 COLUMNS)
@@ -756,6 +866,13 @@ function updateOrderStatus(id, val) {
   // Broadcast sync to client portal
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
 
+  // Cloud backend sync
+  triggerSyncAdminActionToCloud({
+    action: 'update_order_status',
+    numericId: id,
+    status: val
+  });
+
   showAdminToast('✓ Order #' + id + ' status updated to ' + val.toUpperCase() + '. Client portal synced!');
   renderAdminTable();
 }
@@ -765,6 +882,14 @@ function acceptClientOffer(id, proposedPrice) {
   localStorage.setItem('shoaib_price_approved_' + id, '1');
   localStorage.setItem('shoaib_agreed_price_' + id, proposedPrice);
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
+
+  // Cloud backend sync
+  triggerSyncAdminActionToCloud({
+    action: 'accept_client_offer',
+    numericId: id,
+    proposedPrice: proposedPrice
+  });
+
   showAdminToast('✓ Commercial rate approved for Order #' + id + ': ' + proposedPrice);
   renderAdminTable();
 }
@@ -785,6 +910,13 @@ function deleteAdminOrder(id) {
   } catch(e) {}
 
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
+
+  // Cloud backend sync
+  triggerSyncAdminActionToCloud({
+    action: 'delete_order',
+    numericId: id
+  });
+
   showAdminToast('🗑️ Order #' + id + ' deleted permanently.');
   renderAdminTable();
 }
@@ -1050,6 +1182,12 @@ function deleteClientFromDatabase(email) {
   // 3. Broadcast sync to all windows
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
 
+  // Cloud backend sync
+  triggerSyncAdminActionToCloud({
+    action: 'delete_client',
+    email: email
+  });
+
   showAdminToast('🗑️ Client ' + email + ' has been permanently deleted from database.');
   openAllClientsModal();
   renderAdminTable();
@@ -1104,6 +1242,15 @@ function saveDeliveryLink() {
   } catch(e) {}
 
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
+
+  // Cloud backend sync
+  triggerSyncAdminActionToCloud({
+    action: 'update_delivery_link',
+    numericId: targetOrderId,
+    drive: url,
+    status: 'delivered'
+  });
+
   showAdminToast('✓ Delivery master link saved & client portal synced!');
   closeDelModal();
   renderAdminTable();
@@ -1200,6 +1347,17 @@ function saveAdminExtraFee() {
   } catch(e) {}
 
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
+
+  // Cloud backend sync
+  triggerSyncAdminActionToCloud({
+    action: 'update_extra_fee',
+    numericId: currentAdminModalId,
+    extraFee: total,
+    extraDesc: desc,
+    extraQty: qty,
+    extraRate: rate
+  });
+
   showAdminToast('✓ Additional fee of $' + total.toFixed(2) + ' USD added to Order #' + currentAdminModalId);
   closeAdminExtraFeeModal();
   renderAdminTable();
@@ -1222,6 +1380,13 @@ function clearAdminExtraFee() {
   } catch(e) {}
 
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
+
+  // Cloud backend sync
+  triggerSyncAdminActionToCloud({
+    action: 'clear_extra_fee',
+    numericId: currentAdminModalId
+  });
+
   showAdminToast('✓ Additional fee removed from Order #' + currentAdminModalId);
   closeAdminExtraFeeModal();
   renderAdminTable();
@@ -1293,6 +1458,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // STRICT WHITELIST CHECK: Only retouchershoaib@gmail.com is allowed!
   if (sessionStorage.getItem('shoaib_admin_unlocked') === '1' && (adminUser.email || '').toLowerCase().trim() === AUTHORIZED_DIRECTOR_EMAIL) {
     if (modal) modal.style.display = 'none';
+    syncAdminFromCloud(true);
   } else {
     // Purge any unauthorized or stale session keys
     sessionStorage.removeItem('shoaib_admin_unlocked');
@@ -1321,10 +1487,30 @@ window.addEventListener('focus', () => {
   renderAdminTable();
 });
 
-// Silent Background Heartbeat (every 60 seconds - always fresh without reload)
+// Auto Cloud Sync on visibility & focus
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    renderAdminTable();
+    if (sessionStorage.getItem('shoaib_admin_unlocked') === '1') {
+      syncAdminFromCloud(false);
+    }
+  }
+});
+
+window.addEventListener('focus', () => {
+  renderAdminTable();
+  if (sessionStorage.getItem('shoaib_admin_unlocked') === '1') {
+    syncAdminFromCloud(false);
+  }
+});
+
+// Silent Background Heartbeat (every 15 seconds - checks for new client orders without page reload)
 setInterval(() => {
   renderAdminTable();
-}, 60000);
+  if (sessionStorage.getItem('shoaib_admin_unlocked') === '1') {
+    syncAdminFromCloud(false);
+  }
+}, 15000);
 
 </script>
 
