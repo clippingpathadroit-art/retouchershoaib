@@ -381,19 +381,30 @@ function doPost(e) {
         .setMimeType(ContentService.MimeType.JSON);
     }
 
-    // (H) অতিরিক্ত ফি / রিভিশন ফি যোগ করা (Extra Fee)
+    // (H) অতিরিক্ত ফি / রিভিশন ফি যোগ করা (Extra Fee - Dual Compatible)
     if (data.action === "update_extra_fee") {
-      var numId = String(data.numericId);
+      var numId = String(data.numericId).replace(/[^0-9]/g, "");
+      var amt = Number(data.extraFee || data.amount || 0);
+      var desc = data.extraDesc || data.desc || "Additional Revision & Scope";
+      var qty = Number(data.extraQty || data.qty || 1);
+      var rate = Number(data.extraRate || data.rate || (amt / qty));
+      
       var lock = LockService.getScriptLock();
       lock.tryLock(10000);
       try {
         var db = getDatabase(rootFolder);
         db.extraWork[numId] = {
-          extraFee: data.extraFee,
-          extraDesc: data.extraDesc,
-          extraQty: data.extraQty,
-          extraRate: data.extraRate
+          amount: amt,
+          extraFee: amt,
+          desc: desc,
+          extraDesc: desc,
+          qty: qty,
+          extraQty: qty,
+          rate: rate,
+          extraRate: rate
         };
+        // Also save under RS-2026-numId for seamless key lookup
+        db.extraWork["RS-2026-" + numId] = db.extraWork[numId];
         saveDatabase(rootFolder, db);
       } finally {
         lock.releaseLock();

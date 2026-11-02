@@ -1971,6 +1971,36 @@ function normalizeNumericId(raw) {
   return str.replace(/[^0-9]/g, '');
 }
 
+
+function getStoredExtraWork(rawId) {
+  if (!rawId) return null;
+  const numId = (typeof normalizeNumericId === 'function') ? normalizeNumericId(rawId) : String(rawId).replace(/[^0-9]/g, '');
+  const raw = localStorage.getItem('shoaib_extra_work_' + numId) ||
+              localStorage.getItem('shoaib_extra_work_RS-2026-' + numId) ||
+              localStorage.getItem('shoaib_extra_work_' + rawId);
+  if (!raw) return null;
+  try {
+    const ex = JSON.parse(raw);
+    const amt = Number(ex.amount || ex.extraFee || 0);
+    if (amt > 0) {
+      const qty = Number(ex.qty || ex.extraQty || 1);
+      const rate = Number(ex.rate || ex.extraRate || (amt / qty));
+      const desc = ex.desc || ex.extraDesc || 'Additional Revision & Scope';
+      return {
+        amount: amt,
+        extraFee: amt,
+        desc: desc,
+        extraDesc: desc,
+        qty: qty,
+        extraQty: qty,
+        rate: rate,
+        extraRate: rate
+      };
+    }
+  } catch(e) {}
+  return null;
+}
+
 function loadStoredCustomOrders() {
   for (const k in ORDERS) {
     if (Object.prototype.hasOwnProperty.call(ORDERS, k)) {
@@ -3104,15 +3134,10 @@ function renderInvoicesList() {
       const isPaid = localStorage.getItem('shoaib_status_paid_' + id) === '1';
       let ordAmt = o.numericPrice || 500;
       let hasExtra = false;
-      const exSaved = localStorage.getItem('shoaib_extra_work_' + id);
-      if (exSaved) {
-        try {
-          const ex = JSON.parse(exSaved);
-          if (ex && ex.amount > 0) {
-            ordAmt += Number(ex.amount);
-            hasExtra = true;
-          }
-        } catch(e) {}
+      const ex = getStoredExtraWork(id);
+      if (ex) {
+        ordAmt += ex.amount;
+        hasExtra = true;
       }
       if (!isPaid) {
         totalUnpaid += ordAmt;
@@ -3245,13 +3270,8 @@ function renderInvoiceTabs(activeTab) {
     clientOrderKeys.forEach(id => {
       const o = clientOrders[id] || ORDERS[id];
       let tabAmt = o.numericPrice || 500;
-      const exSaved = localStorage.getItem('shoaib_extra_work_' + id);
-      if (exSaved) {
-        try {
-          const ex = JSON.parse(exSaved);
-          if (ex && ex.amount > 0) tabAmt += Number(ex.amount);
-        } catch(e) {}
-      }
+      const ex = getStoredExtraWork(id);
+      if (ex) tabAmt += ex.amount;
       tabsHtml += `
         <button class="btn ${activeTab === id ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectInvoiceTab('${id}')">
           📄 Invoice ${o.id} ($${tabAmt.toFixed(2)})
@@ -3315,13 +3335,8 @@ function loadInvoiceDetails() {
     if (id !== '084' && id !== '085') {
       const isPaid = localStorage.getItem('shoaib_status_paid_' + id) === '1';
       let ordAmt = clientOrders[id].numericPrice || 500;
-      const exSaved = localStorage.getItem('shoaib_extra_work_' + id);
-      if (exSaved) {
-        try {
-          const ex = JSON.parse(exSaved);
-          if (ex && ex.amount > 0) ordAmt += Number(ex.amount);
-        } catch(e) {}
-      }
+      const ex = getStoredExtraWork(id);
+      if (ex) ordAmt += ex.amount;
       if (!isPaid) totalUnpaidAll += ordAmt;
     }
   });
@@ -3452,23 +3467,12 @@ function loadInvoiceDetails() {
     const isPaid = localStorage.getItem('shoaib_status_paid_' + activeInvoiceSelection) === '1';
     const ordPrice = o.numericPrice || 500;
 
-    // Check Extra Work for this custom order
-    const extraSaved = localStorage.getItem('shoaib_extra_work_' + activeInvoiceSelection);
-    let extraAmount = 0;
-    let extraDesc = '';
-    let extraQty = 0;
-    let extraRate = 0;
-    if (extraSaved) {
-      try {
-        const ex = JSON.parse(extraSaved);
-        if (ex && ex.amount > 0) {
-          extraAmount = Number(ex.amount);
-          extraDesc = ex.desc || 'Additional Revision & Scope';
-          extraQty = ex.qty || 1;
-          extraRate = ex.rate || extraAmount;
-        }
-      } catch(e) {}
-    }
+    // Check Extra Work for this custom order (Unified Helper)
+    const ex = getStoredExtraWork(activeInvoiceSelection);
+    let extraAmount = ex ? ex.amount : 0;
+    let extraDesc = ex ? ex.desc : '';
+    let extraQty = ex ? ex.qty : 0;
+    let extraRate = ex ? ex.rate : 0;
 
     const totalPayableNum = ordPrice + extraAmount;
     const totalPayableFormatted = '$' + totalPayableNum.toFixed(2);
@@ -5129,10 +5133,20 @@ async function syncPortalFromCloud() {
         changed = true;
       }
 
-      // 4. Sync extra fees from cloud
+      // 4. Sync extra fees from cloud (Normalized & Dual-Key)
       if (data.extraWork && typeof data.extraWork === 'object') {
         Object.keys(data.extraWork).forEach(k => {
-          localStorage.setItem('shoaib_extra_work_' + k, JSON.stringify(data.extraWork[k]));
+          const cleanK = normalizeNumericId(k);
+          const rawItem = data.extraWork[k];
+          const amt = Number(rawItem.extraFee || rawItem.amount || 0);
+          if (amt > 0) {
+            const desc = rawItem.extraDesc || rawItem.desc || 'Additional Revision & Scope';
+            const qty = Number(rawItem.extraQty || rawItem.qty || 1);
+            const rate = Number(rawItem.extraRate || rawItem.rate || (amt / qty));
+            const item = { amount: amt, extraFee: amt, desc: desc, extraDesc: desc, qty: qty, extraQty: qty, rate: rate, extraRate: rate };
+            localStorage.setItem('shoaib_extra_work_' + cleanK, JSON.stringify(item));
+            localStorage.setItem('shoaib_extra_work_RS-2026-' + cleanK, JSON.stringify(item));
+          }
         });
         changed = true;
       }

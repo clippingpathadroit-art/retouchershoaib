@@ -721,6 +721,36 @@ function restoreOrderToActive(id) {
   showAdminToast('✓ Order #' + numId + ' restored from Archive back to Active Pipeline!');
 }
 
+
+function getStoredExtraWork(rawId) {
+  if (!rawId) return null;
+  const numId = (typeof normalizeNumericId === 'function') ? normalizeNumericId(rawId) : String(rawId).replace(/[^0-9]/g, '');
+  const raw = localStorage.getItem('shoaib_extra_work_' + numId) ||
+              localStorage.getItem('shoaib_extra_work_RS-2026-' + numId) ||
+              localStorage.getItem('shoaib_extra_work_' + rawId);
+  if (!raw) return null;
+  try {
+    const ex = JSON.parse(raw);
+    const amt = Number(ex.amount || ex.extraFee || 0);
+    if (amt > 0) {
+      const qty = Number(ex.qty || ex.extraQty || 1);
+      const rate = Number(ex.rate || ex.extraRate || (amt / qty));
+      const desc = ex.desc || ex.extraDesc || 'Additional Revision & Scope';
+      return {
+        amount: amt,
+        extraFee: amt,
+        desc: desc,
+        extraDesc: desc,
+        qty: qty,
+        extraQty: qty,
+        rate: rate,
+        extraRate: rate
+      };
+    }
+  } catch(e) {}
+  return null;
+}
+
 function renderAdminTable() {
   const tbody = document.getElementById('adminOrdersTbody');
   if (!tbody) return;
@@ -836,23 +866,12 @@ function renderAdminTable() {
       const displayPrice = isApproved ? (customAgreed || ord.price) : ord.price;
       const baseNum = ord.numericPrice;
 
-      // Extra Work & Additional Fee Check
-      const extraSaved = localStorage.getItem('shoaib_extra_work_' + id);
-      let extraAmount = 0;
-      let extraDesc = '';
-      let extraQty = 0;
-      let extraRate = 0;
-      if (extraSaved) {
-        try {
-          const ex = JSON.parse(extraSaved);
-          if (ex && ex.amount > 0) {
-            extraAmount = Number(ex.amount);
-            extraDesc = ex.desc || 'Additional Revision & Scope';
-            extraQty = ex.qty || 1;
-            extraRate = ex.rate || extraAmount;
-          }
-        } catch(e) {}
-      }
+      // Extra Work & Additional Fee Check (Unified Helper)
+      const ex = getStoredExtraWork(id);
+      let extraAmount = ex ? ex.amount : 0;
+      let extraDesc = ex ? ex.desc : '';
+      let extraQty = ex ? ex.qty : 0;
+      let extraRate = ex ? ex.rate : 0;
 
       // WhatsApp link if phone exists
       const cleanPhone = (ord.clientPhone || '').replace(/[^0-9]/g, '');
@@ -1373,13 +1392,14 @@ function saveDeliveryLink() {
 // EXTRA FEE MODAL FUNCTIONS
 function openAdminExtraFeeModal(id) {
   currentAdminModalId = id;
-  let clientDisplay = '#' + id;
+  const numId = normalizeNumericId(id);
+  let clientDisplay = '#' + numId;
   try {
     const raw = localStorage.getItem('shoaib_custom_orders');
     if (raw) {
       const orders = JSON.parse(raw);
-      const ord = orders.find(o => String(o.numericId) === String(id) || o.id === id);
-      if (ord) clientDisplay = (ord.id || ('#' + id)) + ' — ' + (ord.clientName || ord.clientEmail);
+      const ord = orders.find(o => normalizeNumericId(o.numericId || o.id) === numId);
+      if (ord) clientDisplay = (ord.id || ('#' + numId)) + ' - ' + (ord.clientName || ord.clientEmail);
     }
   } catch(e) {}
 
@@ -1391,32 +1411,24 @@ function openAdminExtraFeeModal(id) {
   const rateInput = document.getElementById('admExtraRateInput');
   const previewEl = document.getElementById('admExtraTotalPreview');
 
-  const existing = localStorage.getItem('shoaib_extra_work_' + id);
-  if (existing) {
-    try {
-      const ex = JSON.parse(existing);
-      if (descInput) descInput.value = ex.desc || '';
-      if (qtyInput) qtyInput.value = ex.qty || 1;
-      if (rateInput) rateInput.value = ex.rate || 0;
-      if (previewEl) previewEl.textContent = '+$' + Number(ex.amount || 0).toFixed(2) + ' USD';
-    } catch(e) {}
+  const ex = getStoredExtraWork(numId);
+  if (ex) {
+    if (descInput) descInput.value = ex.desc || '';
+    if (qtyInput) qtyInput.value = ex.qty || 1;
+    if (rateInput) rateInput.value = ex.rate || ex.amount;
+    if (previewEl) previewEl.textContent = '+$' + ex.amount.toFixed(2) + ' USD';
   } else {
-    if (descInput) descInput.value = 'Additional 5 Clipping Paths & High-Res Transparent PNGs';
-    if (qtyInput) qtyInput.value = '5';
-    if (rateInput) rateInput.value = '10';
-    if (previewEl) previewEl.textContent = '+$50.00 USD';
+    if (descInput) descInput.value = '';
+    if (qtyInput) qtyInput.value = '1';
+    if (rateInput) rateInput.value = '';
+    if (previewEl) previewEl.textContent = '+$0.00 USD';
   }
 
   const modal = document.getElementById('adminExtraFeeModal');
   if (modal) modal.style.display = 'flex';
 }
 
-function closeAdminExtraFeeModal() {
-  const modal = document.getElementById('adminExtraFeeModal');
-  if (modal) modal.style.display = 'none';
-}
-
-function calcAdmExtraTotal() {
+function updateAdminExtraTotal() {
   const qty = parseFloat(document.getElementById('admExtraQtyInput')?.value) || 0;
   const rate = parseFloat(document.getElementById('admExtraRateInput')?.value) || 0;
   const total = qty * rate;
@@ -1435,15 +1447,22 @@ function saveAdminExtraFee() {
     return;
   }
 
+  const numId = normalizeNumericId(currentAdminModalId);
+
   const feeData = {
     desc: desc,
+    extraDesc: desc,
     qty: qty,
+    extraQty: qty,
     rate: rate,
+    extraRate: rate,
     amount: total,
+    extraFee: total,
     updatedAt: new Date().toISOString()
   };
 
-  localStorage.setItem('shoaib_extra_work_' + currentAdminModalId, JSON.stringify(feeData));
+  localStorage.setItem('shoaib_extra_work_' + numId, JSON.stringify(feeData));
+  localStorage.setItem('shoaib_extra_work_RS-2026-' + numId, JSON.stringify(feeData));
 
   // Sync with shoaib_custom_orders
   try {
@@ -1451,7 +1470,7 @@ function saveAdminExtraFee() {
     if (raw) {
       let list = JSON.parse(raw);
       list.forEach(o => {
-        if (String(o.numericId) === String(currentAdminModalId) || o.id === currentAdminModalId) {
+        if (normalizeNumericId(o.numericId || o.id) === numId) {
           o.extraFee = total;
           o.extraDesc = desc;
         }
@@ -1465,14 +1484,14 @@ function saveAdminExtraFee() {
   // Cloud backend sync
   triggerSyncAdminActionToCloud({
     action: 'update_extra_fee',
-    numericId: currentAdminModalId,
+    numericId: numId,
     extraFee: total,
     extraDesc: desc,
     extraQty: qty,
     extraRate: rate
   });
 
-  showAdminToast('✓ Additional fee of $' + total.toFixed(2) + ' USD added to Order #' + currentAdminModalId);
+  showAdminToast('✓ Additional fee of $' + total.toFixed(2) + ' USD added to Order #' + numId);
   closeAdminExtraFeeModal();
   renderAdminTable();
 }
@@ -1673,9 +1692,9 @@ let currentEditPriceId = null;
 
 function openEditPriceModal(id, currentPrice) {
   currentEditPriceId = id;
-  const numId = String(id).replace(/[^0-9]/g, '');
+  const numId = normalizeNumericId(id);
   const idEl = document.getElementById('admEditPriceOrderId');
-  const valEl = document.getElementById('admEditPriceAmount');
+  const valEl = document.getElementById('admEditPriceValue') || document.getElementById('admEditPriceAmount');
   if (idEl) idEl.value = '#RS-2026-' + numId;
   if (valEl) {
     const rawNum = parseFloat(String(currentPrice).replace(/[^0-9.]/g, '')) || 25;
@@ -1693,24 +1712,26 @@ function closeEditPriceModal() {
 
 async function saveEditedPrice() {
   if (!currentEditPriceId) return;
-  const valEl = document.getElementById('admEditPriceAmount');
+  const valEl = document.getElementById('admEditPriceValue') || document.getElementById('admEditPriceAmount');
   const num = parseFloat(valEl ? valEl.value : '');
   if (!num || isNaN(num) || num <= 0) {
     alert('Please enter a valid agreed price amount.');
     return;
   }
-  const id = String(currentEditPriceId).replace(/[^0-9]/g, '');
+  const id = normalizeNumericId(currentEditPriceId);
   const priceStr = '$' + num.toFixed(2) + ' USD';
 
   localStorage.setItem('shoaib_agreed_price_' + id, priceStr);
+  localStorage.setItem('shoaib_agreed_price_RS-2026-' + id, priceStr);
   localStorage.setItem('shoaib_price_approved_' + id, '1');
+  localStorage.setItem('shoaib_price_approved_RS-2026-' + id, '1');
 
   try {
     const raw = localStorage.getItem('shoaib_custom_orders');
     if (raw) {
       const orders = JSON.parse(raw);
       orders.forEach(o => {
-        if (String(o.numericId) === id || o.id === '#RS-2026-' + id) {
+        if (normalizeNumericId(o.numericId || o.id) === id) {
           o.price = priceStr;
           o.numericPrice = num;
           o.isAgreed = true;
