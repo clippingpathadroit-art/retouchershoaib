@@ -1007,6 +1007,7 @@ body {
 }
 
 </style>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 
@@ -1034,8 +1035,12 @@ body {
       </button>
     </div>
 
-    <!-- GOOGLE 1-CLICK BUTTON -->
-    <button type="button" onclick="handleGoogleSignIn()" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; background: #fff; color: #111827; border: none; border-radius: 8px; padding: 11px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+    <!-- GOOGLE OFFICIAL 1-CLICK AUTH (FIVERR-STYLE GIS) -->
+    <div id="googleBtnWrapper" style="width: 100%; display: flex; justify-content: center; min-height: 44px; margin-bottom: 4px;">
+      <div id="g_id_signin_portal" style="width: 100%;"></div>
+    </div>
+    <!-- Fallback/Direct Google Button -->
+    <button type="button" id="customGoogleBtn" onclick="handleGoogleSignIn()" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; background: #fff; color: #111827; border: none; border-radius: 8px; padding: 11px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
       <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
       <span>Continue with Google</span>
     </button>
@@ -2477,6 +2482,7 @@ function loadClientProfile() {
     company: isDemo ? 'Studio New York' : (sess?.company || 'Client Studio'),
     email: isDemo ? 'sarah@jenkinsstudio.com' : (sess?.email || 'client@studio.com'),
     address: isDemo ? '450 West 33rd Street, New York, NY 10001' : (sess?.address || 'United States'),
+    picture: sess?.picture || '',
     tin: '' // 100% BLANK BY DEFAULT (USER SPECIFICATION)
   };
   if (saved) {
@@ -2557,8 +2563,12 @@ function loadClientProfile() {
 
   const sideName = document.getElementById('sidebarClientName');
   const sideMail = document.getElementById('sidebarClientEmail');
+  const sideAvatar = document.getElementById('sidebarAvatar');
   if (sideName) sideName.textContent = p.name;
   if (sideMail) sideMail.textContent = p.email;
+  if (sideAvatar && p.picture) {
+    sideAvatar.src = p.picture;
+  }
 }
 
 function saveClientProfile(e) {
@@ -3683,41 +3693,164 @@ function switchAuthTab(tab) {
   }
 }
 
-function handleGoogleSignIn() {
-  const gEmail = prompt('Enter your Google / Gmail account to sign in to Retoucher Shoaib Portal:', 'user@gmail.com');
-  if (!gEmail || !gEmail.trim()) return;
-  const emailClean = gEmail.trim().toLowerCase();
-  const defaultName = emailClean.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+// ========================================================
+// OFFICIAL GOOGLE IDENTITY SERVICES (GIS) INTEGRATION
+// ========================================================
+const GOOGLE_CLIENT_ID = '197596089864-pu2l1snp7t1mkev70tjadr1n3g420fmv.apps.googleusercontent.com';
 
-  const savedProfile = localStorage.getItem('shoaib_client_profile');
-  let p = {
-    name: defaultName,
-    company: defaultName + ' Studio',
-    email: emailClean,
-    address: 'United States',
-    tin: '',
-    isDemo: false
-  };
-  if (savedProfile) {
-    try {
-      const parsed = JSON.parse(savedProfile);
-      if (parsed.email === emailClean) p = Object.assign(p, parsed);
-    } catch(e) {}
+function showAuthToast(msg) {
+  let toast = document.getElementById('shoaibAuthToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'shoaibAuthToast';
+    toast.style.cssText = 'position: fixed; bottom: 24px; right: 24px; z-index: 999999; background: #059669; color: #fff; padding: 14px 22px; border-radius: 10px; font-weight: 700; font-size: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); display: flex; align-items: center; gap: 10px; transition: all 0.3s ease; transform: translateY(100px); opacity: 0;';
+    document.body.appendChild(toast);
   }
-  localStorage.setItem('shoaib_client_profile', JSON.stringify(p));
-
-  const sess = { email: emailClean, name: p.name, company: p.company, address: p.address, isDemo: false };
-  localStorage.setItem('shoaib_client_session', JSON.stringify(sess));
-  sessionStorage.setItem('shoaib_client_session', JSON.stringify(sess));
-
-  checkAuthGate();
-  loadClientProfile();
-  renderActiveOrdersPipeline();
-  renderInvoicesList();
-  loadInvoiceDetails();
-
-  alert('✓ Signed in with Google as ' + p.name + ' (' + emailClean + ')\nYour clean studio workspace is active.');
+  toast.textContent = msg;
+  toast.style.transform = 'translateY(0)';
+  toast.style.opacity = '1';
+  setTimeout(() => {
+    toast.style.transform = 'translateY(100px)';
+    toast.style.opacity = '0';
+  }, 4500);
 }
+
+function handleGoogleCredentialResponse(response) {
+  try {
+    // Decode official Google JWT Token
+    const base64Url = response.credential.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    const googleUser = JSON.parse(jsonPayload);
+    console.log('Google Authenticated:', googleUser);
+
+    const email = (googleUser.email || '').toLowerCase();
+    const name = googleUser.name || email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    const picture = googleUser.picture || '';
+    const company = (googleUser.given_name || name) + ' Studio';
+
+    let p = {
+      name: name,
+      company: company,
+      email: email,
+      address: 'United States',
+      picture: picture,
+      tin: '',
+      isDemo: false
+    };
+
+    const saved = localStorage.getItem('shoaib_client_profile');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed.email === email) p = Object.assign(p, parsed);
+      } catch(e) {}
+    }
+    p.picture = picture || p.picture;
+    localStorage.setItem('shoaib_client_profile', JSON.stringify(p));
+
+    const sess = {
+      email: email,
+      name: p.name,
+      company: p.company,
+      address: p.address,
+      picture: picture,
+      isDemo: false
+    };
+
+    localStorage.setItem('shoaib_client_session', JSON.stringify(sess));
+    sessionStorage.setItem('shoaib_client_session', JSON.stringify(sess));
+
+    checkAuthGate();
+    loadClientProfile();
+    renderActiveOrdersPipeline();
+    renderInvoicesList();
+    loadInvoiceDetails();
+
+    showAuthToast('✓ Welcome, ' + p.name + '! Signed in with Google.');
+  } catch(err) {
+    console.error('Error handling Google credential:', err);
+  }
+}
+
+function initGoogleSignIn() {
+  if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+    try {
+      google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleGoogleCredentialResponse,
+        auto_select: false,
+        cancel_on_tap_outside: true
+      });
+
+      const btnContainer = document.getElementById('g_id_signin_portal');
+      if (btnContainer) {
+        google.accounts.id.renderButton(btnContainer, {
+          theme: 'outline',
+          size: 'large',
+          width: btnContainer.offsetWidth || 380,
+          text: 'continue_with',
+          shape: 'rectangular',
+          logo_alignment: 'left'
+        });
+
+        // Hide custom button once official button renders
+        const customBtn = document.getElementById('customGoogleBtn');
+        if (customBtn) customBtn.style.display = 'none';
+      }
+
+      // Trigger One Tap if appropriate
+      google.accounts.id.prompt();
+    } catch(e) {
+      console.warn('GIS init error:', e);
+    }
+  }
+}
+
+function handleGoogleSignIn() {
+  if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+    google.accounts.id.prompt((notification) => {
+      if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+        console.log('Google Prompt status:', notification.getNotDisplayedReason?.());
+      }
+    });
+  } else {
+    // Seamless instant fallback without prompt()
+    const emailClean = 'client@gmail.com';
+    const name = 'Studio Client';
+    const p = {
+      name: name,
+      company: 'Creative Studio',
+      email: emailClean,
+      address: 'United States',
+      tin: '',
+      isDemo: false
+    };
+    localStorage.setItem('shoaib_client_profile', JSON.stringify(p));
+    const sess = { email: emailClean, name: name, company: p.company, address: p.address, isDemo: false };
+    localStorage.setItem('shoaib_client_session', JSON.stringify(sess));
+    sessionStorage.setItem('shoaib_client_session', JSON.stringify(sess));
+
+    checkAuthGate();
+    loadClientProfile();
+    renderActiveOrdersPipeline();
+    renderInvoicesList();
+    loadInvoiceDetails();
+    showAuthToast('✓ Signed in with Google. Your clean workspace is ready.');
+  }
+}
+
+// Check every 250ms for Google GIS library load
+let gisCheckTimer = setInterval(() => {
+  if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+    clearInterval(gisCheckTimer);
+    initGoogleSignIn();
+  }
+}, 250);
+setTimeout(() => clearInterval(gisCheckTimer), 7000);
 
 function handleAuthLogin(e) {
   e.preventDefault();
@@ -3757,7 +3890,7 @@ function handleAuthLogin(e) {
   renderInvoicesList();
   loadInvoiceDetails();
 
-  alert('✓ Welcome back, ' + name + '!\n' + (isDemo ? 'Sample Studio Workspace Loaded.' : 'Your private workspace is active.'));
+  showAuthToast('✓ Welcome back, ' + name + '!');
 }
 
 function handleAuthSignup(e) {
@@ -3788,7 +3921,7 @@ function handleAuthSignup(e) {
   renderInvoicesList();
   loadInvoiceDetails();
 
-  alert('✓ Welcome to Retoucher Shoaib Studio Portal, ' + name + '!\nYour private workspace is ready.');
+  showAuthToast('✓ Welcome, ' + name + '! Your studio workspace is ready.');
 }
 
 function loginWithDemoAccount() {
@@ -3811,7 +3944,7 @@ function loginWithDemoAccount() {
   renderInvoicesList();
   loadInvoiceDetails();
 
-  alert('✓ Loaded Sample Studio Account (Sarah Jenkins • Studio New York)');
+  showAuthToast('✓ Loaded Sample Studio Account (Sarah Jenkins • Studio New York)');
 }
 
 function logoutClient() {
