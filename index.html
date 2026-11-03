@@ -1195,6 +1195,212 @@ footer {
 }
 
 
+
+/* ========================================================
+   INFINITE DUAL-ROW MARQUEE SHOWCASE & RUNNING TEXT TICKER
+   ======================================================== */
+.marquee-showcase-section {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #080c14;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+/* TOP RUNNING TEXT TICKER (LIME/YELLOW ACCENT) */
+.marquee-ticker-wrap {
+  background: #cff532;
+  color: #0a0a0a;
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.marquee-ticker-track {
+  display: flex;
+  width: max-content;
+  animation: tickerMarquee 36s linear infinite;
+  will-change: transform;
+}
+
+.ticker-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-right: 16px;
+  flex-shrink: 0;
+  font-family: var(--f-display);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #0a0a0a;
+}
+
+.ticker-dot {
+  display: inline-block;
+  opacity: 0.6;
+  font-size: 14px;
+}
+
+@keyframes tickerMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* DUAL-ROW IMAGE STREAM */
+.stream-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 26px 0;
+  overflow: hidden;
+}
+
+.stream-row {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+.stream-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.stream-scroll-left {
+  animation: streamScrollLeft 42s linear infinite;
+}
+
+.stream-scroll-right {
+  animation: streamScrollRight 42s linear infinite;
+}
+
+.stream-group {
+  display: flex;
+  gap: 14px;
+  padding-right: 14px;
+  flex-shrink: 0;
+}
+
+.stream-card {
+  position: relative;
+  display: block;
+  width: 260px;
+  height: 165px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #141923;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+  flex-shrink: 0;
+  text-decoration: none;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.stream-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.stream-pill {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  padding: 4px 10px;
+  border-radius: 99px;
+  background: rgba(8, 12, 20, 0.78);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #ffffff;
+  font-family: var(--f-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* HOVER EFFECTS: PAUSE ANIMATION & CARD HIGHLIGHT */
+.marquee-showcase-section:hover .stream-track {
+  animation-play-state: paused;
+}
+
+.marquee-showcase-section:hover .marquee-ticker-track {
+  animation-play-state: paused;
+}
+
+.stream-card:hover {
+  transform: scale(1.04);
+  border-color: rgba(207, 245, 50, 0.6);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6);
+  z-index: 5;
+}
+
+.stream-card:hover img {
+  transform: scale(1.06);
+}
+
+.stream-card:hover .stream-pill {
+  background: #cff532;
+  color: #0a0a0a;
+  border-color: #cff532;
+}
+
+/* ANIMATION KEYFRAMES */
+@keyframes streamScrollLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes streamScrollRight {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 768px) {
+  .marquee-ticker-wrap {
+    height: 34px;
+  }
+  .ticker-content {
+    font-size: 11px;
+    gap: 12px;
+    padding-right: 12px;
+  }
+  .stream-container {
+    gap: 10px;
+    padding: 16px 0;
+  }
+  .stream-group {
+    gap: 10px;
+    padding-right: 10px;
+  }
+  .stream-card {
+    width: 175px;
+    height: 110px;
+    border-radius: 8px;
+  }
+  .stream-pill {
+    bottom: 6px;
+    left: 6px;
+    padding: 3px 8px;
+    font-size: 9px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1396,6 +1602,213 @@ footer {
           </button>
         </div>
       </div>
+  </div>
+</section>
+
+
+<!-- INFINITE DUAL-ROW MARQUEE SHOWCASE WITH RUNNING TEXT TICKER -->
+<section class="marquee-showcase-section" id="marqueeShowcase" aria-label="Commercial Works Stream">
+  <!-- TOP RUNNING TEXT TICKER (HIGH-CONTRAST LIME/BLACK) -->
+  <div class="marquee-ticker-wrap">
+    <div class="marquee-ticker-track">
+      <div class="ticker-content">
+        <span>★ HIGH-END PHOTO RETOUCHING</span>
+        <span class="ticker-dot">•</span>
+        <span>16-BIT PROPHOTO WORKFLOW</span>
+        <span class="ticker-dot">•</span>
+        <span>24/7 DEDICATED TEAMS</span>
+        <span class="ticker-dot">•</span>
+        <span>12–24H COMMERCIAL TURNAROUND</span>
+        <span class="ticker-dot">•</span>
+        <span>LUXURY JEWELRY &amp; WATCHES</span>
+        <span class="ticker-dot">•</span>
+        <span>EDITORIAL BEAUTY</span>
+        <span class="ticker-dot">•</span>
+        <span>100% MANUAL PEN-TOOL PATHS</span>
+        <span class="ticker-dot">•</span>
+        <span>200+ GLOBAL BRANDS &amp; STUDIOS</span>
+        <span class="ticker-dot">•</span>
+        <span>NON-DESTRUCTIVE DODGE &amp; BURN</span>
+        <span class="ticker-dot">•</span>
+        <span>HIGH-VOLUME E-COMMERCE</span>
+        <span class="ticker-dot">•</span>
+      </div>
+      <div class="ticker-content" aria-hidden="true">
+        <span>★ HIGH-END PHOTO RETOUCHING</span>
+        <span class="ticker-dot">•</span>
+        <span>16-BIT PROPHOTO WORKFLOW</span>
+        <span class="ticker-dot">•</span>
+        <span>24/7 DEDICATED TEAMS</span>
+        <span class="ticker-dot">•</span>
+        <span>12–24H COMMERCIAL TURNAROUND</span>
+        <span class="ticker-dot">•</span>
+        <span>LUXURY JEWELRY &amp; WATCHES</span>
+        <span class="ticker-dot">•</span>
+        <span>EDITORIAL BEAUTY</span>
+        <span class="ticker-dot">•</span>
+        <span>100% MANUAL PEN-TOOL PATHS</span>
+        <span class="ticker-dot">•</span>
+        <span>200+ GLOBAL BRANDS &amp; STUDIOS</span>
+        <span class="ticker-dot">•</span>
+        <span>NON-DESTRUCTIVE DODGE &amp; BURN</span>
+        <span class="ticker-dot">•</span>
+        <span>HIGH-VOLUME E-COMMERCE</span>
+        <span class="ticker-dot">•</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DUAL-ROW IMAGE STREAM -->
+  <div class="stream-container">
+    <!-- ROW 1 (SCROLLS LEFT) -->
+    <div class="stream-row">
+      <div class="stream-track stream-scroll-left">
+        <div class="stream-group">
+          <a href="work.html" class="stream-card" title="High-End Jewelry Retouching">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/dcf900256311631.Y3JvcCw5NDYsNzQwLDIyNywxNTQ.jpg" alt="High-End Jewelry Retouching" loading="lazy">
+            <span class="stream-pill">Jewelry Macro</span>
+          </a>
+          <a href="work.html" class="stream-card" title="Fashion Images Retouching">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/a90bd8206885799.Y3JvcCwxOTQ0LDE1MjAsMCww.jpg" alt="Fashion Images Retouching" loading="lazy">
+            <span class="stream-pill">Editorial Fashion</span>
+          </a>
+          <a href="work.html" class="stream-card" title="Suit &amp; Menswear Photo Retouching">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/607e06209459195.Y3JvcCwxMjAwLDkzOCwwLDEzMA.jpg" alt="Suit &amp; Menswear Photo Retouching" loading="lazy">
+            <span class="stream-pill">Apparel Tailoring</span>
+          </a>
+          <a href="work.html" class="stream-card" title="Studio Portrait Retouching">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/1bfcc6256193953.Y3JvcCwxMDAyLDc4NCwxMTEsMzI3.jpg" alt="Studio Portrait Retouching" loading="lazy">
+            <span class="stream-pill">Studio Portrait</span>
+          </a>
+          <a href="work.html" class="stream-card" title="Luxury Eyewear Retouching">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/23137a206886527.Y3JvcCwzMjIyLDI1MjAsMCwzNTA.jpg" alt="Luxury Eyewear Retouching" loading="lazy">
+            <span class="stream-pill">Luxury Eyewear</span>
+          </a>
+          <a href="work.html" class="stream-card" title="Cosmetics &amp; Still Life">
+            <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=85" alt="Cosmetics &amp; Still Life" loading="lazy">
+            <span class="stream-pill">Beauty Cosmetics</span>
+          </a>
+          <a href="work.html" class="stream-card" title="Flat Lay Clothing Photo Retouching">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/1384a9221210157.Y3JvcCw3NTUsNTkwLDI2LDIw.jpg" alt="Flat Lay Clothing Photo Retouching" loading="lazy">
+            <span class="stream-pill">Flat Lay Apparel</span>
+          </a>
+          <a href="work.html" class="stream-card" title="Editorial Beauty Portrait">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=85" alt="Editorial Beauty Portrait" loading="lazy">
+            <span class="stream-pill">Editorial Beauty</span>
+          </a>
+        </div>
+        <!-- DUPLICATE GROUP FOR SEAMLESS 60FPS LOOP -->
+        <div class="stream-group" aria-hidden="true">
+          <a href="work.html" class="stream-card" tabindex="-1">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/dcf900256311631.Y3JvcCw5NDYsNzQwLDIyNywxNTQ.jpg" alt="High-End Jewelry Retouching" loading="lazy">
+            <span class="stream-pill">Jewelry Macro</span>
+          </a>
+          <a href="work.html" class="stream-card" tabindex="-1">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/a90bd8206885799.Y3JvcCwxOTQ0LDE1MjAsMCww.jpg" alt="Fashion Images Retouching" loading="lazy">
+            <span class="stream-pill">Editorial Fashion</span>
+          </a>
+          <a href="work.html" class="stream-card" tabindex="-1">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/607e06209459195.Y3JvcCwxMjAwLDkzOCwwLDEzMA.jpg" alt="Suit &amp; Menswear Photo Retouching" loading="lazy">
+            <span class="stream-pill">Apparel Tailoring</span>
+          </a>
+          <a href="work.html" class="stream-card" tabindex="-1">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/1bfcc6256193953.Y3JvcCwxMDAyLDc4NCwxMTEsMzI3.jpg" alt="Studio Portrait Retouching" loading="lazy">
+            <span class="stream-pill">Studio Portrait</span>
+          </a>
+          <a href="work.html" class="stream-card" tabindex="-1">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/23137a206886527.Y3JvcCwzMjIyLDI1MjAsMCwzNTA.jpg" alt="Luxury Eyewear Retouching" loading="lazy">
+            <span class="stream-pill">Luxury Eyewear</span>
+          </a>
+          <a href="work.html" class="stream-card" tabindex="-1">
+            <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=85" alt="Cosmetics &amp; Still Life" loading="lazy">
+            <span class="stream-pill">Beauty Cosmetics</span>
+          </a>
+          <a href="work.html" class="stream-card" tabindex="-1">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/1384a9221210157.Y3JvcCw3NTUsNTkwLDI2LDIw.jpg" alt="Flat Lay Clothing Photo Retouching" loading="lazy">
+            <span class="stream-pill">Flat Lay Apparel</span>
+          </a>
+          <a href="work.html" class="stream-card" tabindex="-1">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=85" alt="Editorial Beauty Portrait" loading="lazy">
+            <span class="stream-pill">Editorial Beauty</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 2 (SCROLLS RIGHT) -->
+    <div class="stream-row">
+      <div class="stream-track stream-scroll-right">
+        <div class="stream-group">
+          <a href="work.html" class="stream-card" title="Vibrant High Fashion">
+            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=85" alt="Vibrant High Fashion" loading="lazy">
+            <span class="stream-pill">Color Grading</span>
+          </a>
+          <a href="work.html" class="stream-card" title="Commercial Product Photo Retouching">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/a5b029173540777.Y3JvcCw5NTgsNzUwLDIxLDA.jpg" alt="Commercial Product Photo Retouching" loading="lazy">
+            <span class="stream-pill">Commercial Packshot</span>
+          </a>
+          <a href="work.html" class="stream-card" title="Corporate Headshot Retouching">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/12f781173539325.Y3JvcCw0NDgwLDM1MDQsMCw3ODc.jpg" alt="Corporate Headshot Retouching" loading="lazy">
+            <span class="stream-pill">Executive Portrait</span>
+          </a>
+          <a href="work.html" class="stream-card" title="Studio Photography Photo Retouch">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/f6eb85173672967.Y3JvcCw1Mzc2LDQyMDQsMCwxMjUw.jpg" alt="Studio Photography Photo Retouch" loading="lazy">
+            <span class="stream-pill">Studio Glamour</span>
+          </a>
+          <a href="work.html" class="stream-card" title="Event &amp; Lifestyle Photos Retouching">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/63fa90173329495.Y3JvcCwzNjQxLDI4NDgsMzA2LDA.jpg" alt="Event &amp; Lifestyle Photos Retouching" loading="lazy">
+            <span class="stream-pill">Lifestyle &amp; Model</span>
+          </a>
+          <a href="work.html" class="stream-card" title="Diamond Ring Fine Retouch">
+            <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=85" alt="Diamond Ring Fine Retouch" loading="lazy">
+            <span class="stream-pill">Diamond Luxury</span>
+          </a>
+          <a href="work.html" class="stream-card" title="Product Hero Image Design">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/c3aafc189986215.Y3JvcCwxNTAwLDExNzMsMCwxNjM.png" alt="Product Hero Image Design" loading="lazy">
+            <span class="stream-pill">Product Hero</span>
+          </a>
+          <a href="work.html" class="stream-card" title="Professional Real Estate Photo Editing">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/3bcc7f256615177.Y3JvcCw2OTg1LDU0NjQsMCww.jpg" alt="Professional Real Estate Photo Editing" loading="lazy">
+            <span class="stream-pill">Interior Architecture</span>
+          </a>
+        </div>
+        <!-- DUPLICATE GROUP FOR SEAMLESS 60FPS LOOP -->
+        <div class="stream-group" aria-hidden="true">
+          <a href="work.html" class="stream-card" tabindex="-1">
+            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=85" alt="Vibrant High Fashion" loading="lazy">
+            <span class="stream-pill">Color Grading</span>
+          </a>
+          <a href="work.html" class="stream-card" tabindex="-1">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/a5b029173540777.Y3JvcCw5NTgsNzUwLDIxLDA.jpg" alt="Commercial Product Photo Retouching" loading="lazy">
+            <span class="stream-pill">Commercial Packshot</span>
+          </a>
+          <a href="work.html" class="stream-card" tabindex="-1">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/12f781173539325.Y3JvcCw0NDgwLDM1MDQsMCw3ODc.jpg" alt="Corporate Headshot Retouching" loading="lazy">
+            <span class="stream-pill">Executive Portrait</span>
+          </a>
+          <a href="work.html" class="stream-card" tabindex="-1">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/f6eb85173672967.Y3JvcCw1Mzc2LDQyMDQsMCwxMjUw.jpg" alt="Studio Photography Photo Retouch" loading="lazy">
+            <span class="stream-pill">Studio Glamour</span>
+          </a>
+          <a href="work.html" class="stream-card" tabindex="-1">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/63fa90173329495.Y3JvcCwzNjQxLDI4NDgsMzA2LDA.jpg" alt="Event &amp; Lifestyle Photos Retouching" loading="lazy">
+            <span class="stream-pill">Lifestyle &amp; Model</span>
+          </a>
+          <a href="work.html" class="stream-card" tabindex="-1">
+            <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=85" alt="Diamond Ring Fine Retouch" loading="lazy">
+            <span class="stream-pill">Diamond Luxury</span>
+          </a>
+          <a href="work.html" class="stream-card" tabindex="-1">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/c3aafc189986215.Y3JvcCwxNTAwLDExNzMsMCwxNjM.png" alt="Product Hero Image Design" loading="lazy">
+            <span class="stream-pill">Product Hero</span>
+          </a>
+          <a href="work.html" class="stream-card" tabindex="-1">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/3bcc7f256615177.Y3JvcCw2OTg1LDU0NjQsMCww.jpg" alt="Professional Real Estate Photo Editing" loading="lazy">
+            <span class="stream-pill">Interior Architecture</span>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
