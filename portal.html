@@ -534,12 +534,20 @@ body {
   border: 1px solid #bfdbfe;
   color: var(--blue);
 }
-.timer-pill.urgent {
+.timer-pill.stage-green {
+  background: var(--blue-bg);
+  border-color: #bfdbfe;
+  color: var(--blue);
+}
+.timer-pill.urgent,
+.timer-pill.stage-orange-red,
+.timer-pill.stage-amber {
   background: var(--warning-bg);
   border-color: var(--warning-border);
   color: #b45309;
 }
-.timer-pill.overdue {
+.timer-pill.overdue,
+.timer-pill.stage-overdue {
   background: #fef2f2;
   border-color: #fca5a5;
   color: #dc2626;
@@ -551,6 +559,7 @@ body {
   background: var(--success-bg);
   border-color: var(--success-border);
   color: #065f46;
+  font-weight: 700;
 }
 
 /* SPECS TAGS */
@@ -2646,32 +2655,23 @@ function renderTrackerHTML(status, serviceName) {
 
 function updateCountdown() {
   const isDemo = isCurrentUserDemo();
-  
   const clientOrders = (typeof getClientOrders === 'function') ? getClientOrders() : ORDERS;
 
-  // Find primary active order for dashboard
-  let primaryActiveOrder = null;
-  if (isDemo && clientOrders['085'] && clientOrders['085'].status !== 'delivered') {
-    primaryActiveOrder = clientOrders['085'];
-  } else {
-    // First non-delivered custom order strictly for this authenticated client
-    const activeKeys = Object.keys(clientOrders).filter(k => k !== '084' && k !== '085' && clientOrders[k].status !== 'delivered');
-    if (activeKeys.length > 0) {
-      primaryActiveOrder = clientOrders[activeKeys[0]];
-    }
-  }
-
-  // Update dashboardLiveTimer
+  // Fallback for legacy single-order layout if dashboardLiveTimer exists
   const dashTimer = document.getElementById('dashboardLiveTimer');
   if (dashTimer) {
-    if (primaryActiveOrder && primaryActiveOrder.deadlineMs) {
-      const diff = primaryActiveOrder.deadlineMs - Date.now();
-      const res = getTimerClassAndText(diff, primaryActiveOrder.totalDurationMs || (24 * 3600 * 1000));
-      dashTimer.className = 'timer-pill ' + res.className;
-      dashTimer.innerHTML = res.text;
+    const activeKeys = Object.keys(clientOrders).filter(k => k !== '084' && k !== '085' && clientOrders[k].status !== 'delivered');
+    if (activeKeys.length > 0) {
+      const pOrder = clientOrders[activeKeys[0]];
+      if (pOrder && pOrder.deadlineMs) {
+        const diff = pOrder.deadlineMs - Date.now();
+        const res = getTimerClassAndText(diff, pOrder.totalDurationMs || (24 * 3600 * 1000));
+        dashTimer.className = 'timer-pill ' + res.className;
+        dashTimer.innerHTML = res.text;
+      }
     } else {
-      dashTimer.className = 'timer-pill stage-green';
-      dashTimer.innerHTML = '✓ All Orders Delivered';
+      dashTimer.className = 'timer-pill delivered';
+      dashTimer.innerHTML = '✓ Delivered On-Time';
     }
   }
 
@@ -2682,30 +2682,67 @@ function updateCountdown() {
     const res85 = getTimerClassAndText(diff85, o85.totalDurationMs || (24 * 3600 * 1000));
     const pipeTimer85 = document.getElementById('orderPipelineTimer');
     if (pipeTimer85) {
-      pipeTimer85.className = 'timer-pill ' + res85.className;
-      pipeTimer85.innerHTML = res85.text;
+      const o85Status = (localStorage.getItem('shoaib_status_085') || o85.status || '').toLowerCase();
+      if (o85Status === 'delivered') {
+        pipeTimer85.className = 'timer-pill delivered';
+        pipeTimer85.innerHTML = '✓ Delivered On-Time';
+      } else {
+        pipeTimer85.className = 'timer-pill ' + res85.className;
+        pipeTimer85.innerHTML = res85.text;
+      }
     }
   }
 
-  // Update all timers in pipeline and dashboard
-  Object.keys(ORDERS).forEach(id => {
-    const o = ORDERS[id];
-    if (o.deadlineMs) {
+  // Update all timers in pipeline and dashboard strictly per order
+  const allOrderKeys = Array.from(new Set([...Object.keys(ORDERS), ...Object.keys(clientOrders)]));
+  allOrderKeys.forEach(rawId => {
+    const o = clientOrders[rawId] || ORDERS[rawId];
+    if (!o) return;
+    const numId = (typeof normalizeNumericId === 'function') ? normalizeNumericId(o.numericId || o.id || rawId) : (o.numericId || rawId);
+
+    // Check effective status (including studio and local overrides)
+    const statusOverride = localStorage.getItem('shoaib_status_' + numId) || 
+                           localStorage.getItem('shoaib_status_RS-2026-' + numId) ||
+                           localStorage.getItem('shoaib_status_' + rawId);
+    const currentStatus = (statusOverride || o.status || '').toLowerCase();
+    const isDelivered = (currentStatus === 'delivered');
+
+    // Collect all timer elements for this specific order
+    const timerEls = [
+      document.getElementById('timer_order_' + numId),
+      document.getElementById('timer_order_' + rawId),
+      document.getElementById('dash_timer_' + numId),
+      document.getElementById('dash_timer_' + rawId)
+    ];
+    if (rawId === '085' || numId === '085') {
+      timerEls.push(document.getElementById('orderPipelineTimer'));
+    }
+
+    const uniqueEls = timerEls.filter((el, idx, arr) => el && arr.indexOf(el) === idx);
+
+    if (isDelivered) {
+      // Pause countdown completely once delivered
+      uniqueEls.forEach(el => {
+        el.className = 'timer-pill delivered';
+        el.innerHTML = '✓ Delivered On-Time';
+      });
+      if (currentModalId === numId || currentModalId === rawId) {
+        const modalTimer = document.getElementById('modalTimer');
+        if (modalTimer) {
+          modalTimer.className = 'timer-pill delivered';
+          modalTimer.innerHTML = '✓ Delivered On-Time';
+        }
+      }
+    } else if (o.deadlineMs) {
       const diff = o.deadlineMs - Date.now();
       const res = getTimerClassAndText(diff, o.totalDurationMs || (24 * 3600 * 1000));
-      const el = document.getElementById('timer_order_' + id);
-      if (el) {
+      uniqueEls.forEach(el => {
         el.className = 'timer-pill ' + res.className;
         el.innerHTML = res.text;
-      }
-      const dashOrdTimer = document.getElementById('dash_timer_' + id);
-      if (dashOrdTimer) {
-        dashOrdTimer.className = 'timer-pill ' + res.className;
-        dashOrdTimer.innerHTML = res.text;
-      }
-      if (currentModalId === id) {
+      });
+      if (currentModalId === numId || currentModalId === rawId) {
         const modalTimer = document.getElementById('modalTimer');
-        if (modalTimer && o.status !== 'delivered') {
+        if (modalTimer) {
           modalTimer.className = 'timer-pill ' + res.className;
           modalTimer.innerHTML = res.text;
         }
@@ -2809,8 +2846,8 @@ function renderDashboardOverview() {
   // 1. Active Job Cards (render ALL active orders for this client!)
   if (activeOrderList.length > 0) {
     activeOrderList.forEach((o, idx) => {
-      const timerId = (idx === 0) ? 'dashboardLiveTimer' : ('dash_timer_' + o.numericId);
       const normOId = normalizeNumericId(o.numericId || o.id);
+      const timerId = 'dash_timer_' + normOId;
       const customAgreed = localStorage.getItem('shoaib_agreed_price_' + normOId) || 
                            localStorage.getItem('shoaib_agreed_price_RS-2026-' + normOId) ||
                            o.price;
@@ -2822,6 +2859,10 @@ function renderDashboardOverview() {
                        localStorage.getItem('shoaib_price_approved_RS-2026-' + normOId) === '1' || 
                        o.isAgreed;
       const displayPrice = o.price;
+      const statusOverride = localStorage.getItem('shoaib_status_' + normOId) || 
+                             localStorage.getItem('shoaib_status_RS-2026-' + normOId);
+      const effStatus = (statusOverride || o.status || 'pending').toLowerCase();
+      const isDelivered = (effStatus === 'delivered');
 
       html += `
         <div class="app-card" style="margin-bottom: 24px;">
@@ -2829,7 +2870,7 @@ function renderDashboardOverview() {
             <div>
               <div class="app-card-title">
                 ⚡ Active Production Job ${activeOrderList.length > 1 ? '#' + (idx + 1) : ''}
-                <span class="timer-pill stage-green" id="${timerId}">⏳ Calculating Countdown...</span>
+                <span class="timer-pill ${isDelivered ? 'delivered' : 'stage-green'}" id="${timerId}">${isDelivered ? '✓ Delivered On-Time' : '⏳ Calculating Countdown...'}</span>
               </div>
               <div class="app-card-subtitle">Order ${o.id} &bull; ${o.title} (${o.images})</div>
             </div>
@@ -2845,8 +2886,8 @@ function renderDashboardOverview() {
             <span class="spec-tag">⏱️ ${o.deadline}</span>
             <span class="spec-tag ${isAgreed ? 'green' : 'amber'}">🏷️ ${isAgreed ? 'Agreed Budget: ' + displayPrice + ' ✓' : 'Proposed Budget: ' + displayPrice + ' (Reviewing ⏳)'}</span>
           </div>
-          ${renderTrackerHTML(o.status, o.service)}
-          ${o.status === 'delivered' ? `
+          ${renderTrackerHTML(effStatus, o.service)}
+          ${isDelivered ? `
             <div class="download-box" style="margin-top: 18px;">
               <div>
                 <h4 style="font-size: 14px;">✓ Ready for Download &bull; High-Res Masters</h4>
@@ -3014,6 +3055,11 @@ function renderActiveOrdersPipeline() {
       o.price = customAgreed;
       o.numericPrice = parseFloat(String(customAgreed).replace(/[^0-9.]/g, '')) || o.numericPrice;
     }
+    const statusOverride = localStorage.getItem('shoaib_status_' + normPId) || 
+                           localStorage.getItem('shoaib_status_RS-2026-' + normPId);
+    const effStatus = (statusOverride || o.status || 'pending').toLowerCase();
+    const isDelivered = (effStatus === 'delivered');
+
     const timerId = (id === '085') ? 'orderPipelineTimer' : ('timer_order_' + id);
 
     html += `
@@ -3029,7 +3075,7 @@ function renderActiveOrdersPipeline() {
           </div>
 
           <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-            <span class="timer-pill stage-green" id="${timerId}">⏳ Calculating...</span>
+            <span class="timer-pill ${isDelivered ? 'delivered' : 'stage-green'}" id="${timerId}">${isDelivered ? '✓ Delivered On-Time' : '⏳ Calculating...'}</span>
             <button class="btn btn-outline btn-sm" onclick="openOrderDetails('${id}')">Order Details 👁️</button>
             <button class="btn btn-primary btn-sm" onclick="viewOrderInvoice('${id}')">💳 Pay / View Invoice</button>
           </div>
@@ -3042,9 +3088,9 @@ function renderActiveOrdersPipeline() {
           <span class="spec-tag ${isAgreed ? 'green' : 'amber'}" id="pipeBudgetBadge_${id}">🏷️ ${isAgreed ? 'Agreed Budget: ' + displayPrice + ' ✓' : 'Proposed Budget: ' + displayPrice + ' (Reviewing ⏳)'}</span>
         </div>
 
-        ${renderTrackerHTML(o.status, o.service)}
+        ${renderTrackerHTML(effStatus, o.service)}
 
-        ${o.status === 'delivered' ? `
+        ${isDelivered ? `
           <div class="download-box" style="margin-top: 14px; margin-bottom: 14px;">
             <div>
               <h4 style="font-size: 14px;">✓ Ready for Download &bull; High-Res Masters</h4>
