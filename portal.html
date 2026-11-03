@@ -999,6 +999,10 @@ body {
   .sidebar, .top-appbar, .stats-grid, .modal-overlay, #wipe,
   .currency-tabs, .btn, .copy-pill, #paymentToggleArea,
   #invoicesListView,
+  .ai-concierge-launcher, #aiConciergeLauncher,
+  .ai-concierge-window, #aiConciergeWindow,
+  #currencyPayableConversionBanner,
+  #orderUploadProgressModal,
   .app-card:not(#invoicePrintCard) {
     display: none !important;
   }
@@ -5986,6 +5990,18 @@ document.addEventListener('DOMContentLoaded', checkAuthGate);
   padding: 8px 12px;
   font-size: 13px;
   outline: none;
+}
+
+@media print {
+  .ai-concierge-launcher,
+  #aiConciergeLauncher,
+  .ai-concierge-window,
+  #aiConciergeWindow {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
 }
 </style>
 
