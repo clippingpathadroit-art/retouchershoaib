@@ -251,8 +251,18 @@ nav {
 }
 
 @media (max-width: 860px) {
-  .nav-links a:not(.show-mob), .nav-time {
-    display: none;
+  .nav-links, .nav-time {
+    display: none !important;
+  }
+  #navbar {
+    padding: 12px 18px;
+  }
+  .nav-brand {
+    font-size: 15px;
+  }
+  #navbar .btn.sm {
+    padding: 6px 11px;
+    font-size: 11px;
   }
 }
 
@@ -448,9 +458,9 @@ footer {
   width: 100%;
   text-align: center;
   font-family: var(--f-display);
-  font-size: clamp(44px, 11vw, 175px);
+  font-size: clamp(55px, 14vw, 195px);
   font-weight: 800;
-  letter-spacing: -0.065em;
+  letter-spacing: -0.05em;
   line-height: 0.85;
   color: var(--fg);
   user-select: none;
@@ -848,7 +858,7 @@ footer {
 
   <!-- GIANT TYPOGRAPHY BANNER: SHOAIB® (NO TEXT CUTOFF!) -->
   <div class="hero-giant-name" id="heroGiantName">
-    RETOUCHER SHOAIB<sup>&reg;</sup>
+    SHOAIB<sup>&reg;</sup>
   </div>
 
   <div class="hero-footer-bar">

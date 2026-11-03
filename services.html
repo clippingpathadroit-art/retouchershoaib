@@ -117,7 +117,10 @@ nav#navbar {
 .btn:hover { background: #222; transform: translateY(-1px); }
 
 @media (max-width: 860px) {
-  .nav-links a:not(.show-mob), .nav-time { display: none; }
+  .nav-links, .nav-time { display: none !important; }
+  #navbar { padding: 12px 18px; }
+  .nav-brand { font-size: 15px; }
+  #navbar .btn.sm { padding: 6px 11px; font-size: 11px; }
 }
 
 /* PAGE HEADER */
