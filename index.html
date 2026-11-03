@@ -517,7 +517,7 @@ footer {
 
 .footer-giant-logo {
   font-family: var(--f-display);
-  font-size: clamp(60px, 15vw, 210px);
+  font-size: clamp(38px, 9.8vw, 142px);
   font-weight: 800;
   letter-spacing: -0.065em;
   line-height: 0.85;
@@ -571,6 +571,11 @@ footer {
 @media (max-width: 768px) {
   .footer-grid {
     grid-template-columns: 1fr 1fr;
+  }
+  .footer-bottom {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
   }
 }
 
@@ -872,7 +877,26 @@ footer {
 @media (max-width: 860px) {
   .section-head { grid-template-columns: 1fr; gap: 16px; margin-bottom: 40px; }
   .hero-top { grid-template-columns: 1fr; text-align: center; }
-  .hero-stats { justify-content: center; text-align: center; }
+  .hero-stats {
+    justify-content: space-around !important;
+    text-align: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+  }
+  .hero-stat-item .num {
+    font-size: 22px !important;
+  }
+  .hero-stat-item .lbl {
+    font-size: 10px !important;
+    letter-spacing: 0.05em !important;
+  }
+  .hero-footer-bar {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+    font-size: 11px !important;
+    line-height: 1.5 !important;
+  }
 }
 
 /* FEATURED WORK TEASER */
