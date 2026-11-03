@@ -2702,17 +2702,20 @@ function updateCountdown() {
 
     // Check effective status (including studio and local overrides)
     const statusOverride = localStorage.getItem('shoaib_status_' + numId) || 
+                           localStorage.getItem('shoaib_status_#' + numId) ||
                            localStorage.getItem('shoaib_status_RS-2026-' + numId) ||
                            localStorage.getItem('shoaib_status_' + rawId);
-    const currentStatus = (statusOverride || o.status || '').toLowerCase();
-    const isDelivered = (currentStatus === 'delivered');
+    const currentStatus = String(statusOverride || o.status || '').toLowerCase().trim();
+    const isDelivered = (currentStatus === 'delivered' || currentStatus === 'completed');
 
     // Collect all timer elements for this specific order
     const timerEls = [
       document.getElementById('timer_order_' + numId),
       document.getElementById('timer_order_' + rawId),
+      document.getElementById('timer_order_#' + numId),
       document.getElementById('dash_timer_' + numId),
-      document.getElementById('dash_timer_' + rawId)
+      document.getElementById('dash_timer_' + rawId),
+      document.getElementById('dash_timer_#' + numId)
     ];
     if (rawId === '085' || numId === '085') {
       timerEls.push(document.getElementById('orderPipelineTimer'));
@@ -2860,16 +2863,17 @@ function renderDashboardOverview() {
                        o.isAgreed;
       const displayPrice = o.price;
       const statusOverride = localStorage.getItem('shoaib_status_' + normOId) || 
+                             localStorage.getItem('shoaib_status_#' + normOId) ||
                              localStorage.getItem('shoaib_status_RS-2026-' + normOId);
-      const effStatus = (statusOverride || o.status || 'pending').toLowerCase();
-      const isDelivered = (effStatus === 'delivered');
+      const effStatus = String(statusOverride || o.status || 'pending').toLowerCase().trim();
+      const isDelivered = (effStatus === 'delivered' || effStatus === 'completed');
 
       html += `
         <div class="app-card" style="margin-bottom: 24px;">
           <div class="app-card-header">
             <div>
               <div class="app-card-title">
-                ⚡ Active Production Job ${activeOrderList.length > 1 ? '#' + (idx + 1) : ''}
+                ${isDelivered ? '✓ Delivered Project' : '⚡ Active Production Job'} ${activeOrderList.length > 1 ? '#' + (idx + 1) : ''}
                 <span class="timer-pill ${isDelivered ? 'delivered' : 'stage-green'}" id="${timerId}">${isDelivered ? '✓ Delivered On-Time' : '⏳ Calculating Countdown...'}</span>
               </div>
               <div class="app-card-subtitle">Order ${o.id} &bull; ${o.title} (${o.images})</div>
@@ -6143,6 +6147,22 @@ async function syncPortalFromCloud() {
         });
       }
 
+      // 0. Sync statuses from cloud FIRST (authoritative server truth)
+      if (data.statuses && typeof data.statuses === 'object') {
+        Object.keys(data.statuses).forEach(k => {
+          const cleanK = normalizeNumericId(k);
+          const val = String(data.statuses[k] || '').toLowerCase().trim();
+          if (cleanK && val) {
+            localStorage.setItem('shoaib_status_' + k, val);
+            localStorage.setItem('shoaib_status_' + cleanK, val);
+            localStorage.setItem('shoaib_status_#' + cleanK, val);
+            localStorage.setItem('shoaib_status_RS-2026-' + cleanK, val);
+            if (ORDERS[cleanK]) ORDERS[cleanK].status = val;
+          }
+        });
+        changed = true;
+      }
+
       // 1. Sync custom orders from cloud (Normalized, Deduplicated & Deletion-Synced)
       if (Array.isArray(data.orders)) {
         const cloudIdSet = new Set();
@@ -6200,7 +6220,7 @@ async function syncPortalFromCloud() {
             // Prioritize local admin status override over stale cloud status
             const localStatus = localStorage.getItem('shoaib_status_' + num) || localStorage.getItem('shoaib_status_RS-2026-' + num);
             const cloudStatus = (data.statuses && (data.statuses[num] || data.statuses['#' + num])) || co.status;
-            co.status = localStatus || cloudStatus || 'pending';
+            co.status = cloudStatus || localStatus || 'pending';
 
             const cloudAgreedStr = (data.agreedPrices && (
               (typeof data.agreedPrices[num] === 'string' && data.agreedPrices[num]) ||

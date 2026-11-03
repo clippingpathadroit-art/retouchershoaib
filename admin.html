@@ -1281,9 +1281,11 @@ function filterAdminOrders() {
 // UPDATE STATUS WITH LIVE STORAGE BROADCAST
 function updateOrderStatus(id, val) {
   const cleanNum = normalizeNumericId(id);
+  val = String(val || '').toLowerCase().trim();
   localStorage.setItem('shoaib_status_' + id, val);
   if (cleanNum) {
     localStorage.setItem('shoaib_status_' + cleanNum, val);
+    localStorage.setItem('shoaib_status_#' + cleanNum, val);
     localStorage.setItem('shoaib_status_RS-2026-' + cleanNum, val);
   }
 
