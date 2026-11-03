@@ -334,9 +334,6 @@ a { color: inherit; text-decoration: none; }
       <button type="button" class="btn sm" onclick="openAllClientsModal()" style="background: #2563eb; color: #fff; font-weight: 700; padding: 11px 18px; border-radius: 8px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
         👥 All Clients Database
       </button>
-      <button type="button" class="btn sm" onclick="openForcePurgePrompt()" style="background: #dc2626; color: #fff; font-weight: 700; padding: 11px 18px; border-radius: 8px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;" title="Purge any specific Order # or all orders of a client email">
-        🗑️ Purge Order / Client
-      </button>
       <a href="https://drive.google.com/drive/folders/1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc?usp=drive_link" target="_blank" class="btn sm outline" style="font-size: 11px; padding: 10px 14px; border-color: #444;">
         📂 Master Drive ↗
       </a>
@@ -615,16 +612,6 @@ async function syncAdminFromCloud(showToastNotice = false) {
             localStorage.removeItem('shoaib_del_url_RS-2026-' + cleanK);
             localStorage.removeItem('shoaib_price_approved_' + cleanK);
             localStorage.removeItem('shoaib_agreed_price_' + cleanK);
-          }
-        });
-      }
-
-      // 0B. Sync Deleted Clients from Cloud
-      if (data.deletedClients && typeof data.deletedClients === 'object') {
-        Object.keys(data.deletedClients).forEach(em => {
-          const cleanEm = em.toLowerCase().trim();
-          if (cleanEm) {
-            localStorage.setItem('shoaib_deleted_client_' + cleanEm, '1');
           }
         });
       }
@@ -1259,10 +1246,10 @@ function renderAdminTable() {
               `)}
               ${ord.status === 'archived' ? `
                 <button class="btn sm" onclick="restoreOrderToActive('${id}')" style="background: #8b5cf6; color: #fff; font-size: 11px; padding: 5px 9px;" title="Restore Order to Active Pipeline">↩️ Restore</button>
+                <button class="btn sm" style="background: #dc2626; color: #fff; border: 0; font-size: 11px; padding: 5px 9px;" onclick="deleteAdminOrder('${id}')" title="Permanently Delete Archived Order">🗑️ Delete</button>
               ` : (ord.status === 'delivered' ? `
                 <button class="btn sm" onclick="archiveAdminOrder('${id}')" style="background: #4f46e5; color: #fff; border: 0; font-size: 11px; padding: 5px 9px;" title="Move Order to Completed Archive">📦 Archive</button>
               ` : '')}
-              <button class="btn sm" style="background: #dc2626; color: #fff; border: 0; font-size: 11px; padding: 5px 9px;" onclick="deleteAdminOrder('${id}')" title="Permanently Delete Order">🗑️ Delete</button>
               <a href="${ord.drive}" target="_blank" class="btn sm outline" style="font-size: 11px; padding: 5px 9px;" title="Open Specific Order Google Drive Subfolder">📂 Drive ↗</a>
               <button class="btn sm outline" onclick="openDelModal('${id}')" style="font-size: 11px; padding: 5px 9px;" title="Upload or Paste Final Delivery Link">🔗 Delivery</button>
             </div>
@@ -1378,28 +1365,30 @@ function acceptClientOffer(id, proposedPrice) {
   renderAdminTable();
 }
 
-// DELETE ORDER PERMANENTLY (DIRECT ADMIN DELETE ACROSS PIPELINE)
+// DELETE ORDER PERMANENTLY (ONLY ALLOWED FROM ARCHIVED ORDERS)
 function deleteAdminOrder(id) {
   const cleanId = normalizeNumericId(id);
   const raw = localStorage.getItem('shoaib_custom_orders');
-  let ordClientInfo = '';
   if (raw) {
     try {
       const orders = JSON.parse(raw);
       const ord = orders.find(o => normalizeNumericId(o.numericId || o.id) === cleanId);
-      if (ord && ord.clientEmail) {
-        ordClientInfo = ' (' + ord.clientEmail + ')';
+      const effectiveStatus = localStorage.getItem('shoaib_status_' + cleanId) || 
+                              localStorage.getItem('shoaib_status_RS-2026-' + cleanId) || 
+                              (ord ? ord.status : '');
+      if (effectiveStatus !== 'archived') {
+        alert('⚠️ Active orders cannot be deleted. Please move the order to Archive first before deleting.');
+        return;
       }
     } catch(e) {}
   }
 
-  if (!confirm('⚠️ Are you sure you want to permanently delete Order #' + cleanId + ordClientInfo + '?\n\nThis will permanently delete this order and its invoice from BOTH Studio Admin and the Client Portal.')) {
+  if (!confirm('⚠️ Are you sure you want to permanently delete Archived Order #' + cleanId + '?\n\nThis will permanently delete this order and its invoice from BOTH Studio Admin and the Client Portal.')) {
     return;
   }
 
   localStorage.setItem('shoaib_deleted_' + cleanId, '1');
   localStorage.setItem('shoaib_deleted_RS-2026-' + cleanId, '1');
-  localStorage.setItem('shoaib_deleted_#' + cleanId, '1');
   localStorage.setItem('shoaib_deleted_#RS-2026-' + cleanId, '1');
   localStorage.removeItem('shoaib_status_paid_' + cleanId);
   localStorage.removeItem('shoaib_status_paid_RS-2026-' + cleanId);
@@ -1443,79 +1432,6 @@ function deleteAdminOrder(id) {
   }
 
   showAdminToast('🗑️ Order #' + cleanId + ' permanently deleted from all dashboards.');
-  renderAdminTable();
-}
-
-// FORCE PURGE BY ORDER ID OR CLIENT EMAIL (UNIVERSAL RESCUE TOOL)
-function openForcePurgePrompt() {
-  const input = prompt("🗑️ Purge Order or Client Commissions:\n\nEnter the Order # (e.g. 16463) to delete a specific order,\nOR enter the Client Email (e.g. clippingpathadroit@gmail.com) to purge ALL orders of that client:");
-  if (!input) return;
-  const val = input.trim();
-  if (!val) return;
-
-  if (val.includes('@')) {
-    purgeAdminClientOrders(val);
-  } else {
-    deleteAdminOrder(val);
-  }
-}
-
-function purgeAdminClientOrders(clientEmail) {
-  const cleanEmail = (clientEmail || '').toLowerCase().trim();
-  if (!cleanEmail) return;
-
-  if (!confirm('⚠️ PERMANENTLY PURGE ALL ORDERS FOR CLIENT:\n' + cleanEmail + '\n\nAre you sure? This will permanently delete all commissions, files and invoices of this client from Studio Admin and their Client Portal.')) {
-    return;
-  }
-
-  // 1. Mark client as deleted in localStorage
-  localStorage.setItem('shoaib_deleted_client_' + cleanEmail, '1');
-
-  // 2. Find and delete all orders belonging to this email
-  const raw = localStorage.getItem('shoaib_custom_orders');
-  const removedOrderIds = [];
-  if (raw) {
-    try {
-      let orders = JSON.parse(raw);
-      orders = orders.filter(o => {
-        const oEmail = (o.clientEmail || o.email || '').toLowerCase().trim();
-        const numId = normalizeNumericId(o.numericId || o.id);
-        if (oEmail === cleanEmail) {
-          if (numId) {
-            removedOrderIds.push(numId);
-            localStorage.setItem('shoaib_deleted_' + numId, '1');
-            localStorage.setItem('shoaib_deleted_RS-2026-' + numId, '1');
-            localStorage.setItem('shoaib_deleted_#' + numId, '1');
-            localStorage.setItem('shoaib_deleted_#RS-2026-' + numId, '1');
-          }
-          return false;
-        }
-        return true;
-      });
-      localStorage.setItem('shoaib_custom_orders', JSON.stringify(orders));
-    } catch(e) {}
-  }
-
-  // 3. Cloud backend sync
-  triggerSyncAdminActionToCloud({
-    action: 'purge_client_orders',
-    clientEmail: cleanEmail
-  });
-  removedOrderIds.forEach(numId => {
-    triggerSyncAdminActionToCloud({
-      action: 'delete_order',
-      numericId: numId,
-      id: '#' + numId
-    });
-    triggerSyncAdminActionToCloud({
-      action: 'delete_order',
-      numericId: 'RS-2026-' + numId,
-      id: '#RS-2026-' + numId
-    });
-  });
-
-  localStorage.setItem('shoaib_sync_ping', Date.now().toString());
-  showAdminToast('🗑️ All orders for client ' + cleanEmail + ' permanently purged.');
   renderAdminTable();
 }
 
@@ -1617,13 +1533,6 @@ function openClientDetailModal(id) {
 function closeClientDetailModal() {
   const modal = document.getElementById('adminClientDetailModal');
   if (modal) modal.style.display = 'none';
-}
-
-function purgeClientOrdersFromDetailModal() {
-  const email = (document.getElementById('cdmEmail')?.textContent || '').toLowerCase().trim();
-  if (!email) return;
-  closeClientDetailModal();
-  purgeAdminClientOrders(email);
 }
 
 function toggleStudioTinInModal() {
@@ -1766,7 +1675,7 @@ function closeAllClientsModal() {
 
 // PERMANENTLY DELETE CLIENT FROM DATABASE (USER REQUEST)
 function deleteClientFromDatabase(email) {
-  if (!confirm('⚠️ Are you sure you want to permanently delete client "' + email + '" from the studio database?\n\nThis will remove their profile, orders, and commissions from both Admin and Client Portal.')) {
+  if (!confirm('⚠️ Are you sure you want to permanently delete client "' + email + '" from the studio database?\n\nThis will remove their profile and registered account. Their data will no longer appear in the clients database.')) {
     return;
   }
   email = email.toLowerCase().trim();
@@ -1793,33 +1702,7 @@ function deleteClientFromDatabase(email) {
     }
   } catch(e) {}
 
-  // 3. Purge all orders of this client
-  localStorage.setItem('shoaib_deleted_client_' + email, '1');
-  const removedOrderIds = [];
-  try {
-    const rawCust = localStorage.getItem('shoaib_custom_orders');
-    if (rawCust) {
-      let orders = JSON.parse(rawCust);
-      orders = orders.filter(o => {
-        const oEmail = (o.clientEmail || o.email || '').toLowerCase().trim();
-        const numId = normalizeNumericId(o.numericId || o.id);
-        if (oEmail === email) {
-          if (numId) {
-            removedOrderIds.push(numId);
-            localStorage.setItem('shoaib_deleted_' + numId, '1');
-            localStorage.setItem('shoaib_deleted_RS-2026-' + numId, '1');
-            localStorage.setItem('shoaib_deleted_#' + numId, '1');
-            localStorage.setItem('shoaib_deleted_#RS-2026-' + numId, '1');
-          }
-          return false;
-        }
-        return true;
-      });
-      localStorage.setItem('shoaib_custom_orders', JSON.stringify(orders));
-    }
-  } catch(e) {}
-
-  // 4. Broadcast sync to all windows
+  // 3. Broadcast sync to all windows
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
 
   // Cloud backend sync
@@ -1827,24 +1710,8 @@ function deleteClientFromDatabase(email) {
     action: 'delete_client',
     email: email
   });
-  triggerSyncAdminActionToCloud({
-    action: 'purge_client_orders',
-    clientEmail: email
-  });
-  removedOrderIds.forEach(numId => {
-    triggerSyncAdminActionToCloud({
-      action: 'delete_order',
-      numericId: numId,
-      id: '#' + numId
-    });
-    triggerSyncAdminActionToCloud({
-      action: 'delete_order',
-      numericId: 'RS-2026-' + numId,
-      id: '#RS-2026-' + numId
-    });
-  });
 
-  showAdminToast('🗑️ Client ' + email + ' and all their orders have been permanently deleted.');
+  showAdminToast('🗑️ Client ' + email + ' has been permanently deleted from database.');
   openAllClientsModal();
   renderAdminTable();
 }
@@ -2785,10 +2652,7 @@ function saveStudioTin() {
       </div>
     </div>
 
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <button type="button" class="btn sm" onclick="purgeClientOrdersFromDetailModal()" style="background: #dc2626; color: #fff; border: none; font-size: 11px; padding: 7px 14px; border-radius: 6px; font-weight: 700; cursor: pointer;">
-        🗑️ Purge Client's Orders
-      </button>
+    <div style="display: flex; justify-content: flex-end;">
       <button class="btn sm outline" onclick="closeClientDetailModal()">Close</button>
     </div>
   </div>
