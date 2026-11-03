@@ -1203,7 +1203,7 @@ footer {
   position: relative;
   width: 100%;
   overflow: hidden;
-  background: #080c14;
+  background: #06243F;
   margin: 0;
   padding: 0;
   user-select: none;
@@ -1254,12 +1254,13 @@ footer {
   100% { transform: translateX(-50%); }
 }
 
-/* DUAL-ROW IMAGE STREAM - SHARP RECTANGLES, NO ROUND, NO TEXT, NON-CLICKABLE */
+/* DUAL-ROW IMAGE STREAM - SHARP RECTANGLES, NAVY BG (#06243F), TALLER HEIGHT, NEVER PAUSES ON HOVER */
 .stream-container {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 20px 0;
+  gap: 8px;
+  padding: 8px 0;
+  background: #06243F;
   overflow: hidden;
 }
 
@@ -1276,33 +1277,33 @@ footer {
 }
 
 .stream-scroll-left {
-  animation: streamScrollLeft 42s linear infinite;
+  animation: streamScrollLeft 40s linear infinite;
 }
 
 .stream-scroll-right {
-  animation: streamScrollRight 42s linear infinite;
+  animation: streamScrollRight 40s linear infinite;
 }
 
 .stream-group {
   display: flex;
-  gap: 12px;
-  padding-right: 12px;
+  gap: 8px;
+  padding-right: 8px;
   flex-shrink: 0;
 }
 
 .stream-card {
   position: relative;
   display: block;
-  width: 270px;
-  height: 170px;
+  width: 336px;
+  height: 210px;
   border-radius: 0 !important;
   overflow: hidden;
-  background: #141923;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #06243F;
+  border: none;
   flex-shrink: 0;
   cursor: default !important;
   user-select: none;
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 .stream-card img {
@@ -1314,16 +1315,7 @@ footer {
   pointer-events: none;
 }
 
-/* HOVER: PAUSE ON HOVER ONLY (NO CLICK, NO BUTTON EFFECTS) */
-.marquee-showcase-section:hover .stream-track {
-  animation-play-state: paused;
-}
-
-.marquee-showcase-section:hover .marquee-ticker-track {
-  animation-play-state: paused;
-}
-
-/* ANIMATION KEYFRAMES */
+/* ANIMATION KEYFRAMES - CONTINUOUS RUNNING, NEVER PAUSED */
 @keyframes streamScrollLeft {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -1345,16 +1337,16 @@ footer {
     padding-right: 12px;
   }
   .stream-container {
-    gap: 8px;
-    padding: 12px 0;
+    gap: 6px;
+    padding: 6px 0;
   }
   .stream-group {
-    gap: 8px;
-    padding-right: 8px;
+    gap: 6px;
+    padding-right: 6px;
   }
   .stream-card {
-    width: 180px;
-    height: 114px;
+    width: 208px;
+    height: 130px;
     border-radius: 0 !important;
   }
   .stream-card img {
