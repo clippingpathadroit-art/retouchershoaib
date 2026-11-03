@@ -116,9 +116,261 @@ img {
 }
 .btn:hover { background: #222; transform: translateY(-1px); }
 
-@media (max-width: 860px) {
-  .nav-links a:not(.show-mob), .nav-time { display: none; }
+
+/* LUXURY MOBILE NAVIGATION DRAWER */
+.nav-mob-toggle {
+  display: none;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
 }
+
+.nav-mob-toggle span {
+  display: block;
+  width: 16px;
+  height: 2px;
+  background: var(--fg);
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.nav-mob-toggle:hover {
+  background: var(--soft);
+  border-color: #aaa;
+}
+
+.nav-mob-toggle.is-active span:nth-child(1) {
+  transform: translateY(3px) rotate(45deg);
+}
+
+.nav-mob-toggle.is-active span:nth-child(2) {
+  transform: translateY(-3px) rotate(-45deg);
+}
+
+.mob-menu-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background: rgba(10, 10, 10, 0.48);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 99999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mob-menu-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mob-menu-drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(86vw, 360px);
+  height: 100%;
+  height: 100dvh;
+  background: #ffffff;
+  box-shadow: -15px 0 40px rgba(0, 0, 0, 0.16);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 22px 20px 24px;
+  box-sizing: border-box;
+  transform: translateX(100%);
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mob-menu-overlay.is-open .mob-menu-drawer {
+  transform: translateX(0);
+}
+
+.mob-drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.mob-drawer-brand {
+  font-family: var(--f-display);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--fg);
+}
+
+.mob-drawer-brand sup {
+  font-size: 9px;
+  color: var(--accent);
+}
+
+.mob-drawer-close {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mob-drawer-close:hover {
+  background: #e8e8e4;
+}
+
+.mob-drawer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 16px 0;
+}
+
+.mob-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 10px;
+  border-radius: 8px;
+  transition: background 0.2s ease, transform 0.15s ease;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.mob-nav-link:hover, .mob-nav-link:active, .mob-nav-link.active {
+  background: var(--soft);
+}
+
+.mob-nav-link.active .mob-nav-text {
+  color: var(--accent);
+}
+
+.mob-nav-idx {
+  font-family: var(--f-display);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  width: 20px;
+}
+
+.mob-nav-text {
+  font-family: var(--f-display);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.mob-drawer-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+}
+
+.mob-act-btn {
+  width: 100%;
+  text-align: center;
+  padding: 11px 16px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  box-sizing: border-box;
+}
+
+.mob-act-btn.accent-fill {
+  background: var(--fg);
+  color: #fff;
+}
+
+.mob-act-btn.accent-fill:hover {
+  background: var(--accent);
+}
+
+.mob-drawer-footer {
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mob-drawer-time {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--mut);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.mob-drawer-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 12px;
+}
+
+.mob-drawer-contact a {
+  color: #555;
+  text-decoration: none;
+}
+
+.mob-drawer-contact a:hover {
+  color: var(--accent);
+}
+
+@media (max-width: 860px) {
+  .nav-links, .nav-time {
+    display: none !important;
+  }
+  #navbar {
+    padding: 12px 18px;
+  }
+  .nav-brand {
+    font-size: 15px;
+  }
+  #navbar .btn.sm {
+    padding: 6px 11px;
+    font-size: 11px;
+  }
+  .nav-mob-toggle {
+    display: inline-flex !important;
+  }
+  .mob-menu-overlay {
+    display: block !important;
+  }
+}
+
+@media (max-width: 440px) {
+  #navMainCtaBtn {
+    display: none !important;
+  }
+}
+
 
 /* GENERAL TYPOGRAPHY / LAB */
 .lab {
@@ -415,8 +667,67 @@ footer {
   <div style="display: flex; gap: 8px; align-items: center;">
     <a href="portal.html" class="btn sm outline" id="navClientAccessBtn" style="font-weight: 700;">Log In</a>
     <a href="contact.html" class="btn sm" id="navMainCtaBtn">Free Trial</a>
+    <button type="button" class="nav-mob-toggle" id="navMobToggle" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+    </button>
   </div>
 </nav>
+
+<!-- LUXURY MOBILE DRAWER MENU -->
+<div class="mob-menu-overlay" id="mobMenuOverlay" onclick="closeMobileMenu(event)">
+  <div class="mob-menu-drawer" id="mobMenuDrawer">
+    <div class="mob-drawer-header">
+      <div class="mob-drawer-brand">
+        RETOUCHER SHOAIB<sup>&reg;</sup>
+      </div>
+      <button type="button" class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close Menu">
+        &times;
+      </button>
+    </div>
+
+    <div class="mob-drawer-nav">
+      <a href="index.html" class="mob-nav-link " id="mobNavLinkHome" onclick="closeMobileMenu()">
+        <span class="mob-nav-idx">01</span>
+        <span class="mob-nav-text">Home</span>
+      </a>
+      <a href="work.html" class="mob-nav-link active" id="mobNavLinkWork" onclick="closeMobileMenu()">
+        <span class="mob-nav-idx">02</span>
+        <span class="mob-nav-text">Work / Portfolio</span>
+      </a>
+      <a href="services.html" class="mob-nav-link " id="mobNavLinkServices" onclick="closeMobileMenu()">
+        <span class="mob-nav-idx">03</span>
+        <span class="mob-nav-text">Services & Disciplines</span>
+      </a>
+      <a href="studio.html" class="mob-nav-link " id="mobNavLinkStudio" onclick="closeMobileMenu()">
+        <span class="mob-nav-idx">04</span>
+        <span class="mob-nav-text">Studio Philosophy</span>
+      </a>
+      <a href="feed.html" class="mob-nav-link " id="mobNavLinkFeed" onclick="closeMobileMenu()">
+        <span class="mob-nav-idx">05</span>
+        <span class="mob-nav-text">Studio Feed & Proofs</span>
+      </a>
+      <a href="contact.html" class="mob-nav-link " id="mobNavLinkContact" onclick="closeMobileMenu()">
+        <span class="mob-nav-idx">06</span>
+        <span class="mob-nav-text">Contact & Free Trial</span>
+      </a>
+    </div>
+
+    <div class="mob-drawer-actions">
+      <a href="portal.html" class="btn sm outline mob-act-btn" id="mobDrawerClientBtn">Client Portal Log In 🔒</a>
+      <a href="contact.html" class="btn sm mob-act-btn accent-fill" id="mobDrawerCtaBtn">Start Free Trial &rarr;</a>
+    </div>
+
+    <div class="mob-drawer-footer">
+      <div class="mob-drawer-time" id="mobDrawerTime">NYC 08:30 AM &bull; BERLIN 01:30 PM</div>
+      <div class="mob-drawer-contact">
+        <a href="https://wa.me/8801710763251" target="_blank" rel="noopener">💬 WhatsApp Studio Direct &nearr;</a>
+        <a href="mailto:retouchershoaib@gmail.com">retouchershoaib@gmail.com</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <main class="w">
   <header class="work-header">
@@ -843,12 +1154,51 @@ document.addEventListener('keydown', e => {
 // LIVE STUDIO TIME SYNC
 function updateStudioTime() {
   const timeEl = document.getElementById('liveTimeIndicator');
-  if (!timeEl) return;
+  const mobTimeEl = document.getElementById('mobDrawerTime');
   const now = new Date();
   const nyc = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hour12: true }).format(now);
   const ber = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit', hour12: true }).format(now);
-  timeEl.textContent = `NYC ${nyc} • BERLIN ${ber}`;
+  const str = `NYC ${nyc} • BERLIN ${ber}`;
+  if (timeEl) timeEl.textContent = str;
+  if (mobTimeEl) mobTimeEl.textContent = str;
 }
+
+// MOBILE DRAWER LOGIC
+function toggleMobileMenu() {
+  const overlay = document.getElementById('mobMenuOverlay');
+  const toggle = document.getElementById('navMobToggle');
+  if (!overlay) return;
+  const isOpen = overlay.classList.contains('is-open');
+  if (isOpen) {
+    closeMobileMenu();
+  } else {
+    overlay.classList.add('is-open');
+    if (toggle) {
+      toggle.classList.add('is-active');
+      toggle.setAttribute('aria-expanded', 'true');
+    }
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeMobileMenu(e) {
+  if (e && e.target && e.target.closest && e.target.closest('.mob-menu-drawer') && !e.target.closest('.mob-drawer-close') && !e.target.closest('.mob-nav-link') && !e.target.closest('.mob-act-btn')) {
+    return;
+  }
+  const overlay = document.getElementById('mobMenuOverlay');
+  const toggle = document.getElementById('navMobToggle');
+  if (overlay) overlay.classList.remove('is-open');
+  if (toggle) {
+    toggle.classList.remove('is-active');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeMobileMenu();
+});
+
 setInterval(updateStudioTime, 10000);
 updateStudioTime();
 
@@ -915,26 +1265,45 @@ updateStudioTime();
 
 // DYNAMIC CLIENT ACCESS HEADER PAIRING
 function syncHeaderClientState() {
-  const session = localStorage.getItem('shoaib_client_session') || localStorage.getItem('shoaib_client_profile');
+  const sessionRaw = localStorage.getItem('shoaib_client_session') || localStorage.getItem('shoaib_client_profile');
   const loginBtn = document.getElementById('navClientAccessBtn');
   const ctaBtn = document.getElementById('navMainCtaBtn');
+  const mobClientBtn = document.getElementById('mobDrawerClientBtn');
+  const mobCtaBtn = document.getElementById('mobDrawerCtaBtn');
   if (!loginBtn || !ctaBtn) return;
 
-  if (session) {
-    let name = 'Client';
+  let session = null;
+  if (sessionRaw) {
     try {
-      const p = JSON.parse(session);
-      if (p.name) name = p.name.split(' ')[0];
+      session = JSON.parse(sessionRaw);
     } catch(e) {}
-    loginBtn.href = 'portal.html';
-    loginBtn.innerHTML = '+ Place Order';
-    ctaBtn.href = 'portal.html';
-    ctaBtn.innerHTML = '🟢 ' + name + ' (Dashboard ↗)';
+  }
+
+  if (session && (session.email || session.name)) {
+    const isDirector = (session.email || '').toLowerCase().trim() === 'retouchershoaib@gmail.com';
+    let name = session.name ? session.name.split(' ')[0] : 'Client';
+    if (isDirector) {
+      loginBtn.href = 'admin.html';
+      loginBtn.innerHTML = '🛡️ Director Console';
+      ctaBtn.href = 'admin.html';
+      ctaBtn.innerHTML = '👑 Director Shoaib (Admin ↗)';
+      if (mobClientBtn) { mobClientBtn.href = 'admin.html'; mobClientBtn.innerHTML = '🛡️ Director Console ↗'; }
+      if (mobCtaBtn) { mobCtaBtn.href = 'admin.html'; mobCtaBtn.innerHTML = '👑 Director Admin ↗'; }
+    } else {
+      loginBtn.href = 'portal.html#new';
+      loginBtn.innerHTML = '+ Place Order';
+      ctaBtn.href = 'portal.html';
+      ctaBtn.innerHTML = '🟢 ' + name + ' (Dashboard ↗)';
+      if (mobClientBtn) { mobClientBtn.href = 'portal.html#new'; mobClientBtn.innerHTML = '+ Place New Order'; }
+      if (mobCtaBtn) { mobCtaBtn.href = 'portal.html'; mobCtaBtn.innerHTML = '🟢 Client Portal (' + name + ') ↗'; }
+    }
   } else {
     loginBtn.href = 'portal.html';
     loginBtn.innerHTML = 'Log In';
     ctaBtn.href = 'contact.html';
     ctaBtn.innerHTML = 'Free Trial';
+    if (mobClientBtn) { mobClientBtn.href = 'portal.html'; mobClientBtn.innerHTML = 'Client Portal Log In 🔒'; }
+    if (mobCtaBtn) { mobCtaBtn.href = 'contact.html'; mobCtaBtn.innerHTML = 'Start Free Trial →'; }
   }
 }
 document.addEventListener('DOMContentLoaded', syncHeaderClientState);
