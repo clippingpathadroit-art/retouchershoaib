@@ -739,27 +739,145 @@ body {
 }
 .inv-table th.num, .inv-table td.num { text-align: right; }
 
+/* ========================================================
+   COLORFUL PAYMENT CURRENCY PILL BUTTONS (IDEA 2) & LIVE FX
+   ======================================================== */
 .currency-tabs {
   display: flex;
-  gap: 6px;
+  gap: 10px;
   flex-wrap: wrap;
   margin-bottom: 16px;
 }
 .curr-btn {
-  padding: 7px 14px;
-  border-radius: 8px;
-  border: 1px solid var(--line);
-  background: #fff;
-  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-radius: 9999px;
+  border: 1.5px solid var(--pill-border, var(--line));
+  background: var(--pill-bg, #ffffff);
+  color: var(--pill-color, #475569);
+  font-size: 12.5px;
   font-weight: 700;
   cursor: pointer;
-  color: #475569;
-  transition: all 0.2s;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+  user-select: none;
+}
+.curr-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--pill-shadow, rgba(15, 23, 42, 0.08));
+  border-color: var(--pill-hover-border, #94a3b8);
 }
 .curr-btn.active {
-  background: #0f172a;
-  color: #fff;
-  border-color: #0f172a;
+  background: var(--pill-active-bg, #0f172a) !important;
+  color: #ffffff !important;
+  border-color: var(--pill-active-bg, #0f172a) !important;
+  box-shadow: 0 6px 16px var(--pill-shadow, rgba(15, 23, 42, 0.2)) !important;
+  transform: translateY(-1px);
+}
+.curr-btn .pill-flag {
+  font-size: 16px;
+  line-height: 1;
+}
+.curr-btn .pill-check {
+  display: none;
+  font-size: 12px;
+  margin-left: 2px;
+  font-weight: 800;
+}
+.curr-btn.active .pill-check {
+  display: inline-block;
+}
+
+/* Individual Pill Color Themes */
+.curr-pill-usd {
+  --pill-bg: #eff6ff;
+  --pill-border: #bfdbfe;
+  --pill-color: #1d4ed8;
+  --pill-hover-border: #3b82f6;
+  --pill-active-bg: #2563eb;
+  --pill-shadow: rgba(37, 99, 235, 0.28);
+}
+.curr-pill-eur {
+  --pill-bg: #ecfdf5;
+  --pill-border: #a7f3d0;
+  --pill-color: #065f46;
+  --pill-hover-border: #10b981;
+  --pill-active-bg: #059669;
+  --pill-shadow: rgba(5, 150, 105, 0.28);
+}
+.curr-pill-gbp {
+  --pill-bg: #f5f3ff;
+  --pill-border: #ddd6fe;
+  --pill-color: #6d28d9;
+  --pill-hover-border: #8b5cf6;
+  --pill-active-bg: #7c3aed;
+  --pill-shadow: rgba(124, 58, 237, 0.28);
+}
+.curr-pill-wise {
+  --pill-bg: #f0fdf4;
+  --pill-border: #86efac;
+  --pill-color: #15803d;
+  --pill-hover-border: #22c55e;
+  --pill-active-bg: #16a34a;
+  --pill-shadow: rgba(22, 163, 74, 0.28);
+}
+.curr-pill-card {
+  --pill-bg: #fff7ed;
+  --pill-border: #fed7aa;
+  --pill-color: #c2410c;
+  --pill-hover-border: #f97316;
+  --pill-active-bg: #ea580c;
+  --pill-shadow: rgba(234, 88, 12, 0.28);
+}
+
+/* LIVE CURRENCY CONVERSION BANNER */
+.currency-conversion-banner {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 1.5px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.03);
+}
+.conv-meta {
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #64748b;
+}
+.conv-amount {
+  font-size: 18px;
+  font-weight: 800;
+  font-family: var(--f-display);
+  color: #0f172a;
+  margin-top: 2px;
+}
+.conv-notice-side {
+  text-align: right;
+}
+@media (max-width: 680px) {
+  .conv-notice-side {
+    text-align: left;
+    width: 100%;
+  }
+}
+.conv-instruction {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #2563eb;
+}
+.conv-fx-rate {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 2px;
 }
 .bank-grid {
   display: grid;
@@ -1820,12 +1938,52 @@ body {
                 <h4 style="font-size: 15px; font-weight: 800; margin-bottom: 4px;">Choose Payment Currency &amp; Bank Details</h4>
                 <p style="font-size: 13px; color: var(--mut); margin-bottom: 16px;">Domestic bank routing powered by Wise with zero international wire charges.</p>
 
-                <div class="currency-tabs">
-                  <button class="curr-btn active" onclick="switchCurrency('usd', this)">🇺🇸 USD Bank (United States)</button>
-                  <button class="curr-btn" onclick="switchCurrency('eur', this)">🇪🇺 EUR SEPA (Germany, Austria, EU)</button>
-                  <button class="curr-btn" onclick="switchCurrency('gbp', this)">🇬🇧 GBP Sort Code (UK)</button>
-                  <button class="curr-btn" onclick="switchCurrency('wise', this)">🌐 Wise Direct Transfer</button>
-                  <button class="curr-btn" onclick="switchCurrency('card', this)">💳 Debit / Credit Card</button>
+                <div class="currency-tabs" id="paymentCurrencyTabs">
+                  <button type="button" class="curr-btn curr-pill-usd active" id="currBtnUSD" onclick="switchCurrency('usd', this)">
+                    <span class="pill-flag">🇺🇸</span>
+                    <span>USD Bank (United States)</span>
+                    <span class="pill-check">✓</span>
+                  </button>
+                  <button type="button" class="curr-btn curr-pill-eur" id="currBtnEUR" onclick="switchCurrency('eur', this)">
+                    <span class="pill-flag">🇪🇺</span>
+                    <span>EUR SEPA (Europe)</span>
+                    <span class="pill-check">✓</span>
+                  </button>
+                  <button type="button" class="curr-btn curr-pill-gbp" id="currBtnGBP" onclick="switchCurrency('gbp', this)">
+                    <span class="pill-flag">🇬🇧</span>
+                    <span>GBP Sort Code (UK)</span>
+                    <span class="pill-check">✓</span>
+                  </button>
+                  <button type="button" class="curr-btn curr-pill-wise" id="currBtnWISE" onclick="switchCurrency('wise', this)">
+                    <span class="pill-flag">🌐</span>
+                    <span>Wise Direct Transfer</span>
+                    <span class="pill-check">✓</span>
+                  </button>
+                  <button type="button" class="curr-btn curr-pill-card" id="currBtnCARD" onclick="switchCurrency('card', this)">
+                    <span class="pill-flag">💳</span>
+                    <span>Debit / Credit Card</span>
+                    <span class="pill-check">✓</span>
+                  </button>
+                </div>
+
+                <!-- LIVE CURRENCY CONVERSION & PAYABLE BANNER -->
+                <div id="currencyPayableConversionBanner" class="currency-conversion-banner">
+                  <div>
+                    <div class="conv-meta" id="conversionRateMetaDisplay">
+                      Selected Currency: 🇺🇸 United States Domestic Bank Routing
+                    </div>
+                    <div class="conv-amount" id="conversionPayableAmountDisplay">
+                      Payable Amount: <span style="color: #2563eb;">$0.00 USD</span>
+                    </div>
+                  </div>
+                  <div class="conv-notice-side">
+                    <div class="conv-instruction" id="conversionRateNoticeText">
+                      Domestic ACH Transfer (Zero wire fees inside US)
+                    </div>
+                    <div class="conv-fx-rate" id="conversionFxSourceText">
+                      Standard Studio Invoice Currency (1:1 USD)
+                    </div>
+                  </div>
                 </div>
 
                 <!-- 1. USD BANK -->
@@ -4093,15 +4251,163 @@ function loadInvoiceDetails() {
     const cardBtn = document.querySelector('#bankCARD .btn-green');
     if (cardBtn) cardBtn.innerHTML = '💳 Pay $' + totalUnpaidAll.toFixed(2) + ' USD via Card ↗';
   }
+
+  if (typeof updateCurrencyConversionDisplay === 'function') {
+    if (!window.currencyUserSelected) {
+      const recCurr = (typeof autoDetectClientCurrency === 'function') ? autoDetectClientCurrency() : 'usd';
+      switchCurrency(recCurr);
+    } else {
+      updateCurrencyConversionDisplay();
+    }
+  }
 }
 
 // ========================================================
-// 8. PAYMENT & CURRENCY MANAGEMENT
+// 8. PAYMENT & CURRENCY MANAGEMENT & LIVE EXCHANGE CONVERSION
 // ========================================================
+let activeSelectedCurrency = 'usd';
+let LIVE_FX_RATES = { USD: 1.0, GBP: 0.747, EUR: 0.896 };
+
+async function fetchLiveExchangeRates() {
+  try {
+    const cached = localStorage.getItem('shoaib_live_fx_rates');
+    if (cached) {
+      const parsed = JSON.parse(cached);
+      if (parsed && parsed.timestamp && (Date.now() - parsed.timestamp < 6 * 3600 * 1000)) {
+        if (parsed.rates && parsed.rates.GBP && parsed.rates.EUR) {
+          LIVE_FX_RATES = parsed.rates;
+          if (typeof updateCurrencyConversionDisplay === 'function') updateCurrencyConversionDisplay();
+          return;
+        }
+      }
+    }
+  } catch(e) {}
+
+  try {
+    const res = await fetch('https://open.er-api.com/v6/latest/USD');
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.rates && data.rates.GBP && data.rates.EUR) {
+        LIVE_FX_RATES = {
+          USD: 1.0,
+          GBP: parseFloat(data.rates.GBP) || 0.747,
+          EUR: parseFloat(data.rates.EUR) || 0.896
+        };
+        localStorage.setItem('shoaib_live_fx_rates', JSON.stringify({
+          rates: LIVE_FX_RATES,
+          timestamp: Date.now()
+        }));
+        if (typeof updateCurrencyConversionDisplay === 'function') {
+          updateCurrencyConversionDisplay();
+        }
+      }
+    }
+  } catch(err) {
+    console.warn('Live FX fetch notice (using stable mid-market rates):', err);
+  }
+}
+fetchLiveExchangeRates();
+
+function autoDetectClientCurrency() {
+  const country = (localStorage.getItem('shoaib_client_country') || '').toLowerCase();
+  const tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || '').toLowerCase();
+  
+  if (country.includes('united kingdom') || country.includes('uk') || tz.includes('london')) {
+    return 'gbp';
+  }
+  if (country.includes('europe') || tz.includes('berlin') || tz.includes('paris') || tz.includes('madrid') || tz.includes('rome') || tz.includes('amsterdam') || tz.includes('brussels') || tz.includes('vienna')) {
+    return 'eur';
+  }
+  return 'usd';
+}
+
+function updateCurrencyConversionDisplay() {
+  const totalPayableEl = document.getElementById('invTotalPayableDisplay');
+  let rawText = totalPayableEl ? totalPayableEl.textContent : '$0.00';
+  let usdAmount = parseFloat(rawText.replace(/,/g, '').replace(/[^0-9.]/g, '')) || 0;
+
+  const banner = document.getElementById('currencyPayableConversionBanner');
+  const rateMeta = document.getElementById('conversionRateMetaDisplay');
+  const amountDisplay = document.getElementById('conversionPayableAmountDisplay');
+  const rateNotice = document.getElementById('conversionRateNoticeText');
+  const sourceText = document.getElementById('conversionFxSourceText');
+  const txInput = document.getElementById('txRefInput');
+
+  if (!rateMeta || !amountDisplay) return;
+
+  const gbpRate = LIVE_FX_RATES.GBP || 0.747;
+  const eurRate = LIVE_FX_RATES.EUR || 0.896;
+
+  if (activeSelectedCurrency === 'gbp') {
+    const gbpAmount = (usdAmount * gbpRate).toFixed(2);
+    if (banner) banner.style.borderColor = '#ddd6fe';
+    rateMeta.innerHTML = 'Selected Currency: 🇬🇧 UK Local Bank Transfer (Faster Payments / BACS)';
+    amountDisplay.innerHTML = 'Payable Amount: <span style="color: #7c3aed; font-size: 20px;">£' + gbpAmount + ' GBP</span>';
+    if (rateNotice) {
+      rateNotice.style.color = '#7c3aed';
+      rateNotice.innerHTML = '✨ Please transfer exactly <strong>£' + gbpAmount + ' GBP</strong> to our UK account';
+    }
+    if (sourceText) sourceText.innerHTML = 'Live Mid-Market Rate: $1.00 USD ≈ £' + gbpRate.toFixed(4) + ' GBP';
+    if (txInput && !txInput.value) txInput.placeholder = 'e.g. Paid £' + gbpAmount + ' GBP (Ref #982401)';
+  } else if (activeSelectedCurrency === 'eur') {
+    const eurAmount = (usdAmount * eurRate).toFixed(2);
+    if (banner) banner.style.borderColor = '#a7f3d0';
+    rateMeta.innerHTML = 'Selected Currency: 🇪🇺 Eurozone SEPA Instant Transfer';
+    amountDisplay.innerHTML = 'Payable Amount: <span style="color: #059669; font-size: 20px;">€' + eurAmount + ' EUR</span>';
+    if (rateNotice) {
+      rateNotice.style.color = '#059669';
+      rateNotice.innerHTML = '✨ Please transfer exactly <strong>€' + eurAmount + ' EUR</strong> via SEPA';
+    }
+    if (sourceText) sourceText.innerHTML = 'Live Mid-Market Rate: $1.00 USD ≈ €' + eurRate.toFixed(4) + ' EUR';
+    if (txInput && !txInput.value) txInput.placeholder = 'e.g. Paid €' + eurAmount + ' EUR (Ref #982401)';
+  } else if (activeSelectedCurrency === 'wise') {
+    const gbpAmount = (usdAmount * gbpRate).toFixed(2);
+    const eurAmount = (usdAmount * eurRate).toFixed(2);
+    if (banner) banner.style.borderColor = '#86efac';
+    rateMeta.innerHTML = 'Selected Currency: 🌐 Wise-to-Wise Instant Direct Transfer';
+    amountDisplay.innerHTML = 'Payable: <span style="color: #16a34a; font-size: 20px;">$' + usdAmount.toFixed(2) + ' USD</span> <span style="font-size: 13px; color: #64748b; font-weight: normal;">(or £' + gbpAmount + ' / €' + eurAmount + ')</span>';
+    if (rateNotice) {
+      rateNotice.style.color = '#15803d';
+      rateNotice.innerHTML = 'Send directly to Wise account: <strong>retouchershoaib@gmail.com</strong>';
+    }
+    if (sourceText) sourceText.innerHTML = 'Zero transfer fees on direct Wise balance transfer';
+    if (txInput && !txInput.value) txInput.placeholder = 'Enter Wise Transfer ID / Reference (e.g. #982401)';
+  } else if (activeSelectedCurrency === 'card') {
+    if (banner) banner.style.borderColor = '#fed7aa';
+    rateMeta.innerHTML = 'Selected Currency: 💳 Instant Debit or Credit Card Gateway';
+    amountDisplay.innerHTML = 'Payable: <span style="color: #ea580c; font-size: 20px;">$' + usdAmount.toFixed(2) + ' USD</span>';
+    if (rateNotice) {
+      rateNotice.style.color = '#c2410c';
+      rateNotice.innerHTML = 'Instant checkout for Visa, Mastercard, AMEX & Apple Pay';
+    }
+    if (sourceText) sourceText.innerHTML = 'Gateway handles local currency conversion automatically';
+    if (txInput && !txInput.value) txInput.placeholder = 'Enter Card Payment Confirmation / Receipt ID';
+  } else {
+    // Default USD
+    if (banner) banner.style.borderColor = '#bfdbfe';
+    rateMeta.innerHTML = 'Selected Currency: 🇺🇸 United States Domestic Bank Routing';
+    amountDisplay.innerHTML = 'Payable Amount: <span style="color: #2563eb; font-size: 20px;">$' + usdAmount.toFixed(2) + ' USD</span>';
+    if (rateNotice) {
+      rateNotice.style.color = '#2563eb';
+      rateNotice.innerHTML = 'Domestic ACH Transfer (Zero wire fees inside US)';
+    }
+    if (sourceText) sourceText.innerHTML = 'Standard Studio Invoice Currency (1:1 USD)';
+    if (txInput && !txInput.value) txInput.placeholder = 'Enter Wise / Bank Transfer Reference (e.g. #982401)';
+  }
+}
+
 function switchCurrency(curr, btn) {
+  if (btn) window.currencyUserSelected = true;
+  activeSelectedCurrency = curr || 'usd';
   const allBtns = document.querySelectorAll('.curr-btn');
   allBtns.forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
+
+  if (btn) {
+    btn.classList.add('active');
+  } else {
+    const targetBtn = document.getElementById('currBtn' + (curr || 'usd').toUpperCase());
+    if (targetBtn) targetBtn.classList.add('active');
+  }
 
   const banks = ['bankUSD', 'bankEUR', 'bankGBP', 'bankWISE', 'bankCARD'];
   banks.forEach(b => {
@@ -4114,6 +4420,8 @@ function switchCurrency(curr, btn) {
   if (curr === 'gbp') document.getElementById('bankGBP').style.display = 'grid';
   if (curr === 'wise') document.getElementById('bankWISE').style.display = 'grid';
   if (curr === 'card') document.getElementById('bankCARD').style.display = 'block';
+
+  updateCurrencyConversionDisplay();
 }
 
 function copyText(elemId) {
@@ -4153,6 +4461,7 @@ function submitPaymentConfirmation() {
     ref: ref,
     orderId: normInvId || activeInvoiceSelection,
     amount: amt,
+    currencyPaid: (activeSelectedCurrency || 'usd').toUpperCase(),
     clientName: sess?.name || 'Studio Client',
     clientEmail: sess?.email || 'client@studio.com',
     time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),

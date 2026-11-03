@@ -2209,7 +2209,10 @@ function openPaymentReviewModal(id) {
   const elAmt = document.getElementById('admRevAmount');
   if (elAmt) elAmt.textContent = '$' + tot.toFixed(2) + ' USD';
   const elRef = document.getElementById('admRevRef');
-  if (elRef) elRef.textContent = '#' + (claim.ref || '-');
+  if (elRef) {
+    const curTag = (claim.currencyPaid && claim.currencyPaid !== 'USD') ? ' [' + claim.currencyPaid + ']' : '';
+    elRef.textContent = '#' + (claim.ref || '-') + curTag;
+  }
   const elTime = document.getElementById('admRevTime');
   if (elTime) elTime.textContent = (claim.time || '') + ' ' + (claim.date || '');
 
