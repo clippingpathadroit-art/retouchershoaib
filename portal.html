@@ -2743,7 +2743,12 @@ function loadStoredCustomOrders() {
         customOrders.forEach(ord => {
           if (!ord) return;
           const numId = normalizeNumericId(ord.numericId || ord.id);
-          if (numId && localStorage.getItem('shoaib_deleted_' + numId) !== '1') {
+          const ordEmail = (ord.clientEmail || ord.email || '').toLowerCase().trim();
+          const isDeletedClient = ordEmail && localStorage.getItem('shoaib_deleted_client_' + ordEmail) === '1';
+          const isDeletedOrder = !numId || localStorage.getItem('shoaib_deleted_' + numId) === '1' ||
+                                 localStorage.getItem('shoaib_deleted_RS-2026-' + numId) === '1' ||
+                                 localStorage.getItem('shoaib_deleted_#' + numId) === '1';
+          if (numId && !isDeletedOrder && !isDeletedClient) {
             ord.numericId = numId;
             ord.id = '#' + numId;
             const statusOverride = localStorage.getItem('shoaib_status_' + numId) || localStorage.getItem('shoaib_status_RS-2026-' + numId);
@@ -3620,6 +3625,10 @@ function getClientOrders() {
   const sess = getCurrentSession();
   const curEmail = (sess?.email || '').toLowerCase().trim();
   const filtered = {};
+
+  if (curEmail && localStorage.getItem('shoaib_deleted_client_' + curEmail) === '1') {
+    return filtered;
+  }
 
   if (isDemo) {
     if (ORDERS['084'] && !isPortalOrderDeleted('084')) filtered['084'] = ORDERS['084'];
@@ -6368,9 +6377,11 @@ async function syncPortalFromCloud() {
 
       // 0. Sync Deleted Orders from Cloud (Purge immediately across client portal)
       if (data.deletedOrders && typeof data.deletedOrders === 'object') {
+        let deletedFound = false;
         Object.keys(data.deletedOrders).forEach(k => {
           const cleanK = normalizeNumericId(k);
           if (cleanK) {
+            deletedFound = true;
             localStorage.setItem('shoaib_deleted_' + cleanK, '1');
             localStorage.setItem('shoaib_deleted_RS-2026-' + cleanK, '1');
             localStorage.setItem('shoaib_deleted_#RS-2026-' + cleanK, '1');
@@ -6393,6 +6404,55 @@ async function syncPortalFromCloud() {
             delete ORDERS['RS-2026-' + cleanK];
           }
         });
+        if (deletedFound) {
+          try {
+            const rawCust = localStorage.getItem('shoaib_custom_orders');
+            if (rawCust) {
+              let orders = JSON.parse(rawCust);
+              const prevLen = orders.length;
+              orders = orders.filter(o => {
+                const num = normalizeNumericId(o.numericId || o.id);
+                return !data.deletedOrders[num] && !data.deletedOrders['#' + num] && !data.deletedOrders['RS-2026-' + num];
+              });
+              if (orders.length !== prevLen) {
+                localStorage.setItem('shoaib_custom_orders', JSON.stringify(orders));
+                changed = true;
+              }
+            }
+          } catch(e) {}
+          changed = true;
+        }
+      }
+
+      // 0B. Sync Deleted Clients from Cloud (Purge Client Commissions)
+      if (data.deletedClients && typeof data.deletedClients === 'object') {
+        const sess = getCurrentSession();
+        const curEmail = (sess?.email || '').toLowerCase().trim();
+        Object.keys(data.deletedClients).forEach(em => {
+          const cleanEm = em.toLowerCase().trim();
+          localStorage.setItem('shoaib_deleted_client_' + cleanEm, '1');
+        });
+        if (curEmail && (data.deletedClients[curEmail] || localStorage.getItem('shoaib_deleted_client_' + curEmail) === '1')) {
+          try {
+            const rawCust = localStorage.getItem('shoaib_custom_orders');
+            if (rawCust) {
+              let orders = JSON.parse(rawCust);
+              const prevLen = orders.length;
+              orders = orders.filter(o => (o.clientEmail || '').toLowerCase().trim() !== curEmail);
+              if (orders.length !== prevLen) {
+                localStorage.setItem('shoaib_custom_orders', JSON.stringify(orders));
+                changed = true;
+              }
+            }
+          } catch(e) {}
+          Object.keys(ORDERS).forEach(k => {
+            const o = ORDERS[k];
+            if (o && (o.clientEmail || '').toLowerCase().trim() === curEmail) {
+              delete ORDERS[k];
+              changed = true;
+            }
+          });
+        }
       }
 
       // 0. Sync statuses from cloud FIRST (authoritative server truth)

@@ -52,6 +52,7 @@ function getDatabase(rootFolder) {
     if (!db.paidStatuses || typeof db.paidStatuses !== "object") db.paidStatuses = {};
     if (!db.paymentClaims || typeof db.paymentClaims !== "object") db.paymentClaims = {};
     if (!db.deletedOrders || typeof db.deletedOrders !== "object") db.deletedOrders = {};
+    if (!db.deletedClients || typeof db.deletedClients !== "object") db.deletedClients = {};
     if (!db.agreedPrices || typeof db.agreedPrices !== "object") db.agreedPrices = {};
 
     // Auto-heal orders: normalize ID, sync isPaid and isAgreed
@@ -872,19 +873,46 @@ function doPost(e) {
         .setMimeType(ContentService.MimeType.JSON);
     }
 
-    // (K) ক্লায়েন্ট প্রোফাইল ডেটাবেজ থেকে মুছে ফেলা
-    if (data.action === "delete_client") {
-      var email = (data.email || "").toLowerCase().trim();
+    // (K) ক্লায়েন্ট প্রোফাইল ও তার সকল অর্ডার ডেটাবেজ থেকে স্থায়ীভাবে মুছে ফেলা
+    if (data.action === "delete_client" || data.action === "purge_client_orders") {
+      var email = (data.email || data.clientEmail || "").toLowerCase().trim();
       var lock = LockService.getScriptLock();
       lock.tryLock(10000);
       try {
         var db = getDatabase(rootFolder);
-        delete db.users[email];
+        if (db.users && db.users[email]) {
+          delete db.users[email];
+        }
+        if (!db.deletedOrders || typeof db.deletedOrders !== "object") db.deletedOrders = {};
+        if (!db.deletedClients || typeof db.deletedClients !== "object") db.deletedClients = {};
+        if (email) {
+          db.deletedClients[email] = true;
+        }
+
+        // Purge all orders placed by this client
+        var removedIds = [];
+        db.orders = db.orders.filter(function(o) {
+          var oEmail = (o.clientEmail || o.email || "").toLowerCase().trim();
+          if (email && oEmail === email) {
+            var num = normalizeGasId(o.numericId || o.id || o.orderId);
+            if (num) {
+              removedIds.push(num);
+              db.deletedOrders[num] = true;
+              db.deletedOrders["#" + num] = true;
+              db.deletedOrders["RS-2026-" + num] = true;
+              db.deletedOrders["#RS-2026-" + num] = true;
+              db.deletedOrders["2026" + num] = true;
+            }
+            return false;
+          }
+          return true;
+        });
+
         saveDatabase(rootFolder, db);
       } finally {
         lock.releaseLock();
       }
-      return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
+      return ContentService.createTextOutput(JSON.stringify({ status: "success", purgedEmail: email, removedIds: removedIds }))
         .setMimeType(ContentService.MimeType.JSON);
     }
     
