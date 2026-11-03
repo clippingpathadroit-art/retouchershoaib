@@ -572,6 +572,45 @@ footer {
 
 @media (max-width: 768px) {
 
+  /* MOBILE VIDEO PLAYER: TOP-LEFT TITLE BADGE & BOTTOM-RIGHT CONTROLS (FACE NEVER COVERED) */
+  .video-overlay-ctrls {
+    position: static !important;
+  }
+  .video-tag {
+    position: absolute !important;
+    top: 10px !important;
+    left: 10px !important;
+    font-size: 9.5px !important;
+    padding: 5px 10px !important;
+    border-radius: 99px !important;
+    background: rgba(10, 10, 10, 0.72) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    z-index: 6 !important;
+    pointer-events: auto !important;
+  }
+  .video-actions-group {
+    position: absolute !important;
+    bottom: 10px !important;
+    right: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    z-index: 6 !important;
+    pointer-events: auto !important;
+  }
+  .video-ctrl-btn.sound-pill {
+    height: 32px !important;
+    padding: 0 10px !important;
+    font-size: 9.5px !important;
+  }
+  .video-ctrl-btn.round-btn {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+
   /* LUXURY MOBILE PADDING & CONTAINMENT: NO TEXT OR IMAGE EVER CLIPS */
   .w,
   section.w,
@@ -620,19 +659,7 @@ footer {
     margin: 20px auto 0 !important;
     padding: 0 16px !important;
   }
-  .video-overlay-ctrls {
-    top: 10px !important;
-    left: 10px !important;
-    right: 10px !important;
-  }
-  .video-tag {
-    font-size: 10px !important;
-    padding: 5px 10px !important;
-  }
-  .video-ctrl-btn.sound-pill {
-    padding: 5px 10px !important;
-    font-size: 10px !important;
-  }
+  
   #navbar #navClientAccessBtn {
     background: var(--fg) !important;
     color: #fff !important;
@@ -1046,19 +1073,7 @@ footer {
     margin: 20px auto 0 !important;
     padding: 0 16px !important;
   }
-  .video-overlay-ctrls {
-    top: 10px !important;
-    left: 10px !important;
-    right: 10px !important;
-  }
-  .video-tag {
-    font-size: 10px !important;
-    padding: 5px 10px !important;
-  }
-  .video-ctrl-btn.sound-pill {
-    padding: 5px 10px !important;
-    font-size: 10px !important;
-  }
+    
   #navbar #navClientAccessBtn {
     background: var(--fg) !important;
     color: #fff !important;
