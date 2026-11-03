@@ -292,7 +292,7 @@ nav {
 }
 
 .mob-menu-overlay {
-  display: none;
+  display: none !important;
   position: fixed;
   inset: 0;
   width: 100vw;
@@ -308,6 +308,7 @@ nav {
 }
 
 .mob-menu-overlay.is-open {
+  display: block !important;
   opacity: 1;
   pointer-events: auto;
 }
@@ -494,9 +495,7 @@ nav {
   .nav-mob-toggle {
     display: inline-flex !important;
   }
-  .mob-menu-overlay {
-    display: block !important;
-  }
+  
 }
 
 @media (max-width: 440px) {
@@ -567,6 +566,12 @@ footer {
 }
 
 @media (max-width: 768px) {
+  .footer-grid .footer-col:first-child {
+    grid-column: 1 / -1 !important;
+  }
+  .footer-grid .footer-col:first-child p {
+    max-width: 100% !important;
+  }
   .footer-grid {
     grid-template-columns: 1fr 1fr;
   }

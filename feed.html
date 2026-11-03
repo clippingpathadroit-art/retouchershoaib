@@ -158,7 +158,7 @@ nav#navbar {
 }
 
 .mob-menu-overlay {
-  display: none;
+  display: none !important;
   position: fixed;
   inset: 0;
   width: 100vw;
@@ -174,6 +174,7 @@ nav#navbar {
 }
 
 .mob-menu-overlay.is-open {
+  display: block !important;
   opacity: 1;
   pointer-events: auto;
 }
@@ -360,9 +361,7 @@ nav#navbar {
   .nav-mob-toggle {
     display: inline-flex !important;
   }
-  .mob-menu-overlay {
-    display: block !important;
-  }
+  
 }
 
 @media (max-width: 440px) {
@@ -699,6 +698,12 @@ footer {
 }
 
 @media (max-width: 768px) {
+  .footer-grid .footer-col:first-child {
+    grid-column: 1 / -1 !important;
+  }
+  .footer-grid .footer-col:first-child p {
+    max-width: 100% !important;
+  }
   .svc-teaser-row {
     grid-template-columns: 1fr !important;
     gap: 8px !important;
@@ -1201,6 +1206,54 @@ routeFeedArticle(false);
     }, 400);
   });
 })();
+</script>
+
+<script>
+// DYNAMIC CLIENT ACCESS HEADER PAIRING
+function syncHeaderClientState() {
+  const sessionRaw = localStorage.getItem('shoaib_client_session') || localStorage.getItem('shoaib_client_profile');
+  const loginBtn = document.getElementById('navClientAccessBtn');
+  const ctaBtn = document.getElementById('navMainCtaBtn');
+  const mobClientBtn = document.getElementById('mobDrawerClientBtn');
+  const mobCtaBtn = document.getElementById('mobDrawerCtaBtn');
+  if (!loginBtn || !ctaBtn) return;
+
+  let session = null;
+  if (sessionRaw) {
+    try {
+      session = JSON.parse(sessionRaw);
+    } catch(e) {}
+  }
+
+  if (session && (session.email || session.name)) {
+    const isDirector = (session.email || '').toLowerCase().trim() === 'retouchershoaib@gmail.com';
+    let name = session.name ? session.name.split(' ')[0] : 'Client';
+    if (isDirector) {
+      loginBtn.href = 'admin.html';
+      loginBtn.innerHTML = '🛡️ Director Console';
+      ctaBtn.href = 'admin.html';
+      ctaBtn.innerHTML = '👑 Director Shoaib (Admin ↗)';
+      if (mobClientBtn) { mobClientBtn.href = 'admin.html'; mobClientBtn.innerHTML = '🛡️ Director Console ↗'; }
+      if (mobCtaBtn) { mobCtaBtn.href = 'admin.html'; mobCtaBtn.innerHTML = '👑 Director Admin ↗'; }
+    } else {
+      loginBtn.href = 'portal.html#new';
+      loginBtn.innerHTML = '+ Place Order';
+      ctaBtn.href = 'portal.html';
+      ctaBtn.innerHTML = '🟢 ' + name + ' (Dashboard ↗)';
+      if (mobClientBtn) { mobClientBtn.href = 'portal.html#new'; mobClientBtn.innerHTML = '+ Place New Order'; }
+      if (mobCtaBtn) { mobCtaBtn.href = 'portal.html'; mobCtaBtn.innerHTML = '🟢 Client Portal (' + name + ') ↗'; }
+    }
+  } else {
+    loginBtn.href = 'portal.html';
+    loginBtn.innerHTML = 'Log In';
+    ctaBtn.href = 'contact.html';
+    ctaBtn.innerHTML = 'Free Trial';
+    if (mobClientBtn) { mobClientBtn.href = 'portal.html'; mobClientBtn.innerHTML = 'Client Portal Log In 🔒'; }
+    if (mobCtaBtn) { mobCtaBtn.href = 'contact.html'; mobCtaBtn.innerHTML = 'Start Free Trial →'; }
+  }
+}
+document.addEventListener('DOMContentLoaded', syncHeaderClientState);
+syncHeaderClientState();
 </script>
 </body>
 </html>

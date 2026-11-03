@@ -292,7 +292,7 @@ nav {
 }
 
 .mob-menu-overlay {
-  display: none;
+  display: none !important;
   position: fixed;
   inset: 0;
   width: 100vw;
@@ -308,6 +308,7 @@ nav {
 }
 
 .mob-menu-overlay.is-open {
+  display: block !important;
   opacity: 1;
   pointer-events: auto;
 }
@@ -481,9 +482,7 @@ nav {
   .nav-mob-toggle {
     display: inline-flex !important;
   }
-  .mob-menu-overlay {
-    display: block !important;
-  }
+  
 }
 
 @media (max-width: 440px) {
@@ -569,6 +568,41 @@ footer {
 }
 
 @media (max-width: 768px) {
+  .kinetic-section {
+    padding: 50px 0 70px !important;
+  }
+  .marquee-item {
+    font-size: 38px !important;
+    padding: 0 16px !important;
+  }
+  .kinetic-video-wrapper {
+    margin: 20px auto 0 !important;
+    padding: 0 16px !important;
+  }
+  .video-overlay-ctrls {
+    top: 10px !important;
+    left: 10px !important;
+    right: 10px !important;
+  }
+  .video-tag {
+    font-size: 10px !important;
+    padding: 5px 10px !important;
+  }
+  .video-ctrl-btn.sound-pill {
+    padding: 5px 10px !important;
+    font-size: 10px !important;
+  }
+  #navbar #navClientAccessBtn {
+    background: var(--fg) !important;
+    color: #fff !important;
+    border-color: var(--fg) !important;
+  }
+  .footer-grid .footer-col:first-child {
+    grid-column: 1 / -1 !important;
+  }
+  .footer-grid .footer-col:first-child p {
+    max-width: 100% !important;
+  }
   .footer-grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -732,6 +766,20 @@ footer {
   font-size: 12px;
   color: var(--mut);
   z-index: 10;
+}
+
+
+.studio-teaser-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 60px;
+  align-items: center;
+}
+@media (max-width: 860px) {
+  .studio-teaser-grid {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+  }
 }
 
 /* KINETIC SECTION */
@@ -946,6 +994,41 @@ footer {
 }
 
 @media (max-width: 768px) {
+  .kinetic-section {
+    padding: 50px 0 70px !important;
+  }
+  .marquee-item {
+    font-size: 38px !important;
+    padding: 0 16px !important;
+  }
+  .kinetic-video-wrapper {
+    margin: 20px auto 0 !important;
+    padding: 0 16px !important;
+  }
+  .video-overlay-ctrls {
+    top: 10px !important;
+    left: 10px !important;
+    right: 10px !important;
+  }
+  .video-tag {
+    font-size: 10px !important;
+    padding: 5px 10px !important;
+  }
+  .video-ctrl-btn.sound-pill {
+    padding: 5px 10px !important;
+    font-size: 10px !important;
+  }
+  #navbar #navClientAccessBtn {
+    background: var(--fg) !important;
+    color: #fff !important;
+    border-color: var(--fg) !important;
+  }
+  .footer-grid .footer-col:first-child {
+    grid-column: 1 / -1 !important;
+  }
+  .footer-grid .footer-col:first-child p {
+    max-width: 100% !important;
+  }
   .feat-grid { grid-template-columns: 1fr; }
 }
 
@@ -1299,7 +1382,7 @@ footer {
 
 <!-- STUDIO & PHILOSOPHY TEASER (LINKS TO STUDIO.HTML) -->
 <section style="padding: 100px 0; background: var(--soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
-  <div class="w" style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: center;">
+  <div class="w studio-teaser-grid">
     <div>
       <div class="lab" style="margin-bottom: 14px;">The Studio & Team</div>
       <h2 style="font-size: clamp(34px, 4.5vw, 60px); font-weight: 800; line-height: 1.05; margin-bottom: 24px;">
