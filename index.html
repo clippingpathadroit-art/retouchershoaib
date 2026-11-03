@@ -486,6 +486,9 @@ nav {
 }
 
 @media (max-width: 440px) {
+  .card-stage {
+    width: clamp(200px, 58vw, 225px) !important;
+  }
   #navMainCtaBtn {
     display: none !important;
   }
@@ -568,6 +571,44 @@ footer {
 }
 
 @media (max-width: 768px) {
+
+  /* LUXURY MOBILE PADDING & CONTAINMENT: NO TEXT OR IMAGE EVER CLIPS */
+  .w,
+  section.w,
+  .hero.w,
+  .studio-teaser-grid,
+  .sec-projects,
+  .sec-trial-cta {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .sec-projects {
+    padding-top: 50px !important;
+    padding-bottom: 60px !important;
+  }
+  .sec-trial-cta {
+    padding-top: 60px !important;
+    padding-bottom: 70px !important;
+  }
+  .lead {
+    font-size: clamp(24px, 6.2vw, 36px) !important;
+    line-height: 1.2 !important;
+    word-break: break-word !important;
+  }
+  .feat-thumb {
+    width: 100% !important;
+    border-radius: 14px !important;
+    overflow: hidden !important;
+  }
+  .feat-thumb img {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+  }
+
   .kinetic-section {
     padding: 50px 0 70px !important;
   }
@@ -1333,7 +1374,7 @@ footer {
 </section>
 
 <!-- FEATURED PORTFOLIO TEASER (LINKS TO WORK.HTML) -->
-<section class="w" style="padding: 100px 0;">
+<section class="w sec-projects">
   <div class="section-head">
     <div class="lab">Selected Projects</div>
     <div class="lead">
@@ -1401,7 +1442,7 @@ footer {
 </section>
 
 <!-- CALL TO ACTION BANNER (LINKS TO CONTACT.HTML) -->
-<section class="w" style="padding: 110px 0; text-align: center;">
+<section class="w sec-trial-cta">
   <div class="lab" style="margin-bottom: 14px;">Risk-Free Collaboration</div>
   <h2 style="font-size: clamp(36px, 6vw, 80px); font-weight: 800; line-height: 1; margin-bottom: 24px;">
     Experience Our Craft with a Free Trial.

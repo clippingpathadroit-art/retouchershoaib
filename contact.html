@@ -716,6 +716,31 @@ footer {
 }
 
 @media (max-width: 768px) {
+
+  /* LUXURY MOBILE PADDING & CONTAINMENT: NO TEXT OR IMAGE EVER CLIPS */
+  .w,
+  .page-title.w,
+  .contact-section.w {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .page-title.w {
+    padding-top: 44px !important;
+    padding-bottom: 12px !important;
+  }
+  .contact-section {
+    padding-top: 20px !important;
+    padding-bottom: 70px !important;
+  }
+  .contact-info h2 {
+    font-size: clamp(24px, 6.2vw, 36px) !important;
+    line-height: 1.2 !important;
+    word-break: break-word !important;
+  }
+
   .form-actions {
     flex-direction: column !important;
     width: 100% !important;
