@@ -5392,7 +5392,23 @@ function handleAiChipClick(text) {
   sendAiMessage();
 }
 
-function sendAiMessage() {
+let aiChatSessionHistory = [];
+
+function formatAiMarkdown(text) {
+  if (!text) return '';
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/```([\s\S]*?)```/g, '<pre style="background: #111; color: #38bdf8; padding: 8px; border-radius: 6px; font-size: 11px;">$1</pre>')
+    .replace(/`([^`]+)`/g, '<code style="background: rgba(0,0,0,0.3); padding: 2px 5px; border-radius: 4px; font-size: 11px; color: #38bdf8;">$1</code>')
+    .replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" style="color: #10b981; text-decoration: underline; font-weight: 700;">$1 ↗</a>')
+    .replace(/\n/g, '<br>');
+}
+
+async function sendAiMessage() {
   const input = document.getElementById('aiChatInput');
   const text = input?.value.trim();
   if (!text) return;
@@ -5408,14 +5424,65 @@ function sendAiMessage() {
 
   input.value = '';
 
-  // Generate Concierge Response with strict guardrails
-  setTimeout(() => {
-    const bMsg = document.createElement('div');
-    bMsg.className = 'ai-msg bot';
-    bMsg.innerHTML = getConciergeResponse(text);
-    chatBody.appendChild(bMsg);
-    chatBody.scrollTop = chatBody.scrollHeight;
-  }, 400);
+  // Append typing indicator
+  const typingId = 'aiTyping_' + Date.now();
+  const bMsg = document.createElement('div');
+  bMsg.className = 'ai-msg bot';
+  bMsg.id = typingId;
+  bMsg.innerHTML = '<span style="display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: #64748b;">' +
+                   '<span style="display: inline-block; width: 6px; height: 6px; background: #3b82f6; border-radius: 50%; opacity: 0.8;"></span>' +
+                   'Studio Assistant is thinking...</span>';
+  chatBody.appendChild(bMsg);
+  chatBody.scrollTop = chatBody.scrollHeight;
+
+  // Record to memory history
+  aiChatSessionHistory.push({ role: 'user', text: text });
+  if (aiChatSessionHistory.length > 8) {
+    aiChatSessionHistory = aiChatSessionHistory.slice(-8);
+  }
+
+  const curSess = getCurrentSession();
+  const curEmail = (curSess?.email || '').toLowerCase().trim();
+
+  let responded = false;
+
+  // Try live Google Gemini API via Google Apps Script Webhook
+  if (typeof GOOGLE_DRIVE_WEBHOOK_URL !== 'undefined' && GOOGLE_DRIVE_WEBHOOK_URL) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 6500);
+
+      const res = await fetch(GOOGLE_DRIVE_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'chat_ai',
+          message: text,
+          history: aiChatSessionHistory,
+          clientEmail: curEmail
+        }),
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+
+      const data = await res.json();
+      if (data && data.status === 'success' && data.reply) {
+        const formatted = formatAiMarkdown(data.reply);
+        bMsg.innerHTML = formatted;
+        aiChatSessionHistory.push({ role: 'model', text: data.reply });
+        responded = true;
+      }
+    } catch(err) {
+      // Network timeout or non-JSON response: fall back to local knowledge engine
+    }
+  }
+
+  // Fallback to Comprehensive Local Knowledge Engine if cloud AI is unavailable or offline
+  if (!responded) {
+    const localReply = getConciergeResponse(text);
+    bMsg.innerHTML = localReply;
+    aiChatSessionHistory.push({ role: 'model', text: localReply });
+  }
 
   chatBody.scrollTop = chatBody.scrollHeight;
 }
@@ -5423,69 +5490,120 @@ function sendAiMessage() {
 function getConciergeResponse(q) {
   const query = q.toLowerCase();
 
-  // STRICT GUARDRAIL: PRICING TALK IS STRICTLY FORBIDDEN!
-  if (query.includes('price') || query.includes('pricing') || query.includes('rate') || query.includes('cost') || query.includes('how much') || query.includes('টাকা') || query.includes('দাম')) {
-    return "<strong>Project Rates &amp; Pricing Policy:</strong><br>" +
-           "Custom retouching rates are tailored personally by Shoaib Siddique based on image resolution, volume, and art direction complexity.<br><br>" +
-           "To discuss rates or receive an agreed commercial quote, please speak directly with Shoaib on WhatsApp: <a href='https://wa.me/8801710763251' target='_blank' style='color: #10b981; font-weight: 700;'>+880 1710-763251 ↗</a> or propose your budget on the <strong>+ Place New Order</strong> form.";
+  // 1. STRICT SECURITY & CONFIDENTIALITY GUARDRAILS
+  if (query.includes('admin') || query.includes('password') || query.includes('credential') || 
+      query.includes('database') || query.includes('all client') || query.includes('other client') || 
+      query.includes('who else') || query.includes('user list') || query.includes('পাসওয়ার্ড') || query.includes('লগইন')) {
+    return "<strong>🛡️ Confidentiality &amp; Privacy Protocol:</strong><br>" +
+           "As Shoaib's studio concierge, I operate under strict non-disclosure and security policies.<br><br>" +
+           "I cannot disclose administrative passwords, backend credentials, database records, or private details regarding other studio clients.<br><br>" +
+           "You have verified, isolated access to your own commissions and invoices. How may I assist you with your current retouching project?";
   }
 
-  // REFERENCE CODE GUIDANCE
+  // 2. STRICT GUARDRAIL: PRICE NEGOTIATION & COMMISSION CHANGES FORBIDDEN
+  if (query.includes('change price') || query.includes('reduce price') || query.includes('discount') || 
+      query.includes('cheaper') || query.includes('negotiate') || query.includes('custom rate') || 
+      query.includes('modify price') || query.includes('alter order') || query.includes('change scope') ||
+      query.includes('price') || query.includes('pricing') || query.includes('rate') || query.includes('cost') ||
+      query.includes('how much') || query.includes('টাকা') || query.includes('দাম') || query.includes('ডিসকাউন্ট')) {
+    return "<strong>⚠️ Project Rates &amp; Pricing Authority Policy:</strong><br>" +
+           "Adjusting project rates, offering discounts, altering invoices, or modifying agreed commission scopes is <strong>strictly outside my authority as an AI assistant</strong>.<br><br>" +
+           "All commercial quotes, volume pricing, and rates are personally agreed upon by <strong>Shoaib Siddique</strong> based on resolution, art direction complexity, and image count.<br><br>" +
+           "To discuss custom commercial terms or request revisions, please connect directly with Shoaib on WhatsApp: <a href='https://wa.me/8801710763251' target='_blank' style='color: #10b981; font-weight: 700;'>+880 1710-763251 ↗</a> or propose your budget on the <strong>+ Place New Order</strong> form.";
+  }
+
+  // 3. CARD PAYMENT & WISE SIGN-UP GUIDANCE (EXTREMELY IMPORTANT)
+  if (query.includes('card') || query.includes('credit') || query.includes('debit') || 
+      query.includes('sign up') || query.includes('signup') || query.includes('register') || 
+      query.includes('account') || query.includes('visa') || query.includes('mastercard') || 
+      query.includes('কার্ড') || query.includes('সাইন আপ')) {
+    return "<strong>💳 Paying by Card via Wise (Everything You Need to Know):</strong><br>" +
+           "When you click <em>'Credit / Debit Card'</em> on your invoice, your card checkout is securely processed through Wise's PCI-DSS compliant international infrastructure.<br><br>" +
+           "<strong>Why does Wise ask to 'Sign Up' or 'Create an Account'?</strong><br>" +
+           "Please do not be confused! Wise requires a quick 1-minute free registration to comply with global banking standards (3D-Secure authentication) and protect you from inflated foreign exchange fees charged by traditional card networks.<br><br>" +
+           "<strong>Your Payment Options:</strong><br>" +
+           "&bull; <strong>Option A (Card):</strong> Complete the quick 1-minute free registration on Wise, then enter your regular Visa, MasterCard, or Amex card to pay in seconds.<br>" +
+           "&bull; <strong>Option B (Direct Bank Transfer):</strong> If you do not wish to create a Wise account, simply select your currency tab (<strong>🇺🇸 USD ACH, 🇪🇺 EUR SEPA, or 🇬🇧 GBP Sort Code</strong>) on your invoice and transfer directly from your normal banking app with zero sign-up required!";
+  }
+
+  // 4. ABOUT WISE (WHAT IS WISE & IS IT SAFE?)
+  if (query.includes('what is wise') || query.includes('is wise safe') || query.includes('about wise') || 
+      query.includes('transferwise') || query.includes('trust wise') || query.includes('ওয়াইজ')) {
+    return "<strong>🌐 About Wise (formerly TransferWise):</strong><br>" +
+           "Wise is an internationally regulated financial institution authorized by the UK Financial Conduct Authority (FCA), FinCEN in the United States, and financial authorities across Europe and Asia.<br><br>" +
+           "<strong>Why Shoaib's Studio Uses Wise:</strong><br>" +
+           "&bull; <strong>Zero Hidden Currency Markups:</strong> Traditional wire transfers and PayPal charge up to 4–6% in hidden exchange rate markups plus $30–$50 wire fees. Wise uses the real mid-market exchange rate.<br>" +
+           "&bull; <strong>Bank-Level Security:</strong> 2-Factor Authentication, HTTPS encryption, and 3D-Secure protection.<br>" +
+           "&bull; <strong>Over 16 Million Clients:</strong> Trusted worldwide by Fortune 500 companies, creative studios, and global enterprises.";
+  }
+
+  // 5. PAYMENT REFERENCE CODE SUBMISSION
   if (query.includes('reference') || query.includes('ref') || query.includes('code') || query.includes('রেফারেন্স')) {
-    return "<strong>What is the Payment Reference Code?</strong><br>" +
-           "When you complete a transfer via Wise, Domestic Bank (ACH/SEPA/Sort Code), or Card, your banking app provides a unique <strong>Transaction Reference #</strong> (e.g. <em>Wise #982401</em> or bank confirmation code).<br><br>" +
-           "<strong>How to submit:</strong><br>" +
+    return "<strong>🏷️ What is the Payment Reference Code?</strong><br>" +
+           "When you complete a transfer via Wise, Domestic Bank (ACH/SEPA/Sort Code), or Card, your banking app or Wise receipt displays a unique <strong>Transaction Reference #</strong> (e.g. <em>Wise #982401</em> or bank confirmation code).<br><br>" +
+           "<strong>How to Submit Your Reference:</strong><br>" +
            "1. Open your invoice under <strong>Invoices &amp; Billing</strong>.<br>" +
            "2. Scroll down to the payment section.<br>" +
            "3. Paste your code into the <em>'Enter Wise / Bank Transfer Reference'</em> input box.<br>" +
-           "4. Click <strong>Confirm Transfer</strong>. Shoaib's studio will verify and issue your receipt!";
+           "4. Click <strong>Confirm Transfer</strong>. Shoaib's studio will verify the funds and issue an official paid receipt!";
   }
 
-  // PAYMENT INSTRUCTIONS
+  // 6. GENERAL PAYMENT INSTRUCTIONS
   if (query.includes('pay') || query.includes('invoice') || query.includes('bank') || query.includes('wise') || query.includes('পেমেন্ট')) {
-    return "<strong>How to Pay Your Invoice:</strong><br>" +
+    return "<strong>💳 How to Pay Your Invoice:</strong><br>" +
            "1. Click <strong>Invoices &amp; Billing</strong> in your left menu.<br>" +
-           "2. Click <strong>[View Invoice 👁️]</strong> or <strong>[Pay 💳]</strong> on your active statement.<br>" +
-           "3. Choose your preferred currency tab (🇺🇸 USD ACH, 🇪🇺 EUR SEPA, 🇬🇧 GBP Sort Code, 🌐 Wise Direct, or 💳 Card Checkout).<br>" +
-           "4. Copy the domestic routing and account numbers.<br>" +
-           "5. Domestic bank transfers have zero international wire fees!";
+           "2. Click <strong>[View Invoice 👁️]</strong> or <strong>[Pay 💳]</strong> on your active commission.<br>" +
+           "3. Choose your currency tab:<br>" +
+           "&nbsp;&nbsp;&bull; <strong>🇺🇸 USD ACH:</strong> US Domestic Routing &amp; Account Number (No Wire Fees!)<br>" +
+           "&nbsp;&nbsp;&bull; <strong>🇪🇺 EUR SEPA:</strong> European IBAN &amp; BIC<br>" +
+           "&nbsp;&nbsp;&bull; <strong>🇬🇧 GBP Sort Code:</strong> UK Account Number &amp; Sort Code<br>" +
+           "&nbsp;&nbsp;&bull; <strong>🌐 Wise Direct:</strong> Direct Wise email transfer to shoaib.graphicdesign.bd@gmail.com<br>" +
+           "&nbsp;&nbsp;&bull; <strong>💳 Card Checkout:</strong> Instant Visa/Mastercard processing via Wise<br>" +
+           "4. Submit your payment reference code once sent!";
   }
 
-  // DOWNLOAD INSTRUCTIONS
+  // 7. DOWNLOAD DELIVERABLES INSTRUCTIONS
   if (query.includes('download') || query.includes('zip') || query.includes('file') || query.includes('psd') || query.includes('raw') || query.includes('ডাউনলোড')) {
-    return "<strong>How to Download Your Master Files:</strong><br>" +
-           "1. Go to <strong>Archive &amp; Completed</strong> in the left sidebar.<br>" +
-           "2. Locate your delivered order (e.g. #RS-2026-084).<br>" +
-           "3. Click <strong>[📥 Download Files (ZIP)]</strong> to download certified 16-bit master PSDs with preserved alpha channels directly from Google Drive.";
+    return "<strong>📥 How to Download Your Master Files:</strong><br>" +
+           "1. Navigate to <strong>Archive &amp; Completed</strong> (or Active Orders if marked delivered) in your sidebar.<br>" +
+           "2. Locate your delivered project.<br>" +
+           "3. Click <strong>[📥 Download Files (ZIP)]</strong> to download certified 16-bit master PSDs with intact alpha channels and high-res JPEGs directly from Google Drive.";
   }
 
-  // NEW ORDER INSTRUCTIONS
-  if (query.includes('order') || query.includes('submit') || query.includes('new') || query.includes('অর্ডার')) {
-    return "<strong>How to Submit a New Retouching Order:</strong><br>" +
+  // 8. NEW COMMISSION SUBMISSION
+  if (query.includes('order') || query.includes('submit') || query.includes('new') || query.includes('commission') || query.includes('অর্ডার')) {
+    return "<strong>⚡ How to Submit a New Retouching Commission:</strong><br>" +
            "1. Click the <strong>+ Place New Order</strong> button at the top right of your dashboard.<br>" +
-           "2. Fill in your Campaign Project Name, select Desired Returning Formats (PSD, JPEG, etc.), and set Turnaround SLA.<br>" +
-           "3. Drag &amp; drop your RAW files into Option A or paste a Google Drive link in Option B.<br>" +
-           "4. Click Submit. Your live SLA countdown timer starts ticking immediately in bright green!";
+           "2. Enter your Project Name, select Desired Returning Formats (PSD, TIFF, JPEG), and choose your Turnaround SLA (24h Express, 48h Standard).<br>" +
+           "3. Drag &amp; drop your RAW camera files into Option A or paste a Google Drive link in Option B.<br>" +
+           "4. Click <strong>Send Order →</strong>. Your dedicated order folder is provisioned immediately!";
   }
 
-  // DEFAULT CONCIERGE HELP
-  return "I can help guide you through navigating your Studio Portal!<br><br>" +
-         "&bull; <strong>Active Orders:</strong> Check production pipeline and live SLA countdown.<br>" +
-         "&bull; <strong>Invoices &amp; Billing:</strong> Inspect itemized billing and pay via Wise or Domestic Bank.<br>" +
-         "&bull; <strong>Download Masters:</strong> Open Archive &amp; Completed for ZIP master links.<br><br>" +
-         "Need direct assistance? <a href='https://wa.me/8801710763251' target='_blank' style='color: #10b981; font-weight: 700;'>Chat with Shoaib on WhatsApp ↗</a>";
+  // 9. STUDIO CAPABILITIES & SPECS
+  if (query.includes('service') || query.includes('jewelry') || query.includes('watch') || 
+      query.includes('fashion') || query.includes('beauty') || query.includes('skin') || 
+      query.includes('spec') || query.includes('format')) {
+    return "<strong>✨ Shoaib's Studio Retouching Capabilities:</strong><br>" +
+           "&bull; <strong>Jewelry &amp; Watches:</strong> Metallic texture preservation, diamond sparkle facets, focus stacking, micro-scratch removal.<br>" +
+           "&bull; <strong>Beauty &amp; Fashion:</strong> Natural micro-skin texture preservation (non-destructive dodge &amp; burn), frequency separation, high-fashion color grading.<br>" +
+           "&bull; <strong>Technical Delivery:</strong> 16-bit Master PSDs with layered cutouts &amp; preserved alpha channels, lossless TIFFs, web-optimized sRGB/Adobe RGB.<br>" +
+           "&bull; <strong>Camera RAWs Supported:</strong> Canon CR2/CR3, Nikon NEF, Sony ARW, Fuji RAF, Hasselblad 3FR, Phase One IIQ, and DNG.";
+  }
+
+  // 10. DEFAULT CONCIERGE HELP
+  return "Hello! I am Shoaib's Studio Concierge. How can I assist your retouching workflow today?<br><br>" +
+         "&bull; <strong>Invoices &amp; Wise Payments:</strong> Guidance on ACH/SEPA/Card and Wise sign-up.<br>" +
+         "&bull; <strong>Payment Reference Code:</strong> How to submit your transfer code to verify payment.<br>" +
+         "&bull; <strong>Download Deliverables:</strong> Accessing certified 16-bit master PSDs.<br>" +
+         "&bull; <strong>New Commissions:</strong> Submitting RAW files and setting SLAs.<br><br>" +
+         "For custom rates or bespoke creative direction, connect directly with Shoaib on WhatsApp: <a href='https://wa.me/8801710763251' target='_blank' style='color: #10b981; font-weight: 700;'>+880 1710-763251 ↗</a>";
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   checkDeletedOrdersSync();
-  // checkFirstTimeOnboarding disabled in favor of Auth Gate
 });
 checkDeletedOrdersSync();
-// checkFirstTimeOnboarding disabled in favor of Auth Gate
 
-// ========================================================
-// CLIENT AUTH GATE & WORKSPACE ISOLATION LOGIC
-// ========================================================
 function checkAuthGate() {
   const gate = document.getElementById('authGateScreen');
   const appLayout = document.querySelector('.app-layout');

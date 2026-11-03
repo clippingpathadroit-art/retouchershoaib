@@ -888,6 +888,94 @@ function doPost(e) {
         .setMimeType(ContentService.MimeType.JSON);
     }
     
+    // (L) GOOGLE GEMINI AI STUDIO ASSISTANT CONCIERGE HANDLER
+    if (data.action === "chat_ai") {
+      var userMsg = String(data.message || "").trim();
+      var chatHistory = data.history || [];
+      var clientEmail = String(data.clientEmail || "").toLowerCase().trim();
+
+      var apiKey = PropertiesService.getScriptProperties().getProperty("GEMINI_API_KEY") || 
+                   (typeof GEMINI_API_KEY !== "undefined" ? GEMINI_API_KEY : "");
+
+      if (!apiKey) {
+        return ContentService.createTextOutput(JSON.stringify({ 
+          status: "fallback", 
+          message: "No Gemini API Key configured in Google Apps Script Script Properties." 
+        })).setMimeType(ContentService.MimeType.JSON);
+      }
+
+      var systemPrompt = 
+        "You are the official AI Studio Concierge for Retoucher Shoaib (Shoaib Siddique) — an elite high-end commercial retouching studio based in Dhaka, Bangladesh, servicing global luxury jewelry brands, fashion designers, and commercial advertising agencies.\n\n" +
+        "CORE CAPABILITIES & RETOUCHING SPECIFICATIONS:\n" +
+        "- High-End Jewelry & Watches: Metallic texture preservation, micro-dust & scratch elimination, focus stacking, crisp diamond facets, authentic realistic drop shadows.\n" +
+        "- Fashion, Beauty & Commercial Campaigns: Natural micro-skin texture preservation (non-destructive dodge & burn, high-end frequency separation), 16-bit color fidelity, flyaway hair cleanup, creative color grading.\n" +
+        "- E-Commerce & Product Catalogs: Exact PANTONE/hex color matching, hand-drawn clipping paths with preserved multi-layer alpha channels.\n" +
+        "- Production Deliverables: Certified 16-bit Master PSDs with intact alpha channels, lossless TIFFs, web-optimized sRGB/Adobe RGB JPEGs.\n" +
+        "- SLAs: 24 Hours Express, 48 Hours Standard, 72 Hours Relaxed.\n\n" +
+        "PAYMENT METHODS & WISE GUIDANCE (HIGH PRIORITY):\n" +
+        "- Supported Payment Methods: Domestic Bank Transfers (USD ACH Routing, EUR SEPA IBAN, GBP Sort Code, CAD Transit), Wise Direct, and Credit/Debit Card Checkout.\n" +
+        "- CARD PAYMENT & WISE SIGN-UP GUIDANCE (EXTREMELY IMPORTANT): When clients select 'Credit / Debit Card' on their invoice, payment is processed securely via Wise's PCI-DSS compliant card infrastructure. If Wise prompts them to 'Sign Up' or 'Create an Account', reassure the client warmly: 'Wise requires a quick 1-minute free registration to comply with international 3D-Secure banking standards and ensure you are not hit with inflated hidden foreign exchange conversion fees from traditional credit card networks. Once registered, you can pay directly using any standard Visa, MasterCard, or Amex card in seconds. Alternatively, you can always choose direct Domestic Bank Transfer (ACH in USD, SEPA in EUR, Sort Code in GBP) straight from your regular mobile banking app without creating a Wise account!'\n" +
+        "- ABOUT WISE: Wise (formerly TransferWise) is an internationally regulated financial institution authorized by the UK Financial Conduct Authority (FCA), FinCEN in the US, and trusted by over 16 million people and businesses worldwide. Unlike traditional wire transfers that take days and charge heavy intermediary fees ($40+), Wise provides real mid-market exchange rates with zero hidden markups.\n" +
+        "- PAYMENT REFERENCE CODE: After transferring funds via bank or card, the client receives a unique Confirmation Reference # (e.g., #982401). They must enter this code in the payment section of their invoice and click 'Confirm Transfer' so Shoaib's studio can verify and issue an official receipt.\n\n" +
+        "STRICT BUSINESS & PRIVACY GUARDRAILS:\n" +
+        "1. PRICE & SCOPE MODIFICATIONS FORBIDDEN: You do NOT have the authority to alter invoice prices, negotiate rates, offer discounts, or adjust project commissions. If a client asks for a discount, price adjustment, or scope alteration, politely decline: 'I apologize, but adjusting project rates, offering discounts, or altering agreed commission scopes is strictly beyond my authority as an AI assistant. All commercial quotes and rates are handled personally by Shoaib Siddique. Please speak directly with Shoaib on WhatsApp: +880 1710-763251 (or use the WhatsApp button on your portal) to discuss your budget or custom term.'\n" +
+        "2. ABSOLUTE CONFIDENTIALITY: Under NO circumstances disclose administrative passwords, credentials, access keys, internal Google Drive root IDs, or the identities/emails/data of other clients. If asked, politely refuse stating strict privacy and confidentiality protocols.\n" +
+        "3. TONE & STYLE: Professional, articulate, warm, concise, and helpful. Use clean bullet points where appropriate.";
+
+      try {
+        var contents = [];
+        if (Array.isArray(chatHistory)) {
+          for (var h = 0; h < chatHistory.length; h++) {
+            var item = chatHistory[h];
+            if (item && item.text) {
+              contents.push({
+                role: item.role === "user" ? "user" : "model",
+                parts: [{ text: item.text }]
+              });
+            }
+          }
+        }
+        contents.push({
+          role: "user",
+          parts: [{ text: userMsg }]
+        });
+
+        var payload = {
+          system_instruction: {
+            parts: [{ text: systemPrompt }]
+          },
+          contents: contents,
+          generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 600
+          }
+        };
+
+        var geminiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey;
+        var response = UrlFetchApp.fetch(geminiUrl, {
+          method: "post",
+          contentType: "application/json",
+          payload: JSON.stringify(payload),
+          muteHttpExceptions: true
+        });
+
+        var resJson = JSON.parse(response.getContentText());
+        var replyText = "";
+        if (resJson && resJson.candidates && resJson.candidates[0] && resJson.candidates[0].content && resJson.candidates[0].content.parts) {
+          replyText = resJson.candidates[0].content.parts.map(function(p) { return p.text; }).join("\n");
+        } else if (resJson && resJson.error) {
+          return ContentService.createTextOutput(JSON.stringify({ status: "fallback", error: resJson.error.message }))
+            .setMimeType(ContentService.MimeType.JSON);
+        }
+
+        return ContentService.createTextOutput(JSON.stringify({ status: "success", reply: replyText }))
+          .setMimeType(ContentService.MimeType.JSON);
+      } catch(geminiErr) {
+        return ContentService.createTextOutput(JSON.stringify({ status: "fallback", error: geminiErr.toString() }))
+          .setMimeType(ContentService.MimeType.JSON);
+      }
+    }
+
     return ContentService.createTextOutput(JSON.stringify({ status: "error", message: "Unknown action: " + data.action }))
       .setMimeType(ContentService.MimeType.JSON);
   } catch(err) {
