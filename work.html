@@ -250,7 +250,7 @@ nav {
 }
 
 /* ==========================================
-   HERO INTRO SECTION (BZM-INSPIRED COMPOSURE)
+   HERO INTRO SECTION
    ========================================== */
 .sec-work-hero {
   padding-top: 140px;
@@ -337,7 +337,8 @@ nav {
 }
 
 /* ==========================================
-   TOP 3 CATEGORY SPOTLIGHT CARDS (EXACT BZM-STYLE TRIO)
+   TOP 3 CATEGORY SPOTLIGHT CARDS
+   (50%+ REDUCED OVERLAY FOR MAXIMUM IMAGE CLARITY)
    ========================================== */
 .category-spotlight-grid {
   display: grid;
@@ -348,15 +349,15 @@ nav {
 
 .spotlight-card {
   position: relative;
-  min-height: 270px;
-  border: 1px solid rgba(6, 36, 63, 0.12);
-  background: #06243F;
+  min-height: 290px;
+  border: 1px solid rgba(6, 36, 63, 0.16);
+  background: #020f1b;
   border-radius: 4px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 28px;
+  padding: 0;
   text-align: left;
   cursor: pointer;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.4s ease;
@@ -369,18 +370,19 @@ nav {
   box-shadow: 0 20px 40px rgba(6, 36, 63, 0.28);
 }
 
+/* VIBRANT, CRYSTAL CLEAR IMAGE MOSAIC */
 .spotlight-bg-mosaic {
   position: absolute;
   inset: 0;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2px;
-  opacity: 0.38;
+  opacity: 0.88; /* High clarity so images pop */
   transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .spotlight-card:hover .spotlight-bg-mosaic {
-  opacity: 0.52;
+  opacity: 0.98;
   transform: scale(1.03);
 }
 
@@ -390,16 +392,25 @@ nav {
   object-fit: cover;
 }
 
+/* 50%+ REDUCED BLUE OVERLAY */
 .spotlight-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(6, 36, 63, 0.96) 0%, rgba(6, 36, 63, 0.65) 50%, rgba(6, 36, 63, 0.25) 100%);
+  background: linear-gradient(to top, rgba(6, 36, 63, 0.45) 0%, rgba(6, 36, 63, 0.18) 50%, rgba(6, 36, 63, 0.04) 100%);
   pointer-events: none;
+  transition: background 0.3s ease;
+}
+
+.spotlight-card:hover .spotlight-overlay {
+  background: linear-gradient(to top, rgba(6, 36, 63, 0.38) 0%, rgba(6, 36, 63, 0.12) 50%, rgba(6, 36, 63, 0.02) 100%);
 }
 
 .spotlight-content {
   position: relative;
   z-index: 2;
+  padding: 24px;
+  background: linear-gradient(to top, rgba(2, 15, 27, 0.78) 0%, rgba(2, 15, 27, 0.35) 60%, transparent 100%);
+  width: 100%;
 }
 
 .spotlight-num {
@@ -413,6 +424,7 @@ nav {
   display: flex;
   align-items: center;
   gap: 8px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95);
 }
 
 .spotlight-num::before {
@@ -432,14 +444,16 @@ nav {
   margin-bottom: 8px;
   text-transform: uppercase;
   letter-spacing: -0.02em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
 }
 
 .spotlight-desc {
   font-family: var(--f);
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.92);
   line-height: 1.45;
   margin-bottom: 14px;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
 }
 
 .spotlight-action {
@@ -453,6 +467,7 @@ nav {
   text-transform: uppercase;
   color: var(--lime);
   transition: transform 0.25s ease;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95);
 }
 
 .spotlight-card:hover .spotlight-action {
@@ -628,7 +643,7 @@ nav {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* BOTTOM HOVER OVERLAY (RICH & INFORMATIVE) */
+/* BOTTOM HOVER OVERLAY */
 .card-hover-overlay {
   position: absolute;
   inset: 0;
@@ -1196,11 +1211,11 @@ footer {
         A curated portfolio of high-end retouching for international luxury houses, Swiss watchmakers, haute couture lookbooks, and global beauty brands. Hand-crafted precision without automation shortcuts.
       </p>
 
-      <!-- TOP 3 INTERACTIVE CATEGORY SPOTLIGHT CARDS (EXACT BZM GRAPHICS COMPOSITION) -->
+      <!-- TOP 3 INTERACTIVE CATEGORY SPOTLIGHT CARDS (REDUCED OVERLAY & DIRECT AUTO-SCROLL ON CLICK) -->
       <div class="category-spotlight-grid">
 
         <!-- SPOTLIGHT 1: FASHION & COUTURE -->
-        <div class="spotlight-card" onclick="filterProjects('fashion', document.querySelector('[data-filter=\'fashion\']'))">
+        <div class="spotlight-card" onclick="selectCategoryAndScroll('fashion')" title="Click to view Fashion &amp; Couture projects">
           <div class="spotlight-bg-mosaic">
             <img src="./assets/agency_showcase/gallery_red_gown.jpg" alt="Fashion Gown">
             <img src="./assets/agency_showcase/service_fashion.jpg" alt="Tailored Suit">
@@ -1212,12 +1227,12 @@ footer {
             <div class="spotlight-num">01 / RUNWAY &amp; LOOKBOOK</div>
             <h2 class="spotlight-title">High Fashion &amp; Couture</h2>
             <p class="spotlight-desc">Editorial color grading, symmetrical fabric drape, couture texture preservation &amp; crease reduction.</p>
-            <span class="spotlight-action">Explore Fashion Archive &rarr;</span>
+            <span class="spotlight-action">View Fashion Projects &darr;</span>
           </div>
         </div>
 
         <!-- SPOTLIGHT 2: LUXURY JEWELRY & WATCHES -->
-        <div class="spotlight-card" onclick="filterProjects('jewelry', document.querySelector('[data-filter=\'jewelry\']'))">
+        <div class="spotlight-card" onclick="selectCategoryAndScroll('jewelry')" title="Click to view Jewelry &amp; Watches projects">
           <div class="spotlight-bg-mosaic">
             <img src="./assets/agency_showcase/service_jewelry.jpg" alt="Skeleton Watch">
             <img src="./assets/agency_showcase/hero_jewelry.jpg" alt="Sapphire Ring">
@@ -1229,12 +1244,12 @@ footer {
             <div class="spotlight-num">02 / HOROLOGY &amp; GEMS</div>
             <h2 class="spotlight-title">Luxury Jewelry &amp; Watches</h2>
             <p class="spotlight-desc">Focus stacking alignment, specular metal polish, prong smoothing &amp; radiant diamond dispersion.</p>
-            <span class="spotlight-action">Explore Jewelry Archive &rarr;</span>
+            <span class="spotlight-action">View Jewelry Projects &darr;</span>
           </div>
         </div>
 
         <!-- SPOTLIGHT 3: BEAUTY & PACKSHOT -->
-        <div class="spotlight-card" onclick="filterProjects('beauty', document.querySelector('[data-filter=\'beauty\']'))">
+        <div class="spotlight-card" onclick="selectCategoryAndScroll('beauty')" title="Click to view Beauty &amp; Packshot projects">
           <div class="spotlight-bg-mosaic">
             <img src="./assets/agency_showcase/hero_beauty.jpg" alt="Beauty Model">
             <img src="./assets/agency_showcase/work_luxury_perfume.jpg" alt="Crystal Perfume">
@@ -1246,7 +1261,7 @@ footer {
             <div class="spotlight-num">03 / BEAUTY &amp; PACKSHOT</div>
             <h2 class="spotlight-title">Beauty, Cosmetics &amp; E-Com</h2>
             <p class="spotlight-desc">Non-destructive frequency separation, dodge &amp; burn skin texture, and immaculate product reflections.</p>
-            <span class="spotlight-action">Explore Beauty &amp; Packshot &rarr;</span>
+            <span class="spotlight-action">View Beauty Projects &darr;</span>
           </div>
         </div>
 
@@ -1261,7 +1276,7 @@ footer {
         <div class="archive-accent-bar"></div>
         <div>
           <h2 class="archive-title">Full Commercial Archive</h2>
-          <p class="archive-subtitle">Showing all 15 hand-retouched commercial works across our studio pillars.</p>
+          <p class="archive-subtitle" id="archiveSubCount">Showing all 15 hand-retouched commercial works across our studio pillars.</p>
         </div>
       </div>
 
@@ -1578,7 +1593,7 @@ footer {
     </div>
   </section>
 
-  <!-- STUDIO STANDARDS & METRICS STRIP (PREVENTS BARE/MINIMAL FEEL) -->
+  <!-- STUDIO STANDARDS & METRICS STRIP -->
   <section class="sec-agency-strip">
     <div class="w">
       <div class="agency-strip-header">
@@ -1908,6 +1923,23 @@ const projectsData = [
 
 let currentModalIndex = 0;
 
+// SELECT CATEGORY AND SMOOTH SCROLL DIRECTLY DOWN TO ARCHIVE
+function selectCategoryAndScroll(cat) {
+  // 1. Filter the projects
+  filterProjects(cat);
+
+  // 2. Smoothly scroll directly down to the archive grid
+  const archiveSec = document.getElementById('archiveGrid');
+  if (archiveSec) {
+    const navHeight = 75;
+    const targetY = archiveSec.getBoundingClientRect().top + window.pageYOffset - navHeight;
+    window.scrollTo({
+      top: targetY,
+      behavior: 'smooth'
+    });
+  }
+}
+
 // FILTERING FUNCTIONALITY
 function filterProjects(cat, btn) {
   // Update active state in filter bar
@@ -1929,12 +1961,9 @@ function filterProjects(cat, btn) {
     }
   });
 
-  // Smooth scroll to archive grid if clicked from top spotlight cards
-  if (btn && btn.closest('.category-spotlight-grid')) {
-    const archiveSection = document.getElementById('archiveGrid');
-    if (archiveSection) {
-      archiveSection.scrollIntoView({ behavior: 'smooth' });
-    }
+  const subCount = document.getElementById('archiveSubCount');
+  if (subCount) {
+    subCount.textContent = `Showing ${visibleCount} hand-retouched commercial works for ${cat === 'all' ? 'all categories' : cat.toUpperCase()}.`;
   }
 }
 
