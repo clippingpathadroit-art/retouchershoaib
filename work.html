@@ -338,7 +338,7 @@ nav {
 
 /* ==========================================
    TOP 3 CATEGORY SPOTLIGHT CARDS
-   (50%+ REDUCED OVERLAY FOR MAXIMUM IMAGE CLARITY)
+   (LIGHTWEIGHT OVERLAY, MAXIMUM IMAGE CLARITY)
    ========================================== */
 .category-spotlight-grid {
   display: grid;
@@ -377,7 +377,7 @@ nav {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2px;
-  opacity: 0.88; /* High clarity so images pop */
+  opacity: 0.88;
   transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -1211,7 +1211,7 @@ footer {
         A curated portfolio of high-end retouching for international luxury houses, Swiss watchmakers, haute couture lookbooks, and global beauty brands. Hand-crafted precision without automation shortcuts.
       </p>
 
-      <!-- TOP 3 INTERACTIVE CATEGORY SPOTLIGHT CARDS (REDUCED OVERLAY & DIRECT AUTO-SCROLL ON CLICK) -->
+      <!-- TOP 3 INTERACTIVE CATEGORY SPOTLIGHT CARDS -->
       <div class="category-spotlight-grid">
 
         <!-- SPOTLIGHT 1: FASHION & COUTURE -->
@@ -1248,20 +1248,20 @@ footer {
           </div>
         </div>
 
-        <!-- SPOTLIGHT 3: BEAUTY & PACKSHOT -->
-        <div class="spotlight-card" onclick="selectCategoryAndScroll('beauty')" title="Click to view Beauty &amp; Packshot projects">
+        <!-- SPOTLIGHT 3: COSMETICS & E-COMMERCE (PURE PRODUCT PACKSHOTS & GHOST MANNEQUIN - NO FACES) -->
+        <div class="spotlight-card" onclick="selectCategoryAndScroll('ecommerce')" title="Click to view Cosmetics &amp; E-Commerce product packshots">
           <div class="spotlight-bg-mosaic">
-            <img src="./assets/agency_showcase/hero_beauty.jpg" alt="Beauty Model">
-            <img src="./assets/agency_showcase/work_luxury_perfume.jpg" alt="Crystal Perfume">
-            <img src="./assets/agency_showcase/service_beauty.jpg" alt="Radiant Skin">
-            <img src="./assets/agency_showcase/gallery_cosmetic_powder.jpg" alt="Compact Powder">
+            <img src="./assets/agency_showcase/work_luxury_perfume.jpg" alt="Crystal Perfume Packshot">
+            <img src="./assets/agency_showcase/gallery_cosmetic_powder.jpg" alt="Compact Mineral Powder">
+            <img src="./assets/agency_showcase/service_packshot.jpg" alt="Skincare Serum and Cream">
+            <img src="./assets/agency_showcase/work_ghost_mannequin.jpg" alt="Bespoke Blazer Ghost Mannequin">
           </div>
           <div class="spotlight-overlay"></div>
           <div class="spotlight-content">
-            <div class="spotlight-num">03 / BEAUTY &amp; PACKSHOT</div>
-            <h2 class="spotlight-title">Beauty, Cosmetics &amp; E-Com</h2>
-            <p class="spotlight-desc">Non-destructive frequency separation, dodge &amp; burn skin texture, and immaculate product reflections.</p>
-            <span class="spotlight-action">View Beauty Projects &darr;</span>
+            <div class="spotlight-num">03 / PACKSHOT &amp; E-COMMERCE</div>
+            <h2 class="spotlight-title">Cosmetics &amp; E-Commerce</h2>
+            <p class="spotlight-desc">Commercial product packshots, cosmetic texture details, pure clipping paths &amp; 3D ghost mannequin styling.</p>
+            <span class="spotlight-action">View E-Com Products &darr;</span>
           </div>
         </div>
 
@@ -1293,11 +1293,8 @@ footer {
         <button class="filter-btn" data-filter="beauty" onclick="filterProjects('beauty', this)">
           Editorial Beauty <span class="count">(3)</span>
         </button>
-        <button class="filter-btn" data-filter="packshot" onclick="filterProjects('packshot', this)">
-          Cosmetics &amp; Packshot <span class="count">(3)</span>
-        </button>
-        <button class="filter-btn" data-filter="mannequin" onclick="filterProjects('mannequin', this)">
-          Ghost Mannequin &amp; Apparel <span class="count">(2)</span>
+        <button class="filter-btn" data-filter="ecommerce" onclick="filterProjects('ecommerce', this)">
+          Cosmetics &amp; E-Commerce <span class="count">(5)</span>
         </button>
       </div>
     </div>
@@ -1344,7 +1341,7 @@ footer {
       </article>
 
       <!-- ITEM 2: BESPOKE GHOST MANNEQUIN SUIT -->
-      <article class="portfolio-card" data-cat="mannequin" onclick="openLightbox(2)">
+      <article class="portfolio-card" data-cat="ecommerce" onclick="openLightbox(2)">
         <div class="card-top-badges">
           <span class="card-cat-badge">03 / GHOST MANNEQUIN</span>
           <span class="card-tech-badge">100% PEN TOOL</span>
@@ -1401,7 +1398,7 @@ footer {
       </article>
 
       <!-- ITEM 5: CRYSTAL PERFUME OIL & WATER CAUSTICS -->
-      <article class="portfolio-card" data-cat="packshot" onclick="openLightbox(5)">
+      <article class="portfolio-card" data-cat="ecommerce" onclick="openLightbox(5)">
         <div class="card-top-badges">
           <span class="card-cat-badge">06 / LUXE PACKSHOT</span>
           <span class="card-tech-badge">SPECULAR CONTRAST</span>
@@ -1477,7 +1474,7 @@ footer {
       </article>
 
       <!-- ITEM 9: COMPACT MINERAL POWDER SWIRL -->
-      <article class="portfolio-card" data-cat="packshot" onclick="openLightbox(9)">
+      <article class="portfolio-card" data-cat="ecommerce" onclick="openLightbox(9)">
         <div class="card-top-badges">
           <span class="card-cat-badge">10 / COSMETICS</span>
           <span class="card-tech-badge">DYNAMIC PARTICLES</span>
@@ -1534,7 +1531,7 @@ footer {
       </article>
 
       <!-- ITEM 12: AMBER GLASS HYALURONIC SERUM -->
-      <article class="portfolio-card" data-cat="packshot" onclick="openLightbox(12)">
+      <article class="portfolio-card" data-cat="ecommerce" onclick="openLightbox(12)">
         <div class="card-top-badges">
           <span class="card-cat-badge">13 / E-COMMERCE</span>
           <span class="card-tech-badge">100% PEN TOOL</span>
@@ -1572,7 +1569,7 @@ footer {
       </article>
 
       <!-- ITEM 14: STREETWEAR APPAREL CAMPAIGN -->
-      <article class="portfolio-card" data-cat="mannequin" onclick="openLightbox(14)">
+      <article class="portfolio-card" data-cat="ecommerce" onclick="openLightbox(14)">
         <div class="card-top-badges">
           <span class="card-cat-badge">15 / COMMERCE ON-MODEL</span>
           <span class="card-tech-badge">COLOR CONSISTENCY</span>
@@ -1778,7 +1775,7 @@ const projectsData = [
   },
   {
     title: "Bespoke Italian Navy Blazer & 3D Ghost Neck",
-    cat: "mannequin",
+    cat: "ecommerce",
     tag: "03 / GHOST MANNEQUIN",
     client: "Harrods & Mr Porter E-Commerce",
     sla: "12 Hours",
@@ -1811,7 +1808,7 @@ const projectsData = [
   },
   {
     title: "Artisanal Crystal Fragrance & Water Caustics",
-    cat: "packshot",
+    cat: "ecommerce",
     tag: "06 / LUXE PACKSHOT",
     client: "Niche Parfumerie Campaign",
     sla: "18 Hours",
@@ -1855,7 +1852,7 @@ const projectsData = [
   },
   {
     title: "Luxe Mineral Compact & Crimson Lipstick",
-    cat: "packshot",
+    cat: "ecommerce",
     tag: "10 / COSMETIC COMMERCIAL",
     client: "Global Cosmetics Brand",
     sla: "18 Hours",
@@ -1888,7 +1885,7 @@ const projectsData = [
   },
   {
     title: "Amber Glass Serum & Cream Water Waves",
-    cat: "packshot",
+    cat: "ecommerce",
     tag: "13 / PACKSHOT E-COMMERCE",
     client: "Clean Cosmetics Lab",
     sla: "14 Hours",
@@ -1910,7 +1907,7 @@ const projectsData = [
   },
   {
     title: "Streetwear Campaign On-Model Lookbook",
-    cat: "mannequin",
+    cat: "ecommerce",
     tag: "15 / COMMERCE ON-MODEL",
     client: "Contemporary Apparel",
     sla: "16 Hours",
@@ -1963,7 +1960,14 @@ function filterProjects(cat, btn) {
 
   const subCount = document.getElementById('archiveSubCount');
   if (subCount) {
-    subCount.textContent = `Showing ${visibleCount} hand-retouched commercial works for ${cat === 'all' ? 'all categories' : cat.toUpperCase()}.`;
+    const labelMap = {
+      all: 'all categories',
+      jewelry: 'JEWELRY & HOROLOGY',
+      fashion: 'HIGH FASHION & COUTURE',
+      beauty: 'EDITORIAL BEAUTY',
+      ecommerce: 'COSMETICS & E-COMMERCE'
+    };
+    subCount.textContent = `Showing ${visibleCount} hand-retouched commercial works for ${labelMap[cat] || cat.toUpperCase()}.`;
   }
 }
 
