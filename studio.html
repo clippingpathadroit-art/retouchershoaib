@@ -587,9 +587,52 @@ footer {
 }
 
 .studio-main-photo {
+  position: relative;
   border-radius: 18px;
   overflow: hidden;
   box-shadow: 0 30px 70px -15px rgba(0,0,0,0.18);
+  background: #f7f6f3;
+}
+
+.studio-main-photo img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.studio-main-photo:hover img {
+  transform: scale(1.02);
+}
+
+.studio-photo-pill {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(10, 10, 10, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 99px;
+  color: #ffffff;
+  font-family: var(--f);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+}
+
+.studio-photo-pill .pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
 }
 
 .team-grid {
@@ -784,7 +827,11 @@ footer {
   <!-- STORY SECTION -->
   <div class="studio-story-grid">
     <div class="studio-main-photo">
-      <img src="./assets/studio portright .jpg" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=85'" alt="Shoaib Siddique — Founder & Lead Retoucher">
+      <img src="./assets/studio_team_collective.jpg" alt="Retoucher Shoaib Studio Collective — 10 to 15 Senior Retouchers in our Creative Hub">
+      <div class="studio-photo-pill">
+        <span class="pulse-dot"></span>
+        <span>Studio Production Floor &bull; 10–15 Senior Retouchers</span>
+      </div>
     </div>
 
     <div>
@@ -814,7 +861,7 @@ footer {
   <div class="team-grid">
     <div class="team-card">
       <div class="team-img">
-        <img src="./assets/studio portright .jpg" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=85'" alt="Shoaib Siddique">
+        <img src="./assets/shoaib_siddique_portrait.jpg" alt="Shoaib Siddique — Founder & Studio Lead">
       </div>
       <h4 style="font-size: 17px; margin-bottom: 4px;">Shoaib Siddique</h4>
       <div style="font-size: 12px; color: var(--accent); font-weight: 600; margin-bottom: 8px;">Founder & Studio Lead</div>
