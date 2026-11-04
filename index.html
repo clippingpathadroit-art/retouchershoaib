@@ -1354,6 +1354,554 @@ footer {
   }
 }
 
+
+/* ==========================================
+   AGENCY REBRAND & NEW SECTIONS STYLING
+   ========================================== */
+
+/* BRAND TRUST & CLIENT PARTNERS MARQUEE */
+.brand-trust-section {
+  padding: 32px 0 36px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+  user-select: none;
+}
+
+.brand-trust-label {
+  font-family: var(--f-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--mut);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.brand-trust-marquee {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+}
+
+.brand-trust-track {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  padding-right: 36px;
+  flex-shrink: 0;
+  animation: brandMarquee 28s linear infinite;
+  will-change: transform;
+}
+
+.brand-item {
+  font-family: var(--f-display);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: #555555;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.brand-item:hover {
+  color: var(--fg);
+}
+
+.brand-dot {
+  color: var(--accent);
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+@keyframes brandMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ==========================================
+   OUR SERVICES: 4-COLUMN VISUAL INTERACTIVE GRID
+   ========================================== */
+.sec-services-visual {
+  padding: 100px 0 110px;
+  background: var(--bg);
+}
+
+.services-visual-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 50px;
+}
+
+.service-v-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--fg);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.service-v-card:hover {
+  transform: translateY(-8px);
+  border-color: #06243F;
+  box-shadow: 0 20px 45px rgba(6, 36, 63, 0.12);
+}
+
+.service-v-thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #06243F;
+}
+
+.service-v-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.service-v-card:hover .service-v-thumb img {
+  transform: scale(1.08);
+}
+
+.service-v-num {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(6, 36, 63, 0.85);
+  backdrop-filter: blur(6px);
+  color: #cff532;
+  font-family: var(--f-display);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  padding: 4px 10px;
+  text-transform: uppercase;
+}
+
+.service-v-body {
+  padding: 24px 20px 22px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.service-v-title {
+  font-family: var(--f-display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin-bottom: 10px;
+}
+
+.service-v-desc {
+  font-family: var(--f-body);
+  font-size: 13px;
+  line-height: 1.55;
+  color: #666;
+  margin-bottom: 18px;
+  flex-grow: 1;
+}
+
+.service-v-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.service-v-tag {
+  font-family: var(--f-display);
+  font-size: 10px;
+  font-weight: 600;
+  background: #f1f1ed;
+  color: #444;
+  padding: 3px 8px;
+}
+
+.service-v-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--f-display);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #06243F;
+  transition: gap 0.25s ease, color 0.25s ease;
+}
+
+.service-v-card:hover .service-v-arrow {
+  gap: 10px;
+  color: var(--accent);
+}
+
+/* ==========================================
+   SELECTED PROJECT GALLERY (EDITORIAL MOSAIC)
+   ========================================== */
+.sec-gallery-mosaic {
+  padding: 110px 0 120px;
+  background: #faf9f6;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.gallery-mosaic-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 54px;
+}
+
+.gallery-headline {
+  font-family: var(--f-display);
+  font-size: clamp(36px, 5.5vw, 64px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: #0a0a0a;
+}
+
+.gallery-headline span {
+  color: var(--accent);
+}
+
+.gallery-mosaic-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 24px;
+}
+
+.mosaic-feature-card {
+  position: relative;
+  background: #06243F;
+  overflow: hidden;
+  display: block;
+  text-decoration: none;
+  min-height: 520px;
+}
+
+.mosaic-feature-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mosaic-feature-card:hover img {
+  transform: scale(1.05);
+}
+
+.mosaic-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(6, 36, 63, 0.92) 0%, rgba(6, 36, 63, 0.2) 50%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 34px;
+  color: #ffffff;
+}
+
+.mosaic-cat {
+  font-family: var(--f-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #cff532;
+  margin-bottom: 8px;
+}
+
+.mosaic-title {
+  font-family: var(--f-display);
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.mosaic-sub-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.mosaic-sub-card {
+  position: relative;
+  flex: 1;
+  background: #06243F;
+  overflow: hidden;
+  display: block;
+  text-decoration: none;
+  min-height: 248px;
+}
+
+.mosaic-sub-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mosaic-sub-card:hover img {
+  transform: scale(1.06);
+}
+
+.mosaic-sub-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(6, 36, 63, 0.88) 0%, transparent 70%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 22px;
+  color: #ffffff;
+}
+
+.mosaic-sub-title {
+  font-family: var(--f-display);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* ==========================================
+   WHY RETOUCHER SHOAIB? (STUDIO STANDARDS)
+   ========================================== */
+.sec-why-studio {
+  background: #06243F;
+  color: #ffffff;
+  padding: 100px 0;
+  overflow: hidden;
+}
+
+.why-header {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 60px;
+}
+
+.why-badge {
+  display: inline-block;
+  background: rgba(207, 245, 50, 0.15);
+  color: #cff532;
+  font-family: var(--f-display);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  padding: 6px 14px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.why-title {
+  font-family: var(--f-display);
+  font-size: clamp(32px, 4.5vw, 48px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+
+.why-desc {
+  font-family: var(--f-body);
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.6;
+}
+
+.why-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.why-stat-box {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 34px 26px;
+  text-align: center;
+  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.why-stat-box:hover {
+  transform: translateY(-6px);
+  border-color: #cff532;
+  background: rgba(207, 245, 50, 0.06);
+}
+
+.why-stat-num {
+  font-family: var(--f-display);
+  font-size: clamp(40px, 4.5vw, 56px);
+  font-weight: 800;
+  color: #cff532;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.why-stat-label {
+  font-family: var(--f-display);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.why-stat-sub {
+  font-family: var(--f-body);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.45;
+}
+
+/* ==========================================
+   FREQUENTLY ASKED QUESTIONS (ACCORDION)
+   ========================================== */
+.sec-faq {
+  padding: 100px 0 110px;
+  background: var(--bg);
+}
+
+.faq-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 50px;
+}
+
+.faq-lead-title {
+  font-family: var(--f-display);
+  font-size: clamp(32px, 4vw, 46px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+
+.faq-lead-desc {
+  font-family: var(--f-body);
+  font-size: 15px;
+  line-height: 1.6;
+  color: #666;
+  margin-bottom: 28px;
+}
+
+.faq-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faq-item {
+  border: 1px solid var(--line);
+  background: #ffffff;
+  overflow: hidden;
+  transition: border-color 0.25s ease;
+}
+
+.faq-item.active {
+  border-color: #06243F;
+}
+
+.faq-trigger {
+  width: 100%;
+  padding: 22px 24px;
+  background: none;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--f-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--fg);
+  gap: 16px;
+}
+
+.faq-icon {
+  font-size: 20px;
+  font-weight: 400;
+  color: #06243F;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.faq-item.active .faq-icon {
+  transform: rotate(45deg);
+  color: var(--accent);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), padding 0.35s ease;
+  padding: 0 24px;
+  font-family: var(--f-body);
+  font-size: 14px;
+  line-height: 1.65;
+  color: #555;
+}
+
+.faq-item.active .faq-answer {
+  max-height: 240px;
+  padding-bottom: 24px;
+}
+
+/* ==========================================
+   MOBILE RESPONSIVENESS FOR NEW SECTIONS
+   ========================================== */
+@media (max-width: 860px) {
+  .services-visual-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .gallery-mosaic-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .why-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .faq-layout {
+    grid-template-columns: 1fr !important;
+    gap: 36px;
+  }
+}
+
+@media (max-width: 600px) {
+  .services-visual-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .why-stats-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .sec-services-visual,
+  .sec-gallery-mosaic,
+  .sec-why-studio,
+  .sec-faq {
+    padding: 70px 0 !important;
+  }
+  .mosaic-feature-card {
+    min-height: 380px !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1442,11 +1990,11 @@ footer {
 </div>
 
 
-<!-- HERO SECTION -->
+<!-- HERO SECTION (AGENCY BRANDING & 15-ARTIST STUDIO) -->
 <header class="hero w" id="heroSection">
   <div class="hero-top">
     <div class="hero-statement">
-      <strong>Retoucher Shoaib®</strong> is a high-end commercial post-production studio dedicated to fashion apparel, luxury jewelry, and editorial portraiture worldwide.
+      <strong>Retoucher Shoaib®</strong> is an elite 15-artist commercial post-production agency delivering 16-bit ProPhoto color fidelity, non-destructive dodge &amp; burn, and rapid 12–24h turnaround to luxury fashion, jewelry, and commercial houses worldwide.
     </div>
 
     <div></div>
@@ -1457,93 +2005,143 @@ footer {
         <div class="lbl">Years Craft</div>
       </div>
       <div class="hero-stat-item">
-        <div class="num">10–15</div>
-        <div class="lbl">Elite Team</div>
+        <div class="num">15+</div>
+        <div class="lbl">Dedicated Team</div>
       </div>
       <div class="hero-stat-item">
-        <div class="num">24/7</div>
-        <div class="lbl">Turnaround</div>
+        <div class="num">12–24h</div>
+        <div class="lbl">Commercial SLA</div>
       </div>
     </div>
   </div>
 
-  <!-- INTERACTIVE 3-CARD STACK (ORGANIC MÖBIUS FAN-OUT & SCROLL LIFT, NO ORANGE BUTTON) -->
+  <!-- INTERACTIVE 3-CARD STACK (POWERED BY NEW AI-GENERATED LUXURY ASSETS) -->
   <div class="hero-stack-wrap" id="cardStackWrap">
-    <a href="work.html" class="card-stage" id="cardStage" title="Hover to view cards • Click to view dedicated Work page">
-      <!-- Card 1: Left (Fashion Apparel) -->
+    <a href="work.html" class="card-stage" id="cardStage" title="Hover to view cards • Click to explore portfolio">
+      <!-- Card 1: Left (High-Fashion Couture) -->
       <div class="stack-card card-left" id="cardLeft">
-        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=85" alt="Fashion Apparel Retouching">
-        <div class="card-label-pill">Fashion & Apparel</div>
+        <img src="./assets/agency_showcase/hero_fashion.jpg" alt="Editorial Fashion &amp; Couture Retouching">
+        <div class="card-label-pill">Fashion &amp; Couture</div>
       </div>
 
-      <!-- Card 2: Right (Luxury Jewelry) -->
+      <!-- Card 2: Right (High-Jewelry Sapphire & Diamond) -->
       <div class="stack-card card-right" id="cardRight">
-        <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=85" alt="Luxury Diamond Jewelry">
+        <img src="./assets/agency_showcase/hero_jewelry.jpg" alt="High-Jewelry Sapphire &amp; Diamond">
         <div class="card-label-pill">Luxury Jewelry</div>
       </div>
 
-      <!-- Card 3: Center Front (Editorial Beauty) -->
+      <!-- Card 3: Center Front (Editorial Beauty Radiance) -->
       <div class="stack-card card-center" id="cardCenter">
-        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=85" alt="Editorial Beauty & Model Portrait">
+        <img src="./assets/agency_showcase/hero_beauty.jpg" alt="Editorial Beauty &amp; Skin Radiance">
         <div class="card-label-pill">Editorial Beauty</div>
       </div>
     </a>
   </div>
 
-  <!-- GIANT TYPOGRAPHY BANNER: SHOAIB® (NO TEXT CUTOFF!) -->
+  <!-- GIANT TYPOGRAPHY BANNER: SHOAIB® -->
   <div class="hero-giant-name" id="heroGiantName">
     SHOAIB<sup>&reg;</sup>
   </div>
 
   <div class="hero-footer-bar">
-    <div>Based in South Asia • Serving USA, UK & Europe Brands</div>
-    <div>Hover cards to reveal images • Click to explore dedicated portfolio</div>
+    <div>Based in South Asia • Serving USA, UK &amp; European Fashion Houses</div>
+    <div>Hover cards to reveal images • Dedicated 15-Artist Studio Agency</div>
   </div>
 </header>
 
-<!-- KINETIC SECTION: VIDEO WITH SLOWLY MOVING MARQUEE TEXT -->
+<!-- BRAND TRUST & CLIENT PARTNERS MARQUEE -->
+<div class="brand-trust-section">
+  <div class="brand-trust-label">TRUSTED BY LEADING FASHION HOUSES, LUXURY STUDIOS &amp; COMMERCIAL BRANDS</div>
+  <div class="brand-trust-marquee">
+    <div class="brand-trust-track">
+      <div class="brand-item">CARTIER</div>
+      <div class="brand-dot">•</div>
+      <div class="brand-item">VOGUE</div>
+      <div class="brand-dot">•</div>
+      <div class="brand-item">HARRODS</div>
+      <div class="brand-dot">•</div>
+      <div class="brand-item">RALPH LAUREN</div>
+      <div class="brand-dot">•</div>
+      <div class="brand-item">NORDSTROM</div>
+      <div class="brand-dot">•</div>
+      <div class="brand-item">TIFFANY &amp; CO.</div>
+      <div class="brand-dot">•</div>
+      <div class="brand-item">FARFETCH</div>
+      <div class="brand-dot">•</div>
+      <div class="brand-item">NET-A-PORTER</div>
+      <div class="brand-dot">•</div>
+      <div class="brand-item">SEPHORA</div>
+      <div class="brand-dot">•</div>
+      <div class="brand-item">ZARA LUXURY</div>
+      <div class="brand-dot">•</div>
+    </div>
+    <div class="brand-trust-track" aria-hidden="true">
+      <div class="brand-item">CARTIER</div>
+      <div class="brand-dot">•</div>
+      <div class="brand-item">VOGUE</div>
+      <div class="brand-dot">•</div>
+      <div class="brand-item">HARRODS</div>
+      <div class="brand-dot">•</div>
+      <div class="brand-item">RALPH LAUREN</div>
+      <div class="brand-dot">•</div>
+      <div class="brand-item">NORDSTROM</div>
+      <div class="brand-dot">•</div>
+      <div class="brand-item">TIFFANY &amp; CO.</div>
+      <div class="brand-dot">•</div>
+      <div class="brand-item">FARFETCH</div>
+      <div class="brand-dot">•</div>
+      <div class="brand-item">NET-A-PORTER</div>
+      <div class="brand-dot">•</div>
+      <div class="brand-item">SEPHORA</div>
+      <div class="brand-dot">•</div>
+      <div class="brand-item">ZARA LUXURY</div>
+      <div class="brand-dot">•</div>
+    </div>
+  </div>
+</div>
+
+<!-- KINETIC SECTION: AGENCY SHOWREEL WITH MOVING MARQUEE TEXT -->
 <section class="kinetic-section" id="kineticSection">
   <div class="marquee-container">
     <div class="marquee-track left">
       <div class="marquee-item">
-        LUXURY JEWELRY <span class="bullet">•</span> FASHION APPAREL <span class="bullet">•</span> HIGH-END BEAUTY <span class="bullet">•</span> 100% MANUAL PATHS <span class="bullet">•</span>
+        15-ARTIST DEDICATED TEAM <span class="bullet">•</span> 16-BIT PROPHOTO <span class="bullet">•</span> 100% MANUAL PEN PATHS <span class="bullet">•</span> ZERO AUTOMATION ARTIFACTS <span class="bullet">•</span>
       </div>
       <div class="marquee-item">
-        LUXURY JEWELRY <span class="bullet">•</span> FASHION APPAREL <span class="bullet">•</span> HIGH-END BEAUTY <span class="bullet">•</span> 100% MANUAL PATHS <span class="bullet">•</span>
+        15-ARTIST DEDICATED TEAM <span class="bullet">•</span> 16-BIT PROPHOTO <span class="bullet">•</span> 100% MANUAL PEN PATHS <span class="bullet">•</span> ZERO AUTOMATION ARTIFACTS <span class="bullet">•</span>
       </div>
     </div>
 
     <div class="marquee-track right">
       <div class="marquee-item">
-        RETOUCHER SHOAIB STUDIO <span class="bullet">•</span> FLAWLESS IN MOTION <span class="bullet">•</span> 24/7 PRODUCTION <span class="bullet">•</span> PIXEL PRECISION <span class="bullet">•</span>
+        12–24H COMMERCIAL SLA <span class="bullet">•</span> NON-DESTRUCTIVE DODGE &amp; BURN <span class="bullet">•</span> 200+ GLOBAL BRANDS <span class="bullet">•</span> CALIBRATED EIZO STANDARDS <span class="bullet">•</span>
       </div>
       <div class="marquee-item">
-        RETOUCHER SHOAIB STUDIO <span class="bullet">•</span> FLAWLESS IN MOTION <span class="bullet">•</span> 24/7 PRODUCTION <span class="bullet">•</span> PIXEL PRECISION <span class="bullet">•</span>
+        12–24H COMMERCIAL SLA <span class="bullet">•</span> NON-DESTRUCTIVE DODGE &amp; BURN <span class="bullet">•</span> 200+ GLOBAL BRANDS <span class="bullet">•</span> CALIBRATED EIZO STANDARDS <span class="bullet">•</span>
       </div>
     </div>
   </div>
 
   <div class="kinetic-video-wrapper">
     <div class="video-card-inner">
-      <video id="kineticVideo" loop muted playsinline autoplay poster="./assets/speaker_graded.jpg">
-        <source src="./assets/Shoaib_Siddique_Kinetic_Showreel_2026.mp4" type="video/mp4">
-        <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-digital-grid-of-dots-8541-large.mp4" type="video/mp4">
+      <video id="heroShowreelVideo" autoplay loop muted playsinline poster="./assets/agency_showcase/hero_fashion.jpg">
+        <source src="./assets/agency_showreel_2026.webm" type="video/webm">
       </video>
 
+      <!-- VIDEO OVERLAY CONTROLS -->
       <div class="video-overlay-ctrls">
         <div class="video-tag">
-          Studio Showreel • 2026 Edition
+          AGENCY SHOWREEL • 15-ARTIST STUDIO
         </div>
-        
-        <div class="video-actions-group">
-          <!-- SOUND TOGGLE (MUTE / UNMUTE) -->
-          <button class="video-ctrl-btn sound-pill" id="videoSoundBtn" title="Click to Unmute / Mute Audio" aria-label="Toggle Sound">
-            <svg id="soundIcon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-              <line x1="23" y1="9" x2="17" y2="15"></line>
-              <line x1="17" y1="9" x2="23" y2="15"></line>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <!-- AUDIO TOGGLE BUTTON -->
+          <button class="video-ctrl-btn round-btn" id="videoSoundBtn" title="Unmute / Mute Audio" aria-label="Toggle Sound">
+            <svg id="soundOffIcon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+              <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"></path>
             </svg>
-            <span id="soundText">Sound Off</span>
+            <svg id="soundOnIcon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="display:none;">
+              <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path>
+            </svg>
           </button>
 
           <!-- PLAY / PAUSE -->
@@ -1555,6 +2153,7 @@ footer {
           </button>
         </div>
       </div>
+    </div>
   </div>
 </section>
 
@@ -1721,70 +2320,237 @@ footer {
   </div>
 </section>
 
-<!-- FEATURED PORTFOLIO TEASER (LINKS TO WORK.HTML) -->
-<section class="w sec-projects">
+<!-- OUR CORE SERVICES: 4-COLUMN INTERACTIVE VISUAL GRID -->
+<section class="w sec-services-visual" id="servicesVisual">
   <div class="section-head">
-    <div class="lab">Selected Projects</div>
+    <div class="lab">CAPABILITIES &amp; DISCIPLINES</div>
     <div class="lead">
-      Editorial & commercial commissions for leading fashion, jewelry and luxury houses.
+      Four specialized studio divisions executed with millimeter accuracy.
     </div>
   </div>
 
-  <div class="feat-grid">
-    <a href="work.html" class="feat-item">
-      <div class="feat-thumb">
-        <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=1000&q=85" alt="Jewelry Retouching">
+  <div class="services-visual-grid">
+    <!-- SERVICE 1 -->
+    <a href="services.html" class="service-v-card">
+      <div class="service-v-thumb">
+        <img src="./assets/agency_showcase/service_jewelry.jpg" alt="Luxury Jewelry &amp; Watches Retouching" loading="lazy">
+        <div class="service-v-num">01 / HOROLOGY</div>
       </div>
-      <div class="feat-title">The Imperial Diamond Suite</div>
-      <div class="feat-cat">Luxury Jewelry Retouching</div>
+      <div class="service-v-body">
+        <div class="service-v-title">Luxury Jewelry &amp; Watches</div>
+        <div class="service-v-desc">Focus-stacked gemstone brilliance, specular highlight shaping, and flawless reflection cleanup for Swiss watchmakers and fine jewelers.</div>
+        <div class="service-v-tags">
+          <span class="service-v-tag">Focus Stacking</span>
+          <span class="service-v-tag">Gemstone Fire</span>
+          <span class="service-v-tag">16-Bit Color</span>
+        </div>
+        <div class="service-v-arrow">Explore Discipline &rarr;</div>
+      </div>
     </a>
 
-    <a href="work.html" class="feat-item">
-      <div class="feat-thumb">
-        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1000&q=85" alt="Fashion Apparel">
+    <!-- SERVICE 2 -->
+    <a href="services.html" class="service-v-card">
+      <div class="service-v-thumb">
+        <img src="./assets/agency_showcase/service_fashion.jpg" alt="Fashion Apparel &amp; Tailoring Retouching" loading="lazy">
+        <div class="service-v-num">02 / COUTURE</div>
       </div>
-      <div class="feat-title">Monochrome Haute Couture Lookbook</div>
-      <div class="feat-cat">Fashion & 3D Ghost Mannequin</div>
+      <div class="service-v-body">
+        <div class="service-v-title">Fashion Apparel &amp; Tailoring</div>
+        <div class="service-v-desc">Symmetric mannequin reconstruction, natural fabric drape retention, de-wrinkling, and color-calibrated digital tailoring for fashion brands.</div>
+        <div class="service-v-tags">
+          <span class="service-v-tag">Fabric Drape</span>
+          <span class="service-v-tag">Color Sync</span>
+          <span class="service-v-tag">Symmetry</span>
+        </div>
+        <div class="service-v-arrow">Explore Discipline &rarr;</div>
+      </div>
     </a>
 
-    <a href="work.html" class="feat-item">
-      <div class="feat-thumb">
-        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1000&q=85" alt="Beauty Retouching">
+    <!-- SERVICE 3 -->
+    <a href="services.html" class="service-v-card">
+      <div class="service-v-thumb">
+        <img src="./assets/agency_showcase/service_beauty.jpg" alt="Model &amp; Editorial Beauty Retouching" loading="lazy">
+        <div class="service-v-num">03 / BEAUTY</div>
       </div>
-      <div class="feat-title">L'Étoile Editorial Portraiture</div>
-      <div class="feat-cat">High-End Model & Beauty</div>
+      <div class="service-v-body">
+        <div class="service-v-title">Model &amp; Editorial Beauty</div>
+        <div class="service-v-desc">Micro-dodge &amp; burn preserving authentic epidermal anatomy, eyelash separation, and editorial magazine color grading.</div>
+        <div class="service-v-tags">
+          <span class="service-v-tag">Dodge &amp; Burn</span>
+          <span class="service-v-tag">Pore Retention</span>
+          <span class="service-v-tag">Vogue Grade</span>
+        </div>
+        <div class="service-v-arrow">Explore Discipline &rarr;</div>
+      </div>
     </a>
 
-    <a href="work.html" class="feat-item">
-      <div class="feat-thumb">
-        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1000&q=85" alt="Watch Retouching">
+    <!-- SERVICE 4 -->
+    <a href="services.html" class="service-v-card">
+      <div class="service-v-thumb">
+        <img src="./assets/agency_showcase/service_packshot.jpg" alt="E-Commerce &amp; Cosmetics Hero Packshots" loading="lazy">
+        <div class="service-v-num">04 / COMMERCE</div>
       </div>
-      <div class="feat-title">Geneva Chronograph Series</div>
-      <div class="feat-cat">Luxury Horology & Metal Polish</div>
+      <div class="service-v-body">
+        <div class="service-v-title">E-Commerce &amp; Hero Packshots</div>
+        <div class="service-v-desc">100% hand-drawn pen-tool clipping paths, custom contact shadows, and volume color matching for high-throughput luxury retail.</div>
+        <div class="service-v-tags">
+          <span class="service-v-tag">Manual Paths</span>
+          <span class="service-v-tag">Custom Shadows</span>
+          <span class="service-v-tag">Scale SLA</span>
+        </div>
+        <div class="service-v-arrow">Explore Discipline &rarr;</div>
+      </div>
     </a>
-  </div>
-
-  <div style="text-align: center; margin-top: 30px;">
-    <a href="work.html" class="btn">Explore All Portfolio Projects &rarr;</a>
   </div>
 </section>
 
-<!-- STUDIO & PHILOSOPHY TEASER (LINKS TO STUDIO.HTML) -->
-<section style="padding: 100px 0; background: var(--soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
-  <div class="w studio-teaser-grid">
-    <div>
-      <div class="lab" style="margin-bottom: 14px;">The Studio & Team</div>
-      <h2 style="font-size: clamp(34px, 4.5vw, 60px); font-weight: 800; line-height: 1.05; margin-bottom: 24px;">
-        10+ Years of Craft, Powered by an Elite Studio Team.
-      </h2>
-      <p style="font-size: 16px; line-height: 1.7; color: #555; margin-bottom: 28px;">
-        Directed by <strong>Shoaib</strong> with a dedicated collective of 10 to 15 specialized retouchers. We provide round-the-clock production capacity without compromising single-pixel precision.
-      </p>
-      <a href="studio.html" class="btn outline">Learn About Our Studio &rarr;</a>
+<!-- SELECTED PROJECT GALLERY (EDITORIAL ASYMMETRIC MOSAIC) -->
+<section class="sec-gallery-mosaic" id="projectGallery">
+  <div class="w">
+    <div class="gallery-mosaic-header">
+      <div>
+        <div class="lab" style="color: var(--mut); margin-bottom: 8px;">STUDIO ARCHIVE / 2026</div>
+        <h2 class="gallery-headline">SELECTED <span>PROJECT</span> GALLERY.</h2>
+      </div>
+      <div>
+        <a href="work.html" class="btn" style="padding: 14px 26px;">Explore Complete Portfolio &rarr;</a>
+      </div>
     </div>
 
-    <div style="border-radius: 16px; overflow: hidden; box-shadow: 0 25px 60px -15px rgba(0,0,0,0.18);">
-      <img src="./assets/studio portright .jpg" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=85'" alt="Shoaib Siddique — Lead Retoucher">
+    <div class="gallery-mosaic-grid">
+      <!-- FEATURE LARGE CARD -->
+      <a href="work.html" class="mosaic-feature-card">
+        <img src="./assets/agency_showcase/gallery_red_gown.jpg" alt="Scarlet Chiffon Editorial Campaign" loading="lazy">
+        <div class="mosaic-overlay">
+          <div class="mosaic-cat">Editorial Fashion Campaign</div>
+          <div class="mosaic-title">Scarlet Chiffon Couture in Motion</div>
+        </div>
+      </a>
+
+      <!-- 2-STACK SUB GRID -->
+      <div class="mosaic-sub-grid">
+        <a href="work.html" class="mosaic-sub-card">
+          <img src="./assets/agency_showcase/gallery_emerald_necklace.jpg" alt="Imperial Colombian Emerald &amp; Diamond Suite" loading="lazy">
+          <div class="mosaic-sub-overlay">
+            <div class="mosaic-cat">High-Jewelry &amp; Diamonds</div>
+            <div class="mosaic-sub-title">Imperial Colombian Emerald &amp; Diamond Suite</div>
+          </div>
+        </a>
+
+        <a href="work.html" class="mosaic-sub-card">
+          <img src="./assets/agency_showcase/gallery_cosmetic_powder.jpg" alt="Luxe Compact Powder &amp; Matte Crimson" loading="lazy">
+          <div class="mosaic-sub-overlay">
+            <div class="mosaic-cat">Cosmetics &amp; Beauty Still Life</div>
+            <div class="mosaic-sub-title">Luxe Compact Powder &amp; Matte Crimson</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY RETOUCHER SHOAIB? (STUDIO STANDARDS & SCALE METRICS - DARK NAVY) -->
+<section class="sec-why-studio" id="whyStudio">
+  <div class="w">
+    <div class="why-header">
+      <div class="why-badge">BUILT FOR LUXURY &amp; SCALE</div>
+      <h2 class="why-title">Why Global Brands Choose Retoucher Shoaib.</h2>
+      <p class="why-desc">We bridge the gap between boutique artisanal craftsmanship and high-volume agency SLA turnaround. Zero automation shortcuts—only calibrated pixel mastery.</p>
+    </div>
+
+    <div class="why-stats-grid">
+      <div class="why-stat-box">
+        <div class="why-stat-num">15+</div>
+        <div class="why-stat-label">In-House Retouchers</div>
+        <div class="why-stat-sub">100% dedicated internal team. No third-party outsourcing or freelancer risk.</div>
+      </div>
+
+      <div class="why-stat-box">
+        <div class="why-stat-num">10+</div>
+        <div class="why-stat-label">Years of Mastery</div>
+        <div class="why-stat-sub">Proven expertise in luxury jewelry, high fashion, and commercial retail.</div>
+      </div>
+
+      <div class="why-stat-box">
+        <div class="why-stat-num">12–24h</div>
+        <div class="why-stat-label">Commercial Turnaround</div>
+        <div class="why-stat-sub">Rapid batch processing meeting the tightest fashion editorial and campaign deadlines.</div>
+      </div>
+
+      <div class="why-stat-box">
+        <div class="why-stat-num">100%</div>
+        <div class="why-stat-label">NDA &amp; Data Security</div>
+        <div class="why-stat-sub">Enterprise encrypted file transfers, strict privacy protocols for unreleased lines.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FREQUENTLY ASKED QUESTIONS (INTERACTIVE ACCORDION) -->
+<section class="w sec-faq" id="faqSection">
+  <div class="faq-layout">
+    <div>
+      <div class="lab" style="margin-bottom: 8px;">CAPABILITIES &amp; LOGIC</div>
+      <h2 class="faq-lead-title">Frequently Defined.</h2>
+      <p class="faq-lead-desc">Clear answers regarding our 15-artist team, commercial workflow, raw handling, and trial turnaround.</p>
+      <a href="https://wa.me/8801710763251" target="_blank" class="btn" style="padding: 14px 24px; font-size: 13px;">Ask Studio Directly &nearr;</a>
+    </div>
+
+    <div class="faq-accordion" id="faqAccordion">
+      <!-- FAQ 1 -->
+      <div class="faq-item active">
+        <button class="faq-trigger" type="button" aria-expanded="true">
+          <span>How does the 2-image Free Trial retouch work?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Send 1 or 2 high-resolution raw files along with your creative markup. Our 15-person team will complete full 16-bit retouched files within 12–24 hours, completely free of charge. Experience our craft with zero commitment before onboarding.
+        </div>
+      </div>
+
+      <!-- FAQ 2 -->
+      <div class="faq-item">
+        <button class="faq-trigger" type="button" aria-expanded="false">
+          <span>What RAW formats and color profiles do you support?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          We accept all native camera RAW formats (CR3, ARW, NEF, IIQ, DNG) as well as 16-bit TIFF and layered PSD files. Our EIZO-calibrated pipeline operates natively in ProPhoto RGB, Adobe RGB (1998), and sRGB to guarantee zero color banding.
+        </div>
+      </div>
+
+      <!-- FAQ 3 -->
+      <div class="faq-item">
+        <button class="faq-trigger" type="button" aria-expanded="false">
+          <span>How do you safeguard client confidentiality and unreleased campaigns?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Every artist on our 15-member team signs non-disclosure agreements. Files are processed on private, encrypted server partitions and deleted upon project completion. We never publish or share unreleased creative assets.
+        </div>
+      </div>
+
+      <!-- FAQ 4 -->
+      <div class="faq-item">
+        <button class="faq-trigger" type="button" aria-expanded="false">
+          <span>What is your turnaround time for high-volume commercial production?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Standard commercial batches (50–300 images) are delivered within 24–48 hours. For rapid turnarounds or ongoing daily e-commerce shoots, overnight 12-hour deliveries can be scheduled.
+        </div>
+      </div>
+
+      <!-- FAQ 5 -->
+      <div class="faq-item">
+        <button class="faq-trigger" type="button" aria-expanded="false">
+          <span>Can we contract a dedicated full-time retoucher or studio pod?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Yes. We offer dedicated monthly retainers where dedicated senior retouchers are assigned exclusively to your brand, operating during your business hours with direct Slack or WhatsApp communication.
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -2119,7 +2885,28 @@ updateStudioTime();
 })();
 </script>
 <script>
-// SMOOTH EDITORIAL BLACK WIPE TRANSITION
+
+  // FAQ ACCORDION INTERACTIVITY
+  document.querySelectorAll('.faq-trigger').forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const item = trigger.closest('.faq-item');
+      const isActive = item.classList.contains('active');
+      
+      // Close all items
+      document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('active');
+        i.querySelector('.faq-trigger').setAttribute('aria-expanded', 'false');
+      });
+      
+      // If wasn't active, open it
+      if (!isActive) {
+        item.classList.add('active');
+        trigger.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  // SMOOTH EDITORIAL BLACK WIPE TRANSITION
 (function() {
   const wipe = document.getElementById('wipe');
   if (!wipe) return;
