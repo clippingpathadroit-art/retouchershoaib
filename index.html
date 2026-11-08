@@ -149,6 +149,8 @@ nav a:hover{
   grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);
   align-items:center;
   gap:clamp(8px,3vw,40px);
+  position:relative;
+  z-index:2;
 }
 .hero h1{
   font-size:clamp(38px,5.2vw,92px);
@@ -159,19 +161,6 @@ nav a:hover{
   width:100%;
   max-width:680px;
   justify-self:end;
-}
-.ring::before{
-  content:"";
-  position:absolute;
-  inset:14%;
-  border-radius:50%;
-  background:radial-gradient(circle,color-mix(in srgb,var(--accent) 8%,transparent),transparent 62%);
-  animation:breathe 6s ease-in-out infinite alternate;
-  pointer-events:none;
-  opacity:0.35;
-}
-@keyframes breathe{
-  to{transform:scale(1.12);opacity:.18}
 }
 .ring video{
   position:relative;
@@ -204,17 +193,19 @@ nav a:hover{
 .hero::before{
   content:"";
   position:absolute;
-  width:50vmax;
-  height:50vmax;
-  right:-20vmax;
-  top:-15vmax;
-  background:radial-gradient(circle,color-mix(in srgb,var(--accent) 6%,transparent),transparent 58%);
-  animation:drift 14s ease-in-out infinite alternate;
+  width:clamp(380px, 52vw, 780px);
+  height:clamp(380px, 52vw, 780px);
+  left:clamp(-320px, -18vw, -100px);
+  top:clamp(40px, 14vh, 180px);
+  border-radius:50%;
+  background:radial-gradient(circle, color-mix(in srgb, var(--accent) 22%, transparent), transparent 68%);
+  animation:driftLeft 13s ease-in-out infinite alternate;
   pointer-events:none;
-  opacity:0.35;
+  z-index:1;
 }
-@keyframes drift{
-  to{transform:translate(-8vmax,10vmax) scale(1.15)}
+@keyframes driftLeft{
+  from{transform:scale(1) translate(0, 0)}
+  to{transform:scale(1.12) translate(35px, 25px)}
 }
 h1{
   font:800 clamp(42px,6.8vw,108px)/.95 var(--display);
