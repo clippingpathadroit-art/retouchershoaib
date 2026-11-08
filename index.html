@@ -143,6 +143,10 @@ nav a:hover{
   padding:140px 0 70px;
   position:relative;
   overflow:hidden;
+  background:
+    radial-gradient(ellipse 75% 88% at 75% 50%, #000000 0%, #000000 55%, rgba(10,10,11,0.5) 80%, transparent 100%),
+    linear-gradient(to bottom, transparent 70%, var(--bg) 100%),
+    var(--bg);
 }
 .hero .wrap{
   display:grid;
@@ -171,13 +175,17 @@ nav a:hover{
   mix-blend-mode:screen;
   opacity:0;
   transition:opacity .9s;
-  -webkit-mask-image:radial-gradient(circle at 50% 50%,#000 56%,transparent 74%);
-  mask-image:radial-gradient(circle at 50% 50%,#000 56%,transparent 74%);
 }
 .ring.live video{
   opacity:var(--o,1);
 }
 @media(max-width:860px){
+  .hero{
+    background:
+      radial-gradient(ellipse 95% 65% at 50% 75%, #000000 0%, #000000 55%, rgba(10,10,11,0.65) 82%, transparent 100%),
+      linear-gradient(to bottom, transparent 70%, var(--bg) 100%),
+      var(--bg);
+  }
   .hero .wrap{
     grid-template-columns:1fr;
   }
