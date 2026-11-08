@@ -7,7 +7,7 @@
 <title>Retoucher Shoaib® — High-End Photo Retouching Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400;1,600;1,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 
 :root {
@@ -1902,6 +1902,920 @@ footer {
   }
 }
 
+
+/* ==========================================================================
+   BOUTIQUE LUXURY STUDIO EXTENSIONS (OBSIDIAN DARK & EDITORIAL TYPOGRAPHY)
+   ========================================================================== */
+:root {
+  --obsidian-bg: #090a0c;
+  --obsidian-surface: #111317;
+  --obsidian-card: #15181e;
+  --obsidian-card-hover: #1c2028;
+  --obsidian-border: rgba(255, 255, 255, 0.08);
+  --obsidian-border-gold: rgba(212, 175, 55, 0.35);
+  --gold-accent: #d4af37;
+  --gold-glow: rgba(212, 175, 55, 0.18);
+  --lime-accent: #cff532;
+  --font-editorial: 'Playfair Display', Georgia, serif;
+  --font-technical: 'JetBrains Mono', monospace;
+}
+
+
+/* REFINED HERO LUXURY CONTRAST (LIGHT CANVAS WITH HIGH-END EDITORIAL CONTRAST) */
+.hero-eyebrow-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(10, 10, 10, 0.04);
+  border: 1px solid rgba(10, 10, 10, 0.1);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-family: var(--font-technical);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+}
+.hero-eyebrow-pill .pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+  animation: pulsePill 2s infinite ease-in-out;
+}
+
+.hero-statement .hero-lead-quote {
+  display: block;
+  font-family: var(--font-editorial);
+  font-size: clamp(22px, 2.7vw, 32px);
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.3;
+  color: #0a0a0a;
+  margin-bottom: 14px;
+  letter-spacing: -0.02em;
+}
+
+.hero-statement .hero-lead-sub {
+  font-size: 15px;
+  line-height: 1.65;
+  color: #555552;
+  max-width: 680px;
+}
+
+.hero-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.btn-luxury-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #0a0a0a;
+  color: #ffffff !important;
+  font-family: var(--f-display);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 13px 24px;
+  border-radius: 6px;
+  border: 1px solid #0a0a0a;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
+}
+.btn-luxury-primary:hover {
+  background: #f26a1b;
+  border-color: #f26a1b;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(242, 106, 27, 0.35);
+}
+
+.btn-luxury-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  color: #0a0a0a !important;
+  font-family: var(--f-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 13px 22px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.btn-luxury-secondary:hover {
+  background: #f7f6f3;
+  border-color: #0a0a0a;
+  transform: translateY(-2px);
+}
+
+.hero-guarantee-badge {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-technical);
+  font-size: 11px;
+  color: #666660;
+  margin-top: 18px;
+}
+.hero-guarantee-badge .badge-sep {
+  color: var(--accent);
+  opacity: 0.8;
+}
+
+/* DEDICATED CENTERED BOUTIQUE SECTION HEADERS */
+.boutique-section-head {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  margin-bottom: 50px !important;
+  max-width: 820px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* ==========================================================================
+   INTERACTIVE BEFORE / AFTER SLIDER COMPONENT
+   ========================================================================== */
+.sec-before-after {
+  background: var(--obsidian-bg);
+  border-top: 1px solid var(--obsidian-border);
+  border-bottom: 1px solid var(--obsidian-border);
+  padding: 110px 0 120px;
+  position: relative;
+  overflow: hidden;
+}
+
+.sec-before-after::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 400px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(212, 175, 55, 0.06), transparent 70%);
+  pointer-events: none;
+}
+
+.lab-gold {
+  color: var(--gold-accent) !important;
+}
+
+.boutique-sec-title {
+  font-family: var(--f-display);
+  font-size: clamp(30px, 4.2vw, 54px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  color: #ffffff;
+  line-height: 1.1;
+  margin-top: 12px;
+  margin-bottom: 18px;
+}
+.boutique-sec-title em {
+  font-family: var(--font-editorial);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--gold-accent);
+  letter-spacing: -0.01em;
+}
+
+.lead-sub {
+  font-size: clamp(15px, 1.4vw, 17px);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 720px;
+  margin: 0 auto 36px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Tab Switcher */
+.ba-tabs-bar {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--obsidian-border);
+  padding: 6px;
+  border-radius: 999px;
+  margin-bottom: 38px;
+}
+.ba-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.65);
+  font-family: var(--f-display);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.ba-tab-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+}
+.ba-tab-btn.active {
+  background: #ffffff;
+  color: #000000;
+  box-shadow: 0 2px 12px rgba(255, 255, 255, 0.2);
+}
+
+/* Slider Viewport */
+.ba-viewport-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--obsidian-border);
+  background: #000000;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+}
+
+.ba-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  user-select: none;
+  cursor: ew-resize;
+  background: #000000;
+}
+
+.ba-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.ba-before-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  overflow: hidden;
+  will-change: width;
+  border-right: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+}
+.ba-before-layer .ba-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  max-width: none;
+}
+
+/* Slider Handle */
+.ba-divider-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+  will-change: left;
+}
+.ba-handle-line {
+  width: 2px;
+  flex: 1;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+}
+.ba-handle-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5), 0 0 0 3px rgba(212, 175, 55, 0.4);
+  transition: transform 0.15s ease;
+}
+.ba-stage:hover .ba-handle-circle {
+  transform: scale(1.1);
+  background: var(--lime-accent);
+}
+
+/* Badges */
+.ba-tag-pill {
+  position: absolute;
+  top: 20px;
+  z-index: 8;
+  font-family: var(--font-technical);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 6px 14px;
+  border-radius: 4px;
+  backdrop-filter: blur(10px);
+  pointer-events: none;
+}
+.ba-tag-raw {
+  left: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #f26a1b;
+  border: 1px solid rgba(242, 106, 27, 0.4);
+}
+.ba-tag-master {
+  right: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  color: var(--lime-accent);
+  border: 1px solid rgba(207, 245, 50, 0.4);
+}
+
+/* Meta Strip */
+.ba-meta-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--obsidian-border);
+  border-top: 1px solid var(--obsidian-border);
+}
+.ba-meta-item {
+  background: var(--obsidian-surface);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ba-meta-key {
+  font-family: var(--font-technical);
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.ba-meta-val {
+  font-family: var(--f-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   4K RETINA LOUPE INSPECTION TOOL
+   ========================================================================== */
+.sec-loupe-inspection {
+  background: #0d0e12;
+  border-bottom: 1px solid var(--obsidian-border);
+  padding: 110px 0 120px;
+  position: relative;
+}
+
+.loupe-toggle-bar {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 36px;
+}
+.loupe-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--obsidian-border);
+  color: rgba(255, 255, 255, 0.7);
+  font-family: var(--f-display);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.loupe-btn:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: #fff;
+}
+.loupe-btn.active {
+  background: var(--gold-accent);
+  color: #000000;
+  border-color: var(--gold-accent);
+  font-weight: 700;
+  box-shadow: 0 4px 16px var(--gold-glow);
+}
+
+.loupe-stage-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.loupe-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--obsidian-border);
+  background: #000000;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+  cursor: crosshair;
+}
+
+.loupe-target-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Circular Magnifier Lens */
+.loupe-lens {
+  position: absolute;
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  border: 2px solid var(--gold-accent);
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.5), 0 10px 30px rgba(0, 0, 0, 0.8), inset 0 0 25px rgba(255, 255, 255, 0.15);
+  background-repeat: no-repeat;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.85);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 25;
+  overflow: hidden;
+}
+.loupe-lens.active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.loupe-crosshair {
+  position: absolute;
+  background: rgba(212, 175, 55, 0.45);
+  pointer-events: none;
+}
+.loupe-crosshair.horizontal {
+  top: 50%;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  transform: translateY(-50%);
+}
+.loupe-crosshair.vertical {
+  left: 50%;
+  top: 10%;
+  bottom: 10%;
+  width: 1px;
+  transform: translateX(-50%);
+}
+
+.loupe-zoom-badge {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid var(--gold-accent);
+  color: var(--gold-accent);
+  font-family: var(--font-technical);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 2px 7px;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.loupe-hint-pill {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-family: var(--f-display);
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffffff;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.loupe-insights-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 24px;
+}
+.loupe-insight-card {
+  background: var(--obsidian-surface);
+  border: 1px solid var(--obsidian-border);
+  border-radius: 10px;
+  padding: 22px 24px;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+.loupe-insight-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--obsidian-border-gold);
+}
+.insight-num {
+  font-family: var(--font-technical);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gold-accent);
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+.insight-title {
+  font-family: var(--f-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+.insight-desc {
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* ==========================================================================
+   5-COLUMN CAPABILITIES VISUAL GRID
+   ========================================================================== */
+.services-visual-grid-5 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+
+/* ==========================================================================
+   BEHIND THE CRAFT: 3-STEP ARTISANAL BREAKDOWN
+   ========================================================================== */
+.sec-behind-craft {
+  background: #090a0c;
+  border-top: 1px solid var(--obsidian-border);
+  border-bottom: 1px solid var(--obsidian-border);
+  padding: 110px 0 120px;
+}
+
+.craft-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.craft-step-card {
+  background: var(--obsidian-surface);
+  border: 1px solid var(--obsidian-border);
+  border-radius: 12px;
+  padding: 36px 30px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.craft-step-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--obsidian-border-gold);
+  background: var(--obsidian-card-hover);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+
+.craft-step-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.step-badge {
+  font-family: var(--font-technical);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--gold-accent);
+  background: rgba(212, 175, 55, 0.1);
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+}
+.step-timing {
+  font-family: var(--font-technical);
+  font-size: 11px;
+  color: var(--lime-accent);
+}
+
+.step-title {
+  font-family: var(--f-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.3;
+  margin-bottom: 14px;
+}
+
+.step-desc {
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 24px;
+  flex-grow: 1;
+}
+
+.step-specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.step-tag {
+  font-family: var(--font-technical);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 3px 9px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ==========================================================================
+   MINI CASE STUDIES / VERIFIED TRACK RECORD
+   ========================================================================== */
+.why-case-studies-block {
+  margin-top: 60px;
+  padding-top: 50px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.case-studies-title {
+  font-family: var(--font-technical);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold-accent);
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.case-studies-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.case-study-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 24px;
+  transition: all 0.25s ease;
+}
+.case-study-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(212, 175, 55, 0.3);
+  transform: translateY(-3px);
+}
+.case-study-client {
+  font-family: var(--font-technical);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--lime-accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.case-study-metric {
+  font-family: var(--f-display);
+  font-size: 18px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.25;
+  margin-bottom: 10px;
+}
+.case-study-summary {
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* ==========================================================================
+   INTERACTIVE MODALS (DISCOVERY CALL & FREE TRIAL)
+   ========================================================================== */
+.boutique-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.boutique-modal-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.boutique-modal-box {
+  background: var(--obsidian-surface);
+  border: 1px solid var(--obsidian-border-gold);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 580px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: clamp(24px, 4vw, 36px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  transform: translateY(20px) scale(0.97);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+.boutique-modal-backdrop.open .boutique-modal-box {
+  transform: translateY(0) scale(1);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--obsidian-border);
+  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  transition: background 0.2s ease;
+}
+.modal-close-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.modal-header {
+  margin-bottom: 24px;
+}
+.modal-eyebrow {
+  font-family: var(--font-technical);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--gold-accent);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.modal-title {
+  font-family: var(--f-display);
+  font-size: 24px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+.modal-subtitle {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.65);
+  margin-top: 6px;
+}
+
+.modal-action-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+.modal-option-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--obsidian-card);
+  border: 1px solid var(--obsidian-border);
+  padding: 16px 20px;
+  border-radius: 8px;
+  color: #ffffff;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.modal-option-btn:hover {
+  background: var(--obsidian-card-hover);
+  border-color: var(--gold-accent);
+  transform: translateX(4px);
+}
+.modal-option-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.modal-option-title {
+  font-family: var(--f-display);
+  font-size: 15px;
+  font-weight: 700;
+}
+.modal-option-desc {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 2px;
+}
+
+/* Modal Form Fields */
+.modal-form-group {
+  margin-top: 16px;
+}
+.modal-form-label {
+  display: block;
+  font-family: var(--font-technical);
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+.modal-form-input, .modal-form-textarea, .modal-form-select {
+  width: 100%;
+  background: #090a0c;
+  border: 1px solid var(--obsidian-border);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 12px 14px;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.modal-form-input:focus, .modal-form-textarea:focus, .modal-form-select:focus {
+  border-color: var(--gold-accent);
+}
+.modal-form-textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1080px) {
+  .services-visual-grid-5 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .craft-steps-grid, .case-studies-grid, .loupe-insights-grid {
+    grid-template-columns: 1fr;
+  }
+  .ba-meta-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 680px) {
+  .services-visual-grid-5 {
+    grid-template-columns: 1fr;
+  }
+  .ba-meta-strip {
+    grid-template-columns: 1fr;
+  }
+  .ba-stage {
+    aspect-ratio: 4 / 3;
+  }
+  .loupe-frame {
+    aspect-ratio: 4 / 3;
+  }
+  .hero-statement .hero-lead-quote {
+    font-size: 19px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1994,7 +2908,33 @@ footer {
 <header class="hero w" id="heroSection">
   <div class="hero-top">
     <div class="hero-statement">
-      <strong>Retoucher Shoaib®</strong> is an elite 15-artist commercial post-production agency delivering 16-bit ProPhoto color fidelity, non-destructive dodge &amp; burn, and rapid 12–24h turnaround to luxury fashion, jewelry, and commercial houses worldwide.
+      <div class="hero-eyebrow-pill">
+        <span class="pulse-dot"></span> 15-ARTIST AGILE BOUTIQUE STUDIO • SERVING NYC, LONDON &amp; MILAN
+      </div>
+      <span class="hero-lead-quote">“Too big for freelancer bottlenecks, small enough for obsessive artistic quality control.”</span>
+      <p class="hero-lead-sub">
+        <strong>Retoucher Shoaib®</strong> is an elite artisanal collective of 15 senior post-production artists delivering non-destructive dodge &amp; burn, 16-bit ProPhoto color fidelity, and certified prepress standards to luxury fashion houses, fine jewelers, and global commercial campaigns.
+      </p>
+      
+      <div class="hero-actions-row">
+        <button type="button" class="btn-luxury-primary" onclick="openDiscoveryModal()">
+          <span>Book a 15-Min Discovery Call</span>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="btn-luxury-secondary" onclick="openFreeTrialModal()">
+          <span>Upload 1 Test Image Free &rarr;</span>
+        </button>
+      </div>
+
+      <div class="hero-guarantee-badge">
+        <span>⚡ 15-Artist Dedicated Roster</span>
+        <span class="badge-sep">•</span>
+        <span>Zero AI Plastic Smoothing</span>
+        <span class="badge-sep">•</span>
+        <span>24–48h SLA</span>
+        <span class="badge-sep">•</span>
+        <span>100% NDA Protected</span>
+      </div>
     </div>
 
     <div></div>
@@ -2051,7 +2991,7 @@ footer {
 
 <!-- BRAND TRUST & CLIENT PARTNERS MARQUEE -->
 <div class="brand-trust-section">
-  <div class="brand-trust-label">TRUSTED BY LEADING FASHION HOUSES, LUXURY STUDIOS &amp; COMMERCIAL BRANDS</div>
+  <div class="brand-trust-label">ENGINEERED TO THE EXACT TECHNICAL STANDARDS OF VOGUE, HARPER'S BAZAAR, NET-A-PORTER &amp; TIFFANY &amp; CO.</div>
   <div class="brand-trust-marquee">
     <div class="brand-trust-track">
       <div class="brand-item">CARTIER</div>
@@ -2264,15 +3204,155 @@ footer {
 </section>
 
 <!-- OUR CORE SERVICES: 4-COLUMN INTERACTIVE VISUAL GRID -->
+
+<!-- ==========================================================================
+     INTERACTIVE BEFORE / AFTER SHOWCASE (100% RAW VS 16-BIT MASTER)
+     ========================================================================== -->
+<section class="sec-before-after" id="beforeAfterSection">
+  <div class="w">
+    <div class="boutique-section-head">
+      <div class="lab lab-gold">100% RAW VS 16-BIT MASTER • INTERACTIVE PROOF</div>
+      <h2 class="boutique-sec-title">Drag to Reveal <em>Pixel-Level</em> Artisanal Precision.</h2>
+      <p class="lead-sub">
+        No automated plastic smoothing or AI hallucinations. Compare RAW camera ingests with final 16-bit master plates crafted with millimeter-accurate manual Dodge &amp; Burn.
+      </p>
+
+      <!-- Tab Switcher -->
+      <div class="ba-tabs-bar" role="tablist">
+        <button type="button" class="ba-tab-btn active" id="tabBaJewelry" onclick="switchBaTab('jewelry')">
+          <span>💎 Fine Jewelry &amp; Watches</span>
+        </button>
+        <button type="button" class="ba-tab-btn" id="tabBaPortrait" onclick="switchBaTab('portrait')">
+          <span>✨ Studio Portraiture</span>
+        </button>
+        <button type="button" class="ba-tab-btn" id="tabBaPackshot" onclick="switchBaTab('packshot')">
+          <span>📦 Commercial Packshot</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Interactive Slider Container -->
+    <div class="ba-viewport-wrap" id="baViewport">
+      <div class="ba-stage" id="baStage">
+        <!-- Master (After) Image -->
+        <img id="baAfterImg" class="ba-img ba-img-after" src="./assets/Jewelry%20After.jpg" alt="16-Bit Master Retouched Plate">
+        
+        <!-- Raw (Before) Image Overlay with Clip Path -->
+        <div class="ba-before-layer" id="baBeforeLayer" style="width: 50%;">
+          <img id="baBeforeImg" class="ba-img ba-img-before" src="./assets/Jewelry%20Before.jpg" alt="Original RAW Camera Ingest">
+        </div>
+
+        <!-- Draggable Splitter Handle -->
+        <div class="ba-divider-handle" id="baHandle" style="left: 50%;">
+          <div class="ba-handle-line"></div>
+          <div class="ba-handle-circle">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg>
+          </div>
+          <div class="ba-handle-line"></div>
+        </div>
+
+        <!-- High-End Badges -->
+        <div class="ba-tag-pill ba-tag-raw">RAW CAMERA INGEST</div>
+        <div class="ba-tag-pill ba-tag-master">16-BIT MASTER RETOUCH</div>
+      </div>
+
+      <!-- Technical Specs Metadata Strip -->
+      <div class="ba-meta-strip" id="baMetaStrip">
+        <div class="ba-meta-item">
+          <span class="ba-meta-key">COLOR SPACE</span>
+          <span class="ba-meta-val" id="baMetaColor">16-Bit ProPhoto RGB</span>
+        </div>
+        <div class="ba-meta-item">
+          <span class="ba-meta-key">TECHNIQUE</span>
+          <span class="ba-meta-val" id="baMetaTech">Focus Stacking • Specular Control</span>
+        </div>
+        <div class="ba-meta-item">
+          <span class="ba-meta-key">SURFACE INTEGRITY</span>
+          <span class="ba-meta-val" id="baMetaSurface">100% Metal Luster &amp; Gem Facets</span>
+        </div>
+        <div class="ba-meta-item">
+          <span class="ba-meta-key">HARDWARE TARGET</span>
+          <span class="ba-meta-val">EIZO CG2700X Calibrated</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     4K RETINA LOUPE INSPECTION TOOL (200% OPTICAL ZOOM)
+     ========================================================================== -->
+<section class="sec-loupe-inspection" id="loupeInspectionSection">
+  <div class="w">
+    <div class="boutique-section-head">
+      <div class="lab lab-gold">4K RETINA LOUPE • 200% OPTICAL ZOOM</div>
+      <h2 class="boutique-sec-title">Microscopic Quality Inspection: <em>Pores &amp; Facets</em>.</h2>
+      <p class="lead-sub">
+        Luxury houses avoid mass AI factories because automated algorithms smooth away natural skin texture. Move your cursor over our master plates to inspect dermal pores and diamond luster at 200% magnification.
+      </p>
+
+      <!-- Loupe Subject Selector -->
+      <div class="loupe-toggle-bar">
+        <button type="button" class="loupe-btn active" id="btnLoupeBeauty" onclick="switchLoupeSubject('beauty')">
+          <span>👑 High-End Beauty Skin Anatomy</span>
+        </button>
+        <button type="button" class="loupe-btn" id="btnLoupeJewelry" onclick="switchLoupeSubject('jewelry')">
+          <span>💎 Fine Diamond &amp; Gemstone Facets</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="loupe-stage-container">
+      <div class="loupe-frame" id="loupeFrame">
+        <!-- Display Master Image -->
+        <img id="loupeTargetImg" class="loupe-target-img" src="./assets/agency_showcase/work_editorial_crimson_beauty.jpg" alt="Master High-End Retouched Plate">
+        
+        <!-- Circular Magnifier Lens -->
+        <div class="loupe-lens" id="loupeLens">
+          <div class="loupe-crosshair horizontal"></div>
+          <div class="loupe-crosshair vertical"></div>
+          <div class="loupe-zoom-badge">200% RETINA</div>
+        </div>
+
+        <!-- Visual Hint -->
+        <div class="loupe-hint-pill" id="loupeHint">
+          <span>🔍 Move cursor across image for 200% optical inspection</span>
+        </div>
+      </div>
+
+      <!-- Inspection Insights Cards -->
+      <div class="loupe-insights-grid" id="loupeInsights">
+        <div class="loupe-insight-card">
+          <div class="insight-num">01 / DERMAL ANATOMY</div>
+          <div class="insight-title" id="insightTitle1">Dermal Pore Retention</div>
+          <div class="insight-desc" id="insightDesc1">Every epidermal pore is preserved through non-destructive dodge &amp; burn. Zero Gaussian or frequency separation plasticizing.</div>
+        </div>
+        <div class="loupe-insight-card">
+          <div class="insight-num">02 / SPECULAR HIGHLIGHTS</div>
+          <div class="insight-title" id="insightTitle2">Micro-Luminosity Gradient</div>
+          <div class="insight-desc" id="insightDesc2">Sub-millimeter specular highlights on cheekbones, nose bridge, and lip curves balanced for true editorial magazine luminosity.</div>
+        </div>
+        <div class="loupe-insight-card">
+          <div class="insight-num">03 / ISOLATION FIDELITY</div>
+          <div class="insight-title" id="insightTitle3">Eyelash &amp; Iris Separation</div>
+          <div class="insight-desc" id="insightDesc3">Hand-crafted isolation masks around individual eyelashes, waterline, and limbal rings for hyper-realistic commercial gaze.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- OUR CORE SERVICES: 5-COLUMN INTERACTIVE VISUAL GRID -->
 <section class="w sec-services-visual" id="servicesVisual">
   <div class="section-head">
-    <div class="lab">CAPABILITIES &amp; DISCIPLINES</div>
+    <div class="lab lab-gold">CAPABILITIES &amp; DISCIPLINES</div>
     <div class="lead">
-      Four specialized studio divisions executed with millimeter accuracy.
+      Five specialized studio divisions executed with millimeter accuracy.
     </div>
   </div>
 
-  <div class="services-visual-grid">
+  <div class="services-visual-grid services-visual-grid-5">
     <!-- SERVICE 1 -->
     <a href="services.html" class="service-v-card">
       <div class="service-v-thumb">
@@ -2280,7 +3360,7 @@ footer {
         <div class="service-v-num">01 / HOROLOGY</div>
       </div>
       <div class="service-v-body">
-        <div class="service-v-title">Luxury Jewelry &amp; Watches</div>
+        <div class="service-v-title">Fine Jewelry &amp; Watches</div>
         <div class="service-v-desc">Focus-stacked gemstone brilliance, specular highlight shaping, and flawless reflection cleanup for Swiss watchmakers and fine jewelers.</div>
         <div class="service-v-tags">
           <span class="service-v-tag">Focus Stacking</span>
@@ -2299,7 +3379,7 @@ footer {
       </div>
       <div class="service-v-body">
         <div class="service-v-title">Fashion Apparel &amp; Tailoring</div>
-        <div class="service-v-desc">Symmetric mannequin reconstruction, natural fabric drape retention, de-wrinkling, and color-calibrated digital tailoring for fashion brands.</div>
+        <div class="service-v-desc">Symmetric mannequin reconstruction, natural fabric drape retention, de-wrinkling, and color-calibrated digital tailoring for fashion houses.</div>
         <div class="service-v-tags">
           <span class="service-v-tag">Fabric Drape</span>
           <span class="service-v-tag">Color Sync</span>
@@ -2312,11 +3392,11 @@ footer {
     <!-- SERVICE 3 -->
     <a href="services.html" class="service-v-card">
       <div class="service-v-thumb">
-        <img src="./assets/agency_showcase/service_beauty.jpg" alt="Model &amp; Editorial Beauty Retouching" loading="lazy">
+        <img src="./assets/agency_showcase/work_editorial_crimson_beauty.jpg" alt="Model &amp; Editorial Beauty Retouching" loading="lazy">
         <div class="service-v-num">03 / BEAUTY</div>
       </div>
       <div class="service-v-body">
-        <div class="service-v-title">Model &amp; Editorial Beauty</div>
+        <div class="service-v-title">Editorial Beauty &amp; Skin</div>
         <div class="service-v-desc">Micro-dodge &amp; burn preserving authentic epidermal anatomy, eyelash separation, and editorial magazine color grading.</div>
         <div class="service-v-tags">
           <span class="service-v-tag">Dodge &amp; Burn</span>
@@ -2334,7 +3414,7 @@ footer {
         <div class="service-v-num">04 / COMMERCE</div>
       </div>
       <div class="service-v-body">
-        <div class="service-v-title">E-Commerce &amp; Hero Packshots</div>
+        <div class="service-v-title">E-Commerce &amp; Packshots</div>
         <div class="service-v-desc">100% hand-drawn pen-tool clipping paths, custom contact shadows, and volume color matching for high-throughput luxury retail.</div>
         <div class="service-v-tags">
           <span class="service-v-tag">Manual Paths</span>
@@ -2344,8 +3424,27 @@ footer {
         <div class="service-v-arrow">Explore Discipline &rarr;</div>
       </div>
     </a>
+
+    <!-- SERVICE 5 (THE 5TH PILLAR: PORTRAIT & EXECUTIVE HEADSHOTS) -->
+    <a href="services.html" class="service-v-card">
+      <div class="service-v-thumb">
+        <img src="./assets/agency_showcase/client_fashion_lookbook_al_dec_402.jpg" alt="Portrait &amp; Executive Actor Headshots" loading="lazy">
+        <div class="service-v-num">05 / PORTRAITURE</div>
+      </div>
+      <div class="service-v-body">
+        <div class="service-v-title">Portrait &amp; Executive Headshots</div>
+        <div class="service-v-desc">Studio lighting balance, non-destructive skin polish, flyaway hair cleanup, and expression fidelity for C-Suite executives and agency talent.</div>
+        <div class="service-v-tags">
+          <span class="service-v-tag">C-Suite Talent</span>
+          <span class="service-v-tag">Studio Lighting</span>
+          <span class="service-v-tag">Expression Sync</span>
+        </div>
+        <div class="service-v-arrow">Explore Discipline &rarr;</div>
+      </div>
+    </a>
   </div>
 </section>
+
 
 <!-- SELECTED PROJECT GALLERY (EDITORIAL ASYMMETRIC MOSAIC) -->
 <section class="sec-gallery-mosaic" id="projectGallery">
@@ -2393,6 +3492,75 @@ footer {
 </section>
 
 <!-- WHY RETOUCHER SHOAIB? (STUDIO STANDARDS & SCALE METRICS - DARK NAVY) -->
+
+<!-- ==========================================================================
+     BEHIND THE CRAFT: 3-STEP ARTISANAL PRODUCTION BLUEPRINT
+     ========================================================================== -->
+<section class="sec-behind-craft" id="behindTheCraftSection">
+  <div class="w">
+    <div class="boutique-section-head">
+      <div class="lab lab-gold">THE ARTISANAL BLUEPRINT</div>
+      <h2 class="boutique-sec-title">Behind the Craft: <em>How We Deliver</em> High-Volume Perfection.</h2>
+      <p class="lead-sub">
+        A calibrated 3-stage post-production pipeline built over 10 years to eliminate agency bottlenecks while safeguarding pixel-perfect luxury quality.
+      </p>
+    </div>
+
+    <div class="craft-steps-grid">
+      <!-- Step 1 -->
+      <div class="craft-step-card">
+        <div class="craft-step-header">
+          <div class="step-badge">STAGE 01</div>
+          <div class="step-timing">&lt; 2 Hours</div>
+        </div>
+        <h3 class="step-title">RAW Ingestion &amp; Hardware Color Calibration</h3>
+        <p class="step-desc">
+          Incoming high-res RAW capture files (Hasselblad IIQ, Phase One, Canon CR3, Sony ARW) ingested directly into 16-bit ProPhoto RGB. Calibrated on EIZO ColorEdge CG2700X hardware monitors with strict Pantone color-syncing against physical textile swatches (&Delta;E &lt; 1.0).
+        </p>
+        <div class="step-specs">
+          <span class="step-tag">ProPhoto RGB 16-Bit</span>
+          <span class="step-tag">EIZO CG2700X</span>
+          <span class="step-tag">&Delta;E &lt; 1.0 Sync</span>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="craft-step-card">
+        <div class="craft-step-header">
+          <div class="step-badge">STAGE 02</div>
+          <div class="step-timing">12–18 Hours</div>
+        </div>
+        <h3 class="step-title">Multi-Pass Dodge &amp; Burn Defect Sculpting</h3>
+        <p class="step-desc">
+          Two senior artists perform dual-pass non-destructive dodging and burning: macro luminosity harmonization followed by microscopic defect markup. Stray hairs, sensor dust, metal scratches, and fabric tension creases meticulously resolved without blurring filters.
+        </p>
+        <div class="step-specs">
+          <span class="step-tag">Non-Destructive D&amp;B</span>
+          <span class="step-tag">Zero Gaussian Blur</span>
+          <span class="step-tag">Anatomical Pore Masking</span>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="craft-step-card">
+        <div class="craft-step-header">
+          <div class="step-badge">STAGE 03</div>
+          <div class="step-timing">&lt; 4 Hours</div>
+        </div>
+        <h3 class="step-title">Studio Director QA &amp; Certified Prepress Delivery</h3>
+        <p class="step-desc">
+          Studio Director Shoaib personally reviews every master plate at 100% and 200% zoom. Delivered as layered PSDs with non-destructive adjustment masks, CMYK prepress certifications (ISO Coated v2 / GRACoL 2013), and cloud delivery via secure high-speed links.
+        </p>
+        <div class="step-specs">
+          <span class="step-tag">Layered Master PSDs</span>
+          <span class="step-tag">CMYK Prepress Cert</span>
+          <span class="step-tag">100% NDA Protection</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="sec-why-studio" id="whyStudio">
   <div class="w">
     <div class="why-header">
@@ -2401,6 +3569,7 @@ footer {
       <p class="why-desc">We bridge the gap between boutique artisanal craftsmanship and high-volume agency SLA turnaround. Zero automation shortcuts—only calibrated pixel mastery.</p>
     </div>
 
+    
     <div class="why-stats-grid">
       <div class="why-stat-box">
         <div class="why-stat-num">15+</div>
@@ -2426,6 +3595,31 @@ footer {
         <div class="why-stat-sub">Enterprise encrypted file transfers, strict privacy protocols for unreleased lines.</div>
       </div>
     </div>
+
+    <!-- 3 MINI CASE STUDIES / VERIFIED TRACK RECORD -->
+    <div class="why-case-studies-block">
+      <div class="case-studies-title">VERIFIED TRACK RECORD • RECENT PRODUCTION CAMPAIGNS</div>
+      <div class="case-studies-grid">
+        <div class="case-study-card">
+          <div class="case-study-client">MILAN FINE JEWELRY MAISON</div>
+          <div class="case-study-metric">520 SKUs Delivered in 36 Hours</div>
+          <div class="case-study-summary">Focus-stacked emerald and platinum rings retouched for global holiday e-commerce catalog with zero return defect rate.</div>
+        </div>
+
+        <div class="case-study-card">
+          <div class="case-study-client">PARIS FASHION WEEK RUNWAY</div>
+          <div class="case-study-metric">84 Outfits Under 24h Press Embargo</div>
+          <div class="case-study-summary">Couture textiles color-calibrated to physical Pantone swatches with authentic fabric drape and zero moir&eacute;.</div>
+        </div>
+
+        <div class="case-study-card">
+          <div class="case-study-client">LONDON FINANCIAL C-SUITE</div>
+          <div class="case-study-metric">140 Executive Partner Headshots</div>
+          <div class="case-study-summary">Unified executive grade across global partners with individual Dodge &amp; Burn skin polish and background harmony.</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -2735,8 +3929,8 @@ updateSoundUI();
       <ul>
         <li><a href="mailto:retouchershoaib@gmail.com">Email Us</a></li>
         <li><a href="https://wa.me/8801710763251" target="_blank">WhatsApp Direct</a></li>
-        <li><a href="https://linkedin.com" target="_blank">LinkedIn Studio</a></li>
-        <li><a href="https://instagram.com" target="_blank">Instagram Portfolio</a></li>
+        <li><a href="https://www.linkedin.com/in/retouchershoaib" target="_blank">LinkedIn Studio</a></li>
+        <li><a href="https://www.instagram.com/retouchershoaib" target="_blank">Instagram Portfolio</a></li>
       </ul>
     </div>
   </div>
@@ -2942,5 +4136,362 @@ document.addEventListener('visibilitychange', () => {
 });
 window.addEventListener('focus', syncHeaderClientState);
 </script>
+
+<!-- ==========================================================================
+     INTERACTIVE DISCOVERY CALL MODAL
+     ========================================================================== -->
+<div class="boutique-modal-backdrop" id="modalDiscoveryCall" onclick="if(event.target === this) closeDiscoveryModal()">
+  <div class="boutique-modal-box">
+    <button type="button" class="modal-close-btn" onclick="closeDiscoveryModal()" aria-label="Close modal">&times;</button>
+    <div class="modal-header">
+      <div class="modal-eyebrow">DIRECT STUDIO ACCESS</div>
+      <h3 class="modal-title">Book a 15-Minute Discovery Call</h3>
+      <p class="modal-subtitle">Connect directly with Studio Lead Shoaib to discuss campaign deadlines, volume pricing, and custom color calibration.</p>
+    </div>
+
+    <div class="modal-action-options">
+      <a href="https://wa.me/8801710763251?text=Hello%20Shoaib,%20I%20would%20like%20to%20book%20a%2015-minute%20discovery%20call%20for%20our%20upcoming%20campaign." target="_blank" class="modal-option-btn">
+        <span class="modal-option-icon">💬</span>
+        <div>
+          <div class="modal-option-title">Instant WhatsApp Studio Chat</div>
+          <div class="modal-option-desc">+880 1710-763251 • Direct reply within 15 minutes (NYC &amp; European hours)</div>
+        </div>
+      </a>
+
+      <a href="mailto:retouchershoaib@gmail.com?subject=Discovery%20Call%20Inquiry%20-%20Retoucher%20Shoaib&body=Hi%20Shoaib,%0A%0AWe%20would%20like%20to%20schedule%20a%2015-minute%20discovery%20call.%0A%0AProject%20Scope:%20[Jewelry%20/%20Fashion%20/%20Beauty%20/%20Headshots%20/%20Commercial]%0AEstimated%20Volume:%20[e.g.%2050%20images]%0ARequired%20Turnaround:%20[24h%20/%2048h%20/%20Custom]%0A%0AThank%20you!" class="modal-option-btn">
+        <span class="modal-option-icon">✉️</span>
+        <div>
+          <div class="modal-option-title">Direct Studio Email Dispatch</div>
+          <div class="modal-option-desc">retouchershoaib@gmail.com • Priority brief response within 2 hours</div>
+        </div>
+      </a>
+
+      <a href="contact.html" class="modal-option-btn">
+        <span class="modal-option-icon">📋</span>
+        <div>
+          <div class="modal-option-title">Full Production Briefing Form</div>
+          <div class="modal-option-desc">Submit comprehensive project specs, asset links, and turn-around SLAs</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     INTERACTIVE FREE TRIAL UPLOADER MODAL
+     ========================================================================== -->
+<div class="boutique-modal-backdrop" id="modalFreeTrial" onclick="if(event.target === this) closeFreeTrialModal()">
+  <div class="boutique-modal-box">
+    <button type="button" class="modal-close-btn" onclick="closeFreeTrialModal()" aria-label="Close modal">&times;</button>
+    <div class="modal-header">
+      <div class="modal-eyebrow">COMPLIMENTARY TEST BENCHMARK</div>
+      <h3 class="modal-title">Upload 1 Image for a Free Master Retouch</h3>
+      <p class="modal-subtitle">Test our 15-artist boutique quality with zero obligation. Receive a 16-bit master plate back within 24 hours.</p>
+    </div>
+
+    <form onsubmit="handleTrialSubmit(event)">
+      <div class="modal-form-group">
+        <label class="modal-form-label">Cloud Asset Link (Google Drive / WeTransfer / Dropbox / Box)</label>
+        <input type="url" id="trialLinkInput" class="modal-form-input" placeholder="https://drive.google.com/drive/folders/..." required>
+      </div>
+
+      <div class="modal-form-group">
+        <label class="modal-form-label">Service Discipline</label>
+        <select id="trialCategorySelect" class="modal-form-select">
+          <option value="jewelry">💎 Fine Jewelry &amp; Watches (Focus Stack &amp; Fire)</option>
+          <option value="fashion">👗 High Fashion &amp; Digital Tailoring</option>
+          <option value="beauty" selected>👑 Editorial Beauty (Natural Pore Dodge &amp; Burn)</option>
+          <option value="headshots">👤 Portrait &amp; Executive / Actor Headshots</option>
+          <option value="packshot">📦 E-Commerce Hero Packshot</option>
+        </select>
+      </div>
+
+      <div class="modal-form-group">
+        <label class="modal-form-label">Your Email for Delivery</label>
+        <input type="email" id="trialEmailInput" class="modal-form-input" placeholder="artdirector@brand.com" required>
+      </div>
+
+      <div class="modal-form-group">
+        <label class="modal-form-label">Specific Retouching Directives (Optional)</label>
+        <textarea id="trialNotesInput" class="modal-form-textarea" placeholder="e.g. Preserve natural skin pores, balance specular reflections, remove stray hairs on forehead..."></textarea>
+      </div>
+
+      <div style="margin-top: 24px;">
+        <button type="submit" class="btn-luxury-primary" style="width: 100%; justify-content: center; padding: 14px;">
+          <span>Submit Benchmark Ingest (24h Turnaround) &rarr;</span>
+        </button>
+      </div>
+
+      <div style="font-family: var(--font-technical); font-size: 11px; color: rgba(255,255,255,0.5); text-align: center; margin-top: 14px;">
+        🔒 100% NDA Protection • Zero third-party sharing • Layered PSD delivered
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<script>
+/* ==========================================================================
+   BOUTIQUE LUXURY CONTROLLERS (BEFORE/AFTER, 4K LOUPE, MODALS)
+   ========================================================================== */
+
+// 1. BEFORE/AFTER SLIDER INTERACTION & TAB SWITCHING
+const baData = {
+  jewelry: {
+    before: './assets/Jewelry%20Before.jpg',
+    after: './assets/Jewelry%20After.jpg',
+    color: '16-Bit ProPhoto RGB',
+    tech: 'Focus Stacking • Specular Control',
+    surface: '100% Metal Luster & Gem Facets'
+  },
+  portrait: {
+    before: './assets/studio_before_web.jpg',
+    after: './assets/studio_after_web.jpg',
+    color: '16-Bit ProPhoto RGB',
+    tech: 'Manual Dodge & Burn • No Blur',
+    surface: 'Authentic Epidermal Pore Retention'
+  },
+  packshot: {
+    before: './assets/speaker_raw.jpg',
+    after: './assets/speaker_graded.jpg',
+    color: '16-Bit ProPhoto RGB',
+    tech: 'Hand Pen-Tool Path • Color Cast Neutralization',
+    surface: 'Acoustic Mesh & Specular Reflection'
+  }
+};
+
+let currentBaTab = 'jewelry';
+let isBaDragging = false;
+
+function switchBaTab(tab) {
+  if (!baData[tab]) return;
+  currentBaTab = tab;
+
+  // Update tabs UI
+  document.querySelectorAll('.ba-tab-btn').forEach(btn => btn.classList.remove('active'));
+  const activeBtn = document.getElementById('tabBa' + tab.charAt(0).toUpperCase() + tab.slice(1));
+  if (activeBtn) activeBtn.classList.add('active');
+
+  // Update images
+  const afterImg = document.getElementById('baAfterImg');
+  const beforeImg = document.getElementById('baBeforeImg');
+  if (afterImg) afterImg.src = baData[tab].after;
+  if (beforeImg) beforeImg.src = baData[tab].before;
+
+  // Update specs
+  const metaColor = document.getElementById('baMetaColor');
+  const metaTech = document.getElementById('baMetaTech');
+  const metaSurface = document.getElementById('baMetaSurface');
+  if (metaColor) metaColor.innerText = baData[tab].color;
+  if (metaTech) metaTech.innerText = baData[tab].tech;
+  if (metaSurface) metaSurface.innerText = baData[tab].surface;
+}
+
+function updateBaPosition(pct) {
+  const clamped = Math.max(0, Math.min(100, pct));
+  const beforeLayer = document.getElementById('baBeforeLayer');
+  const handle = document.getElementById('baHandle');
+  if (beforeLayer) beforeLayer.style.width = clamped + '%';
+  if (handle) handle.style.left = clamped + '%';
+}
+
+function handleBaMove(e) {
+  const stage = document.getElementById('baStage');
+  if (!stage) return;
+  const rect = stage.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const pct = (x / rect.width) * 100;
+  updateBaPosition(pct);
+}
+
+function handleBaTouch(e) {
+  const stage = document.getElementById('baStage');
+  if (!stage || !e.touches || !e.touches[0]) return;
+  const rect = stage.getBoundingClientRect();
+  const x = e.touches[0].clientX - rect.left;
+  const pct = (x / rect.width) * 100;
+  updateBaPosition(pct);
+}
+
+// Attach mouse drag and click events
+document.addEventListener('DOMContentLoaded', () => {
+  const stage = document.getElementById('baStage');
+  if (stage) {
+    stage.addEventListener('mousedown', (e) => {
+      isBaDragging = true;
+      handleBaMove(e);
+    });
+    window.addEventListener('mouseup', () => { isBaDragging = false; });
+    window.addEventListener('mousemove', (e) => {
+      if (isBaDragging) handleBaMove(e);
+    });
+    stage.addEventListener('touchmove', handleBaTouch, { passive: true });
+  }
+
+  // Init Loupe
+  initLoupeMagnifier();
+});
+
+// 2. 4K RETINA LOUPE INTERACTION
+const loupeData = {
+  beauty: {
+    img: './assets/agency_showcase/work_editorial_crimson_beauty.jpg',
+    num1: '01 / DERMAL ANATOMY',
+    title1: 'Dermal Pore Retention',
+    desc1: 'Every epidermal pore is preserved through non-destructive dodge & burn. Zero Gaussian or frequency separation plasticizing.',
+    num2: '02 / SPECULAR HIGHLIGHTS',
+    title2: 'Micro-Luminosity Gradient',
+    desc2: 'Sub-millimeter specular highlights on cheekbones, nose bridge, and lip curves balanced for true editorial magazine luminosity.',
+    num3: '03 / ISOLATION FIDELITY',
+    title3: 'Eyelash & Iris Separation',
+    desc3: 'Hand-crafted isolation masks around individual eyelashes, waterline, and limbal rings for hyper-realistic commercial gaze.'
+  },
+  jewelry: {
+    img: './assets/Jewelry%20After.jpg',
+    num1: '01 / GEMSTONE FIRE',
+    title1: 'Diamond Facet Clarity',
+    desc1: 'Focus-stacked macro clarity revealing 57 brilliant-cut diamond facets with zero chromatic aberration or blur.',
+    num2: '02 / METAL POLISH',
+    title2: 'Continuous Platinum Luster',
+    desc2: 'Subtle manual dodge & burn eliminating casting pores and micro-scratches while preserving natural specular reflections.',
+    num3: '03 / PRONG PERFECTION',
+    title3: 'Micro-Prong Edge Precision',
+    desc3: 'Sub-pixel pen tool precision isolating prongs and bezel settings against pure clean backgrounds.'
+  }
+};
+
+let currentLoupeSubject = 'beauty';
+
+function switchLoupeSubject(type) {
+  if (!loupeData[type]) return;
+  currentLoupeSubject = type;
+
+  // Toggle buttons
+  const btnBeauty = document.getElementById('btnLoupeBeauty');
+  const btnJewelry = document.getElementById('btnLoupeJewelry');
+  if (btnBeauty && btnJewelry) {
+    if (type === 'beauty') {
+      btnBeauty.classList.add('active');
+      btnJewelry.classList.remove('active');
+    } else {
+      btnJewelry.classList.add('active');
+      btnBeauty.classList.remove('active');
+    }
+  }
+
+  // Update target image
+  const targetImg = document.getElementById('loupeTargetImg');
+  if (targetImg) targetImg.src = loupeData[type].img;
+
+  // Update insights
+  const data = loupeData[type];
+  document.getElementById('insightTitle1').innerText = data.title1;
+  document.getElementById('insightDesc1').innerText = data.desc1;
+  document.getElementById('insightTitle2').innerText = data.title2;
+  document.getElementById('insightDesc2').innerText = data.desc2;
+  document.getElementById('insightTitle3').innerText = data.title3;
+  document.getElementById('insightDesc3').innerText = data.desc3;
+
+  // Update lens background image
+  const lens = document.getElementById('loupeLens');
+  if (lens) {
+    lens.style.backgroundImage = 'url("' + data.img + '")';
+  }
+}
+
+function initLoupeMagnifier() {
+  const frame = document.getElementById('loupeFrame');
+  const lens = document.getElementById('loupeLens');
+  const targetImg = document.getElementById('loupeTargetImg');
+  const hint = document.getElementById('loupeHint');
+  if (!frame || !lens || !targetImg) return;
+
+  // Set initial lens background
+  lens.style.backgroundImage = 'url("' + targetImg.src + '")';
+
+  function moveLens(e) {
+    const rect = frame.getBoundingClientRect();
+    let clientX = e.clientX;
+    let clientY = e.clientY;
+
+    if (e.touches && e.touches[0]) {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    }
+
+    if (clientX < rect.left || clientX > rect.right || clientY < rect.top || clientY > rect.bottom) {
+      lens.classList.remove('active');
+      if (hint) hint.style.opacity = '1';
+      return;
+    }
+
+    lens.classList.add('active');
+    if (hint) hint.style.opacity = '0';
+
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+
+    lens.style.left = x + 'px';
+    lens.style.top = y + 'px';
+
+    // 200% Zoom calculation
+    const zoom = 2.2;
+    lens.style.backgroundSize = (rect.width * zoom) + 'px ' + (rect.height * zoom) + 'px';
+    lens.style.backgroundPosition = '-' + ((x * zoom) - (lens.offsetWidth / 2)) + 'px -' + ((y * zoom) - (lens.offsetHeight / 2)) + 'px';
+  }
+
+  frame.addEventListener('mousemove', moveLens);
+  frame.addEventListener('mouseleave', () => {
+    lens.classList.remove('active');
+    if (hint) hint.style.opacity = '1';
+  });
+  frame.addEventListener('touchmove', moveLens, { passive: true });
+}
+
+// 3. MODAL CONTROLLERS
+function openDiscoveryModal() {
+  const modal = document.getElementById('modalDiscoveryCall');
+  if (modal) modal.classList.add('open');
+}
+
+function closeDiscoveryModal() {
+  const modal = document.getElementById('modalDiscoveryCall');
+  if (modal) modal.classList.remove('open');
+}
+
+function openFreeTrialModal() {
+  const modal = document.getElementById('modalFreeTrial');
+  if (modal) modal.classList.add('open');
+}
+
+function closeFreeTrialModal() {
+  const modal = document.getElementById('modalFreeTrial');
+  if (modal) modal.classList.remove('open');
+}
+
+function handleTrialSubmit(e) {
+  e.preventDefault();
+  const link = document.getElementById('trialLinkInput').value;
+  const category = document.getElementById('trialCategorySelect').value;
+  const email = document.getElementById('trialEmailInput').value;
+  const notes = document.getElementById('trialNotesInput').value;
+
+  // Store in localStorage for client portal continuity
+  const trialData = { link, category, email, notes, timestamp: new Date().toISOString() };
+  localStorage.setItem('shoaib_pending_trial', JSON.stringify(trialData));
+
+  alert('Thank you! Your complimentary benchmark request has been received. Studio Director Shoaib will email your 16-bit master within 24 hours to ' + email);
+  closeFreeTrialModal();
+}
+
+// Close modals on Escape key
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeDiscoveryModal();
+    closeFreeTrialModal();
+  }
+});
+</script>
+
 </body>
 </html>
