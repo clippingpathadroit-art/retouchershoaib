@@ -976,136 +976,162 @@ footer a:hover{
 }
 
 /* ========================================================
-   INFINITE DUAL-ROW MARQUEE SHOWCASE WITH RUNNING LIME TICKER
+   INFINITE DUAL-ROW MARQUEE SHOWCASE & RUNNING TEXT TICKER
    ======================================================== */
 .marquee-showcase-section {
   position: relative;
   width: 100%;
   overflow: hidden;
-  background: #080c14;
+  background: #06243F;
   margin: 0;
-  padding: 0 0 clamp(32px, 5vw, 60px);
+  padding: 0;
   user-select: none;
+  pointer-events: none;
 }
+
+/* TOP RUNNING TEXT TICKER (LIME/YELLOW ACCENT) */
 .marquee-ticker-wrap {
-  background: var(--accent);
-  color: var(--on-accent);
+  background: #cff532;
+  color: #0a0a0a;
   overflow: hidden;
   white-space: nowrap;
   display: flex;
   align-items: center;
-  height: 44px;
-  border-top: 1px solid rgba(0, 0, 0, 0.15);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  height: 40px;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
+
 .marquee-ticker-track {
   display: flex;
   width: max-content;
   animation: tickerMarquee 36s linear infinite;
   will-change: transform;
 }
+
 .ticker-content {
   display: flex;
   align-items: center;
-  gap: 18px;
-  padding-right: 18px;
+  gap: 16px;
+  padding-right: 16px;
   flex-shrink: 0;
   font-family: var(--display);
   font-size: 13px;
   font-weight: 800;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #0a0a0b;
+  color: #0a0a0a;
 }
+
 .ticker-dot {
   display: inline-block;
-  opacity: 0.55;
+  opacity: 0.6;
   font-size: 14px;
 }
+
 @keyframes tickerMarquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
-/* DUAL-ROW IMAGE STREAM */
+/* DUAL-ROW IMAGE STREAM - SHARP RECTANGLES, NAVY BG (#06243F), TALLER HEIGHT, NEVER PAUSES ON HOVER */
 .stream-container {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: clamp(24px, 4vw, 36px) 0 0;
+  gap: 8px;
+  padding: 8px 0;
+  background: #06243F;
   overflow: hidden;
 }
+
 .stream-row {
   overflow: hidden;
   width: 100%;
   position: relative;
 }
+
 .stream-track {
   display: flex;
   width: max-content;
   will-change: transform;
 }
+
 .stream-scroll-left {
-  animation: streamScrollLeft 42s linear infinite;
+  animation: streamScrollLeft 40s linear infinite;
 }
+
 .stream-scroll-right {
-  animation: streamScrollRight 42s linear infinite;
+  animation: streamScrollRight 40s linear infinite;
 }
+
 .stream-group {
   display: flex;
-  gap: 16px;
-  padding-right: 16px;
+  gap: 8px;
+  padding-right: 8px;
   flex-shrink: 0;
 }
+
 .stream-card {
   position: relative;
   display: block;
-  width: clamp(220px, 20vw, 300px);
-  height: clamp(140px, 12vw, 185px);
-  border-radius: 14px;
+  width: 336px;
+  height: 210px;
+  border-radius: 0 !important;
   overflow: hidden;
-  background: var(--surface);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+  background: #06243F;
+  border: none;
   flex-shrink: 0;
-  text-decoration: none;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+  cursor: default !important;
+  user-select: none;
+  pointer-events: none;
 }
+
 .stream-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.5s ease;
-}
-.stream-pill {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  padding: 4px 10px;
-  border-radius: 99px;
-  background: rgba(10, 10, 11, 0.78);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: #ffffff;
-  font-family: var(--body);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0 !important;
   pointer-events: none;
-  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
-.marquee-showcase-section:hover .stream-track,
-.marquee-showcase-section:hover .marquee-ticker-track {
-  animation-play-state: paused;
+
+/* ANIMATION KEYFRAMES - CONTINUOUS RUNNING, NEVER PAUSED */
+@keyframes streamScrollLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
-.stream-card:hover {
-  transform: scale(1.04);
-  border-color: rgba(200, 241, 53, 0.6);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
-  z-index: 5;
+
+@keyframes streamScrollRight {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 768px) {
+  .marquee-ticker-wrap {
+    height: 34px;
+  }
+  .ticker-content {
+    font-size: 11px;
+    gap: 12px;
+    padding-right: 12px;
+  }
+  .stream-container {
+    gap: 6px;
+    padding: 6px 0;
+  }
+  .stream-group {
+    gap: 6px;
+    padding-right: 6px;
+  }
+  .stream-card {
+    width: 208px;
+    height: 130px;
+    border-radius: 0 !important;
+  }
+  .stream-card img {
+    border-radius: 0 !important;
+  }
 }
 .stream-card:hover img {
   transform: scale(1.06);
@@ -1215,7 +1241,7 @@ footer a:hover{
 
 <!-- INFINITE DUAL-ROW MARQUEE SHOWCASE WITH RUNNING LIME TICKER -->
 <section class="marquee-showcase-section" id="marqueeShowcase" aria-label="Commercial Works Stream">
-  <!-- TOP RUNNING TEXT TICKER (HIGH-CONTRAST LIME/BLACK) -->
+  <!-- TOP RUNNING TEXT TICKER (LIME/YELLOW ACCENT) -->
   <div class="marquee-ticker-wrap">
     <div class="marquee-ticker-track">
       <div class="ticker-content">
@@ -1233,17 +1259,13 @@ footer a:hover{
         <span class="ticker-dot">•</span>
         <span>50K+ CONTENT/MONTH</span>
         <span class="ticker-dot">•</span>
-        <span>HIGH-END PHOTO RETOUCHING</span>
+        <span>PHOTO RETOUCHING</span>
         <span class="ticker-dot">•</span>
-        <span>16-BIT PROPHOTO WORKFLOW</span>
+        <span>HIGH-END COLOR GRADING</span>
         <span class="ticker-dot">•</span>
-        <span>12–24H COMMERCIAL TURNAROUND</span>
+        <span>JEWELRY RETOUCHING</span>
         <span class="ticker-dot">•</span>
-        <span>LUXURY JEWELRY &amp; WATCHES</span>
-        <span class="ticker-dot">•</span>
-        <span>EDITORIAL BEAUTY</span>
-        <span class="ticker-dot">•</span>
-        <span>100% MANUAL PEN-TOOL PATHS</span>
+        <span>FASHION EDITORIAL</span>
         <span class="ticker-dot">•</span>
       </div>
       <div class="ticker-content" aria-hidden="true">
@@ -1261,87 +1283,69 @@ footer a:hover{
         <span class="ticker-dot">•</span>
         <span>50K+ CONTENT/MONTH</span>
         <span class="ticker-dot">•</span>
-        <span>HIGH-END PHOTO RETOUCHING</span>
+        <span>PHOTO RETOUCHING</span>
         <span class="ticker-dot">•</span>
-        <span>16-BIT PROPHOTO WORKFLOW</span>
+        <span>HIGH-END COLOR GRADING</span>
         <span class="ticker-dot">•</span>
-        <span>12–24H COMMERCIAL TURNAROUND</span>
+        <span>JEWELRY RETOUCHING</span>
         <span class="ticker-dot">•</span>
-        <span>LUXURY JEWELRY &amp; WATCHES</span>
-        <span class="ticker-dot">•</span>
-        <span>EDITORIAL BEAUTY</span>
-        <span class="ticker-dot">•</span>
-        <span>100% MANUAL PEN-TOOL PATHS</span>
+        <span>FASHION EDITORIAL</span>
         <span class="ticker-dot">•</span>
       </div>
     </div>
   </div>
 
-  <!-- DUAL-ROW IMAGE STREAM -->
+  <!-- DUAL-ROW IMAGE STREAM - SHARP EDGES, NAVY BG (#06243F), CLEAN IMAGES -->
   <div class="stream-container">
     <!-- ROW 1 (SCROLLS LEFT) -->
     <div class="stream-row">
       <div class="stream-track stream-scroll-left">
         <div class="stream-group">
-          <a href="work.html" class="stream-card" title="Cosmetics &amp; Still Life Packshot">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Cosmetic_bottle_on_teal_surface_4557c6ca.jpg" alt="Cosmetics Bottle Retouching" loading="eager">
-            <span class="stream-pill">Cosmetics Packshot</span>
-          </a>
-          <a href="work.html" class="stream-card" title="Denim &amp; Streetwear Fashion">
+          <div class="stream-card">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Cosmetic_bottle_on_teal_surface_4557c6ca.jpg" alt="Cosmetics Bottle" loading="eager">
+          </div>
+          <div class="stream-card">
             <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_silk_trench_coat_e24aa13e.jpg" alt="Denim Model Campaign" loading="eager">
-            <span class="stream-pill">Editorial Denim</span>
-          </a>
-          <a href="work.html" class="stream-card" title="High Fashion Red Eveningwear">
+          </div>
+          <div class="stream-card">
             <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_holding_chin_in_studio_593a1d68.jpg" alt="Red Dress Model" loading="eager">
-            <span class="stream-pill">Apparel Lookbook</span>
-          </a>
-          <a href="work.html" class="stream-card" title="Studio Beauty Portrait">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_posing_in_studio_71b07ff6.jpg" alt="Beauty Portrait Retouching" loading="eager">
-            <span class="stream-pill">Beauty Close-Up</span>
-          </a>
-          <a href="work.html" class="stream-card" title="Fine Art Editorial Portrait">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_touching_face_with_fabric_95a89da4.jpg" alt="Model with Silk Veil" loading="eager">
-            <span class="stream-pill">Fine Art Editorial</span>
-          </a>
-          <a href="work.html" class="stream-card" title="Evening Glamour Campaign">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_silver_top_574561f5.jpg" alt="Model in Sparkling Top" loading="eager">
-            <span class="stream-pill">Evening Glamour</span>
-          </a>
-          <a href="work.html" class="stream-card" title="Luxury Eyewear &amp; Commercial Model">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_adjusting_glasses_smiling_4c7b5557.jpg" alt="Eyewear Retouching" loading="eager">
-            <span class="stream-pill">Eyewear Retouch</span>
-          </a>
+          </div>
+          <div class="stream-card">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_posing_in_studio_71b07ff6.jpg" alt="Beauty Portrait" loading="eager">
+          </div>
+          <div class="stream-card">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_touching_face_with_fabric_95a89da4.jpg" alt="Fine Art Model" loading="eager">
+          </div>
+          <div class="stream-card">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_silver_top_574561f5.jpg" alt="Sparkle Top Model" loading="eager">
+          </div>
+          <div class="stream-card">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_adjusting_glasses_smiling_4c7b5557.jpg" alt="Eyewear Model" loading="eager">
+          </div>
         </div>
         <!-- DUPLICATE GROUP FOR SEAMLESS 60FPS LOOP -->
         <div class="stream-group" aria-hidden="true">
-          <a href="work.html" class="stream-card" tabindex="-1">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Cosmetic_bottle_on_teal_surface_4557c6ca.jpg" alt="Cosmetics Bottle Retouching" loading="eager">
-            <span class="stream-pill">Cosmetics Packshot</span>
-          </a>
-          <a href="work.html" class="stream-card" tabindex="-1">
+          <div class="stream-card">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Cosmetic_bottle_on_teal_surface_4557c6ca.jpg" alt="Cosmetics Bottle" loading="eager">
+          </div>
+          <div class="stream-card">
             <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_silk_trench_coat_e24aa13e.jpg" alt="Denim Model Campaign" loading="eager">
-            <span class="stream-pill">Editorial Denim</span>
-          </a>
-          <a href="work.html" class="stream-card" tabindex="-1">
+          </div>
+          <div class="stream-card">
             <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_holding_chin_in_studio_593a1d68.jpg" alt="Red Dress Model" loading="eager">
-            <span class="stream-pill">Apparel Lookbook</span>
-          </a>
-          <a href="work.html" class="stream-card" tabindex="-1">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_posing_in_studio_71b07ff6.jpg" alt="Beauty Portrait Retouching" loading="eager">
-            <span class="stream-pill">Beauty Close-Up</span>
-          </a>
-          <a href="work.html" class="stream-card" tabindex="-1">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_touching_face_with_fabric_95a89da4.jpg" alt="Model with Silk Veil" loading="eager">
-            <span class="stream-pill">Fine Art Editorial</span>
-          </a>
-          <a href="work.html" class="stream-card" tabindex="-1">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_silver_top_574561f5.jpg" alt="Model in Sparkling Top" loading="eager">
-            <span class="stream-pill">Evening Glamour</span>
-          </a>
-          <a href="work.html" class="stream-card" tabindex="-1">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_adjusting_glasses_smiling_4c7b5557.jpg" alt="Eyewear Retouching" loading="eager">
-            <span class="stream-pill">Eyewear Retouch</span>
-          </a>
+          </div>
+          <div class="stream-card">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_posing_in_studio_71b07ff6.jpg" alt="Beauty Portrait" loading="eager">
+          </div>
+          <div class="stream-card">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_touching_face_with_fabric_95a89da4.jpg" alt="Fine Art Model" loading="eager">
+          </div>
+          <div class="stream-card">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_silver_top_574561f5.jpg" alt="Sparkle Top Model" loading="eager">
+          </div>
+          <div class="stream-card">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_adjusting_glasses_smiling_4c7b5557.jpg" alt="Eyewear Model" loading="eager">
+          </div>
         </div>
       </div>
     </div>
@@ -1350,65 +1354,51 @@ footer a:hover{
     <div class="stream-row">
       <div class="stream-track stream-scroll-right">
         <div class="stream-group">
-          <a href="work.html" class="stream-card" title="Commercial Streetwear Outerwear">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Models_posing_in_streetwear_fashion_dae05745.jpg" alt="Streetwear Couple Jackets" loading="eager">
-            <span class="stream-pill">Streetwear Apparel</span>
-          </a>
-          <a href="work.html" class="stream-card" title="Studio Knitwear &amp; Green Sweater">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_posing_in_sweater_3832f6c0.jpg" alt="Knitwear Model Retouching" loading="eager">
-            <span class="stream-pill">Knitwear &amp; Apparel</span>
-          </a>
-          <a href="work.html" class="stream-card" title="Purple Faux Fur Campaign">
+          <div class="stream-card">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Models_posing_in_streetwear_fashion_dae05745.jpg" alt="Streetwear Couple" loading="eager">
+          </div>
+          <div class="stream-card">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_posing_in_sweater_3832f6c0.jpg" alt="Green Sweater Model" loading="eager">
+          </div>
+          <div class="stream-card">
             <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_posing_in_orange_jacket_3dbf21da.jpg" alt="Purple Coat Model" loading="eager">
-            <span class="stream-pill">Luxury Texture</span>
-          </a>
-          <a href="work.html" class="stream-card" title="High-End Red Hair Beauty Retouching">
+          </div>
+          <div class="stream-card">
             <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_posing_in_green_gown_160aee02.jpg" alt="Red Hair Beauty" loading="eager">
-            <span class="stream-pill">Hair &amp; Skin Perfection</span>
-          </a>
-          <a href="work.html" class="stream-card" title="High Fashion Asian Beauty Campaign">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Models_posing_for_fashion_campaign_d518451e.jpg" alt="Editorial Beauty Close-Up" loading="eager">
-            <span class="stream-pill">Editorial Beauty</span>
-          </a>
-          <a href="work.html" class="stream-card" title="Ivory Tweed Tailored Suit">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_ivory_tweed_jacket_dac30459.jpg" alt="Bespoke Tweed Jacket" loading="eager">
-            <span class="stream-pill">Tailoring &amp; Fit</span>
-          </a>
-          <a href="work.html" class="stream-card" title="Yellow Puffer Coat &amp; Outerwear">
+          </div>
+          <div class="stream-card">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Models_posing_for_fashion_campaign_d518451e.jpg" alt="Asian Beauty Close-Up" loading="eager">
+          </div>
+          <div class="stream-card">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_ivory_tweed_jacket_dac30459.jpg" alt="Tweed Suit Model" loading="eager">
+          </div>
+          <div class="stream-card">
             <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_yellow_puffer_coat_97b2ad1b.jpg" alt="Yellow Puffer Model" loading="eager">
-            <span class="stream-pill">Winter Outerwear</span>
-          </a>
+          </div>
         </div>
         <!-- DUPLICATE GROUP FOR SEAMLESS 60FPS LOOP -->
         <div class="stream-group" aria-hidden="true">
-          <a href="work.html" class="stream-card" tabindex="-1">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Models_posing_in_streetwear_fashion_dae05745.jpg" alt="Streetwear Couple Jackets" loading="eager">
-            <span class="stream-pill">Streetwear Apparel</span>
-          </a>
-          <a href="work.html" class="stream-card" tabindex="-1">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_posing_in_sweater_3832f6c0.jpg" alt="Knitwear Model Retouching" loading="eager">
-            <span class="stream-pill">Knitwear &amp; Apparel</span>
-          </a>
-          <a href="work.html" class="stream-card" tabindex="-1">
+          <div class="stream-card">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Models_posing_in_streetwear_fashion_dae05745.jpg" alt="Streetwear Couple" loading="eager">
+          </div>
+          <div class="stream-card">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_posing_in_sweater_3832f6c0.jpg" alt="Green Sweater Model" loading="eager">
+          </div>
+          <div class="stream-card">
             <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_posing_in_orange_jacket_3dbf21da.jpg" alt="Purple Coat Model" loading="eager">
-            <span class="stream-pill">Luxury Texture</span>
-          </a>
-          <a href="work.html" class="stream-card" tabindex="-1">
+          </div>
+          <div class="stream-card">
             <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_posing_in_green_gown_160aee02.jpg" alt="Red Hair Beauty" loading="eager">
-            <span class="stream-pill">Hair &amp; Skin Perfection</span>
-          </a>
-          <a href="work.html" class="stream-card" tabindex="-1">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Models_posing_for_fashion_campaign_d518451e.jpg" alt="Editorial Beauty Close-Up" loading="eager">
-            <span class="stream-pill">Editorial Beauty</span>
-          </a>
-          <a href="work.html" class="stream-card" tabindex="-1">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_ivory_tweed_jacket_dac30459.jpg" alt="Bespoke Tweed Jacket" loading="eager">
-            <span class="stream-pill">Tailoring &amp; Fit</span>
-          </a>
-          <a href="work.html" class="stream-card" tabindex="-1">
+          </div>
+          <div class="stream-card">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Models_posing_for_fashion_campaign_d518451e.jpg" alt="Asian Beauty Close-Up" loading="eager">
+          </div>
+          <div class="stream-card">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_ivory_tweed_jacket_dac30459.jpg" alt="Tweed Suit Model" loading="eager">
+          </div>
+          <div class="stream-card">
             <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_yellow_puffer_coat_97b2ad1b.jpg" alt="Yellow Puffer Model" loading="eager">
-            <span class="stream-pill">Winter Outerwear</span>
-          </a>
+          </div>
         </div>
       </div>
     </div>
