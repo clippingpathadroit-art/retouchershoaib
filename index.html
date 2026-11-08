@@ -1190,10 +1190,10 @@ footer a:hover{
       <a href="#process">Process</a>
       <a href="#faq">FAQ</a>
       <a href="work.html">Portfolio</a>
-      <a href="portal.html">Client Portal</a>
+      <a href="contact.html">Contact</a>
     </nav>
     <div class="nav-actions">
-      <a class="btn p" href="#contact">Free trial</a>
+      <a class="btn p" id="navAuthBtn" href="portal.html">Log In</a>
     </div>
   </div>
 </header>
@@ -2157,7 +2157,53 @@ footer a:hover{
   window.addEventListener('pageshow', function(event) {
     document.body.style.opacity = '1';
     document.body.style.visibility = 'visible';
+    syncHeaderClientState();
   });
+
+  // 8. DYNAMIC AUTH HEADER CLIENT STATE
+  function syncHeaderClientState() {
+    var sessionRaw = sessionStorage.getItem('shoaib_client_session') || localStorage.getItem('shoaib_client_session') || localStorage.getItem('shoaib_client_profile');
+    var authBtn = document.getElementById('navAuthBtn');
+    if (!authBtn) return;
+
+    var session = null;
+    if (sessionRaw) {
+      try {
+        session = JSON.parse(sessionRaw);
+      } catch(e) {}
+    }
+
+    if (session && (session.email || session.name)) {
+      var isDirector = (session.email || '').toLowerCase().trim() === 'retouchershoaib@gmail.com';
+      if (isDirector) {
+        authBtn.href = 'admin.html';
+        authBtn.innerHTML = '🛡️ Director Console';
+        authBtn.setAttribute('title', 'Studio Director Console');
+      } else {
+        authBtn.href = 'portal.html';
+        authBtn.innerHTML = 'Client Portal';
+        authBtn.setAttribute('title', 'Open your client workspace');
+      }
+    } else {
+      authBtn.href = 'portal.html';
+      authBtn.innerHTML = 'Log In';
+      authBtn.setAttribute('title', 'Log In or Sign Up to Client Portal');
+    }
+  }
+
+  window.syncHeaderClientState = syncHeaderClientState;
+  syncHeaderClientState();
+
+  window.addEventListener('storage', function(e) {
+    if (e.key === 'shoaib_client_session' || e.key === 'shoaib_client_profile' || e.key === 'shoaib_sync_ping') {
+      syncHeaderClientState();
+    }
+  });
+
+  document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'visible') syncHeaderClientState();
+  });
+  window.addEventListener('focus', syncHeaderClientState);
 })();
 </script>
 </body>
