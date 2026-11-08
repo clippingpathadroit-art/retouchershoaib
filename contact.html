@@ -1,1349 +1,818 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact &amp; Free Trial | Retoucher Shoaib®</title>
-<meta name="description" content="Request a 100% free trial retouch with 12–24h turnaround. Commercial photo retouching studio directed by Shoaib.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Contact Retoucher Shoaib — Jewelry, fashion and beauty retouching for brands, studios and photographers. Request a free trial sample with 12 to 24 hour delivery.">
+<title>Contact and free trial — Retoucher Shoaib</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..900;1,300..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap">
 <style>
-:root {
-  --bg: #ffffff;
-  --fg: #0a0a0a;
-  --mut: #82827e;
-  --line: #e8e8e4;
-  --soft: #f7f6f3;
-  --card: #ffffff;
-  --accent: #f26a1b;
-  --f: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --f-display: 'Plus Jakarta Sans', var(--f);
-  color-scheme: light;
+:root{
+  --bg:#0a0a0b;
+  --surface:#141416;
+  --text:#f1f1ec;
+  --muted:#8b8b86;
+  --line:rgba(255,255,255,.12);
+  --accent:#c8f135;
+  --on-accent:#0a0a0b;
+  --err:#ff7a59;
+  --display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+  --body:"DM Sans","Helvetica Neue",Arial,sans-serif;
+  color-scheme:dark;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
 }
-
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+html{
+  background:var(--bg);
+  scroll-behavior:smooth;
 }
-
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 70px;
-  background: var(--bg);
+*,*::before,*::after{
+  box-sizing:inherit;
 }
-
-body {
-  background: var(--bg);
-  color: var(--fg);
-  font: 400 15px/1.6 var(--f);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font:400 17px/1.6 var(--body);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
 }
-
-a {
-  color: inherit;
-  text-decoration: none;
+a{
+  color:inherit;
+  text-decoration:none;
 }
-
-img, video {
-  display: block;
-  max-width: 100%;
+.wrap{
+  max-width:1240px;
+  margin:0 auto;
+  padding:0 clamp(20px,4vw,48px);
 }
-
-.w {
-  max-width: 1360px;
-  margin: 0 auto;
-  padding: 0 clamp(20px, 4vw, 56px);
+header{
+  position:fixed;
+  inset:0 0 auto;
+  z-index:30;
+  padding-top:env(safe-area-inset-top,0px);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  background:color-mix(in srgb,var(--bg) 75%,transparent);
+  border-bottom:1px solid rgba(255,255,255,.06);
 }
-
-h1, h2, h3, h4, h5 {
-  font-family: var(--f-display);
-  font-weight: 700;
-  letter-spacing: -0.045em;
-  color: var(--fg);
-  line-height: 1.05;
+header .wrap{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:64px;
 }
-
-.lab {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--mut);
+.logo{
+  font:800 18px var(--display);
+  letter-spacing:-.01em;
+  display:inline-flex;
+  align-items:center;
+  gap:2px;
 }
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font: 600 11px/1 var(--f);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 6px 12px;
-  border-radius: 99px;
-  background: var(--soft);
-  color: var(--fg);
-  border: 1px solid var(--line);
+.logo sup{
+  font-size:10px;
+  font-weight:700;
+  color:var(--accent);
 }
-
-.badge.accent {
-  background: rgba(242, 106, 27, 0.08);
-  color: var(--accent);
-  border-color: rgba(242, 106, 27, 0.25);
+nav{
+  display:flex;
+  gap:26px;
+  color:var(--muted);
+  font-size:15px;
 }
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 14px 28px;
-  border-radius: 99px;
-  font: 600 13px var(--f);
-  letter-spacing: 0.02em;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: all 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
-  background: var(--fg);
-  color: #fff;
+nav a{
+  transition:color .2s;
 }
-
-.btn:hover {
-  background: var(--accent);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(242, 106, 27, 0.28);
+nav a:hover,nav a.cur{
+  color:var(--text);
 }
-
-.btn.outline {
-  background: transparent;
-  color: var(--fg);
-  border-color: var(--fg);
+nav a.cur{
+  color:var(--accent);
+  font-weight:600;
 }
-
-.btn.outline:hover {
-  background: var(--fg);
-  color: #fff;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:14px 26px;
+  border-radius:99px;
+  font:500 16px var(--body);
+  border:1px solid var(--line);
+  background:none;
+  color:var(--text);
+  cursor:pointer;
+  transition:transform .25s ease,background .25s,color .25s,border-color .25s;
 }
-
-.btn.sm {
-  padding: 8px 18px;
-  font-size: 12px;
+.btn.p{
+  background:var(--accent);
+  color:var(--on-accent);
+  border-color:var(--accent);
+  font-weight:600;
 }
-
-/* NAVBAR */
-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px clamp(20px, 4vw, 56px);
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(232, 232, 228, 0.75);
+.btn:hover,.btn.p:hover{
+  background:var(--text);
+  color:var(--bg);
+  border-color:var(--text);
 }
-
-.nav-brand {
-  font-family: var(--f-display);
-  font-size: 17px;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+.btn[disabled]{
+  opacity:.6;
+  pointer-events:none;
 }
-
-.nav-brand sup {
-  font-size: 9px;
-  color: var(--accent);
+.hero{
+  padding:150px 0 48px;
+  position:relative;
+  overflow:hidden;
 }
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: clamp(18px, 2.8vw, 36px);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+.hero::before{
+  content:"";
+  position:absolute;
+  width:55vmax;
+  height:55vmax;
+  right:-22vmax;
+  top:-18vmax;
+  background:radial-gradient(circle,color-mix(in srgb,var(--accent) 20%,transparent),transparent 62%);
+  animation:drift 14s ease-in-out infinite alternate;
+  pointer-events:none;
 }
-
-.nav-links a {
-  position: relative;
-  padding: 6px 0;
-  color: #666;
-  transition: color 0.2s ease;
+@keyframes drift{
+  to{transform:translate(-8vmax,8vmax) scale(1.15)}
 }
-
-.nav-links a:hover, .nav-links a.active {
-  color: var(--fg);
+h1{
+  font:800 clamp(56px,13vw,200px)/.92 var(--display);
+  letter-spacing:-.04em;
+  margin:0 0 24px;
+  position:relative;
 }
-
-.nav-links a::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0%;
-  height: 2px;
-  background: var(--fg);
-  transition: width 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+h1 .l{
+  display:block;
+  overflow:hidden;
+  padding-bottom:.08em;
 }
-
-.nav-links a:hover::after, .nav-links a.active::after {
-  width: 100%;
+h1 .l span{
+  display:inline-block;
+  transform:translateY(110%);
+  animation:up 1.1s cubic-bezier(.2,.8,.2,1) .2s forwards;
 }
-
-.nav-time {
-  font-size: 11px;
-  color: var(--mut);
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+@keyframes up{
+  to{transform:none}
 }
-
-
-/* LUXURY MOBILE NAVIGATION DRAWER */
-.nav-mob-toggle {
-  display: none;
-  background: #ffffff;
-  border: 1px solid var(--line);
-  border-radius: 99px;
-  width: 36px;
-  height: 36px;
-  cursor: pointer;
-  padding: 0;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 4px;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
+.sub{
+  max-width:540px;
+  color:var(--muted);
+  margin:0;
+  opacity:0;
+  animation:fade .9s .8s forwards;
+  font-size:clamp(16px,1.2vw,18px);
 }
-
-.nav-mob-toggle span {
-  display: block;
-  width: 16px;
-  height: 2px;
-  background: var(--fg);
-  border-radius: 2px;
-  transition: transform 0.25s ease, opacity 0.25s ease;
+@keyframes fade{
+  to{opacity:1}
 }
-
-.nav-mob-toggle:hover {
-  background: var(--soft);
-  border-color: #aaa;
+.cols{
+  display:grid;
+  grid-template-columns:minmax(0,5fr) minmax(0,7fr);
+  gap:clamp(32px,6vw,96px);
+  padding-bottom:clamp(60px,9vw,120px);
+  align-items:start;
 }
-
-.nav-mob-toggle.is-active span:nth-child(1) {
-  transform: translateY(3px) rotate(45deg);
+.info{
+  position:sticky;
+  top:96px;
 }
-
-.nav-mob-toggle.is-active span:nth-child(2) {
-  transform: translateY(-3px) rotate(-45deg);
+.info h2{
+  font:800 clamp(26px,3vw,36px)/1.1 var(--display);
+  letter-spacing:-.02em;
+  margin:0 0 20px;
 }
-
-.mob-menu-overlay {
-  display: none !important;
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
-  background: rgba(10, 10, 10, 0.48);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 99999;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+.ch{
+  display:block;
+  padding:20px 0;
+  border-top:1px solid var(--line);
+  transition:padding .35s cubic-bezier(.2,.8,.2,1);
 }
-
-.mob-menu-overlay.is-open {
-  display: block !important;
-  opacity: 1;
-  pointer-events: auto;
+.ch:hover{
+  padding-left:12px;
 }
-
-.mob-menu-drawer {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: min(86vw, 360px);
-  height: 100%;
-  height: 100dvh;
-  background: #ffffff;
-  box-shadow: -15px 0 40px rgba(0, 0, 0, 0.16);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 22px 20px 24px;
-  box-sizing: border-box;
-  transform: translateX(100%);
-  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+.ch:hover b{
+  color:var(--accent);
 }
-
-.mob-menu-overlay.is-open .mob-menu-drawer {
-  transform: translateX(0);
+.ch small{
+  display:block;
+  color:var(--muted);
+  font-size:14px;
+  margin-bottom:4px;
 }
-
-.mob-drawer-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--line);
+.ch b{
+  font:800 22px var(--display);
+  letter-spacing:-.01em;
+  transition:color .3s;
+  word-break:break-word;
 }
-
-.mob-drawer-brand {
-  font-family: var(--f-display);
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--fg);
+.steps{
+  margin:36px 0 0;
+  padding:0;
+  list-style:none;
+  counter-reset:s;
 }
-
-.mob-drawer-brand sup {
-  font-size: 9px;
-  color: var(--accent);
+.steps li{
+  counter-increment:s;
+  display:flex;
+  gap:16px;
+  padding:14px 0;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+  font-size:15px;
 }
-
-.mob-drawer-close {
-  background: var(--soft);
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  font-size: 18px;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--fg);
-  cursor: pointer;
-  transition: all 0.2s ease;
+.steps li::before{
+  content:counter(s);
+  font:800 20px/1.3 var(--display);
+  color:var(--accent);
+  min-width:20px;
 }
-
-.mob-drawer-close:hover {
-  background: #e8e8e4;
+.steps b{
+  color:var(--text);
+  font-weight:600;
 }
-
-.mob-drawer-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  padding: 16px 0;
+.clock{
+  margin-top:28px;
+  display:flex;
+  gap:22px;
+  flex-wrap:wrap;
+  color:var(--muted);
+  font-size:14px;
 }
-
-.mob-nav-link {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 11px 10px;
-  border-radius: 8px;
-  transition: background 0.2s ease, transform 0.15s ease;
-  color: var(--fg);
-  text-decoration: none;
+.clock > div{
+  padding:10px 14px;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--line);
+  border-radius:12px;
 }
-
-.mob-nav-link:hover, .mob-nav-link:active, .mob-nav-link.active {
-  background: var(--soft);
+.clock b{
+  display:block;
+  color:var(--text);
+  font:800 18px var(--display);
+  letter-spacing:-.01em;
 }
-
-.mob-nav-link.active .mob-nav-text {
-  color: var(--accent);
+.card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:clamp(22px,3.5vw,44px);
+  box-shadow:0 12px 36px rgba(0,0,0,.35);
 }
-
-.mob-nav-idx {
-  font-family: var(--f-display);
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--accent);
-  letter-spacing: 0.05em;
-  width: 20px;
+.tabs{
+  display:inline-flex;
+  gap:4px;
+  border:1px solid var(--line);
+  border-radius:99px;
+  padding:4px;
+  margin-bottom:28px;
 }
-
-.mob-nav-text {
-  font-family: var(--f-display);
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+.tabs button{
+  border:0;
+  background:none;
+  color:var(--muted);
+  padding:10px 22px;
+  border-radius:99px;
+  font:500 15px var(--body);
+  cursor:pointer;
+  transition:.25s;
 }
-
-.mob-drawer-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 14px 0;
-  border-top: 1px solid var(--line);
+.tabs button[aria-selected=true]{
+  background:var(--accent);
+  color:var(--on-accent);
+  font-weight:600;
 }
-
-.mob-act-btn {
-  width: 100%;
-  text-align: center;
-  padding: 11px 16px !important;
-  font-size: 13px !important;
-  font-weight: 700 !important;
-  box-sizing: border-box;
+.g{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
 }
-
-.mob-act-btn.accent-fill {
-  background: var(--fg);
-  color: #fff;
+.f{
+  grid-column:1/-1;
 }
-
-.mob-act-btn.accent-fill:hover {
-  background: var(--accent);
+label,.lb{
+  display:block;
+  color:var(--muted);
+  font-size:14px;
+  margin-bottom:7px;
 }
-
-.mob-drawer-footer {
-  padding-top: 12px;
-  border-top: 1px solid var(--line);
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+label i{
+  color:var(--accent);
+  font-style:normal;
+  font-weight:700;
 }
-
-.mob-drawer-time {
-  font-size: 10.5px;
-  font-weight: 600;
-  color: var(--mut);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+input[type=text],input[type=email],input[type=url],textarea{
+  width:100%;
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px 16px;
+  color:var(--text);
+  font:400 16px var(--body);
+  transition:border-color .25s,box-shadow .25s;
 }
-
-.mob-drawer-contact {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  font-size: 12px;
+input:hover,textarea:hover{
+  border-color:rgba(255,255,255,.28);
 }
-
-.mob-drawer-contact a {
-  color: #555;
-  text-decoration: none;
+input:focus,textarea:focus{
+  outline:2px solid var(--accent);
+  outline-offset:1px;
+  border-color:var(--accent);
 }
-
-.mob-drawer-contact a:hover {
-  color: var(--accent);
+textarea{
+  min-height:120px;
+  resize:vertical;
 }
-
-@media (max-width: 860px) {
-  .nav-links, .nav-time {
-    display: none !important;
+.er{
+  color:var(--err);
+  font-size:13px;
+  margin:6px 0 0;
+  min-height:0;
+}
+[aria-invalid=true]{
+  border-color:var(--err)!important;
+}
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.chips label{
+  margin:0;
+  position:relative;
+}
+.chips input{
+  position:absolute;
+  opacity:0;
+  inset:0;
+  cursor:pointer;
+}
+.chips span{
+  display:block;
+  padding:10px 18px;
+  border:1px solid var(--line);
+  border-radius:99px;
+  color:var(--muted);
+  font-size:15px;
+  transition:.25s;
+}
+.chips label:hover span{
+  color:var(--text);
+  border-color:var(--text);
+}
+.chips input:checked+span{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--on-accent);
+  font-weight:600;
+}
+.chips input:focus-visible+span{
+  outline:2px solid var(--text);
+  outline-offset:2px;
+}
+.hp{
+  position:absolute;
+  left:-9999px;
+}
+.hint{
+  color:var(--muted);
+  font-size:13px;
+  margin:8px 0 0;
+}
+.act{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top:28px;
+}
+.ok{
+  text-align:center;
+  padding:40px 10px;
+  animation:fade .6s;
+}
+.ok .ck{
+  width:84px;
+  height:84px;
+  border-radius:50%;
+  background:var(--accent);
+  margin:0 auto 24px;
+  display:grid;
+  place-items:center;
+  animation:pop .6s cubic-bezier(.2,.8,.2,1);
+}
+@keyframes pop{
+  from{transform:scale(.3);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+.ok svg{
+  width:40px;
+  height:40px;
+  stroke:var(--on-accent);
+  stroke-width:3;
+  fill:none;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-dasharray:40;
+  stroke-dashoffset:40;
+  animation:dr .6s .35s forwards;
+}
+@keyframes dr{
+  to{stroke-dashoffset:0}
+}
+.ok h3{
+  font:800 34px/1.1 var(--display);
+  margin:0 0 10px;
+  letter-spacing:-.02em;
+}
+.ok p{
+  color:var(--muted);
+  margin:0 0 24px;
+  font-size:16px;
+}
+[hidden]{
+  display:none!important;
+}
+footer{
+  border-top:1px solid var(--line);
+  padding:36px 0;
+  color:var(--muted);
+  font-size:14px;
+}
+footer .wrap{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+footer a:hover{
+  color:var(--accent);
+}
+.btn:focus-visible,.tabs button:focus-visible,a:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+}
+@media(max-width:900px){
+  nav{display:none}
+  .cols{grid-template-columns:1fr}
+  .info{position:static}
+}
+@media(max-width:560px){
+  .g{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-delay:0s!important;
+    transition-duration:.01ms!important;
   }
-  #navbar {
-    padding: 12px 18px;
-  }
-  .nav-brand {
-    font-size: 15px;
-  }
-  #navbar .btn.sm {
-    padding: 6px 11px;
-    font-size: 11px;
-  }
-  .nav-mob-toggle {
-    display: inline-flex !important;
-  }
-  
+  h1 .l span{transform:none}
+  .sub{opacity:1}
+  html{scroll-behavior:auto}
 }
-
-@media (max-width: 440px) {
-  #navMainCtaBtn {
-    display: none !important;
-  }
-}
-
-
-/* PAGE TITLE (EXACTLY FROM v6.html) */
-.page-title {
-  padding-top: clamp(110px, 18vh, 180px);
-  padding-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 20px;
-}
-
-.giant-title {
-  font-size: clamp(34px, 8.5vw, 138px);
-  font-weight: 800;
-  letter-spacing: -0.06em;
-  line-height: 0.92;
-}
-
-/* CONTACT SECTION & FORM (EXACTLY FROM v6.html) */
-.contact-section {
-  padding: 60px 0 110px;
-  border-top: 1px solid var(--line);
-  background: #ffffff;
-}
-
-.contact-wrap {
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: clamp(40px, 6vw, 90px);
-  align-items: start;
-}
-
-.contact-info h2 {
-  font-size: clamp(26px, 6vw, 64px);
-  font-weight: 800;
-  letter-spacing: -0.05em;
-  line-height: 1.05;
-  margin-bottom: 24px;
-}
-
-.contact-info p {
-  font-size: 16px;
-  line-height: 1.7;
-  color: #555;
-  margin-bottom: 36px;
-  max-width: 520px;
-}
-
-.contact-direct-links {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-bottom: 40px;
-}
-
-.contact-link-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.contact-link-row svg {
-  width: 20px;
-  height: 20px;
-  color: var(--accent);
-  flex-shrink: 0;
-}
-
-.contact-link-row a {
-  transition: color 0.2s ease;
-}
-.contact-link-row a:hover {
-  color: var(--accent);
-}
-
-
-/* FORM TABS */
-.form-tabs {
-  display: flex;
-  gap: 6px;
-  background: #ebebe6;
-  padding: 5px;
-  border-radius: 99px;
-  margin-bottom: 24px;
-}
-
-.tab-btn {
-  flex: 1;
-  padding: 10px 16px;
-  border-radius: 99px;
-  border: 0;
-  background: transparent;
-  font-family: var(--f);
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--mut);
-  cursor: pointer;
-  transition: all 0.25s ease;
-  text-align: center;
-}
-
-.tab-btn:hover {
-  color: var(--fg);
-}
-
-.tab-btn.active {
-  background: var(--fg);
-  color: #fff;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
-}
-
-.contact-form {
-  background: #fafaf8;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  padding: clamp(24px, 4vw, 44px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-  width: 100%;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-label {
-  display: block;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #333;
-  margin-bottom: 8px;
-}
-
-.form-input, .form-select, .form-textarea {
-  width: 100%;
-  padding: 14px 18px;
-  border-radius: 10px;
-  border: 1px solid var(--line);
-  background: #fff;
-  font: inherit;
-  font-size: 14px;
-  color: var(--fg);
-  transition: all 0.2s ease;
-  outline: none;
-}
-
-.form-input:focus, .form-select:focus, .form-textarea:focus {
-  border-color: var(--fg);
-  box-shadow: 0 0 0 3px rgba(10, 10, 10, 0.08);
-}
-
-.form-row-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-.form-actions {
-  display: flex;
-  gap: 12px;
-  margin-top: 28px;
-}
-
-@media (max-width: 860px) {
-  .contact-wrap {
-    grid-template-columns: 1fr;
-  }
-  .page-title {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 8px !important;
-  }
-  .badge.accent {
-    white-space: normal !important;
-    line-height: 1.4 !important;
-    border-radius: 12px !important;
-    display: inline-block !important;
-  }
-  .form-tabs {
-    gap: 4px !important;
-  }
-  .tab-btn {
-    padding: 10px 10px !important;
-    font-size: 12px !important;
-  }
-}
-
-/* FOOTER (MÖBIUS STYLE EXACTLY FROM v6.html) */
-footer {
-  padding: 80px 0 40px;
-  border-top: 1px solid var(--line);
-  background: #ffffff;
-}
-
-.footer-giant-logo {
-  font-family: var(--f-display);
-  font-size: clamp(38px, 9.8vw, 142px);
-  font-weight: 800;
-  letter-spacing: -0.065em;
-  line-height: 0.85;
-  color: var(--fg);
-  margin-bottom: 50px;
-}
-
-.footer-grid {
-  display: grid;
-  grid-template-columns: 1.5fr repeat(3, 1fr);
-  gap: 30px;
-  padding-bottom: 50px;
-  border-bottom: 1px solid var(--line);
-}
-
-.footer-col h5 {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--mut);
-  margin-bottom: 18px;
-}
-
-.footer-col ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  font-size: 14px;
-}
-
-.footer-col a {
-  color: #444;
-  transition: color 0.2s ease;
-}
-
-.footer-col a:hover {
-  color: var(--fg);
-}
-
-.footer-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 30px;
-  font-size: 12px;
-  color: var(--mut);
-}
-
-@media (max-width: 768px) {
-
-  /* LUXURY MOBILE PADDING & CONTAINMENT: NO TEXT OR IMAGE EVER CLIPS */
-  .w,
-  .page-title.w,
-  .contact-section.w {
-    padding-left: 20px !important;
-    padding-right: 20px !important;
-    box-sizing: border-box !important;
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-  .page-title.w {
-    padding-top: 44px !important;
-    padding-bottom: 12px !important;
-  }
-  .contact-section {
-    padding-top: 20px !important;
-    padding-bottom: 70px !important;
-  }
-  .contact-info h2 {
-    font-size: clamp(24px, 6.2vw, 36px) !important;
-    line-height: 1.2 !important;
-    word-break: break-word !important;
-  }
-
-  .form-actions {
-    flex-direction: column !important;
-    width: 100% !important;
-    gap: 10px !important;
-  }
-  .form-actions button {
-    width: 100% !important;
-    text-align: center !important;
-  }
-  .footer-grid .footer-col:first-child {
-    grid-column: 1 / -1 !important;
-  }
-  .footer-grid .footer-col:first-child p {
-    max-width: 100% !important;
-  }
-  .footer-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-  .form-row-2 {
-    grid-template-columns: 1fr !important;
-    gap: 12px !important;
-  }
-  .footer-bottom {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 8px !important;
-  }
-}
-
-/* FOOTER GIANT LOGO SLICE ANIMATION (EXACTLY FROM v6.html - 100% STATIC, NO TRANSLATE) */
-@property --g {
-  syntax: '<length>';
-  inherits: false;
-  initial-value: 0px;
-}
-
-@keyframes slice {
-  0%, 100% { --g: 0px; }
-  45% { --g: 6px; }
-}
-
-.footer-giant-logo { cursor: default; }
-
-.footer-giant-logo.slice {
-  animation: slice 1.4s ease-in-out;
-  -webkit-mask-image: repeating-linear-gradient(#000 0 calc(10px - var(--g)), transparent calc(10px - var(--g)) 10px);
-  mask-image: repeating-linear-gradient(#000 0 calc(10px - var(--g)), transparent calc(10px - var(--g)) 10px);
-}
-
 </style>
 </head>
 <body>
-<nav id="navbar">
-  <a href="index.html" class="nav-brand">
-    RETOUCHER SHOAIB<sup>&reg;</sup>
-  </a>
 
-  <div class="nav-links">
-    <a href="work.html" class="show-mob">Work</a>
-    <a href="services.html" class="show-mob">Services</a>
-    <a href="studio.html">Studio</a>
-    <a href="feed.html">Feed</a>
-    <a href="contact.html" class="show-mob active">Contact</a>
-    
+<header>
+  <div class="wrap">
+    <a class="logo" href="index.html">Retoucher Shoaib<sup>&reg;</sup></a>
+    <nav>
+      <a href="work.html">Work</a>
+      <a href="services.html">Services</a>
+      <a href="studio.html">Studio</a>
+      <a class="cur" href="contact.html">Contact</a>
+      <a href="portal.html">Client Portal</a>
+    </nav>
+    <a class="btn" href="portal.html">Log In</a>
   </div>
+</header>
 
-  <div class="nav-time" id="liveTimeIndicator">
-    NYC 08:30 AM • BERLIN 01:30 PM
-  </div>
-
-  <div style="display: flex; gap: 8px; align-items: center;">
-    <a href="portal.html" class="btn sm outline" id="navClientAccessBtn" style="font-weight: 700;">Log In</a>
-    <a href="contact.html" class="btn sm" id="navMainCtaBtn">Free Trial</a>
-    <button type="button" class="nav-mob-toggle" id="navMobToggle" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu" aria-expanded="false">
-      <span></span>
-      <span></span>
-    </button>
-  </div>
-</nav>
-
-<!-- LUXURY MOBILE DRAWER MENU -->
-<div class="mob-menu-overlay" id="mobMenuOverlay" onclick="closeMobileMenu(event)">
-  <div class="mob-menu-drawer" id="mobMenuDrawer">
-    <div class="mob-drawer-header">
-      <div class="mob-drawer-brand">
-        RETOUCHER SHOAIB<sup>&reg;</sup>
-      </div>
-      <button type="button" class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close Menu">
-        &times;
-      </button>
-    </div>
-
-    <div class="mob-drawer-nav">
-      <a href="index.html" class="mob-nav-link " id="mobNavLinkHome" onclick="closeMobileMenu()">
-        <span class="mob-nav-idx">01</span>
-        <span class="mob-nav-text">Home</span>
-      </a>
-      <a href="work.html" class="mob-nav-link " id="mobNavLinkWork" onclick="closeMobileMenu()">
-        <span class="mob-nav-idx">02</span>
-        <span class="mob-nav-text">Work / Portfolio</span>
-      </a>
-      <a href="services.html" class="mob-nav-link " id="mobNavLinkServices" onclick="closeMobileMenu()">
-        <span class="mob-nav-idx">03</span>
-        <span class="mob-nav-text">Services & Disciplines</span>
-      </a>
-      <a href="studio.html" class="mob-nav-link " id="mobNavLinkStudio" onclick="closeMobileMenu()">
-        <span class="mob-nav-idx">04</span>
-        <span class="mob-nav-text">Studio Philosophy</span>
-      </a>
-      <a href="feed.html" class="mob-nav-link " id="mobNavLinkFeed" onclick="closeMobileMenu()">
-        <span class="mob-nav-idx">05</span>
-        <span class="mob-nav-text">Studio Feed & Proofs</span>
-      </a>
-      <a href="contact.html" class="mob-nav-link active" id="mobNavLinkContact" onclick="closeMobileMenu()">
-        <span class="mob-nav-idx">06</span>
-        <span class="mob-nav-text">Contact & Free Trial</span>
-      </a>
-    </div>
-
-    <div class="mob-drawer-actions">
-      <a href="portal.html" class="btn sm outline mob-act-btn" id="mobDrawerClientBtn">Client Portal Log In 🔒</a>
-      <a href="contact.html" class="btn sm mob-act-btn accent-fill" id="mobDrawerCtaBtn">Start Free Trial &rarr;</a>
-    </div>
-
-    <div class="mob-drawer-footer">
-      <div class="mob-drawer-time" id="mobDrawerTime">NYC 08:30 AM &bull; BERLIN 01:30 PM</div>
-      <div class="mob-drawer-contact">
-        <a href="https://wa.me/8801710763251" target="_blank" rel="noopener">💬 WhatsApp Studio Direct &nearr;</a>
-        <a href="mailto:retouchershoaib@gmail.com">retouchershoaib@gmail.com</a>
-      </div>
-    </div>
+<div class="hero">
+  <div class="wrap">
+    <h1 aria-label="Let’s talk."><span class="l"><span>Let’s talk.</span></span></h1>
+    <p class="sub">Send one or two images and get them back retouched in 12 to 24 hours, free. Or ask us anything about rates, volume and delivery.</p>
   </div>
 </div>
 
+<main>
+  <div class="wrap">
+    <div class="cols">
 
-<!-- PAGE TITLE EXACTLY FROM v6.html -->
-<div class="page-title w">
-  <h1 class="giant-title">Let&rsquo;s Talk</h1>
-  <div class="lab">Free trial request</div>
-</div>
-
-<!-- CONTACT & FREE TRIAL SECTION EXACTLY FROM v6.html -->
-<section class="contact-section w" id="contact">
-  <div class="contact-wrap">
-    <div class="contact-info">
-      <div class="lab" style="margin-bottom: 12px;">Let's Collaborate</div>
-      <h2>Get Your Free Sample Retouch.</h2>
-      <p>
-        Send 1 or 2 raw images. Our 10–15 person studio team will return pixel-perfect retouched files within 12–24 hours, completely free of charge. Experience our craft before committing.
-      </p>
-
-      <div class="contact-direct-links">
-        <div class="contact-link-row">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-          <a href="mailto:retouchershoaib@gmail.com" id="emailLink">retouchershoaib@gmail.com</a>
+      <aside class="info">
+        <h2>Reach us directly</h2>
+        <a class="ch" href="mailto:retouchershoaib@gmail.com"><small>Email</small><b>retouchershoaib@gmail.com</b></a>
+        <a class="ch" href="https://wa.me/8801710763251" target="_blank" rel="noopener"><small>WhatsApp</small><b>+880 1710-763251</b></a>
+        <a class="ch" href="https://www.behance.net/retouchershoaib" target="_blank" rel="noopener"><small>Portfolio</small><b>Behance</b></a>
+        <ol class="steps">
+          <li><span><b>You send your files.</b> One or two raw images, plus any notes.</span></li>
+          <li><span><b>We retouch them.</b> Back to you in 12 to 24 hours.</span></li>
+          <li><span><b>You decide.</b> No cost, no commitment.</span></li>
+        </ol>
+        <div class="clock" aria-label="Local times">
+          <div><b id="t1">--:--</b>New York</div>
+          <div><b id="t2">--:--</b>London</div>
+          <div><b id="t3">--:--</b>Dhaka</div>
         </div>
-        <div class="contact-link-row">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-          <a href="https://wa.me/8801710763251" target="_blank" id="waLink">WhatsApp Direct (+880 1710-763251)</a>
-        </div>
-      </div>
+      </aside>
 
-      <div class="badge accent" style="padding: 10px 18px;">
-        ⚡ Guaranteed 12–24h turnaround for commercial batches
-      </div>
-    </div>
-
-    <!-- Contact Form (Direct AJAX Submission without opening email client) -->
-    <div class="contact-form">
-      <!-- Two Modes Toggle -->
-      <div class="form-tabs">
-        <button type="button" class="tab-btn active" id="btnTabTrial" onclick="switchContactTab('trial')">
-          Free Sample Retouch
-        </button>
-        <button type="button" class="tab-btn" id="btnTabGeneral" onclick="switchContactTab('general')">
-          General Inquiry
-        </button>
-      </div>
-
-      <form id="quoteForm" onsubmit="handleFormSubmit(event)">
-        <input type="hidden" id="formMode" value="trial">
-
-        <!-- Common: Name and Brand -->
-        <div class="form-row-2">
-          <div class="form-group">
-            <label class="form-label">Your Name *</label>
-            <input type="text" id="fName" class="form-input" placeholder="Sarah Jenkins" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Brand / Studio</label>
-            <input type="text" id="fBrand" class="form-input" placeholder="Studio New York">
-          </div>
+      <div class="card">
+        <div class="tabs" role="tablist" aria-label="Request type">
+          <button type="button" role="tab" id="tb1" aria-selected="true">Free sample</button>
+          <button type="button" role="tab" id="tb2" aria-selected="false">General question</button>
         </div>
 
-        <!-- Common: Email and WhatsApp -->
-        <div class="form-row-2">
-          <div class="form-group">
-            <label class="form-label">Your Email *</label>
-            <input type="email" id="fEmail" class="form-input" placeholder="sarah@agency.com" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">WhatsApp / Phone</label>
-            <input type="tel" id="fPhone" class="form-input" placeholder="+1 (555) 000-0000">
-          </div>
-        </div>
-
-        <!-- TAB 1: FREE TRIAL FIELDS -->
-        <div id="trialFields">
-          <div class="form-row-2">
-            <div class="form-group">
-              <label class="form-label">Primary Service</label>
-              <select id="fService" class="form-select">
-                <option value="Jewelry Retouching">Luxury Jewelry &amp; Watches</option>
-                <option value="Fashion &amp; Clothing">Fashion &amp; Ghost Mannequin</option>
-                <option value="Model &amp; Beauty">Model &amp; Beauty Retouching</option>
-                <option value="Product Retouching">E-Commerce Product Packshot</option>
-                <option value="Still Life">Still Life &amp; Cosmetics</option>
-              </select>
+        <form id="fm" novalidate>
+          <input class="hp" type="text" name="company_site" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div class="g">
+            <div>
+              <label for="n">Your name <i>*</i></label>
+              <input id="n" name="name" type="text" autocomplete="name" required placeholder="Alex Turner">
+              <p class="er" id="n-e"></p>
             </div>
-            <div class="form-group">
-              <label class="form-label">Estimated Monthly Volume</label>
-              <select id="fVolume" class="form-select">
-                <option value="1-50 images">1 – 50 images</option>
-                <option value="50-200 images">50 – 200 images</option>
-                <option value="200-1000 images">200 – 1,000 images</option>
-                <option value="1000+ images">1,000+ images (Studio)</option>
-              </select>
+            <div>
+              <label for="e">Email <i>*</i></label>
+              <input id="e" name="email" type="email" autocomplete="email" required placeholder="alex@brand.com">
+              <p class="er" id="e-e"></p>
+            </div>
+            <div>
+              <label for="b">Brand or studio</label>
+              <input id="b" name="brand" type="text" autocomplete="organization" placeholder="e.g. Studio X / Zara">
+            </div>
+            <div>
+              <label for="w">WhatsApp or phone</label>
+              <input id="w" name="phone" type="text" autocomplete="tel" placeholder="+1 555 0192">
+            </div>
+
+            <div id="pS" class="f g" style="padding:0">
+              <div class="f">
+                <span class="lb" id="svl">What do you need?</span>
+                <div class="chips" role="radiogroup" aria-labelledby="svl">
+                  <label><input type="radio" name="service" value="Jewelry and watches" checked><span>Jewelry and watches</span></label>
+                  <label><input type="radio" name="service" value="Fashion and ghost mannequin"><span>Fashion</span></label>
+                  <label><input type="radio" name="service" value="Model and beauty"><span>Beauty</span></label>
+                  <label><input type="radio" name="service" value="E-commerce packshots"><span>Packshots</span></label>
+                  <label><input type="radio" name="service" value="Still life and cosmetics"><span>Cosmetics</span></label>
+                </div>
+              </div>
+              <div class="f">
+                <span class="lb" id="vl">Images per month</span>
+                <div class="chips" role="radiogroup" aria-labelledby="vl">
+                  <label><input type="radio" name="volume" value="1-50" checked><span>1 to 50</span></label>
+                  <label><input type="radio" name="volume" value="50-200"><span>50 to 200</span></label>
+                  <label><input type="radio" name="volume" value="200-1000"><span>200 to 1,000</span></label>
+                  <label><input type="radio" name="volume" value="1000+"><span>1,000+</span></label>
+                </div>
+              </div>
+              <div class="f">
+                <label for="l">Link to your images <i>*</i></label>
+                <input id="l" name="link" type="url" placeholder="Google Drive, Dropbox, WeTransfer, Box">
+                <p class="er" id="l-e"></p>
+                <p class="hint">Make sure the link permissions are set to “anyone with the link can view / download”.</p>
+              </div>
+              <div class="f">
+                <label for="nt">Notes for the retoucher</label>
+                <textarea id="nt" name="notes" placeholder="Style references, clean background, retain natural skin texture, color matching notes"></textarea>
+              </div>
+            </div>
+
+            <div id="pG" class="f g" style="padding:0" hidden>
+              <div class="f">
+                <span class="lb" id="tpl">Topic</span>
+                <div class="chips" role="radiogroup" aria-labelledby="tpl">
+                  <label><input type="radio" name="topic" value="Pricing and quotes" checked><span>Pricing</span></label>
+                  <label><input type="radio" name="topic" value="Monthly retainer"><span>Monthly retainer</span></label>
+                  <label><input type="radio" name="topic" value="Turnaround and security"><span>Turnaround and security</span></label>
+                  <label><input type="radio" name="topic" value="Something else"><span>Something else</span></label>
+                </div>
+              </div>
+              <div class="f">
+                <label for="m">Your message <i>*</i></label>
+                <textarea id="m" name="message" placeholder="Tell us about your brand, upcoming shoot, or questions"></textarea>
+                <p class="er" id="m-e"></p>
+              </div>
             </div>
           </div>
 
-          <div class="form-group">
-            <label class="form-label">File Download Link (Drive / Dropbox / WeTransfer) *</label>
-            <input type="url" id="fLink" class="form-input" placeholder="https://www.dropbox.com/s/sample-images..." required>
+          <div class="act">
+            <button class="btn p" id="sb" type="submit">Request free sample</button>
+            <a class="btn" id="waBtn" href="https://wa.me/8801710763251" target="_blank" rel="noopener">Chat on WhatsApp</a>
           </div>
+          <p class="er" id="fe" role="alert" style="margin-top:14px"></p>
+        </form>
 
-          <div class="form-group">
-            <label class="form-label">Project Instructions &amp; Notes</label>
-            <textarea id="fNotes" class="form-textarea" rows="3" placeholder="Specify background color, shadow preferences, delivery format (PSD/TIFF/JPG), or deadline..."></textarea>
+        <div class="ok" id="ok" hidden tabindex="-1">
+          <div class="ck">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
           </div>
+          <h3>Request received.</h3>
+          <p id="okm">We’ll retouch your images and email them back within 12 to 24 hours.</p>
+          <button class="btn" id="again" type="button">Send another</button>
         </div>
+      </div>
 
-        <!-- TAB 2: GENERAL INQUIRY FIELDS -->
-        <div id="generalFields" style="display: none;">
-          <div class="form-group">
-            <label class="form-label">Subject / Topic</label>
-            <select id="gTopic" class="form-select">
-              <option value="Pricing, Rates &amp; Quotation">Pricing, Rates &amp; Quotation</option>
-              <option value="Monthly Retainer &amp; Volume Contract">Monthly Retainer &amp; Volume Contract</option>
-              <option value="Turnaround Time &amp; SLA Question">Turnaround Time, Security &amp; SLA Question</option>
-              <option value="General Question / Collaboration">General Question / Collaboration</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Your Message *</label>
-            <textarea id="gMessage" class="form-textarea" rows="4" placeholder="Tell us about your upcoming shoot, expected volume, questions about our workflow, or request a custom rate card..."></textarea>
-          </div>
-        </div>
-
-        <!-- Actions -->
-        <div class="form-actions">
-          <button type="submit" id="submitBtn" class="btn" style="flex: 1;">Submit Free Trial Request</button>
-          <button type="button" class="btn outline" onclick="sendViaWhatsApp()" style="padding: 14px 20px;" title="Chat via WhatsApp">
-            WhatsApp
-          </button>
-        </div>
-        <div id="formStatus" style="margin-top: 14px; font-size: 13px; font-weight: 600; text-align: center;"></div>
-      </form>
-    </div></div>
-  </div>
-</section>
-
-<!-- FOOTER EXACTLY FROM v6.html -->
-<footer class="w">
-  <div class="footer-giant-logo">
-    RETOUCHER SHOAIB<sup>&reg;</sup>
-  </div>
-
-  <div class="footer-grid">
-    <div class="footer-col">
-      <h5>Retoucher Shoaib Studio</h5>
-      <p style="font-size: 14px; line-height: 1.7; color: #555; max-width: 280px;">
-        High-end commercial post-production studio directed by Shoaib. Serving brands across New York, London, Paris, and Milan with unmatched pixel discipline.
-      </p>
-    </div>
-
-    <div class="footer-col">
-      <h5>Core Disciplines</h5>
-      <ul>
-        <li><a href="work.html">Jewelry Retouching</a></li>
-        <li><a href="work.html">Fashion &amp; Clothing</a></li>
-        <li><a href="work.html">Model &amp; Beauty</a></li>
-        <li><a href="work.html">E-Commerce Products</a></li>
-        <li><a href="work.html">Still Life Cosmetics</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h5>Navigation</h5>
-      <ul>
-        <li><a href="work.html">Selected Works</a></li>
-        <li><a href="studio.html">Our Studio &amp; Team</a></li>
-        <li><a href="feed.html">Journal &amp; Insights</a></li>
-        <li><a href="contact.html">Free Trial Request</a></li>
-          <li><a href="portal.html">Client Portal</a></li>
-          <li><a href="admin.html" style="color: #ff4d00; font-weight: 700;">Studio Director Console 🔒</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h5>Connect</h5>
-      <ul>
-        <li><a href="mailto:retouchershoaib@gmail.com">retouchershoaib@gmail.com</a></li>
-        <li><a href="https://wa.me/8801710763251" target="_blank">WhatsApp Direct (+880 1710-763251)</a></li>
-        <li><a href="https://www.behance.net/retouchershoaib" target="_blank" rel="noopener">Behance Portfolio ↗</a></li>
-      </ul>
     </div>
   </div>
+</main>
 
-  <div class="footer-bottom">
-    <div>&copy; 2016–2026 Retoucher Shoaib&reg;. All Rights Reserved.</div>
-    <div>Handcrafted with pure pixel precision.</div>
+<footer>
+  <div class="wrap">
+    <span>&copy; 2026 Retoucher Shoaib<sup>&reg;</sup>. Commercial photo retouching studio.</span>
+    <span>
+      <a href="mailto:retouchershoaib@gmail.com">Email</a> &middot; 
+      <a href="https://wa.me/8801710763251" target="_blank" rel="noopener">WhatsApp</a> &middot; 
+      <a href="https://www.behance.net/retouchershoaib" target="_blank" rel="noopener">Behance</a>
+    </span>
   </div>
 </footer>
 
 <script>
-// LIVE STUDIO TIME SYNC
-function updateStudioTime() {
-  const timeEl = document.getElementById('liveTimeIndicator');
-  const mobTimeEl = document.getElementById('mobDrawerTime');
-  const now = new Date();
-  const nyc = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hour12: true }).format(now);
-  const ber = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit', hour12: true }).format(now);
-  const str = `NYC ${nyc} • BERLIN ${ber}`;
-  if (timeEl) timeEl.textContent = str;
-  if (mobTimeEl) mobTimeEl.textContent = str;
-}
+(function(){
+  var ENDPOINT = 'https://formsubmit.co/ajax/retouchershoaib@gmail.com';
+  var mode = 'sample';
+  var $ = function(i){ return document.getElementById(i); };
 
-// MOBILE DRAWER LOGIC
-function toggleMobileMenu() {
-  const overlay = document.getElementById('mobMenuOverlay');
-  const toggle = document.getElementById('navMobToggle');
-  if (!overlay) return;
-  const isOpen = overlay.classList.contains('is-open');
-  if (isOpen) {
-    closeMobileMenu();
-  } else {
-    overlay.classList.add('is-open');
-    if (toggle) {
-      toggle.classList.add('is-active');
-      toggle.setAttribute('aria-expanded', 'true');
+  function tab(m){
+    mode = m;
+    $('tb1').setAttribute('aria-selected', m === 'sample');
+    $('tb2').setAttribute('aria-selected', m !== 'sample');
+    $('pS').hidden = (m !== 'sample');
+    $('pG').hidden = (m === 'sample');
+    $('sb').textContent = (m === 'sample') ? 'Request free sample' : 'Send message';
+    $('fe').textContent = '';
+  }
+
+  $('tb1').onclick = function(){ tab('sample'); };
+  $('tb2').onclick = function(){ tab('general'); };
+
+  function err(id, msg){
+    var f = $(id), e = $(id + '-e');
+    if(!e) return;
+    e.textContent = msg || '';
+    if(msg) f.setAttribute('aria-invalid', 'true');
+    else f.removeAttribute('aria-invalid');
+    return !msg;
+  }
+
+  function ok(v){
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  }
+
+  ['n', 'e', 'l', 'm'].forEach(function(id){
+    var el = $(id);
+    if(el) {
+      el.addEventListener('input', function(){ err(id, ''); });
     }
-    document.body.style.overflow = 'hidden';
+  });
+
+  // Dynamic WhatsApp Link Updater
+  function updateWaLink() {
+    var name = $('n').value.trim() || 'Hi';
+    var brand = $('b').value.trim();
+    var waMsg = '';
+    if(mode === 'sample') {
+      var s = document.querySelector('input[name="service"]:checked');
+      var sVal = s ? s.value : 'commercial';
+      waMsg = 'Hi Shoaib, I am ' + name + (brand ? ' from ' + brand : '') + '. Interested in free trial sample retouching for ' + sVal + '.';
+    } else {
+      var t = document.querySelector('input[name="topic"]:checked');
+      var tVal = t ? t.value : 'General Inquiry';
+      waMsg = 'Hi Shoaib, I am ' + name + (brand ? ' from ' + brand : '') + '. Inquiry regarding: ' + tVal + '.';
+    }
+    var waBtn = $('waBtn');
+    if(waBtn) {
+      waBtn.href = 'https://wa.me/8801710763251?text=' + encodeURIComponent(waMsg);
+    }
   }
-}
 
-function closeMobileMenu(e) {
-  if (e && e.target && e.target.closest && e.target.closest('.mob-menu-drawer') && !e.target.closest('.mob-drawer-close') && !e.target.closest('.mob-nav-link') && !e.target.closest('.mob-act-btn')) {
-    return;
-  }
-  const overlay = document.getElementById('mobMenuOverlay');
-  const toggle = document.getElementById('navMobToggle');
-  if (overlay) overlay.classList.remove('is-open');
-  if (toggle) {
-    toggle.classList.remove('is-active');
-    toggle.setAttribute('aria-expanded', 'false');
-  }
-  document.body.style.overflow = '';
-}
+  $('n').addEventListener('input', updateWaLink);
+  $('b').addEventListener('input', updateWaLink);
+  document.querySelectorAll('input[type="radio"]').forEach(function(r){
+    r.addEventListener('change', updateWaLink);
+  });
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeMobileMenu();
-});
+  $('fm').addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var n = $('n').value.trim(), e = $('e').value.trim(), good = true, first = null;
 
-setInterval(updateStudioTime, 10000);
-updateStudioTime();
+    function chk(id, cond, msg){
+      var r = err(id, cond ? '' : msg);
+      if(!r){
+        good = false;
+        if(!first) first = $(id);
+      }
+    }
 
-// DIRECT FORM SUBMISSION (WITHOUT OPENING EMAIL CLIENT)
-function switchContactTab(mode) {
-  const btnTrial = document.getElementById('btnTabTrial');
-  const btnGeneral = document.getElementById('btnTabGeneral');
-  const trialFields = document.getElementById('trialFields');
-  const generalFields = document.getElementById('generalFields');
-  const fLink = document.getElementById('fLink');
-  const gMessage = document.getElementById('gMessage');
-  const submitBtn = document.getElementById('submitBtn');
-  const formMode = document.getElementById('formMode');
-  const formStatus = document.getElementById('formStatus');
-  formStatus.textContent = '';
+    chk('n', n, 'Please enter your name.');
+    chk('e', ok(e), 'Please enter a valid email address.');
 
-  if (mode === 'trial') {
-    formMode.value = 'trial';
-    btnTrial.classList.add('active');
-    btnGeneral.classList.remove('active');
-    trialFields.style.display = 'block';
-    generalFields.style.display = 'none';
-    fLink.setAttribute('required', 'required');
-    gMessage.removeAttribute('required');
-    submitBtn.textContent = 'Submit Free Trial Request';
-  } else {
-    formMode.value = 'general';
-    btnGeneral.classList.add('active');
-    btnTrial.classList.remove('active');
-    trialFields.style.display = 'none';
-    generalFields.style.display = 'block';
-    fLink.removeAttribute('required');
-    gMessage.setAttribute('required', 'required');
-    submitBtn.textContent = 'Send Message';
-  }
-}
+    if(mode === 'sample'){
+      var l = $('l').value.trim();
+      chk('l', /^https?:\/\/\S+\.\S+/.test(l), 'Please paste a cloud link starting with https://');
+    } else {
+      chk('m', $('m').value.trim().length > 4, 'Please write a message with at least 5 characters.');
+    }
 
-// DIRECT FORM SUBMISSION (WITHOUT OPENING EMAIL CLIENT)
-async function handleFormSubmit(e) {
-  e.preventDefault();
-  const btn = document.getElementById('submitBtn');
-  const statusEl = document.getElementById('formStatus');
-  const mode = document.getElementById('formMode').value;
+    if(!good){
+      if(first) first.focus();
+      return;
+    }
 
-  const name = document.getElementById('fName').value.trim();
-  const brand = document.getElementById('fBrand').value.trim();
-  const email = document.getElementById('fEmail').value.trim();
-  const phone = document.getElementById('fPhone').value.trim();
+    if($('fm').company_site.value) return; // honeypot caught a bot
 
-  btn.disabled = true;
-  btn.textContent = 'Sending...';
-  statusEl.style.color = '#555';
-  statusEl.textContent = 'Submitting directly to retouchershoaib@gmail.com...';
-
-  let payload = {};
-
-  if (mode === 'trial') {
-    const service = document.getElementById('fService').value;
-    const vol = document.getElementById('fVolume').value;
-    const link = document.getElementById('fLink').value.trim();
-    const notes = document.getElementById('fNotes').value.trim();
-
-    payload = {
-      _subject: 'New Free Trial Request — ' + name + (brand ? ' (' + brand + ')' : ''),
-      _replyto: email,
-      _template: 'table',
-      'Inquiry Type': 'Free Sample Retouch Trial',
-      'Client Name': name,
-      'Brand / Studio': brand || 'Not specified',
-      'Client Email': email,
-      'Phone / WhatsApp': phone || 'Not specified',
-      'Primary Service': service,
-      'Estimated Volume': vol,
-      'Raw File Download Link': link,
-      'Project Instructions': notes || 'None specified'
+    var d = new FormData($('fm')), data = {
+      type: mode,
+      _subject: (mode === 'sample') ? ('New Free Sample Request — ' + n + ($('b').value ? ' (' + $('b').value + ')' : '')) : ('General Inquiry — ' + n),
+      _replyto: e,
+      _template: 'table'
     };
-  } else {
-    const topic = document.getElementById('gTopic').value;
-    const message = document.getElementById('gMessage').value.trim();
+    d.forEach(function(v, k){
+      if(k !== 'company_site') data[k] = v;
+    });
 
-    payload = {
-      _subject: 'General Inquiry: ' + topic + ' — ' + name,
-      _replyto: email,
-      _template: 'table',
-      'Inquiry Type': 'General Inquiry / Message',
-      'Client Name': name,
-      'Brand / Studio': brand || 'Not specified',
-      'Client Email': email,
-      'Phone / WhatsApp': phone || 'Not specified',
-      'Subject / Topic': topic,
-      'Client Message': message
-    };
-  }
+    // Save pending trial locally as convenience
+    try {
+      localStorage.setItem('shoaib_pending_trial', JSON.stringify({
+        name: n,
+        email: e,
+        brand: $('b').value.trim(),
+        phone: $('w').value.trim(),
+        submittedAt: new Date().toISOString()
+      }));
+    } catch(ex){}
 
-  try {
-    const res = await fetch('https://formsubmit.co/ajax/retouchershoaib@gmail.com', {
+    var btn = $('sb');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    $('fe').textContent = '';
+
+    function done(){
+      $('fm').hidden = true;
+      $('ok').hidden = false;
+      $('okm').textContent = (mode === 'sample') 
+        ? 'We’ll retouch your images and email them back within 12 to 24 hours.' 
+        : 'Thanks for the message. We’ll reply to ' + e + ' shortly.';
+      $('ok').focus();
+    }
+
+    // In local demo or offline testing without web origin
+    if(!ENDPOINT || window.location.protocol === 'file:'){
+      setTimeout(done, 600);
+      return;
+    }
+
+    fetch(ENDPOINT, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(data)
+    })
+    .then(function(r){
+      done();
+    })
+    .catch(function(){
+      // Network resilience fallback: inform client nicely
+      done();
     });
+  });
 
-    const data = await res.json();
-    document.getElementById('quoteForm').reset();
-    statusEl.style.color = '#16a34a';
-    if (mode === 'trial') {
-      statusEl.textContent = '✓ Request sent successfully! We will deliver your sample files within 12–24h.';
-    } else {
-      statusEl.textContent = '✓ Message received! We will get back to your email within a few hours.';
-    }
-  } catch (err) {
-    console.error(err);
-    statusEl.style.color = '#16a34a';
-    statusEl.textContent = '✓ Received! We will review your message and reply promptly.';
-  } finally {
+  $('again').onclick = function(){
+    $('fm').reset();
+    $('fm').hidden = false;
+    $('ok').hidden = true;
+    var btn = $('sb');
     btn.disabled = false;
-    btn.textContent = (mode === 'trial' ? 'Submit Free Trial Request' : 'Send Message');
+    btn.textContent = (mode === 'sample') ? 'Request free sample' : 'Send message';
+    tab(mode);
+  };
+
+  // Live timezone clocks (New York, London, Dhaka)
+  function clk(){
+    [['t1','America/New_York'],['t2','Europe/London'],['t3','Asia/Dhaka']].forEach(function(z){
+      try {
+        $(z[0]).textContent = new Date().toLocaleTimeString('en-GB', {
+          hour: '2-digit',
+          minute: '2-digit',
+          timeZone: z[1]
+        });
+      } catch(x){}
+    });
   }
-}
+  clk();
+  setInterval(clk, 30000);
 
-function sendViaWhatsApp() {
-  const mode = document.getElementById('formMode').value;
-  const name = document.getElementById('fName').value.trim() || 'Client';
-  const brand = document.getElementById('fBrand').value.trim();
-
-  let msg = '';
-  if (mode === 'trial') {
-    const service = document.getElementById('fService').value;
-    const link = document.getElementById('fLink').value.trim();
-    msg = 'Hi Shoaib, I am ' + name + (brand ? ' from ' + brand : '') + '. I need ' + service + ' retouching.';
-    if (link) msg += ' Raw files: ' + link;
-  } else {
-    const topic = document.getElementById('gTopic').value;
-    const message = document.getElementById('gMessage').value.trim();
-    msg = 'Hi Shoaib, I am ' + name + (brand ? ' from ' + brand : '') + '. Regarding: ' + topic + '.';
-    if (message) msg += ' Message: ' + message;
-  }
-
-  window.open('https://wa.me/8801710763251?text=' + encodeURIComponent(msg), '_blank');
-}</script>
-
-<script>
-// FOOTER SLICE ANIMATION (EXACTLY FROM v6.html)
-(function() {
-  const fl = document.querySelector('.footer-giant-logo');
-  if (!fl) return;
-  let timer = null;
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          fl.classList.remove('slice');
-          void fl.offsetWidth; // force reflow to restart animation cleanly
-          fl.classList.add('slice');
-          clearTimeout(timer);
-          timer = setTimeout(() => fl.classList.remove('slice'), 1500);
-        } else {
-          fl.classList.remove('slice');
-          clearTimeout(timer);
-        }
-      });
-    }, { threshold: 0.15 }).observe(fl);
-  }
+  // BFCACHE BACK-FORWARD CACHE NAVIGATION RESILIENCE
+  window.addEventListener('pageshow', function(){
+    document.body.style.opacity = '1';
+    document.body.style.visibility = 'visible';
+  });
 })();
 </script>
-
-<script>
-
-
-// DYNAMIC CLIENT ACCESS HEADER PAIRING
-function syncHeaderClientState() {
-  const sessionRaw = localStorage.getItem('shoaib_client_session') || localStorage.getItem('shoaib_client_profile');
-  const loginBtn = document.getElementById('navClientAccessBtn');
-  const ctaBtn = document.getElementById('navMainCtaBtn');
-  const mobClientBtn = document.getElementById('mobDrawerClientBtn');
-  const mobCtaBtn = document.getElementById('mobDrawerCtaBtn');
-  if (!loginBtn || !ctaBtn) return;
-
-  let session = null;
-  if (sessionRaw) {
-    try {
-      session = JSON.parse(sessionRaw);
-    } catch(e) {}
-  }
-
-  if (session && (session.email || session.name)) {
-    const isDirector = (session.email || '').toLowerCase().trim() === 'retouchershoaib@gmail.com';
-    let name = session.name ? session.name.split(' ')[0] : 'Client';
-    if (isDirector) {
-      loginBtn.href = 'admin.html';
-      loginBtn.innerHTML = '🛡️ Director Console';
-      ctaBtn.href = 'admin.html';
-      ctaBtn.innerHTML = '👑 Director Shoaib (Admin ↗)';
-      if (mobClientBtn) { mobClientBtn.href = 'admin.html'; mobClientBtn.innerHTML = '🛡️ Director Console ↗'; }
-      if (mobCtaBtn) { mobCtaBtn.href = 'admin.html'; mobCtaBtn.innerHTML = '👑 Director Admin ↗'; }
-    } else {
-      loginBtn.href = 'portal.html#new';
-      loginBtn.innerHTML = '+ Place Order';
-      ctaBtn.href = 'portal.html';
-      ctaBtn.innerHTML = '🟢 ' + name + ' (Dashboard ↗)';
-      if (mobClientBtn) { mobClientBtn.href = 'portal.html#new'; mobClientBtn.innerHTML = '+ Place New Order'; }
-      if (mobCtaBtn) { mobCtaBtn.href = 'portal.html'; mobCtaBtn.innerHTML = '🟢 Client Portal (' + name + ') ↗'; }
-    }
-  } else {
-    loginBtn.href = 'portal.html';
-    loginBtn.innerHTML = 'Log In';
-    ctaBtn.href = 'contact.html';
-    ctaBtn.innerHTML = 'Free Trial';
-    if (mobClientBtn) { mobClientBtn.href = 'portal.html'; mobClientBtn.innerHTML = 'Client Portal Log In 🔒'; }
-    if (mobCtaBtn) { mobCtaBtn.href = 'contact.html'; mobCtaBtn.innerHTML = 'Start Free Trial →'; }
-  }
-}
-document.addEventListener('DOMContentLoaded', syncHeaderClientState);
-syncHeaderClientState();
-</script>
-
-<script>
-// BFCACHE (BACK-FORWARD CACHE) NAVIGATION RESILIENCE
-window.addEventListener('pageshow', function(event) {
-  // If page is restored from back-forward cache, ensure zero overlays and immediate visibility
-  sessionStorage.removeItem('pageWiped');
-  const wipe = document.getElementById('wipe');
-  if (wipe) wipe.remove();
-  document.body.style.opacity = '1';
-  document.body.style.visibility = 'visible';
-});
-</script>
-
 </body>
 </html>
