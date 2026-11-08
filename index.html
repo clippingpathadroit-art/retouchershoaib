@@ -144,135 +144,60 @@ nav a:hover{
   position:relative;
   overflow:hidden;
 }
-.hero-grid{
+.hero .wrap{
   display:grid;
-  grid-template-columns:1.2fr 0.8fr;
-  gap:clamp(32px,5vw,64px);
+  grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);
   align-items:center;
+  gap:clamp(8px,3vw,40px);
 }
-.hero-content{
-  display:flex;
-  flex-direction:column;
+.hero h1{
+  font-size:clamp(38px,5.2vw,92px);
 }
-.hero-visual{
-  display:flex;
-  justify-content:center;
-  align-items:center;
+.ring{
   position:relative;
-}
-.hero-video-card{
-  position:relative;
+  aspect-ratio:1;
   width:100%;
-  max-width:380px;
-  aspect-ratio:9/16;
-  background:#000000;
-  border-radius:24px;
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,0.14);
-  box-shadow:0 35px 80px -15px rgba(0,0,0,0.85), 0 0 50px -15px rgba(200,241,53,0.22);
-  transition:transform .4s cubic-bezier(.16,1,.3,1), box-shadow .4s ease, border-color .3s ease;
+  max-width:680px;
+  justify-self:end;
+}
+.ring::before{
+  content:"";
+  position:absolute;
+  inset:8%;
+  border-radius:50%;
+  background:radial-gradient(circle,color-mix(in srgb,var(--accent) 16%,transparent),transparent 68%);
+  animation:breathe 6s ease-in-out infinite alternate;
+  pointer-events:none;
+}
+@keyframes breathe{
+  to{transform:scale(1.18);opacity:.6}
+}
+.ring video{
+  position:relative;
   will-change:transform;
-  cursor:pointer;
-}
-.hero-video-card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 45px 100px -20px rgba(0,0,0,0.95), 0 0 65px -10px rgba(200,241,53,0.35);
-  border-color:rgba(200,241,53,0.45);
-}
-.hero-video-card video{
   width:100%;
   height:100%;
   object-fit:cover;
-  display:block;
-  background:#000000;
+  mix-blend-mode:screen;
+  opacity:0;
+  transition:opacity .9s;
+  -webkit-mask-image:radial-gradient(circle at 50% 50%,#000 56%,transparent 74%);
+  mask-image:radial-gradient(circle at 50% 50%,#000 56%,transparent 74%);
 }
-.hero-video-tag{
-  position:absolute;
-  top:16px;
-  left:16px;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:6px 14px;
-  border-radius:99px;
-  background:rgba(10,10,11,0.78);
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,0.18);
-  color:#ffffff;
-  font-family:var(--body);
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:0.06em;
-  text-transform:uppercase;
-  z-index:4;
-  pointer-events:none;
+.ring.live video{
+  opacity:var(--o,1);
 }
-.hero-video-dot{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:var(--accent);
-  box-shadow:0 0 10px var(--accent);
-  animation:pulseDot 2s ease-in-out infinite;
-}
-@keyframes pulseDot{
-  0%,100%{opacity:1;transform:scale(1)}
-  50%{opacity:.35;transform:scale(.8)}
-}
-.hero-video-ctrls{
-  position:absolute;
-  bottom:16px;
-  left:16px;
-  right:16px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  z-index:4;
-}
-.hero-v-btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:6px;
-  background:rgba(10,10,11,0.78);
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,0.22);
-  color:#ffffff;
-  font-family:var(--body);
-  font-size:11.5px;
-  font-weight:600;
-  cursor:pointer;
-  border-radius:99px;
-  padding:6px 14px;
-  height:34px;
-  transition:all .25s ease;
-  user-select:none;
-}
-.hero-v-btn:hover{
-  background:var(--accent);
-  color:#000000;
-  border-color:var(--accent);
-  transform:scale(1.04);
-}
-.hero-v-btn.sound-pill.active{
-  background:var(--accent);
-  color:#000000;
-  border-color:var(--accent);
-}
-@media (max-width: 980px){
-  .hero-grid{
+@media(max-width:860px){
+  .hero .wrap{
     grid-template-columns:1fr;
-    gap:36px;
   }
-  .hero-visual{
-    width:100%;
-    margin-top:6px;
+  .ring{
+    max-width:92vw;
+    justify-self:center;
+    margin-top:8px;
   }
-  .hero-video-card{
-    max-width:280px;
-    margin:0 auto;
+  .hero h1{
+    font-size:clamp(44px,12vw,90px);
   }
 }
 .hero::before{
@@ -1333,52 +1258,24 @@ footer a:hover{
 <!-- HERO SECTION -->
 <div class="hero">
   <div class="wrap">
-    <div class="hero-grid">
-      <div class="hero-content">
-        <h1 aria-label="Retouching that never looks retouched.">
-          <span class="l"><span style="--i:0">Retouching</span></span>
-          <span class="l"><span style="--i:1">that never looks</span></span>
-          <span class="l"><span style="--i:2">retouched.</span></span>
-        </h1>
-        <p class="sub">Jewelry, fashion and beauty retouching for brands, studios and photographers. Send one image and get it back within 24 hours, free.</p>
-        <div class="cta">
-          <a class="btn p mag" href="#contact">Start free trial</a>
-          <a class="btn mag" href="#work">See what we retouch</a>
-          <a class="btn mag" href="work.html">View 83+ Portfolio Works &rarr;</a>
-        </div>
+    <div class="ht">
+      <h1 aria-label="Retouching that never looks retouched.">
+        <span class="l"><span style="--i:0">Retouching</span></span>
+        <span class="l"><span style="--i:1">that never looks</span></span>
+        <span class="l"><span style="--i:2">retouched.</span></span>
+      </h1>
+      <p class="sub">Jewelry, fashion and beauty retouching for brands, studios and photographers. Send one image and get it back within 24 hours, free.</p>
+      <div class="cta">
+        <a class="btn p mag" href="#contact">Start free trial</a>
+        <a class="btn mag" href="#work">See what we retouch</a>
+        <a class="btn mag" href="work.html">View 83+ Portfolio Works &rarr;</a>
       </div>
-      <div class="hero-visual">
-        <div class="hero-video-card" id="heroVideoCard" title="Click to play or pause video">
-          <div class="hero-video-tag">
-            <span class="hero-video-dot"></span>
-            <span>360° High Jewelry Rotation</span>
-          </div>
-          <video
-            id="heroJewelryVideo"
-            playsinline
-            autoplay
-            muted
-            loop
-            preload="metadata"
-            poster="./assets/hero_jewelry_poster.webp"
-            width="720"
-            height="1280"
-            aria-label="360 Degree Rotating Gold and Diamond Panther Ring Retouching Showcase"
-          >
-            <source src="./assets/hero_jewelry_rotation.webm" type="video/webm">
-            <source src="./assets/hero_jewelry_rotation.mp4" type="video/mp4">
-          </video>
-          <div class="hero-video-ctrls">
-            <button type="button" class="hero-v-btn" id="heroVideoToggleBtn" aria-label="Play or pause video">
-              <span id="heroPlayIcon">❚❚</span>
-            </button>
-            <button type="button" class="hero-v-btn sound-pill" id="heroVideoSoundBtn" aria-label="Toggle sound">
-              <span id="heroSoundIcon">🔇</span>
-              <span id="heroSoundText">Sound Off</span>
-            </button>
-          </div>
-        </div>
-      </div>
+    </div>
+    <div class="ring" id="ring" aria-hidden="true">
+      <video id="rv" muted playsinline loop preload="auto" poster="./assets/hero_jewelry_poster.webp">
+        <source src="./assets/hero_jewelry_rotation.webm" type="video/webm">
+        <source src="./assets/hero_jewelry_rotation.mp4" type="video/mp4">
+      </video>
     </div>
   </div>
 </div>
@@ -2372,86 +2269,64 @@ footer a:hover{
   });
   window.addEventListener('focus', syncHeaderClientState);
 
-  // 9. HERO VIDEO & AUDIO CONTROLLER (PERFORMANCE OPTIMIZED)
-  var heroVideo = document.getElementById('heroJewelryVideo');
-  var heroPlayBtn = document.getElementById('heroVideoToggleBtn');
-  var heroSoundBtn = document.getElementById('heroVideoSoundBtn');
-  var heroPlayIcon = document.getElementById('heroPlayIcon');
-  var heroSoundIcon = document.getElementById('heroSoundIcon');
-  var heroSoundText = document.getElementById('heroSoundText');
-  var heroCard = document.getElementById('heroVideoCard');
+  // 9. HERO 3D FLOATING RING VIDEO CONTROLLER (Seamless screen blend, breathe halo, invisible loop fade, parallax)
+  (function(){
+    var r = document.getElementById('ring');
+    var v = document.getElementById('rv');
+    if (!r || !v) return;
+    var rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  if (heroVideo) {
-    // Sound toggle
-    if (heroSoundBtn) {
-      heroSoundBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        heroVideo.muted = !heroVideo.muted;
-        if (heroVideo.muted) {
-          if (heroSoundIcon) heroSoundIcon.textContent = '🔇';
-          if (heroSoundText) heroSoundText.textContent = 'Sound Off';
-          heroSoundBtn.classList.remove('active');
-        } else {
-          if (heroSoundIcon) heroSoundIcon.textContent = '🔊';
-          if (heroSoundText) heroSoundText.textContent = 'Sound On';
-          heroSoundBtn.classList.add('active');
-          if (heroVideo.paused) heroVideo.play().catch(function(){});
-        }
-      });
+    function go(){
+      r.classList.add('live');
+      if (!rm) {
+        var p = v.play();
+        if (p && p.catch) p.catch(function(){});
+      }
+    }
+    if (v.readyState >= 2) go(); else v.addEventListener('loadeddata', go);
+
+    // Fade through black at the loop point so the restart is invisible
+    function f(){
+      var d = v.duration || 10, t = v.currentTime, o = 1;
+      if (t < 0.6) o = t / 0.6;
+      else if (t > d - 0.6) o = Math.max(0, (d - t) / 0.6);
+      r.style.setProperty('--o', o);
+      if (!rm) requestAnimationFrame(f);
+    }
+    v.loop = true;
+    if (!rm) requestAnimationFrame(f);
+
+    // Mouse parallax and scroll drift
+    var mx = 0, my = 0, sy = 0;
+    function ap(){
+      v.style.transform = 'translate(' + mx + 'px,' + (my + sy) + 'px)';
+    }
+    if (!rm) {
+      window.addEventListener('mousemove', function(e){
+        mx = (e.clientX / window.innerWidth - 0.5) * -26;
+        my = (e.clientY / window.innerHeight - 0.5) * -18;
+        ap();
+      }, { passive: true });
+      window.addEventListener('scroll', function(){
+        sy = Math.min(window.scrollY || 0, 700) * 0.12;
+        ap();
+      }, { passive: true });
     }
 
-    // Play / Pause toggle
-    if (heroPlayBtn) {
-      heroPlayBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        if (heroVideo.paused) {
-          heroVideo.play().catch(function(){});
-          if (heroPlayIcon) heroPlayIcon.textContent = '❚❚';
-          heroVideo.dataset.userPaused = 'false';
-        } else {
-          heroVideo.pause();
-          if (heroPlayIcon) heroPlayIcon.textContent = '▶';
-          heroVideo.dataset.userPaused = 'true';
-        }
-      });
-    }
-
-    // Card click toggle
-    if (heroCard) {
-      heroCard.addEventListener('click', function(e) {
-        if (e.target.closest('button')) return;
-        if (heroVideo.paused) {
-          heroVideo.play().catch(function(){});
-          if (heroPlayIcon) heroPlayIcon.textContent = '❚❚';
-          heroVideo.dataset.userPaused = 'false';
-        } else {
-          heroVideo.pause();
-          if (heroPlayIcon) heroPlayIcon.textContent = '▶';
-          heroVideo.dataset.userPaused = 'true';
-        }
-      });
-    }
-
-    // IntersectionObserver: automatically pause off-screen to preserve CPU/GPU & smooth 60fps scrolling
+    // IntersectionObserver: automatically pause off-screen to preserve CPU/GPU
     if ('IntersectionObserver' in window) {
       var heroObs = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
           if (entry.isIntersecting) {
-            if (heroVideo.paused && heroVideo.dataset.userPaused !== 'true') {
-              heroVideo.play().catch(function(){});
-              if (heroPlayIcon) heroPlayIcon.textContent = '❚❚';
-            }
+            if (v.paused && !rm) v.play().catch(function(){});
           } else {
-            if (!heroVideo.paused) {
-              heroVideo.pause();
-              if (heroPlayIcon) heroPlayIcon.textContent = '▶';
-            }
+            if (!v.paused) v.pause();
           }
         });
-      }, { threshold: 0.15 });
-      heroObs.observe(heroVideo);
+      }, { threshold: 0.1 });
+      heroObs.observe(r);
     }
-  }
+  })();
 })();
 </script>
 </body>
