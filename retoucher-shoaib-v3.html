@@ -762,14 +762,6 @@ footer {
 
 
 /* WIPE PAGE TRANSITION (BOTTOM TO TOP BLACK SLIDE) */
-#wipe {
-  position: fixed;
-  inset: 0;
-  background: #0a0a0a;
-  z-index: 99999;
-  transform: translateY(100%);
-  pointer-events: none;
-}
 @keyframes wipeIn {
   0% { transform: translateY(100%); }
   100% { transform: translateY(0%); }
@@ -782,8 +774,6 @@ footer {
 </style>
 </head>
 <body>
-<div id="wipe"></div>
-
 <nav id="navbar">
   <a href="index.html" class="nav-brand">
     RETOUCHER SHOAIB<sup>&reg;</sup>
@@ -1315,5 +1305,18 @@ updateStudioTime();
   });
 })();
 </script>
+
+<script>
+// BFCACHE (BACK-FORWARD CACHE) NAVIGATION RESILIENCE
+window.addEventListener('pageshow', function(event) {
+  // If page is restored from back-forward cache, ensure zero overlays and immediate visibility
+  sessionStorage.removeItem('pageWiped');
+  const wipe = document.getElementById('wipe');
+  if (wipe) wipe.remove();
+  document.body.style.opacity = '1';
+  document.body.style.visibility = 'visible';
+});
+</script>
+
 </body>
 </html>

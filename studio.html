@@ -718,22 +718,9 @@ footer {
 }
 
 
-/* SMOOTH EDITORIAL BLACK WIPE TRANSITION */
-#wipe {
-  position: fixed;
-  inset: 0;
-  background: #0a0a0a;
-  z-index: 99999;
-  transform: translateY(100%);
-  pointer-events: none;
-}
-
-
 </style>
 </head>
 <body>
-<div id="wipe"></div>
-
 <nav id="navbar">
   <a href="index.html" class="nav-brand">
     RETOUCHER SHOAIB<sup>&reg;</sup>
@@ -1052,41 +1039,7 @@ updateStudioTime();
 })();
 </script>
 <script>
-// SMOOTH EDITORIAL BLACK WIPE TRANSITION
-(function() {
-  const wipe = document.getElementById('wipe');
-  if (!wipe) return;
 
-  if (sessionStorage.getItem('pageWiped')) {
-    sessionStorage.removeItem('pageWiped');
-    wipe.style.transform = 'translateY(0%)';
-    requestAnimationFrame(() => {
-      wipe.style.transition = 'transform 0.35s cubic-bezier(0.77, 0, 0.175, 1)';
-      wipe.style.transform = 'translateY(-100%)';
-    });
-  }
-
-  document.addEventListener('click', (e) => {
-    const a = e.target.closest('a');
-    if (!a) return;
-    const href = a.getAttribute('href');
-    if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:') || href.startsWith('http') || a.target === '_blank') {
-      return;
-    }
-
-    e.preventDefault();
-    sessionStorage.setItem('pageWiped', '1');
-    wipe.style.transition = 'none';
-    wipe.style.transform = 'translateY(100%)';
-    void wipe.offsetWidth;
-    wipe.style.transition = 'transform 0.32s cubic-bezier(0.77, 0, 0.175, 1)';
-    wipe.style.transform = 'translateY(0%)';
-
-    setTimeout(() => {
-      window.location.href = href;
-    }, 310);
-  });
-})();
 
 // DYNAMIC CLIENT ACCESS HEADER PAIRING
 function syncHeaderClientState() {
@@ -1134,5 +1087,18 @@ function syncHeaderClientState() {
 document.addEventListener('DOMContentLoaded', syncHeaderClientState);
 syncHeaderClientState();
 </script>
+
+<script>
+// BFCACHE (BACK-FORWARD CACHE) NAVIGATION RESILIENCE
+window.addEventListener('pageshow', function(event) {
+  // If page is restored from back-forward cache, ensure zero overlays and immediate visibility
+  sessionStorage.removeItem('pageWiped');
+  const wipe = document.getElementById('wipe');
+  if (wipe) wipe.remove();
+  document.body.style.opacity = '1';
+  document.body.style.visibility = 'visible';
+});
+</script>
+
 </body>
 </html>

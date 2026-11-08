@@ -4145,5 +4145,17 @@ function toggleMobileMenu() {
 }
 </script>
 
+
+<script>
+// BFCACHE (BACK-FORWARD CACHE) NAVIGATION RESILIENCE
+window.addEventListener('pageshow', function(event) {
+  sessionStorage.removeItem('pageWiped');
+  const wipe = document.getElementById('wipe');
+  if (wipe) wipe.remove();
+  document.body.style.opacity = '1';
+  document.body.style.visibility = 'visible';
+});
+</script>
+
 </body>
 </html>
