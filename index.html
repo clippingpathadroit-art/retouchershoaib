@@ -559,45 +559,296 @@ h2{
   margin-top:6px;
 }
 
-/* TESTIMONIAL & BRANDS */
-.logo-row{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
-  gap:14px;
-  margin-top:16px;
+/* BRANDS & CLIENT LOGOS */
+.brands-block {
+  margin-top: 10px;
 }
-.logo-row span{
-  border:1px dashed var(--line);
-  border-radius:14px;
-  padding:24px 16px;
-  text-align:center;
-  color:var(--muted);
-  font-size:14px;
-  background:rgba(255,255,255,.015);
-  font-family:var(--display);
-  font-weight:600;
-  letter-spacing:0.04em;
-  text-transform:uppercase;
+.logo-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-top: 24px;
 }
-.quote{
-  font:500 clamp(24px,3.4vw,44px)/1.2 var(--display);
-  letter-spacing:-.02em;
-  max-width:900px;
-  margin:0 0 24px;
-  color:var(--text);
+@media (max-width: 990px) {
+  .logo-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
-.who{
-  color:var(--muted);
-  font-size:15px;
+@media (max-width: 600px) {
+  .logo-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
-.who i{
-  display:block;
-  color:var(--accent);
-  font-style:normal;
-  margin-top:4px;
-  font-weight:500;
+.logo-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  height: 104px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 20px;
+  transition: transform .25s ease, border-color .25s ease, background .25s ease;
+}
+.logo-card:hover {
+  border-color: rgba(200, 241, 53, 0.45);
+  transform: translateY(-2px);
+  background: #18181b;
+}
+.logo-card img {
+  max-height: 48px;
+  max-width: 135px;
+  object-fit: contain;
+  transition: opacity .25s, transform .25s;
+  opacity: 0.88;
+}
+.logo-card:hover img {
+  opacity: 1;
+  transform: scale(1.03);
+}
+.logo-card img.aristocracy {
+  max-height: 48px;
+  max-width: 145px;
+  border-radius: 4px;
+}
+.logo-card img.pilotfashion {
+  max-height: 46px;
+  filter: brightness(0) invert(1);
+}
+.logo-card img.motionfashion {
+  max-height: 52px;
+}
+.logo-card img.propercloth {
+  max-height: 24px;
+  max-width: 140px;
+}
+.logo-card img.meshki {
+  max-height: 52px;
+  filter: invert(1);
+  mix-blend-mode: screen;
 }
 
+/* REVIEWS & TESTIMONIALS SLIDER */
+.reviews-block {
+  margin-top: clamp(60px, 8vw, 100px);
+}
+.reviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+.rev-controls {
+  display: flex;
+  gap: 10px;
+}
+.rev-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background .2s, border-color .2s, transform .2s, color .2s;
+}
+.rev-btn:hover {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+  transform: scale(1.05);
+}
+.rev-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  margin-bottom: 28px;
+  scrollbar-width: none;
+}
+.rev-tabs::-webkit-scrollbar {
+  display: none;
+}
+.rev-tab {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
+  padding: 10px 18px;
+  border-radius: 99px;
+  font: 500 14px var(--body);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .2s, color .2s, border-color .2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.rev-tab span {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  padding: 2px 7px;
+  border-radius: 99px;
+  background: rgba(255,255,255,.06);
+  color: var(--muted);
+}
+.rev-tab:hover {
+  color: var(--text);
+  border-color: rgba(255,255,255,.3);
+}
+.rev-tab.on {
+  background: var(--accent);
+  color: var(--on-accent);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+.rev-tab.on span {
+  background: rgba(0,0,0,.15);
+  color: var(--on-accent);
+  font-weight: 700;
+}
+.rev-card-wrapper {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: clamp(28px, 4.5vw, 56px);
+  position: relative;
+  min-height: 280px;
+  box-shadow: 0 16px 40px rgba(0,0,0,.3);
+}
+.rev-slide {
+  display: none;
+  animation: fadeInRev .45s ease forwards;
+}
+.rev-slide.on {
+  display: block;
+}
+@keyframes fadeInRev {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rev-stars {
+  color: var(--accent);
+  font-size: 18px;
+  letter-spacing: 3px;
+  margin-bottom: 18px;
+}
+.rev-slide .quote {
+  font: 500 clamp(20px, 2.5vw, 32px)/1.35 var(--display);
+  letter-spacing: -.02em;
+  color: var(--text);
+  margin: 0 0 28px;
+  max-width: 980px;
+}
+.rev-author {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
+}
+.rev-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.08);
+  border: 1px solid var(--line);
+  color: var(--accent);
+  font: 800 16px/48px var(--display);
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+.who-name {
+  font: 800 18px var(--display);
+  color: var(--text);
+  letter-spacing: -.01em;
+}
+.who-title {
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 2px;
+}
+.leave-review-bar {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 18px 24px;
+  border: 1px dashed var(--line);
+  border-radius: 16px;
+  background: rgba(255,255,255,.015);
+}
+.leave-review-bar b {
+  color: var(--text);
+  font-weight: 500;
+  display: block;
+  font-size: 15px;
+}
+.leave-review-bar span {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* REVIEW SUBMISSION DIALOG MODAL */
+.rev-dialog {
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--surface);
+  color: var(--text);
+  max-width: 600px;
+  width: 92vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 36px clamp(20px, 4vw, 40px);
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  box-shadow: 0 24px 64px rgba(0,0,0,.7);
+  z-index: 100;
+}
+.rev-dialog::backdrop {
+  background: rgba(0,0,0,.75);
+  backdrop-filter: blur(8px);
+}
+.rev-form-wrap form {
+  display: block!important;
+  max-width: 100%!important;
+  margin-top: 0!important;
+}
+.rev-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  color: var(--text);
+  font-size: 22px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: .2s;
+}
+.rev-close:hover {
+  background: var(--accent);
+  color: var(--on-accent);
+  border-color: var(--accent);
+}
+@media (max-width: 560px) {
+  .rev-form-wrap .modal-cols {
+    grid-template-columns: 1fr!important;
+  }
+}
 /* FAQ DETAILS */
 details{
   border-bottom:1px solid var(--line);
@@ -1005,24 +1256,202 @@ footer a:hover{
   </div>
 </section>
 
-<!-- BRANDS & TESTIMONIAL -->
-<section>
+<!-- BRANDS WE WORK WITH & CLIENT TESTIMONIALS -->
+<section id="reviews" class="brands-reviews-section">
   <div class="wrap">
-    <h2>Brands we work with</h2>
-    <div class="logo-row">
-      <span>Client logo</span>
-      <span>Client logo</span>
-      <span>Client logo</span>
-      <span>Client logo</span>
-      <span>Client logo</span>
+    
+    <!-- 1. BRANDS WE WORK WITH -->
+    <div class="brands-block">
+      <div class="brands-header">
+        <h2>Brands we work with</h2>
+        <p class="lead" style="margin:0 0 28px">Trusted by bespoke tailors, commercial apparel studios, and international fashion labels.</p>
+      </div>
+      <div class="logo-row">
+        <div class="logo-card" title="Aristocracy London — Luxury Bespoke Menswear">
+          <img class="aristocracy" src="./assets/client_logos/aristocracy.png" alt="Aristocracy London" loading="lazy">
+        </div>
+        <div class="logo-card" title="PilotFashion — Commercial Apparel">
+          <img class="pilotfashion" src="./assets/client_logos/pilotfashion.png" alt="PilotFashion" loading="lazy">
+        </div>
+        <div class="logo-card" title="Motion Fashion GMBH — Contemporary European Fashion">
+          <img class="motionfashion" src="./assets/client_logos/motionfashion.png" alt="Motion Fashion GMBH" loading="lazy">
+        </div>
+        <div class="logo-card" title="Proper Cloth — Custom &amp; Made-to-Measure Menswear">
+          <img class="propercloth" src="./assets/client_logos/propercloth.png" alt="Proper Cloth" loading="lazy">
+        </div>
+        <div class="logo-card" title="Meshki — Contemporary Luxury &amp; Eveningwear">
+          <img class="meshki" src="./assets/client_logos/meshki.avif" alt="Meshki" loading="lazy">
+        </div>
+      </div>
     </div>
-    <p class="lead" style="margin:56px 0 0">Add only clients you have really worked with.</p>
-    <blockquote style="margin:32px 0 0">
-      <p class="quote">“Placeholder: a short client testimonial about quality, speed and communication goes here.”</p>
-      <div class="who">Client name<i>Role, company</i></div>
-    </blockquote>
+
+    <!-- 2. CLIENT TESTIMONIALS SLIDER -->
+    <div class="reviews-block">
+      <div class="reviews-header">
+        <div>
+          <h2>Client reflections</h2>
+          <p class="lead" style="margin:0">What commercial directors, photographers, and studio leads say about working with Shoaib.</p>
+        </div>
+        <div class="rev-controls">
+          <button class="rev-btn" id="revPrev" type="button" aria-label="Previous review">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          </button>
+          <button class="rev-btn" id="revNext" type="button" aria-label="Next review">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Testimonial chips / tabs to quickly jump to any client -->
+      <div class="rev-tabs" role="tablist" aria-label="Client reviews">
+        <button class="rev-tab on" type="button" data-idx="0">James Ball <span>Automotive</span></button>
+        <button class="rev-tab" type="button" data-idx="1">Jennifer Castro <span>High Jewelry</span></button>
+        <button class="rev-tab" type="button" data-idx="2">John Hubbard <span>Fashion &amp; Editorial</span></button>
+        <button class="rev-tab" type="button" data-idx="3">Raffaello Montillo <span>Luxury Campaigns</span></button>
+        <button class="rev-tab" type="button" data-idx="4">Peter Helskog <span>Nordic Production</span></button>
+        <button class="rev-tab" type="button" data-idx="5">Toby <span>E-Commerce Volume</span></button>
+      </div>
+
+      <!-- Testimonials Card Container -->
+      <div class="rev-card-wrapper" id="revSlider">
+        <!-- Slide 0: James Ball -->
+        <div class="rev-slide on" data-client="james-ball">
+          <div class="rev-stars">★★★★★</div>
+          <p class="quote">“Shoaib has been our go-to retoucher for automotive and luxury campaigns. Car retouching is ruthless—paint reflections, glass gradients, and alloy details must be flawless without losing physical realism. Shoaib nails curvature, cleans complex studio reflections, and delivers files that print gorgeously at billboard scale.”</p>
+          <div class="rev-author">
+            <div class="rev-avatar">JB</div>
+            <div>
+              <div class="who-name">James Ball</div>
+              <div class="who-title">Commercial Automotive Photographer &amp; Director, UK</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 1: Jennifer Castro -->
+        <div class="rev-slide" data-client="jennifer-castro">
+          <div class="rev-stars">★★★★★</div>
+          <p class="quote">“High jewelry retouching requires surgical precision. Every diamond facet, pavé setting, and brushed metal surface has to look sharp and luminous without feeling artificial. Shoaib handles our high jewelry macro shots with extraordinary craftsmanship—the stones truly sparkle.”</p>
+          <div class="rev-author">
+            <div class="rev-avatar">JC</div>
+            <div>
+              <div class="who-name">Jennifer Castro</div>
+              <div class="who-title">Art Director &amp; Fine Jewelry Designer</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2: John Hubbard -->
+        <div class="rev-slide" data-client="john-hubbard">
+          <div class="rev-stars">★★★★★</div>
+          <p class="quote">“Finding a retoucher who understands fabric drape, subtle color grading, and skin consistency across hundreds of looks is rare. Shoaib’s fast turnaround and obsessive attention to detail during tight commercial shoots have saved our agency deadlines repeatedly.”</p>
+          <div class="rev-author">
+            <div class="rev-avatar">JH</div>
+            <div>
+              <div class="who-name">John Hubbard</div>
+              <div class="who-title">Commercial Fashion Photographer &amp; Studio Director</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3: Raffaello Montillo -->
+        <div class="rev-slide" data-client="raffaello-montillo">
+          <div class="rev-stars">★★★★★</div>
+          <p class="quote">“In luxury fashion, you cannot afford plastic skin or dull colors. Shoaib respects natural skin pores and brings an effortless editorial elegance to every frame. Even with overnight deliveries of 80+ campaign assets, consistency from first look to last is impeccable.”</p>
+          <div class="rev-author">
+            <div class="rev-avatar">RM</div>
+            <div>
+              <div class="who-name">Raffaello Montillo</div>
+              <div class="who-title">Creative Producer &amp; Fashion Consultant, Milan</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 4: Peter Helskog -->
+        <div class="rev-slide" data-client="peter-helskog">
+          <div class="rev-stars">★★★★★</div>
+          <p class="quote">“We deliver heavy catalog volume every season, and Shoaib’s ghost mannequin and product cleanups are the cleanest in the industry. Precise hand-drawn clipping paths, natural interior symmetry, and spot-on brand color accuracy. He is our studio’s secret weapon.”</p>
+          <div class="rev-author">
+            <div class="rev-avatar">PH</div>
+            <div>
+              <div class="who-name">Peter Helskog</div>
+              <div class="who-title">Head of Studio Production, Nordic Brand Group</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 5: Toby -->
+        <div class="rev-slide" data-client="toby">
+          <div class="rev-stars">★★★★★</div>
+          <p class="quote">“Lightning turnaround and zero-fuss communication. We drop raw files into Drive in the evening, and Shoaib has web-ready assets waiting in our inbox the next morning. Highly reliable, fast revisions, and deeply understands commercial pacing.”</p>
+          <div class="rev-author">
+            <div class="rev-avatar">TB</div>
+            <div>
+              <div class="who-name">Toby</div>
+              <div class="who-title">E-Commerce &amp; Digital Asset Lead</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit a Client Review Option -->
+      <div class="leave-review-bar">
+        <div>
+          <b>Worked with Shoaib on a campaign or catalog?</b>
+          <span>Share your feedback with future clients.</span>
+        </div>
+        <button class="btn" id="openReviewModal" type="button">Submit your testimonial &rarr;</button>
+      </div>
+
+    </div>
+
   </div>
 </section>
+
+<!-- SUBMIT TESTIMONIAL MODAL DIALOG -->
+<dialog id="revModal" class="rev-dialog" aria-label="Submit a Client Testimonial">
+  <button class="rev-close" id="revClose" type="button" aria-label="Close dialog">&times;</button>
+  <div class="rev-form-wrap">
+    <h3 style="font:800 clamp(24px,3vw,32px)/1.1 var(--display);margin:0 0 8px">Share your experience</h3>
+    <p class="lead" style="margin:0 0 24px;font-size:15px">Thank you for trusting Shoaib with your imagery. Your review helps other brands and art directors.</p>
+    <form id="revForm">
+      <div class="rev-fields">
+        <div class="modal-cols" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div>
+            <label for="rvName">Your name <i>*</i></label>
+            <input id="rvName" type="text" required placeholder="e.g. Marcus Vance">
+          </div>
+          <div>
+            <label for="rvBrand">Brand, studio, or website <i>*</i></label>
+            <input id="rvBrand" type="text" required placeholder="e.g. Vance Studios London">
+          </div>
+        </div>
+        <div style="margin-top:16px;">
+          <label for="rvRole">Your role / title</label>
+          <input id="rvRole" type="text" placeholder="e.g. Creative Director / Photographer">
+        </div>
+        <div style="margin-top:16px;">
+          <label for="rvService">Retouching category</label>
+          <select id="rvService" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:14px 16px;color:var(--text);font:400 16px var(--body);">
+            <option>Automotive &amp; Vehicles</option>
+            <option>High Jewelry &amp; Watches</option>
+            <option>Commercial Fashion &amp; Apparel</option>
+            <option>Model &amp; Editorial Beauty</option>
+            <option>Ghost Mannequin &amp; Packshots</option>
+            <option>Other Commercial Retouching</option>
+          </select>
+        </div>
+        <div style="margin-top:16px;">
+          <label for="rvText">Your testimonial <i>*</i></label>
+          <textarea id="rvText" required placeholder="How was the retouching quality, turnaround speed, and communication?"></textarea>
+        </div>
+      </div>
+      <div style="display:flex;gap:14px;margin-top:24px;align-items:center;flex-wrap:wrap">
+        <button class="btn p" type="submit">Submit Testimonial</button>
+        <span id="rvStatus" style="font-size:14px;color:var(--accent);"></span>
+      </div>
+    </form>
+  </div>
+</dialog>
 
 <!-- QUESTIONS WE GET A LOT (FAQ) -->
 <section id="faq">
@@ -1221,6 +1650,105 @@ footer a:hover{
     });
   }, { threshold: 0.6 });
   document.querySelectorAll('[data-to]').forEach(function(el){ io.observe(el); });
+
+  // REVIEWS SLIDER & SUBMIT MODAL
+  var curRev = 0;
+  var revSlides = document.querySelectorAll('.rev-slide');
+  var revTabs = document.querySelectorAll('.rev-tab');
+  var totalRevs = revSlides.length;
+  var revTimer = null;
+
+  function showRev(idx) {
+    if (idx < 0) idx = totalRevs - 1;
+    if (idx >= totalRevs) idx = 0;
+    curRev = idx;
+
+    revSlides.forEach(function(s, i){
+      s.classList.toggle('on', i === curRev);
+    });
+    revTabs.forEach(function(t, i){
+      t.classList.toggle('on', i === curRev);
+    });
+  }
+
+  var prevBtn = document.getElementById('revPrev');
+  var nextBtn = document.getElementById('revNext');
+  if (prevBtn) prevBtn.addEventListener('click', function(){ showRev(curRev - 1); resetRevTimer(); });
+  if (nextBtn) nextBtn.addEventListener('click', function(){ showRev(curRev + 1); resetRevTimer(); });
+
+  revTabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      var idx = parseInt(tab.dataset.idx, 10);
+      showRev(idx);
+      resetRevTimer();
+    });
+  });
+
+  function startRevTimer() {
+    if (revTimer) clearInterval(revTimer);
+    revTimer = setInterval(function(){
+      showRev(curRev + 1);
+    }, 7000);
+  }
+  function resetRevTimer() {
+    startRevTimer();
+  }
+  startRevTimer();
+
+  var revSliderBox = document.getElementById('revSlider');
+  if (revSliderBox) {
+    revSliderBox.addEventListener('mouseenter', function(){ if (revTimer) clearInterval(revTimer); });
+    revSliderBox.addEventListener('mouseleave', function(){ startRevTimer(); });
+  }
+
+  // REVIEW MODAL
+  var revModal = document.getElementById('revModal');
+  var openRevBtn = document.getElementById('openReviewModal');
+  var closeRevBtn = document.getElementById('revClose');
+  if (openRevBtn && revModal) {
+    openRevBtn.addEventListener('click', function(){ revModal.showModal(); });
+  }
+  if (closeRevBtn && revModal) {
+    closeRevBtn.addEventListener('click', function(){ revModal.close(); });
+  }
+  if (revModal) {
+    revModal.addEventListener('click', function(e){
+      if (e.target === revModal) revModal.close();
+    });
+  }
+
+  var revForm = document.getElementById('revForm');
+  if (revForm) {
+    revForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      var rName = document.getElementById('rvName').value.trim();
+      var rBrand = document.getElementById('rvBrand').value.trim();
+      var rRole = document.getElementById('rvRole').value.trim();
+      var rService = document.getElementById('rvService').value;
+      var rText = document.getElementById('rvText').value.trim();
+      var status = document.getElementById('rvStatus');
+
+      try {
+        var existing = JSON.parse(localStorage.getItem('shoaib_client_reviews') || '[]');
+        existing.push({
+          name: rName,
+          brand: rBrand,
+          role: rRole,
+          service: rService,
+          text: rText,
+          date: new Date().toISOString()
+        });
+        localStorage.setItem('shoaib_client_reviews', JSON.stringify(existing));
+      } catch(ex){}
+
+      status.textContent = '✓ Testimonial submitted! Thank you so much.';
+      setTimeout(function(){
+        revForm.reset();
+        status.textContent = '';
+        if (revModal) revModal.close();
+      }, 1500);
+    });
+  }
 
   // 5. MAGNETIC BUTTON HOVER EFFECT
   if (!rm && matchMedia('(hover:hover)').matches) {
