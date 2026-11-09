@@ -69,6 +69,7 @@ header .wrap{
   display:flex;
   align-items:center;
   justify-content:space-between;
+  gap:16px;
   height:68px;
 }
 .logo{
@@ -77,6 +78,8 @@ header .wrap{
   display:flex;
   align-items:center;
   gap:6px;
+  white-space:nowrap;
+  flex-shrink:0;
 }
 .logo sup{
   font-size:10px;
@@ -85,9 +88,10 @@ header .wrap{
 nav{
   display:flex;
   align-items:center;
-  gap:26px;
+  gap:clamp(16px,1.8vw,24px);
   color:var(--muted);
   font-size:15px;
+  white-space:nowrap;
 }
 nav a{
   transition:color .2s;
@@ -99,6 +103,7 @@ nav a:hover{
   display:flex;
   align-items:center;
   gap:12px;
+  flex-shrink:0;
 }
 
 /* BUTTONS */
@@ -1015,8 +1020,10 @@ footer a:hover{
 }
 
 /* RESPONSIVE */
-@media(max-width:780px){
+@media(max-width:940px){
   nav{display:none}
+}
+@media(max-width:780px){
   .row{flex-direction:column;align-items:flex-start;gap:10px}
   form{grid-template-columns:1fr}
   footer .g{grid-template-columns:1fr 1fr}
@@ -1244,6 +1251,7 @@ footer a:hover{
     <nav>
       <a href="#work">What We Retouch</a>
       <a href="services.html">Services</a>
+      <a href="studio.html">Studio</a>
       <a href="#process">Process</a>
       <a href="#faq">FAQ</a>
       <a href="work.html">Portfolio</a>
@@ -1664,6 +1672,9 @@ footer a:hover{
       <div><b data-to="100">0</b><small>percent manual paths</small></div>
       <div><b data-to="5">0</b><small>retouching specialties</small></div>
     </div>
+    <div style="margin-top:36px">
+      <a class="btn mag" href="studio.html">Meet Our Studio &amp; Team &rarr;</a>
+    </div>
   </div>
 </section>
 
@@ -1952,6 +1963,7 @@ footer a:hover{
       </div>
       <div>
         <h4>Studio</h4>
+        <a href="studio.html">Our Studio &amp; Team</a>
         <a href="#process">Process</a>
         <a href="#faq">FAQ</a>
         <a href="#contact">Free trial</a>
