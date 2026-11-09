@@ -1,1260 +1,673 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Core retouching disciplines of Retoucher Shoaib®: Luxury jewelry, fashion apparel 3D ghost mannequin, high-end editorial beauty portraiture, packshots, and cosmetics.">
-<title>Services & Disciplines | Retoucher Shoaib®</title>
+<meta name="description" content="Core retouching disciplines of Retoucher Shoaib®: Luxury jewelry and watches, fashion and clothing 3D ghost mannequin, editorial beauty portraiture, e-commerce product retouching, and creative still life.">
+<title>Services — Retoucher Shoaib</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap">
 <style>
-:root {
-  --bg: #ffffff;
-  --fg: #0a0a0a;
-  --mut: #82827e;
-  --line: #e8e8e4;
-  --soft: #f7f6f3;
-  --card: #ffffff;
-  --accent: #f26a1b;
-  --f: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --f-display: 'Plus Jakarta Sans', var(--f);
-  color-scheme: light;
-  box-sizing: border-box;
+:root{
+  --bg:#0a0a0b;
+  --surface:#141416;
+  --text:#f1f1ec;
+  --muted:#8b8b86;
+  --line:rgba(255,255,255,.12);
+  --accent:#c8f135;
+  --on-accent:#0a0a0b;
+  --display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+  --body:"DM Sans","Helvetica Neue",Arial,sans-serif;
+  color-scheme:dark;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{
+  scroll-padding-top:calc(env(safe-area-inset-top,0px) + 136px);
+  background:var(--bg);
+  scroll-behavior:smooth;
+}
+*,*::before,*::after{
+  box-sizing:inherit;
+}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font:400 17px/1.6 var(--body);
+  overflow-x:clip;
+  -webkit-font-smoothing:antialiased;
+}
+a{
+  color:inherit;
+  text-decoration:none;
+}
+.wrap{
+  max-width:1240px;
+  margin:0 auto;
+  padding:0 clamp(20px,4vw,48px);
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; scroll-padding-top: 70px; }
-body {
-  background: var(--bg);
-  color: var(--fg);
-  font: 400 15px/1.6 var(--f);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
+/* UNIFIED HEADER & NAVIGATION */
+header{
+  position:fixed;
+  inset:0 0 auto;
+  z-index:100;
+  padding-top:env(safe-area-inset-top,0px);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  background:color-mix(in srgb,var(--bg) 75%,transparent);
+  border-bottom:1px solid rgba(255,255,255,.06);
 }
-a { color: inherit; text-decoration: none; }
-img { display: block; max-width: 100%; }
-
-.w { max-width: 1360px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 56px); }
-
-/* NAVBAR */
-nav#navbar {
-  position: sticky;
-  top: 0;
-  width: 100%;
-  z-index: 100;
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: saturate(180%) blur(16px);
-  -webkit-backdrop-filter: saturate(180%) blur(16px);
-  border-bottom: 1px solid var(--line);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 clamp(20px, 4vw, 56px);
-  height: 64px;
+header .wrap{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:68px;
 }
-
-.nav-brand {
-  font-family: var(--f-display);
-  font-weight: 800;
-  font-size: 15px;
-  letter-spacing: -0.03em;
-  color: var(--fg);
+.logo{
+  font:800 19px var(--display);
+  letter-spacing:-.01em;
+  display:flex;
+  align-items:center;
+  gap:6px;
 }
-.nav-brand sup { color: var(--accent); font-size: 0.65em; margin-left: 2px; }
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: clamp(16px, 2.4vw, 32px);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+.logo sup{
+  font-size:10px;
+  color:var(--accent);
 }
-
-.nav-links a {
-  position: relative;
-  padding: 6px 0;
-  color: #666;
-  transition: color 0.2s ease;
+nav{
+  display:flex;
+  align-items:center;
+  gap:26px;
+  color:var(--muted);
+  font-size:15px;
 }
-.nav-links a:hover, .nav-links a.active { color: var(--fg); }
-.nav-links a::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0%;
-  height: 2px;
-  background: var(--fg);
-  transition: width 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+nav a{
+  transition:color .2s;
 }
-.nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
-
-.nav-time {
-  font-size: 11px;
-  color: var(--mut);
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+nav a:hover{
+  color:var(--text);
+}
+nav a.cur{
+  color:var(--accent);
+  font-weight:600;
+}
+.nav-actions{
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 22px;
-  border-radius: 99px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  background: var(--fg);
-  color: #fff;
-  transition: all 0.2s ease;
+/* BUTTONS */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:13px 26px;
+  border-radius:99px;
+  font:500 15px var(--body);
+  border:1px solid var(--line);
+  background:none;
+  color:var(--text);
+  cursor:pointer;
+  transition:transform .25s ease,background .25s,color .25s,border-color .25s;
 }
-.btn:hover { background: #222; transform: translateY(-1px); }
-
-
-/* LUXURY MOBILE NAVIGATION DRAWER */
-.nav-mob-toggle {
-  display: none;
-  background: #ffffff;
-  border: 1px solid var(--line);
-  border-radius: 99px;
-  width: 36px;
-  height: 36px;
-  cursor: pointer;
-  padding: 0;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 4px;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
+.btn.p{
+  background:var(--accent);
+  color:var(--on-accent);
+  border-color:var(--accent);
+  font-weight:600;
+}
+.btn:hover{
+  background:var(--text);
+  color:var(--bg);
+  border-color:var(--text);
+}
+.btn.p:hover{
+  background:#ffffff;
+  color:#000000;
+  border-color:#ffffff;
+  transform:scale(1.02);
 }
 
-.nav-mob-toggle span {
-  display: block;
-  width: 16px;
-  height: 2px;
-  background: var(--fg);
-  border-radius: 2px;
-  transition: transform 0.25s ease, opacity 0.25s ease;
+/* HERO */
+.hero{
+  padding:150px 0 30px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:"";
+  position:absolute;
+  width:55vmax;
+  height:55vmax;
+  right:-22vmax;
+  top:-18vmax;
+  background:radial-gradient(circle,color-mix(in srgb,var(--accent) 20%,transparent),transparent 62%);
+  animation:drift 14s ease-in-out infinite alternate;
+  pointer-events:none;
+}
+@keyframes drift{
+  to{transform:translate(-8vmax,8vmax) scale(1.15)}
+}
+h1{
+  font:800 clamp(56px,12vw,190px)/.92 var(--display);
+  letter-spacing:-.04em;
+  margin:0 0 24px;
+  position:relative;
+}
+h1 .l{
+  display:block;
+  overflow:hidden;
+  padding-bottom:.08em;
+}
+h1 .l span{
+  display:inline-block;
+  transform:translateY(110%);
+  animation:up 1.1s cubic-bezier(.2,.8,.2,1) .2s forwards;
+}
+@keyframes up{
+  to{transform:none}
+}
+.sub{
+  max-width:560px;
+  color:var(--muted);
+  margin:0 0 8px;
+  opacity:0;
+  animation:fade .9s .8s forwards;
+}
+.spec{
+  color:var(--muted);
+  font-size:14px;
+  opacity:0;
+  animation:fade .9s 1s forwards;
+}
+.spec b{
+  color:var(--accent);
+  font-weight:500;
+}
+@keyframes fade{
+  to{opacity:1}
 }
 
-.nav-mob-toggle:hover {
-  background: var(--soft);
-  border-color: #aaa;
+/* STICKY SUB-NAVIGATION BAR */
+.bar{
+  position:sticky;
+  top:calc(env(safe-area-inset-top,0px) + 68px);
+  z-index:25;
+  background:color-mix(in srgb,var(--bg) 85%,transparent);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+  margin-top:40px;
+}
+.bar .wrap{
+  display:flex;
+  gap:8px;
+  padding-block:14px;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.bar .wrap::-webkit-scrollbar{
+  display:none;
+}
+.bar a{
+  flex:none;
+  padding:9px 18px;
+  border-radius:99px;
+  border:1px solid var(--line);
+  color:var(--muted);
+  font-size:15px;
+  transition:.25s;
+}
+.bar a:hover{
+  color:var(--text);
+  border-color:var(--text);
+}
+.bar a.on{
+  background:var(--accent);
+  color:var(--on-accent);
+  border-color:var(--accent);
+  font-weight:500;
 }
 
-.nav-mob-toggle.is-active span:nth-child(1) {
-  transform: translateY(3px) rotate(45deg);
+/* DEPARTMENT SECTIONS */
+.dep{
+  padding:clamp(60px,9vw,120px) 0;
+  border-bottom:1px solid var(--line);
 }
+.dep .wrap{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:clamp(28px,6vw,96px);
+  align-items:center;
+}
+.dep:nth-of-type(even) .ph{
+  order:2;
+}
+.ph{
+  position:relative;
+  aspect-ratio:4/5;
+  border-radius:22px;
+  overflow:hidden;
+  background:var(--surface);
+  clip-path:inset(0 0 100% 0);
+  transition:clip-path 1.1s cubic-bezier(.2,.8,.2,1);
+}
+.dep.in .ph{
+  clip-path:inset(0);
+}
+.ph img{
+  position:absolute;
+  top:-3%;
+  left:0;
+  width:100%;
+  height:108%;
+  object-fit:cover;
+  object-position:center 25%;
+  will-change:transform;
+}
+.num{
+  font:800 18px var(--display);
+  color:var(--accent);
+  display:flex;
+  gap:14px;
+  align-items:center;
+  margin-bottom:18px;
+}
+.num span{
+  color:var(--muted);
+  font:500 14px var(--body);
+}
+.dep h2{
+  font:800 clamp(34px,4.6vw,64px)/1 var(--display);
+  letter-spacing:-.03em;
+  margin:0 0 12px;
+}
+.tg{
+  color:var(--accent);
+  font-size:15px;
+  margin:0 0 22px;
+}
+.dep p.d{
+  color:var(--muted);
+  margin:0 0 26px;
+  max-width:520px;
+}
+.caps{
+  list-style:none;
+  margin:0 0 30px;
+  padding:0;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0 24px;
+}
+.caps li{
+  padding:11px 0;
+  border-top:1px solid var(--line);
+  font-size:15px;
+  transition:padding .35s cubic-bezier(.2,.8,.2,1),color .3s;
+}
+.caps li::before{
+  content:"+";
+  color:var(--accent);
+  margin-right:10px;
+}
+.caps li:hover{
+  padding-left:10px;
+  color:var(--accent);
+}
+.dep .tx>*{
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity .8s,transform .8s cubic-bezier(.2,.8,.2,1);
+}
+.dep.in .tx>*{
+  opacity:1;
+  transform:none;
+}
+.dep.in .tx>*:nth-child(2){transition-delay:.08s}
+.dep.in .tx>*:nth-child(3){transition-delay:.16s}
+.dep.in .tx>*:nth-child(4){transition-delay:.24s}
+.dep.in .tx>*:nth-child(5){transition-delay:.32s}
+.dep.in .tx>*:nth-child(6){transition-delay:.4s}
 
-.nav-mob-toggle.is-active span:nth-child(2) {
-  transform: translateY(-3px) rotate(-45deg);
+/* CTA SECTION */
+.cta{
+  padding:clamp(80px,12vw,160px) 0;
 }
-
-.mob-menu-overlay {
-  display: none !important;
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
-  background: rgba(10, 10, 10, 0.48);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 99999;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+.cta h2{
+  font:800 clamp(38px,7vw,104px)/.98 var(--display);
+  letter-spacing:-.035em;
+  margin:0 0 20px;
 }
-
-.mob-menu-overlay.is-open {
-  display: block !important;
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.mob-menu-drawer {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: min(86vw, 360px);
-  height: 100%;
-  height: 100dvh;
-  background: #ffffff;
-  box-shadow: -15px 0 40px rgba(0, 0, 0, 0.16);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 22px 20px 24px;
-  box-sizing: border-box;
-  transform: translateX(100%);
-  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.mob-menu-overlay.is-open .mob-menu-drawer {
-  transform: translateX(0);
-}
-
-.mob-drawer-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--line);
-}
-
-.mob-drawer-brand {
-  font-family: var(--f-display);
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--fg);
-}
-
-.mob-drawer-brand sup {
-  font-size: 9px;
-  color: var(--accent);
-}
-
-.mob-drawer-close {
-  background: var(--soft);
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  font-size: 18px;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--fg);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.mob-drawer-close:hover {
-  background: #e8e8e4;
-}
-
-.mob-drawer-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  padding: 16px 0;
-}
-
-.mob-nav-link {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 11px 10px;
-  border-radius: 8px;
-  transition: background 0.2s ease, transform 0.15s ease;
-  color: var(--fg);
-  text-decoration: none;
-}
-
-.mob-nav-link:hover, .mob-nav-link:active, .mob-nav-link.active {
-  background: var(--soft);
-}
-
-.mob-nav-link.active .mob-nav-text {
-  color: var(--accent);
-}
-
-.mob-nav-idx {
-  font-family: var(--f-display);
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--accent);
-  letter-spacing: 0.05em;
-  width: 20px;
-}
-
-.mob-nav-text {
-  font-family: var(--f-display);
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-.mob-drawer-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 14px 0;
-  border-top: 1px solid var(--line);
-}
-
-.mob-act-btn {
-  width: 100%;
-  text-align: center;
-  padding: 11px 16px !important;
-  font-size: 13px !important;
-  font-weight: 700 !important;
-  box-sizing: border-box;
-}
-
-.mob-act-btn.accent-fill {
-  background: var(--fg);
-  color: #fff;
-}
-
-.mob-act-btn.accent-fill:hover {
-  background: var(--accent);
-}
-
-.mob-drawer-footer {
-  padding-top: 12px;
-  border-top: 1px solid var(--line);
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.mob-drawer-time {
-  font-size: 10.5px;
-  font-weight: 600;
-  color: var(--mut);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.mob-drawer-contact {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  font-size: 12px;
-}
-
-.mob-drawer-contact a {
-  color: #555;
-  text-decoration: none;
-}
-
-.mob-drawer-contact a:hover {
-  color: var(--accent);
-}
-
-@media (max-width: 860px) {
-  .nav-mob-toggle {
-    display: inline-flex !important;
-  }
-  
-}
-
-@media (max-width: 440px) {
-  #navMainCtaBtn {
-    display: none !important;
-  }
-}
-
-@media (max-width: 860px) {
-  .nav-links, .nav-time { display: none !important; }
-  #navbar { padding: 12px 18px; }
-  .nav-brand { font-size: 15px; }
-  #navbar .btn.sm { padding: 6px 11px; font-size: 11px; }
-}
-
-/* PAGE HEADER */
-.page-header {
-  padding: 90px 0 50px;
-  border-bottom: 1px solid var(--line);
-}
-.page-title {
-  font-family: var(--f-display);
-  font-size: clamp(34px, 8.5vw, 110px);
-  font-weight: 800;
-  letter-spacing: -0.055em;
-  line-height: 0.95;
-  margin-bottom: 20px;
-}
-.page-eyebrow {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 12px;
-}
-.page-lead {
-  font-size: clamp(16px, 1.8vw, 22px);
-  line-height: 1.5;
-  color: #444;
-  max-width: 780px;
-}
-
-/* SERVICES SECTION (FROM v6.html) */
-.services-section {
-  padding: 60px 0 100px;
-}
-
-.section-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding-bottom: 24px;
-  border-bottom: 2px solid var(--fg);
-  margin-bottom: 20px;
-}
-.section-head h2 {
-  font-family: var(--f-display);
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-.section-head span {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--mut);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.service-row {
-  display: grid;
-  grid-template-columns: 80px 1.15fr 1.35fr;
-  gap: 36px;
-  padding: 48px 0;
-  border-bottom: 1px solid var(--line);
-  align-items: flex-start;
-  transition: background 0.25s ease, opacity 0.3s ease;
-  cursor: pointer;
-}
-
-.service-main, .service-num {
-  transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), color 0.25s ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .services-section:has(.service-row:hover) .service-row:not(:hover) {
-    opacity: 0.38;
-  }
-  .service-row:hover .service-main {
-    transform: translateX(12px);
-  }
-  .service-row:hover .service-num {
-    color: var(--accent);
-  }
-}
-
-.service-num {
-  font-family: var(--f-display);
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--mut);
-  letter-spacing: -0.03em;
-}
-
-.service-row.primary .service-num {
-  color: var(--accent);
-}
-
-.service-main h3 {
-  font-family: var(--f-display);
-  font-size: clamp(22px, 2.7vw, 38px);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1.15;
-  margin-bottom: 10px;
-}
-
-.service-badge-tag {
-  display: inline-block;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent);
-  background: rgba(242, 106, 27, 0.08);
-  padding: 4px 10px;
-  border-radius: 99px;
-  margin-bottom: 10px;
-}
-
-.service-badge-sub {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--mut);
-  margin-bottom: 8px;
-}
-
-.service-desc p {
-  font-size: 15px;
-  line-height: 1.7;
-  color: #555;
-  margin-bottom: 20px;
-}
-
-.service-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.pill {
-  font-size: 11px;
-  font-weight: 600;
-  color: #333;
-  background: #f0f0ed;
-  padding: 6px 14px;
-  border-radius: 99px;
-  letter-spacing: 0.02em;
-}
-
-/* FLOATING CURSOR-FOLLOWING PREVIEW CARD (EXACTLY FROM v6.html) */
-#svcPreview {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: clamp(230px, 20vw, 310px);
-  aspect-ratio: 3 / 4;
-  border-radius: 16px;
-  overflow: hidden;
-  z-index: 250;
-  pointer-events: none;
-  opacity: 0;
-  scale: 0.9;
-  background: var(--soft);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 32px 75px -12px rgba(0, 0, 0, 0.32);
-  transition: opacity 0.3s ease, scale 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
-  will-change: transform;
-}
-
-#svcPreview.show {
-  opacity: 1;
-  scale: 1;
-}
-
-#svcPreview img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transform: scale(1.1);
-  transition: opacity 0.4s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
-}
-
-#svcPreview img.on {
-  opacity: 1;
-  transform: none;
-}
-
-.svc-tag {
-  position: absolute;
-  bottom: 14px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(10, 10, 10, 0.82);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: #ffffff;
-  font: 700 11px var(--f);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 6px 14px;
-  border-radius: 99px;
-  white-space: nowrap;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.svc-thumb {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  object-fit: cover;
-  border-radius: 12px;
-  margin-top: 16px;
-}
-
-@media (max-width: 900px) {
-  .service-row {
-    grid-template-columns: 1fr;
-    gap: 16px;
-    padding: 36px 0;
-  }
-}
-
-/* TRIAL BANNER CTA */
-.trial-banner {
-  background: #0a0a0a;
-  color: #ffffff;
-  border-radius: 20px;
-  padding: clamp(40px, 6vw, 70px);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 30px;
-  margin-bottom: 90px;
-}
-.trial-banner h2 {
-  font-family: var(--f-display);
-  font-size: clamp(26px, 3.6vw, 46px);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 1.1;
-  margin-bottom: 12px;
-}
-.trial-banner p {
-  color: #a0a09e;
-  font-size: 15px;
-  max-width: 520px;
-}
-.trial-banner .btn {
-  background: #ffffff;
-  color: #0a0a0a;
-  font-size: 13px;
-  padding: 14px 28px;
-  white-space: nowrap;
-}
-.trial-banner .btn:hover {
-  background: var(--accent);
-  color: #ffffff;
-}
-@media (max-width: 800px) {
-  .trial-banner { flex-direction: column; text-align: center; }
+.cta p{
+  color:var(--muted);
+  max-width:560px;
+  margin:0 0 32px;
 }
 
 /* FOOTER */
-footer {
-  padding: 80px 0 40px;
-  border-top: 1px solid var(--line);
-  background: #ffffff;
+footer{
+  border-top:1px solid var(--line);
+  padding:64px 0 32px;
+  color:var(--muted);
+  font-size:15px;
+}
+footer .g{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:36px;
+  margin-bottom:48px;
+}
+footer h4{
+  margin:0 0 14px;
+  color:var(--text);
+  font:800 17px var(--display);
+}
+footer a{
+  display:block;
+  padding:4px 0;
+  transition:color .2s;
+}
+footer a:hover{
+  color:var(--accent);
 }
 
-.footer-giant-logo {
-  font-family: var(--f-display);
-  font-size: clamp(38px, 9.8vw, 142px);
-  font-weight: 800;
-  letter-spacing: -0.065em;
-  line-height: 0.85;
-  color: var(--fg);
-  margin-bottom: 50px;
-  cursor: pointer;
+/* FOCUS & RESPONSIVE */
+.btn:focus-visible,.bar a:focus-visible,a:focus-visible{
+  outline:2px solid var(--text);
+  outline-offset:3px;
 }
-
-.footer-grid {
-  display: grid;
-  grid-template-columns: 1.5fr repeat(3, 1fr);
-  gap: 30px;
-  padding-bottom: 50px;
-  border-bottom: 1px solid var(--line);
+@media(max-width:860px){
+  nav{display:none}
+  .dep .wrap{grid-template-columns:1fr}
+  .dep:nth-of-type(even) .ph{order:0}
+  .ph{aspect-ratio:4/3}
+  .caps{grid-template-columns:1fr}
+  footer .g{grid-template-columns:1fr 1fr}
 }
-
-.footer-col h5 {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--mut);
-  margin-bottom: 18px;
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-delay:0s!important;
+    transition-duration:.01ms!important;
+  }
+  h1 .l span{transform:none}
+  .sub,.spec{opacity:1}
+  .ph{clip-path:inset(0)}
+  .dep .tx>*{opacity:1;transform:none}
+  html{scroll-behavior:auto}
 }
-.footer-col ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  font-size: 14px;
-}
-.footer-col a { color: #444; transition: color 0.2s ease; }
-.footer-col a:hover { color: var(--fg); }
-
-.footer-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 30px;
-  font-size: 12px;
-  color: var(--mut);
-}
-
-@media (max-width: 768px) {
-
-  /* LUXURY MOBILE PADDING & CONTAINMENT: NO TEXT OR IMAGE EVER CLIPS */
-  .w,
-  .page-header.w,
-  .services-section.w {
-    padding-left: 20px !important;
-    padding-right: 20px !important;
-    box-sizing: border-box !important;
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-  .page-header {
-    padding-top: 44px !important;
-    padding-bottom: 30px !important;
-  }
-  .services-section {
-    padding-top: 20px !important;
-    padding-bottom: 70px !important;
-  }
-  .svc-thumb {
-    width: 100% !important;
-    display: block !important;
-    border-radius: 12px !important;
-    margin-top: 16px !important;
-    box-sizing: border-box !important;
-  }
-  .service-row {
-    padding: 30px 0 !important;
-    box-sizing: border-box !important;
-    width: 100% !important;
-  }
-  .service-desc p {
-    font-size: 14px !important;
-    line-height: 1.6 !important;
-    word-break: break-word !important;
-  }
-  .trial-banner {
-    padding: 32px 20px !important;
-    flex-direction: column !important;
-    text-align: center !important;
-    align-items: center !important;
-  }
-
-  .service-pills .pill {
-    padding: 6px 12px !important;
-    font-size: 11.5px !important;
-  }
-  .footer-grid .footer-col:first-child {
-    grid-column: 1 / -1 !important;
-  }
-  .footer-grid .footer-col:first-child p {
-    max-width: 100% !important;
-  }
-  .section-head {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 8px !important;
-    padding-bottom: 16px !important;
-  }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
-  .footer-bottom {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 8px !important;
-  }
-}
-
-/* FOOTER GIANT LOGO SLICE ANIMATION (100% STATIC, NO TRANSLATE) */
-@property --g {
-  syntax: '<length>';
-  inherits: false;
-  initial-value: 0px;
-}
-@keyframes slice {
-  0%, 100% { --g: 0px; }
-  45% { --g: 6px; }
-}
-.footer-giant-logo.slice {
-  animation: slice 1.4s ease-in-out;
-  -webkit-mask-image: repeating-linear-gradient(#000 0 calc(10px - var(--g)), transparent calc(10px - var(--g)) 10px);
-  mask-image: repeating-linear-gradient(#000 0 calc(10px - var(--g)), transparent calc(10px - var(--g)) 10px);
-}
-
 </style>
 </head>
 <body>
-<nav id="navbar">
-  <a href="index.html" class="nav-brand">
-    RETOUCHER SHOAIB<sup>&reg;</sup>
-  </a>
 
-  <div class="nav-links">
-    <a href="work.html" class="show-mob">Work</a>
-    <a href="services.html" class="show-mob active">Services</a>
-    <a href="studio.html">Studio</a>
-    <a href="feed.html">Feed</a>
-    <a href="contact.html" class="show-mob">Contact</a>
-    
-  </div>
-
-  <div class="nav-time" id="liveTimeIndicator">
-    NYC 08:30 AM • BERLIN 01:30 PM
-  </div>
-
-  <div style="display: flex; gap: 8px; align-items: center;">
-    <a href="portal.html" class="btn sm outline" id="navClientAccessBtn" style="font-weight: 700;">Log In</a>
-    <a href="contact.html" class="btn sm" id="navMainCtaBtn">Free Trial</a>
-    <button type="button" class="nav-mob-toggle" id="navMobToggle" onclick="toggleMobileMenu()" aria-label="Toggle navigation menu" aria-expanded="false">
-      <span></span>
-      <span></span>
-    </button>
-  </div>
-</nav>
-
-<!-- LUXURY MOBILE DRAWER MENU -->
-<div class="mob-menu-overlay" id="mobMenuOverlay" onclick="closeMobileMenu(event)">
-  <div class="mob-menu-drawer" id="mobMenuDrawer">
-    <div class="mob-drawer-header">
-      <div class="mob-drawer-brand">
-        RETOUCHER SHOAIB<sup>&reg;</sup>
-      </div>
-      <button type="button" class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close Menu">
-        &times;
-      </button>
-    </div>
-
-    <div class="mob-drawer-nav">
-      <a href="index.html" class="mob-nav-link" id="mobNavLinkHome" onclick="closeMobileMenu()">
-        <span class="mob-nav-idx">01</span>
-        <span class="mob-nav-text">Home</span>
-      </a>
-      <a href="work.html" class="mob-nav-link" id="mobNavLinkWork" onclick="closeMobileMenu()">
-        <span class="mob-nav-idx">02</span>
-        <span class="mob-nav-text">Work / Portfolio</span>
-      </a>
-      <a href="services.html" class="mob-nav-link active" id="mobNavLinkServices" onclick="closeMobileMenu()">
-        <span class="mob-nav-idx">03</span>
-        <span class="mob-nav-text">Services & Disciplines</span>
-      </a>
-      <a href="studio.html" class="mob-nav-link" id="mobNavLinkStudio" onclick="closeMobileMenu()">
-        <span class="mob-nav-idx">04</span>
-        <span class="mob-nav-text">Studio Philosophy</span>
-      </a>
-      <a href="feed.html" class="mob-nav-link" id="mobNavLinkFeed" onclick="closeMobileMenu()">
-        <span class="mob-nav-idx">05</span>
-        <span class="mob-nav-text">Studio Feed & Proofs</span>
-      </a>
-      <a href="contact.html" class="mob-nav-link" id="mobNavLinkContact" onclick="closeMobileMenu()">
-        <span class="mob-nav-idx">06</span>
-        <span class="mob-nav-text">Contact & Free Trial</span>
-      </a>
-    </div>
-
-    <div class="mob-drawer-actions">
-      <a href="portal.html" class="btn sm outline mob-act-btn" id="mobDrawerClientBtn">Client Portal Log In 🔒</a>
-      <a href="contact.html" class="btn sm mob-act-btn accent-fill" id="mobDrawerCtaBtn">Start Free Trial &rarr;</a>
-    </div>
-
-    <div class="mob-drawer-footer">
-      <div class="mob-drawer-time" id="mobDrawerTime">NYC 08:30 AM &bull; BERLIN 01:30 PM</div>
-      <div class="mob-drawer-contact">
-        <a href="https://wa.me/8801710763251" target="_blank" rel="noopener">💬 WhatsApp Studio Direct &nearr;</a>
-        <a href="mailto:retouchershoaib@gmail.com">retouchershoaib@gmail.com</a>
-      </div>
+<header>
+  <div class="wrap">
+    <a class="logo" href="index.html">Retoucher Shoaib<sup>&reg;</sup></a>
+    <nav>
+      <a href="index.html#work">What We Retouch</a>
+      <a class="cur" href="services.html">Services</a>
+      <a href="index.html#process">Process</a>
+      <a href="index.html#faq">FAQ</a>
+      <a href="work.html">Portfolio</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="btn p" id="navAuthBtn" href="portal.html">Log In</a>
     </div>
   </div>
-</div>
-
-
-<!-- PAGE HEADER -->
-<header class="page-header w">
-  <div class="page-eyebrow">Studio Capabilities</div>
-  <h1 class="page-title">Services & Disciplines</h1>
-  <p class="page-lead">
-    We elevate raw commercial imagery into editorial masterpieces for luxury labels, high-fashion houses, and international commercial brands.
-  </p>
 </header>
 
-<!-- MAIN SERVICES SECTION (WITH HOVER PREVIEW) -->
-<main class="w services-section" id="servicesSection">
-  <div class="section-head">
-    <h2>05 Specialized Post-Production Departments</h2>
-    <span>Non-Destructive • 16-Bit ProPhoto</span>
-  </div>
-
-  <!-- Service 01: Jewelry Retouching -->
-  <div class="service-row primary" data-index="0" data-img="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=1000&q=85">
-    <div class="service-num">01 /</div>
-    <div class="service-main">
-      <div class="service-badge-tag">Flagship Expertise</div>
-      <h3>Luxury Jewelry & Watch Retouching</h3>
-      <div class="service-badge-sub">Diamond Clarity • Metallic Luster • Crystal Reflections</div>
-    </div>
-    <div class="service-desc">
-      <p>
-        Specialized macro post-production for high-jewelry, diamonds, gemstones, and luxury horology. We remove microscopic dust, micro-scratches, and welding marks while preserving genuine faceting, brilliance, and authentic metal luster.
-      </p>
-      <div class="service-pills">
-        <span class="pill">Diamond & Gemstone Brilliance</span>
-        <span class="pill">Focus Stacking Alignment</span>
-        <span class="pill">Metal Luster Polishing</span>
-        <span class="pill">Dial & Crystal Anti-Reflection</span>
-        <span class="pill">Gold & Platinum Balancing</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Service 02: Fashion & Clothing Retouching -->
-  <div class="service-row primary" data-index="1" data-img="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1000&q=85">
-    <div class="service-num">02 /</div>
-    <div class="service-main">
-      <div class="service-badge-tag">Flagship Expertise</div>
-      <h3>Fashion & Clothing Retouching</h3>
-      <div class="service-badge-sub">3D Ghost Mannequin • Editorial Draping • Cloth Weave</div>
-    </div>
-    <div class="service-desc">
-      <p>
-        High-volume fashion apparel editing with flawless 3D hollow mannequin neck joints, symmetrical shape reshaping, and non-destructive fabric crease refinement. Your garments look naturally tailored and runway-ready without losing authentic cloth weave.
-      </p>
-      <div class="service-pills">
-        <span class="pill">3D Ghost Mannequin & Neck Joint</span>
-        <span class="pill">Symmetry & Hemline Straightening</span>
-        <span class="pill">Wrinkle & Crease Smoothing</span>
-        <span class="pill">Apparel Texture Preservation</span>
-        <span class="pill">Accurate Swatch Color Matching</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Service 03: Model & Beauty Portrait Retouching -->
-  <div class="service-row primary" data-index="2" data-img="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1000&q=85">
-    <div class="service-num">03 /</div>
-    <div class="service-main">
-      <div class="service-badge-tag">Flagship Expertise</div>
-      <h3>Model & Beauty Portrait Retouching</h3>
-      <div class="service-badge-sub">Non-Destructive D&B • Frequency Separation • Epidermal Pore Texture</div>
-    </div>
-    <div class="service-desc">
-      <p>
-        Editorial and commercial beauty retouching that respects real human skin micro-texture. We utilize manual dodge and burn with multi-frequency separation to eliminate blemishes, redness, and stray flyaway hairs while keeping natural skin pores 100% intact.
-      </p>
-      <div class="service-pills">
-        <span class="pill">Natural Skin Texture (Zero Blur)</span>
-        <span class="pill">Dodge & Burn Sculpting</span>
-        <span class="pill">Flyaway Hair & Eyebrow Cleanup</span>
-        <span class="pill">Catchlight & Eye Polish</span>
-        <span class="pill">Skin Tone & Cast Balancing</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Service 04: E-Commerce Product Retouching -->
-  <div class="service-row" data-index="3" data-img="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1000&q=85">
-    <div class="service-num">04 /</div>
-    <div class="service-main">
-      <div class="service-badge-tag" style="color: #444; background: #eee;">High-Volume Production</div>
-      <h3>E-Commerce Product Photo Retouching</h3>
-      <div class="service-badge-sub">Amazon & Shopify Ready • Hand-Drawn Pen Tool Paths</div>
-    </div>
-    <div class="service-desc">
-      <p>
-        Pure white background conversion (#FFFFFF), 100% hand-drawn Photoshop pen tool clipping paths, multi-angle cutouts, and hyper-realistic natural cast or reflection shadows designed to maximize conversion rates on Amazon, Shopify, and Net-a-Porter.
-      </p>
-      <div class="service-pills">
-        <span class="pill">100% Hand-Drawn Clipping Path</span>
-        <span class="pill">Pure White Background</span>
-        <span class="pill">Natural & Drop Shadow Creation</span>
-        <span class="pill">E-Com Spec Compliance</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Service 05: Still Life & Cosmetics Retouching -->
-  <div class="service-row" data-index="4" data-img="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1000&q=85">
-    <div class="service-num">05 /</div>
-    <div class="service-main">
-      <div class="service-badge-tag" style="color: #444; background: #eee;">Commercial Studio</div>
-      <h3>Still Life & Creative Commercial Retouching</h3>
-      <div class="service-badge-sub">Luxury Perfume & Cosmetics • Glassware Reflections</div>
-    </div>
-    <div class="service-desc">
-      <p>
-        Post-production for commercial still life, cosmetics bottles, glassware, and luxury accessories. Perfect balance of highlight diffusion, clean specular reflections, and color grading that commands attention on print and digital billboard campaigns.
-      </p>
-      <div class="service-pills">
-        <span class="pill">Glassware Reflection Control</span>
-        <span class="pill">Cosmetics & Dropper Cleanup</span>
-        <span class="pill">Composite Layer Blending</span>
-        <span class="pill">Luxury Color Grading</span>
-      </div>
-    </div>
-  </div>
-</main>
-
-<!-- TRIAL BANNER CTA -->
-<div class="w">
-  <div class="trial-banner">
-    <div>
-      <h2>Experience Our Precision On Your Own Images</h2>
-      <p>Send us 1 or 2 test photos. We will retouch them according to your exact studio style guide within 12–24 hours — free of charge.</p>
-    </div>
-    <a href="contact.html" class="btn">Request Free Trial &rarr;</a>
+<div class="hero">
+  <div class="wrap">
+    <h1 aria-label="Services."><span class="l"><span>Services.</span></span></h1>
+    <p class="sub">We turn raw commercial images into finished editorial work for luxury labels, fashion houses and commercial brands.</p>
+    <p class="spec"><b>5</b> departments &middot; non-destructive editing &middot; 16-bit ProPhoto</p>
   </div>
 </div>
 
-<footer class="w">
-  <div class="footer-giant-logo">
-    RETOUCHER SHOAIB<sup>&reg;</sup>
+<div class="bar"><div class="wrap" id="bar"></div></div>
+<main id="deps"></main>
+
+<section class="cta" id="cta">
+  <div class="wrap">
+    <h2>Try us on your<br>own images.</h2>
+    <p>Send 1 or 2 test photos. We retouch them to your style guide within 12 to 24 hours, free of charge.</p>
+    <a class="btn p" href="contact.html">Request free trial</a>
   </div>
+</section>
 
-  <div class="footer-grid">
-    <div class="footer-col">
-      <h5>Retoucher Shoaib Studio</h5>
-      <p style="font-size: 14px; line-height: 1.7; color: #555; max-width: 280px;">
-        High-end commercial post-production studio directed by Shoaib. Serving brands across New York, London, Paris, and Milan with unmatched pixel discipline.
-      </p>
+<footer>
+  <div class="wrap">
+    <div class="g">
+      <div>
+        <h4>Retoucher Shoaib</h4>
+        <p style="margin:0;max-width:300px;line-height:1.6">High-end commercial post-production directed by Shoaib. Retouching for jewelry, fashion and beauty brands.</p>
+      </div>
+      <div>
+        <h4>Disciplines</h4>
+        <a href="#jewelry">Jewelry</a>
+        <a href="#fashion">Fashion</a>
+        <a href="#beauty">Beauty</a>
+        <a href="#ecom">E-commerce</a>
+        <a href="#still">Still life</a>
+      </div>
+      <div>
+        <h4>Studio</h4>
+        <a href="index.html">Home</a>
+        <a href="work.html">Portfolio</a>
+        <a href="contact.html">Free trial</a>
+        <a href="portal.html">Client Portal &#x1f512;</a>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <a href="mailto:retouchershoaib@gmail.com">Email Us</a>
+        <a href="https://wa.me/8801710763251" target="_blank" rel="noopener">WhatsApp Direct</a>
+        <a href="https://instagram.com/retouchershoaib" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://linkedin.com/in/retouchershoaib" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
     </div>
-
-    <div class="footer-col">
-      <h5>Core Disciplines</h5>
-      <ul>
-        <li><a href="services.html">Jewelry Retouching</a></li>
-        <li><a href="services.html">Fashion & Clothing</a></li>
-        <li><a href="services.html">Model & Beauty</a></li>
-        <li><a href="services.html">E-Commerce Products</a></li>
-        <li><a href="services.html">Still Life Cosmetics</a></li>
-      </ul>
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:14px;">
+      <div>&copy; 2016&ndash;2026 Retoucher Shoaib&reg;. All Rights Reserved.</div>
+      <div>Handcrafted with pure pixel precision.</div>
     </div>
-
-    <div class="footer-col">
-      <h5>Navigation</h5>
-      <ul>
-        <li><a href="work.html">Selected Works</a></li>
-        <li><a href="services.html">Our Services</a></li>
-        <li><a href="studio.html">Our Studio & Team</a></li>
-        <li><a href="feed.html">Journal & Insights</a></li>
-        <li><a href="contact.html">Free Trial Request</a></li>
-          <li><a href="portal.html">Client Portal</a></li>
-          <li><a href="admin.html" style="color: #ff4d00; font-weight: 700;">Studio Director Console 🔒</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-col">
-      <h5>Connect</h5>
-      <ul>
-        <li><a href="mailto:retouchershoaib@gmail.com">Email Us</a></li>
-        <li><a href="https://wa.me/8801710763251" target="_blank">WhatsApp Direct</a></li>
-        <li><a href="https://linkedin.com" target="_blank">LinkedIn Studio</a></li>
-        <li><a href="https://instagram.com" target="_blank">Instagram Portfolio</a></li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <div>&copy; 2016–2026 Retoucher Shoaib&reg;. All Rights Reserved.</div>
-    <div>Handcrafted with pure pixel precision.</div>
   </div>
 </footer>
 
 <script>
-// LIVE STUDIO TIME SYNC
-function updateStudioTime() {
-  const timeEl = document.getElementById('liveTimeIndicator');
-  const mobTimeEl = document.getElementById('mobDrawerTime');
-  const now = new Date();
-  const nyc = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hour12: true }).format(now);
-  const ber = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit', hour12: true }).format(now);
-  const str = `NYC ${nyc} • BERLIN ${ber}`;
-  if (timeEl) timeEl.textContent = str;
-  if (mobTimeEl) mobTimeEl.textContent = str;
-}
+(function(){
+  var B = './assets/agency_showcase/',
+      rm = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// MOBILE DRAWER LOGIC
-function toggleMobileMenu() {
-  const overlay = document.getElementById('mobMenuOverlay');
-  const toggle = document.getElementById('navMobToggle');
-  if (!overlay) return;
-  const isOpen = overlay.classList.contains('is-open');
-  if (isOpen) {
-    closeMobileMenu();
-  } else {
-    overlay.classList.add('is-open');
-    if (toggle) {
-      toggle.classList.add('is-active');
-      toggle.setAttribute('aria-expanded', 'true');
-    }
-    document.body.style.overflow = 'hidden';
-  }
-}
+  var D = [
+    [
+      'jewelry',
+      'Jewelry',
+      'Luxury jewelry and watch retouching',
+      'Diamond clarity \u00b7 Metallic luster \u00b7 Crystal reflections',
+      'Macro post-production for high jewelry, diamonds, gemstones and fine watches. We remove microscopic dust, scratches and welding marks while keeping real faceting, brilliance and metal luster.',
+      ['Diamond and gemstone brilliance', 'Focus stacking alignment', 'Metal luster polishing', 'Dial and crystal anti-reflection', 'Gold and platinum balancing'],
+      'service_jewelry',
+      'Flagship',
+      'center center'
+    ],
+    [
+      'fashion',
+      'Fashion',
+      'Fashion and clothing retouching',
+      '3D ghost mannequin \u00b7 Editorial draping \u00b7 Cloth weave',
+      'High-volume apparel editing with clean hollow-mannequin necklines, symmetrical shape correction and non-destructive crease refinement. Garments look tailored and runway-ready, with the real weave intact.',
+      ['3D ghost mannequin and neck joints', 'Symmetry and hemline straightening', 'Wrinkle and crease smoothing', 'Fabric texture preservation', 'Accurate swatch color matching'],
+      'service_fashion',
+      'Flagship',
+      'center top'
+    ],
+    [
+      'beauty',
+      'Beauty',
+      'Model and beauty portrait retouching',
+      'Dodge and burn \u00b7 Frequency separation \u00b7 Real pores',
+      'Editorial and commercial beauty retouching that respects real skin. Manual dodge and burn with frequency separation removes blemishes, redness and stray hairs while natural pores stay fully intact.',
+      ['Natural skin texture, zero blur', 'Dodge and burn sculpting', 'Flyaway hair and brow cleanup', 'Catchlight and eye polish', 'Skin tone and cast balancing'],
+      'client_beauty_studio_portrait',
+      'Flagship',
+      '62% top'
+    ],
+    [
+      'ecom',
+      'E-commerce',
+      'E-commerce product retouching',
+      'Marketplace ready \u00b7 Hand-drawn pen tool paths',
+      'Pure white background (#FFFFFF), hand-drawn pen tool clipping paths, multi-angle cutouts, and natural cast or reflection shadows built to meet marketplace specs and lift conversion.',
+      ['100% hand-drawn clipping paths', 'Pure white backgrounds', 'Natural and drop shadows', 'Marketplace spec compliance'],
+      'service_packshot',
+      'High volume',
+      'center center'
+    ],
+    [
+      'still',
+      'Still life',
+      'Still life and creative commercial',
+      'Perfume and cosmetics \u00b7 Glassware reflections',
+      'Post-production for commercial still life, cosmetics, glassware and luxury accessories. Balanced highlight diffusion, clean specular reflections and color grading that holds up in print and large digital formats.',
+      ['Glassware reflection control', 'Cosmetics and dropper cleanup', 'Composite layer blending', 'Luxury color grading'],
+      'work_luxury_perfume',
+      'Commercial studio',
+      'center center'
+    ]
+  ];
 
-function closeMobileMenu(e) {
-  if (e && e.target && e.target.closest && e.target.closest('.mob-menu-drawer') && !e.target.closest('.mob-drawer-close') && !e.target.closest('.mob-nav-link') && !e.target.closest('.mob-act-btn')) {
-    return;
-  }
-  const overlay = document.getElementById('mobMenuOverlay');
-  const toggle = document.getElementById('navMobToggle');
-  if (overlay) overlay.classList.remove('is-open');
-  if (toggle) {
-    toggle.classList.remove('is-active');
-    toggle.setAttribute('aria-expanded', 'false');
-  }
-  document.body.style.overflow = '';
-}
+  var main = document.getElementById('deps'),
+      bar = document.getElementById('bar');
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeMobileMenu();
-});
+  main.innerHTML = D.map(function(d, i){
+    var n = '0' + (i + 1);
+    return '<section class="dep" id="' + d[0] + '">' +
+      '<div class="wrap">' +
+        '<div class="ph"><img src="' + B + d[6] + '.jpg" alt="' + d[2] + ' sample" loading="' + (i === 0 ? 'eager' : 'lazy') + '" decoding="async" style="object-position:' + d[8] + '"></div>' +
+        '<div class="tx">' +
+          '<div class="num">' + n + '<span>' + d[7] + '</span></div>' +
+          '<h2>' + d[2] + '</h2>' +
+          '<p class="tg">' + d[3] + '</p>' +
+          '<p class="d">' + d[4] + '</p>' +
+          '<ul class="caps">' + d[5].map(function(c){ return '<li>' + c + '</li>'; }).join('') + '</ul>' +
+          '<a class="btn" href="contact.html">Try ' + d[1].toLowerCase() + ' for free</a>' +
+        '</div>' +
+      '</div>' +
+    '</section>';
+  }).join('');
 
-setInterval(updateStudioTime, 10000);
-updateStudioTime();
+  bar.innerHTML = D.map(function(d){
+    return '<a href="#' + d[0] + '" data-id="' + d[0] + '">' + d[1] + '</a>';
+  }).join('');
 
-// EXACT FLOATING CURSOR-FOLLOWING & SWAYING PREVIEW CARD (FROM v6.html)
-(function() {
-  const rows = [...document.querySelectorAll('.service-row')];
-  if (!rows.length) return;
+  var deps = [].slice.call(document.querySelectorAll('.dep')),
+      links = [].slice.call(bar.children);
 
-  const images = rows.map(r => r.dataset.img);
-
-  // Mobile / non-hover fallback
-  if (!matchMedia('(hover:hover) and (pointer:fine)').matches) {
-    rows.forEach((r, i) => {
-      const m = new Image();
-      m.className = 'svc-thumb';
-      m.alt = '';
-      m.loading = 'lazy';
-      m.src = images[i];
-      r.querySelector('.service-main').appendChild(m);
-    });
-    return;
-  }
-
-  // Create floating preview card
-  const box = document.createElement('div');
-  const tag = document.createElement('div');
-  const ims = rows.map(() => {
-    const m = new Image();
-    m.alt = '';
-    box.appendChild(m);
-    return m;
-  });
-
-  box.id = 'svcPreview';
-  box.setAttribute('aria-hidden', 'true');
-  tag.className = 'svc-tag';
-  box.appendChild(tag);
-  document.body.appendChild(box);
-
-  let mx = 0, my = 0, x = 0, y = 0, rot = 0, on = false, cur = -1;
-  const W = () => box.offsetWidth, H = () => box.offsetHeight;
-
-  window.addEventListener('mousemove', e => {
-    mx = e.clientX;
-    my = e.clientY;
-    if (!on) { x = mx; y = my; }
-  });
-
-  rows.forEach((r, i) => {
-    r.addEventListener('mouseenter', () => {
-      if (!ims[i].dataset.ok) {
-        ims[i].src = images[i];
-        ims[i].dataset.ok = '1';
-      }
-      ims.forEach((m, j) => m.classList.toggle('on', j === i));
-      tag.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(rows.length).padStart(2, '0');
-      cur = i;
-      on = true;
-      box.classList.add('show');
-    });
-
-    r.addEventListener('mouseleave', () => {
-      on = false;
-      box.classList.remove('show');
-    });
-  });
-
-  // Smooth spring physics loop with swaying rotation (দুলে দুলে মাউসের পেছন পেছন নড়াচড়া)
-  (function t() {
-    const left = mx > innerWidth - W() - 90;
-    const tx = left ? mx - W() - 36 : mx + 36;
-    const ty = Math.max(84, Math.min(innerHeight - H() - 20, my - H() / 2));
-    const px = x;
-    x += (tx - x) * 0.14;
-    y += (ty - y) * 0.14;
-    // Rotational sway based on horizontal velocity!
-    rot += (Math.max(-7, Math.min(7, (x - px) * 0.9)) - rot) * 0.15;
-    box.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) rotate(${rot.toFixed(2)}deg)`;
-    requestAnimationFrame(t);
-  })();
-})();
-
-// FOOTER SLICE ANIMATION (EXACT v6.html)
-(function() {
-  const fl = document.querySelector('.footer-giant-logo');
-  if (!fl) return;
-  let timer = null;
   if ('IntersectionObserver' in window) {
-    new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          fl.classList.remove('slice');
-          void fl.offsetWidth; // force reflow to restart animation cleanly
-          fl.classList.add('slice');
-          clearTimeout(timer);
-          timer = setTimeout(() => fl.classList.remove('slice'), 1500);
-        } else {
-          fl.classList.remove('slice');
-          clearTimeout(timer);
-        }
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if (e.isIntersecting) e.target.classList.add('in');
       });
-    }, { threshold: 0.15 }).observe(fl);
+    }, { threshold: 0.08 });
+    deps.forEach(function(d){ io.observe(d); });
+  } else {
+    deps.forEach(function(d){ d.classList.add('in'); });
   }
+
+  // Ensure initial above-the-fold department reveals immediately
+  if (deps.length && deps[0].getBoundingClientRect().top < window.innerHeight * 0.95) {
+    deps[0].classList.add('in');
+  }
+
+  function act(){
+    var y = innerHeight * 0.45,
+        cur = null;
+    deps.forEach(function(d){
+      if (d.getBoundingClientRect().top < y) cur = d.id;
+    });
+    links.forEach(function(a){
+      var on = a.dataset.id === cur;
+      a.classList.toggle('on', on);
+      if (on && bar.scrollWidth > bar.clientWidth) {
+        var l = a.offsetLeft - bar.clientWidth / 2 + a.offsetWidth / 2;
+        bar.scrollTo({ left: l, behavior: rm ? 'auto' : 'smooth' });
+      }
+    });
+  }
+
+  function par(){
+    if (rm) return;
+    deps.forEach(function(d){
+      var r = d.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
+      var p = (r.top + r.height / 2 - innerHeight / 2) / innerHeight,
+          im = d.querySelector('.ph img');
+      if (im) im.style.transform = 'translateY(' + (p * -20) + 'px)';
+    });
+  }
+
+  addEventListener('scroll', function(){ act(); par(); }, { passive: true });
+  act();
+  par();
+
+  // UNIFIED HEADER CLIENT AUTH STATE & MULTI-TAB SYNC
+  function syncHeaderClientState() {
+    var sessionRaw = sessionStorage.getItem('shoaib_client_session') || localStorage.getItem('shoaib_client_session') || localStorage.getItem('shoaib_client_profile');
+    var authBtn = document.getElementById('navAuthBtn');
+    if (!authBtn) return;
+
+    var session = null;
+    if (sessionRaw) {
+      try {
+        session = JSON.parse(sessionRaw);
+      } catch(e) {}
+    }
+
+    if (session && (session.email || session.name)) {
+      var isDirector = (session.email || '').toLowerCase().trim() === 'retouchershoaib@gmail.com';
+      if (isDirector) {
+        authBtn.href = 'admin.html';
+        authBtn.innerHTML = '&#x1f6e1;&#xfe0f; Director Console';
+        authBtn.setAttribute('title', 'Studio Director Console');
+      } else {
+        authBtn.href = 'portal.html';
+        authBtn.innerHTML = 'Client Portal';
+        authBtn.setAttribute('title', 'Open your client workspace');
+      }
+    } else {
+      authBtn.href = 'portal.html';
+      authBtn.innerHTML = 'Log In';
+      authBtn.setAttribute('title', 'Log In or Sign Up to Client Portal');
+    }
+  }
+
+  window.syncHeaderClientState = syncHeaderClientState;
+  syncHeaderClientState();
+
+  window.addEventListener('storage', function(e) {
+    if (e.key === 'shoaib_client_session' || e.key === 'shoaib_client_profile' || e.key === 'shoaib_sync_ping') {
+      syncHeaderClientState();
+    }
+  });
+
+  document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'visible') syncHeaderClientState();
+  });
+  window.addEventListener('focus', syncHeaderClientState);
+
+  // BFCACHE NAVIGATION RESILIENCE
+  window.addEventListener('pageshow', function() {
+    document.body.style.opacity = '1';
+    document.body.style.visibility = 'visible';
+    syncHeaderClientState();
+  });
 })();
 </script>
-
-<script>
-
-
-// DYNAMIC CLIENT ACCESS HEADER PAIRING
-function syncHeaderClientState() {
-  const sessionRaw = localStorage.getItem('shoaib_client_session') || localStorage.getItem('shoaib_client_profile');
-  const loginBtn = document.getElementById('navClientAccessBtn');
-  const ctaBtn = document.getElementById('navMainCtaBtn');
-  const mobClientBtn = document.getElementById('mobDrawerClientBtn');
-  const mobCtaBtn = document.getElementById('mobDrawerCtaBtn');
-  if (!loginBtn || !ctaBtn) return;
-
-  let session = null;
-  if (sessionRaw) {
-    try {
-      session = JSON.parse(sessionRaw);
-    } catch(e) {}
-  }
-
-  if (session && (session.email || session.name)) {
-    const isDirector = (session.email || '').toLowerCase().trim() === 'retouchershoaib@gmail.com';
-    let name = session.name ? session.name.split(' ')[0] : 'Client';
-    if (isDirector) {
-      loginBtn.href = 'admin.html';
-      loginBtn.innerHTML = '🛡️ Director Console';
-      ctaBtn.href = 'admin.html';
-      ctaBtn.innerHTML = '👑 Director Shoaib (Admin ↗)';
-      if (mobClientBtn) { mobClientBtn.href = 'admin.html'; mobClientBtn.innerHTML = '🛡️ Director Console ↗'; }
-      if (mobCtaBtn) { mobCtaBtn.href = 'admin.html'; mobCtaBtn.innerHTML = '👑 Director Admin ↗'; }
-    } else {
-      loginBtn.href = 'portal.html#new';
-      loginBtn.innerHTML = '+ Place Order';
-      ctaBtn.href = 'portal.html';
-      ctaBtn.innerHTML = '🟢 ' + name + ' (Dashboard ↗)';
-      if (mobClientBtn) { mobClientBtn.href = 'portal.html#new'; mobClientBtn.innerHTML = '+ Place New Order'; }
-      if (mobCtaBtn) { mobCtaBtn.href = 'portal.html'; mobCtaBtn.innerHTML = '🟢 Client Portal (' + name + ') ↗'; }
-    }
-  } else {
-    loginBtn.href = 'portal.html';
-    loginBtn.innerHTML = 'Log In';
-    ctaBtn.href = 'contact.html';
-    ctaBtn.innerHTML = 'Free Trial';
-    if (mobClientBtn) { mobClientBtn.href = 'portal.html'; mobClientBtn.innerHTML = 'Client Portal Log In 🔒'; }
-    if (mobCtaBtn) { mobCtaBtn.href = 'contact.html'; mobCtaBtn.innerHTML = 'Start Free Trial →'; }
-  }
-}
-document.addEventListener('DOMContentLoaded', syncHeaderClientState);
-syncHeaderClientState();
-</script>
-
-<script>
-// BFCACHE (BACK-FORWARD CACHE) NAVIGATION RESILIENCE
-window.addEventListener('pageshow', function(event) {
-  // If page is restored from back-forward cache, ensure zero overlays and immediate visibility
-  sessionStorage.removeItem('pageWiped');
-  const wipe = document.getElementById('wipe');
-  if (wipe) wipe.remove();
-  document.body.style.opacity = '1';
-  document.body.style.visibility = 'visible';
-});
-</script>
-
 </body>
 </html>
