@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Contact Retoucher Shoaib — Jewelry, fashion and beauty retouching for brands, studios and photographers. Request a free trial sample with 12 to 24 hour delivery.">
+<meta name="description" content="Contact Retoucher Shoaib — Jewelry, fashion, beauty, packshots and automotive retouching for brands, studios and photographers. Request a free trial sample with 12 to 24 hour delivery.">
 <title>Contact and free trial — Retoucher Shoaib</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -579,6 +579,7 @@ footer a:hover{
                   <label><input type="radio" name="service" value="Model and beauty"><span>Beauty</span></label>
                   <label><input type="radio" name="service" value="E-commerce packshots"><span>Packshots</span></label>
                   <label><input type="radio" name="service" value="Still life and cosmetics"><span>Cosmetics</span></label>
+                  <label><input type="radio" name="service" value="Automotive retouching"><span>Automotive</span></label>
                 </div>
               </div>
               <div class="f">
@@ -716,6 +717,27 @@ footer a:hover{
   document.querySelectorAll('input[type="radio"]').forEach(function(r){
     r.addEventListener('change', updateWaLink);
   });
+
+  // Pre-select requested service from ?service= query param (e.g. from services.html#automotive)
+  try {
+    var svcParam = (new URLSearchParams(window.location.search).get('service') || '').toLowerCase();
+    var svcMap = {
+      jewelry: 'Jewelry and watches',
+      fashion: 'Fashion and ghost mannequin',
+      beauty: 'Model and beauty',
+      ecom: 'E-commerce packshots',
+      still: 'Still life and cosmetics',
+      automotive: 'Automotive retouching'
+    };
+    if (svcMap[svcParam]) {
+      var targetRadio = document.querySelector('input[name="service"][value="' + svcMap[svcParam] + '"]');
+      if (targetRadio) {
+        tab('sample');
+        targetRadio.checked = true;
+      }
+    }
+  } catch(e){}
+  updateWaLink();
 
   $('fm').addEventListener('submit', function(ev){
     ev.preventDefault();

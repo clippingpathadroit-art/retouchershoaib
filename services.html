@@ -3,8 +3,34 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Core retouching disciplines of Retoucher Shoaib®: Luxury jewelry and watches, fashion and clothing 3D ghost mannequin, editorial beauty portraiture, e-commerce product retouching, and creative still life.">
-<title>Services — Retoucher Shoaib</title>
+<meta name="description" content="Commercial photo retouching services by Retoucher Shoaib®: automotive retouching, luxury jewelry and watches, 3D ghost mannequin fashion, editorial beauty portraits, e-commerce product cutouts, and creative still life. Try free within 24 hours.">
+<link rel="canonical" href="https://retouchershoaib.pages.dev/services">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Services — Automotive, Jewelry, Fashion &amp; Beauty Retouching | Retoucher Shoaib">
+<meta property="og:description" content="Explore 6 commercial retouching departments including automotive retouching, luxury jewelry, fashion ghost mannequin, beauty skin retouching, e-commerce packshots, and still life.">
+<meta property="og:url" content="https://retouchershoaib.pages.dev/services">
+<title>Services — Automotive, Jewelry, Fashion &amp; Beauty Retouching | Retoucher Shoaib</title>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Retoucher Shoaib",
+  "url": "https://retouchershoaib.pages.dev/services",
+  "description": "High-end commercial photo retouching for jewelry, fashion, beauty, e-commerce products, still life, and automotive brands.",
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Commercial Retouching Services",
+    "itemListElement": [
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Luxury Jewelry and Watch Retouching","url":"https://retouchershoaib.pages.dev/services#jewelry"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Fashion and Clothing Retouching","url":"https://retouchershoaib.pages.dev/services#fashion"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Model and Beauty Portrait Retouching","url":"https://retouchershoaib.pages.dev/services#beauty"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"E-commerce Product Retouching","url":"https://retouchershoaib.pages.dev/services#ecom"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Still Life and Creative Commercial Retouching","url":"https://retouchershoaib.pages.dev/services#still"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Automotive Retouching","description":"Clean car cutouts, paddock and lot background replacement, paint gloss polishing, glass glare cleanup, and natural contact shadows.","url":"https://retouchershoaib.pages.dev/services#automotive"}}
+    ]
+  }
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap">
@@ -281,6 +307,17 @@ h1 .l span{
   touch-action:pan-y;
   box-shadow:0 20px 50px rgba(0,0,0,.45);
 }
+.ph.ba.wide{
+  aspect-ratio:1022/575;
+}
+.dep.wide .wrap{
+  grid-template-columns:minmax(0,1fr) minmax(0,1.45fr);
+  gap:clamp(28px,4.5vw,64px);
+}
+@media(max-width:1040px){
+  .dep.wide .wrap{grid-template-columns:1fr;gap:36px}
+  .dep.wide:nth-of-type(even) .ph{order:0}
+}
 .ph.ba .lay{
   position:absolute;
   inset:0;
@@ -487,8 +524,14 @@ footer a:hover{
   .dep:nth-of-type(even) .ph{order:0}
   .ph{aspect-ratio:4/3}
   .ph.ba{aspect-ratio:4/5}
+  .ph.ba.wide{aspect-ratio:1022/575}
   .caps{grid-template-columns:1fr}
   footer .g{grid-template-columns:1fr 1fr}
+}
+@media(max-width:520px){
+  .ph.ba.wide .tag{bottom:10px;padding:5px 11px;font-size:11px}
+  .ph.ba.wide .tag.b{left:10px}
+  .ph.ba.wide .tag.a{right:10px}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{
@@ -526,7 +569,7 @@ footer a:hover{
   <div class="wrap">
     <h1 aria-label="Services."><span class="l"><span>Services.</span></span></h1>
     <p class="sub">We turn raw commercial images into finished editorial work for luxury labels, fashion houses and commercial brands.</p>
-    <p class="spec"><b>5</b> departments &middot; non-destructive editing &middot; 16-bit ProPhoto</p>
+    <p class="spec"><b>6</b> departments &middot; non-destructive editing &middot; 16-bit ProPhoto</p>
   </div>
 </div>
 
@@ -555,6 +598,7 @@ footer a:hover{
         <a href="#beauty">Beauty</a>
         <a href="#ecom">E-commerce</a>
         <a href="#still">Still life</a>
+        <a href="#automotive">Automotive</a>
       </div>
       <div>
         <h4>Navigate</h4>
@@ -644,6 +688,24 @@ footer a:hover{
       'work_luxury_perfume',
       'Commercial studio',
       'center center'
+    ],
+    [
+      'automotive',
+      'Automotive',
+      'Automotive retouching',
+      'Background replacement \u00b7 Paint gloss \u00b7 Glass reflections',
+      'Clean automotive photo retouching for dealerships, motorsport teams, and ad campaigns. We remove busy paddock or lot backgrounds, polish paint glare and reflections, and place every vehicle into a sleek studio setting with true ground shadows.',
+      ['Clean car cutout & background swap', 'Paintwork gloss & scratch removal', 'Window glare & crowd cleanup', 'Alloy wheel, tire & decal polish', 'Natural contact & ground shadows'],
+      'service_automotive_after',
+      'Commercial & Motorsport',
+      'center center',
+      {
+        before: 'service_automotive_before.jpg',
+        after: 'service_automotive_after.jpg',
+        wide: true,
+        altBefore: 'Porsche 935 race car photo before automotive retouching inside busy paddock tent',
+        altAfter: 'Porsche 935 race car after automotive retouching on clean teal studio background with natural shadow'
+      }
     ]
   ];
 
@@ -653,21 +715,24 @@ footer a:hover{
   main.innerHTML = D.map(function(d, i){
     var n = '0' + (i + 1);
     var ld = i === 0 ? 'eager' : 'lazy';
+    var isWide = d[9] && d[9].wide;
+    var bAlt = (d[9] && d[9].altBefore) || (d[2] + ' before retouching');
+    var aAlt = (d[9] && d[9].altAfter) || (d[2] + ' after retouching');
     var mediaHtml = d[9]
-      ? '<div class="ph ba" style="--x:50%">' +
+      ? '<div class="ph ba' + (isWide ? ' wide' : '') + '" style="--x:50%">' +
           '<div class="lay before">' +
-            '<img src="' + B + d[9].before + '" alt="' + d[2] + ' before retouching" loading="' + ld + '" decoding="async" style="object-position:' + d[8] + '">' +
+            '<img src="' + B + d[9].before + '" alt="' + bAlt + '" loading="' + ld + '" decoding="async" style="object-position:' + d[8] + '">' +
             '<span class="tag b">Before</span>' +
           '</div>' +
           '<div class="lay after">' +
-            '<img src="' + B + d[9].after + '" alt="' + d[2] + ' after retouching" loading="' + ld + '" decoding="async" style="object-position:' + d[8] + '">' +
+            '<img src="' + B + d[9].after + '" alt="' + aAlt + '" loading="' + ld + '" decoding="async" style="object-position:' + d[8] + '">' +
             '<span class="tag a">After</span>' +
           '</div>' +
           '<input type="range" min="0" max="100" value="50" aria-label="Before and after comparison for ' + d[2] + '">' +
           '<div class="ba-bar"></div>' +
         '</div>'
       : '<div class="ph"><img src="' + B + d[6] + '.jpg" alt="' + d[2] + ' sample" loading="' + ld + '" decoding="async" style="object-position:' + d[8] + '"></div>';
-    return '<section class="dep" id="' + d[0] + '">' +
+    return '<section class="dep' + (isWide ? ' wide' : '') + '" id="' + d[0] + '">' +
       '<div class="wrap">' +
         mediaHtml +
         '<div class="tx">' +
@@ -676,7 +741,7 @@ footer a:hover{
           '<p class="tg">' + d[3] + '</p>' +
           '<p class="d">' + d[4] + '</p>' +
           '<ul class="caps">' + d[5].map(function(c){ return '<li>' + c + '</li>'; }).join('') + '</ul>' +
-          '<a class="btn" href="contact.html">Try ' + d[1].toLowerCase() + ' for free</a>' +
+          '<a class="btn" href="contact.html?service=' + d[0] + '">Try ' + d[1].toLowerCase() + ' for free</a>' +
         '</div>' +
       '</div>' +
     '</section>';
