@@ -88,7 +88,7 @@ header .wrap{
 nav{
   display:flex;
   align-items:center;
-  gap:clamp(16px,1.8vw,24px);
+  gap:clamp(18px,2.2vw,28px);
   color:var(--muted);
   font-size:15px;
   white-space:nowrap;
@@ -98,6 +98,10 @@ nav a{
 }
 nav a:hover{
   color:var(--text);
+}
+nav a.cur{
+  color:var(--accent);
+  font-weight:600;
 }
 .nav-actions{
   display:flex;
@@ -1020,7 +1024,7 @@ footer a:hover{
 }
 
 /* RESPONSIVE */
-@media(max-width:940px){
+@media(max-width:860px){
   nav{display:none}
 }
 @media(max-width:780px){
@@ -1249,13 +1253,11 @@ footer a:hover{
   <div class="wrap">
     <a class="logo" href="#top">Retoucher Shoaib<sup>&reg;</sup></a>
     <nav>
-      <a href="#work">What We Retouch</a>
       <a href="services.html">Services</a>
       <a href="studio.html">Studio</a>
-      <a href="#process">Process</a>
-      <a href="#faq">FAQ</a>
-      <a href="work.html">Portfolio</a>
+      <a href="work.html">Work</a>
       <a href="contact.html">Contact</a>
+      <a href="feed.html">Feed</a>
     </nav>
     <div class="nav-actions">
       <a class="btn p" id="navAuthBtn" href="portal.html">Log In</a>
@@ -1962,11 +1964,12 @@ footer a:hover{
         <a href="services.html#still">Still life</a>
       </div>
       <div>
-        <h4>Studio</h4>
-        <a href="studio.html">Our Studio &amp; Team</a>
-        <a href="#process">Process</a>
-        <a href="#faq">FAQ</a>
-        <a href="#contact">Free trial</a>
+        <h4>Navigate</h4>
+        <a href="services.html">Services</a>
+        <a href="studio.html">Studio</a>
+        <a href="work.html">Work</a>
+        <a href="contact.html">Contact</a>
+        <a href="feed.html">Feed</a>
         <a href="portal.html">Client Portal 🔒</a>
       </div>
       <div>

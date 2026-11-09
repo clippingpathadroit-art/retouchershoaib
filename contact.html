@@ -52,7 +52,7 @@ a{
 header{
   position:fixed;
   inset:0 0 auto;
-  z-index:30;
+  z-index:100;
   padding-top:env(safe-area-inset-top,0px);
   backdrop-filter:blur(14px);
   -webkit-backdrop-filter:blur(14px);
@@ -60,50 +60,62 @@ header{
   border-bottom:1px solid rgba(255,255,255,.06);
 }
 header .wrap{
+  max-width:1240px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  height:64px;
+  gap:16px;
+  height:68px;
 }
 .logo{
-  font:800 18px var(--display);
+  font:800 19px var(--display);
   letter-spacing:-.01em;
-  display:inline-flex;
+  display:flex;
   align-items:center;
-  gap:2px;
+  gap:6px;
+  white-space:nowrap;
+  flex-shrink:0;
 }
 .logo sup{
   font-size:10px;
-  font-weight:700;
   color:var(--accent);
 }
 nav{
   display:flex;
-  gap:26px;
+  align-items:center;
+  gap:clamp(18px,2.2vw,28px);
   color:var(--muted);
   font-size:15px;
+  white-space:nowrap;
 }
 nav a{
   transition:color .2s;
 }
-nav a:hover,nav a.cur{
+nav a:hover{
   color:var(--text);
 }
 nav a.cur{
   color:var(--accent);
   font-weight:600;
 }
+.nav-actions{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
 .btn{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  padding:14px 26px;
+  padding:13px 26px;
   border-radius:99px;
-  font:500 16px var(--body);
+  font:500 15px var(--body);
   border:1px solid var(--line);
   background:none;
   color:var(--text);
   cursor:pointer;
+  white-space:nowrap;
   transition:transform .25s ease,background .25s,color .25s,border-color .25s;
 }
 .btn.p{
@@ -112,10 +124,16 @@ nav a.cur{
   border-color:var(--accent);
   font-weight:600;
 }
-.btn:hover,.btn.p:hover{
+.btn:hover{
   background:var(--text);
   color:var(--bg);
   border-color:var(--text);
+}
+.btn.p:hover{
+  background:#ffffff;
+  color:#000000;
+  border-color:#ffffff;
+  transform:scale(1.02);
 }
 .btn[disabled]{
   opacity:.6;
@@ -456,8 +474,10 @@ footer a:hover{
   outline:2px solid var(--accent);
   outline-offset:3px;
 }
-@media(max-width:900px){
+@media(max-width:860px){
   nav{display:none}
+}
+@media(max-width:900px){
   .cols{grid-template-columns:1fr}
   .info{position:static}
 }
@@ -482,13 +502,15 @@ footer a:hover{
   <div class="wrap">
     <a class="logo" href="index.html">Retoucher Shoaib<sup>&reg;</sup></a>
     <nav>
-      <a href="work.html">Work</a>
       <a href="services.html">Services</a>
       <a href="studio.html">Studio</a>
+      <a href="work.html">Work</a>
       <a class="cur" href="contact.html">Contact</a>
-      <a href="portal.html">Client Portal</a>
+      <a href="feed.html">Feed</a>
     </nav>
-    <a class="btn" href="portal.html">Log In</a>
+    <div class="nav-actions">
+      <a class="btn p" id="navAuthBtn" href="portal.html">Log In</a>
+    </div>
   </div>
 </header>
 
@@ -807,10 +829,56 @@ footer a:hover{
   clk();
   setInterval(clk, 30000);
 
+  // UNIFIED HEADER CLIENT AUTH STATE & MULTI-TAB SYNC
+  function syncHeaderClientState() {
+    var sessionRaw = sessionStorage.getItem('shoaib_client_session') || localStorage.getItem('shoaib_client_session') || localStorage.getItem('shoaib_client_profile');
+    var authBtn = document.getElementById('navAuthBtn');
+    if (!authBtn) return;
+
+    var session = null;
+    if (sessionRaw) {
+      try {
+        session = JSON.parse(sessionRaw);
+      } catch(e) {}
+    }
+
+    if (session && (session.email || session.name)) {
+      var isDirector = (session.email || '').toLowerCase().trim() === 'retouchershoaib@gmail.com';
+      if (isDirector) {
+        authBtn.href = 'admin.html';
+        authBtn.innerHTML = '&#x1f6e1;&#xfe0f; Director Console';
+        authBtn.setAttribute('title', 'Studio Director Console');
+      } else {
+        authBtn.href = 'portal.html';
+        authBtn.innerHTML = 'Client Portal';
+        authBtn.setAttribute('title', 'Open your client workspace');
+      }
+    } else {
+      authBtn.href = 'portal.html';
+      authBtn.innerHTML = 'Log In';
+      authBtn.setAttribute('title', 'Log In or Sign Up to Client Portal');
+    }
+  }
+
+  window.syncHeaderClientState = syncHeaderClientState;
+  syncHeaderClientState();
+
+  window.addEventListener('storage', function(e) {
+    if (e.key === 'shoaib_client_session' || e.key === 'shoaib_client_profile' || e.key === 'shoaib_sync_ping') {
+      syncHeaderClientState();
+    }
+  });
+
+  document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'visible') syncHeaderClientState();
+  });
+  window.addEventListener('focus', syncHeaderClientState);
+
   // BFCACHE BACK-FORWARD CACHE NAVIGATION RESILIENCE
   window.addEventListener('pageshow', function(){
     document.body.style.opacity = '1';
     document.body.style.visibility = 'visible';
+    syncHeaderClientState();
   });
 })();
 </script>

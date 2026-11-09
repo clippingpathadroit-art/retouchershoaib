@@ -84,7 +84,7 @@ header .wrap{
 nav{
   display:flex;
   align-items:center;
-  gap:clamp(16px,1.8vw,24px);
+  gap:clamp(18px,2.2vw,28px);
   color:var(--muted);
   font-size:15px;
   white-space:nowrap;
@@ -429,10 +429,8 @@ footer a:hover{
   outline:2px solid var(--text);
   outline-offset:3px;
 }
-@media(max-width:940px){
-  nav{display:none}
-}
 @media(max-width:860px){
+  nav{display:none}
   .fo{grid-template-columns:1fr}
   .team .fr{aspect-ratio:4/3}
   footer .g{grid-template-columns:1fr 1fr}
@@ -455,13 +453,11 @@ footer a:hover{
   <div class="wrap">
     <a class="logo" href="index.html">Retoucher Shoaib<sup>&reg;</sup></a>
     <nav>
-      <a href="index.html#work">What We Retouch</a>
       <a href="services.html">Services</a>
       <a class="cur" href="studio.html">Studio</a>
-      <a href="index.html#process">Process</a>
-      <a href="index.html#faq">FAQ</a>
-      <a href="work.html">Portfolio</a>
+      <a href="work.html">Work</a>
       <a href="contact.html">Contact</a>
+      <a href="feed.html">Feed</a>
     </nav>
     <div class="nav-actions">
       <a class="btn p" id="navAuthBtn" href="portal.html">Log In</a>
@@ -608,9 +604,10 @@ footer a:hover{
       <div>
         <h4>Navigate</h4>
         <a href="index.html">Home</a>
-        <a href="work.html">Portfolio</a>
         <a href="services.html">Services</a>
-        <a href="contact.html">Free trial</a>
+        <a href="work.html">Work</a>
+        <a href="contact.html">Contact</a>
+        <a href="feed.html">Feed</a>
         <a href="portal.html">Client Portal &#x1f512;</a>
       </div>
       <div>
