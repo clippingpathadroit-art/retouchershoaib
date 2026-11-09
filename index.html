@@ -457,98 +457,6 @@ h2{
   font-size:18px;
 }
 
-/* BEFORE / AFTER SLIDER WITH REAL JEWELRY MASTERS */
-.ba{
-  position:relative;
-  aspect-ratio:16/10;
-  max-width:1100px;
-  margin:0 auto;
-  border-radius:22px;
-  overflow:hidden;
-  background:#101012;
-  user-select:none;
-  touch-action:pan-y;
-  border:1px solid var(--line);
-  box-shadow:0 24px 60px rgba(0,0,0,.6);
-}
-.ba .lay{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-}
-.ba img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  pointer-events:none;
-}
-.ba .after{
-  clip-path:inset(0 0 0 var(--x,50%));
-}
-.ba .before{
-  background:#141416;
-}
-.tag{
-  position:absolute;
-  bottom:20px;
-  padding:7px 16px;
-  border-radius:99px;
-  font-size:13px;
-  font-weight:600;
-  background:rgba(0,0,0,.7);
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-  letter-spacing:0.04em;
-  text-transform:uppercase;
-  z-index:10;
-}
-.tag.a{
-  right:20px;
-  color:var(--accent);
-  border:1px solid rgba(200,241,53,.3);
-}
-.tag.b{
-  left:20px;
-  color:var(--muted);
-  border:1px solid rgba(255,255,255,.15);
-}
-.ba input{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  opacity:0;
-  cursor:ew-resize;
-  margin:0;
-  z-index:20;
-}
-.ba .bar{
-  position:absolute;
-  top:0;
-  bottom:0;
-  left:var(--x,50%);
-  width:2px;
-  background:var(--accent);
-  pointer-events:none;
-  z-index:15;
-}
-.ba .bar::after{
-  content:"";
-  position:absolute;
-  top:50%;
-  left:50%;
-  width:46px;
-  height:46px;
-  border-radius:50%;
-  background:var(--accent);
-  transform:translate(-50%,-50%);
-  box-shadow:0 0 0 8px color-mix(in srgb,var(--accent) 25%,transparent), 0 4px 18px rgba(0,0,0,.6);
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%230a0a0b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 7l-5 5 5 5M16 7l5 5-5 5'/%3E%3C/svg%3E");
-  background-position:center;
-  background-repeat:no-repeat;
-}
-
 /* STEPS (HOW AN ORDER WORKS) */
 .steps{
   display:grid;
@@ -1470,26 +1378,26 @@ footer a:hover{
     <h2>What we retouch</h2>
     <p class="lead">Five areas, each with its own checklist. Hover a row to preview the category.</p>
     <div class="rows">
-      <div class="row" data-h="42" data-t="Jewelry and watches" data-img="./assets/agency_showcase/service_jewelry.jpg">
+      <a class="row" href="services.html#jewelry" data-h="42" data-t="Jewelry and watches" data-img="./assets/agency_showcase/service_jewelry.jpg">
         <h3>Jewelry and watches</h3>
         <p>Clean metal, sharp gemstones, true reflections.</p>
-      </div>
-      <div class="row" data-h="330" data-t="Fashion and apparel" data-img="./assets/agency_showcase/service_fashion.jpg">
+      </a>
+      <a class="row" href="services.html#fashion" data-h="330" data-t="Fashion and apparel" data-img="./assets/agency_showcase/service_fashion.jpg">
         <h3>Fashion and apparel</h3>
         <p>Natural drape, wrinkle cleanup, exact color.</p>
-      </div>
-      <div class="row" data-h="12" data-t="Editorial beauty" data-img="./assets/agency_showcase/work_editorial_crimson_beauty.jpg">
+      </a>
+      <a class="row" href="services.html#beauty" data-h="12" data-t="Editorial beauty" data-img="./assets/agency_showcase/work_editorial_crimson_beauty.jpg">
         <h3>Editorial beauty</h3>
         <p>Real skin texture, never plastic.</p>
-      </div>
-      <div class="row" data-h="190" data-t="Product packshots" data-img="./assets/agency_showcase/service_packshot.jpg">
+      </a>
+      <a class="row" href="services.html#ecom" data-h="190" data-t="Product packshots" data-img="./assets/agency_showcase/service_packshot.jpg">
         <h3>Product packshots</h3>
         <p>Hand-drawn paths and soft contact shadows.</p>
-      </div>
-      <div class="row" data-h="260" data-t="Portraits" data-img="./assets/agency_showcase/client_fashion_lookbook_al_dec_402.jpg">
+      </a>
+      <a class="row" href="services.html#beauty" data-h="260" data-t="Portraits" data-img="./assets/agency_showcase/client_fashion_lookbook_al_dec_402.jpg">
         <h3>Portraits</h3>
         <p>Balanced light, clean hair, same expression.</p>
-      </div>
+      </a>
     </div>
   </div>
 </section>
@@ -1568,26 +1476,6 @@ footer a:hover{
     </div>
     <div style="margin-top:36px">
       <a class="btn mag" href="services.html">Explore Full Services &rarr;</a>
-    </div>
-  </div>
-</section>
-
-<!-- DRAGGABLE BEFORE / AFTER SLIDER WITH REAL JEWELRY MASTERS -->
-<section>
-  <div class="wrap">
-    <h2>Drag to compare</h2>
-    <p class="lead">A quick look at what careful retouching changes.</p>
-    <div class="ba" id="ba">
-      <div class="lay before">
-        <img src="./assets/Jewelry%20Before.jpg" alt="Jewelry Before Retouching">
-        <span class="tag b">Before</span>
-      </div>
-      <div class="lay after">
-        <img src="./assets/Jewelry%20After.jpg" alt="Jewelry 16-Bit Master Retouch">
-        <span class="tag a">After</span>
-      </div>
-      <div class="bar"></div>
-      <input type="range" min="0" max="100" value="50" aria-label="Before and after comparison">
     </div>
   </div>
 </section>
@@ -2045,22 +1933,9 @@ footer a:hover{
       cancelAnimationFrame(raf);
       raf = null;
     });
-    // Click navigates to portfolio
-    r.addEventListener('click', function(){
-      window.location.href = 'work.html';
-    });
   });
 
-  // 3. BEFORE / AFTER COMPARISON SLIDER
-  var ba = document.getElementById('ba');
-  if (ba) {
-    var inp = ba.querySelector('input');
-    inp.addEventListener('input', function(){
-      ba.style.setProperty('--x', inp.value + '%');
-    });
-  }
-
-  // 4. ANIMATED NUMBERS COUNTER
+  // 3. ANIMATED NUMBERS COUNTER
   var io = new IntersectionObserver(function(es){
     es.forEach(function(e){
       if (!e.isIntersecting) return;
@@ -2289,7 +2164,7 @@ footer a:hover{
   });
   window.addEventListener('focus', syncHeaderClientState);
 
-  // 9. HERO 3D FLOATING RING VIDEO CONTROLLER (Seamless screen blend, breathe halo, invisible loop fade, parallax)
+  // 9. HERO 3D FLOATING RING VIDEO CONTROLLER (Seamless screen blend, invisible loop fade, scroll drift)
   (function(){
     var r = document.getElementById('ring');
     var v = document.getElementById('rv');
@@ -2316,17 +2191,12 @@ footer a:hover{
     v.loop = true;
     if (!rm) requestAnimationFrame(f);
 
-    // Mouse parallax and scroll drift
-    var mx = 0, my = 0, sy = 0;
+    // Subtle scroll drift only (no mouse-move shifting)
+    var sy = 0;
     function ap(){
-      v.style.transform = 'translate(' + mx + 'px,' + (my + sy) + 'px)';
+      v.style.transform = 'translateY(' + sy + 'px)';
     }
     if (!rm) {
-      window.addEventListener('mousemove', function(e){
-        mx = (e.clientX / window.innerWidth - 0.5) * -26;
-        my = (e.clientY / window.innerHeight - 0.5) * -18;
-        ap();
-      }, { passive: true });
       window.addEventListener('scroll', function(){
         sy = Math.min(window.scrollY || 0, 700) * 0.12;
         ap();
