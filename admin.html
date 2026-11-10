@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="/assets/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
@@ -243,7 +248,7 @@ a { color: inherit; text-decoration: none; }
 
     <div style="margin-top: 24px; padding-top: 18px; border-top: 1px solid #262626; font-size: 11px; color: #666; display: flex; justify-content: space-between; align-items: center;">
       <span>🔒 256-Bit TLS Secured</span>
-      <a href="index.html" style="color: #888; text-decoration: underline;">Return to Website ↗</a>
+      <a href="/" style="color: #888; text-decoration: underline;">Return to Website ↗</a>
     </div>
   </div>
 </div>
@@ -264,7 +269,7 @@ a { color: inherit; text-decoration: none; }
 <!-- NAVBAR -->
 <nav class="admin-navbar">
   <div style="display: flex; align-items: center; gap: 12px;">
-    <a href="index.html" class="brand-tag">RETOUCHER SHOAIB<sup>&reg;</sup></a>
+    <a href="/" class="brand-tag">RETOUCHER SHOAIB<sup>&reg;</sup></a>
     <span class="admin-badge">Director Panel</span>
   </div>
 
@@ -272,7 +277,7 @@ a { color: inherit; text-decoration: none; }
     <button type="button" id="admCloudSyncBtn" class="btn sm" onclick="syncAdminFromCloud()" style="background: #1e293b; color: #38bdf8; border: 1px solid #334155; font-size: 11px; padding: 7px 14px; gap: 6px;">
       ☁️ Sync Cloud Orders
     </button>
-    <a href="portal.html" target="_blank" class="btn sm outline">View Live Client Portal ↗</a>
+    <a href="/portal" target="_blank" class="btn sm outline">View Live Client Portal ↗</a>
     <button class="btn sm outline" onclick="lockAdmin()">Lock 🔒</button>
   </div>
 </nav>
@@ -1112,7 +1117,7 @@ function renderAdminTable() {
             <div style="font-size: 36px; margin-bottom: 12px;">📭</div>
             <div style="font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px;">No Active Client Orders in Queue</div>
             <div style="font-size: 13px; color: #777; max-width: 480px; margin: 0 auto;">
-              Orders placed by clients via the <a href="portal.html" target="_blank" style="color: #60a5fa; text-decoration: underline;">Client Portal</a> will automatically appear here in real time.
+              Orders placed by clients via the <a href="/portal" target="_blank" style="color: #60a5fa; text-decoration: underline;">Client Portal</a> will automatically appear here in real time.
             </div>
           </td>
         </tr>

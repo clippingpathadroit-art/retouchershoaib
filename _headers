@@ -12,16 +12,26 @@
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Dynamic HTML endpoints: always fresh real-time data, zero stale CDN caching
+# Dynamic / private HTML endpoints: fresh real-time data, blocked from search indexing
 /portal
   Cache-Control: no-cache, no-store, must-revalidate, max-age=0
+  X-Robots-Tag: noindex, nofollow
 
 /portal.html
   Cache-Control: no-cache, no-store, must-revalidate, max-age=0
+  X-Robots-Tag: noindex, nofollow
 
 /admin
   Cache-Control: no-cache, no-store, must-revalidate, max-age=0
+  X-Robots-Tag: noindex, nofollow
 
 /admin.html
   Cache-Control: no-cache, no-store, must-revalidate, max-age=0
+  X-Robots-Tag: noindex, nofollow
+
+/404
+  X-Robots-Tag: noindex, nofollow
+
+/404.html
+  X-Robots-Tag: noindex, nofollow
 

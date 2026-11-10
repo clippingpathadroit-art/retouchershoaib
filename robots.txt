@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /portal
+Disallow: /portal.html
+Disallow: /admin
+Disallow: /admin.html
+Disallow: /404
+Disallow: /404.html
+
+Sitemap: https://retouchershoaib.pages.dev/sitemap.xml

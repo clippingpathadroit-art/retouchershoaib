@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Selected work by Retoucher Shoaib — Jewelry, fashion, beauty and product retouching. Hover to preview, click to open any project.">
 <title>Selected work — Retoucher Shoaib</title>
+<link rel="canonical" href="https://retouchershoaib.pages.dev/work">
+<link rel="icon" type="image/png" href="/assets/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap">
@@ -740,16 +745,16 @@ dialog::backdrop{
 <body>
 <header>
   <div class="wrap">
-    <a class="logo" href="index.html">Retoucher Shoaib<sup>&reg;</sup></a>
+    <a class="logo" href="/">Retoucher Shoaib<sup>&reg;</sup></a>
     <nav>
-      <a href="services.html">Services</a>
-      <a href="studio.html">Studio</a>
-      <a class="cur" href="work.html">Work</a>
-      <a href="contact.html">Contact</a>
-      <a href="feed.html">Feed</a>
+      <a href="/services">Services</a>
+      <a href="/studio">Studio</a>
+      <a class="cur" href="/work">Work</a>
+      <a href="/contact">Contact</a>
+      <a href="/feed">Feed</a>
     </nav>
     <div class="nav-actions">
-      <a class="btn p" id="navAuthBtn" href="portal.html">Log In</a>
+      <a class="btn p" id="navAuthBtn" href="/portal" rel="nofollow">Log In</a>
     </div>
   </div>
 </header>
@@ -814,7 +819,7 @@ dialog::backdrop{
   <section class="end" id="contact">
     <div class="wrap">
       <h2>Send one image.<br>See the difference.</h2>
-      <a class="btn p" href="contact.html">Start free trial &rarr;</a>
+      <a class="btn p" href="/contact">Start free trial &rarr;</a>
     </div>
   </section>
 </main>
@@ -846,7 +851,7 @@ dialog::backdrop{
       <p class="ct" id="mc"></p>
       <ul id="ml"></ul>
       <dl id="md"></dl>
-      <a class="btn p" href="contact.html">Request similar work &rarr;</a>
+      <a class="btn p" href="/contact">Request similar work &rarr;</a>
     </div>
   </div>
 </dialog>
@@ -1844,16 +1849,16 @@ dialog::backdrop{
     if (session && (session.email || session.name)) {
       var isDirector = (session.email || '').toLowerCase().trim() === 'retouchershoaib@gmail.com';
       if (isDirector) {
-        authBtn.href = 'admin.html';
+        authBtn.href = '/admin';
         authBtn.innerHTML = '&#x1f6e1;&#xfe0f; Director Console';
         authBtn.setAttribute('title', 'Studio Director Console');
       } else {
-        authBtn.href = 'portal.html';
+        authBtn.href = '/portal';
         authBtn.innerHTML = 'Client Portal';
         authBtn.setAttribute('title', 'Open your client workspace');
       }
     } else {
-      authBtn.href = 'portal.html';
+      authBtn.href = '/portal';
       authBtn.innerHTML = 'Log In';
       authBtn.setAttribute('title', 'Log In or Sign Up to Client Portal');
     }

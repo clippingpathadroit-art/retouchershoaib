@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Studio Journal & Insights by Retoucher Shoaib®: Practical perspectives on natural skin texture, luxury diamond highlights, hand-drawn pen paths, and commercial color standards.">
 <title>Feed — Retoucher Shoaib</title>
+<link rel="canonical" href="https://retouchershoaib.pages.dev/feed">
+<link rel="icon" type="image/png" href="/assets/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap">
@@ -451,16 +456,16 @@ footer a:hover{
 
 <header>
   <div class="wrap">
-    <a class="logo" href="index.html">Retoucher Shoaib<sup>&reg;</sup></a>
+    <a class="logo" href="/">Retoucher Shoaib<sup>&reg;</sup></a>
     <nav>
-      <a href="services.html">Services</a>
-      <a href="studio.html">Studio</a>
-      <a href="work.html">Work</a>
-      <a href="contact.html">Contact</a>
-      <a class="cur" href="feed.html">Feed</a>
+      <a href="/services">Services</a>
+      <a href="/studio">Studio</a>
+      <a href="/work">Work</a>
+      <a href="/contact">Contact</a>
+      <a class="cur" href="/feed">Feed</a>
     </nav>
     <div class="nav-actions">
-      <a class="btn p" id="navAuthBtn" href="portal.html">Log In</a>
+      <a class="btn p" id="navAuthBtn" href="/portal" rel="nofollow">Log In</a>
     </div>
   </div>
 </header>
@@ -542,7 +547,7 @@ footer a:hover{
         <h4>Have files that need this level of care?</h4>
         <p>Send a few sample images and see the result before you commit.</p>
       </div>
-      <a class="btn p" href="contact.html">Request a Free Trial</a>
+      <a class="btn p" href="/contact">Request a Free Trial</a>
     </div>
     <a class="post-next" href="#post-diamond-highlights">
       <div><small>Next article</small><b>Mastering Specular Highlights on Diamonds</b></div>
@@ -574,7 +579,7 @@ footer a:hover{
         <h4>Have files that need this level of care?</h4>
         <p>Send a few sample images and see the result before you commit.</p>
       </div>
-      <a class="btn p" href="contact.html">Request a Free Trial</a>
+      <a class="btn p" href="/contact">Request a Free Trial</a>
     </div>
     <a class="post-next" href="#post-pen-tool-masks">
       <div><small>Next article</small><b>Why Hand-Drawn Pen Tool Outperforms Automated Masks</b></div>
@@ -606,7 +611,7 @@ footer a:hover{
         <h4>Have files that need this level of care?</h4>
         <p>Send a few sample images and see the result before you commit.</p>
       </div>
-      <a class="btn p" href="contact.html">Request a Free Trial</a>
+      <a class="btn p" href="/contact">Request a Free Trial</a>
     </div>
     <a class="post-next" href="#post-skin-texture">
       <div><small>Next article</small><b>The Science of Retaining Natural Skin Texture</b></div>
@@ -624,21 +629,21 @@ footer a:hover{
       </div>
       <div>
         <h4>Disciplines</h4>
-        <a href="services.html#jewelry">Jewelry</a>
-        <a href="services.html#fashion">Fashion</a>
-        <a href="services.html#beauty">Beauty</a>
-        <a href="services.html#ecom">E-commerce</a>
-        <a href="services.html#still">Still life</a>
-        <a href="services.html#automotive">Automotive</a>
+        <a href="/services#jewelry">Jewelry</a>
+        <a href="/services#fashion">Fashion</a>
+        <a href="/services#beauty">Beauty</a>
+        <a href="/services#ecom">E-commerce</a>
+        <a href="/services#still">Still life</a>
+        <a href="/services#automotive">Automotive</a>
       </div>
       <div>
         <h4>Navigate</h4>
-        <a href="index.html">Home</a>
-        <a href="services.html">Services</a>
-        <a href="studio.html">Studio</a>
-        <a href="work.html">Work</a>
-        <a href="contact.html">Contact</a>
-        <a href="portal.html">Client Portal &#x1f512;</a>
+        <a href="/">Home</a>
+        <a href="/services">Services</a>
+        <a href="/studio">Studio</a>
+        <a href="/work">Work</a>
+        <a href="/contact">Contact</a>
+        <a href="/portal" rel="nofollow">Client Portal &#x1f512;</a>
       </div>
       <div>
         <h4>Connect</h4>
@@ -695,16 +700,16 @@ footer a:hover{
     if (session && (session.email || session.name)) {
       var isDirector = (session.email || '').toLowerCase().trim() === 'retouchershoaib@gmail.com';
       if (isDirector) {
-        authBtn.href = 'admin.html';
+        authBtn.href = '/admin';
         authBtn.innerHTML = '&#x1f6e1;&#xfe0f; Director Console';
         authBtn.setAttribute('title', 'Studio Director Console');
       } else {
-        authBtn.href = 'portal.html';
+        authBtn.href = '/portal';
         authBtn.innerHTML = 'Client Portal';
         authBtn.setAttribute('title', 'Open your client workspace');
       }
     } else {
-      authBtn.href = 'portal.html';
+      authBtn.href = '/portal';
       authBtn.innerHTML = 'Log In';
       authBtn.setAttribute('title', 'Log In or Sign Up to Client Portal');
     }
