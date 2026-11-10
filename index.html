@@ -144,9 +144,12 @@
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="preload" as="image" href="/assets/hero_jewelry_poster.webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap"></noscript>
 <style>
 :root{
   --bg:#0a0a0b;
@@ -326,6 +329,20 @@ nav a.cur{
 }
 .ring.live video{
   opacity:var(--o,1);
+}
+.ring-poster{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  mix-blend-mode:screen;
+  opacity:1;
+  transition:opacity .45s ease;
+  pointer-events:none;
+}
+.ring.live .ring-poster{
+  opacity:0;
 }
 @media(max-width:860px){
   .hero{
@@ -1330,9 +1347,10 @@ footer a:hover{
       </div>
     </div>
     <div class="ring" id="ring" aria-hidden="true">
-      <video id="rv" muted playsinline loop preload="auto" poster="./assets/hero_jewelry_poster.webp">
-        <source src="./assets/hero_jewelry_rotation.webm" type="video/webm">
-        <source src="./assets/hero_jewelry_rotation.mp4" type="video/mp4">
+      <img class="ring-poster" src="./assets/hero_jewelry_poster.webp" alt="" width="720" height="1280" fetchpriority="high" decoding="sync">
+      <video id="rv" muted playsinline loop preload="metadata" poster="./assets/hero_jewelry_poster.webp">
+        <source src="./assets/hero_jewelry_rotation_v2.mp4" type="video/mp4">
+        <source src="./assets/hero_jewelry_rotation_v2.webm" type="video/webm">
       </video>
     </div>
   </div>
@@ -1408,49 +1426,49 @@ footer a:hover{
       <div class="stream-track stream-scroll-left">
         <div class="stream-group">
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Cosmetic_bottle_on_teal_surface_4557c6ca.jpg" alt="Cosmetic bottle still life photo retouching" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Cosmetic_bottle_on_teal_surface_4557c6ca.webp" alt="Cosmetic bottle still life photo retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_silk_trench_coat_e24aa13e.jpg" alt="Silk trench coat fashion lookbook retouching" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_silk_trench_coat_e24aa13e.webp" alt="Silk trench coat fashion lookbook retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_holding_chin_in_studio_593a1d68.jpg" alt="Editorial studio fashion portrait retouching" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_holding_chin_in_studio_593a1d68.webp" alt="Editorial studio fashion portrait retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_posing_in_studio_71b07ff6.jpg" alt="Natural skin beauty portrait retouching" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_posing_in_studio_71b07ff6.webp" alt="Natural skin beauty portrait retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_touching_face_with_fabric_95a89da4.jpg" alt="Skincare and textile editorial beauty retouching" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_touching_face_with_fabric_95a89da4.webp" alt="Skincare and textile editorial beauty retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_silver_top_574561f5.jpg" alt="Metallic apparel commercial fashion retouching" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_silver_top_574561f5.webp" alt="Metallic apparel commercial fashion retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_adjusting_glasses_smiling_4c7b5557.jpg" alt="Eyewear glare cleanup and portrait retouching" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_adjusting_glasses_smiling_4c7b5557.webp" alt="Eyewear glare cleanup and portrait retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
         </div>
         <!-- DUPLICATE GROUP FOR SEAMLESS 60FPS LOOP -->
         <div class="stream-group" aria-hidden="true">
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Cosmetic_bottle_on_teal_surface_4557c6ca.jpg" alt="" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Cosmetic_bottle_on_teal_surface_4557c6ca.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_silk_trench_coat_e24aa13e.jpg" alt="" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_silk_trench_coat_e24aa13e.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_holding_chin_in_studio_593a1d68.jpg" alt="" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_holding_chin_in_studio_593a1d68.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_posing_in_studio_71b07ff6.jpg" alt="" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_posing_in_studio_71b07ff6.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_touching_face_with_fabric_95a89da4.jpg" alt="" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_touching_face_with_fabric_95a89da4.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_silver_top_574561f5.jpg" alt="" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_silver_top_574561f5.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_adjusting_glasses_smiling_4c7b5557.jpg" alt="" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_adjusting_glasses_smiling_4c7b5557.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
         </div>
       </div>
@@ -1461,49 +1479,49 @@ footer a:hover{
       <div class="stream-track stream-scroll-right">
         <div class="stream-group">
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Models_posing_in_streetwear_fashion_dae05745.jpg" alt="Streetwear campaign color grading and retouching" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Models_posing_in_streetwear_fashion_dae05745.webp" alt="Streetwear campaign color grading and retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_posing_in_sweater_3832f6c0.jpg" alt="Knitwear texture and apparel retouching" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_posing_in_sweater_3832f6c0.webp" alt="Knitwear texture and apparel retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_posing_in_orange_jacket_3dbf21da.jpg" alt="Commercial outerwear fashion retouching" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_posing_in_orange_jacket_3dbf21da.webp" alt="Commercial outerwear fashion retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_posing_in_green_gown_160aee02.jpg" alt="Luxury eveningwear editorial beauty retouching" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_posing_in_green_gown_160aee02.webp" alt="Luxury eveningwear editorial beauty retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Models_posing_for_fashion_campaign_d518451e.jpg" alt="Studio fashion beauty campaign retouching" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Models_posing_for_fashion_campaign_d518451e.webp" alt="Studio fashion beauty campaign retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_ivory_tweed_jacket_dac30459.jpg" alt="Bespoke tailoring and tweed texture retouching" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_ivory_tweed_jacket_dac30459.webp" alt="Bespoke tailoring and tweed texture retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_yellow_puffer_coat_97b2ad1b.jpg" alt="Winter apparel lookbook photo retouching" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_yellow_puffer_coat_97b2ad1b.webp" alt="Winter apparel lookbook photo retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
         </div>
         <!-- DUPLICATE GROUP FOR SEAMLESS 60FPS LOOP -->
         <div class="stream-group" aria-hidden="true">
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Models_posing_in_streetwear_fashion_dae05745.jpg" alt="" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Models_posing_in_streetwear_fashion_dae05745.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_posing_in_sweater_3832f6c0.jpg" alt="" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Woman_posing_in_sweater_3832f6c0.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_posing_in_orange_jacket_3dbf21da.jpg" alt="" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_posing_in_orange_jacket_3dbf21da.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_posing_in_green_gown_160aee02.jpg" alt="" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_posing_in_green_gown_160aee02.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Models_posing_for_fashion_campaign_d518451e.jpg" alt="" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Models_posing_for_fashion_campaign_d518451e.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_ivory_tweed_jacket_dac30459.jpg" alt="" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_ivory_tweed_jacket_dac30459.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_yellow_puffer_coat_97b2ad1b.jpg" alt="" loading="eager">
+            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/Model_wearing_yellow_puffer_coat_97b2ad1b.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
         </div>
       </div>
@@ -1517,27 +1535,27 @@ footer a:hover{
     <h2>What we retouch</h2>
     <p class="lead">Six areas, each with its own manual checklist. Hover any row to preview the category.</p>
     <div class="rows">
-      <a class="row" href="/services#jewelry" data-h="42" data-t="Jewelry and watches" data-img="./assets/agency_showcase/service_jewelry.jpg">
+      <a class="row" href="/services#jewelry" data-h="42" data-t="Jewelry and watches" data-img="./assets/agency_showcase/service_jewelry.webp">
         <h3>Jewelry and watches</h3>
         <p>Clean metal, sharp gemstones, true reflections.</p>
       </a>
-      <a class="row" href="/services#fashion" data-h="330" data-t="Fashion and apparel" data-img="./assets/agency_showcase/service_fashion.jpg">
+      <a class="row" href="/services#fashion" data-h="330" data-t="Fashion and apparel" data-img="./assets/agency_showcase/service_fashion.webp">
         <h3>Fashion and apparel</h3>
         <p>Natural drape, wrinkle cleanup, exact color.</p>
       </a>
-      <a class="row" href="/services#beauty" data-h="12" data-t="Editorial beauty" data-img="./assets/agency_showcase/work_editorial_crimson_beauty.jpg">
+      <a class="row" href="/services#beauty" data-h="12" data-t="Editorial beauty" data-img="./assets/agency_showcase/work_editorial_crimson_beauty.webp">
         <h3>Editorial beauty</h3>
         <p>Real skin texture, never plastic.</p>
       </a>
-      <a class="row" href="/services#ecom" data-h="190" data-t="Product packshots" data-img="./assets/agency_showcase/service_packshot.jpg">
+      <a class="row" href="/services#ecom" data-h="190" data-t="Product packshots" data-img="./assets/agency_showcase/service_packshot.webp">
         <h3>Product packshots</h3>
         <p>Hand-drawn paths and soft contact shadows.</p>
       </a>
-      <a class="row" href="/services#automotive" data-h="210" data-t="Automotive and vehicles" data-img="./assets/agency_showcase/service_automotive_after.jpg">
+      <a class="row" href="/services#automotive" data-h="210" data-t="Automotive and vehicles" data-img="./assets/agency_showcase/service_automotive_after.webp">
         <h3>Automotive and vehicles</h3>
         <p>Clean paintwork, glare removal, true reflections.</p>
       </a>
-      <a class="row" href="/services#beauty" data-h="260" data-t="Portraits" data-img="./assets/agency_showcase/client_fashion_lookbook_al_dec_402.jpg">
+      <a class="row" href="/services#beauty" data-h="260" data-t="Portraits" data-img="./assets/agency_showcase/client_fashion_lookbook_al_dec_402.webp">
         <h3>Portraits</h3>
         <p>Balanced light, clean hair, same expression.</p>
       </a>
@@ -1723,19 +1741,19 @@ footer a:hover{
       </div>
       <div class="logo-row">
         <div class="logo-card" title="Aristocracy London — Luxury Bespoke Menswear">
-          <img class="aristocracy" src="./assets/client_logos/aristocracy.png" alt="Aristocracy London" loading="lazy">
+          <img class="aristocracy" src="./assets/client_logos/aristocracy.png" alt="Aristocracy London" width="273" height="87" loading="lazy" decoding="async">
         </div>
         <div class="logo-card" title="PilotFashion — Commercial Apparel">
-          <img class="pilotfashion" src="./assets/client_logos/pilotfashion.png" alt="PilotFashion" loading="lazy">
+          <img class="pilotfashion" src="./assets/client_logos/pilotfashion.png" alt="PilotFashion" width="681" height="358" loading="lazy" decoding="async">
         </div>
         <div class="logo-card" title="Motion Fashion GMBH — Contemporary European Fashion">
-          <img class="motionfashion" src="./assets/client_logos/motionfashion.png" alt="Motion Fashion GMBH" loading="lazy">
+          <img class="motionfashion" src="./assets/client_logos/motionfashion.png" alt="Motion Fashion GMBH" width="64" height="72" loading="lazy" decoding="async">
         </div>
         <div class="logo-card" title="Proper Cloth — Custom &amp; Made-to-Measure Menswear">
-          <img class="propercloth" src="./assets/client_logos/propercloth.png" alt="Proper Cloth" loading="lazy">
+          <img class="propercloth" src="./assets/client_logos/propercloth.png" alt="Proper Cloth" width="163" height="29" loading="lazy" decoding="async">
         </div>
         <div class="logo-card" title="Meshki — Contemporary Luxury &amp; Eveningwear">
-          <img class="meshki" src="./assets/client_logos/meshki.avif" alt="Meshki" loading="lazy">
+          <img class="meshki" src="./assets/client_logos/meshki.avif" alt="Meshki" width="400" height="400" loading="lazy" decoding="async">
         </div>
       </div>
     </div>
@@ -2342,51 +2360,53 @@ footer a:hover{
   });
   window.addEventListener('focus', syncHeaderClientState);
 
-  // 9. HERO 3D FLOATING RING VIDEO CONTROLLER (Seamless screen blend, invisible loop fade, scroll drift)
+  // 9. HERO 3D FLOATING RING VIDEO CONTROLLER (Instant LCP poster -> smooth playback after load)
   (function(){
     var r = document.getElementById('ring');
     var v = document.getElementById('rv');
     if (!r || !v) return;
     var rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (rm) return;
 
-    function go(){
-      r.classList.add('live');
-      if (!rm) {
-        var p = v.play();
-        if (p && p.catch) p.catch(function(){});
-      }
-    }
-    if (v.readyState >= 2) go(); else v.addEventListener('loadeddata', go);
-
-    // Fade through black at the loop point so the restart is invisible
+    var loopedOnce = false, loopRaf = null;
     function f(){
       var d = v.duration || 10, t = v.currentTime, o = 1;
-      if (t < 0.6) o = t / 0.6;
-      else if (t > d - 0.6) o = Math.max(0, (d - t) / 0.6);
+      if (loopedOnce && t < 0.6) o = t / 0.6;
+      else if (t > d - 0.6) { o = Math.max(0, (d - t) / 0.6); loopedOnce = true; }
       r.style.setProperty('--o', o);
-      if (!rm) requestAnimationFrame(f);
+      loopRaf = requestAnimationFrame(f);
     }
-    v.loop = true;
-    if (!rm) requestAnimationFrame(f);
+
+    function revealVideo(){
+      r.classList.add('live');
+      if (!loopRaf) loopRaf = requestAnimationFrame(f);
+    }
+
+    function startVideo(){
+      v.preload = 'auto';
+      v.loop = true;
+      v.addEventListener('playing', revealVideo, { once: true });
+      if (v.readyState >= 3) revealVideo();
+      var p = v.play();
+      if (p && p.catch) p.catch(function(){});
+    }
+
+    if (document.readyState === 'complete') startVideo();
+    else window.addEventListener('load', startVideo, { once: true });
 
     // Subtle scroll drift only (no mouse-move shifting)
     var sy = 0;
-    function ap(){
+    window.addEventListener('scroll', function(){
+      sy = Math.min(window.scrollY || 0, 700) * 0.12;
       v.style.transform = 'translateY(' + sy + 'px)';
-    }
-    if (!rm) {
-      window.addEventListener('scroll', function(){
-        sy = Math.min(window.scrollY || 0, 700) * 0.12;
-        ap();
-      }, { passive: true });
-    }
+    }, { passive: true });
 
     // IntersectionObserver: automatically pause off-screen to preserve CPU/GPU
     if ('IntersectionObserver' in window) {
       var heroObs = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
           if (entry.isIntersecting) {
-            if (v.paused && !rm) v.play().catch(function(){});
+            if (v.paused && v.preload === 'auto') v.play().catch(function(){});
           } else {
             if (!v.paused) v.pause();
           }
@@ -2394,6 +2414,29 @@ footer a:hover{
       }, { threshold: 0.1 });
       heroObs.observe(r);
     }
+  })();
+
+  // 10. PROGRESSIVE MARQUEE WARMUP (keeps initial LCP clean, preloads off-screen horizontal tiles before scroll)
+  (function(){
+    var mq = document.getElementById('marqueeShowcase');
+    if (!mq || !('IntersectionObserver' in window)) return;
+    var warmed = false;
+    function warmMarquee(){
+      if (warmed) return;
+      warmed = true;
+      mq.querySelectorAll('img[loading="lazy"]').forEach(function(img){
+        img.loading = 'eager';
+      });
+    }
+    var mqObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          warmMarquee();
+          mqObs.disconnect();
+        }
+      });
+    }, { rootMargin: '900px 0px' });
+    mqObs.observe(mq);
   })();
 })();
 </script>

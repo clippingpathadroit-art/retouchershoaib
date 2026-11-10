@@ -55,9 +55,12 @@
 }
 </script>
 <noscript><style>.dep .tx>*{opacity:1!important;transform:none!important}.ph{clip-path:inset(0)!important}</style></noscript>
+<link rel="preload" as="image" href="/assets/agency_showcase/service_jewelry_after_v2.webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap"></noscript>
 <style>
 :root{
   --bg:#0a0a0b;
@@ -608,7 +611,7 @@ footer a:hover{
 <main id="deps">
   <section class="dep" id="jewelry">
     <div class="wrap">
-      <div class="ph"><img src="./assets/agency_showcase/service_jewelry_after_v2.jpg" alt="Luxury jewelry and watch retouching"></div>
+      <div class="ph"><img src="./assets/agency_showcase/service_jewelry_after_v2.webp" alt="Luxury jewelry and watch retouching" width="760" height="950" decoding="async" fetchpriority="high"></div>
       <div class="tx">
         <div class="num">01<span>Flagship</span></div>
         <h2>Luxury jewelry and watch retouching</h2>
@@ -621,7 +624,7 @@ footer a:hover{
   </section>
   <section class="dep" id="fashion">
     <div class="wrap">
-      <div class="ph"><img src="./assets/agency_showcase/service_fashion_after.jpg" alt="Fashion and ghost mannequin retouching"></div>
+      <div class="ph"><img src="./assets/agency_showcase/service_fashion_after.webp" alt="Fashion and ghost mannequin retouching" width="819" height="1024" loading="lazy" decoding="async"></div>
       <div class="tx">
         <div class="num">02<span>Flagship</span></div>
         <h2>Fashion and clothing retouching</h2>
@@ -634,7 +637,7 @@ footer a:hover{
   </section>
   <section class="dep" id="beauty">
     <div class="wrap">
-      <div class="ph"><img src="./assets/agency_showcase/service_beauty_after.jpg" alt="Model and beauty portrait retouching"></div>
+      <div class="ph"><img src="./assets/agency_showcase/service_beauty_after.webp" alt="Model and beauty portrait retouching" width="764" height="1024" loading="lazy" decoding="async"></div>
       <div class="tx">
         <div class="num">03<span>Flagship</span></div>
         <h2>Model and beauty portrait retouching</h2>
@@ -647,7 +650,7 @@ footer a:hover{
   </section>
   <section class="dep" id="ecom">
     <div class="wrap">
-      <div class="ph"><img src="./assets/agency_showcase/service_ecom_after.jpg" alt="E-commerce product retouching"></div>
+      <div class="ph"><img src="./assets/agency_showcase/service_ecom_after.webp" alt="E-commerce product retouching" width="812" height="1015" loading="lazy" decoding="async"></div>
       <div class="tx">
         <div class="num">04<span>High volume</span></div>
         <h2>E-commerce product retouching</h2>
@@ -660,7 +663,7 @@ footer a:hover{
   </section>
   <section class="dep" id="still">
     <div class="wrap">
-      <div class="ph"><img src="./assets/agency_showcase/work_luxury_perfume.jpg" alt="Still life and commercial perfume retouching"></div>
+      <div class="ph"><img src="./assets/agency_showcase/work_luxury_perfume.webp" alt="Still life and commercial perfume retouching" width="896" height="1200" loading="lazy" decoding="async"></div>
       <div class="tx">
         <div class="num">05<span>Commercial studio</span></div>
         <h2>Still life and creative commercial</h2>
@@ -673,7 +676,7 @@ footer a:hover{
   </section>
   <section class="dep wide" id="automotive">
     <div class="wrap">
-      <div class="ph wide"><img src="./assets/agency_showcase/service_automotive_after.jpg" alt="Porsche 935 automotive retouching"></div>
+      <div class="ph wide"><img src="./assets/agency_showcase/service_automotive_after.webp" alt="Porsche 935 automotive retouching" width="1022" height="575" loading="lazy" decoding="async"></div>
       <div class="tx">
         <div class="num">06<span>Commercial &amp; Motorsport</span></div>
         <h2>Automotive retouching</h2>
@@ -751,7 +754,7 @@ footer a:hover{
       'service_jewelry',
       'Flagship',
       'center center',
-      { before: 'service_jewelry_before.jpg', after: 'service_jewelry_after_v2.jpg' }
+      { before: 'service_jewelry_before.webp', after: 'service_jewelry_after_v2.webp' }
     ],
     [
       'fashion',
@@ -763,7 +766,7 @@ footer a:hover{
       'service_fashion',
       'Flagship',
       'center center',
-      { before: 'service_fashion_before.jpg', after: 'service_fashion_after.jpg' }
+      { before: 'service_fashion_before.webp', after: 'service_fashion_after.webp' }
     ],
     [
       'beauty',
@@ -775,7 +778,7 @@ footer a:hover{
       'client_beauty_studio_portrait',
       'Flagship',
       'center 22%',
-      { before: 'service_beauty_before.jpg', after: 'service_beauty_after.jpg' }
+      { before: 'service_beauty_before.webp', after: 'service_beauty_after.webp' }
     ],
     [
       'ecom',
@@ -787,7 +790,7 @@ footer a:hover{
       'service_packshot',
       'High volume',
       'center center',
-      { before: 'service_ecom_before.jpg', after: 'service_ecom_after.jpg' }
+      { before: 'service_ecom_before.webp', after: 'service_ecom_after.webp' }
     ],
     [
       'still',
@@ -811,8 +814,8 @@ footer a:hover{
       'Commercial & Motorsport',
       'center center',
       {
-        before: 'service_automotive_before.jpg',
-        after: 'service_automotive_after.jpg',
+        before: 'service_automotive_before.webp',
+        after: 'service_automotive_after.webp',
         wide: true,
         altBefore: 'Porsche 935 race car photo before automotive retouching inside busy paddock tent',
         altAfter: 'Porsche 935 race car after automotive retouching on clean teal studio background with natural shadow'
@@ -826,23 +829,24 @@ footer a:hover{
   main.innerHTML = D.map(function(d, i){
     var n = '0' + (i + 1);
     var ld = i === 0 ? 'eager' : 'lazy';
+    var fp = i === 0 ? ' fetchpriority="high"' : '';
     var isWide = d[9] && d[9].wide;
     var bAlt = (d[9] && d[9].altBefore) || (d[2] + ' before retouching');
     var aAlt = (d[9] && d[9].altAfter) || (d[2] + ' after retouching');
     var mediaHtml = d[9]
       ? '<div class="ph ba' + (isWide ? ' wide' : '') + '" style="--x:50%">' +
           '<div class="lay before">' +
-            '<img src="' + B + d[9].before + '" alt="' + bAlt + '" loading="' + ld + '" decoding="async" style="object-position:' + d[8] + '">' +
+            '<img src="' + B + d[9].before + '" alt="' + bAlt + '" loading="' + ld + '"' + fp + ' decoding="async" style="object-position:' + d[8] + '">' +
             '<span class="tag b">Before</span>' +
           '</div>' +
           '<div class="lay after">' +
-            '<img src="' + B + d[9].after + '" alt="' + aAlt + '" loading="' + ld + '" decoding="async" style="object-position:' + d[8] + '">' +
+            '<img src="' + B + d[9].after + '" alt="' + aAlt + '" loading="' + ld + '"' + fp + ' decoding="async" style="object-position:' + d[8] + '">' +
             '<span class="tag a">After</span>' +
           '</div>' +
           '<input type="range" min="0" max="100" value="50" aria-label="Before and after comparison for ' + d[2] + '">' +
           '<div class="ba-bar"></div>' +
         '</div>'
-      : '<div class="ph"><img src="' + B + d[6] + '.jpg" alt="' + d[2] + ' sample" loading="' + ld + '" decoding="async" style="object-position:' + d[8] + '"></div>';
+      : '<div class="ph"><img src="' + B + d[6] + '.webp" alt="' + d[2] + ' sample" loading="' + ld + '"' + fp + ' decoding="async" style="object-position:' + d[8] + '"></div>';
     return '<section class="dep' + (isWide ? ' wide' : '') + '" id="' + d[0] + '">' +
       '<div class="wrap">' +
         mediaHtml +

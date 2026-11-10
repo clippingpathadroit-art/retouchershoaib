@@ -36,7 +36,9 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap"></noscript>
 <style>
 :root{
   --bg:#0a0a0b;
@@ -830,8 +832,8 @@ dialog::backdrop{
       <h2>Drag to compare</h2>
       <p class="lead">The same jewelry shot, before and after retouching.</p>
       <div class="ba" id="ba">
-        <img src="./assets/Jewelry%20Before.jpg" alt="Jewelry before retouching" loading="lazy">
-        <img class="af" src="./assets/Jewelry%20After.jpg" alt="Jewelry after retouching" loading="lazy">
+        <img src="./assets/Jewelry%20Before.webp" alt="Jewelry before retouching" width="1400" height="1050" loading="lazy" decoding="async">
+        <img class="af" src="./assets/Jewelry%20After.webp" alt="Jewelry after retouching" width="1400" height="1050" loading="lazy" decoding="async">
         <span class="tag b">Before</span>
         <span class="tag a">After</span>
         <div class="hd"></div>
@@ -900,7 +902,7 @@ dialog::backdrop{
   // DATASET OF ALL COMBINED PROJECTS (CURATED SPOTLIGHTS FIRST)
   var items = [
   {
-    "img": "./assets/agency_showcase/service_jewelry.jpg",
+    "img": "./assets/agency_showcase/service_jewelry.webp",
     "t": "Tourbillon chronograph",
     "c": "jewelry",
     "s": [
@@ -910,7 +912,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/hero_jewelry.jpg",
+    "img": "./assets/agency_showcase/hero_jewelry.webp",
     "t": "Sapphire cocktail ring",
     "c": "jewelry",
     "s": [
@@ -920,7 +922,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/gallery_emerald_necklace.jpg",
+    "img": "./assets/agency_showcase/gallery_emerald_necklace.webp",
     "t": "Emerald and diamond necklace",
     "c": "jewelry",
     "s": [
@@ -930,7 +932,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/jewelry_panther_bangles_trio.jpg",
+    "img": "./assets/agency_showcase/jewelry_panther_bangles_trio.webp",
     "t": "Panther bangle trio",
     "c": "jewelry",
     "s": [
@@ -940,7 +942,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/jewelry_panther_ring_front.jpg",
+    "img": "./assets/agency_showcase/jewelry_panther_ring_front.webp",
     "t": "Panther diamond ring",
     "c": "jewelry",
     "s": [
@@ -950,7 +952,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_jewelry_butterfly_brooches_pair.jpg",
+    "img": "./assets/agency_showcase/client_jewelry_butterfly_brooches_pair.webp",
     "t": "Butterfly brooches",
     "c": "jewelry",
     "s": [
@@ -960,7 +962,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/gallery_red_gown.jpg",
+    "img": "./assets/agency_showcase/gallery_red_gown.webp",
     "t": "Scarlet chiffon gown",
     "c": "fashion",
     "s": [
@@ -970,7 +972,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/work_avant_garde_fashion.jpg",
+    "img": "./assets/agency_showcase/work_avant_garde_fashion.webp",
     "t": "Copper cape editorial",
     "c": "fashion",
     "s": [
@@ -980,7 +982,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_green_gown.jpg",
+    "img": "./assets/agency_showcase/client_fashion_green_gown.webp",
     "t": "Emerald silk gown",
     "c": "fashion",
     "s": [
@@ -990,7 +992,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/fashion_evening_duo_editorial.jpg",
+    "img": "./assets/agency_showcase/fashion_evening_duo_editorial.webp",
     "t": "Black-tie evening duo",
     "c": "fashion",
     "s": [
@@ -1000,7 +1002,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/service_fashion.jpg",
+    "img": "./assets/agency_showcase/service_fashion.webp",
     "t": "Tailored suit and trench",
     "c": "fashion",
     "s": [
@@ -1010,7 +1012,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_urban_apparel.jpg",
+    "img": "./assets/agency_showcase/client_fashion_urban_apparel.webp",
     "t": "Urban streetwear duo",
     "c": "fashion",
     "s": [
@@ -1020,7 +1022,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/hero_fashion.jpg",
+    "img": "./assets/agency_showcase/hero_fashion.webp",
     "t": "Ivory couture blazer",
     "c": "fashion",
     "s": [
@@ -1030,7 +1032,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_beauty_silk_drape.jpg",
+    "img": "./assets/agency_showcase/client_beauty_silk_drape.webp",
     "t": "Silk drape portrait",
     "c": "beauty",
     "s": [
@@ -1040,7 +1042,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_beauty_silver_glow.jpg",
+    "img": "./assets/agency_showcase/client_beauty_silver_glow.webp",
     "t": "Silver glow complexion",
     "c": "beauty",
     "s": [
@@ -1050,7 +1052,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_beauty_studio_portrait.jpg",
+    "img": "./assets/agency_showcase/client_beauty_studio_portrait.webp",
     "t": "Warm studio portrait",
     "c": "beauty",
     "s": [
@@ -1060,7 +1062,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/work_editorial_crimson_beauty.jpg",
+    "img": "./assets/agency_showcase/work_editorial_crimson_beauty.webp",
     "t": "Crimson editorial beauty",
     "c": "beauty",
     "s": [
@@ -1070,7 +1072,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_beauty_eyewear_portrait_0510.jpg",
+    "img": "./assets/agency_showcase/client_beauty_eyewear_portrait_0510.webp",
     "t": "Eyewear portrait",
     "c": "beauty",
     "s": [
@@ -1080,7 +1082,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/work_luxury_perfume.jpg",
+    "img": "./assets/agency_showcase/work_luxury_perfume.webp",
     "t": "Crystal fragrance",
     "c": "product",
     "s": [
@@ -1090,7 +1092,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/gallery_cosmetic_powder.jpg",
+    "img": "./assets/agency_showcase/gallery_cosmetic_powder.webp",
     "t": "Mineral compact",
     "c": "product",
     "s": [
@@ -1100,7 +1102,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/service_packshot.jpg",
+    "img": "./assets/agency_showcase/service_packshot.webp",
     "t": "Serum and cream",
     "c": "product",
     "s": [
@@ -1110,7 +1112,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/work_ghost_mannequin.jpg",
+    "img": "./assets/agency_showcase/work_ghost_mannequin.webp",
     "t": "Ghost mannequin blazer",
     "c": "product",
     "s": [
@@ -1120,7 +1122,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_ecom_oxford_shoes_classic_angle.jpg",
+    "img": "./assets/agency_showcase/client_ecom_oxford_shoes_classic_angle.webp",
     "t": "Patent leather oxfords",
     "c": "product",
     "s": [
@@ -1130,17 +1132,17 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_ecom_navy_tailored_suit_garment_bag.jpg",
+    "img": "./assets/agency_showcase/client_ecom_navy_tailored_suit_garment_bag.webp",
     "t": "Menswear series",
     "c": "product",
     "series": 1,
     "imgs": [
-      "./assets/agency_showcase/client_ecom_navy_tailored_suit_garment_bag.jpg",
-      "./assets/agency_showcase/client_ecom_charcoal_wool_tuxedo_packaging.jpg",
-      "./assets/agency_showcase/client_ecom_burgundy_velvet_tuxedo_stand.jpg",
-      "./assets/agency_showcase/client_ecom_leather_wallet_open_compartments.jpg",
-      "./assets/agency_showcase/client_ecom_handcrafted_leather_dress_belt.jpg",
-      "./assets/agency_showcase/client_ecom_oxford_shoes_overhead_pair.jpg"
+      "./assets/agency_showcase/client_ecom_navy_tailored_suit_garment_bag.webp",
+      "./assets/agency_showcase/client_ecom_charcoal_wool_tuxedo_packaging.webp",
+      "./assets/agency_showcase/client_ecom_burgundy_velvet_tuxedo_stand.webp",
+      "./assets/agency_showcase/client_ecom_leather_wallet_open_compartments.webp",
+      "./assets/agency_showcase/client_ecom_handcrafted_leather_dress_belt.webp",
+      "./assets/agency_showcase/client_ecom_oxford_shoes_overhead_pair.webp"
     ],
     "s": [
       "Suits, shoes and leather goods",
@@ -1149,7 +1151,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/jewelry_panther_bangle_single.jpg",
+    "img": "./assets/agency_showcase/jewelry_panther_bangle_single.webp",
     "t": "18K Gold Pavé Panther Bangle & Emerald Eyes",
     "c": "jewelry",
     "s": [
@@ -1159,7 +1161,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/jewelry_panther_ring_side.jpg",
+    "img": "./assets/agency_showcase/jewelry_panther_ring_side.webp",
     "t": "18K Gold Panther Bypass Ring (Profile View)",
     "c": "jewelry",
     "s": [
@@ -1169,7 +1171,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_black_tie_gold_sequin_couple.jpg",
+    "img": "./assets/agency_showcase/client_fashion_black_tie_gold_sequin_couple.webp",
     "t": "Black-Tie Gala Tuxedo & Gold Sequin Gown Duo",
     "c": "fashion",
     "s": [
@@ -1179,7 +1181,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_glamour_gold_sequin_gown_solo.jpg",
+    "img": "./assets/agency_showcase/client_fashion_glamour_gold_sequin_gown_solo.webp",
     "t": "Glamour Cowl-Neck Gold Sequin Midi Gown (Solo)",
     "c": "fashion",
     "s": [
@@ -1189,7 +1191,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_cocktail_purple_sequin_duo.jpg",
+    "img": "./assets/agency_showcase/client_fashion_cocktail_purple_sequin_duo.webp",
     "t": "Vibrant Violet Tailoring & Purple Sequin Cocktail Duo",
     "c": "fashion",
     "s": [
@@ -1199,7 +1201,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_gala_black_tie_gold_sequin_tuxedo_pose.jpg",
+    "img": "./assets/agency_showcase/client_fashion_gala_black_tie_gold_sequin_tuxedo_pose.webp",
     "t": "Black-Tie Classic: Velvet Tuxedo & Gold Sequin Midi Pose",
     "c": "fashion",
     "s": [
@@ -1209,7 +1211,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_gala_midnight_navy_sequin_evening_duo.jpg",
+    "img": "./assets/agency_showcase/client_fashion_gala_midnight_navy_sequin_evening_duo.webp",
     "t": "Midnight Navy Sequin Off-Shoulder Gown & Suiting Duo",
     "c": "fashion",
     "s": [
@@ -1219,7 +1221,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_gala_emerald_teal_satin_drape_solo.jpg",
+    "img": "./assets/agency_showcase/client_fashion_gala_emerald_teal_satin_drape_solo.webp",
     "t": "Emerald Teal Satin Gathered Cocktail Gown (Solo)",
     "c": "fashion",
     "s": [
@@ -1229,7 +1231,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_gala_gold_sequin_and_camel_tailoring_duo.jpg",
+    "img": "./assets/agency_showcase/client_fashion_gala_gold_sequin_and_camel_tailoring_duo.webp",
     "t": "Dynamic Gold Sequin Midi & Earth-Toned Tailoring Duo",
     "c": "fashion",
     "s": [
@@ -1239,7 +1241,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_gala_all_white_bespoke_ivory_cocktail_duo.jpg",
+    "img": "./assets/agency_showcase/client_fashion_gala_all_white_bespoke_ivory_cocktail_duo.webp",
     "t": "Ivory Monochrome: Bespoke Suiting & Minimalist White Dress",
     "c": "fashion",
     "s": [
@@ -1249,7 +1251,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_gala_quartet_black_tie_suiting_ensemble.jpg",
+    "img": "./assets/agency_showcase/client_fashion_gala_quartet_black_tie_suiting_ensemble.webp",
     "t": "Gala Quartet: Midnight Velvet & Black-Tie Formal Suiting",
     "c": "fashion",
     "s": [
@@ -1259,7 +1261,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_gala_gold_cowl_neck_and_waistcoat_duo.jpg",
+    "img": "./assets/agency_showcase/client_fashion_gala_gold_cowl_neck_and_waistcoat_duo.webp",
     "t": "Opulent Gold Cowl-Neck Gown & Satin Trim Waistcoat Duo",
     "c": "fashion",
     "s": [
@@ -1269,7 +1271,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_gala_burgundy_velvet_and_sequin_cocktail_duo.jpg",
+    "img": "./assets/agency_showcase/client_fashion_gala_burgundy_velvet_and_sequin_cocktail_duo.webp",
     "t": "Burgundy Suiting & Rich Wine Sequin Column Gown Duo",
     "c": "fashion",
     "s": [
@@ -1279,7 +1281,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_gala_gentlemen_black_tie_suiting_trio.jpg",
+    "img": "./assets/agency_showcase/client_fashion_gala_gentlemen_black_tie_suiting_trio.webp",
     "t": "Gentlemen's Suiting: Midnight Navy & Classic Black-Tie Trio",
     "c": "fashion",
     "s": [
@@ -1289,7 +1291,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_gala_classic_tuxedo_and_black_tie_duo.jpg",
+    "img": "./assets/agency_showcase/client_fashion_gala_classic_tuxedo_and_black_tie_duo.webp",
     "t": "Classic Suiting & Black Velvet Cocktail Evening Duo",
     "c": "fashion",
     "s": [
@@ -1299,7 +1301,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_gala_modern_cocktail_formalwear_editorial.jpg",
+    "img": "./assets/agency_showcase/client_fashion_gala_modern_cocktail_formalwear_editorial.webp",
     "t": "Modern Formalwear: Crisp Poplin Shirt & Suspenders Editorial",
     "c": "fashion",
     "s": [
@@ -1309,7 +1311,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_ecom_oxford_shoes_side_profile.jpg",
+    "img": "./assets/agency_showcase/client_ecom_oxford_shoes_side_profile.webp",
     "t": "Aristocracy London Patent Leather Oxfords (Side Profile)",
     "c": "product",
     "s": [
@@ -1319,7 +1321,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_ecom_navy_blazer_tailored_cut.jpg",
+    "img": "./assets/agency_showcase/client_ecom_navy_blazer_tailored_cut.webp",
     "t": "Aristocracy Classic Navy Tailored Blazer",
     "c": "product",
     "s": [
@@ -1329,7 +1331,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_ecom_black_tie_dinner_jacket_display.jpg",
+    "img": "./assets/agency_showcase/client_ecom_black_tie_dinner_jacket_display.webp",
     "t": "Aristocracy Black-Tie Dinner Jacket & Box",
     "c": "product",
     "s": [
@@ -1339,7 +1341,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_ecom_royal_blue_tuxedo_stand.jpg",
+    "img": "./assets/agency_showcase/client_ecom_royal_blue_tuxedo_stand.webp",
     "t": "Aristocracy Royal Blue Velvet Lapel Tuxedo",
     "c": "product",
     "s": [
@@ -1349,7 +1351,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_ecom_ivory_gala_tuxedo_mannequin.jpg",
+    "img": "./assets/agency_showcase/client_ecom_ivory_gala_tuxedo_mannequin.webp",
     "t": "Aristocracy Ivory Gala Tuxedo & Vest",
     "c": "product",
     "s": [
@@ -1359,7 +1361,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_ecom_leather_wallet_folded_profile.jpg",
+    "img": "./assets/agency_showcase/client_ecom_leather_wallet_folded_profile.webp",
     "t": "Aristocracy Calfskin Bifold Wallet (Closed)",
     "c": "product",
     "s": [
@@ -1369,7 +1371,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_ecom_leather_cardholder_slim_packshot.jpg",
+    "img": "./assets/agency_showcase/client_ecom_leather_cardholder_slim_packshot.webp",
     "t": "Aristocracy Minimalist Leather Cardholder",
     "c": "product",
     "s": [
@@ -1379,7 +1381,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_ecom_luxury_leather_bifold_wallet_display.jpg",
+    "img": "./assets/agency_showcase/client_ecom_luxury_leather_bifold_wallet_display.webp",
     "t": "Aristocracy Classic Calfskin Bifold Wallet & Box",
     "c": "product",
     "s": [
@@ -1389,7 +1391,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_ecom_leather_goods_gift_set_display.jpg",
+    "img": "./assets/agency_showcase/client_ecom_leather_goods_gift_set_display.webp",
     "t": "Aristocracy Leather Wallet & Ribbon Gift Box",
     "c": "product",
     "s": [
@@ -1399,7 +1401,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_225.jpg",
+    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_225.webp",
     "t": "Editorial Polka-Dot Silk Halter Gown",
     "c": "fashion",
     "s": [
@@ -1409,7 +1411,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_117.jpg",
+    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_117.webp",
     "t": "Haute Ready-to-Wear Houndstooth Midi Dress",
     "c": "fashion",
     "s": [
@@ -1419,7 +1421,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_130.jpg",
+    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_130.webp",
     "t": "Haute RTW Lookbook Model Look 130",
     "c": "fashion",
     "s": [
@@ -1429,7 +1431,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_230.jpg",
+    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_230.webp",
     "t": "Haute RTW Lookbook Model Look 230",
     "c": "fashion",
     "s": [
@@ -1439,7 +1441,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_241.jpg",
+    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_241.webp",
     "t": "Haute RTW Lookbook Model Look 241",
     "c": "fashion",
     "s": [
@@ -1449,7 +1451,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_264.jpg",
+    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_264.webp",
     "t": "Haute RTW Lookbook Model Look 264",
     "c": "fashion",
     "s": [
@@ -1459,7 +1461,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_282.jpg",
+    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_282.webp",
     "t": "Haute RTW Lookbook Model Look 282",
     "c": "fashion",
     "s": [
@@ -1469,7 +1471,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_294.jpg",
+    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_294.webp",
     "t": "Haute RTW Lookbook Model Look 294",
     "c": "fashion",
     "s": [
@@ -1479,7 +1481,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_402.jpg",
+    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_402.webp",
     "t": "Haute RTW Lookbook Model Look 402",
     "c": "fashion",
     "s": [
@@ -1489,7 +1491,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_421.jpg",
+    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_421.webp",
     "t": "Haute RTW Lookbook Model Look 421",
     "c": "fashion",
     "s": [
@@ -1499,7 +1501,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_495.jpg",
+    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_495.webp",
     "t": "Haute RTW Lookbook Model Look 495",
     "c": "fashion",
     "s": [
@@ -1509,7 +1511,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_501.jpg",
+    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_501.webp",
     "t": "Haute RTW Lookbook Model Look 501",
     "c": "fashion",
     "s": [
@@ -1519,7 +1521,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_606.jpg",
+    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_606.webp",
     "t": "Haute RTW Lookbook Model Look 606",
     "c": "fashion",
     "s": [
@@ -1529,7 +1531,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_619.jpg",
+    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_619.webp",
     "t": "Haute RTW Lookbook Model Look 619",
     "c": "fashion",
     "s": [
@@ -1539,7 +1541,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_773.jpg",
+    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_773.webp",
     "t": "Haute RTW Lookbook Model Look 773",
     "c": "fashion",
     "s": [
@@ -1549,7 +1551,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_785.jpg",
+    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_785.webp",
     "t": "Haute RTW Lookbook Model Look 785",
     "c": "fashion",
     "s": [
@@ -1559,7 +1561,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_797.jpg",
+    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_797.webp",
     "t": "Haute RTW Lookbook Model Look 797",
     "c": "fashion",
     "s": [
@@ -1569,7 +1571,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_817.jpg",
+    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_817.webp",
     "t": "Haute RTW Lookbook Model Look 817",
     "c": "fashion",
     "s": [
@@ -1579,7 +1581,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_147.jpg",
+    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_147.webp",
     "t": "Haute RTW Lookbook Model Look 147",
     "c": "fashion",
     "s": [
@@ -1589,7 +1591,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_148.jpg",
+    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_148.webp",
     "t": "Haute RTW Lookbook Model Look 148",
     "c": "fashion",
     "s": [
@@ -1599,7 +1601,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_159.jpg",
+    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_159.webp",
     "t": "Haute RTW Lookbook Model Look 159",
     "c": "fashion",
     "s": [
@@ -1609,7 +1611,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_175.jpg",
+    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_175.webp",
     "t": "Haute RTW Lookbook Model Look 175",
     "c": "fashion",
     "s": [
@@ -1619,7 +1621,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_193.jpg",
+    "img": "./assets/agency_showcase/client_fashion_lookbook_al_dec_193.webp",
     "t": "Haute RTW Lookbook Model Look 193",
     "c": "fashion",
     "s": [
@@ -1629,7 +1631,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_fashion_smocked_plaid_midi_dress.jpg",
+    "img": "./assets/agency_showcase/client_fashion_smocked_plaid_midi_dress.webp",
     "t": "Smocked Rust & Blue Plaid Editorial Dress",
     "c": "fashion",
     "s": [
@@ -1639,7 +1641,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_beauty_eyewear_portrait_0430.jpg",
+    "img": "./assets/agency_showcase/client_beauty_eyewear_portrait_0430.webp",
     "t": "Vintage Aviator Eyewear & Studio Portrait 0430",
     "c": "beauty",
     "s": [
@@ -1649,7 +1651,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_beauty_eyewear_portrait_0573.jpg",
+    "img": "./assets/agency_showcase/client_beauty_eyewear_portrait_0573.webp",
     "t": "Studio Eyewear & Natural Beauty Portrait 0573",
     "c": "beauty",
     "s": [
@@ -1659,7 +1661,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_beauty_eyewear_portrait_0865.jpg",
+    "img": "./assets/agency_showcase/client_beauty_eyewear_portrait_0865.webp",
     "t": "Studio Eyewear & Natural Beauty Portrait 0865",
     "c": "beauty",
     "s": [
@@ -1669,7 +1671,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_beauty_eyewear_portrait_1040.jpg",
+    "img": "./assets/agency_showcase/client_beauty_eyewear_portrait_1040.webp",
     "t": "Studio Eyewear & Natural Beauty Portrait 1040",
     "c": "beauty",
     "s": [
@@ -1679,7 +1681,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/client_beauty_eyewear_portrait_9859.jpg",
+    "img": "./assets/agency_showcase/client_beauty_eyewear_portrait_9859.webp",
     "t": "Studio Eyewear & Natural Beauty Portrait 9859",
     "c": "beauty",
     "s": [
@@ -1712,7 +1714,7 @@ dialog::backdrop{
     grid.innerHTML = part.map(function(i, n){
       var realIndex = items.indexOf(i);
       return '<button class="tile in" style="animation-delay:' + (n % 6 * 60) + 'ms" data-n="' + realIndex + '">' +
-        '<img src="' + i.img + '" alt="' + i.t.replace(/"/g, '&quot;') + '" loading="lazy" decoding="async">' +
+        '<img src="' + i.img + '" alt="' + i.t.replace(/"/g, '&quot;') + '" loading="' + (n < 3 ? 'eager' : 'lazy') + '"' + (n === 0 ? ' fetchpriority="high"' : '') + ' decoding="async">' +
         '<span class="cap"><b>' + i.t + '</b><span>' + (CATS[i.c] || i.c) + '</span></span>' +
         (i.series ? '<span class="badge">' + i.imgs.length + ' images</span>' : '') +
       '</button>';
