@@ -7,4 +7,4 @@ Disallow: /admin.html
 Disallow: /404
 Disallow: /404.html
 
-Sitemap: https://retouchershoaib.pages.dev/sitemap.xml
+Sitemap: https://retouchershoaib.com/sitemap.xml

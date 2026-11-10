@@ -286,7 +286,7 @@ function doPost(e) {
           "═════════════════════════════════════════════\n" +
           orderUrl + "\n\n" +
           "Open Studio Admin Console:\n" +
-          "https://retouchershoaib.pages.dev/admin\n";
+          "https://retouchershoaib.com/admin\n";
 
         MailApp.sendEmail({
           to: adminEmails[0],
@@ -323,13 +323,13 @@ function doPost(e) {
             "─────────────────────────────────────────────\n" +
             orderUrl + "\n\n" +
             "Our senior post-production team has begun inspecting your files and establishing display color calibration. You can track real-time stage progress and live SLA countdown anytime directly on your private portal:\n" +
-            "https://retouchershoaib.pages.dev/portal\n\n" +
+            "https://retouchershoaib.com/portal\n\n" +
             "If you have additional references or questions, feel free to reply directly to this email or contact us on WhatsApp at +880 1710 763251.\n\n" +
             "Warm regards,\n\n" +
             "Shoaib Siddique\n" +
             "High-End Commercial Retoucher & Creative Director\n" +
             "Retoucher Shoaib® | Commercial Post-Production Studio\n" +
-            "https://retouchershoaib.pages.dev\n";
+            "https://retouchershoaib.com\n";
 
           MailApp.sendEmail({
             to: email,
@@ -420,7 +420,7 @@ function doPost(e) {
           "═════════════════════════════════════════════\n" +
           "1. Check your Wise or Bank account for reference #" + ref + ".\n" +
           "2. Open Admin Console:\n" +
-          "   https://retouchershoaib.pages.dev/admin\n" +
+          "   https://retouchershoaib.com/admin\n" +
           "3. In '⚡ Incoming Payment Claims', click [ Review & Mark Paid ] to confirm.\n" +
           "   This will instantly mark the client invoice as PAID ✓ and issue their official receipt.\n";
 
@@ -444,10 +444,10 @@ function doPost(e) {
             "Thank you! We have received your payment transfer confirmation (Ref #" + ref + ") for Order #RS-2026-" + (cleanNum || rawId) + ".\n\n" +
             "Studio Director Shoaib Siddique is verifying the funds with bank records. Once verified, your status will update to PAID ✓ and your certified tax invoice receipt will be available for download.\n\n" +
             "Check live status anytime:\n" +
-            "https://retouchershoaib.pages.dev/portal\n\n" +
+            "https://retouchershoaib.com/portal\n\n" +
             "Warm regards,\n" +
             "Retoucher Shoaib Studio\n" +
-            "https://retouchershoaib.pages.dev\n";
+            "https://retouchershoaib.com\n";
 
           MailApp.sendEmail({
             to: clientEmail,
@@ -529,10 +529,10 @@ function doPost(e) {
             "• Status: PAID ✓ (All settled)\n" +
             "• Studio: Retoucher Shoaib High-End Commercial Post-Production\n\n" +
             "Your official printable tax invoice & receipt is ready in your Client Portal:\n" +
-            "https://retouchershoaib.pages.dev/portal\n\n" +
+            "https://retouchershoaib.com/portal\n\n" +
             "Warm regards,\n" +
             "Retoucher Shoaib Billing Desk\n" +
-            "https://retouchershoaib.pages.dev\n";
+            "https://retouchershoaib.com\n";
 
           MailApp.sendEmail({
             to: clientEmail,
