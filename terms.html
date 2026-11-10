@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Terms of Service, Client Ownership, Turnaround &amp; NDA Protection for Retoucher Shoaib Studio and Client Portal.">
+<title>Terms of Service &amp; Client NDA — Retoucher Shoaib</title>
+<link rel="canonical" href="https://retouchershoaib.com/terms">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Terms of Service &amp; Client NDA — Retoucher Shoaib">
+<meta property="og:description" content="Commercial retouching service terms, 100% client IP ownership, turnaround standards, and Client Portal terms for Retoucher Shoaib.">
+<meta property="og:url" content="https://retouchershoaib.com/terms">
+<link rel="icon" type="image/png" href="/assets/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap">
+<style>
+:root{
+  --bg:#0a0a0b;
+  --surface:#141416;
+  --text:#f1f1ec;
+  --muted:#8b8b86;
+  --line:rgba(255,255,255,.12);
+  --accent:#c8f135;
+  --on-accent:#0a0a0b;
+  --display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+  --body:"DM Sans","Helvetica Neue",Arial,sans-serif;
+  color-scheme:dark;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{
+  scroll-padding-top:calc(env(safe-area-inset-top,0px) + 90px);
+  background:var(--bg);
+  scroll-behavior:smooth;
+}
+*,*::before,*::after{
+  box-sizing:inherit;
+}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font:400 17px/1.65 var(--body);
+  overflow-x:clip;
+  -webkit-font-smoothing:antialiased;
+}
+a{
+  color:inherit;
+  text-decoration:none;
+}
+.wrap{
+  max-width:1240px;
+  margin:0 auto;
+  padding:0 clamp(20px,4vw,48px);
+}
+
+/* HEADER & NAVIGATION */
+header{
+  position:fixed;
+  inset:0 0 auto;
+  z-index:100;
+  padding-top:env(safe-area-inset-top,0px);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  background:color-mix(in srgb,var(--bg) 75%,transparent);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+header .wrap{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  height:68px;
+}
+.logo{
+  font:800 19px var(--display);
+  letter-spacing:-.01em;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.logo sup{
+  font-size:10px;
+  color:var(--accent);
+}
+nav{
+  display:flex;
+  align-items:center;
+  gap:clamp(18px,2.2vw,28px);
+  color:var(--muted);
+  font-size:15px;
+  white-space:nowrap;
+}
+nav a{
+  transition:color .2s;
+}
+nav a:hover{
+  color:var(--text);
+}
+.nav-actions{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:13px 26px;
+  border-radius:99px;
+  border:1px solid var(--line);
+  font-weight:500;
+  font-size:15px;
+  transition:transform .25s,background .25s,border-color .25s,color .25s;
+}
+.btn:hover{
+  transform:translateY(-2px);
+  border-color:var(--text);
+}
+.btn.p{
+  background:var(--accent);
+  color:var(--on-accent);
+  border-color:var(--accent);
+}
+header .btn{
+  padding:9px 18px;
+  font-size:14px;
+}
+
+/* LEGAL HERO & DOCUMENT GRID */
+.hero{
+  padding:clamp(124px,16vh,164px) 0 48px;
+  border-bottom:1px solid var(--line);
+}
+.eye{
+  color:var(--accent);
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  margin:0 0 14px;
+}
+h1{
+  font:800 clamp(40px,6.5vw,84px)/.98 var(--display);
+  letter-spacing:-.04em;
+  margin:0 0 20px;
+}
+.sub{
+  color:var(--muted);
+  font-size:clamp(17px,1.4vw,20px);
+  max-width:62ch;
+  margin:0;
+}
+.meta-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px 24px;
+  margin-top:26px;
+  font-size:14px;
+  color:var(--muted);
+}
+.meta-row b{
+  color:var(--text);
+  font-weight:500;
+}
+
+.doc-grid{
+  display:grid;
+  grid-template-columns:240px minmax(0,780px);
+  gap:clamp(32px,5vw,72px);
+  padding:64px 0 96px;
+  align-items:start;
+}
+.toc{
+  position:sticky;
+  top:96px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:20px;
+  background:var(--surface);
+}
+.toc h3{
+  font:800 13px var(--display);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin:0 0 12px;
+}
+.toc a{
+  display:block;
+  padding:6px 0;
+  font-size:14px;
+  color:var(--muted);
+  border-bottom:1px solid rgba(255,255,255,.05);
+  transition:color .2s;
+}
+.toc a:last-child{
+  border-bottom:0;
+}
+.toc a:hover{
+  color:var(--accent);
+}
+.article section{
+  padding-bottom:38px;
+  margin-bottom:38px;
+  border-bottom:1px solid var(--line);
+}
+.article section:last-child{
+  border-bottom:0;
+  margin-bottom:0;
+  padding-bottom:0;
+}
+.article h2{
+  font:800 clamp(22px,2.4vw,30px)/1.18 var(--display);
+  letter-spacing:-.02em;
+  margin:0 0 14px;
+}
+.article p{
+  color:#d6d6d0;
+  margin:0 0 14px;
+}
+.article ul{
+  margin:10px 0 0;
+  padding-left:20px;
+  color:#d6d6d0;
+}
+.article li{
+  margin-bottom:8px;
+}
+.article li b{
+  color:var(--text);
+}
+.article a.inline-link{
+  color:var(--accent);
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--line);
+  padding:64px 0 32px;
+  color:var(--muted);
+  font-size:15px;
+}
+footer .g{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:36px;
+  margin-bottom:48px;
+}
+footer h4{
+  margin:0 0 14px;
+  color:var(--text);
+  font:800 17px var(--display);
+}
+footer a{
+  display:block;
+  padding:4px 0;
+  transition:color .2s;
+}
+footer a:hover{
+  color:var(--accent);
+}
+.legal-inline{
+  display:inline!important;
+  padding:0!important;
+}
+.btn:focus-visible,a:focus-visible{
+  outline:2px solid var(--text);
+  outline-offset:3px;
+}
+@media(max-width:900px){
+  .doc-grid{
+    grid-template-columns:1fr;
+  }
+  .toc{
+    position:static;
+  }
+}
+@media(max-width:860px){
+  nav{display:none}
+  footer .g{grid-template-columns:1fr 1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="/">Retoucher Shoaib<sup>&reg;</sup></a>
+    <nav>
+      <a href="/services">Services</a>
+      <a href="/studio">Studio</a>
+      <a href="/work">Work</a>
+      <a href="/contact">Contact</a>
+      <a href="/feed">Feed</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="btn p" id="navAuthBtn" href="/portal" rel="nofollow">Log In</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="wrap">
+      <p class="eye">Client Agreements &amp; Commercial Standards</p>
+      <h1>Terms of Service &amp; NDA</h1>
+      <p class="sub">Clear studio terms governing free trial edits, production turnarounds, Client Portal access, intellectual property ownership, and confidentiality.</p>
+      <div class="meta-row">
+        <span><b>Effective Date:</b> November 11, 2026</span>
+        <span><b>Provider:</b> Retoucher Shoaib Studio</span>
+        <span><b>Privacy Policy:</b> <a class="inline-link" href="/privacy">retouchershoaib.com/privacy</a></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="doc-grid">
+      <aside class="toc" aria-label="Terms sections">
+        <h3>Contents</h3>
+        <a href="#services">1. Scope &amp; Free Trial</a>
+        <a href="#turnaround">2. Turnaround &amp; Revisions</a>
+        <a href="#ownership">3. Copyright &amp; IP Ownership</a>
+        <a href="#nda">4. Confidentiality &amp; NDA</a>
+        <a href="#billing">5. Quotes &amp; Invoicing</a>
+        <a href="#portal">6. Client Portal Usage</a>
+        <a href="#contact">7. Questions &amp; Contact</a>
+      </aside>
+
+      <div class="article">
+        <section id="services">
+          <h2>1. Scope of Services &amp; Free Trial</h2>
+          <p>Retoucher Shoaib provides commercial photo post-production across jewelry, fashion, editorial beauty, e-commerce packshots, still life, and automotive imagery.</p>
+          <p>New commercial clients may submit <b>1 to 2 sample images</b> for a complimentary trial prior to confirming paid production batches. Trial deliveries reflect the exact non-destructive craft, color calibration, and layered standards applied to full campaigns.</p>
+        </section>
+
+        <section id="turnaround">
+          <h2>2. Turnaround, Quality Control &amp; Revisions</h2>
+          <ul>
+            <li><b>Standard Delivery:</b> Single samples and moderate batches are typically returned within <b>12 to 24 hours</b>. High-volume campaign schedules are agreed upon before production begins.</li>
+            <li><b>Multi-Pass Inspection:</b> Every asset goes through full-zoom manual QC prior to delivery.</li>
+            <li><b>Revisions:</b> Revisions within the agreed creative brief are included promptly at no extra charge. Material scope changes requested after final delivery are quoted separately prior to work.</li>
+          </ul>
+        </section>
+
+        <section id="ownership">
+          <h2>3. Copyright &amp; Client Intellectual Property</h2>
+          <p>Clients retain <b>100% ownership and full worldwide copyright</b> of all original photography, RAW files, and final delivered assets (TIFF, PSD, JPEG, or WebP). Retoucher Shoaib claims no copyright over your brand photography and does not resell or license client imagery.</p>
+        </section>
+
+        <section id="nda">
+          <h2>4. Confidentiality, Embargoes &amp; Data Protection</h2>
+          <p>All client uploads and campaign briefs are treated as strictly confidential. Unreleased product launches and embargoed editorial sets are never shared publicly, used in marketing showcases without permission, or supplied to AI training datasets. Full data handling details are documented in our <a class="inline-link" href="/privacy">Privacy Policy</a>.</p>
+        </section>
+
+        <section id="billing">
+          <h2>5. Quotes, Invoicing &amp; Payments</h2>
+          <p>Pricing is quoted per project scope, retouching complexity, and batch volume prior to commencement. Invoices issued inside the <a class="inline-link" href="/portal" rel="nofollow">Client Portal</a> remain due according to agreed studio payment terms.</p>
+        </section>
+
+        <section id="portal">
+          <h2>6. Client Portal &amp; Acceptable Use</h2>
+          <p>Access to <a class="inline-link" href="/portal" rel="nofollow">retouchershoaib.com/portal</a> is granted for submitting legitimate retouching briefs, reviewing deliveries, and managing invoices. You agree not to submit unlawful material, attempt unauthorized access to other client workspaces, or interfere with portal availability.</p>
+        </section>
+
+        <section id="contact">
+          <h2>7. Contact Information</h2>
+          <p>For questions regarding these terms, custom studio SLAs, or signed NDAs, contact <a class="inline-link" href="mailto:retouchershoaib@gmail.com">retouchershoaib@gmail.com</a> or visit <a class="inline-link" href="/contact">retouchershoaib.com/contact</a>.</p>
+        </section>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="g">
+      <div>
+        <h4>Retoucher Shoaib</h4>
+        <p style="margin:0;max-width:300px;line-height:1.6">High-end commercial post-production directed by Shoaib. Retouching for jewelry, fashion and beauty brands.</p>
+      </div>
+      <div>
+        <h4>Disciplines</h4>
+        <a href="/services#jewelry">Jewelry</a>
+        <a href="/services#fashion">Fashion</a>
+        <a href="/services#beauty">Beauty</a>
+        <a href="/services#ecom">E-commerce</a>
+        <a href="/services#still">Still life</a>
+        <a href="/services#automotive">Automotive</a>
+      </div>
+      <div>
+        <h4>Navigate</h4>
+        <a href="/">Home</a>
+        <a href="/services">Services</a>
+        <a href="/studio">Studio</a>
+        <a href="/work">Work</a>
+        <a href="/contact">Contact</a>
+        <a href="/feed">Feed</a>
+        <a href="/portal" rel="nofollow">Client Portal &#x1f512;</a>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <a href="mailto:retouchershoaib@gmail.com">Email Us</a>
+        <a href="https://wa.me/8801710763251" target="_blank" rel="noopener">WhatsApp Direct</a>
+        <a href="https://instagram.com/retouchershoaib" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://linkedin.com/in/retouchershoaib" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:14px;">
+      <div>&copy; 2016&ndash;2026 Retoucher Shoaib&reg;. All Rights Reserved.</div>
+      <div><a class="legal-inline" href="/privacy">Privacy Policy</a> &middot; <a class="legal-inline" href="/terms">Terms &amp; NDA</a></div>
+      <div>Handcrafted with pure pixel precision.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  function syncHeaderClientState() {
+    var sessionRaw = sessionStorage.getItem('shoaib_client_session') || localStorage.getItem('shoaib_client_session') || localStorage.getItem('shoaib_client_profile');
+    var authBtn = document.getElementById('navAuthBtn');
+    if (!authBtn) return;
+    var session = null;
+    if (sessionRaw) { try { session = JSON.parse(sessionRaw); } catch(e) {} }
+    if (session && (session.email || session.name)) {
+      var isDirector = (session.email || '').toLowerCase().trim() === 'retouchershoaib@gmail.com';
+      if (isDirector) {
+        authBtn.href = '/admin';
+        authBtn.innerHTML = '&#x1f6e1;&#xfe0f; Director Console';
+        authBtn.setAttribute('title', 'Studio Director Console');
+      } else {
+        authBtn.href = '/portal';
+        authBtn.innerHTML = 'Client Portal';
+        authBtn.setAttribute('title', 'Open your client workspace');
+      }
+    } else {
+      authBtn.href = '/portal';
+      authBtn.innerHTML = 'Log In';
+      authBtn.setAttribute('title', 'Log In or Sign Up to Client Portal');
+    }
+  }
+  syncHeaderClientState();
+  window.addEventListener('storage', function(e) {
+    if (e.key === 'shoaib_client_session' || e.key === 'shoaib_client_profile' || e.key === 'shoaib_sync_ping') syncHeaderClientState();
+  });
+  document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'visible') syncHeaderClientState();
+  });
+  window.addEventListener('focus', syncHeaderClientState);
+  window.addEventListener('pageshow', syncHeaderClientState);
+})();
+</script>
+</body>
+</html>
