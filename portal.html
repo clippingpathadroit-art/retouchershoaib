@@ -1004,15 +1004,28 @@ body {
    CRITICAL: PRINT ONLY INVOICE STYLESHEET
    ======================================================== */
 @media print {
-  body {
+  @page {
+    size: auto;
+    margin: 0;
+  }
+  html, body {
     background: #fff !important;
     color: #000 !important;
     display: block !important;
+    min-height: 0 !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
   /* HIDE EVERYTHING EXCEPT THE INVOICE SHEET */
-  .sidebar, .top-appbar, .stats-grid, .modal-overlay, #wipe,
-  .currency-tabs, .btn, .copy-pill, #paymentToggleArea,
-  #invoicesListView,
+  #authGateScreen, #directorNoticeBanner,
+  .sidebar, .top-appbar, .stats, .stats-grid, .modal-overlay, #wipe,
+  #shoaibAuthToast, #credential_picker_container,
+  #viewDashboard, #viewOrders, #viewArchive, #viewProfile, #viewNewOrder,
+  #invoicesListView, #singleInvoiceView > :not(#invoicePrintCard),
+  #invoiceTabsContainer, .currency-tabs, .btn, .copy-pill, #paymentToggleArea,
   .ai-concierge-launcher, #aiConciergeLauncher,
   .ai-concierge-window, #aiConciergeWindow,
   #currencyPayableConversionBanner,
@@ -1022,6 +1035,8 @@ body {
   }
   .app-layout, .main-area, .content-body {
     display: block !important;
+    min-height: 0 !important;
+    height: auto !important;
     padding: 0 !important;
     margin: 0 !important;
     width: 100% !important;
@@ -1030,17 +1045,34 @@ body {
   }
   #viewInvoices, #singleInvoiceView {
     display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
   #invoicePrintCard {
+    display: block !important;
     border: none !important;
     box-shadow: none !important;
+    border-radius: 0 !important;
     padding: 0 !important;
     margin: 0 !important;
+    background: #fff !important;
   }
   .invoice-sheet {
     border: none !important;
     box-shadow: none !important;
-    padding: 10mm !important;
+    border-radius: 0 !important;
+    padding: 14mm 15mm !important;
+    margin: 0 !important;
+  }
+  .invoice-sheet .inv-grid-2 {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .inv-table thead {
+    display: table-header-group;
+  }
+  .inv-top-bar, .inv-grid-2, #invoicePaidOfficialReceipt, .inv-table tr {
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 }
 
@@ -4813,6 +4845,20 @@ function submitPaymentConfirmation() {
 }
 
 function printOfficialInvoiceOnly() {
+  const origTitle = window._shoaibOrigTitle || document.title;
+  window._shoaibOrigTitle = origTitle;
+  const invNumText = (document.getElementById('invSheetNumberDisplay')?.textContent || '').trim();
+  const safeDocTitle = invNumText
+    ? ('Retoucher Shoaib - ' + invNumText.replace(/[\\/:*?"<>|®]+/g, '').replace(/\s+/g, ' ').trim())
+    : origTitle;
+  let restored = false;
+  const restoreTitle = () => {
+    if (restored) return;
+    restored = true;
+    document.title = origTitle;
+  };
+  window.addEventListener('afterprint', restoreTitle, { once: true });
+  document.title = safeDocTitle;
   window.print();
 }
 
