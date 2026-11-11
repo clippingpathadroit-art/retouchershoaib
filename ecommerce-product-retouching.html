@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="Retoucher Shoaib">
 <meta property="og:type" content="website">
 <meta property="og:title" content="E-Commerce Product Photo Retouching (From $0.50) | Retoucher Shoaib">
-<meta property="og:description" content="Hand-retouched e-commerce packshots for eyewear, handbags, footwear, cosmetics &amp; apparel. 100% manual Pen Tool paths, no AI filters, 12–24h turnaround, free 24h trial.">
+<meta property="og:description" content="Hand-retouched e-commerce packshots for eyewear, handbags, footwear, cosmetics &amp; hard-goods. 100% manual Pen Tool paths, no AI filters, 12–24h turnaround, free 24h trial.">
 <meta property="og:url" content="https://retouchershoaib.com/ecommerce-product-retouching">
 <meta property="og:image" content="https://retouchershoaib.com/assets/agency_showcase/ecommerce-product-retouching-og.jpg">
 <meta property="og:image:width" content="1200">
@@ -39,7 +39,7 @@
         "https://retouchershoaib.com/assets/agency_showcase/ecommerce-bag-retouching-after.webp",
         "https://retouchershoaib.com/assets/agency_showcase/ecom_oxford_patent_leather_shoes.webp"
       ],
-      "description": "100% manual hand-retouched e-commerce product photo editing for eyewear, sunglasses, handbags, footwear, cosmetics, and catalog apparel. Hand-drawn Pen Tool clipping paths, pure #FFFFFF white backgrounds, lens reflection control, SKU colorway matching, and 12 to 24 hour turnaround.",
+      "description": "100% manual hand-retouched e-commerce product photo editing for eyewear, sunglasses, handbags, footwear, cosmetics, and pure #FFFFFF packshots. Hand-drawn Pen Tool clipping paths, pure white backgrounds, lens reflection control, SKU colorway matching, and 12 to 24 hour turnaround.",
       "provider": {
         "@type": "ProfessionalService",
         "@id": "https://retouchershoaib.com/#studio",
@@ -788,6 +788,115 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   object-fit:cover;
 }
 
+/* CLIPPING PATH & MARKETPLACE SPEC INSPECTOR */
+.cut-frame{
+  position:relative;
+  border-radius:18px;
+  overflow:hidden;
+  background:#ffffff;
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 24px 60px rgba(0,0,0,.45);
+  aspect-ratio:1/1;
+}
+.cut-frame img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+}
+.cut-guide{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .25s ease;
+}
+.cut-frame[data-mode="amazon"] .cut-guide.g-amazon,
+.cut-frame[data-mode="shadow"] .cut-guide.g-shadow{
+  opacity:1;
+}
+.g-amazon-box{
+  position:absolute;
+  inset:7.5%;
+  border:1.5px dashed rgba(10,10,11,.55);
+  border-radius:10px;
+}
+.g-amazon-box::before,
+.g-amazon-box::after{
+  content:"";
+  position:absolute;
+  background:rgba(10,10,11,.18);
+}
+.g-amazon-box::before{left:50%;top:0;bottom:0;width:1px}
+.g-amazon-box::after{top:50%;left:0;right:0;height:1px}
+.g-spec-pill{
+  position:absolute;
+  top:14px;
+  left:14px;
+  padding:5px 11px;
+  border-radius:99px;
+  background:rgba(10,10,11,.88);
+  color:#c8f135;
+  border:1px solid rgba(200,241,53,.42);
+  font:600 11px/1.1 var(--body);
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+.g-shadow-note{
+  position:absolute;
+  right:14px;
+  top:14px;
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+.g-shadow-note span{
+  padding:5px 10px;
+  border-radius:99px;
+  background:rgba(10,10,11,.88);
+  color:#f1f1ec;
+  border:1px solid rgba(255,255,255,.18);
+  font:600 11px/1.1 var(--body);
+}
+
+/* RELATED SPECIALIST DEPARTMENTS GRID */
+.dept-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:16px;
+}
+.dept-card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:22px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  gap:14px;
+  transition:border-color .2s,transform .2s;
+}
+.dept-card:hover{
+  border-color:var(--accent);
+  transform:translateY(-2px);
+}
+.dept-card strong{
+  display:block;
+  font:700 18px/1.25 var(--display);
+  margin-bottom:6px;
+}
+.dept-card p{
+  margin:0;
+  font-size:14px;
+  color:var(--muted);
+  line-height:1.5;
+}
+.dept-card span{
+  color:var(--accent);
+  font:600 14px var(--body);
+}
+
 /* MARKETPLACE & WORKFLOW SPECS */
 .plat-row{
   display:flex;
@@ -1043,6 +1152,7 @@ footer a:hover{color:var(--accent)}
   .dep.flip .media-col{order:0}
   .logo-row{grid-template-columns:repeat(3,minmax(0,1fr))}
   .spec-grid,.price-grid,.rev-grid{grid-template-columns:1fr}
+  .dept-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:860px){
   nav{display:none}
@@ -1051,7 +1161,7 @@ footer a:hover{color:var(--accent)}
 }
 @media(max-width:600px){
   .logo-row{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .cos-grid{grid-template-columns:1fr}
+  .cos-grid,.dept-grid{grid-template-columns:1fr}
   .cos-card.tall{grid-row:auto;aspect-ratio:4/5}
   .ph.ba .tag{bottom:10px;padding:4px 9px;font-size:10px}
   .ph.ba .tag.b{left:10px}
@@ -1110,7 +1220,7 @@ footer a:hover{color:var(--accent)}
     <div class="hero-inner">
       <div class="eye-pill">100% Hand-Retouched &middot; No AI Filters &middot; From $0.50/image</div>
       <h1>E-Commerce Product Photo Retouching, <em>Done by Hand.</em></h1>
-      <p class="lead">Your customers can&rsquo;t pick the product up, so your photos have to do it for them. We retouch eyewear, handbags, footwear, cosmetics and catalog apparel in 16-bit Photoshop so glass looks like glass, leather shows real grain, and every SKU matches your physical swatch on a Tuesday-morning phone screen.</p>
+      <p class="lead">Your customers can&rsquo;t pick the product up, so your photos have to do it for them. We retouch eyewear, handbags, footwear, cosmetics and pure-white catalog packshots in 16-bit Photoshop so glass looks like glass, leather shows real grain, and every SKU matches your physical swatch on a Tuesday-morning phone screen.</p>
       <div class="hero-cta">
         <a class="btn p" href="/contact?service=ecom">Request 1&ndash;2 Free Test Edits (24h)</a>
         <a class="btn" href="/contact?service=ecom&amp;tab=quote">Get Custom Batch Quote</a>
@@ -1135,7 +1245,7 @@ footer a:hover{color:var(--accent)}
     <a href="#bags-leather">Bags &amp; Leather</a>
     <a href="#color-variants">SKU Color Variants</a>
     <a href="#footwear">Footwear</a>
-    <a href="#apparel">Catalog Apparel</a>
+    <a href="#clipping-path">Clipping Paths &amp; #FFFFFF</a>
     <a href="#cosmetics">Cosmetics &amp; Hard-Goods</a>
     <a href="#specs">Marketplace Specs</a>
     <a href="#pricing">Pricing</a>
@@ -1286,7 +1396,7 @@ footer a:hover{color:var(--accent)}
         <div class="num">03 <span class="demo-badge">Interactive Colorway Demo</span></div>
         <h2>Multi-Color SKU Variant Recoloring</h2>
         <p class="tg">Shoot one physical sample &middot; Produce 10 exact Pantone/swatch SKUs</p>
-        <p class="d">Shooting every single color variation of a seasonal bag, sneaker or knitwear line doubles studio time and reshoot budgets. Send one clean shot plus physical fabric swatches or Hex/Pantone targets&mdash;we mask by panel so textured weave, white pockets, logos and black hardware remain completely untouched.</p>
+        <p class="d">Shooting every single color variation of a seasonal bag, sneaker or accessory line doubles studio time and reshoot budgets. Send one clean shot plus physical fabric swatches or Hex/Pantone targets&mdash;we mask by panel so textured weave, white pockets, logos and black hardware remain completely untouched.</p>
         <ul class="caps">
           <li>Channel-accurate Pantone matching</li>
           <li>Multi-zone masked panel splits</li>
@@ -1346,39 +1456,55 @@ footer a:hover{color:var(--accent)}
     </div>
   </section>
 
-  <!-- 05 APPAREL & GHOST MANNEQUIN CROSS-LINK -->
-  <section class="dep" id="apparel">
+  <!-- 05 CLIPPING PATHS & PURE #FFFFFF CUTOUTS -->
+  <section class="dep" id="clipping-path">
     <div class="wrap">
       <div class="media-col">
-        <div class="ph ba" style="--x:50%;aspect-ratio:819/1024;max-width:480px;margin:0 auto" data-ba>
-          <div class="lay before">
-            <img src="/assets/agency_showcase/service_fashion_before.webp" alt="Knit socks on white plastic mannequin forms before ghost mannequin e-commerce retouching" width="819" height="1024" loading="lazy" decoding="async">
-            <span class="tag b">Before &middot; Mannequin Form</span>
+        <div class="cut-frame" id="cutFrame" data-mode="pure">
+          <img src="/assets/agency_showcase/ecommerce-clipping-path-packshot.webp" alt="Tortoiseshell sunglasses packshot isolated cleanly on pure #FFFFFF white background using hand-drawn Pen Tool clipping path and natural contact shadow" width="1200" height="1200" loading="lazy" decoding="async">
+          <div class="cut-guide g-amazon" aria-hidden="true">
+            <div class="g-amazon-box"></div>
+            <span class="g-spec-pill">85% Fill Safe Frame &middot; Centered Grid</span>
           </div>
-          <div class="lay after">
-            <img src="/assets/agency_showcase/service_fashion_after.webp" alt="Hollow 3D ghost mannequin socks showing natural ribbed inner lining and cast shadow" width="819" height="1024" loading="lazy" decoding="async">
-            <span class="tag a">After &middot; Hollow 3D Joint</span>
+          <div class="cut-guide g-shadow" aria-hidden="true">
+            <span class="g-spec-pill">Hand-Drawn Bezier Path &middot; 0 AI Halo</span>
+            <div class="g-shadow-note">
+              <span>Layer 1: Product Mask</span>
+              <span>Layer 2: Soft Contact Shadow</span>
+            </div>
           </div>
-          <input type="range" min="0" max="100" value="50" aria-label="Before and after ghost mannequin sock comparison">
-          <div class="ba-bar"></div>
+          <span class="tag a" id="cutBadge" style="position:absolute;bottom:14px;left:14px;padding:6px 12px;border-radius:99px;font:600 12px/1 var(--body);background:rgba(10,10,11,.86);color:var(--accent);border:1px solid rgba(200,241,53,.4);z-index:2">Pure #FFFFFF Main &middot; RGB (255,255,255)</span>
+        </div>
+        <div class="swatch-bar" role="group" aria-label="Preview clipping path deliverable modes">
+          <button class="sw-btn" type="button" data-mode="pure" data-label="Pure #FFFFFF Main · RGB (255,255,255)" aria-pressed="true"><span class="sw-dot" style="background:#ffffff"></span>Pure #FFFFFF Main</button>
+          <button class="sw-btn" type="button" data-mode="amazon" data-label="Amazon 85% Safe Zone · Equal Padding & Centering" aria-pressed="false"><span class="sw-dot" style="background:#c8f135"></span>Amazon 85% Safe Zone</button>
+          <button class="sw-btn" type="button" data-mode="shadow" data-label="Saved PSD Pen Path · Isolated Shadow Layer" aria-pressed="false"><span class="sw-dot" style="background:#7a7a76"></span>Saved Path &amp; Shadow Spec</button>
         </div>
       </div>
 
       <div class="tx-col">
-        <div class="num">05 <span>Catalog Apparel &amp; Knitwear</span></div>
-        <h2>Ghost Mannequin, Folded Goods &amp; Flat-Lays</h2>
-        <p class="tg">Hollow neck &amp; cuff joins &middot; Wrinkle smoothing &middot; Weave intact</p>
-        <p class="d">From ribbed socks, knitwear and menswear shirting to stacked flat-lays, volume apparel fails when color shifts between shoot days or seams lose crisp geometry. We lock fabric appearance on your first approved batch and replicate that exact standard across hundreds of frames.</p>
+        <div class="num">05 <span>From $0.50/Image &middot; Volume Ready</span></div>
+        <h2>Hand-Drawn Clipping Paths &amp; Pure #FFFFFF Cutouts</h2>
+        <p class="tg">100% Pen Tool paths &middot; Multi-path layer exports &middot; Marketplace-ready padding</p>
+        <p class="d">Automated AI cutout tools melt translucent hinges, leave grey fringes around edges and eat subtle drop shadows. Starting from <strong style="color:var(--accent)">$0.50/image</strong>, our artists trace every product silhouette manually with crisp Bezier curves in Photoshop&mdash;delivering razor-clean <code style="color:var(--accent)">#FFFFFF</code> backgrounds, transparent PNGs or layered PSD paths ready for Amazon, Shopify and wholesale portals.</p>
+        <div class="problem-box">
+          <h3>Why hand-drawn Pen Tool paths beat AI auto-masking</h3>
+          <ul>
+            <li>Zero fuzzy semi-transparent halos on pure white product grids</li>
+            <li>Semi-translucent acetate, glass &amp; acrylic edges traced accurately</li>
+            <li>Optional separate Path 1 (Outer Silhouette) &amp; Inner Component Paths</li>
+            <li>Exact canvas ratio, centering and margin rules matched across every SKU</li>
+          </ul>
+        </div>
         <ul class="caps">
-          <li>Seamless hollow 3D neck joins</li>
-          <li>Sleeve &amp; hemline symmetry</li>
-          <li>Natural fold &amp; wrinkle refinement</li>
-          <li>Flat-lay pin &amp; tag cleanup</li>
+          <li>Pure RGB (255,255,255) cutout</li>
+          <li>Natural, drop or glass shadows</li>
+          <li>Transparent PNG &amp; WebP exports</li>
+          <li>Amazon, Shopify &amp; Etsy sizing</li>
         </ul>
         <div class="cat-links">
-          <a class="btn p" href="/contact?service=ecom">Request Apparel Sample</a>
-          <a class="text-link" href="/services#fashion">Explore Fashion &amp; Ghost Mannequin &rarr;</a>
-          <a class="text-link" href="/services#jewelry">Explore Fine Jewelry &rarr;</a>
+          <a class="btn p" href="/contact?service=ecom&amp;tab=quote">Ask Cutout Batch Rate ($0.50+)</a>
+          <a class="text-link" href="#pricing">Compare pricing tiers &rarr;</a>
         </div>
       </div>
     </div>
@@ -1502,7 +1628,7 @@ footer a:hover{color:var(--accent)}
           <span class="p-tag">Most Requested</span>
           <h3>Packshot Polish &amp; Custom Shadow</h3>
           <div class="p-val">Custom Quote <span>/ batch &amp; specs</span></div>
-          <p class="p-sub">Footwear, handbags, cosmetics &amp; folded apparel packs</p>
+          <p class="p-sub">Footwear, handbags, cosmetics &amp; accessory packs</p>
           <ul>
             <li>Everything in Standard Cutout tier</li>
             <li>Realistic natural, drop or glass reflection shadow</li>
@@ -1520,7 +1646,7 @@ footer a:hover{color:var(--accent)}
           <ul>
             <li>Eyewear lens glare &amp; AR sheen sculpting</li>
             <li>Bag strap composites &amp; multi-colorway variants</li>
-            <li>Ghost mannequin neck joins &amp; apparel sets</li>
+            <li>Multi-path layers, transparent glass &amp; mirror polish</li>
             <li>Style-Lock QA &amp; overnight 12&ndash;24h batch priority</li>
           </ul>
           <a class="btn" href="/contact?service=ecom&amp;tab=quote">Get Custom Quote &rarr;</a>
@@ -1628,6 +1754,47 @@ footer a:hover{color:var(--accent)}
     </div>
   </section>
 
+  <!-- RELATED SPECIALIST DEPARTMENTS -->
+  <section class="band" id="other-services">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Explore our other dedicated retouching departments</h2>
+        <p>Need apparel ghost mannequins, fine diamond jewelry macro work, model portraits or commercial campaigns? Jump directly to the specialist department.</p>
+      </div>
+
+      <div class="dept-grid">
+        <a class="dept-card" href="/services#fashion">
+          <div>
+            <strong>Fashion &amp; Ghost Mannequin</strong>
+            <p>Invisible 3D neck joins, garment symmetry, weave preservation &amp; lookbook shaping.</p>
+          </div>
+          <span>View Fashion Services &rarr;</span>
+        </a>
+        <a class="dept-card" href="/services#jewelry">
+          <div>
+            <strong>Jewelry &amp; Watch Retouching</strong>
+            <p>Focus stacking, diamond facet clarity, gold &amp; platinum luster and watch dial crystal.</p>
+          </div>
+          <span>View Jewelry Services &rarr;</span>
+        </a>
+        <a class="dept-card" href="/services#beauty">
+          <div>
+            <strong>Model &amp; Beauty Portraits</strong>
+            <p>16-bit manual dodge &amp; burn keeping 100% real pores, flyaway cleanup &amp; color grading.</p>
+          </div>
+          <span>View Beauty Services &rarr;</span>
+        </a>
+        <a class="dept-card" href="/services#still">
+          <div>
+            <strong>Still Life &amp; Automotive</strong>
+            <p>Complex luxury campaign glassware, studio composites &amp; vehicle paintwork gloss.</p>
+          </div>
+          <span>View Commercial Services &rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- FINAL CTA -->
   <section class="cta-band">
     <div class="wrap">
@@ -1689,7 +1856,7 @@ footer a:hover{color:var(--accent)}
 (function(){
   var rm = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // 1. Interactive Before/After Sliders (Eyewear, Bag, Apparel)
+  // 1. Interactive Before/After Sliders (Eyewear, Bag)
   document.querySelectorAll('[data-ba]').forEach(function(ba){
     var rng = ba.querySelector('input[type="range"]');
     if (!rng) return;
@@ -1701,7 +1868,7 @@ footer a:hover{color:var(--accent)}
   // 2. Interactive Multi-Color Bag Variant Demo
   var vImg = document.getElementById('variantImg');
   var vBadge = document.getElementById('variantBadge');
-  var swBtns = document.querySelectorAll('.sw-btn');
+  var swBtns = document.querySelectorAll('#color-variants .sw-btn');
   swBtns.forEach(function(btn){
     btn.addEventListener('click', function(){
       var src = btn.getAttribute('data-src');
@@ -1727,6 +1894,20 @@ footer a:hover{color:var(--accent)}
         if (alt) sImg.alt = alt;
       }
       angBtns.forEach(function(b){ b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+    });
+  });
+
+  // 4. Interactive Clipping Path & Safe-Margin Mode Inspector
+  var cFrame = document.getElementById('cutFrame');
+  var cBadge = document.getElementById('cutBadge');
+  var cutBtns = document.querySelectorAll('#clipping-path .sw-btn');
+  cutBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var mode = btn.getAttribute('data-mode');
+      var lbl = btn.getAttribute('data-label');
+      if (cFrame && mode) cFrame.setAttribute('data-mode', mode);
+      if (cBadge && lbl) cBadge.textContent = lbl;
+      cutBtns.forEach(function(b){ b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
     });
   });
 
