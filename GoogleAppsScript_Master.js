@@ -237,6 +237,8 @@ function doPost(e) {
       if (!orderObj.instructions) orderObj.instructions = data.instructions || "";
       if (!orderObj.createdAt) orderObj.createdAt = Utilities.formatDate(new Date(), "GMT", "MMM dd, yyyy");
       orderObj.drive = orderUrl;
+      orderObj.rawDrive = orderUrl;
+      orderObj.deliveryMode = "drive";
       orderObj.orderFolder = "Order #" + orderId;
 
       var lock = LockService.getScriptLock();
@@ -694,10 +696,12 @@ function doPost(e) {
         .setMimeType(ContentService.MimeType.JSON);
     }
 
-    // (G) ডেলিভারি গুগল ড্রাইভ লিংক সেভ করা
+    // (G) ডেলিভারি লিংক বা Cloudflare R2 ZIP সেভ করা (Hybrid R2 + Google Drive)
     if (data.action === "update_delivery_link") {
       var rawId = String(data.numericId || "");
       var cleanNum = normalizeGasId(rawId);
+      var delTarget = String(data.drive || "");
+      var delMode = data.deliveryMode || (delTarget.indexOf("r2://") === 0 ? "r2" : "drive");
       var lock = LockService.getScriptLock();
       lock.tryLock(10000);
       try {
@@ -705,19 +709,24 @@ function doPost(e) {
         if (!db.deliveries) db.deliveries = {};
         if (!db.statuses) db.statuses = {};
         if (cleanNum) {
-          db.deliveries[cleanNum] = data.drive;
-          db.deliveries["#" + cleanNum] = data.drive;
+          db.deliveries[cleanNum] = delTarget;
+          db.deliveries["#" + cleanNum] = delTarget;
+          db.deliveries["RS-2026-" + cleanNum] = delTarget;
           db.statuses[cleanNum] = data.status || "delivered";
           db.statuses["#" + cleanNum] = data.status || "delivered";
         }
         if (rawId) {
-          db.deliveries[rawId] = data.drive;
+          db.deliveries[rawId] = delTarget;
           db.statuses[rawId] = data.status || "delivered";
         }
         for (var i = 0; i < db.orders.length; i++) {
           var oNum = normalizeGasId(db.orders[i].numericId || db.orders[i].id || "");
           if (oNum === cleanNum || String(db.orders[i].numericId) === rawId || String(db.orders[i].id) === rawId) {
-            db.orders[i].drive = data.drive;
+            if (!db.orders[i].rawDrive && db.orders[i].drive && String(db.orders[i].drive).indexOf("r2://") !== 0) {
+              db.orders[i].rawDrive = db.orders[i].drive;
+            }
+            db.orders[i].drive = delTarget;
+            db.orders[i].deliveryMode = delMode;
             db.orders[i].status = data.status || "delivered";
             break;
           }
@@ -726,7 +735,7 @@ function doPost(e) {
       } finally {
         lock.releaseLock();
       }
-      return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
+      return ContentService.createTextOutput(JSON.stringify({ status: "success", deliveryMode: delMode }))
         .setMimeType(ContentService.MimeType.JSON);
     }
 

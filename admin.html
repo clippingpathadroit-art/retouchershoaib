@@ -130,19 +130,86 @@ a { color: inherit; text-decoration: none; }
   box-shadow: 0 25px 60px rgba(0,0,0,0.9);
 }
 
-/* DELIVERY LINK MODAL */
+/* DELIVERY LINK MODAL (HYBRID R2 + GOOGLE DRIVE) */
 #delModal {
-  position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75);
+  position: fixed; inset: 0; background: rgba(0, 0, 0, 0.78);
   backdrop-filter: blur(8px); z-index: 9999;
-  display: none; align-items: center; justify-content: center; padding: 20px;
+  display: none; align-items: center; justify-content: center; padding: 20px; overflow-y: auto;
 }
 .del-box {
-  background: #1c1c1c; border: 1px solid #333; border-radius: 16px;
-  padding: 28px; width: 100%; max-width: 540px;
+  background: #141418; border: 1px solid #334155; border-radius: 16px;
+  padding: 26px; width: 100%; max-width: 600px; max-height: 92vh; overflow-y: auto;
+  position: relative; box-shadow: 0 24px 60px rgba(0,0,0,0.85); color: #fff;
 }
 .del-input {
-  width: 100%; padding: 12px 16px; background: #0f0f0f; border: 1px solid #333;
-  color: #fff; border-radius: 8px; font-size: 14px; margin: 16px 0; outline: none;
+  width: 100%; padding: 12px 16px; background: #0b0d12; border: 1px solid #334155;
+  color: #fff; border-radius: 8px; font-size: 14px; margin: 12px 0; outline: none;
+}
+.del-input:focus { border-color: #38bdf8; }
+
+.r2-mode-tabs {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  background: #0b0d12; border: 1px solid #27272a; padding: 5px; border-radius: 10px;
+  margin: 14px 0 18px;
+}
+.r2-mode-tab {
+  padding: 10px 12px; border-radius: 7px; border: 1px solid transparent;
+  background: transparent; color: #94a3b8; font-size: 12px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s; text-align: center;
+}
+.r2-mode-tab:hover { color: #fff; background: rgba(255,255,255,0.04); }
+.r2-mode-tab.active[data-mode="r2"] {
+  background: linear-gradient(135deg, rgba(16,185,129,0.22), rgba(14,165,233,0.18));
+  color: #6ee7b7; border-color: rgba(16,185,129,0.5);
+}
+.r2-mode-tab.active[data-mode="drive"] {
+  background: rgba(59,130,246,0.18);
+  color: #93c5fd; border-color: rgba(59,130,246,0.45);
+}
+
+.r2-dropzone {
+  border: 2px dashed #334155; border-radius: 12px; padding: 26px 18px;
+  text-align: center; cursor: pointer; background: rgba(15,23,42,0.55);
+  transition: all 0.2s ease; margin-bottom: 14px;
+}
+.r2-dropzone:hover, .r2-dropzone.dragover {
+  border-color: #10b981; background: rgba(16,185,129,0.08);
+}
+
+.r2-progress-track {
+  width: 100%; height: 10px; background: #1e293b; border-radius: 99px; overflow: hidden; margin: 10px 0;
+}
+.r2-progress-fill {
+  height: 100%; width: 0%; background: linear-gradient(90deg, #10b981, #38bdf8);
+  border-radius: 99px; transition: width 0.2s ease;
+}
+
+.r2-quota-bar-track {
+  width: 100%; height: 8px; background: #1e293b; border-radius: 99px; overflow: hidden; margin: 8px 0;
+}
+.r2-quota-bar-fill {
+  height: 100%; width: 0%; background: #10b981; border-radius: 99px; transition: width 0.3s ease, background 0.3s ease;
+}
+.r2-quota-bar-fill.warn { background: #f59e0b; }
+.r2-quota-bar-fill.danger { background: #ef4444; }
+
+.r2-pill-btn {
+  background: #141820 !important; color: #cbd5e1 !important;
+  border: 1px solid #334155 !important; font-size: 11px !important;
+  padding: 7px 13px !important; gap: 6px !important;
+}
+.r2-pill-btn:hover { background: #1e293b !important; color: #fff !important; }
+.r2-dot {
+  width: 8px; height: 8px; border-radius: 50%; display: inline-block; background: #64748b;
+}
+.r2-dot.safe { background: #10b981; box-shadow: 0 0 8px rgba(16,185,129,0.6); }
+.r2-dot.warn { background: #f59e0b; box-shadow: 0 0 8px rgba(245,158,11,0.6); }
+.r2-dot.crit, .r2-dot.danger { background: #ef4444; box-shadow: 0 0 8px rgba(239,68,68,0.6); }
+
+.admin-nav-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+@media (max-width: 860px) {
+  .admin-navbar { flex-wrap: wrap; gap: 10px; padding: 12px 3%; }
 }
 
 
@@ -253,15 +320,214 @@ a { color: inherit; text-decoration: none; }
   </div>
 </div>
 
-<!-- DELIVERY LINK MODAL -->
-<div id="delModal">
+<!-- HYBRID DELIVERY MODAL (CLOUDFLARE R2 DIRECT ZIP OR CLASSIC GOOGLE DRIVE) -->
+<div id="delModal" onclick="if(event.target === this) closeDelModal()">
   <div class="del-box">
-    <h3 style="font-size: 18px; margin-bottom: 8px;">Update Delivery Download Link</h3>
-    <p style="font-size: 13px; color: #888;">Paste your finished Google Drive or Dropbox link containing the layered master PSDs. The client will be able to download it directly from their portal immediately.</p>
-    <input type="url" id="delInputUrl" class="del-input" placeholder="https://drive.google.com/drive/folders/finished-retouch...">
-    <div style="display: flex; gap: 10px; justify-content: flex-end;">
-      <button class="btn outline sm" onclick="closeDelModal()">Cancel</button>
-      <button class="btn green sm" onclick="saveDeliveryLink()">Save &amp; Enable Download</button>
+    <button type="button" class="modal-close" onclick="closeDelModal()">✕</button>
+    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding-right: 36px;">
+      <h3 style="font-size: 18px; font-weight: 800; margin: 0;">Deliver Final Master Files</h3>
+      <span id="delOrderBadge" style="background: rgba(56,189,248,0.15); color: #38bdf8; border: 1px solid rgba(56,189,248,0.35); padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 800;">#--</span>
+    </div>
+    <p id="delOrderMeta" style="font-size: 12.5px; color: #94a3b8; margin-top: 6px;">Choose Cloudflare R2 Direct ZIP (up to 7+ GB, zero client login) or classic Google Drive link.</p>
+
+    <!-- 2-MODE ENGINE SWITCHER -->
+    <div class="r2-mode-tabs">
+      <button type="button" class="r2-mode-tab active" data-mode="r2" id="delTabBtnR2" onclick="switchDelModalMode('r2')">
+        ⚡ Cloudflare R2 Direct ZIP
+      </button>
+      <button type="button" class="r2-mode-tab" data-mode="drive" id="delTabBtnDrive" onclick="switchDelModalMode('drive')">
+        📂 Google Drive / Classic Link
+      </button>
+    </div>
+
+    <!-- PANEL A: CLOUDFLARE R2 DIRECT UPLOAD -->
+    <div id="delModePanelR2">
+      <!-- RE-AUTH BANNER IF R2 API TOKEN MISSING -->
+      <div id="delR2AuthWarning" style="display: none; background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.45); border-radius: 10px; padding: 14px; margin-bottom: 14px;">
+        <div style="font-size: 12.5px; font-weight: 700; color: #fbbf24; margin-bottom: 6px;">🔐 Verify Director Google Session for R2 Access</div>
+        <p style="font-size: 12px; color: #cbd5e1; margin-bottom: 10px; line-height: 1.45;">Confirm once with <strong>retouchershoaib@gmail.com</strong> to issue a secure R2 upload token for this browser session.</p>
+        <div id="delR2ReauthContainer" style="min-height: 40px;"></div>
+      </div>
+
+      <!-- EXISTING R2 DELIVERY BANNER -->
+      <div id="delR2ExistingCard" style="display: none; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.4); border-radius: 10px; padding: 12px 14px; margin-bottom: 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <div style="min-width: 0; flex: 1;">
+            <div style="font-size: 11px; font-weight: 800; color: #4ade80; text-transform: uppercase; letter-spacing: 0.05em;">✓ Active Private R2 Master ZIP</div>
+            <div id="delR2ExistingName" style="font-size: 13px; font-weight: 700; color: #fff; margin-top: 3px; word-break: break-all;">Order_Masters.zip</div>
+          </div>
+          <div style="display: flex; gap: 6px; align-items: center;">
+            <button type="button" class="btn sm outline" id="delR2TestBtn" onclick="testCurrentOrderR2Download()" style="border-color: #38bdf8; color: #38bdf8; font-size: 11px; padding: 5px 10px;">⚡ Test Download</button>
+            <button type="button" class="btn sm" id="delR2RemoveBtn" onclick="deleteCurrentOrderR2Zip()" style="background: #dc2626; color: #fff; border: 0; font-size: 11px; padding: 5px 10px;">🗑️ Delete ZIP</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- FREE TIER STORAGE MINI METER -->
+      <div style="background: #0f172a; border: 1px solid #1e293b; border-radius: 10px; padding: 11px 14px; margin-bottom: 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; gap: 8px; flex-wrap: wrap;">
+          <span style="color: #94a3b8; font-weight: 600;">R2 Free Tier Storage: <strong id="delR2QuotaText" style="color: #e2e8f0;">Checking...</strong></span>
+          <button type="button" onclick="openR2StorageModal()" style="background: none; border: none; color: #38bdf8; font-size: 11px; font-weight: 700; cursor: pointer; text-decoration: underline;">Manage Storage &amp; Mode ↗</button>
+        </div>
+        <div class="r2-quota-bar-track">
+          <div class="r2-quota-bar-fill" id="delR2QuotaBar"></div>
+        </div>
+      </div>
+
+      <!-- DROPZONE -->
+      <div class="r2-dropzone" id="delR2Dropzone" onclick="document.getElementById('delR2FileInput').click()">
+        <input type="file" id="delR2FileInput" accept=".zip,.rar,.7z,.tar,.gz" style="display: none;" onchange="handleR2FileSelect(event)">
+        <div style="font-size: 28px; margin-bottom: 6px;">📦</div>
+        <div style="font-size: 14px; font-weight: 800; color: #e2e8f0;">Drop Finished Master .ZIP Here (Up to 7+ GB)</div>
+        <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">or click to browse • Direct encrypted browser-to-R2 multipart transfer</div>
+      </div>
+
+      <!-- SELECTED FILE PREVIEW -->
+      <div id="delR2SelectedCard" style="display: none; background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 12px 14px; margin-bottom: 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+          <div style="min-width: 0; flex: 1;">
+            <div id="delR2SelectedName" style="font-size: 13px; font-weight: 700; color: #fff; word-break: break-all;">Master.zip</div>
+            <div id="delR2SelectedMeta" style="font-size: 11.5px; color: #94a3b8; margin-top: 3px;">Size: -- • Projected R2 total: -- / 10.00 GB</div>
+          </div>
+          <button type="button" class="btn sm outline" id="delR2ClearFileBtn" onclick="clearR2SelectedFile()" style="font-size: 11px; padding: 4px 9px;">✕ Change</button>
+        </div>
+      </div>
+
+      <!-- 10 GB SAFETY WARNING -->
+      <div id="delR2OverageWarning" style="display: none; background: rgba(220,38,38,0.14); border: 1px solid #dc2626; border-radius: 10px; padding: 12px 14px; margin-bottom: 14px;">
+        <div style="font-size: 12.5px; font-weight: 800; color: #fca5a5; margin-bottom: 4px;">⚠️ Free Tier Limit Warning (10 GB / Month Free)</div>
+        <p id="delR2OverageMsg" style="font-size: 12px; color: #fecaca; line-height: 1.45; margin-bottom: 8px;">Adding this file will cross the 10 GB Free Tier.</p>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+          <label style="display: flex; align-items: center; gap: 7px; font-size: 11.5px; color: #fde68a; cursor: pointer;">
+            <input type="checkbox" id="delR2AllowOverageChk" style="accent-color: #f59e0b;">
+            Allow temporary overage ($0.015/GB/mo)
+          </label>
+          <button type="button" class="btn sm" onclick="openR2StorageModal()" style="background: #f59e0b; color: #000; border: 0; font-size: 11px; padding: 5px 10px;">🗑️ Free Old R2 Space</button>
+        </div>
+      </div>
+
+      <!-- ACTIVE UPLOAD PROGRESS -->
+      <div id="delR2ProgressWrap" style="display: none; background: #0f172a; border: 1px solid #0ea5e9; border-radius: 10px; padding: 14px; margin-bottom: 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; font-weight: 700;">
+          <span id="delR2ProgressLabel" style="color: #38bdf8;">Preparing upload...</span>
+          <span id="delR2ProgressPct" style="color: #4ade80;">0%</span>
+        </div>
+        <div class="r2-progress-track">
+          <div class="r2-progress-fill" id="delR2ProgressBar"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; color: #94a3b8; gap: 8px; flex-wrap: wrap;">
+          <span id="delR2ProgressStats">0.00 MB / 0.00 MB • -- MB/s</span>
+          <button type="button" class="btn sm" onclick="cancelActiveR2Upload()" style="background: #7f1d1d; color: #fecaca; border: 1px solid #dc2626; font-size: 10.5px; padding: 4px 10px;">✕ Cancel Upload</button>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px; justify-content: flex-end;">
+        <button type="button" class="btn outline sm" id="delR2CancelBtn" onclick="closeDelModal()">Cancel</button>
+        <button type="button" class="btn green sm" id="delR2UploadBtn" onclick="startR2ZipUpload()" disabled style="opacity: 0.5;">
+          ⚡ Upload ZIP &amp; Deliver Order
+        </button>
+      </div>
+    </div>
+
+    <!-- PANEL B: GOOGLE DRIVE / CLASSIC LINK -->
+    <div id="delModePanelDrive" style="display: none;">
+      <p style="font-size: 12.5px; color: #94a3b8; line-height: 1.5; margin-bottom: 4px;">
+        Paste your finished Google Drive folder or Dropbox link containing the layered master PSDs. Clients click Download ZIP in their portal and open this link directly (uses zero R2 quota).
+      </p>
+      <input type="url" id="delInputUrl" class="del-input" placeholder="https://drive.google.com/drive/folders/finished-retouch...">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 6px;">
+        <span style="font-size: 11px; color: #64748b;">Classic Mode • Unlimited Google Drive</span>
+        <div style="display: flex; gap: 10px;">
+          <button type="button" class="btn outline sm" onclick="closeDelModal()">Cancel</button>
+          <button type="button" class="btn green sm" onclick="saveDeliveryLink()">Save Classic Link &amp; Enable Download</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- R2 STORAGE QUOTA & HYBRID ENGINE MANAGER MODAL -->
+<div class="modal" id="r2StorageModal" onclick="if(event.target === this) closeR2StorageModal()">
+  <div class="modal-box" style="max-width: 720px; background: #0f172a; border: 1px solid #334155;">
+    <button type="button" class="modal-close" onclick="closeR2StorageModal()">✕</button>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding-right: 36px; margin-bottom: 12px;">
+      <div>
+        <h3 style="font-size: 19px; font-weight: 800; color: #fff;">☁️ Cloudflare R2 Storage &amp; Delivery Mode</h3>
+        <p style="font-size: 12.5px; color: #94a3b8; margin-top: 2px;">Keep storage below <strong>10.00 GB</strong> (decimal billing) to stay 100% on the $0.00/mo free tier.</p>
+      </div>
+      <button type="button" class="btn sm outline" onclick="loadR2StorageInventory(true)" style="border-color: #38bdf8; color: #38bdf8; font-size: 11px;">🔄 Refresh</button>
+    </div>
+
+    <!-- SYSTEM DEFAULT ENGINE SWITCH -->
+    <div style="background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 14px; margin-bottom: 16px;">
+      <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #94a3b8; margin-bottom: 10px;">Default Delivery Engine Preference (1-Click Switch Anytime)</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <button type="button" id="engineBtnR2" onclick="setDefaultDeliveryEngine('r2')" style="text-align: left; padding: 11px 13px; border-radius: 9px; border: 1.5px solid #10b981; background: rgba(16,185,129,0.12); color: #fff; cursor: pointer;">
+          <div style="font-size: 12.5px; font-weight: 800; color: #4ade80;">⚡ Hybrid R2 Primary</div>
+          <div style="font-size: 11px; color: #cbd5e1; margin-top: 3px;">Fast 6–7 GB direct edge ZIP downloads + Drive option.</div>
+        </button>
+        <button type="button" id="engineBtnDrive" onclick="setDefaultDeliveryEngine('drive')" style="text-align: left; padding: 11px 13px; border-radius: 9px; border: 1px solid #334155; background: #0f172a; color: #fff; cursor: pointer;">
+          <div style="font-size: 12.5px; font-weight: 800; color: #93c5fd;">📂 Classic Google Drive Only</div>
+          <div style="font-size: 11px; color: #94a3b8; margin-top: 3px;">Zero R2 storage needed; opens Google Drive tab first.</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- AUTH WARNING -->
+    <div id="r2StorageAuthWarning" style="display: none; background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.45); border-radius: 10px; padding: 14px; margin-bottom: 14px;">
+      <div style="font-size: 12.5px; font-weight: 700; color: #fbbf24; margin-bottom: 6px;">🔐 Director Authentication Required</div>
+      <p style="font-size: 12px; color: #cbd5e1; margin-bottom: 10px;">Sign in once with <strong>retouchershoaib@gmail.com</strong> to view and manage private R2 bucket files.</p>
+      <div id="r2StorageReauthContainer" style="min-height: 40px;"></div>
+    </div>
+
+    <!-- USAGE SUMMARY METER -->
+    <div style="background: #161b26; border: 1px solid #334155; border-radius: 12px; padding: 14px 16px; margin-bottom: 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <span style="font-size: 20px; font-weight: 800; color: #fff;" id="r2ModalUsedGB">0.00 GB</span>
+          <span style="font-size: 12.5px; color: #94a3b8;"> / 10.00 GB Free Tier Used</span>
+        </div>
+        <span id="r2ModalTierPill" class="status-pill delivered">Safe • $0.00/mo</span>
+      </div>
+      <div class="r2-quota-bar-track" style="height: 10px; margin: 10px 0 8px;">
+        <div class="r2-quota-bar-fill" id="r2ModalQuotaBar"></div>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 11.5px; color: #94a3b8; flex-wrap: wrap; gap: 8px;">
+        <span id="r2ModalRemainingText">10.00 GB free headroom remaining</span>
+        <span id="r2ModalCountText">0 ZIP objects stored</span>
+      </div>
+    </div>
+
+    <!-- ORPHANED MULTIPART UPLOADS CLEANUP -->
+    <div id="r2IncompleteWrap" style="display: none; background: rgba(245,158,11,0.12); border: 1px solid #f59e0b; border-radius: 10px; padding: 12px 14px; margin-bottom: 14px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <div style="font-size: 12px; color: #fde68a;">
+          <strong>⚠️ Interrupted Multipart Parts Found:</strong> <span id="r2IncompleteCount">0</span> uncompleted upload(s) can silently consume R2 quota.
+        </div>
+        <button type="button" class="btn sm" onclick="abortAllIncompleteR2Uploads()" style="background: #f59e0b; color: #000; border: 0; font-size: 11px;">🧹 Abort &amp; Reclaim Space</button>
+      </div>
+    </div>
+
+    <!-- STORED FILES TABLE -->
+    <div style="overflow-x: auto; max-height: 290px; border: 1px solid #1e293b; border-radius: 10px;">
+      <table class="orders-table" style="font-size: 12px;">
+        <thead style="background: #161b26; position: sticky; top: 0;">
+          <tr>
+            <th>Order</th>
+            <th>Master ZIP File</th>
+            <th>Size</th>
+            <th>Uploaded</th>
+            <th style="text-align: right;">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="r2ObjectsTbody">
+          <tr><td colspan="5" style="text-align: center; padding: 24px; color: #64748b;">Loading R2 bucket inventory...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; margin-top: 16px;">
+      <button type="button" class="btn sm outline" onclick="closeR2StorageModal()">Close</button>
     </div>
   </div>
 </div>
@@ -273,7 +539,11 @@ a { color: inherit; text-decoration: none; }
     <span class="admin-badge">Director Panel</span>
   </div>
 
-  <div style="display: flex; gap: 10px; align-items: center;">
+  <div class="admin-nav-actions">
+    <button type="button" id="admR2StorageBtn" class="btn sm r2-pill-btn" onclick="openR2StorageModal()" title="Cloudflare R2 Free-Tier Storage Meter & Delivery Mode Switch">
+      <span class="r2-dot" id="admR2Dot"></span>
+      <span id="admR2QuotaLabel">R2: -- / 10 GB</span>
+    </button>
     <button type="button" id="admCloudSyncBtn" class="btn sm" onclick="syncAdminFromCloud()" style="background: #1e293b; color: #38bdf8; border: 1px solid #334155; font-size: 11px; padding: 7px 14px; gap: 6px;">
       ☁️ Sync Cloud Orders
     </button>
@@ -435,6 +705,252 @@ function parseJwt(token) {
   }
 }
 
+// HYBRID R2 + GOOGLE DRIVE ENGINE CONFIG & HELPERS
+const R2_API_URL = '/api/r2';
+const R2_FREE_TIER_BYTES = 10 * 1000 * 1000 * 1000;   // 10.00 GB decimal (Cloudflare billing unit)
+const R2_SAFETY_LIMIT_BYTES = 9.95 * 1000 * 1000 * 1000;
+const R2_MULTIPART_THRESHOLD = 15 * 1000 * 1000;      // < 15 MB single PUT, >= 15 MB multipart
+const R2_PART_SIZE = 25 * 1024 * 1024;                // 25 MiB per chunk (7 GB -> ~280 parts)
+const R2_MAX_CONCURRENCY = 3;
+
+let r2LastInventory = null;
+let r2SelectedFile = null;
+let r2ActiveUpload = null;
+
+function isR2Uri(url) {
+  return typeof url === 'string' && url.trim().toLowerCase().startsWith('r2://');
+}
+
+function extractR2Key(r2Uri) {
+  if (!isR2Uri(r2Uri)) return '';
+  return r2Uri.trim().slice('r2://'.length).replace(/^\/+/, '');
+}
+
+function escapeHtml(str) {
+  return String(str || '').replace(/[&<>"']/g, function(ch) {
+    return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch];
+  });
+}
+
+function formatDecimalSize(bytes) {
+  const n = Number(bytes) || 0;
+  if (n >= 1e9) return (n / 1e9).toFixed(2) + ' GB';
+  if (n >= 1e6) return (n / 1e6).toFixed(2) + ' MB';
+  if (n >= 1e3) return (n / 1e3).toFixed(1) + ' KB';
+  return n + ' B';
+}
+
+function getDefaultDeliveryEngine() {
+  return localStorage.getItem('shoaib_default_delivery_engine') === 'drive' ? 'drive' : 'r2';
+}
+
+function updateEnginePreferenceUI() {
+  const mode = getDefaultDeliveryEngine();
+  const btnR2 = document.getElementById('engineBtnR2');
+  const btnDrive = document.getElementById('engineBtnDrive');
+  if (btnR2 && btnDrive) {
+    if (mode === 'r2') {
+      btnR2.style.border = '1.5px solid #10b981';
+      btnR2.style.background = 'rgba(16,185,129,0.12)';
+      btnDrive.style.border = '1px solid #334155';
+      btnDrive.style.background = '#0f172a';
+    } else {
+      btnDrive.style.border = '1.5px solid #3b82f6';
+      btnDrive.style.background = 'rgba(59,130,246,0.14)';
+      btnR2.style.border = '1px solid #334155';
+      btnR2.style.background = '#0f172a';
+    }
+  }
+}
+
+function setDefaultDeliveryEngine(mode) {
+  const clean = mode === 'drive' ? 'drive' : 'r2';
+  localStorage.setItem('shoaib_default_delivery_engine', clean);
+  updateEnginePreferenceUI();
+  showAdminToast(clean === 'drive'
+    ? '📂 Classic Google Drive set as default delivery mode.'
+    : '⚡ Hybrid Cloudflare R2 set as default delivery mode.');
+}
+
+function getAdminApiToken() {
+  const tok = sessionStorage.getItem('shoaib_admin_api_token') || '';
+  const exp = Number(sessionStorage.getItem('shoaib_admin_api_token_exp') || 0);
+  if (!tok || (exp && Date.now() >= exp)) {
+    return '';
+  }
+  return tok;
+}
+
+function clearAdminApiToken() {
+  sessionStorage.removeItem('shoaib_admin_api_token');
+  sessionStorage.removeItem('shoaib_admin_api_token_exp');
+}
+
+function renderInlineR2GoogleButtons() {
+  const hasToken = !!getAdminApiToken();
+  const delWarn = document.getElementById('delR2AuthWarning');
+  const stoWarn = document.getElementById('r2StorageAuthWarning');
+  if (delWarn) delWarn.style.display = hasToken ? 'none' : 'block';
+  if (stoWarn) stoWarn.style.display = hasToken ? 'none' : 'block';
+  if (hasToken) return;
+
+  if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+    ['delR2ReauthContainer', 'r2StorageReauthContainer'].forEach(cid => {
+      const box = document.getElementById(cid);
+      if (box && !box.hasChildNodes()) {
+        try {
+          google.accounts.id.renderButton(box, {
+            theme: 'filled_black',
+            size: 'medium',
+            width: 280,
+            text: 'continue_with',
+            shape: 'rectangular'
+          });
+        } catch(e) {}
+      }
+    });
+  }
+}
+
+async function exchangeDirectorR2Token(credential) {
+  if (!credential) return false;
+  try {
+    const res = await fetch(R2_API_URL + '?action=auth-admin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ credential })
+    });
+    const data = await res.json();
+    if (res.ok && data && data.status === 'success' && data.token) {
+      sessionStorage.setItem('shoaib_admin_api_token', data.token);
+      const ttlMs = ((data.expiresIn || 86400) * 1000) - 60000;
+      sessionStorage.setItem('shoaib_admin_api_token_exp', String(Date.now() + ttlMs));
+      renderInlineR2GoogleButtons();
+      refreshR2UsageBadge(true);
+      if (document.getElementById('delModal')?.style.display === 'flex') {
+        refreshDelModalR2Quota();
+      }
+      if (document.getElementById('r2StorageModal')?.style.display === 'flex') {
+        loadR2StorageInventory(false);
+      }
+      return true;
+    }
+  } catch(e) {
+    console.warn('Director R2 token exchange pending:', e);
+  }
+  return false;
+}
+
+async function postR2Action(action, payload = null, method = 'POST') {
+  const token = getAdminApiToken();
+  const headers = {};
+  if (token) headers['Authorization'] = 'Bearer ' + token;
+  const init = { method, headers };
+  if (method === 'POST') {
+    headers['Content-Type'] = 'application/json';
+    init.body = JSON.stringify(payload || {});
+  }
+  const res = await fetch(R2_API_URL + '?action=' + encodeURIComponent(action), init);
+  let data = null;
+  try {
+    data = await res.json();
+  } catch(e) {
+    throw new Error('R2 gateway returned invalid response (' + res.status + ')');
+  }
+  if (res.status === 401) {
+    clearAdminApiToken();
+    renderInlineR2GoogleButtons();
+  }
+  if (!res.ok && res.status !== 409) {
+    const err = new Error((data && data.message) || ('R2 request failed (' + res.status + ')'));
+    err.status = res.status;
+    err.payload = data;
+    throw err;
+  }
+  return { status: res.status, data };
+}
+
+function getOrderDeliveryTarget(ordOrId) {
+  let numId = '';
+  let ordObj = null;
+  if (typeof ordOrId === 'object' && ordOrId !== null) {
+    ordObj = ordOrId;
+    numId = normalizeNumericId(ordOrId.numericId || ordOrId.id);
+  } else {
+    numId = normalizeNumericId(ordOrId);
+    try {
+      const list = JSON.parse(localStorage.getItem('shoaib_custom_orders') || '[]');
+      ordObj = list.find(o => normalizeNumericId(o.numericId || o.id) === numId) || null;
+    } catch(e) {}
+  }
+  const stored = (numId && (
+    localStorage.getItem('shoaib_del_url_' + numId) ||
+    localStorage.getItem('shoaib_del_url_#' + numId) ||
+    localStorage.getItem('shoaib_del_url_RS-2026-' + numId)
+  )) || '';
+  return String(stored || (ordObj && ordObj.drive) || '').trim();
+}
+
+function rememberOrderRawDrive(numId, ordObj) {
+  if (!numId) return;
+  const existingRaw = localStorage.getItem('shoaib_raw_drive_' + numId) || '';
+  if (existingRaw && existingRaw.startsWith('http')) return;
+  const candidates = [
+    ordObj && ordObj.rawDrive,
+    ordObj && ordObj.drive,
+    localStorage.getItem('shoaib_del_url_' + numId)
+  ];
+  for (let i = 0; i < candidates.length; i++) {
+    const c = String(candidates[i] || '').trim();
+    if (c && c.startsWith('http') && !isR2Uri(c) && !c.includes('1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc')) {
+      localStorage.setItem('shoaib_raw_drive_' + numId, c);
+      return;
+    }
+  }
+}
+
+function getOrderRawDriveUrl(ordOrId, clientEmail) {
+  let numId = '';
+  let ordObj = null;
+  if (typeof ordOrId === 'object' && ordOrId !== null) {
+    ordObj = ordOrId;
+    numId = normalizeNumericId(ordOrId.numericId || ordOrId.id);
+  } else {
+    numId = normalizeNumericId(ordOrId);
+    try {
+      const list = JSON.parse(localStorage.getItem('shoaib_custom_orders') || '[]');
+      ordObj = list.find(o => normalizeNumericId(o.numericId || o.id) === numId) || null;
+    } catch(e) {}
+  }
+  const em = (clientEmail || (ordObj && ordObj.clientEmail) || '').toLowerCase().trim();
+  const candidates = [
+    ordObj && ordObj.rawDrive,
+    numId ? localStorage.getItem('shoaib_raw_drive_' + numId) : '',
+    ordObj && ordObj.drive,
+    em ? localStorage.getItem('shoaib_client_drive_' + em) : ''
+  ];
+  for (let i = 0; i < candidates.length; i++) {
+    const c = String(candidates[i] || '').trim();
+    if (c && c.startsWith('http') && !isR2Uri(c) && !c.includes('1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc')) {
+      return c;
+    }
+  }
+  return 'https://drive.google.com/drive/search?q=' + encodeURIComponent(numId ? ('#' + numId) : 'Order');
+}
+
+function triggerPresignedFileDownload(downloadUrl, fileName) {
+  const a = document.createElement('a');
+  a.href = downloadUrl;
+  if (fileName) a.setAttribute('download', fileName);
+  a.rel = 'noopener noreferrer';
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => {
+    try { a.remove(); } catch(e) {}
+  }, 1500);
+}
+
 function handleDirectorGoogleCredential(response) {
   const errEl = document.getElementById('directorAuthError');
   if (errEl) errEl.style.display = 'none';
@@ -467,6 +983,8 @@ function handleDirectorGoogleCredential(response) {
       picture: payload.picture || ''
     }));
 
+    exchangeDirectorR2Token(response.credential);
+
     const modal = document.getElementById('directorAuthModal');
     if (modal) modal.style.display = 'none';
 
@@ -477,6 +995,7 @@ function handleDirectorGoogleCredential(response) {
     // HARD REJECTION & PURGE: PURGE ANY PREVIOUS UNLOCK TO PREVENT BYPASS
     sessionStorage.removeItem('shoaib_admin_unlocked');
     sessionStorage.removeItem('shoaib_admin_user');
+    clearAdminApiToken();
     
     const modal = document.getElementById('directorAuthModal');
     if (modal) modal.style.display = 'flex';
@@ -515,8 +1034,12 @@ function initDirectorGoogleAuth() {
         });
       }
 
-      // Prompt One Tap
-      google.accounts.id.prompt();
+      renderInlineR2GoogleButtons();
+
+      // Prompt One Tap only if gate modal is still visible
+      if (document.getElementById('directorAuthModal')?.style.display !== 'none') {
+        google.accounts.id.prompt();
+      }
     } catch(e) {
       console.warn('Google Auth init error:', e);
     }
@@ -535,6 +1058,7 @@ setTimeout(() => clearInterval(gisCheckTimer), 7000);
 function lockAdmin() {
   sessionStorage.removeItem('shoaib_admin_unlocked');
   sessionStorage.removeItem('shoaib_admin_user');
+  clearAdminApiToken();
   const modal = document.getElementById('directorAuthModal');
   if (modal) modal.style.display = 'flex';
   const errEl = document.getElementById('directorAuthError');
@@ -713,6 +1237,14 @@ async function syncAdminFromCloud(showToastNotice = false) {
               co.isPaid = (localStorage.getItem('shoaib_status_paid_' + cleanId) === '1');
             }
 
+            if (co.rawDrive && !isR2Uri(co.rawDrive) && !co.rawDrive.includes('1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc')) {
+              localStorage.setItem('shoaib_raw_drive_' + cleanId, co.rawDrive);
+            } else if (co.drive && !isR2Uri(co.drive) && !co.drive.includes('1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc')) {
+              localStorage.setItem('shoaib_raw_drive_' + cleanId, co.drive);
+            } else if (orderMap[cleanId] && orderMap[cleanId].rawDrive && !isR2Uri(orderMap[cleanId].rawDrive)) {
+              co.rawDrive = orderMap[cleanId].rawDrive;
+            }
+
             orderMap[cleanId] = Object.assign({}, orderMap[cleanId] || {}, co);
           }
         });
@@ -738,7 +1270,22 @@ async function syncAdminFromCloud(showToastNotice = false) {
 
       if (data.deliveries && typeof data.deliveries === 'object') {
         Object.keys(data.deliveries).forEach(k => {
-          localStorage.setItem('shoaib_del_url_' + k, data.deliveries[k]);
+          const cleanK = normalizeNumericId(k);
+          const val = String(data.deliveries[k] || '').trim();
+          if (val) {
+            rememberOrderRawDrive(cleanK);
+            localStorage.setItem('shoaib_del_url_' + k, val);
+            if (cleanK) {
+              localStorage.setItem('shoaib_del_url_' + cleanK, val);
+              localStorage.setItem('shoaib_del_url_#' + cleanK, val);
+              localStorage.setItem('shoaib_del_url_RS-2026-' + cleanK, val);
+            }
+          } else if (cleanK) {
+            localStorage.removeItem('shoaib_del_url_' + k);
+            localStorage.removeItem('shoaib_del_url_' + cleanK);
+            localStorage.removeItem('shoaib_del_url_#' + cleanK);
+            localStorage.removeItem('shoaib_del_url_RS-2026-' + cleanK);
+          }
         });
       }
 
@@ -984,11 +1531,9 @@ function renderAdminTable() {
             const clientEmail = (ord.clientEmail || 'client@studio.com').toLowerCase().trim();
             const fullId = ord.id;
             
-            // Resolve dedicated order drive folder (never master root folder!)
-            let orderDrive = ord.drive || localStorage.getItem('shoaib_client_drive_' + clientEmail) || '';
-            if (!orderDrive || orderDrive.includes('1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc')) {
-              orderDrive = 'https://drive.google.com/drive/search?q=' + encodeURIComponent(fullId);
-            }
+            // Resolve dedicated incoming RAW Drive folder (never r2:// and never master root!)
+            const orderDrive = getOrderRawDriveUrl(ord, clientEmail);
+            const deliveryTarget = getOrderDeliveryTarget(ord);
 
             ordersList.push({
               id: fullId,
@@ -1002,7 +1547,9 @@ function renderAdminTable() {
               price: ord.price || '$500.00 USD',
               numericPrice: parseFloat(ord.numericPrice) || parseFloat(String(ord.price || '').replace(/[^0-9.]/g, '')) || 500,
               status: localStorage.getItem('shoaib_status_' + numId) || ord.status || 'pending',
-              drive: localStorage.getItem('shoaib_del_url_' + numId) || orderDrive,
+              rawDrive: orderDrive,
+              drive: deliveryTarget || orderDrive,
+              deliveryTarget: deliveryTarget,
               deadlineMs: ord.deadlineMs || (Date.now() + 24 * 3600 * 1000),
               isAgreed: localStorage.getItem('shoaib_price_approved_' + numId) === '1' || ord.isAgreed === true,
               isPaid: (localStorage.getItem('shoaib_status_paid_' + numId) === '1' || localStorage.getItem('shoaib_status_paid_RS-2026-' + numId) === '1')
@@ -1255,8 +1802,14 @@ function renderAdminTable() {
               ` : (ord.status === 'delivered' ? `
                 <button class="btn sm" onclick="archiveAdminOrder('${id}')" style="background: #4f46e5; color: #fff; border: 0; font-size: 11px; padding: 5px 9px;" title="Move Order to Completed Archive">📦 Archive</button>
               ` : '')}
-              <a href="${ord.drive}" target="_blank" class="btn sm outline" style="font-size: 11px; padding: 5px 9px;" title="Open Specific Order Google Drive Subfolder">📂 Drive ↗</a>
-              <button class="btn sm outline" onclick="openDelModal('${id}')" style="font-size: 11px; padding: 5px 9px;" title="Upload or Paste Final Delivery Link">🔗 Delivery</button>
+              <a href="${escapeHtml(ord.rawDrive || ord.drive)}" target="_blank" class="btn sm outline" style="font-size: 11px; padding: 5px 9px;" title="Open Client Incoming RAW Google Drive Subfolder">📂 Drive ↗</a>
+              ${isR2Uri(ord.deliveryTarget) ? `
+                <button class="btn sm" onclick="openDelModal('${id}')" style="background: rgba(16,185,129,0.16); color: #4ade80; border: 1px solid rgba(16,185,129,0.5); font-size: 11px; padding: 5px 9px;" title="Delivered via Cloudflare R2 Direct ZIP (${escapeHtml(extractR2Key(ord.deliveryTarget).split('/').pop())})">⚡ R2 ZIP</button>
+              ` : (localStorage.getItem('shoaib_del_url_' + id) ? `
+                <button class="btn sm outline" onclick="openDelModal('${id}')" style="border-color: #38bdf8; color: #38bdf8; font-size: 11px; padding: 5px 9px;" title="Classic Delivery Link Saved — Click to Edit or Switch to R2 ZIP">🔗 Drive ✓</button>
+              ` : `
+                <button class="btn sm outline" onclick="openDelModal('${id}')" style="font-size: 11px; padding: 5px 9px;" title="Upload 7GB ZIP via R2 or Paste Classic Drive Link">🔗 Delivery</button>
+              `)}
             </div>
           </td>
         </tr>
@@ -1392,6 +1945,9 @@ function deleteAdminOrder(id) {
     return;
   }
 
+  const existingDeliveryTarget = getOrderDeliveryTarget(cleanId);
+  const existingR2Key = isR2Uri(existingDeliveryTarget) ? extractR2Key(existingDeliveryTarget) : '';
+
   localStorage.setItem('shoaib_deleted_' + cleanId, '1');
   localStorage.setItem('shoaib_deleted_RS-2026-' + cleanId, '1');
   localStorage.setItem('shoaib_deleted_#RS-2026-' + cleanId, '1');
@@ -1405,7 +1961,11 @@ function deleteAdminOrder(id) {
   localStorage.removeItem('shoaib_status_' + cleanId);
   localStorage.removeItem('shoaib_status_RS-2026-' + cleanId);
   localStorage.removeItem('shoaib_del_url_' + cleanId);
+  localStorage.removeItem('shoaib_del_url_#' + cleanId);
   localStorage.removeItem('shoaib_del_url_RS-2026-' + cleanId);
+  localStorage.removeItem('shoaib_del_url_#RS-2026-' + cleanId);
+  localStorage.removeItem('shoaib_raw_drive_' + cleanId);
+  localStorage.removeItem('shoaib_raw_drive_RS-2026-' + cleanId);
   localStorage.removeItem('shoaib_price_approved_' + cleanId);
   localStorage.removeItem('shoaib_price_approved_RS-2026-' + cleanId);
   localStorage.removeItem('shoaib_agreed_price_' + cleanId);
@@ -1421,6 +1981,12 @@ function deleteAdminOrder(id) {
   } catch(e) {}
 
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
+
+  if (existingR2Key && getAdminApiToken()) {
+    postR2Action('delete-object', { key: existingR2Key })
+      .then(() => refreshR2UsageBadge(true))
+      .catch(err => console.warn('R2 order file cleanup skipped:', err));
+  }
 
   // Cloud backend sync (permanently purge from cloud DB)
   triggerSyncAdminActionToCloud({
@@ -1468,10 +2034,7 @@ function openClientDetailModal(id) {
           if (users[emailLower]) userProfile = users[emailLower];
         } catch(e) {}
 
-        let driveLink = ord.drive || localStorage.getItem('shoaib_client_drive_' + emailLower) || '';
-        if (!driveLink || driveLink.includes('1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc')) {
-          driveLink = 'https://drive.google.com/drive/search?q=' + encodeURIComponent(ord.id || id);
-        }
+        const driveLink = getOrderRawDriveUrl(ord, emailLower);
 
         p = {
           name: ord.clientName || userProfile?.name || 'Studio Client',
@@ -1730,39 +2293,358 @@ function filterByClientEmail(email) {
   }
 }
 
-// DELIVERY LINK MODAL
+// HYBRID DELIVERY MODAL (CLOUDFLARE R2 DIRECT ZIP + CLASSIC GOOGLE DRIVE)
 let targetOrderId = '';
+let delModalMode = 'r2';
+
+function switchDelModalMode(mode) {
+  if (r2ActiveUpload && !r2ActiveUpload.aborted) {
+    showAdminToast('⏳ Finish or cancel the active R2 upload before switching mode.');
+    return;
+  }
+  delModalMode = mode === 'drive' ? 'drive' : 'r2';
+  const btnR2 = document.getElementById('delTabBtnR2');
+  const btnDrive = document.getElementById('delTabBtnDrive');
+  const panelR2 = document.getElementById('delModePanelR2');
+  const panelDrive = document.getElementById('delModePanelDrive');
+  if (btnR2) btnR2.classList.toggle('active', delModalMode === 'r2');
+  if (btnDrive) btnDrive.classList.toggle('active', delModalMode === 'drive');
+  if (panelR2) panelR2.style.display = delModalMode === 'r2' ? 'block' : 'none';
+  if (panelDrive) panelDrive.style.display = delModalMode === 'drive' ? 'block' : 'none';
+}
+
+function initR2Dropzone() {
+  const dz = document.getElementById('delR2Dropzone');
+  const chk = document.getElementById('delR2AllowOverageChk');
+  if (chk && !chk.dataset.bound) {
+    chk.dataset.bound = '1';
+    chk.addEventListener('change', evaluateR2OverageAndButtonState);
+  }
+  if (!dz || dz.dataset.bound) return;
+  dz.dataset.bound = '1';
+  dz.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dz.classList.add('dragover');
+  });
+  dz.addEventListener('dragleave', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dz.classList.remove('dragover');
+  });
+  dz.addEventListener('drop', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dz.classList.remove('dragover');
+    const files = e.dataTransfer && e.dataTransfer.files;
+    if (files && files.length > 0) {
+      selectR2File(files[0]);
+    }
+  });
+}
+
+function clearR2SelectedFile() {
+  r2SelectedFile = null;
+  const fileIn = document.getElementById('delR2FileInput');
+  if (fileIn) fileIn.value = '';
+  const selCard = document.getElementById('delR2SelectedCard');
+  if (selCard) selCard.style.display = 'none';
+  const ovWarn = document.getElementById('delR2OverageWarning');
+  if (ovWarn) ovWarn.style.display = 'none';
+  const chk = document.getElementById('delR2AllowOverageChk');
+  if (chk) chk.checked = false;
+  evaluateR2OverageAndButtonState();
+}
+
+function handleR2FileSelect(e) {
+  const file = e && e.target && e.target.files && e.target.files[0];
+  if (file) selectR2File(file);
+}
+
+function selectR2File(file) {
+  if (!file || !file.size) {
+    showAdminToast('⚠️ Empty file cannot be uploaded.');
+    return;
+  }
+  r2SelectedFile = file;
+  const selCard = document.getElementById('delR2SelectedCard');
+  const selName = document.getElementById('delR2SelectedName');
+  const selMeta = document.getElementById('delR2SelectedMeta');
+  const chk = document.getElementById('delR2AllowOverageChk');
+  if (chk) chk.checked = false;
+  if (selName) selName.textContent = file.name;
+  if (selCard) selCard.style.display = 'block';
+
+  const currentUsed = r2LastInventory ? Number(r2LastInventory.totalBytes || 0) : 0;
+  const projected = currentUsed + file.size;
+  if (selMeta) {
+    selMeta.textContent =
+      'Size: ' + formatDecimalSize(file.size) +
+      ' • Projected R2 total: ' + formatDecimalSize(projected) + ' / 10.00 GB';
+  }
+  evaluateR2OverageAndButtonState();
+}
+
+function evaluateR2OverageAndButtonState() {
+  const btn = document.getElementById('delR2UploadBtn');
+  const ovWarn = document.getElementById('delR2OverageWarning');
+  const ovMsg = document.getElementById('delR2OverageMsg');
+  const chk = document.getElementById('delR2AllowOverageChk');
+  const selMeta = document.getElementById('delR2SelectedMeta');
+
+  if (!r2SelectedFile) {
+    if (ovWarn) ovWarn.style.display = 'none';
+    if (btn) {
+      btn.disabled = true;
+      btn.style.opacity = '0.5';
+    }
+    return;
+  }
+
+  const currentUsed = r2LastInventory ? Number(r2LastInventory.totalBytes || 0) : 0;
+  const projected = currentUsed + r2SelectedFile.size;
+  if (selMeta) {
+    selMeta.textContent =
+      'Size: ' + formatDecimalSize(r2SelectedFile.size) +
+      ' • Projected R2 total: ' + formatDecimalSize(projected) + ' / 10.00 GB';
+  }
+
+  const exceedsSafety = projected > R2_SAFETY_LIMIT_BYTES;
+  if (ovWarn) ovWarn.style.display = exceedsSafety ? 'block' : 'none';
+  if (exceedsSafety && ovMsg) {
+    ovMsg.textContent =
+      'Current R2 usage is ' + formatDecimalSize(currentUsed) +
+      '. Adding ' + formatDecimalSize(r2SelectedFile.size) +
+      ' brings total to ' + formatDecimalSize(projected) +
+      ' (over the 10.00 GB Free Tier). Delete older ZIPs first to stay at $0.00/mo.';
+  }
+
+  const blockedByOverage = exceedsSafety && !(chk && chk.checked);
+  const isUploading = !!(r2ActiveUpload && !r2ActiveUpload.aborted);
+  if (btn) {
+    btn.disabled = blockedByOverage || isUploading;
+    btn.style.opacity = btn.disabled ? '0.5' : '1';
+  }
+}
+
+function updateQuotaBarUI(totalBytes, barId, textId, tierPillId) {
+  const pct = Math.min(100, Math.max(0, (Number(totalBytes || 0) / R2_FREE_TIER_BYTES) * 100));
+  const bar = document.getElementById(barId);
+  if (bar) {
+    bar.style.width = pct.toFixed(1) + '%';
+    bar.classList.remove('warn', 'danger');
+    if (pct >= 92) bar.classList.add('danger');
+    else if (pct >= 75) bar.classList.add('warn');
+  }
+  const txt = document.getElementById(textId);
+  if (txt) {
+    txt.textContent = formatDecimalSize(totalBytes) + ' / 10.00 GB (' + pct.toFixed(0) + '%)';
+  }
+  if (tierPillId) {
+    const pill = document.getElementById(tierPillId);
+    if (pill) {
+      if (totalBytes > R2_FREE_TIER_BYTES) {
+        const extraGb = ((totalBytes - R2_FREE_TIER_BYTES) / 1e9).toFixed(2);
+        pill.className = 'status-pill received';
+        pill.textContent = 'Overage +' + extraGb + ' GB';
+      } else if (totalBytes >= R2_SAFETY_LIMIT_BYTES * 0.85) {
+        pill.className = 'status-pill progress';
+        pill.textContent = 'Near Limit • Free Old ZIPs';
+      } else {
+        pill.className = 'status-pill delivered';
+        pill.textContent = 'Safe • $0.00/mo';
+      }
+    }
+  }
+}
+
+async function refreshR2UsageBadge(force = false) {
+  const label = document.getElementById('admR2QuotaLabel');
+  const dot = document.getElementById('admR2Dot');
+  const defaultEngine = getDefaultDeliveryEngine();
+
+  if (!getAdminApiToken()) {
+    if (label) {
+      label.textContent = defaultEngine === 'drive' ? 'Mode: Drive' : 'R2: Sign In';
+    }
+    if (dot) {
+      dot.classList.remove('safe', 'warn', 'danger', 'crit');
+      dot.classList.add('warn');
+    }
+    return null;
+  }
+
+  if (!force && r2LastInventory) {
+    const used = Number(r2LastInventory.totalBytes || 0);
+    if (label) {
+      label.textContent = (defaultEngine === 'drive' ? 'Drive • ' : 'R2: ') +
+        (used / 1e9).toFixed(2) + ' / 10 GB';
+    }
+    if (dot) {
+      dot.classList.remove('safe', 'warn', 'danger', 'crit');
+      const pct = (used / R2_FREE_TIER_BYTES) * 100;
+      if (pct >= 92) dot.classList.add('danger');
+      else if (pct >= 75) dot.classList.add('warn');
+      else dot.classList.add('safe');
+    }
+    return r2LastInventory;
+  }
+
+  try {
+    const { data } = await postR2Action('usage', null, 'GET');
+    if (data && data.status === 'success') {
+      r2LastInventory = data;
+      const used = Number(data.totalBytes || 0);
+      const pct = (used / R2_FREE_TIER_BYTES) * 100;
+      if (label) {
+        label.textContent = (defaultEngine === 'drive' ? 'Drive • ' : 'R2: ') +
+          (used / 1e9).toFixed(2) + ' / 10 GB';
+      }
+      if (dot) {
+        dot.classList.remove('safe', 'warn', 'danger', 'crit');
+        if (pct >= 92) dot.classList.add('danger');
+        else if (pct >= 75) dot.classList.add('warn');
+        else dot.classList.add('safe');
+      }
+      updateQuotaBarUI(used, 'delR2QuotaBar', 'delR2QuotaText');
+      evaluateR2OverageAndButtonState();
+      return data;
+    }
+  } catch(err) {
+    if (label) label.textContent = err.status === 503 ? 'R2: Setup Pending' : 'R2: Offline';
+    if (dot) {
+      dot.classList.remove('safe', 'warn', 'danger', 'crit');
+      dot.classList.add('warn');
+    }
+  }
+  return null;
+}
+
+async function refreshDelModalR2Quota() {
+  const txt = document.getElementById('delR2QuotaText');
+  if (!getAdminApiToken()) {
+    if (txt) txt.textContent = 'Sign in above to check R2 usage';
+    return;
+  }
+  const inv = await refreshR2UsageBadge(true);
+  if (!inv && txt) {
+    txt.textContent = 'Unavailable — check Cloudflare secrets';
+  }
+}
+
 function openDelModal(id) {
-  targetOrderId = id;
+  targetOrderId = normalizeNumericId(id) || String(id || '').trim();
+  initR2Dropzone();
+
+  let ordObj = null;
+  try {
+    const list = JSON.parse(localStorage.getItem('shoaib_custom_orders') || '[]');
+    ordObj = list.find(o => normalizeNumericId(o.numericId || o.id) === targetOrderId) || null;
+  } catch(e) {}
+
+  rememberOrderRawDrive(targetOrderId, ordObj);
+
+  const badge = document.getElementById('delOrderBadge');
+  if (badge) badge.textContent = '#' + targetOrderId;
+  const meta = document.getElementById('delOrderMeta');
+  if (meta) {
+    meta.textContent = ordObj
+      ? ((ordObj.clientName || ordObj.clientEmail || 'Client') + ' • ' + (ordObj.service || 'Commercial Retouching'))
+      : 'Choose Cloudflare R2 Direct ZIP (up to 7+ GB, zero client login) or classic Google Drive link.';
+  }
+
+  clearR2SelectedFile();
+  const progWrap = document.getElementById('delR2ProgressWrap');
+  if (progWrap) progWrap.style.display = 'none';
+
+  const currentTarget = getOrderDeliveryTarget(targetOrderId);
+  const existingCard = document.getElementById('delR2ExistingCard');
+  const existingName = document.getElementById('delR2ExistingName');
   const input = document.getElementById('delInputUrl');
-  if (input) input.value = localStorage.getItem('shoaib_del_url_' + id) || '';
+
+  if (isR2Uri(currentTarget)) {
+    const k = extractR2Key(currentTarget);
+    const fname = (k.split('/').pop() || k);
+    if (existingCard) existingCard.style.display = 'block';
+    if (existingName) existingName.textContent = fname + ' (' + currentTarget + ')';
+    if (input) input.value = '';
+    switchDelModalMode('r2');
+  } else {
+    if (existingCard) existingCard.style.display = 'none';
+    const explicitDelUrl =
+      localStorage.getItem('shoaib_del_url_' + targetOrderId) ||
+      localStorage.getItem('shoaib_del_url_#' + targetOrderId) ||
+      localStorage.getItem('shoaib_del_url_RS-2026-' + targetOrderId) || '';
+    if (input) {
+      input.value = (currentTarget && !isR2Uri(currentTarget) && !currentTarget.includes('1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc'))
+        ? currentTarget
+        : '';
+    }
+    if (explicitDelUrl && explicitDelUrl.startsWith('http')) {
+      switchDelModalMode('drive');
+    } else {
+      switchDelModalMode(getDefaultDeliveryEngine());
+    }
+  }
+
   const modal = document.getElementById('delModal');
   if (modal) modal.style.display = 'flex';
+  renderInlineR2GoogleButtons();
+  refreshDelModalR2Quota();
 }
 
 function closeDelModal() {
+  if (r2ActiveUpload && !r2ActiveUpload.aborted) {
+    if (!confirm('An upload to Cloudflare R2 is currently running. Cancel upload and close?')) {
+      return;
+    }
+    cancelActiveR2Upload(true);
+  }
   const modal = document.getElementById('delModal');
   if (modal) modal.style.display = 'none';
+  clearR2SelectedFile();
 }
 
-function saveDeliveryLink() {
-  const url = (document.getElementById('delInputUrl')?.value || '').trim();
-  if (!url) {
-    showAdminToast('⚠️ Please enter a valid delivery link');
-    return;
-  }
-  localStorage.setItem('shoaib_del_url_' + targetOrderId, url);
-  localStorage.setItem('shoaib_status_' + targetOrderId, 'delivered');
+function persistOrderDeliveryTarget(orderId, targetUri, deliveryMode) {
+  const cleanId = normalizeNumericId(orderId) || String(orderId || '').trim();
+  rememberOrderRawDrive(cleanId);
 
-  // Also update shoaib_custom_orders
+  if (targetUri) {
+    localStorage.setItem('shoaib_del_url_' + cleanId, targetUri);
+    localStorage.setItem('shoaib_del_url_#' + cleanId, targetUri);
+    localStorage.setItem('shoaib_del_url_RS-2026-' + cleanId, targetUri);
+    localStorage.setItem('shoaib_status_' + cleanId, 'delivered');
+    localStorage.setItem('shoaib_status_RS-2026-' + cleanId, 'delivered');
+  } else {
+    localStorage.removeItem('shoaib_del_url_' + cleanId);
+    localStorage.removeItem('shoaib_del_url_#' + cleanId);
+    localStorage.removeItem('shoaib_del_url_RS-2026-' + cleanId);
+    localStorage.removeItem('shoaib_del_url_#RS-2026-' + cleanId);
+  }
+
   try {
     const raw = localStorage.getItem('shoaib_custom_orders');
     if (raw) {
       let list = JSON.parse(raw);
       list.forEach(o => {
-        if (String(o.numericId) === String(targetOrderId) || o.id === targetOrderId) {
-          o.status = 'delivered';
-          o.drive = url;
+        if (normalizeNumericId(o.numericId || o.id) === cleanId) {
+          if (!o.rawDrive && o.drive && !isR2Uri(o.drive) && !o.drive.includes('1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc')) {
+            o.rawDrive = o.drive;
+            localStorage.setItem('shoaib_raw_drive_' + cleanId, o.rawDrive);
+          }
+          if (targetUri) {
+            o.status = 'delivered';
+            o.drive = targetUri;
+            o.deliveryMode = deliveryMode || (isR2Uri(targetUri) ? 'r2' : 'drive');
+          } else {
+            o.drive = o.rawDrive || '';
+            o.deliveryMode = 'drive';
+            if (o.status !== 'archived') {
+              o.status = 'qc';
+              localStorage.setItem('shoaib_status_' + cleanId, 'qc');
+              localStorage.setItem('shoaib_status_RS-2026-' + cleanId, 'qc');
+            }
+          }
         }
       });
       localStorage.setItem('shoaib_custom_orders', JSON.stringify(list));
@@ -1771,17 +2653,597 @@ function saveDeliveryLink() {
 
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
 
-  // Cloud backend sync
+  let statusToSend = 'delivered';
+  if (!targetUri) {
+    const curStat = localStorage.getItem('shoaib_status_' + cleanId) || 'qc';
+    statusToSend = curStat === 'archived' ? 'archived' : 'qc';
+  }
   triggerSyncAdminActionToCloud({
     action: 'update_delivery_link',
-    numericId: targetOrderId,
-    drive: url,
-    status: 'delivered'
+    numericId: cleanId,
+    drive: targetUri || '',
+    deliveryMode: deliveryMode || (isR2Uri(targetUri) ? 'r2' : 'drive'),
+    status: statusToSend
   });
+}
 
-  showAdminToast('✓ Delivery master link saved & client portal synced!');
-  closeDelModal();
+function xhrPutBlob(url, blob, contentType, onProgress, activeSet) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    if (activeSet) activeSet.add(xhr);
+    xhr.open('PUT', url, true);
+    if (contentType) {
+      xhr.setRequestHeader('Content-Type', contentType);
+    }
+    xhr.upload.onprogress = (ev) => {
+      if (ev.lengthComputable && typeof onProgress === 'function') {
+        onProgress(ev.loaded, ev.total);
+      }
+    };
+    xhr.onload = () => {
+      if (activeSet) activeSet.delete(xhr);
+      if (xhr.status >= 200 && xhr.status < 300) {
+        const etag = xhr.getResponseHeader('ETag') || xhr.getResponseHeader('etag') || '';
+        resolve({ etag });
+      } else {
+        reject(new Error('R2 upload error HTTP ' + xhr.status + (xhr.responseText ? ': ' + xhr.responseText.slice(0, 120) : '')));
+      }
+    };
+    xhr.onerror = () => {
+      if (activeSet) activeSet.delete(xhr);
+      reject(new Error('Network error while uploading chunk to Cloudflare R2'));
+    };
+    xhr.onabort = () => {
+      if (activeSet) activeSet.delete(xhr);
+      const err = new Error('Upload cancelled');
+      err.aborted = true;
+      reject(err);
+    };
+    xhr.send(blob);
+  });
+}
+
+async function xhrPutBlobWithRetry(url, blob, contentType, onProgress, uploadState, maxAttempts = 3) {
+  let lastErr = null;
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    if (uploadState.aborted) {
+      const err = new Error('Upload cancelled');
+      err.aborted = true;
+      throw err;
+    }
+    try {
+      return await xhrPutBlob(url, blob, contentType, onProgress, uploadState.xhrs);
+    } catch(err) {
+      lastErr = err;
+      if (err.aborted || uploadState.aborted || attempt >= maxAttempts) break;
+      await new Promise(r => setTimeout(r, 1200 * attempt));
+    }
+  }
+  throw lastErr || new Error('Chunk upload failed');
+}
+
+function updateR2UploadProgressUI(bytesDone, totalBytes, startedAtMs, labelOverride) {
+  const pct = totalBytes > 0 ? Math.min(100, (bytesDone / totalBytes) * 100) : 0;
+  const elapsedSec = Math.max(0.25, (Date.now() - startedAtMs) / 1000);
+  const bytesPerSec = bytesDone / elapsedSec;
+  const mbPerSec = bytesPerSec / (1000 * 1000);
+  const remBytes = Math.max(0, totalBytes - bytesDone);
+  const etaSec = bytesPerSec > 1024 ? Math.round(remBytes / bytesPerSec) : 0;
+  let etaStr = '';
+  if (etaSec > 0 && pct < 99.5) {
+    const mins = Math.floor(etaSec / 60);
+    const secs = etaSec % 60;
+    etaStr = mins > 0 ? (' • ~' + mins + 'm ' + secs + 's left') : (' • ~' + secs + 's left');
+  }
+
+  const labelEl = document.getElementById('delR2ProgressLabel');
+  const pctEl = document.getElementById('delR2ProgressPct');
+  const barEl = document.getElementById('delR2ProgressBar');
+  const statsEl = document.getElementById('delR2ProgressStats');
+
+  if (labelEl && labelOverride) labelEl.textContent = labelOverride;
+  if (pctEl) pctEl.textContent = pct.toFixed(1) + '%';
+  if (barEl) barEl.style.width = pct.toFixed(1) + '%';
+  if (statsEl) {
+    statsEl.textContent =
+      formatDecimalSize(bytesDone) + ' / ' + formatDecimalSize(totalBytes) +
+      ' • ' + mbPerSec.toFixed(1) + ' MB/s' + etaStr;
+  }
+}
+
+async function startR2ZipUpload() {
+  if (r2ActiveUpload && !r2ActiveUpload.aborted) return;
+  if (!targetOrderId) {
+    showAdminToast('⚠️ Missing Order ID.');
+    return;
+  }
+  if (!r2SelectedFile) {
+    showAdminToast('⚠️ Please choose a .ZIP file first.');
+    return;
+  }
+  if (!getAdminApiToken()) {
+    renderInlineR2GoogleButtons();
+    showAdminToast('🔐 Click Continue with Google in the warning banner above to authorize R2.');
+    return;
+  }
+
+  const file = r2SelectedFile;
+  const allowOverage = !!(document.getElementById('delR2AllowOverageChk')?.checked);
+  const prevTarget = getOrderDeliveryTarget(targetOrderId);
+  const prevR2Key = isR2Uri(prevTarget) ? extractR2Key(prevTarget) : '';
+
+  const progWrap = document.getElementById('delR2ProgressWrap');
+  const uploadBtn = document.getElementById('delR2UploadBtn');
+  const clearBtn = document.getElementById('delR2ClearFileBtn');
+  const dropzone = document.getElementById('delR2Dropzone');
+
+  if (progWrap) progWrap.style.display = 'block';
+  if (uploadBtn) { uploadBtn.disabled = true; uploadBtn.style.opacity = '0.5'; uploadBtn.textContent = 'Uploading to R2...'; }
+  if (clearBtn) clearBtn.disabled = true;
+  if (dropzone) dropzone.style.pointerEvents = 'none';
+
+  const startedAt = Date.now();
+  const state = {
+    aborted: false,
+    key: '',
+    uploadId: '',
+    xhrs: new Set(),
+    partLoaded: {},
+  };
+  r2ActiveUpload = state;
+
+  const beforeUnloadHandler = (e) => {
+    e.preventDefault();
+    e.returnValue = '';
+    return '';
+  };
+  window.addEventListener('beforeunload', beforeUnloadHandler);
+
+  updateR2UploadProgressUI(0, file.size, startedAt, 'Initializing Cloudflare R2 session...');
+
+  try {
+    let finalR2Uri = '';
+    let finalKey = '';
+
+    if (file.size < R2_MULTIPART_THRESHOLD) {
+      const initRes = await postR2Action('sign-put', {
+        orderId: targetOrderId,
+        fileName: file.name,
+        fileSize: file.size,
+        allowOverage
+      });
+      if (initRes.status === 409) {
+        r2LastInventory = initRes.data;
+        updateQuotaBarUI(initRes.data.totalBytes || 0, 'delR2QuotaBar', 'delR2QuotaText');
+        evaluateR2OverageAndButtonState();
+        throw new Error(initRes.data.message || 'R2 Free Tier 10 GB limit reached.');
+      }
+      const { key, r2Uri, uploadUrl } = initRes.data;
+      state.key = key;
+      updateR2UploadProgressUI(0, file.size, startedAt, 'Uploading directly to Cloudflare R2...');
+      await xhrPutBlobWithRetry(
+        uploadUrl,
+        file,
+        '',
+        (loaded) => updateR2UploadProgressUI(loaded, file.size, startedAt),
+        state,
+        3
+      );
+      finalR2Uri = r2Uri;
+      finalKey = key;
+    } else {
+      const initRes = await postR2Action('create-multipart', {
+        orderId: targetOrderId,
+        fileName: file.name,
+        fileSize: file.size,
+        contentType: file.type || 'application/zip',
+        allowOverage
+      });
+      if (initRes.status === 409) {
+        r2LastInventory = initRes.data;
+        updateQuotaBarUI(initRes.data.totalBytes || 0, 'delR2QuotaBar', 'delR2QuotaText');
+        evaluateR2OverageAndButtonState();
+        throw new Error(initRes.data.message || 'R2 Free Tier 10 GB limit reached.');
+      }
+
+      const { key, r2Uri, uploadId } = initRes.data;
+      state.key = key;
+      state.uploadId = uploadId;
+
+      const totalParts = Math.ceil(file.size / R2_PART_SIZE);
+      const signedUrlCache = {};
+      let signPromise = Promise.resolve();
+
+      async function getSignedUrlForPart(partNumber) {
+        if (signedUrlCache[partNumber]) return signedUrlCache[partNumber];
+        signPromise = signPromise.then(async () => {
+          if (signedUrlCache[partNumber] || state.aborted) return;
+          const batchNums = [];
+          const maxPn = Math.min(totalParts, partNumber + 39);
+          for (let pn = partNumber; pn <= maxPn; pn++) {
+            if (!signedUrlCache[pn]) batchNums.push(pn);
+          }
+          if (batchNums.length > 0) {
+            const { data } = await postR2Action('sign-parts-batch', {
+              key,
+              uploadId,
+              partNumbers: batchNums
+            });
+            Object.assign(signedUrlCache, data.urls || {});
+          }
+        });
+        await signPromise;
+        if (!signedUrlCache[partNumber]) {
+          throw new Error('Could not sign upload part #' + partNumber);
+        }
+        return signedUrlCache[partNumber];
+      }
+
+      const completedParts = new Array(totalParts);
+      let nextPartIdx = 0;
+
+      const sumLoadedBytes = () => {
+        let sum = 0;
+        for (const k in state.partLoaded) sum += state.partLoaded[k];
+        return Math.min(file.size, sum);
+      };
+
+      updateR2UploadProgressUI(
+        0,
+        file.size,
+        startedAt,
+        'Uploading ' + totalParts + ' encrypted chunks (concurrency ' + Math.min(R2_MAX_CONCURRENCY, totalParts) + ')...'
+      );
+
+      async function worker() {
+        while (!state.aborted) {
+          const idx = nextPartIdx++;
+          if (idx >= totalParts) break;
+          const partNumber = idx + 1;
+          const start = idx * R2_PART_SIZE;
+          const end = Math.min(file.size, start + R2_PART_SIZE);
+          const chunk = file.slice(start, end);
+
+          const partUrl = await getSignedUrlForPart(partNumber);
+          const { etag } = await xhrPutBlobWithRetry(
+            partUrl,
+            chunk,
+            '',
+            (loaded) => {
+              state.partLoaded[partNumber] = Math.min(chunk.size, loaded);
+              updateR2UploadProgressUI(
+                sumLoadedBytes(),
+                file.size,
+                startedAt,
+                'Uploading part ' + partNumber + ' / ' + totalParts + '...'
+              );
+            },
+            state,
+            3
+          );
+          state.partLoaded[partNumber] = chunk.size;
+          if (!etag) {
+            throw new Error('Cloudflare R2 did not expose ETag for part #' + partNumber + '. Verify bucket CORS ExposeHeaders includes ETag.');
+          }
+          completedParts[idx] = { partNumber, etag };
+          updateR2UploadProgressUI(
+            sumLoadedBytes(),
+            file.size,
+            startedAt,
+            'Uploading part ' + Math.min(totalParts, partNumber) + ' / ' + totalParts + '...'
+          );
+        }
+      }
+
+      const workerCount = Math.min(R2_MAX_CONCURRENCY, totalParts);
+      const workers = [];
+      for (let w = 0; w < workerCount; w++) workers.push(worker());
+      await Promise.all(workers);
+
+      if (state.aborted) {
+        const err = new Error('Upload cancelled');
+        err.aborted = true;
+        throw err;
+      }
+
+      updateR2UploadProgressUI(file.size, file.size, startedAt, 'Finalizing master ZIP assembly in R2...');
+      await postR2Action('complete-multipart', {
+        key,
+        uploadId,
+        parts: completedParts
+      });
+
+      finalR2Uri = r2Uri;
+      finalKey = key;
+    }
+
+    if (prevR2Key && prevR2Key !== finalKey) {
+      postR2Action('delete-object', { key: prevR2Key }).catch(e => console.warn('Old ZIP cleanup skipped:', e));
+    }
+
+    persistOrderDeliveryTarget(targetOrderId, finalR2Uri, 'r2');
+    state.aborted = true; // Mark finished so closeDelModal does not warn
+    r2ActiveUpload = null;
+
+    showAdminToast('⚡ Master ZIP uploaded to private R2 & Order #' + targetOrderId + ' delivered!');
+    const modal = document.getElementById('delModal');
+    if (modal) modal.style.display = 'none';
+    clearR2SelectedFile();
+    renderAdminTable();
+    refreshR2UsageBadge(true);
+  } catch(err) {
+    if (!err.aborted && state.uploadId && state.key) {
+      postR2Action('abort-multipart', { key: state.key, uploadId: state.uploadId }).catch(() => {});
+    }
+    if (err.aborted) {
+      showAdminToast('✕ R2 upload cancelled and partial chunks cleaned up.');
+    } else {
+      console.error('R2 upload failed:', err);
+      showAdminToast('❌ R2 Upload Failed: ' + (err.message || 'Check CORS & Cloudflare secrets'));
+    }
+  } finally {
+    window.removeEventListener('beforeunload', beforeUnloadHandler);
+    r2ActiveUpload = null;
+    if (uploadBtn) {
+      uploadBtn.textContent = '⚡ Upload ZIP & Deliver Order';
+      evaluateR2OverageAndButtonState();
+    }
+    if (clearBtn) clearBtn.disabled = false;
+    if (dropzone) dropzone.style.pointerEvents = 'auto';
+  }
+}
+
+async function cancelActiveR2Upload(silent = false) {
+  const st = r2ActiveUpload;
+  if (!st || st.aborted) return;
+  st.aborted = true;
+  st.xhrs.forEach(xhr => {
+    try { xhr.abort(); } catch(e) {}
+  });
+  st.xhrs.clear();
+  if (st.uploadId && st.key && getAdminApiToken()) {
+    try {
+      await postR2Action('abort-multipart', { key: st.key, uploadId: st.uploadId });
+    } catch(e) {}
+  }
+  const progWrap = document.getElementById('delR2ProgressWrap');
+  if (progWrap) progWrap.style.display = 'none';
+  if (!silent) {
+    refreshR2UsageBadge(true);
+  }
+}
+
+async function testCurrentOrderR2Download() {
+  if (!targetOrderId) return;
+  const target = getOrderDeliveryTarget(targetOrderId);
+  if (!isR2Uri(target)) return;
+  await testDownloadR2Key(encodeURIComponent(extractR2Key(target)));
+}
+
+async function deleteCurrentOrderR2Zip() {
+  if (!targetOrderId) return;
+  const target = getOrderDeliveryTarget(targetOrderId);
+  if (!isR2Uri(target)) return;
+  const key = extractR2Key(target);
+  const ok = await deleteR2ObjectFromStorage(encodeURIComponent(key), targetOrderId);
+  if (ok) {
+    const existingCard = document.getElementById('delR2ExistingCard');
+    if (existingCard) existingCard.style.display = 'none';
+  }
+}
+
+async function saveDeliveryLink() {
+  const url = (document.getElementById('delInputUrl')?.value || '').trim();
+  if (!url || !/^https?:\/\//i.test(url)) {
+    showAdminToast('⚠️ Please enter a valid https:// Google Drive or Dropbox URL');
+    return;
+  }
+
+  const prevTarget = getOrderDeliveryTarget(targetOrderId);
+  if (isR2Uri(prevTarget) && getAdminApiToken()) {
+    if (confirm('Order #' + targetOrderId + ' currently has a ZIP in Cloudflare R2.\n\nDelete that old R2 ZIP to free Free-Tier storage space?')) {
+      try {
+        await postR2Action('delete-object', { key: extractR2Key(prevTarget) });
+        refreshR2UsageBadge(true);
+      } catch(e) {}
+    }
+  }
+
+  persistOrderDeliveryTarget(targetOrderId, url, 'drive');
+  showAdminToast('✓ Classic delivery link saved & client portal synced!');
+  const modal = document.getElementById('delModal');
+  if (modal) modal.style.display = 'none';
   renderAdminTable();
+}
+
+// R2 STORAGE QUOTA & INVENTORY MANAGER MODAL
+function openR2StorageModal() {
+  updateEnginePreferenceUI();
+  const modal = document.getElementById('r2StorageModal');
+  if (modal) modal.style.display = 'flex';
+  renderInlineR2GoogleButtons();
+  loadR2StorageInventory(false);
+}
+
+function closeR2StorageModal() {
+  const modal = document.getElementById('r2StorageModal');
+  if (modal) modal.style.display = 'none';
+}
+
+async function loadR2StorageInventory(showToastNotice = false) {
+  const tbody = document.getElementById('r2ObjectsTbody');
+  if (!getAdminApiToken()) {
+    renderInlineR2GoogleButtons();
+    if (tbody) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:24px;color:#fbbf24;">Sign in via Director Google above to inspect private R2 storage.</td></tr>';
+    }
+    return;
+  }
+
+  if (tbody && showToastNotice) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:24px;color:#38bdf8;">🔄 Loading R2 bucket inventory...</td></tr>';
+  }
+
+  try {
+    const { data } = await postR2Action('usage', null, 'GET');
+    r2LastInventory = data;
+    renderR2Inventory(data);
+    refreshR2UsageBadge(false);
+    if (showToastNotice) {
+      showAdminToast('✓ R2 storage refreshed: ' + formatDecimalSize(data.totalBytes || 0) + ' used');
+    }
+  } catch(err) {
+    if (tbody) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:24px;color:#f87171;">⚠️ ' + escapeHtml(err.message || 'Unable to load R2 bucket inventory') + '</td></tr>';
+    }
+  }
+}
+
+function renderR2Inventory(inv) {
+  const usedBytes = Number(inv.totalBytes || 0);
+  const remainingBytes = Math.max(0, R2_FREE_TIER_BYTES - usedBytes);
+  const objects = Array.isArray(inv.objects) ? inv.objects : [];
+  const incomplete = Array.isArray(inv.incompleteUploads) ? inv.incompleteUploads : [];
+
+  const usedEl = document.getElementById('r2ModalUsedGB');
+  if (usedEl) usedEl.textContent = (usedBytes / 1e9).toFixed(2) + ' GB';
+  updateQuotaBarUI(usedBytes, 'r2ModalQuotaBar', null, 'r2ModalTierPill');
+
+  const remEl = document.getElementById('r2ModalRemainingText');
+  if (remEl) {
+    remEl.textContent = usedBytes >= R2_FREE_TIER_BYTES
+      ? 'Free Tier headroom exhausted — delete completed ZIPs to return to $0.00/mo'
+      : (formatDecimalSize(remainingBytes) + ' free headroom remaining');
+  }
+  const cntEl = document.getElementById('r2ModalCountText');
+  if (cntEl) cntEl.textContent = objects.length + ' ZIP object' + (objects.length === 1 ? '' : 's') + ' stored';
+
+  const incWrap = document.getElementById('r2IncompleteWrap');
+  const incCount = document.getElementById('r2IncompleteCount');
+  if (incWrap) incWrap.style.display = incomplete.length > 0 ? 'block' : 'none';
+  if (incCount) incCount.textContent = String(incomplete.length);
+
+  const tbody = document.getElementById('r2ObjectsTbody');
+  if (!tbody) return;
+  if (objects.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:26px;color:#94a3b8;">Bucket is completely empty (0.00 GB / 10.00 GB used • $0.00/mo).</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = objects
+    .slice()
+    .sort((a, b) => new Date(b.lastModified || 0) - new Date(a.lastModified || 0))
+    .map((obj) => {
+      const encKey = encodeURIComponent(obj.key);
+      const ordTag = obj.orderId ? ('#' + obj.orderId) : 'Other';
+      const modDate = obj.lastModified
+        ? new Date(obj.lastModified).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        : '--';
+      return `
+        <tr>
+          <td><strong style="color:#38bdf8;font-family:monospace;">${escapeHtml(ordTag)}</strong></td>
+          <td style="max-width:250px;word-break:break-all;color:#e2e8f0;">${escapeHtml(obj.fileName || obj.key)}</td>
+          <td style="white-space:nowrap;font-weight:700;color:#4ade80;">${escapeHtml(formatDecimalSize(obj.size))}</td>
+          <td style="white-space:nowrap;color:#94a3b8;">${escapeHtml(modDate)}</td>
+          <td style="text-align:right;white-space:nowrap;">
+            <button type="button" class="btn sm outline" onclick="testDownloadR2Key('${encKey}')" style="font-size:10px;padding:4px 8px;border-color:#38bdf8;color:#38bdf8;">⚡ Test</button>
+            <button type="button" class="btn sm" onclick="deleteR2ObjectFromStorage('${encKey}', '${escapeHtml(obj.orderId || '')}')" style="background:#dc2626;color:#fff;border:0;font-size:10px;padding:4px 8px;margin-left:4px;">🗑️ Delete</button>
+          </td>
+        </tr>
+      `;
+    })
+    .join('');
+}
+
+async function testDownloadR2Key(encodedKey) {
+  const key = decodeURIComponent(encodedKey || '');
+  if (!key) return;
+  if (!getAdminApiToken()) {
+    renderInlineR2GoogleButtons();
+    showAdminToast('🔐 Sign in via Director Google first.');
+    return;
+  }
+  try {
+    showAdminToast('⏳ Generating signed 6-hour download link...');
+    const { data } = await postR2Action('sign-download', { key });
+    if (data && data.downloadUrl) {
+      triggerPresignedFileDownload(data.downloadUrl, data.fileName);
+      showAdminToast('⬇️ Test download started: ' + (data.fileName || key.split('/').pop()));
+    }
+  } catch(err) {
+    showAdminToast('❌ Signed download error: ' + (err.message || 'Failed'));
+  }
+}
+
+async function deleteR2ObjectFromStorage(encodedKey, orderIdHint = '') {
+  const key = decodeURIComponent(encodedKey || '');
+  if (!key) return;
+  if (!getAdminApiToken()) {
+    renderInlineR2GoogleButtons();
+    showAdminToast('🔐 Sign in via Director Google first.');
+    return;
+  }
+  const fname = key.split('/').pop() || key;
+  if (!confirm('Permanently delete "' + fname + '" from Cloudflare R2 storage?\n\nThis frees R2 storage immediately and clears any active R2 link pointing to this file.')) {
+    return false;
+  }
+
+  try {
+    const { data } = await postR2Action('delete-object', { key });
+    r2LastInventory = data;
+    const expectedUri = 'r2://' + key;
+
+    // Clear order references pointing to this deleted R2 file
+    const affectedIds = new Set();
+    if (orderIdHint) affectedIds.add(normalizeNumericId(orderIdHint));
+    try {
+      const list = JSON.parse(localStorage.getItem('shoaib_custom_orders') || '[]');
+      list.forEach(o => {
+        const nid = normalizeNumericId(o.numericId || o.id);
+        if (nid && (String(o.drive || '').trim() === expectedUri || localStorage.getItem('shoaib_del_url_' + nid) === expectedUri)) {
+          affectedIds.add(nid);
+        }
+      });
+    } catch(e) {}
+
+    affectedIds.forEach(nid => {
+      if (nid) persistOrderDeliveryTarget(nid, '', 'drive');
+    });
+
+    if (document.getElementById('r2StorageModal')?.style.display === 'flex') {
+      renderR2Inventory(data);
+    }
+    updateQuotaBarUI(data.totalBytes || 0, 'delR2QuotaBar', 'delR2QuotaText');
+    refreshR2UsageBadge(false);
+    renderAdminTable();
+    showAdminToast('🗑️ Deleted "' + fname + '" from R2 (' + formatDecimalSize(data.totalBytes || 0) + ' used now).');
+    return true;
+  } catch(err) {
+    showAdminToast('❌ Delete failed: ' + (err.message || 'Error'));
+    return false;
+  }
+}
+
+async function abortAllIncompleteR2Uploads() {
+  if (!r2LastInventory || !Array.isArray(r2LastInventory.incompleteUploads) || r2LastInventory.incompleteUploads.length === 0) {
+    return;
+  }
+  if (!getAdminApiToken()) {
+    renderInlineR2GoogleButtons();
+    return;
+  }
+  const uploads = r2LastInventory.incompleteUploads.slice();
+  let abortedCount = 0;
+  for (const u of uploads) {
+    if (u.key && u.uploadId) {
+      try {
+        await postR2Action('abort-multipart', { key: u.key, uploadId: u.uploadId });
+        abortedCount++;
+      } catch(e) {}
+    }
+  }
+  showAdminToast('🧹 Cleaned up ' + abortedCount + ' incomplete multipart upload(s).');
+  loadR2StorageInventory(true);
 }
 
 // EXTRA FEE MODAL FUNCTIONS
@@ -2003,6 +3465,8 @@ setInterval(updateAllAdminTimers, 1000);
 
 // INITIAL LOAD
 document.addEventListener('DOMContentLoaded', () => {
+  initR2Dropzone();
+  updateEnginePreferenceUI();
   const modal = document.getElementById('directorAuthModal');
   let adminUser = {};
   try {
@@ -2013,12 +3477,16 @@ document.addEventListener('DOMContentLoaded', () => {
   if (sessionStorage.getItem('shoaib_admin_unlocked') === '1' && (adminUser.email || '').toLowerCase().trim() === AUTHORIZED_DIRECTOR_EMAIL) {
     if (modal) modal.style.display = 'none';
     syncAdminFromCloud(true);
+    refreshR2UsageBadge(true);
+    initDirectorGoogleAuth();
   } else {
     // Purge any unauthorized or stale session keys
     sessionStorage.removeItem('shoaib_admin_unlocked');
     sessionStorage.removeItem('shoaib_admin_user');
+    clearAdminApiToken();
     if (modal) modal.style.display = 'flex';
     initDirectorGoogleAuth();
+    refreshR2UsageBadge(false);
   }
   renderAdminTable();
 });

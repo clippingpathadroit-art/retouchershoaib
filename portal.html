@@ -1718,6 +1718,12 @@ body {
 
 </style>
   <script src="https://accounts.google.com/gsi/client" async defer onload="initGoogleSignIn()"></script>
+  <style>
+  .r2-dl-busy { opacity: 0.72; pointer-events: none; cursor: wait !important; }
+  .r2-reauth-err { display: none; background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; padding: 10px 12px; border-radius: 8px; font-size: 12.5px; font-weight: 600; margin-bottom: 12px; }
+  #r2ClientReauthGisBtn:empty { display: none !important; margin: 0 !important; min-height: 0 !important; }
+  #r2ClientReauthGisBtn:empty + #r2ClientReauthDivider { display: none !important; }
+  </style>
 </head>
 <body>
 
@@ -2745,6 +2751,336 @@ function normalizeNumericId(raw) {
   return str.replace(/[^0-9]/g, '');
 }
 
+const R2_API_URL = '/api/r2';
+let pendingR2Download = null;
+
+function isR2Uri(url) {
+  return typeof url === 'string' && url.trim().toLowerCase().startsWith('r2://');
+}
+
+function extractR2Key(r2Uri) {
+  return isR2Uri(r2Uri) ? r2Uri.trim().slice('r2://'.length).replace(/^\/+/, '') : '';
+}
+
+function rememberOrderRawDrivePortal(numId, ordObj) {
+  if (!numId) return;
+  const existingRaw = localStorage.getItem('shoaib_raw_drive_' + numId) || '';
+  if (existingRaw && existingRaw.startsWith('http')) return;
+  const candidates = [
+    ordObj && ordObj.rawDrive,
+    ordObj && ordObj.drive,
+    localStorage.getItem('shoaib_del_url_' + numId)
+  ];
+  for (let i = 0; i < candidates.length; i++) {
+    const c = String(candidates[i] || '').trim();
+    if (c && /^https?:\/\//i.test(c) && !isR2Uri(c) && !c.includes('1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc')) {
+      localStorage.setItem('shoaib_raw_drive_' + numId, c);
+      return;
+    }
+  }
+}
+
+function getOrderRawDriveUrl(ordOrId, clientEmail) {
+  let numId = '';
+  let ordObj = null;
+  if (typeof ordOrId === 'object' && ordOrId !== null) {
+    ordObj = ordOrId;
+    numId = normalizeNumericId(ordOrId.numericId || ordOrId.id);
+  } else {
+    numId = normalizeNumericId(ordOrId);
+    ordObj = (numId && ORDERS[numId]) ? ORDERS[numId] : null;
+  }
+  const em = (clientEmail || (ordObj && ordObj.clientEmail) || '').toLowerCase().trim();
+  const candidates = [
+    ordObj && ordObj.rawDrive,
+    numId ? localStorage.getItem('shoaib_raw_drive_' + numId) : '',
+    ordObj && ordObj.drive,
+    em ? localStorage.getItem('shoaib_client_drive_' + em) : ''
+  ];
+  for (let i = 0; i < candidates.length; i++) {
+    const c = String(candidates[i] || '').trim();
+    if (c && /^https?:\/\//i.test(c) && !isR2Uri(c) && !c.includes('1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc')) {
+      return c;
+    }
+  }
+  return '';
+}
+
+function getOrderDeliveryTarget(ordOrId) {
+  let numId = '';
+  let ordObj = null;
+  if (typeof ordOrId === 'object' && ordOrId !== null) {
+    ordObj = ordOrId;
+    numId = normalizeNumericId(ordOrId.numericId || ordOrId.id);
+  } else {
+    numId = normalizeNumericId(ordOrId);
+    ordObj = (numId && ORDERS[numId]) ? ORDERS[numId] : null;
+  }
+  const stored = (numId && (
+    localStorage.getItem('shoaib_del_url_' + numId) ||
+    localStorage.getItem('shoaib_del_url_#' + numId) ||
+    localStorage.getItem('shoaib_del_url_RS-2026-' + numId)
+  )) || '';
+  return String(stored || (ordObj && ordObj.deliveryTarget) || (ordObj && ordObj.drive) || '').trim();
+}
+
+function getPortalDownloadHref(ordOrId) {
+  const numId = (typeof ordOrId === 'object' && ordOrId !== null)
+    ? normalizeNumericId(ordOrId.numericId || ordOrId.id)
+    : normalizeNumericId(ordOrId);
+  const target = getOrderDeliveryTarget(ordOrId);
+  if (isR2Uri(target)) return '#download-r2-' + numId;
+  return (target && /^https?:\/\//i.test(target)) ? target : 'https://drive.google.com';
+}
+
+function getClientApiToken() {
+  const sess = (typeof getCurrentSession === 'function') ? getCurrentSession() : null;
+  const tok = localStorage.getItem('shoaib_client_api_token') || sessionStorage.getItem('shoaib_client_api_token') || '';
+  const exp = Number(localStorage.getItem('shoaib_client_api_token_exp') || sessionStorage.getItem('shoaib_client_api_token_exp') || 0);
+  if (tok && (!exp || Date.now() < exp)) {
+    return tok;
+  }
+  if (sess && sess.isDirector) {
+    const admTok = sessionStorage.getItem('shoaib_admin_api_token') || '';
+    const admExp = Number(sessionStorage.getItem('shoaib_admin_api_token_exp') || 0);
+    if (admTok && (!admExp || Date.now() < admExp)) return admTok;
+  }
+  return '';
+}
+
+function setClientApiToken(token, expiresInSec) {
+  if (!token) return;
+  const ttlMs = Math.max(60000, ((Number(expiresInSec) || 604800) * 1000) - 60000);
+  const exp = String(Date.now() + ttlMs);
+  localStorage.setItem('shoaib_client_api_token', token);
+  localStorage.setItem('shoaib_client_api_token_exp', exp);
+  sessionStorage.setItem('shoaib_client_api_token', token);
+  sessionStorage.setItem('shoaib_client_api_token_exp', exp);
+}
+
+function clearClientApiToken() {
+  localStorage.removeItem('shoaib_client_api_token');
+  localStorage.removeItem('shoaib_client_api_token_exp');
+  sessionStorage.removeItem('shoaib_client_api_token');
+  sessionStorage.removeItem('shoaib_client_api_token_exp');
+}
+
+async function exchangeGoogleClientToken(credential) {
+  if (!credential) return false;
+  try {
+    const res = await fetch(R2_API_URL + '?action=auth-client-google', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ credential })
+    });
+    const data = await res.json();
+    if (res.ok && data && data.status === 'success' && data.token) {
+      setClientApiToken(data.token, data.expiresIn);
+      return true;
+    }
+  } catch(e) {
+    console.warn('Client R2 Google token exchange skipped:', e);
+  }
+  return false;
+}
+
+async function exchangePasswordClientToken(email, password) {
+  if (!email || !password) return false;
+  try {
+    const res = await fetch(R2_API_URL + '?action=auth-client-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await res.json();
+    if (res.ok && data && data.status === 'success' && data.token) {
+      setClientApiToken(data.token, data.expiresIn);
+      return true;
+    }
+  } catch(e) {
+    console.warn('Client R2 password token exchange skipped:', e);
+  }
+  return false;
+}
+
+function triggerPresignedDownload(downloadUrl, fileName) {
+  const a = document.createElement('a');
+  a.href = downloadUrl;
+  if (fileName) a.setAttribute('download', fileName);
+  a.rel = 'noopener noreferrer';
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => {
+    try { a.remove(); } catch(err) {}
+  }, 1500);
+}
+
+function restoreDownloadButtonState(btnEl, origHtml) {
+  if (!btnEl) return;
+  btnEl.classList.remove('r2-dl-busy');
+  if (origHtml) btnEl.innerHTML = origHtml;
+}
+
+function openClientReauthModal(email, orderId, btnEl, origHtml) {
+  pendingR2Download = { orderId, btnEl, origHtml };
+  const modal = document.getElementById('r2ClientReauthModal');
+  const emailIn = document.getElementById('r2ClientReauthEmailInput');
+  const passIn = document.getElementById('r2ClientReauthPassInput');
+  const errEl = document.getElementById('r2ClientReauthErr');
+  const orderBadge = document.getElementById('r2ClientReauthOrderBadge');
+
+  if (orderBadge) orderBadge.textContent = 'Order #' + orderId;
+  if (emailIn) {
+    emailIn.value = (email || '').toLowerCase().trim();
+    emailIn.readOnly = !!email;
+  }
+  if (passIn) passIn.value = '';
+  if (errEl) { errEl.style.display = 'none'; errEl.textContent = ''; }
+
+  if (modal) modal.style.display = 'flex';
+
+  const gisWrap = document.getElementById('r2ClientReauthGisBtn');
+  if (gisWrap && typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+    try {
+      google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleGoogleCredentialResponse,
+        ux_mode: 'popup',
+        auto_select: false
+      });
+      gisWrap.innerHTML = '';
+      google.accounts.id.renderButton(gisWrap, {
+        theme: 'outline',
+        size: 'large',
+        width: 320,
+        text: 'continue_with',
+        shape: 'rectangular'
+      });
+    } catch(e) {}
+  }
+}
+
+function closeClientReauthModal(keepPending = false) {
+  const modal = document.getElementById('r2ClientReauthModal');
+  if (modal) modal.style.display = 'none';
+  if (!keepPending && pendingR2Download) {
+    restoreDownloadButtonState(pendingR2Download.btnEl, pendingR2Download.origHtml);
+    pendingR2Download = null;
+  }
+}
+
+async function submitClientReauthPassword(e) {
+  if (e && typeof e.preventDefault === 'function') e.preventDefault();
+  const email = (document.getElementById('r2ClientReauthEmailInput')?.value || '').trim().toLowerCase();
+  const pass = (document.getElementById('r2ClientReauthPassInput')?.value || '').trim();
+  const errEl = document.getElementById('r2ClientReauthErr');
+  const submitBtn = document.getElementById('r2ClientReauthSubmitBtn');
+
+  if (!email || !pass) {
+    if (errEl) { errEl.textContent = 'Please enter both your email and studio password.'; errEl.style.display = 'block'; }
+    return;
+  }
+  if (errEl) errEl.style.display = 'none';
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Verifying...'; }
+
+  try {
+    const res = await fetch(R2_API_URL + '?action=auth-client-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password: pass })
+    });
+    const data = await res.json();
+    if (!res.ok || !data || data.status !== 'success' || !data.token) {
+      throw new Error((data && data.message) || 'Password verification failed.');
+    }
+    setClientApiToken(data.token, data.expiresIn);
+    const pending = pendingR2Download;
+    closeClientReauthModal(true);
+    pendingR2Download = null;
+    if (pending) {
+      await startPortalOrderDownload(null, pending.orderId, pending.btnEl);
+    }
+  } catch(err) {
+    if (errEl) {
+      errEl.textContent = err.message || 'Verification failed. Try Continue with Google above.';
+      errEl.style.display = 'block';
+    }
+  } finally {
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Verify & Download ZIP →'; }
+  }
+}
+
+async function startPortalOrderDownload(e, orderId, btnEl) {
+  const cleanId = normalizeNumericId(orderId);
+  const o = ORDERS[cleanId] || ORDERS[orderId] || null;
+  const target = getOrderDeliveryTarget(o || cleanId);
+  const isDemo = (typeof isCurrentUserDemo === 'function' && isCurrentUserDemo()) || cleanId === '084' || cleanId === '085';
+
+  if (isDemo || !isR2Uri(target)) {
+    if (!e && target && /^https?:\/\//i.test(target)) {
+      window.open(target, '_blank', 'noopener');
+    }
+    return true;
+  }
+
+  if (e && typeof e.preventDefault === 'function') e.preventDefault();
+
+  const origHtml = (btnEl && (btnEl.dataset.origHtml || btnEl.innerHTML)) || '⚡ Download ZIP';
+  if (btnEl) {
+    btnEl.dataset.origHtml = origHtml;
+    btnEl.classList.add('r2-dl-busy');
+    btnEl.innerHTML = '⏳ Preparing ZIP...';
+  }
+
+  const sess = (typeof getCurrentSession === 'function') ? getCurrentSession() : null;
+  const token = getClientApiToken();
+  if (!token) {
+    openClientReauthModal((sess && sess.email) || (o && o.clientEmail) || '', cleanId, btnEl, origHtml);
+    return false;
+  }
+
+  try {
+    const res = await fetch(R2_API_URL + '?action=sign-download', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({ orderId: cleanId })
+    });
+    const data = await res.json();
+
+    if (res.status === 401) {
+      clearClientApiToken();
+      openClientReauthModal((sess && sess.email) || (o && o.clientEmail) || '', cleanId, btnEl, origHtml);
+      return false;
+    }
+
+    if (res.ok && data && data.status === 'drive' && data.url) {
+      restoreDownloadButtonState(btnEl, origHtml);
+      window.open(data.url, '_blank', 'noopener');
+      return false;
+    }
+
+    if (!res.ok || !data || data.status !== 'success' || !data.downloadUrl) {
+      throw new Error((data && data.message) || 'Unable to generate secure download link.');
+    }
+
+    triggerPresignedDownload(data.downloadUrl, data.fileName);
+    if (typeof showAuthToast === 'function') {
+      showAuthToast('⬇️ Download started: ' + (data.fileName || ('Order_' + cleanId + '.zip')));
+    }
+    restoreDownloadButtonState(btnEl, origHtml);
+    return false;
+  } catch(err) {
+    restoreDownloadButtonState(btnEl, origHtml);
+    if (typeof showAuthToast === 'function') {
+      showAuthToast('⚠️ ' + (err.message || 'Download error. Please try again.'));
+    }
+    return false;
+  }
+}
 
 function getStoredExtraWork(rawId) {
   if (!rawId) return null;
@@ -2794,10 +3130,16 @@ function loadStoredCustomOrders() {
           if (numId && localStorage.getItem('shoaib_deleted_' + numId) !== '1') {
             ord.numericId = numId;
             ord.id = '#' + numId;
+            rememberOrderRawDrivePortal(numId, ord);
             const statusOverride = localStorage.getItem('shoaib_status_' + numId) || localStorage.getItem('shoaib_status_RS-2026-' + numId);
             if (statusOverride) ord.status = statusOverride;
-            const delUrl = localStorage.getItem('shoaib_del_url_' + numId) || localStorage.getItem('shoaib_del_url_RS-2026-' + numId);
-            if (delUrl) ord.drive = delUrl;
+            const delUrl = localStorage.getItem('shoaib_del_url_' + numId) || localStorage.getItem('shoaib_del_url_#' + numId) || localStorage.getItem('shoaib_del_url_RS-2026-' + numId);
+            if (delUrl) {
+              ord.drive = delUrl;
+              ord.deliveryTarget = delUrl;
+            } else if (isR2Uri(ord.drive)) {
+              ord.deliveryTarget = ord.drive;
+            }
             const agreedOverride = localStorage.getItem('shoaib_price_approved_' + numId) === '1' || 
                                    localStorage.getItem('shoaib_price_approved_RS-2026-' + numId) === '1' || 
                                    ord.isAgreed === true;
@@ -3193,11 +3535,15 @@ function renderDashboardOverview() {
               <button type="button" class="b b-outline" onclick="openOrderDetails('${o.numericId}')">Order Details 👁️</button>
               <button type="button" class="b b-outline" onclick="switchPortalSection('orders')">View Pipeline →</button>
               <button type="button" class="b b-pay" onclick="viewOrderInvoice('${o.numericId}')">💳 Pay / View Invoice</button>
-              ${isDelivered ? `
-                <a href="${o.drive || 'https://drive.google.com'}" target="_blank" class="b dl">
-                  📥 Download ZIP
+              ${isDelivered ? (() => {
+                const dlIsR2 = isR2Uri(getOrderDeliveryTarget(o));
+                const dlHref = getPortalDownloadHref(o);
+                return `
+                <a href="${dlHref}" ${dlIsR2 ? '' : 'target="_blank" rel="noopener noreferrer"'} class="b dl" onclick="return startPortalOrderDownload(event, '${normOId}', this)">
+                  ${dlIsR2 ? '⚡ Download ZIP' : '📥 Download ZIP'}
                 </a>
-              ` : ''}
+              `;
+              })() : ''}
             </div>
           </div>
         </article>
@@ -3280,9 +3626,11 @@ function renderArchiveSection() {
             <p>Checked and certified by Shoaib. Preserved 16-bit alpha channels.</p>
           </div>
           <div>
-            <a href="${o.drive || 'https://drive.google.com'}" target="_blank" class="btn btn-green btn-sm">
-              📥 Download Files (ZIP)
-            </a>
+            ${(() => {
+              const dlIsR2 = isR2Uri(getOrderDeliveryTarget(o));
+              const dlHref = getPortalDownloadHref(o);
+              return `<a href="${dlHref}" ${dlIsR2 ? '' : 'target="_blank" rel="noopener noreferrer"'} class="btn btn-green btn-sm" onclick="return startPortalOrderDownload(event, '${normalizeNumericId(o.numericId || o.id)}', this)">${dlIsR2 ? '⚡ Download Files (ZIP)' : '📥 Download Files (ZIP)'}</a>`;
+            })()}
           </div>
         </div>
       </div>
@@ -3397,9 +3745,11 @@ function renderActiveOrdersPipeline() {
               <p>Checked and certified by Shoaib. Preserved 16-bit alpha channels.</p>
             </div>
             <div>
-              <a href="${o.drive || 'https://drive.google.com'}" target="_blank" class="btn btn-green btn-sm">
-                📥 Download Files (ZIP)
-              </a>
+              ${(() => {
+                const dlIsR2 = isR2Uri(getOrderDeliveryTarget(o));
+                const dlHref = getPortalDownloadHref(o);
+                return `<a href="${dlHref}" ${dlIsR2 ? '' : 'target="_blank" rel="noopener noreferrer"'} class="btn btn-green btn-sm" onclick="return startPortalOrderDownload(event, '${normPId}', this)">${dlIsR2 ? '⚡ Download Files (ZIP)' : '📥 Download Files (ZIP)'}</a>`;
+              })()}
             </div>
           </div>
         ` : ''}
@@ -3449,8 +3799,8 @@ function openOrderDetails(id) {
   if (driveEl) {
     const s = getCurrentSession();
     const em = (s && s.email ? s.email : '').toLowerCase().trim();
-    const targetDrive = o.drive || (em ? localStorage.getItem('shoaib_client_drive_' + em) : '') || '';
-    if (targetDrive && targetDrive.startsWith('http')) {
+    const targetDrive = getOrderRawDriveUrl(o, em);
+    if (targetDrive && /^https?:\/\//i.test(targetDrive)) {
       driveEl.href = targetDrive;
       driveEl.style.display = 'inline-flex';
       driveEl.textContent = 'Open Order Drive Folder ↗';
@@ -3521,9 +3871,13 @@ function openOrderDetails(id) {
   // Download Action Container
   const dlBox = document.getElementById('modalDownloadContainer');
   if (dlBox) {
-    if (o.status === 'delivered') {
-      const dlLink = o.drive || '#';
-      dlBox.innerHTML = '<a href="' + dlLink + '" target="_blank" class="btn btn-green btn-sm">📥 Download Master ZIP</a>';
+    const effModalStatus = String(localStorage.getItem('shoaib_status_' + orderKey) || localStorage.getItem('shoaib_status_RS-2026-' + orderKey) || o.status || '').toLowerCase().trim();
+    if (effModalStatus === 'delivered' || effModalStatus === 'archived') {
+      const dlIsR2 = isR2Uri(getOrderDeliveryTarget(o));
+      const dlLink = getPortalDownloadHref(o);
+      const tgtAttr = dlIsR2 ? '' : ' target="_blank" rel="noopener noreferrer"';
+      const label = dlIsR2 ? '⚡ Download Master ZIP' : '📥 Download Master ZIP';
+      dlBox.innerHTML = '<a href="' + dlLink + '"' + tgtAttr + ' class="btn btn-green btn-sm" onclick="return startPortalOrderDownload(event, \'' + orderKey + '\', this)">' + label + '</a>';
     } else {
       dlBox.innerHTML = '<span style="font-size: 12px; color: #b45309; font-weight: 700;">In Production (SLA Active)</span>';
     }
@@ -5057,6 +5411,7 @@ async function handleNewOrderSubmit(e) {
     clientTin: curProf?.tin || curSess?.tin || '',
     clientFolder: '[' + clientEmail + ']',
     orderFolder: 'Order #' + idStr,
+    rawDrive: drive || (clientEmail ? localStorage.getItem('shoaib_client_drive_' + clientEmail) : '') || '',
     drive: drive || (clientEmail ? localStorage.getItem('shoaib_client_drive_' + clientEmail) : '') || '',
     instructions: notes,
     uploadedFiles: driveUploadedQueue.map(f => ({ name: f.name, size: f.size })),
@@ -5105,6 +5460,8 @@ async function handleNewOrderSubmit(e) {
 
   if (orderFolderUrl) {
     newOrder.drive = orderFolderUrl;
+    newOrder.rawDrive = orderFolderUrl;
+    localStorage.setItem('shoaib_raw_drive_' + idStr, orderFolderUrl);
   }
 
   // Upload files sequentially with real-time modal progress
@@ -5904,9 +6261,25 @@ function handleGoogleCredentialResponse(response) {
       localStorage.setItem('shoaib_sync_ping', Date.now().toString());
 
       showAuthToast('👑 Welcome, Studio Director Shoaib! Opening Admin Console...');
-      setTimeout(() => {
+      Promise.race([
+        fetch(R2_API_URL + '?action=auth-admin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ credential: response.credential })
+        })
+          .then(r => r.json())
+          .then(data => {
+            if (data && data.status === 'success' && data.token) {
+              sessionStorage.setItem('shoaib_admin_api_token', data.token);
+              const ttlMs = ((data.expiresIn || 86400) * 1000) - 60000;
+              sessionStorage.setItem('shoaib_admin_api_token_exp', String(Date.now() + ttlMs));
+            }
+          })
+          .catch(() => {}),
+        new Promise(r => setTimeout(r, 1500))
+      ]).then(() => {
         window.location.href = '/admin';
-      }, 600);
+      });
       return;
     }
 
@@ -5963,6 +6336,15 @@ function handleGoogleCredentialResponse(response) {
       phone: '',
       tin: '',
       createdAt: new Date().toISOString()
+    });
+    exchangeGoogleClientToken(response.credential).then((ok) => {
+      if (ok && pendingR2Download) {
+        const pDl = pendingR2Download;
+        closeClientReauthModal(true);
+        pendingR2Download = null;
+        const liveBtn = (pDl.btnEl && document.body.contains(pDl.btnEl)) ? pDl.btnEl : null;
+        startPortalOrderDownload(null, pDl.orderId, liveBtn);
+      }
     });
   } catch(err) {
     console.error('Error handling Google credential:', err);
@@ -6133,6 +6515,7 @@ function handleAuthLogin(e) {
 
   showAuthToast('✓ Welcome back, ' + name + '!');
   triggerCreateClientDriveFolder(emailLower);
+  exchangePasswordClientToken(emailLower, pass);
 }
 
 function handleAuthSignup(e) {
@@ -6177,8 +6560,10 @@ function handleAuthSignup(e) {
   };
   localStorage.setItem('shoaib_users', JSON.stringify(users));
 
-  // Sync new client registration to Google Drive cloud database
-  triggerRegisterUserCloud(users[emailLower]);
+  // Sync new client registration to Google Drive cloud database, then mint R2 download session
+  Promise.resolve(triggerRegisterUserCloud(users[emailLower])).then(() => {
+    exchangePasswordClientToken(emailLower, pass);
+  });
 
   const p = {
     name: name,
@@ -6246,6 +6631,7 @@ function logoutClient() {
   localStorage.removeItem('shoaib_client_session');
   sessionStorage.removeItem('shoaib_client_session');
   localStorage.removeItem('shoaib_client_profile');
+  clearClientApiToken();
 
   // Broadcast sync so index.html and other tabs immediately flip header state to logged-out!
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
@@ -6564,7 +6950,10 @@ async function syncPortalFromCloud() {
             localStorage.removeItem('shoaib_status_' + cleanK);
             localStorage.removeItem('shoaib_status_RS-2026-' + cleanK);
             localStorage.removeItem('shoaib_del_url_' + cleanK);
+            localStorage.removeItem('shoaib_del_url_#' + cleanK);
             localStorage.removeItem('shoaib_del_url_RS-2026-' + cleanK);
+            localStorage.removeItem('shoaib_del_url_#RS-2026-' + cleanK);
+            localStorage.removeItem('shoaib_raw_drive_' + cleanK);
             localStorage.removeItem('shoaib_price_approved_' + cleanK);
             localStorage.removeItem('shoaib_price_approved_RS-2026-' + cleanK);
             localStorage.removeItem('shoaib_agreed_price_' + cleanK);
@@ -6694,6 +7083,13 @@ async function syncPortalFromCloud() {
               co.isPaid = false;
             }
 
+            if (co.rawDrive && !isR2Uri(co.rawDrive) && !co.rawDrive.includes('1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc')) {
+              localStorage.setItem('shoaib_raw_drive_' + num, co.rawDrive);
+            } else if (co.drive && !isR2Uri(co.drive) && !co.drive.includes('1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc')) {
+              localStorage.setItem('shoaib_raw_drive_' + num, co.drive);
+            } else if (orderMap[num] && orderMap[num].rawDrive && !isR2Uri(orderMap[num].rawDrive)) {
+              co.rawDrive = orderMap[num].rawDrive;
+            }
             orderMap[num] = Object.assign({}, orderMap[num] || {}, co);
             ORDERS[num] = orderMap[num];
           }
@@ -6719,10 +7115,29 @@ async function syncPortalFromCloud() {
         changed = true;
       }
 
-      // 3. Sync deliveries from cloud
+      // 3. Sync deliveries from cloud (normalized keys + cleanup when removed)
       if (data.deliveries && typeof data.deliveries === 'object') {
         Object.keys(data.deliveries).forEach(k => {
-          localStorage.setItem('shoaib_del_url_' + k, data.deliveries[k]);
+          const cleanK = normalizeNumericId(k);
+          const val = String(data.deliveries[k] || '').trim();
+          if (val) {
+            rememberOrderRawDrivePortal(cleanK);
+            localStorage.setItem('shoaib_del_url_' + k, val);
+            if (cleanK) {
+              localStorage.setItem('shoaib_del_url_' + cleanK, val);
+              localStorage.setItem('shoaib_del_url_#' + cleanK, val);
+              localStorage.setItem('shoaib_del_url_RS-2026-' + cleanK, val);
+            }
+          } else if (cleanK) {
+            localStorage.removeItem('shoaib_del_url_' + k);
+            localStorage.removeItem('shoaib_del_url_' + cleanK);
+            localStorage.removeItem('shoaib_del_url_#' + cleanK);
+            localStorage.removeItem('shoaib_del_url_RS-2026-' + cleanK);
+            if (ORDERS[cleanK] && isR2Uri(ORDERS[cleanK].drive)) {
+              ORDERS[cleanK].drive = ORDERS[cleanK].rawDrive || '';
+              ORDERS[cleanK].deliveryTarget = '';
+            }
+          }
         });
         changed = true;
       }
@@ -6948,6 +7363,48 @@ window.addEventListener('pageshow', function(event) {
   document.body.style.visibility = 'visible';
 });
 </script>
+
+<!-- ========================================================
+     5. CLOUDFLARE R2 CLIENT RE-AUTHENTICATION MODAL
+     ======================================================== -->
+<div class="modal-overlay" id="r2ClientReauthModal" style="display: none;" onclick="if(event.target === this) closeClientReauthModal()">
+  <div class="modal-box" style="max-width: 440px;">
+    <button type="button" class="modal-close" onclick="closeClientReauthModal()">✕</button>
+    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap;">
+      <span style="background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 99px;" id="r2ClientReauthOrderBadge">Order #--</span>
+      <span style="font-size: 11px; color: #64748b; font-weight: 700;">Encrypted Private ZIP Access</span>
+    </div>
+    <h3 style="font-size: 19px; font-weight: 800; font-family: var(--f-display); color: #0f172a; margin-bottom: 6px;">🔒 Verify Account to Download</h3>
+    <p style="font-size: 13px; color: var(--mut); line-height: 1.5; margin-bottom: 16px;">
+      To keep your commercial files private, confirm your session once to generate your direct 6-hour high-speed download link.
+    </p>
+
+    <div id="r2ClientReauthGisBtn" style="display: flex; justify-content: center; margin-bottom: 14px; min-height: 44px;"></div>
+
+    <div id="r2ClientReauthDivider" style="display: flex; align-items: center; gap: 10px; margin: 12px 0; color: #94a3b8; font-size: 11.5px; font-weight: 700;">
+      <span style="flex: 1; height: 1px; background: #e2e8f0;"></span>
+      <span>OR PASSWORD ACCOUNT</span>
+      <span style="flex: 1; height: 1px; background: #e2e8f0;"></span>
+    </div>
+
+    <div id="r2ClientReauthErr" class="r2-reauth-err"></div>
+
+    <form id="r2ClientReauthPassForm" onsubmit="submitClientReauthPassword(event)">
+      <div class="form-field" style="margin-bottom: 12px;">
+        <label class="form-label">Client Email *</label>
+        <input type="email" id="r2ClientReauthEmailInput" class="form-input" required placeholder="you@agency.com">
+      </div>
+      <div class="form-field" style="margin-bottom: 16px;">
+        <label class="form-label">Studio Account Password *</label>
+        <input type="password" id="r2ClientReauthPassInput" class="form-input" required placeholder="Enter your portal password">
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeClientReauthModal()">Cancel</button>
+        <button type="submit" id="r2ClientReauthSubmitBtn" class="btn btn-primary btn-sm">Verify &amp; Download ZIP →</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 </body>
 </html>
