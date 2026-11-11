@@ -47,7 +47,7 @@
       {"@type":"Offer","itemOffered":{"@type":"Service","name":"Luxury Jewelry and Watch Retouching","url":"https://retouchershoaib.com/services#jewelry"}},
       {"@type":"Offer","itemOffered":{"@type":"Service","name":"Fashion and Ghost Mannequin Retouching","url":"https://retouchershoaib.com/services#fashion"}},
       {"@type":"Offer","itemOffered":{"@type":"Service","name":"Model and Editorial Beauty Portrait Retouching","url":"https://retouchershoaib.com/services#beauty"}},
-      {"@type":"Offer","itemOffered":{"@type":"Service","name":"E-commerce Product and Clipping Path Retouching","url":"https://retouchershoaib.com/services#ecom"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"E-commerce Product and Clipping Path Retouching","url":"https://retouchershoaib.com/ecommerce-product-retouching"}},
       {"@type":"Offer","itemOffered":{"@type":"Service","name":"Still Life and Cosmetics Commercial Retouching","url":"https://retouchershoaib.com/services#still"}},
       {"@type":"Offer","itemOffered":{"@type":"Service","name":"Automotive Photo Retouching","description":"Clean car cutouts, studio background replacement, paint gloss polishing, glass glare cleanup, and natural contact shadows.","url":"https://retouchershoaib.com/services#automotive"}}
     ]
@@ -573,6 +573,7 @@ footer a:hover{
   html{scroll-behavior:auto}
 }
 </style>
+<link rel="stylesheet" href="/assets/site-nav.css">
 </head>
 <body>
 
@@ -580,7 +581,19 @@ footer a:hover{
   <div class="wrap">
     <a class="logo" href="/">Retoucher Shoaib<sup>&reg;</sup></a>
     <nav>
-      <a class="cur" href="/services">Services</a>
+      <div class="nav-drop" data-nav-drop>
+        <a href="/services" class="nav-drop-btn cur" aria-haspopup="true" aria-expanded="false">Services <span class="nav-chev" aria-hidden="true">&#9662;</span></a>
+        <div class="nav-dd-menu" role="menu">
+          <a href="/services" role="menuitem"><strong>All Services Overview</strong><span>Compare all 6 commercial departments</span></a>
+          <div class="nav-dd-sep" role="separator"></div>
+          <a href="/ecommerce-product-retouching" role="menuitem"><strong>E-Commerce Product Retouching <em class="nav-new">Live</em></strong><span>Eyewear, bags, shoes &amp; packshots &middot; From $0.50</span></a>
+          <a href="/services#jewelry" role="menuitem"><strong>Jewelry &amp; Watch Retouching</strong><span>Diamond clarity &amp; focus stacking</span></a>
+          <a href="/services#fashion" role="menuitem"><strong>Fashion &amp; Ghost Mannequin</strong><span>Apparel shaping &amp; swatch accuracy</span></a>
+          <a href="/services#beauty" role="menuitem"><strong>Model &amp; Beauty Portraits</strong><span>Manual dodge &amp; burn skin texture</span></a>
+          <a href="/services#still" role="menuitem"><strong>Still Life &amp; Cosmetics</strong><span>Glassware &amp; commercial bottles</span></a>
+          <a href="/services#automotive" role="menuitem"><strong>Automotive Retouching</strong><span>Paintwork gloss &amp; background swap</span></a>
+        </div>
+      </div>
       <a href="/studio">Studio</a>
       <a href="/work">Work</a>
       <a href="/contact">Contact</a>
@@ -588,6 +601,9 @@ footer a:hover{
     </nav>
     <div class="nav-actions">
       <a class="btn p" id="navAuthBtn" href="/portal" rel="nofollow">Log In</a>
+      <button class="nav-mob-btn" id="navMobBtn" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobDrawer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+      </button>
     </div>
   </div>
 </header>
@@ -650,14 +666,17 @@ footer a:hover{
   </section>
   <section class="dep" id="ecom">
     <div class="wrap">
-      <div class="ph"><img src="./assets/agency_showcase/service_ecom_after.webp" alt="E-commerce product retouching" width="812" height="1015" loading="lazy" decoding="async"></div>
+      <div class="ph"><img src="./assets/agency_showcase/ecommerce-bag-retouching-after.webp" alt="E-commerce crossbody bag retouched on pure #FFFFFF white background" width="1000" height="1000" loading="lazy" decoding="async"></div>
       <div class="tx">
-        <div class="num">04<span>High volume</span></div>
+        <div class="num">04<span>From $0.50/image</span></div>
         <h2>E-commerce product retouching</h2>
-        <p class="tg">Marketplace ready &middot; Hand-drawn pen tool paths</p>
-        <p class="d">Pure white background (#FFFFFF), hand-drawn pen tool clipping paths, multi-angle cutouts, and natural cast or reflection shadows built to meet marketplace specs and lift conversion.</p>
-        <ul class="caps"><li>100% hand-drawn clipping paths</li><li>Pure white backgrounds</li><li>Natural and drop shadows</li><li>Marketplace spec compliance</li></ul>
-        <a class="btn" href="/contact?service=ecom">Try e-commerce for free</a>
+        <p class="tg">Marketplace ready &middot; Hand-drawn pen tool paths &middot; Eyewear, bags &amp; shoes</p>
+        <p class="d">Pure white background (#FFFFFF), hand-drawn pen tool clipping paths, eyewear lens glare removal, strap compositing, footwear symmetry and SKU colorway matching built to lift storefront conversion.</p>
+        <ul class="caps"><li>100% hand-drawn clipping paths</li><li>Eyewear, bags, shoes &amp; cosmetics</li><li>Natural &amp; contact shadows</li><li>Marketplace spec compliance</li></ul>
+        <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <a class="btn p" href="/ecommerce-product-retouching">Explore E-Commerce Page &rarr;</a>
+          <a class="btn" href="/contact?service=ecom">Try e-commerce for free</a>
+        </div>
       </div>
     </div>
   </section>
@@ -709,7 +728,7 @@ footer a:hover{
         <a href="#jewelry">Jewelry</a>
         <a href="#fashion">Fashion</a>
         <a href="#beauty">Beauty</a>
-        <a href="#ecom">E-commerce</a>
+        <a href="/ecommerce-product-retouching">E-commerce &amp; Packshots</a>
         <a href="#still">Still life</a>
         <a href="#automotive">Automotive</a>
       </div>
@@ -784,13 +803,20 @@ footer a:hover{
       'ecom',
       'E-commerce',
       'E-commerce product retouching',
-      'Marketplace ready \u00b7 Hand-drawn pen tool paths',
-      'Pure white background (#FFFFFF), hand-drawn pen tool clipping paths, multi-angle cutouts, and natural cast or reflection shadows built to meet marketplace specs and lift conversion.',
-      ['100% hand-drawn clipping paths', 'Pure white backgrounds', 'Natural and drop shadows', 'Marketplace spec compliance'],
-      'service_packshot',
-      'High volume',
+      'Marketplace ready \u00b7 Hand-drawn pen tool paths \u00b7 From $0.50/img',
+      'Pure white background (#FFFFFF), hand-drawn pen tool clipping paths, eyewear lens glare removal, strap compositing, footwear symmetry and SKU colorway variants built to meet marketplace specs and lift conversion.',
+      ['100% hand-drawn clipping paths', 'Eyewear, bags & footwear specs', 'Natural and drop shadows', 'SKU color variant matching'],
+      'ecommerce-bag-retouching-after',
+      'From $0.50/image',
       'center center',
-      { before: 'service_ecom_before.webp', after: 'service_ecom_after.webp' }
+      {
+        before: 'ecommerce-bag-retouching-before.webp',
+        after: 'ecommerce-bag-retouching-after.webp',
+        altBefore: 'Waffle crossbody bag photographed on grey studio sweep without strap before e-commerce retouching',
+        altAfter: 'Crossbody bag after manual e-commerce retouching on pure white background with strap composite and natural shadow',
+        pageHref: '/ecommerce-product-retouching',
+        pageLabel: 'Explore E-Commerce Page \u2192'
+      }
     ],
     [
       'still',
@@ -856,7 +882,12 @@ footer a:hover{
           '<p class="tg">' + d[3] + '</p>' +
           '<p class="d">' + d[4] + '</p>' +
           '<ul class="caps">' + d[5].map(function(c){ return '<li>' + c + '</li>'; }).join('') + '</ul>' +
-          '<a class="btn" href="/contact?service=' + d[0] + '">Try ' + d[1].toLowerCase() + ' for free</a>' +
+          (d[9] && d[9].pageHref
+            ? '<div style="display:flex;flex-wrap:wrap;gap:12px">' +
+                '<a class="btn p" href="' + d[9].pageHref + '">' + d[9].pageLabel + '</a>' +
+                '<a class="btn" href="/contact?service=' + d[0] + '">Try ' + d[1].toLowerCase() + ' for free</a>' +
+              '</div>'
+            : '<a class="btn" href="/contact?service=' + d[0] + '">Try ' + d[1].toLowerCase() + ' for free</a>') +
         '</div>' +
       '</div>' +
     '</section>';
@@ -977,5 +1008,6 @@ footer a:hover{
   });
 })();
 </script>
+<script src="/assets/site-nav.js" defer></script>
 </body>
 </html>

@@ -526,6 +526,7 @@ footer a:hover{
   html{scroll-behavior:auto}
 }
 </style>
+<link rel="stylesheet" href="/assets/site-nav.css">
 </head>
 <body>
 
@@ -533,7 +534,19 @@ footer a:hover{
   <div class="wrap">
     <a class="logo" href="/">Retoucher Shoaib<sup>&reg;</sup></a>
     <nav>
-      <a href="/services">Services</a>
+      <div class="nav-drop" data-nav-drop>
+        <a href="/services" class="nav-drop-btn" aria-haspopup="true" aria-expanded="false">Services <span class="nav-chev" aria-hidden="true">&#9662;</span></a>
+        <div class="nav-dd-menu" role="menu">
+          <a href="/services" role="menuitem"><strong>All Services Overview</strong><span>Compare all 6 commercial departments</span></a>
+          <div class="nav-dd-sep" role="separator"></div>
+          <a href="/ecommerce-product-retouching" role="menuitem"><strong>E-Commerce Product Retouching <em class="nav-new">Live</em></strong><span>Eyewear, bags, shoes &amp; packshots &middot; From $0.50</span></a>
+          <a href="/services#jewelry" role="menuitem"><strong>Jewelry &amp; Watch Retouching</strong><span>Diamond clarity &amp; focus stacking</span></a>
+          <a href="/services#fashion" role="menuitem"><strong>Fashion &amp; Ghost Mannequin</strong><span>Apparel shaping &amp; swatch accuracy</span></a>
+          <a href="/services#beauty" role="menuitem"><strong>Model &amp; Beauty Portraits</strong><span>Manual dodge &amp; burn skin texture</span></a>
+          <a href="/services#still" role="menuitem"><strong>Still Life &amp; Cosmetics</strong><span>Glassware &amp; commercial bottles</span></a>
+          <a href="/services#automotive" role="menuitem"><strong>Automotive Retouching</strong><span>Paintwork gloss &amp; background swap</span></a>
+        </div>
+      </div>
       <a href="/studio">Studio</a>
       <a href="/work">Work</a>
       <a class="cur" href="/contact">Contact</a>
@@ -541,6 +554,9 @@ footer a:hover{
     </nav>
     <div class="nav-actions">
       <a class="btn p" id="navAuthBtn" href="/portal" rel="nofollow">Log In</a>
+      <button class="nav-mob-btn" id="navMobBtn" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobDrawer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+      </button>
     </div>
   </div>
 </header>
@@ -751,9 +767,11 @@ footer a:hover{
     r.addEventListener('change', updateWaLink);
   });
 
-  // Pre-select requested service from ?service= query param (e.g. from services.html#automotive)
+  // Pre-select requested service & tab from ?service= / ?tab= query params
   try {
-    var svcParam = (new URLSearchParams(window.location.search).get('service') || '').toLowerCase();
+    var qp = new URLSearchParams(window.location.search);
+    var svcParam = (qp.get('service') || '').toLowerCase();
+    var tabParam = (qp.get('tab') || '').toLowerCase();
     var svcMap = {
       jewelry: 'Jewelry and watches',
       fashion: 'Fashion and ghost mannequin',
@@ -767,6 +785,15 @@ footer a:hover{
       if (targetRadio) {
         tab('sample');
         targetRadio.checked = true;
+      }
+    }
+    if (tabParam === 'quote' || tabParam === 'general' || tabParam === 'pricing') {
+      tab('general');
+      var quoteRadio = document.querySelector('input[name="topic"][value="Pricing and quotes"]');
+      if (quoteRadio) quoteRadio.checked = true;
+      var msgBox = $('m');
+      if (msgBox && !msgBox.value && svcMap[svcParam]) {
+        msgBox.placeholder = 'Share approximate batch size & product types for your ' + svcMap[svcParam] + ' quote (starting $0.50/image simple cutouts; custom quote for glare, straps & variants)...';
       }
     }
   } catch(e){}
@@ -937,5 +964,6 @@ footer a:hover{
   });
 })();
 </script>
+<script src="/assets/site-nav.js" defer></script>
 </body>
 </html>

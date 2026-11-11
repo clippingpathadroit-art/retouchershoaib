@@ -1311,13 +1311,26 @@ footer a:hover{
 }
 
 </style>
+<link rel="stylesheet" href="/assets/site-nav.css">
 </head>
 <body>
 <header>
   <div class="wrap">
     <a class="logo" href="#top">Retoucher Shoaib<sup>&reg;</sup></a>
     <nav>
-      <a href="/services">Services</a>
+      <div class="nav-drop" data-nav-drop>
+        <a href="/services" class="nav-drop-btn" aria-haspopup="true" aria-expanded="false">Services <span class="nav-chev" aria-hidden="true">&#9662;</span></a>
+        <div class="nav-dd-menu" role="menu">
+          <a href="/services" role="menuitem"><strong>All Services Overview</strong><span>Compare all 6 commercial departments</span></a>
+          <div class="nav-dd-sep" role="separator"></div>
+          <a href="/ecommerce-product-retouching" role="menuitem"><strong>E-Commerce Product Retouching <em class="nav-new">Live</em></strong><span>Eyewear, bags, shoes &amp; packshots &middot; From $0.50</span></a>
+          <a href="/services#jewelry" role="menuitem"><strong>Jewelry &amp; Watch Retouching</strong><span>Diamond clarity &amp; focus stacking</span></a>
+          <a href="/services#fashion" role="menuitem"><strong>Fashion &amp; Ghost Mannequin</strong><span>Apparel shaping &amp; swatch accuracy</span></a>
+          <a href="/services#beauty" role="menuitem"><strong>Model &amp; Beauty Portraits</strong><span>Manual dodge &amp; burn skin texture</span></a>
+          <a href="/services#still" role="menuitem"><strong>Still Life &amp; Cosmetics</strong><span>Glassware &amp; commercial bottles</span></a>
+          <a href="/services#automotive" role="menuitem"><strong>Automotive Retouching</strong><span>Paintwork gloss &amp; background swap</span></a>
+        </div>
+      </div>
       <a href="/studio">Studio</a>
       <a href="/work">Work</a>
       <a href="/contact">Contact</a>
@@ -1325,6 +1338,9 @@ footer a:hover{
     </nav>
     <div class="nav-actions">
       <a class="btn p" id="navAuthBtn" href="/portal" rel="nofollow">Log In</a>
+      <button class="nav-mob-btn" id="navMobBtn" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobDrawer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+      </button>
     </div>
   </div>
 </header>
@@ -1547,9 +1563,9 @@ footer a:hover{
         <h3>Editorial beauty</h3>
         <p>Real skin texture, never plastic.</p>
       </a>
-      <a class="row" href="/services#ecom" data-h="190" data-t="Product packshots" data-img="./assets/agency_showcase/service_packshot.webp">
-        <h3>Product packshots</h3>
-        <p>Hand-drawn paths and soft contact shadows.</p>
+      <a class="row" href="/ecommerce-product-retouching" data-h="190" data-t="E-Commerce &amp; Product Packshots" data-img="./assets/agency_showcase/ecommerce-eyewear-glare-removal-after.webp">
+        <h3>E-commerce &amp; packshots</h3>
+        <p>Eyewear, bags, shoes, paths &amp; shadows &middot; From $0.50/img.</p>
       </a>
       <a class="row" href="/services#automotive" data-h="210" data-t="Automotive and vehicles" data-img="./assets/agency_showcase/service_automotive_after.webp">
         <h3>Automotive and vehicles</h3>
@@ -1603,14 +1619,15 @@ footer a:hover{
       </article>
 
       <article class="card">
-        <h3>Product packshots</h3>
-        <p>For stores and cosmetics brands that need clean consistency at volume.</p>
+        <h3>E-commerce &amp; packshots</h3>
+        <p>For stores, eyewear, bags, footwear and cosmetics brands needing clean consistency from $0.50/image.</p>
         <ul>
           <li>Hand-drawn pen-tool clipping paths</li>
-          <li>Custom shadows and glass reflections</li>
-          <li>Pure white or colored backgrounds</li>
-          <li>Marketplace-ready exports</li>
+          <li>Eyewear glare &amp; lens sheen control</li>
+          <li>Strap composites &amp; contact shadows</li>
+          <li>Pure white #FFFFFF marketplace exports</li>
         </ul>
+        <p style="margin:16px 0 0"><a href="/ecommerce-product-retouching" style="color:var(--accent);font-weight:600;font-size:14.5px">Explore E-Commerce Retouching &rarr;</a></p>
       </article>
 
       <article class="card">
@@ -2018,7 +2035,7 @@ footer a:hover{
         <a href="/services#jewelry">Jewelry</a>
         <a href="/services#fashion">Fashion</a>
         <a href="/services#beauty">Beauty</a>
-        <a href="/services#ecom">Packshots</a>
+        <a href="/ecommerce-product-retouching">E-Commerce &amp; Packshots</a>
         <a href="/services#still">Still life</a>
         <a href="/services#automotive">Automotive</a>
       </div>
@@ -2440,5 +2457,6 @@ footer a:hover{
   })();
 })();
 </script>
+<script src="/assets/site-nav.js" defer></script>
 </body>
 </html>
