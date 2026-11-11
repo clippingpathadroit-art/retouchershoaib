@@ -36,8 +36,12 @@
       "url": "https://retouchershoaib.com/ecommerce-product-retouching",
       "image": [
         "https://retouchershoaib.com/assets/agency_showcase/ecommerce-eyewear-glare-removal-after.webp",
+        "https://retouchershoaib.com/assets/agency_showcase/ecom-olive-sunglasses-after.webp",
         "https://retouchershoaib.com/assets/agency_showcase/ecommerce-bag-retouching-after.webp",
-        "https://retouchershoaib.com/assets/agency_showcase/ecom_oxford_patent_leather_shoes.webp"
+        "https://retouchershoaib.com/assets/agency_showcase/ecom-floral-handbag-mirror-after.webp",
+        "https://retouchershoaib.com/assets/agency_showcase/ecom-spectator-oxford-pair.webp",
+        "https://retouchershoaib.com/assets/agency_showcase/ecom_oxford_patent_leather_shoes.webp",
+        "https://retouchershoaib.com/assets/agency_showcase/ecom-led-lightbar-packshot.webp"
       ],
       "description": "100% manual hand-retouched e-commerce product photo editing for eyewear, sunglasses, handbags, footwear, cosmetics, and pure #FFFFFF packshots. Hand-drawn Pen Tool clipping paths, pure white backgrounds, lens reflection control, SKU colorway matching, and 12 to 24 hour turnaround.",
       "provider": {
@@ -709,6 +713,9 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   gap:10px;
   margin-top:12px;
 }
+.angle-thumbs.four{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+}
 .ang-btn{
   padding:8px;
   border-radius:12px;
@@ -738,7 +745,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   font-weight:600;
 }
 
-/* MINI ON-MODEL EYEWEAR CALLOUT */
+/* MINI ON-MODEL / REFERENCE CALLOUT */
 .mini-ref{
   display:flex;
   align-items:center;
@@ -757,6 +764,12 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   border-radius:10px;
   flex-shrink:0;
 }
+.mini-ref img.sq{
+  width:78px;
+  height:78px;
+  object-position:center center;
+  background:#ffffff;
+}
 .mini-ref strong{
   display:block;
   font:600 14.5px/1.3 var(--body);
@@ -768,24 +781,40 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   color:var(--muted);
 }
 
-/* COSMETICS 3-PIECE PACKSHOT MOSAIC */
+/* COSMETICS 3-PIECE PACKSHOT MOSAIC + WIDE HARD-GOODS CARD */
 .cos-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:14px;
 }
 .cos-card{
+  position:relative;
   border-radius:16px;
   overflow:hidden;
   border:1px solid var(--line);
   background:var(--surface);
 }
 .cos-card.tall{grid-row:span 2}
+.cos-card.wide{
+  grid-column:1 / -1;
+  background:#ffffff;
+}
 .cos-card img{
   width:100%;
   height:100%;
   display:block;
   object-fit:cover;
+}
+.cos-badge{
+  position:absolute;
+  bottom:12px;
+  left:12px;
+  padding:5px 11px;
+  border-radius:99px;
+  background:rgba(10,10,11,.86);
+  color:var(--accent);
+  border:1px solid rgba(200,241,53,.4);
+  font:600 11px/1.1 var(--body);
 }
 
 /* CLIPPING PATH & MARKETPLACE SPEC INSPECTOR */
@@ -1163,6 +1192,7 @@ footer a:hover{color:var(--accent)}
   .logo-row{grid-template-columns:repeat(2,minmax(0,1fr))}
   .cos-grid,.dept-grid{grid-template-columns:1fr}
   .cos-card.tall{grid-row:auto;aspect-ratio:4/5}
+  .angle-thumbs.four{grid-template-columns:repeat(2,minmax(0,1fr))}
   .ph.ba .tag{bottom:10px;padding:4px 9px;font-size:10px}
   .ph.ba .tag.b{left:10px}
   .ph.ba .tag.a{right:10px}
@@ -1275,20 +1305,49 @@ footer a:hover{color:var(--accent)}
   <section class="dep" id="eyewear">
     <div class="wrap">
       <div class="media-col">
-        <div class="ph ba" style="--x:50%;aspect-ratio:1024/818" data-ba>
+        <div class="ph ba" id="eyeBa" style="--x:50%;aspect-ratio:1024/818" data-ba>
           <div class="lay before">
-            <img src="/assets/agency_showcase/ecommerce-eyewear-glare-removal-before.webp" alt="Banton Frameworks black acetate glasses raw studio photo on beige backdrop before e-commerce retouching" width="1024" height="818" decoding="async">
-            <span class="tag b">Before &middot; Raw Studio</span>
+            <img id="eyeBeforeImg" src="/assets/agency_showcase/ecommerce-eyewear-glare-removal-before.webp" alt="Banton Frameworks black acetate glasses raw studio photo on beige backdrop before e-commerce retouching" width="1024" height="818" decoding="async">
+            <span class="tag b" id="eyeBeforeTag">Before &middot; Raw Studio</span>
           </div>
           <div class="lay after">
-            <img src="/assets/agency_showcase/ecommerce-eyewear-glare-removal-after.webp" alt="Eyewear after manual e-commerce photo retouching on pure #FFFFFF white background with crisp acetate frame and natural anti-reflective lens sheen" width="1024" height="818" decoding="async">
-            <span class="tag a">After &middot; #FFFFFF + AR Sheen</span>
+            <img id="eyeAfterImg" src="/assets/agency_showcase/ecommerce-eyewear-glare-removal-after.webp" alt="Eyewear after manual e-commerce photo retouching on pure #FFFFFF white background with crisp acetate frame and natural anti-reflective lens sheen" width="1024" height="818" decoding="async">
+            <span class="tag a" id="eyeAfterTag">After &middot; #FFFFFF + AR Sheen</span>
           </div>
           <input type="range" min="0" max="100" value="50" aria-label="Before and after comparison for eyewear photo retouching">
           <div class="ba-bar"></div>
         </div>
+        <div class="swatch-bar" role="group" aria-label="Switch eyewear before and after case study">
+          <button type="button" class="sw-btn" aria-pressed="true"
+            data-before="/assets/agency_showcase/ecommerce-eyewear-glare-removal-before.webp"
+            data-after="/assets/agency_showcase/ecommerce-eyewear-glare-removal-after.webp"
+            data-balt="Banton Frameworks black acetate glasses raw studio photo on beige backdrop before e-commerce retouching"
+            data-aalt="Eyewear after manual e-commerce photo retouching on pure #FFFFFF white background with crisp acetate frame and natural anti-reflective lens sheen"
+            data-btag="Before &middot; Raw Studio"
+            data-atag="After &middot; #FFFFFF + AR Sheen"
+            data-ar="1024 / 818" data-w="1024" data-h="818"
+            data-note="Drag slider — Real studio sample: Pure #FFFFFF path + subtle green/violet AR glass finish.">Acetate + AR Sheen</button>
+          <button type="button" class="sw-btn" aria-pressed="false"
+            data-before="/assets/agency_showcase/ecom-olive-sunglasses-before.webp"
+            data-after="/assets/agency_showcase/ecom-olive-sunglasses-after.webp"
+            data-balt="Olive tortoise hexagonal sunglasses photographed on warm studio paper with shadow edge before e-commerce cutout"
+            data-aalt="Olive tortoise sunglasses isolated on pure #FFFFFF background with balanced gradient polarized lenses and natural contact shadow"
+            data-btag="Before &middot; Warm Sweep"
+            data-atag="After &middot; #FFFFFF Sunglass"
+            data-ar="1 / 1" data-w="1001" data-h="1001"
+            data-note="Drag slider — Warm cast removed and gradient polarized lenses cleanly preserved on #FFFFFF.">Olive Sunglasses</button>
+          <button type="button" class="sw-btn" aria-pressed="false"
+            data-before="/assets/agency_showcase/ecom-optical-frame-before.webp"
+            data-after="/assets/agency_showcase/ecom-optical-frame-after.webp"
+            data-balt="Matte black rectangular optical eyeglasses with orange temple tips on raw studio paper before e-commerce cleanup"
+            data-aalt="Matte black rectangular optical RX eyeglasses isolated on pure #FFFFFF white catalog background with natural ground shadow"
+            data-btag="Before &middot; Raw Optical"
+            data-atag="After &middot; Pure #FFFFFF"
+            data-ar="1 / 1" data-w="1000" data-h="1000"
+            data-note="Drag slider — Clean Bezier clipping path, hinge contrast polish, and crisp retail #FFFFFF shadow.">Black Optical RX</button>
+        </div>
         <div class="cap-note">
-          <span>Drag slider &mdash; Real studio sample: Pure <code style="color:var(--accent)">#FFFFFF</code> path + subtle green/violet AR glass finish.</span>
+          <span id="eyeCapNote">Drag slider &mdash; Real studio sample: Pure <code style="color:var(--accent)">#FFFFFF</code> path + subtle green/violet AR glass finish.</span>
         </div>
         <div class="mini-ref">
           <img src="/assets/agency_showcase/beauty_vintage_eyewear_editorial.webp" alt="Model wearing tortoiseshell eyeglasses with natural glare control around the eyes" width="1000" height="1500" loading="lazy" decoding="async">
@@ -1331,20 +1390,47 @@ footer a:hover{color:var(--accent)}
   <section class="dep flip" id="bags-leather">
     <div class="wrap">
       <div class="media-col">
-        <div class="ph ba" style="--x:50%;aspect-ratio:1/1" data-ba>
+        <div class="ph ba" id="bagBa" style="--x:50%;aspect-ratio:1/1" data-ba>
           <div class="lay before">
-            <img src="/assets/agency_showcase/ecommerce-bag-retouching-before.webp" alt="Waffle crossbody bag photographed on grey studio sweep without shoulder strap before retouching" width="1000" height="1000" loading="lazy" decoding="async">
-            <span class="tag b">Before &middot; No Strap</span>
+            <img id="bagBeforeImg" src="/assets/agency_showcase/ecommerce-bag-retouching-before.webp" alt="Waffle crossbody bag photographed on grey studio sweep without shoulder strap before retouching" width="1000" height="1000" loading="lazy" decoding="async">
+            <span class="tag b" id="bagBeforeTag">Before &middot; No Strap</span>
           </div>
           <div class="lay after">
-            <img src="/assets/agency_showcase/ecommerce-bag-retouching-after.webp" alt="Handbag after manual retouching isolated on pure white background with composited crossbody strap and natural contact shadow" width="1000" height="1000" loading="lazy" decoding="async">
-            <span class="tag a">After &middot; Strap + #FFFFFF</span>
+            <img id="bagAfterImg" src="/assets/agency_showcase/ecommerce-bag-retouching-after.webp" alt="Handbag after manual retouching isolated on pure white background with composited crossbody strap and natural contact shadow" width="1000" height="1000" loading="lazy" decoding="async">
+            <span class="tag a" id="bagAfterTag">After &middot; Strap + #FFFFFF</span>
           </div>
           <input type="range" min="0" max="100" value="50" aria-label="Before and after comparison for handbag product photo retouching">
           <div class="ba-bar"></div>
         </div>
+        <div class="swatch-bar" role="group" aria-label="Switch handbag before and after case study">
+          <button type="button" class="sw-btn" aria-pressed="true"
+            data-before="/assets/agency_showcase/ecommerce-bag-retouching-before.webp"
+            data-after="/assets/agency_showcase/ecommerce-bag-retouching-after.webp"
+            data-balt="Waffle crossbody bag photographed on grey studio sweep without shoulder strap before retouching"
+            data-aalt="Handbag after manual retouching isolated on pure white background with composited crossbody strap and natural contact shadow"
+            data-btag="Before &middot; No Strap"
+            data-atag="After &middot; Strap + #FFFFFF"
+            data-w="1000" data-h="1000"
+            data-note="Drag slider — Raw studio shot on grey sweep transformed with clean strap compositing &amp; grounded shadow.">Crossbody Strap Composite</button>
+          <button type="button" class="sw-btn" aria-pressed="false"
+            data-before="/assets/agency_showcase/ecom-floral-handbag-mirror-before.webp"
+            data-after="/assets/agency_showcase/ecom-floral-handbag-mirror-after.webp"
+            data-balt="Floral patent leather handbag photographed hanging on dark metal display stand inside dim studio before retouching"
+            data-aalt="Floral patent leather handbag isolated on pure #FFFFFF background with display stand completely removed and glossy mirror floor reflection"
+            data-btag="Before &middot; Metal Stand"
+            data-atag="After &middot; #FFFFFF + Mirror"
+            data-w="751" data-h="751"
+            data-note="Drag slider — Heavy display stand painted out completely, patent hardware brightened, and glossy floor reflection built.">Stand Removal + Mirror Effect</button>
+        </div>
         <div class="cap-note">
-          <span>Drag slider &mdash; Raw studio shot on grey sweep transformed with clean strap compositing &amp; grounded shadow.</span>
+          <span id="bagCapNote">Drag slider &mdash; Raw studio shot on grey sweep transformed with clean strap compositing &amp; grounded shadow.</span>
+        </div>
+        <div class="mini-ref">
+          <img class="sq" src="/assets/agency_showcase/ecom-clutch-bag-after.webp" alt="Olive pebbled leather flap clutch retouched cleanly onto seamless light studio backdrop" width="1400" height="1400" loading="lazy" decoding="async">
+          <div>
+            <strong>Pebble-Grain Clutch &amp; Studio Sweep Cleanup</strong>
+            <span>Table reflections, dust specks, and creased leather seams cleaned while preserving 100% genuine grain. <a href="/work" style="color:var(--accent);text-decoration:underline;display:inline-block">Inspect Before/After in Portfolio&nbsp;&rarr;</a></span>
+          </div>
         </div>
       </div>
 
@@ -1416,9 +1502,13 @@ footer a:hover{color:var(--accent)}
       <div class="media-col">
         <div class="ph" style="aspect-ratio:1/1">
           <img id="shoeMainImg" src="/assets/agency_showcase/ecom_oxford_patent_leather_shoes.webp" alt="Aristocracy London black patent leather Oxford dress shoes retouched three-quarter studio packshot" width="1400" height="1400" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block">
-          <span class="tag a" style="position:absolute;bottom:14px;right:14px;padding:5px 12px;border-radius:99px;font:600 11.5px/1 var(--body);background:rgba(10,10,11,.85);color:#f1f1ec;border:1px solid rgba(255,255,255,.16)">Real Client Packshot &middot; 3 Views</span>
+          <span class="tag a" id="shoeBadge" style="position:absolute;bottom:14px;right:14px;padding:5px 12px;border-radius:99px;font:600 11.5px/1 var(--body);background:rgba(10,10,11,.85);color:#f1f1ec;border:1px solid rgba(255,255,255,.16)">Real Client Packshot &middot; 3 Views</span>
         </div>
-        <div class="angle-thumbs" role="group" aria-label="Switch Oxford shoe angle preview">
+        <div class="swatch-bar" role="group" aria-label="Switch footwear client style series" style="margin-top:12px">
+          <button type="button" class="sw-btn" aria-pressed="true" data-style="patent">Black Patent Oxford &middot; 3 Views</button>
+          <button type="button" class="sw-btn" aria-pressed="false" data-style="spectator">Spectator Two-Tone Oxford &middot; 4 Views</button>
+        </div>
+        <div class="angle-thumbs" id="footwearThumbs" role="group" aria-label="Switch Oxford shoe angle preview">
           <button type="button" class="ang-btn" aria-pressed="true" data-src="/assets/agency_showcase/ecom_oxford_patent_leather_shoes.webp" data-alt="Aristocracy London black patent leather Oxford dress shoes three-quarter angle packshot">
             <img src="/assets/agency_showcase/ecom_oxford_patent_leather_shoes.webp" alt="" width="1400" height="1400" loading="lazy">
             <span>3/4 Studio Pair</span>
@@ -1523,6 +1613,10 @@ footer a:hover{color:var(--accent)}
           </div>
           <div class="cos-card" style="aspect-ratio:1200/896">
             <img src="/assets/agency_showcase/gallery_cosmetic_powder.webp" alt="Luxe Valencia pressed powder compact mirror and matte lipstick e-commerce beauty still life" width="1200" height="896" loading="lazy" decoding="async">
+          </div>
+          <div class="cos-card wide" style="aspect-ratio:1000/625">
+            <img src="/assets/agency_showcase/ecom-led-lightbar-packshot.webp" alt="Black commercial LED strobe light bar isolated on pure #FFFFFF studio background with mirror floor reflection" width="1000" height="625" loading="lazy" decoding="async">
+            <span class="cos-badge">Hard-Goods &amp; Electronics &middot; #FFFFFF + Mirror</span>
           </div>
         </div>
       </div>
@@ -1856,7 +1950,7 @@ footer a:hover{color:var(--accent)}
 (function(){
   var rm = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // 1. Interactive Before/After Sliders (Eyewear, Bag)
+  // 1. Interactive Before/After Sliders (Eyewear, Bag) & Multi-Sample Switchers
   document.querySelectorAll('[data-ba]').forEach(function(ba){
     var rng = ba.querySelector('input[type="range"]');
     if (!rng) return;
@@ -1864,6 +1958,51 @@ footer a:hover{color:var(--accent)}
       ba.style.setProperty('--x', rng.value + '%');
     });
   });
+
+  function wireBaSwitcher(secId, baId, bImgId, aImgId, bTagId, aTagId, noteId) {
+    var btns = document.querySelectorAll(secId + ' .sw-btn');
+    var ba = document.getElementById(baId);
+    var bImg = document.getElementById(bImgId);
+    var aImg = document.getElementById(aImgId);
+    var bTag = document.getElementById(bTagId);
+    var aTag = document.getElementById(aTagId);
+    var note = document.getElementById(noteId);
+    if (!btns.length || !ba) return;
+    btns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var bSrc = btn.getAttribute('data-before');
+        var aSrc = btn.getAttribute('data-after');
+        var bAlt = btn.getAttribute('data-balt');
+        var aAlt = btn.getAttribute('data-aalt');
+        var bt = btn.getAttribute('data-btag');
+        var at = btn.getAttribute('data-atag');
+        var ar = btn.getAttribute('data-ar');
+        var w = btn.getAttribute('data-w');
+        var h = btn.getAttribute('data-h');
+        var nt = btn.getAttribute('data-note');
+        if (bImg && bSrc) {
+          bImg.src = bSrc;
+          if (bAlt) bImg.alt = bAlt;
+          if (w && h) { bImg.width = w; bImg.height = h; }
+        }
+        if (aImg && aSrc) {
+          aImg.src = aSrc;
+          if (aAlt) aImg.alt = aAlt;
+          if (w && h) { aImg.width = w; aImg.height = h; }
+        }
+        if (bTag && bt) bTag.textContent = bt;
+        if (aTag && at) aTag.textContent = at;
+        if (ar) ba.style.aspectRatio = ar;
+        if (note && nt) note.textContent = nt;
+        ba.style.setProperty('--x', '50%');
+        var rng = ba.querySelector('input[type="range"]');
+        if (rng) rng.value = 50;
+        btns.forEach(function(b){ b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+      });
+    });
+  }
+  wireBaSwitcher('#eyewear', 'eyeBa', 'eyeBeforeImg', 'eyeAfterImg', 'eyeBeforeTag', 'eyeAfterTag', 'eyeCapNote');
+  wireBaSwitcher('#bags-leather', 'bagBa', 'bagBeforeImg', 'bagAfterImg', 'bagBeforeTag', 'bagAfterTag', 'bagCapNote');
 
   // 2. Interactive Multi-Color Bag Variant Demo
   var vImg = document.getElementById('variantImg');
@@ -1882,18 +2021,61 @@ footer a:hover{color:var(--accent)}
     });
   });
 
-  // 3. Interactive Footwear 3-Angle Switcher
+  // 3. Interactive Footwear Multi-Style & Multi-Angle Gallery Switcher
+  var SHOE_STYLES = {
+    patent: {
+      badge: 'Real Client Packshot \u00b7 3 Views',
+      views: [
+        { label: '3/4 Studio Pair', src: '/assets/agency_showcase/ecom_oxford_patent_leather_shoes.webp', alt: 'Aristocracy London black patent leather Oxford dress shoes three-quarter angle packshot' },
+        { label: 'Outsole Detail', src: '/assets/agency_showcase/client_ecom_oxford_shoes_overhead_pair.webp', alt: 'Handmade Designed in London stitched brown leather shoe sole detail' },
+        { label: 'Top-Down Interior', src: '/assets/agency_showcase/client_ecom_oxford_shoes_side_profile.webp', alt: 'Top-down view inside Aristocracy London patent Oxford leather dress shoes' }
+      ]
+    },
+    spectator: {
+      badge: 'Real Client Packshot \u00b7 4 Views',
+      views: [
+        { label: '3/4 Pair View', src: '/assets/agency_showcase/ecom-spectator-oxford-pair.webp', alt: 'Aristocracy London two-tone black velvet, ivory silk and patent leather Spectator Oxford shoes three-quarter studio view' },
+        { label: 'Top-Down Pair', src: '/assets/agency_showcase/ecom-spectator-oxford-top.webp', alt: 'Overhead studio shot of Spectator two-tone tuxedo Oxford shoes showing gold foil Aristocracy London lining' },
+        { label: 'Leather Outsole', src: '/assets/agency_showcase/ecom-spectator-oxford-outsole.webp', alt: 'Engraved stitched leather outsole of Spectator two-tone Oxford shoes stamped Handmade Designed in London 9/43' },
+        { label: 'Toe-Cap Macro', src: '/assets/agency_showcase/ecom-spectator-oxford-toe-macro.webp', alt: 'Macro close-up of woven ivory silk quarter panel and glossy black patent leather cap-toe stitching' }
+      ]
+    }
+  };
   var sImg = document.getElementById('shoeMainImg');
-  var angBtns = document.querySelectorAll('.ang-btn');
-  angBtns.forEach(function(btn){
-    btn.addEventListener('click', function(){
+  var sBadge = document.getElementById('shoeBadge');
+  var fThumbs = document.getElementById('footwearThumbs');
+  var fStyleBtns = document.querySelectorAll('#footwear .sw-btn');
+
+  if (fThumbs && sImg) {
+    fThumbs.addEventListener('click', function(e){
+      var btn = e.target.closest('.ang-btn');
+      if (!btn) return;
       var src = btn.getAttribute('data-src');
       var alt = btn.getAttribute('data-alt');
-      if (sImg && src) {
+      if (src) {
         sImg.src = src;
         if (alt) sImg.alt = alt;
       }
-      angBtns.forEach(function(b){ b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+      fThumbs.querySelectorAll('.ang-btn').forEach(function(b){ b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+    });
+  }
+
+  fStyleBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var key = btn.getAttribute('data-style');
+      var data = SHOE_STYLES[key];
+      if (!data || !fThumbs || !sImg) return;
+      sImg.src = data.views[0].src;
+      sImg.alt = data.views[0].alt;
+      if (sBadge) sBadge.textContent = data.badge;
+      fThumbs.classList.toggle('four', data.views.length === 4);
+      fThumbs.innerHTML = data.views.map(function(v, i){
+        return '<button type="button" class="ang-btn" aria-pressed="' + (i === 0 ? 'true' : 'false') + '" data-src="' + v.src + '" data-alt="' + v.alt.replace(/"/g, '&quot;') + '">' +
+          '<img src="' + v.src + '" alt="" width="1400" height="1400" loading="lazy">' +
+          '<span>' + v.label + '</span>' +
+        '</button>';
+      }).join('');
+      fStyleBtns.forEach(function(b){ b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
     });
   });
 
