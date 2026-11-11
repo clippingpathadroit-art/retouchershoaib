@@ -30,6 +30,14 @@
   "blogPost": [
     {
       "@type": "BlogPosting",
+      "headline": "AI Photo Retouching vs. Manual Dodge and Burn: Why High-End Brands and Photographers Still Hire Human Retouchers",
+      "url": "https://retouchershoaib.com/ai-photo-retouching-vs-manual-dodge-and-burn",
+      "image": "https://retouchershoaib.com/assets/agency_showcase/manual-dodge-and-burn-skin-texture-200-zoom.jpg",
+      "datePublished": "2026-11-11",
+      "author": {"@type": "Person", "name": "Shoaib Siddique", "alternateName": "Retoucher Shoaib"}
+    },
+    {
+      "@type": "BlogPosting",
       "headline": "The Science of Retaining Natural Skin Texture",
       "url": "https://retouchershoaib.com/feed#post-skin-texture",
       "image": "https://retouchershoaib.com/assets/agency_showcase/client_beauty_studio_portrait.jpg",
@@ -329,6 +337,29 @@ h1.hero-h1 .l span{
   color:var(--accent);
   transform:translateX(4px);
 }
+.feed-card.featured{
+  grid-column:1 / -1;
+  display:grid;
+  grid-template-columns:minmax(0,1.42fr) minmax(0,1fr);
+  align-items:stretch;
+}
+.feed-card.featured .feed-thumb{
+  aspect-ratio:auto;
+  width:100%;
+  height:100%;
+  background:#0a0a0b;
+}
+.feed-card.featured .feed-thumb img{
+  object-position:center center;
+}
+.feed-card.featured .feed-card-body{
+  padding:clamp(22px,2.5vw,32px);
+  justify-content:center;
+}
+.feed-card.featured h2{
+  font-size:clamp(22px,2.3vw,29px);
+  line-height:1.14;
+}
 
 /* FULL ARTICLE READER VIEW */
 .post-view{
@@ -489,6 +520,8 @@ footer a:hover{
 @media(max-width:860px){
   nav{display:none}
   .feed-grid{grid-template-columns:1fr}
+  .feed-card.featured{display:flex;flex-direction:column}
+  .feed-card.featured .feed-thumb{aspect-ratio:1200 / 630;height:auto;min-height:0}
   footer .g{grid-template-columns:1fr 1fr}
 }
 @media(prefers-reduced-motion:reduce){
@@ -535,9 +568,21 @@ footer a:hover{
   <main class="feed-sec">
     <div class="wrap">
       <div class="feed-grid">
+        <a class="feed-card featured" href="/ai-photo-retouching-vs-manual-dodge-and-burn">
+          <div class="feed-thumb">
+            <img src="./assets/agency_showcase/manual-dodge-and-burn-skin-texture-200-zoom.webp" alt="200% zoom comparison between automated AI plastic skin and manual 16-bit dodge and burn pores" width="1200" height="630" loading="eager" fetchpriority="high" decoding="async">
+          </div>
+          <div class="feed-card-body">
+            <div class="feed-meta">Featured Technical Guide &bull; November 2026 &bull; Interactive 200% Loupe</div>
+            <h2>AI Photo Retouching vs. Manual Dodge and Burn: Why Brands Still Hire Humans</h2>
+            <p>Inspect real 200% macro skin texture side-by-side and explore where automated plugins fail commercial beauty, luxury watches, and 16-bit color workflows.</p>
+            <span class="feed-more">Read breakdown &amp; test 200% loupe &rarr;</span>
+          </div>
+        </a>
+
         <a class="feed-card" href="#post-skin-texture">
           <div class="feed-thumb">
-            <img src="./assets/agency_showcase/client_beauty_studio_portrait.webp" alt="The Science of Retaining Natural Skin Texture" width="1376" height="768" loading="eager" fetchpriority="high" decoding="async" style="object-position:62% top">
+            <img src="./assets/agency_showcase/client_beauty_studio_portrait.webp" alt="The Science of Retaining Natural Skin Texture" width="1376" height="768" loading="eager" decoding="async" style="object-position:62% top">
           </div>
           <div class="feed-card-body">
             <div class="feed-meta">Editorial Retouching &bull; May 2026</div>
@@ -664,8 +709,8 @@ footer a:hover{
       </div>
       <a class="btn p" href="/contact">Request a Free Trial</a>
     </div>
-    <a class="post-next" href="#post-skin-texture">
-      <div><small>Next article</small><b>The Science of Retaining Natural Skin Texture</b></div>
+    <a class="post-next" href="/ai-photo-retouching-vs-manual-dodge-and-burn">
+      <div><small>Featured breakdown</small><b>AI Photo Retouching vs. Manual Dodge and Burn (200% Loupe)</b></div>
       <span>&rarr;</span>
     </a>
   </article>
