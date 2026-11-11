@@ -406,6 +406,9 @@ a { color: inherit; text-decoration: none; }
         </div>
       </div>
 
+      <!-- INLINE ERROR NOTICE -->
+      <div id="delR2ErrorBox" style="display: none; background: rgba(220,38,38,0.14); border: 1px solid #ef4444; border-radius: 10px; padding: 11px 14px; margin-bottom: 14px; font-size: 12px; color: #fecaca; line-height: 1.5;"></div>
+
       <!-- ACTIVE UPLOAD PROGRESS -->
       <div id="delR2ProgressWrap" style="display: none; background: #0f172a; border: 1px solid #0ea5e9; border-radius: 10px; padding: 14px; margin-bottom: 14px;">
         <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; font-weight: 700;">
@@ -709,9 +712,12 @@ function parseJwt(token) {
 const R2_API_URL = '/api/r2';
 const R2_FREE_TIER_BYTES = 10 * 1000 * 1000 * 1000;   // 10.00 GB decimal (Cloudflare billing unit)
 const R2_SAFETY_LIMIT_BYTES = 9.95 * 1000 * 1000 * 1000;
-const R2_MULTIPART_THRESHOLD = 15 * 1000 * 1000;      // < 15 MB single PUT, >= 15 MB multipart
-const R2_PART_SIZE = 25 * 1024 * 1024;                // 25 MiB per chunk (7 GB -> ~280 parts)
-const R2_MAX_CONCURRENCY = 3;
+const R2_MULTIPART_THRESHOLD = 15 * 1024 * 1024;      // < 15 MiB single PUT, >= 15 MiB multipart
+const R2_BINDING_PART_SIZE = 10 * 1024 * 1024;        // 10 MiB per chunk via Pages R2_BUCKET binding
+const R2_BINDING_CONCURRENCY = 2;                     // Max 20 MiB concurrent buffer (< 128 MiB Worker limit)
+const R2_S3_PART_SIZE = 25 * 1024 * 1024;             // 25 MiB per chunk for direct S3 presigned URL
+const R2_S3_CONCURRENCY = 3;
+let r2DetectedTransport = '';
 
 let r2LastInventory = null;
 let r2SelectedFile = null;
@@ -2343,8 +2349,23 @@ function initR2Dropzone() {
   });
 }
 
+function showDelR2Error(msg) {
+  const box = document.getElementById('delR2ErrorBox');
+  if (!box) return;
+  box.innerHTML = '<strong>⚠️ R2 Error:</strong> ' + escapeHtml(msg || 'Cloudflare R2 request failed.');
+  box.style.display = 'block';
+}
+
+function clearDelR2Error() {
+  const box = document.getElementById('delR2ErrorBox');
+  if (!box) return;
+  box.style.display = 'none';
+  box.textContent = '';
+}
+
 function clearR2SelectedFile() {
   r2SelectedFile = null;
+  clearDelR2Error();
   const fileIn = document.getElementById('delR2FileInput');
   if (fileIn) fileIn.value = '';
   const selCard = document.getElementById('delR2SelectedCard');
@@ -2366,6 +2387,7 @@ function selectR2File(file) {
     showAdminToast('⚠️ Empty file cannot be uploaded.');
     return;
   }
+  clearDelR2Error();
   r2SelectedFile = file;
   const selCard = document.getElementById('delR2SelectedCard');
   const selName = document.getElementById('delR2SelectedName');
@@ -2494,6 +2516,7 @@ async function refreshR2UsageBadge(force = false) {
     const { data } = await postR2Action('usage', null, 'GET');
     if (data && data.status === 'success') {
       r2LastInventory = data;
+      if (data.transport) r2DetectedTransport = data.transport;
       const used = Number(data.totalBytes || 0);
       const pct = (used / R2_FREE_TIER_BYTES) * 100;
       if (label) {
@@ -2511,10 +2534,14 @@ async function refreshR2UsageBadge(force = false) {
       return data;
     }
   } catch(err) {
-    if (label) label.textContent = err.status === 503 ? 'R2: Setup Pending' : 'R2: Offline';
+    if (label) label.textContent = err.status === 503 ? 'R2: Setup Pending' : 'R2: Error';
     if (dot) {
       dot.classList.remove('safe', 'warn', 'danger', 'crit');
       dot.classList.add('warn');
+    }
+    const qTxt = document.getElementById('delR2QuotaText');
+    if (qTxt && document.getElementById('delModal')?.style.display === 'flex') {
+      qTxt.textContent = err.message || 'Check R2_BUCKET binding';
     }
   }
   return null;
@@ -2526,9 +2553,10 @@ async function refreshDelModalR2Quota() {
     if (txt) txt.textContent = 'Sign in above to check R2 usage';
     return;
   }
+  if (txt && !r2LastInventory) txt.textContent = 'Checking...';
   const inv = await refreshR2UsageBadge(true);
-  if (!inv && txt) {
-    txt.textContent = 'Unavailable — check Cloudflare secrets';
+  if (!inv && txt && txt.textContent === 'Checking...') {
+    txt.textContent = 'Unavailable — check R2_BUCKET binding';
   }
 }
 
@@ -2667,13 +2695,20 @@ function persistOrderDeliveryTarget(orderId, targetUri, deliveryMode) {
   });
 }
 
-function xhrPutBlob(url, blob, contentType, onProgress, activeSet) {
+function xhrPutBlob(url, blob, contentType, onProgress, activeSet, extraHeaders = null) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     if (activeSet) activeSet.add(xhr);
     xhr.open('PUT', url, true);
     if (contentType) {
       xhr.setRequestHeader('Content-Type', contentType);
+    }
+    if (extraHeaders && typeof extraHeaders === 'object') {
+      Object.keys(extraHeaders).forEach((k) => {
+        if (extraHeaders[k] !== undefined && extraHeaders[k] !== null) {
+          xhr.setRequestHeader(k, String(extraHeaders[k]));
+        }
+      });
     }
     xhr.upload.onprogress = (ev) => {
       if (ev.lengthComputable && typeof onProgress === 'function') {
@@ -2682,16 +2717,31 @@ function xhrPutBlob(url, blob, contentType, onProgress, activeSet) {
     };
     xhr.onload = () => {
       if (activeSet) activeSet.delete(xhr);
+      let parsed = null;
+      try {
+        if (xhr.responseText && xhr.responseText.trim().startsWith('{')) {
+          parsed = JSON.parse(xhr.responseText);
+        }
+      } catch(e) {}
       if (xhr.status >= 200 && xhr.status < 300) {
-        const etag = xhr.getResponseHeader('ETag') || xhr.getResponseHeader('etag') || '';
-        resolve({ etag });
+        const etag = xhr.getResponseHeader('ETag') || xhr.getResponseHeader('etag') || (parsed && parsed.etag) || '';
+        resolve({ etag, data: parsed, status: xhr.status });
       } else {
-        reject(new Error('R2 upload error HTTP ' + xhr.status + (xhr.responseText ? ': ' + xhr.responseText.slice(0, 120) : '')));
+        const msg = (parsed && parsed.message)
+          ? parsed.message
+          : ('R2 upload error HTTP ' + xhr.status + (xhr.responseText ? ': ' + xhr.responseText.slice(0, 140) : ''));
+        const err = new Error(msg);
+        err.status = xhr.status;
+        err.data = parsed;
+        if ([400, 401, 403, 404, 409, 413, 503].includes(xhr.status)) {
+          err.noRetry = true;
+        }
+        reject(err);
       }
     };
     xhr.onerror = () => {
       if (activeSet) activeSet.delete(xhr);
-      reject(new Error('Network error while uploading chunk to Cloudflare R2'));
+      reject(new Error('Network/TLS error while uploading chunk to Cloudflare R2'));
     };
     xhr.onabort = () => {
       if (activeSet) activeSet.delete(xhr);
@@ -2703,7 +2753,7 @@ function xhrPutBlob(url, blob, contentType, onProgress, activeSet) {
   });
 }
 
-async function xhrPutBlobWithRetry(url, blob, contentType, onProgress, uploadState, maxAttempts = 3) {
+async function xhrPutBlobWithRetry(url, blob, contentType, onProgress, uploadState, maxAttempts = 3, extraHeaders = null) {
   let lastErr = null;
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     if (uploadState.aborted) {
@@ -2712,10 +2762,10 @@ async function xhrPutBlobWithRetry(url, blob, contentType, onProgress, uploadSta
       throw err;
     }
     try {
-      return await xhrPutBlob(url, blob, contentType, onProgress, uploadState.xhrs);
+      return await xhrPutBlob(url, blob, contentType, onProgress, uploadState.xhrs, extraHeaders);
     } catch(err) {
       lastErr = err;
-      if (err.aborted || uploadState.aborted || attempt >= maxAttempts) break;
+      if (err.aborted || uploadState.aborted || err.noRetry || attempt >= maxAttempts) break;
       await new Promise(r => setTimeout(r, 1200 * attempt));
     }
   }
@@ -2741,9 +2791,15 @@ function updateR2UploadProgressUI(bytesDone, totalBytes, startedAtMs, labelOverr
   const barEl = document.getElementById('delR2ProgressBar');
   const statsEl = document.getElementById('delR2ProgressStats');
 
-  if (labelEl && labelOverride) labelEl.textContent = labelOverride;
+  if (labelEl) {
+    labelEl.style.color = '#38bdf8';
+    if (labelOverride) labelEl.textContent = labelOverride;
+  }
   if (pctEl) pctEl.textContent = pct.toFixed(1) + '%';
-  if (barEl) barEl.style.width = pct.toFixed(1) + '%';
+  if (barEl) {
+    barEl.style.background = '';
+    barEl.style.width = pct.toFixed(1) + '%';
+  }
   if (statsEl) {
     statsEl.textContent =
       formatDecimalSize(bytesDone) + ' / ' + formatDecimalSize(totalBytes) +
@@ -2763,10 +2819,12 @@ async function startR2ZipUpload() {
   }
   if (!getAdminApiToken()) {
     renderInlineR2GoogleButtons();
+    showDelR2Error('Please sign in using Continue with Google above before uploading.');
     showAdminToast('🔐 Click Continue with Google in the warning banner above to authorize R2.');
     return;
   }
 
+  clearDelR2Error();
   const file = r2SelectedFile;
   const allowOverage = !!(document.getElementById('delR2AllowOverageChk')?.checked);
   const prevTarget = getOrderDeliveryTarget(targetOrderId);
@@ -2787,6 +2845,7 @@ async function startR2ZipUpload() {
     aborted: false,
     key: '',
     uploadId: '',
+    transport: '',
     xhrs: new Set(),
     partLoaded: {},
   };
@@ -2805,32 +2864,64 @@ async function startR2ZipUpload() {
     let finalR2Uri = '';
     let finalKey = '';
 
+    // Detect active backend R2 transport ('binding' via Pages R2_BUCKET vs 's3' presigned URLs)
+    const statusResp = await fetch(R2_API_URL + '?action=status&_=' + Date.now(), { cache: 'no-store' });
+    const statusJson = await statusResp.json().catch(() => ({}));
+    if (!statusResp.ok || !statusJson || !statusJson.configured) {
+      throw new Error((statusJson && statusJson.message) || 'Cloudflare R2 is not configured yet. Add R2_BUCKET binding in Cloudflare Pages Settings > Bindings.');
+    }
+    let transport = statusJson.transport || r2DetectedTransport || (statusJson.bindingReady ? 'binding' : 's3');
+    r2DetectedTransport = transport;
+    state.transport = transport;
+
     if (file.size < R2_MULTIPART_THRESHOLD) {
-      const initRes = await postR2Action('sign-put', {
-        orderId: targetOrderId,
-        fileName: file.name,
-        fileSize: file.size,
-        allowOverage
-      });
-      if (initRes.status === 409) {
-        r2LastInventory = initRes.data;
-        updateQuotaBarUI(initRes.data.totalBytes || 0, 'delR2QuotaBar', 'delR2QuotaText');
-        evaluateR2OverageAndButtonState();
-        throw new Error(initRes.data.message || 'R2 Free Tier 10 GB limit reached.');
+      if (transport === 'binding') {
+        updateR2UploadProgressUI(0, file.size, startedAt, 'Uploading ZIP securely to Cloudflare R2...');
+        const directUrl =
+          R2_API_URL +
+          '?action=upload-direct&orderId=' + encodeURIComponent(targetOrderId) +
+          '&fileName=' + encodeURIComponent(file.name) +
+          '&allowOverage=' + (allowOverage ? '1' : '0') +
+          '&size=' + encodeURIComponent(String(file.size));
+        const res = await xhrPutBlobWithRetry(
+          directUrl,
+          file,
+          'application/octet-stream',
+          (loaded) => updateR2UploadProgressUI(loaded, file.size, startedAt),
+          state,
+          3,
+          { Authorization: 'Bearer ' + getAdminApiToken() }
+        );
+        finalKey = (res.data && res.data.key) || '';
+        finalR2Uri = (res.data && res.data.r2Uri) || (finalKey ? 'r2://' + finalKey : '');
+        state.key = finalKey;
+      } else {
+        const initRes = await postR2Action('sign-put', {
+          orderId: targetOrderId,
+          fileName: file.name,
+          fileSize: file.size,
+          allowOverage
+        });
+        if (initRes.status === 409) {
+          r2LastInventory = initRes.data;
+          updateQuotaBarUI(initRes.data.totalBytes || 0, 'delR2QuotaBar', 'delR2QuotaText');
+          evaluateR2OverageAndButtonState();
+          throw new Error(initRes.data.message || 'R2 Free Tier 10 GB limit reached.');
+        }
+        const { key, r2Uri, uploadUrl } = initRes.data;
+        state.key = key;
+        updateR2UploadProgressUI(0, file.size, startedAt, 'Uploading directly to Cloudflare R2...');
+        await xhrPutBlobWithRetry(
+          uploadUrl,
+          file,
+          '',
+          (loaded) => updateR2UploadProgressUI(loaded, file.size, startedAt),
+          state,
+          3
+        );
+        finalR2Uri = r2Uri;
+        finalKey = key;
       }
-      const { key, r2Uri, uploadUrl } = initRes.data;
-      state.key = key;
-      updateR2UploadProgressUI(0, file.size, startedAt, 'Uploading directly to Cloudflare R2...');
-      await xhrPutBlobWithRetry(
-        uploadUrl,
-        file,
-        '',
-        (loaded) => updateR2UploadProgressUI(loaded, file.size, startedAt),
-        state,
-        3
-      );
-      finalR2Uri = r2Uri;
-      finalKey = key;
     } else {
       const initRes = await postR2Action('create-multipart', {
         orderId: targetOrderId,
@@ -2847,10 +2938,14 @@ async function startR2ZipUpload() {
       }
 
       const { key, r2Uri, uploadId } = initRes.data;
+      if (initRes.data.transport) transport = initRes.data.transport;
       state.key = key;
       state.uploadId = uploadId;
+      state.transport = transport;
 
-      const totalParts = Math.ceil(file.size / R2_PART_SIZE);
+      const activePartSize = transport === 'binding' ? R2_BINDING_PART_SIZE : R2_S3_PART_SIZE;
+      const activeConcurrency = transport === 'binding' ? R2_BINDING_CONCURRENCY : R2_S3_CONCURRENCY;
+      const totalParts = Math.ceil(file.size / activePartSize);
       const signedUrlCache = {};
       let signPromise = Promise.resolve();
 
@@ -2892,7 +2987,7 @@ async function startR2ZipUpload() {
         0,
         file.size,
         startedAt,
-        'Uploading ' + totalParts + ' encrypted chunks (concurrency ' + Math.min(R2_MAX_CONCURRENCY, totalParts) + ')...'
+        'Uploading ' + totalParts + ' encrypted chunks (concurrency ' + Math.min(activeConcurrency, totalParts) + ')...'
       );
 
       async function worker() {
@@ -2900,30 +2995,59 @@ async function startR2ZipUpload() {
           const idx = nextPartIdx++;
           if (idx >= totalParts) break;
           const partNumber = idx + 1;
-          const start = idx * R2_PART_SIZE;
-          const end = Math.min(file.size, start + R2_PART_SIZE);
+          const start = idx * activePartSize;
+          const end = Math.min(file.size, start + activePartSize);
           const chunk = file.slice(start, end);
 
-          const partUrl = await getSignedUrlForPart(partNumber);
-          const { etag } = await xhrPutBlobWithRetry(
-            partUrl,
-            chunk,
-            '',
-            (loaded) => {
-              state.partLoaded[partNumber] = Math.min(chunk.size, loaded);
-              updateR2UploadProgressUI(
-                sumLoadedBytes(),
-                file.size,
-                startedAt,
-                'Uploading part ' + partNumber + ' / ' + totalParts + '...'
-              );
-            },
-            state,
-            3
-          );
+          let etag = '';
+          if (transport === 'binding') {
+            const partUrl =
+              R2_API_URL +
+              '?action=upload-part&key=' + encodeURIComponent(key) +
+              '&uploadId=' + encodeURIComponent(uploadId) +
+              '&partNumber=' + partNumber;
+            const res = await xhrPutBlobWithRetry(
+              partUrl,
+              chunk,
+              'application/octet-stream',
+              (loaded) => {
+                state.partLoaded[partNumber] = Math.min(chunk.size, loaded);
+                updateR2UploadProgressUI(
+                  sumLoadedBytes(),
+                  file.size,
+                  startedAt,
+                  'Uploading part ' + partNumber + ' / ' + totalParts + '...'
+                );
+              },
+              state,
+              3,
+              { Authorization: 'Bearer ' + getAdminApiToken() }
+            );
+            etag = (res.data && res.data.etag) || res.etag || '';
+          } else {
+            const partUrl = await getSignedUrlForPart(partNumber);
+            const res = await xhrPutBlobWithRetry(
+              partUrl,
+              chunk,
+              '',
+              (loaded) => {
+                state.partLoaded[partNumber] = Math.min(chunk.size, loaded);
+                updateR2UploadProgressUI(
+                  sumLoadedBytes(),
+                  file.size,
+                  startedAt,
+                  'Uploading part ' + partNumber + ' / ' + totalParts + '...'
+                );
+              },
+              state,
+              3
+            );
+            etag = res.etag || '';
+          }
+
           state.partLoaded[partNumber] = chunk.size;
           if (!etag) {
-            throw new Error('Cloudflare R2 did not expose ETag for part #' + partNumber + '. Verify bucket CORS ExposeHeaders includes ETag.');
+            throw new Error('Cloudflare R2 did not return ETag for part #' + partNumber);
           }
           completedParts[idx] = { partNumber, etag };
           updateR2UploadProgressUI(
@@ -2935,7 +3059,7 @@ async function startR2ZipUpload() {
         }
       }
 
-      const workerCount = Math.min(R2_MAX_CONCURRENCY, totalParts);
+      const workerCount = Math.min(activeConcurrency, totalParts);
       const workers = [];
       for (let w = 0; w < workerCount; w++) workers.push(worker());
       await Promise.all(workers);
@@ -2950,7 +3074,8 @@ async function startR2ZipUpload() {
       await postR2Action('complete-multipart', {
         key,
         uploadId,
-        parts: completedParts
+        parts: completedParts,
+        transport
       });
 
       finalR2Uri = r2Uri;
@@ -2973,13 +3098,24 @@ async function startR2ZipUpload() {
     refreshR2UsageBadge(true);
   } catch(err) {
     if (!err.aborted && state.uploadId && state.key) {
-      postR2Action('abort-multipart', { key: state.key, uploadId: state.uploadId }).catch(() => {});
+      postR2Action('abort-multipart', { key: state.key, uploadId: state.uploadId, transport: state.transport }).catch(() => {});
+    }
+    if (err.status === 409 && err.data) {
+      r2LastInventory = err.data;
+      updateQuotaBarUI(err.data.totalBytes || 0, 'delR2QuotaBar', 'delR2QuotaText');
+      evaluateR2OverageAndButtonState();
+    } else if (err.status === 401) {
+      clearAdminApiToken();
+      renderInlineR2GoogleButtons();
     }
     if (err.aborted) {
+      if (progWrap) progWrap.style.display = 'none';
       showAdminToast('✕ R2 upload cancelled and partial chunks cleaned up.');
     } else {
       console.error('R2 upload failed:', err);
-      showAdminToast('❌ R2 Upload Failed: ' + (err.message || 'Check CORS & Cloudflare secrets'));
+      if (progWrap) progWrap.style.display = 'none';
+      showDelR2Error(err.message || 'Check Cloudflare R2_BUCKET binding or secrets');
+      showAdminToast('❌ R2 Upload Failed: ' + (err.message || 'Check Cloudflare setup'));
     }
   } finally {
     window.removeEventListener('beforeunload', beforeUnloadHandler);
@@ -3003,7 +3139,7 @@ async function cancelActiveR2Upload(silent = false) {
   st.xhrs.clear();
   if (st.uploadId && st.key && getAdminApiToken()) {
     try {
-      await postR2Action('abort-multipart', { key: st.key, uploadId: st.uploadId });
+      await postR2Action('abort-multipart', { key: st.key, uploadId: st.uploadId, transport: st.transport });
     } catch(e) {}
   }
   const progWrap = document.getElementById('delR2ProgressWrap');

@@ -40,6 +40,7 @@ function jsonResponse(payload, status = 200, request = null) {
     'Content-Type': 'application/json; charset=utf-8',
     'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
     'X-Content-Type-Options': 'nosniff',
+    'X-Robots-Tag': 'noindex, nofollow',
   };
   if (request) {
     headers['Access-Control-Allow-Origin'] = getAllowedCorsOrigin(request);
@@ -485,6 +486,36 @@ export async function verifySessionToken(secret, token, nowSec = Math.floor(Date
   return claims;
 }
 
+export async function issueDownloadTicket(secret, { sub, key, fileName, ttlSeconds = 21600 }) {
+  const nowSec = Math.floor(Date.now() / 1000);
+  const claims = {
+    purpose: 'r2-download',
+    sub: String(sub || 'client').toLowerCase().trim(),
+    key: String(key || '').replace(/^\/+/, ''),
+    fileName: sanitizeFileName(fileName, 'RetoucherShoaib_Master.zip'),
+    iat: nowSec,
+    exp: nowSec + ttlSeconds,
+  };
+  const payloadB64 = base64UrlEncode(JSON.stringify(claims));
+  const hmacKey = await crypto.subtle.importKey(
+    'raw',
+    te.encode(String(secret)),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  );
+  const sig = await crypto.subtle.sign('HMAC', hmacKey, te.encode(payloadB64));
+  return `${payloadB64}.${base64UrlEncode(sig)}`;
+}
+
+export async function verifyDownloadTicket(secret, token, nowSec = Math.floor(Date.now() / 1000)) {
+  const claims = await verifySessionToken(secret, token, nowSec);
+  if (claims.purpose !== 'r2-download' || !claims.key || !String(claims.key).startsWith('orders/') || String(claims.key).includes('..')) {
+    throw Object.assign(new Error('Invalid R2 download ticket'), { status: 403 });
+  }
+  return claims;
+}
+
 function getBearerToken(request) {
   const auth = request.headers.get('Authorization') || '';
   const m = auth.match(/^Bearer\s+(.+)$/i);
@@ -495,7 +526,7 @@ async function requireAdmin(request, env) {
   const token = getBearerToken(request);
   if (!token) throw Object.assign(new Error('Director authorization token required'), { status: 401 });
   const claims = await verifySessionToken(env.AUTH_SECRET, token);
-  if (claims.role !== 'admin' || claims.sub !== AUTHORIZED_DIRECTOR_EMAIL) {
+  if (claims.purpose || claims.role !== 'admin' || claims.sub !== AUTHORIZED_DIRECTOR_EMAIL) {
     throw Object.assign(new Error('Forbidden: Studio Director privilege required'), { status: 403 });
   }
   return claims;
@@ -504,28 +535,88 @@ async function requireAdmin(request, env) {
 async function requireAuthenticatedUser(request, env) {
   const token = getBearerToken(request);
   if (!token) throw Object.assign(new Error('Authentication required'), { status: 401 });
-  return await verifySessionToken(env.AUTH_SECRET, token);
+  const claims = await verifySessionToken(env.AUTH_SECRET, token);
+  if (claims.purpose || (claims.role !== 'admin' && claims.role !== 'client')) {
+    throw Object.assign(new Error('Invalid session token scope'), { status: 403 });
+  }
+  return claims;
 }
 
 // ========================================================
 // R2 INVENTORY & STUDIO DATABASE HELPERS
 // ========================================================
 function getR2Config(env) {
-  const accountId = String(env.R2_ACCOUNT_ID || '').trim();
-  const bucket = String(env.R2_BUCKET_NAME || '').trim();
-  const accessKeyId = String(env.R2_ACCESS_KEY_ID || '').trim();
-  const secretAccessKey = String(env.R2_SECRET_ACCESS_KEY || '').trim();
-  const authSecret = String(env.AUTH_SECRET || '').trim();
+  const r2Binding = env && env.R2_BUCKET && typeof env.R2_BUCKET.list === 'function' && typeof env.R2_BUCKET.get === 'function'
+    ? env.R2_BUCKET
+    : null;
+  const accountId = String((env && env.R2_ACCOUNT_ID) || '').trim();
+  const bucket = String((env && env.R2_BUCKET_NAME) || '').trim();
+  const accessKeyId = String((env && env.R2_ACCESS_KEY_ID) || '').trim();
+  const secretAccessKey = String((env && env.R2_SECRET_ACCESS_KEY) || '').trim();
+  const authSecret = String((env && env.AUTH_SECRET) || '').trim();
+  const s3Configured = Boolean(accountId && bucket && accessKeyId && secretAccessKey);
+  const bindingConfigured = Boolean(r2Binding);
   const missing = [];
-  if (!accountId) missing.push('R2_ACCOUNT_ID');
-  if (!bucket) missing.push('R2_BUCKET_NAME');
-  if (!accessKeyId) missing.push('R2_ACCESS_KEY_ID');
-  if (!secretAccessKey) missing.push('R2_SECRET_ACCESS_KEY');
   if (!authSecret) missing.push('AUTH_SECRET');
-  return { accountId, bucket, accessKeyId, secretAccessKey, authSecret, missing, configured: missing.length === 0 };
+  if (!bindingConfigured && !s3Configured) {
+    missing.push('R2_BUCKET (Pages Binding) or R2 S3 keys');
+  }
+  const transport = bindingConfigured ? 'binding' : (s3Configured ? 's3' : 'none');
+  return {
+    r2Binding,
+    bindingConfigured,
+    s3Configured,
+    transport,
+    accountId,
+    bucket,
+    accessKeyId,
+    secretAccessKey,
+    authSecret,
+    missing,
+    configured: Boolean(authSecret && (bindingConfigured || s3Configured)),
+  };
 }
 
 async function listBucketInventory(cfg) {
+  if (cfg.r2Binding) {
+    const objects = [];
+    let totalBytes = 0;
+    let cursor = undefined;
+
+    for (let page = 0; page < 20; page++) {
+      const listed = await cfg.r2Binding.list(cursor ? { limit: 1000, cursor } : { limit: 1000 });
+      const batch = Array.isArray(listed.objects) ? listed.objects : [];
+      for (const obj of batch) {
+        const key = String(obj.key || '');
+        const size = Number(obj.size || 0);
+        const lastModified = obj.uploaded instanceof Date
+          ? obj.uploaded.toISOString()
+          : (obj.uploaded ? String(obj.uploaded) : '');
+        const mOrder = key.match(/^orders\/([^/]+)\//i);
+        objects.push({
+          key,
+          size,
+          lastModified,
+          orderId: mOrder ? normalizeOrderId(mOrder[1]) : '',
+          fileName: key.split('/').pop() || key,
+        });
+        totalBytes += size;
+      }
+      if (!listed.truncated || !listed.cursor) break;
+      cursor = listed.cursor;
+    }
+
+    return {
+      totalBytes,
+      totalGB: Number((totalBytes / 1e9).toFixed(3)),
+      freeTierBytes: FREE_TIER_BYTES,
+      remainingBytes: Math.max(0, FREE_TIER_BYTES - totalBytes),
+      objects,
+      incompleteUploads: [],
+      transport: 'binding',
+    };
+  }
+
   const objects = [];
   let totalBytes = 0;
   let continuationToken = '';
@@ -537,7 +628,12 @@ async function listBucketInventory(cfg) {
     const res = await signedR2Fetch(cfg, { method: 'GET', query });
     const xml = await res.text();
     if (!res.ok) {
-      throw new Error(`R2 ListObjectsV2 failed (${res.status}): ${extractTag(xml, 'Message') || xml.slice(0, 180)}`);
+      const code = extractTag(xml, 'Code');
+      const msg = extractTag(xml, 'Message') || xml.slice(0, 180);
+      const hint = res.status === 403
+        ? ' — Fix: Bind R2 bucket as R2_BUCKET in Cloudflare Pages Settings > Bindings (recommended), or re-check R2_BUCKET_NAME & R2 S3 Access Keys.'
+        : '';
+      throw new Error(`R2 ListObjectsV2 failed (${res.status}${code ? ' ' + code : ''}): ${msg}${hint}`);
     }
 
     const blocks = extractBlocks(xml, 'Contents');
@@ -584,6 +680,7 @@ async function listBucketInventory(cfg) {
     remainingBytes: Math.max(0, FREE_TIER_BYTES - totalBytes),
     objects,
     incompleteUploads,
+    transport: 's3',
   };
 }
 
@@ -614,7 +711,7 @@ export async function onRequest(context) {
       status: 204,
       headers: {
         'Access-Control-Allow-Origin': getAllowedCorsOrigin(request),
-        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, HEAD, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         'Access-Control-Max-Age': '3600',
         Vary: 'Origin',
@@ -624,9 +721,10 @@ export async function onRequest(context) {
 
   const url = new URL(request.url);
   const cfg = getR2Config(env);
+  const queryAction = String(url.searchParams.get('action') || '').trim().toLowerCase();
 
   let body = {};
-  if (method === 'POST') {
+  if (method === 'POST' && queryAction !== 'upload-direct' && queryAction !== 'upload-part') {
     const rawText = await request.text();
     if (rawText) {
       try {
@@ -637,7 +735,7 @@ export async function onRequest(context) {
     }
   }
 
-  const action = String(url.searchParams.get('action') || body.action || '').trim().toLowerCase();
+  const action = String(queryAction || body.action || '').trim().toLowerCase();
 
   try {
     // --------------------------------------------------------
@@ -647,6 +745,9 @@ export async function onRequest(context) {
       return jsonResponse({
         status: 'success',
         configured: cfg.configured,
+        transport: cfg.transport,
+        bindingReady: cfg.bindingConfigured,
+        s3Ready: cfg.s3Configured,
         missingCount: cfg.missing.length,
         freeTierGB: 10,
       }, 200, request);
@@ -658,6 +759,94 @@ export async function onRequest(context) {
         configured: false,
         message: 'Server AUTH_SECRET is not configured in Cloudflare Pages Variables and Secrets.',
       }, 503, request);
+    }
+
+    // --------------------------------------------------------
+    // 1B. SAME-ORIGIN SIGNED STREAM DOWNLOAD (R2 BINDING)
+    // --------------------------------------------------------
+    if (action === 'stream-download') {
+      if (method !== 'GET' && method !== 'HEAD') {
+        return jsonResponse({ status: 'error', message: 'Method not allowed' }, 405, request);
+      }
+      const dlToken = String(url.searchParams.get('token') || '').trim();
+      if (!dlToken) {
+        return jsonResponse({ status: 'error', message: 'Missing signed download ticket.' }, 401, request);
+      }
+      const dlClaims = await verifyDownloadTicket(cfg.authSecret, dlToken);
+      if (!cfg.r2Binding) {
+        return jsonResponse({ status: 'error', message: 'R2 Bucket Binding (R2_BUCKET) is required for edge streaming downloads.' }, 503, request);
+      }
+
+      const fileName = sanitizeFileName(dlClaims.fileName, 'RetoucherShoaib_Master.zip');
+
+      if (method === 'HEAD') {
+        const headObj = await cfg.r2Binding.head(dlClaims.key);
+        if (!headObj) {
+          return jsonResponse({ status: 'error', message: 'Delivery ZIP file was not found in R2 storage.' }, 404, request);
+        }
+        return new Response(null, {
+          status: 200,
+          headers: {
+            'Content-Type': 'application/zip',
+            'Content-Disposition': `attachment; filename="${fileName}"`,
+            'Content-Length': String(headObj.size),
+            'Accept-Ranges': 'bytes',
+            'Cache-Control': 'private, no-store, max-age=0',
+            'X-Content-Type-Options': 'nosniff',
+            'X-Robots-Tag': 'noindex, nofollow',
+            ...(headObj.httpEtag ? { ETag: headObj.httpEtag } : {}),
+          },
+        });
+      }
+
+      const hasRangeHeader = !!request.headers.get('Range');
+      let object = null;
+      try {
+        object = await cfg.r2Binding.get(dlClaims.key, hasRangeHeader ? { range: request.headers } : undefined);
+      } catch (rangeErr) {
+        if (hasRangeHeader) {
+          const headObj = await cfg.r2Binding.head(dlClaims.key);
+          if (!headObj) {
+            return jsonResponse({ status: 'error', message: 'Delivery ZIP file was not found in R2 storage.' }, 404, request);
+          }
+          return new Response('Requested Range Not Satisfiable', {
+            status: 416,
+            headers: {
+              'Content-Range': `bytes */${headObj.size}`,
+              'Accept-Ranges': 'bytes',
+              'Cache-Control': 'private, no-store, max-age=0',
+            },
+          });
+        }
+        throw rangeErr;
+      }
+
+      if (!object || !('body' in object)) {
+        return jsonResponse({ status: 'error', message: 'Delivery ZIP file was deleted or is no longer available in R2 storage.' }, 404, request);
+      }
+
+      const headers = new Headers();
+      headers.set('Content-Type', 'application/zip');
+      headers.set('Content-Disposition', `attachment; filename="${fileName}"`);
+      headers.set('Accept-Ranges', 'bytes');
+      headers.set('Cache-Control', 'private, no-store, max-age=0');
+      headers.set('X-Content-Type-Options', 'nosniff');
+      headers.set('X-Robots-Tag', 'noindex, nofollow');
+      if (object.httpEtag) headers.set('ETag', object.httpEtag);
+
+      let status = 200;
+      if (hasRangeHeader && object.range) {
+        status = 206;
+        const start = Number(object.range.offset || 0);
+        const len = Number(object.range.length || 0);
+        const end = Math.max(start, start + len - 1);
+        headers.set('Content-Range', `bytes ${start}-${end}/${object.size}`);
+        headers.set('Content-Length', String(len));
+      } else {
+        headers.set('Content-Length', String(object.size));
+      }
+
+      return new Response(object.body, { status, headers });
     }
 
     // --------------------------------------------------------
@@ -718,12 +907,12 @@ export async function onRequest(context) {
       return jsonResponse({ status: 'success', token, email, role: 'client', expiresIn: 7 * 24 * 3600 }, 200, request);
     }
 
-    // All storage actions require full R2 credentials
+    // All storage actions require either R2 Bucket Binding or complete R2 S3 credentials
     if (!cfg.configured) {
       return jsonResponse({
         status: 'error',
         configured: false,
-        message: 'Cloudflare R2 environment secrets are incomplete on Cloudflare Pages.',
+        message: 'Cloudflare R2 is not connected yet. Add R2_BUCKET binding in Cloudflare Pages Settings > Bindings.',
       }, 503, request);
     }
 
@@ -735,20 +924,48 @@ export async function onRequest(context) {
       const explicitKey = String(body.key || url.searchParams.get('key') || '').trim();
       const rawOrderId = body.orderId || url.searchParams.get('orderId');
 
-      if (claims.role === 'admin' && explicitKey && !rawOrderId) {
-        const normalizedKey = explicitKey.replace(/^r2:\/\//, '').replace(/^\/+/, '');
-        if (!normalizedKey.startsWith('orders/') || normalizedKey.includes('..')) {
-          return jsonResponse({ status: 'error', message: 'Invalid R2 object key.' }, 400, request);
+      const buildDownloadResponse = async (targetKey, preferredName) => {
+        const cleanKey = String(targetKey || '').replace(/^r2:\/\//, '').replace(/^\/+/, '');
+        if (!cleanKey || cleanKey.includes('..') || !cleanKey.startsWith('orders/')) {
+          return jsonResponse({ status: 'error', message: 'Invalid R2 delivery object path.' }, 400, request);
         }
-        const fileName = sanitizeFileName(normalizedKey.split('/').pop(), 'RetoucherShoaib_Master.zip');
+        const fileName = sanitizeFileName(cleanKey.split('/').pop(), preferredName || 'RetoucherShoaib_Master.zip');
+
+        if (cfg.r2Binding) {
+          const headObj = await cfg.r2Binding.head(cleanKey);
+          if (!headObj) {
+            return jsonResponse({
+              status: 'error',
+              message: 'This delivery ZIP has been removed from R2 storage or is no longer available.',
+            }, 404, request);
+          }
+          const dlTicket = await issueDownloadTicket(cfg.authSecret, {
+            sub: claims.sub,
+            key: cleanKey,
+            fileName,
+            ttlSeconds: 21600,
+          });
+          const dlUrl = new URL('/api/r2', request.url);
+          dlUrl.searchParams.set('action', 'stream-download');
+          dlUrl.searchParams.set('token', dlTicket);
+          return jsonResponse({
+            status: 'success',
+            transport: 'binding',
+            downloadUrl: dlUrl.toString(),
+            fileName,
+            size: headObj.size,
+            expiresIn: 21600,
+          }, 200, request);
+        }
+
         const downloadUrl = await generatePresignedR2Url({
           accountId: cfg.accountId,
           bucket: cfg.bucket,
           accessKeyId: cfg.accessKeyId,
           secretAccessKey: cfg.secretAccessKey,
-          key: normalizedKey,
+          key: cleanKey,
           method: 'GET',
-          expiresIn: 21600,
+          expiresIn: 21600, // 6 hours so large 7 GB downloads can pause & resume smoothly
           extraQuery: {
             'response-content-disposition': `attachment; filename="${fileName}"`,
             'response-content-type': 'application/zip',
@@ -756,10 +973,15 @@ export async function onRequest(context) {
         });
         return jsonResponse({
           status: 'success',
+          transport: 's3',
           downloadUrl,
           fileName,
           expiresIn: 21600,
         }, 200, request);
+      };
+
+      if (claims.role === 'admin' && explicitKey && !rawOrderId) {
+        return await buildDownloadResponse(explicitKey, 'RetoucherShoaib_Master.zip');
       }
 
       const cleanOrderId = normalizeOrderId(rawOrderId);
@@ -806,36 +1028,11 @@ export async function onRequest(context) {
         return jsonResponse({ status: 'error', message: 'No downloadable file is attached to this order yet.' }, 404, request);
       }
 
-      const r2Key = deliveryTarget.slice('r2://'.length).replace(/^\/+/, '');
-      if (!r2Key || r2Key.includes('..') || !r2Key.startsWith('orders/')) {
-        return jsonResponse({ status: 'error', message: 'Invalid R2 delivery object path.' }, 400, request);
-      }
-
-      const fileName = sanitizeFileName(r2Key.split('/').pop(), `RetoucherShoaib_Order_${cleanOrderId}.zip`);
-      const downloadUrl = await generatePresignedR2Url({
-        accountId: cfg.accountId,
-        bucket: cfg.bucket,
-        accessKeyId: cfg.accessKeyId,
-        secretAccessKey: cfg.secretAccessKey,
-        key: r2Key,
-        method: 'GET',
-        expiresIn: 21600, // 6 hours so large 7 GB downloads can pause & resume smoothly
-        extraQuery: {
-          'response-content-disposition': `attachment; filename="${fileName}"`,
-          'response-content-type': 'application/zip',
-        },
-      });
-
-      return jsonResponse({
-        status: 'success',
-        downloadUrl,
-        fileName,
-        expiresIn: 21600,
-      }, 200, request);
+      return await buildDownloadResponse(deliveryTarget, `RetoucherShoaib_Order_${cleanOrderId}.zip`);
     }
 
     // --------------------------------------------------------
-    // 4. ADMIN-ONLY R2 STORAGE MANAGEMENT & MULTIPART SIGNING
+    // 4. ADMIN-ONLY R2 STORAGE MANAGEMENT & UPLOAD ROUTING
     // --------------------------------------------------------
     await requireAdmin(request, env);
 
@@ -844,7 +1041,66 @@ export async function onRequest(context) {
       return jsonResponse({ status: 'success', ...inv }, 200, request);
     }
 
+    if (action === 'upload-direct') {
+      if (method !== 'PUT' && method !== 'POST') {
+        return jsonResponse({ status: 'error', message: 'Method not allowed for direct upload.' }, 405, request);
+      }
+      if (!cfg.r2Binding) {
+        return jsonResponse({
+          status: 'error',
+          message: 'R2 Bucket Binding (R2_BUCKET) is not configured in Cloudflare Pages Settings > Bindings.',
+        }, 503, request);
+      }
+      const cleanOrderId = normalizeOrderId(url.searchParams.get('orderId'));
+      if (!cleanOrderId) return jsonResponse({ status: 'error', message: 'Valid Order ID required' }, 400, request);
+
+      const safeName = sanitizeFileName(url.searchParams.get('fileName'), `Order_${cleanOrderId}_Masters.zip`);
+      const allowOverage = url.searchParams.get('allowOverage') === '1';
+      const declaredSize = Number(request.headers.get('Content-Length') || url.searchParams.get('size') || 0);
+      if (declaredSize > 95 * 1024 * 1024) {
+        return jsonResponse({ status: 'error', message: 'Single upload exceeds 95 MB limit; use multipart upload.' }, 400, request);
+      }
+
+      const buf = await request.arrayBuffer();
+      if (!buf || buf.byteLength <= 0) {
+        return jsonResponse({ status: 'error', message: 'Uploaded file payload is empty.' }, 400, request);
+      }
+      if (buf.byteLength > 95 * 1024 * 1024) {
+        return jsonResponse({ status: 'error', message: 'Uploaded file exceeds 95 MB request cap.' }, 413, request);
+      }
+
+      const inv = await listBucketInventory(cfg);
+      if (!allowOverage && inv.totalBytes + buf.byteLength > SAFETY_LIMIT_BYTES) {
+        return jsonResponse({
+          status: 'quota_warning',
+          message: `Uploading ${(buf.byteLength / 1e9).toFixed(2)} GB would exceed the 10 GB R2 Free Tier (currently ${(inv.totalBytes / 1e9).toFixed(2)} GB used). Delete older ZIPs first to avoid overage charges.`,
+          ...inv,
+        }, 409, request);
+      }
+
+      const key = `orders/${cleanOrderId}/${safeName}`;
+      await cfg.r2Binding.put(key, buf, {
+        httpMetadata: {
+          contentType: 'application/zip',
+          contentDisposition: `attachment; filename="${safeName}"`,
+        },
+      });
+
+      return jsonResponse({
+        status: 'success',
+        transport: 'binding',
+        mode: 'direct',
+        key,
+        r2Uri: `r2://${key}`,
+        fileName: safeName,
+        size: buf.byteLength,
+      }, 200, request);
+    }
+
     if (action === 'sign-put') {
+      if (!cfg.s3Configured) {
+        return jsonResponse({ status: 'error', message: 'Use upload-direct when R2_BUCKET binding is active.' }, 400, request);
+      }
       const cleanOrderId = normalizeOrderId(body.orderId);
       if (!cleanOrderId) return jsonResponse({ status: 'error', message: 'Valid Order ID required' }, 400, request);
 
@@ -876,6 +1132,7 @@ export async function onRequest(context) {
 
       return jsonResponse({
         status: 'success',
+        transport: 's3',
         mode: 'single',
         key,
         r2Uri: `r2://${key}`,
@@ -906,6 +1163,24 @@ export async function onRequest(context) {
       const key = `orders/${cleanOrderId}/${safeName}`;
       const contentType = String(body.contentType || 'application/zip').trim() || 'application/zip';
 
+      if (cfg.r2Binding) {
+        const mp = await cfg.r2Binding.createMultipartUpload(key, {
+          httpMetadata: {
+            contentType: contentType || 'application/zip',
+            contentDisposition: `attachment; filename="${safeName}"`,
+          },
+        });
+        return jsonResponse({
+          status: 'success',
+          transport: 'binding',
+          mode: 'multipart',
+          key: mp.key || key,
+          r2Uri: `r2://${mp.key || key}`,
+          fileName: safeName,
+          uploadId: mp.uploadId,
+        }, 200, request);
+      }
+
       const initRes = await signedR2Fetch(cfg, {
         method: 'POST',
         key,
@@ -923,6 +1198,7 @@ export async function onRequest(context) {
 
       return jsonResponse({
         status: 'success',
+        transport: 's3',
         mode: 'multipart',
         key,
         r2Uri: `r2://${key}`,
@@ -931,7 +1207,43 @@ export async function onRequest(context) {
       }, 200, request);
     }
 
+    if (action === 'upload-part') {
+      if (method !== 'PUT' && method !== 'POST') {
+        return jsonResponse({ status: 'error', message: 'Method not allowed for chunk upload.' }, 405, request);
+      }
+      if (!cfg.r2Binding) {
+        return jsonResponse({ status: 'error', message: 'R2 Bucket Binding (R2_BUCKET) is not configured.' }, 503, request);
+      }
+      const key = String(url.searchParams.get('key') || '').trim();
+      const uploadId = String(url.searchParams.get('uploadId') || '').trim();
+      const partNumber = parseInt(url.searchParams.get('partNumber') || '0', 10);
+      if (!key.startsWith('orders/') || key.includes('..') || !uploadId || !Number.isInteger(partNumber) || partNumber < 1 || partNumber > 10000) {
+        return jsonResponse({ status: 'error', message: 'Invalid key, uploadId, or partNumber for chunk upload.' }, 400, request);
+      }
+
+      const buf = await request.arrayBuffer();
+      if (!buf || buf.byteLength <= 0) {
+        return jsonResponse({ status: 'error', message: `Empty chunk received for part #${partNumber}.` }, 400, request);
+      }
+      if (buf.byteLength > 95 * 1024 * 1024) {
+        return jsonResponse({ status: 'error', message: 'Chunk exceeds 95 MB maximum.' }, 413, request);
+      }
+
+      const mp = cfg.r2Binding.resumeMultipartUpload(key, uploadId);
+      const uploadedPart = await mp.uploadPart(partNumber, buf);
+
+      return jsonResponse({
+        status: 'success',
+        partNumber: uploadedPart.partNumber,
+        etag: uploadedPart.etag,
+        size: buf.byteLength,
+      }, 200, request);
+    }
+
     if (action === 'sign-parts-batch') {
+      if (!cfg.s3Configured) {
+        return jsonResponse({ status: 'error', message: 'S3 signing unavailable; use upload-part with R2_BUCKET binding.' }, 400, request);
+      }
       const key = String(body.key || '').trim();
       const uploadId = String(body.uploadId || '').trim();
       const partNumbers = Array.isArray(body.partNumbers) ? body.partNumbers : [];
@@ -971,6 +1283,30 @@ export async function onRequest(context) {
         return jsonResponse({ status: 'error', message: 'Invalid complete-multipart payload' }, 400, request);
       }
 
+      if (cfg.r2Binding && body.transport !== 's3') {
+        const parts = partsRaw
+          .map((p) => ({
+            partNumber: parseInt(p.partNumber || p.PartNumber, 10),
+            etag: String(p.etag || p.ETag || '').trim(),
+          }))
+          .filter((p) => Number.isInteger(p.partNumber) && p.partNumber >= 1 && p.etag.length > 0)
+          .sort((a, b) => a.partNumber - b.partNumber);
+
+        if (parts.length !== partsRaw.length) {
+          return jsonResponse({ status: 'error', message: 'One or more uploaded part ETags are missing.' }, 400, request);
+        }
+
+        const mp = cfg.r2Binding.resumeMultipartUpload(key, uploadId);
+        await mp.complete(parts);
+
+        return jsonResponse({
+          status: 'success',
+          transport: 'binding',
+          key,
+          r2Uri: `r2://${key}`,
+        }, 200, request);
+      }
+
       const parts = partsRaw
         .map((p) => {
           const num = parseInt(p.partNumber || p.PartNumber, 10);
@@ -1006,6 +1342,7 @@ export async function onRequest(context) {
 
       return jsonResponse({
         status: 'success',
+        transport: 's3',
         key,
         r2Uri: `r2://${key}`,
       }, 200, request);
@@ -1017,6 +1354,15 @@ export async function onRequest(context) {
       if (!key.startsWith('orders/') || key.includes('..') || !uploadId) {
         return jsonResponse({ status: 'error', message: 'Invalid abort-multipart payload' }, 400, request);
       }
+
+      if (cfg.r2Binding && body.transport !== 's3') {
+        try {
+          const mp = cfg.r2Binding.resumeMultipartUpload(key, uploadId);
+          await mp.abort();
+        } catch (e) {}
+        return jsonResponse({ status: 'success', abortedKey: key }, 200, request);
+      }
+
       const abRes = await signedR2Fetch(cfg, {
         method: 'DELETE',
         key,
@@ -1034,13 +1380,17 @@ export async function onRequest(context) {
       if (!key.startsWith('orders/') || key.includes('..')) {
         return jsonResponse({ status: 'error', message: 'Invalid object key' }, 400, request);
       }
-      const delRes = await signedR2Fetch(cfg, {
-        method: 'DELETE',
-        key,
-      });
-      if (!delRes.ok && delRes.status !== 404) {
-        const txt = await delRes.text();
-        throw new Error(`Delete failed (${delRes.status}): ${extractTag(txt, 'Message') || txt.slice(0, 140)}`);
+      if (cfg.r2Binding) {
+        await cfg.r2Binding.delete(key);
+      } else {
+        const delRes = await signedR2Fetch(cfg, {
+          method: 'DELETE',
+          key,
+        });
+        if (!delRes.ok && delRes.status !== 404) {
+          const txt = await delRes.text();
+          throw new Error(`Delete failed (${delRes.status}): ${extractTag(txt, 'Message') || txt.slice(0, 140)}`);
+        }
       }
       const inv = await listBucketInventory(cfg);
       return jsonResponse({ status: 'success', deletedKey: key, ...inv }, 200, request);
