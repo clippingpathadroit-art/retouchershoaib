@@ -337,6 +337,10 @@ h1 .l span{
 .ph.ba.wide{
   aspect-ratio:1022/575;
 }
+.ph.sq,
+.ph.ba.sq{
+  aspect-ratio:1/1;
+}
 .dep.wide .wrap{
   grid-template-columns:minmax(0,1fr) minmax(0,1.45fr);
   gap:clamp(28px,4.5vw,64px);
@@ -552,6 +556,7 @@ footer a:hover{
   .ph{aspect-ratio:4/3}
   .ph.ba{aspect-ratio:4/5}
   .ph.ba.wide{aspect-ratio:1022/575}
+  .ph.sq,.ph.ba.sq{aspect-ratio:1/1}
   .caps{grid-template-columns:1fr}
   footer .g{grid-template-columns:1fr 1fr}
 }
@@ -666,7 +671,7 @@ footer a:hover{
   </section>
   <section class="dep" id="ecom">
     <div class="wrap">
-      <div class="ph"><img src="./assets/agency_showcase/ecommerce-bag-retouching-after.webp" alt="E-commerce crossbody bag retouched on pure #FFFFFF white background" width="1000" height="1000" loading="lazy" decoding="async"></div>
+      <div class="ph sq"><img src="./assets/agency_showcase/ecommerce-bag-retouching-after.webp" alt="E-commerce crossbody bag retouched on pure #FFFFFF white background" width="1000" height="1000" loading="lazy" decoding="async"></div>
       <div class="tx">
         <div class="num">04<span>From $0.50/image</span></div>
         <h2>E-commerce product retouching</h2>
@@ -817,6 +822,7 @@ footer a:hover{
       {
         before: 'ecommerce-bag-retouching-before.webp',
         after: 'ecommerce-bag-retouching-after.webp',
+        sq: true,
         altBefore: 'Waffle crossbody bag photographed on grey studio sweep without strap before e-commerce retouching',
         altAfter: 'Crossbody bag after manual e-commerce retouching on pure white background with strap composite and natural shadow',
         pageHref: '/ecommerce-product-retouching',
@@ -862,10 +868,11 @@ footer a:hover{
     var ld = i === 0 ? 'eager' : 'lazy';
     var fp = i === 0 ? ' fetchpriority="high"' : '';
     var isWide = d[9] && d[9].wide;
+    var isSq = d[9] && d[9].sq;
     var bAlt = (d[9] && d[9].altBefore) || (d[2] + ' before retouching');
     var aAlt = (d[9] && d[9].altAfter) || (d[2] + ' after retouching');
     var mediaHtml = d[9]
-      ? '<div class="ph ba' + (isWide ? ' wide' : '') + '" style="--x:50%">' +
+      ? '<div class="ph ba' + (isWide ? ' wide' : '') + (isSq ? ' sq' : '') + '" style="--x:50%">' +
           '<div class="lay before">' +
             '<img src="' + B + d[9].before + '" alt="' + bAlt + '" loading="' + ld + '"' + fp + ' decoding="async" style="object-position:' + d[8] + '">' +
             '<span class="tag b">Before</span>' +
