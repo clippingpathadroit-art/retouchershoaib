@@ -330,7 +330,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   align-items:center;
   flex-wrap:wrap;
   gap:8px;
-  font-size:13.5px;
+  font-size:14.5px;
   color:#b5b5ad;
   margin:0 0 22px;
   position:relative;
@@ -350,7 +350,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   background:rgba(200,241,53,.1);
   border:1px solid rgba(200,241,53,.32);
   color:var(--accent);
-  font:600 12.5px/1.3 var(--body);
+  font:600 13.5px/1.35 var(--body);
   letter-spacing:.06em;
   text-transform:uppercase;
   margin-bottom:22px;
@@ -379,7 +379,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 .hero-trust{
   display:flex;
   flex-wrap:wrap;
-  gap:8px 18px;
+  gap:8px 14px;
   font-size:14px;
   color:var(--muted);
   padding-top:18px;
@@ -480,10 +480,10 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 }
 .cap-note{
   margin-top:11px;
-  font-size:13.5px;
-  line-height:1.5;
+  font-size:15px;
+  line-height:1.55;
   color:#c2c2ba;
-  min-height:42px;
+  min-height:46px;
   display:flex;
   align-items:flex-start;
   justify-content:space-between;
@@ -514,19 +514,35 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 }
 .bar .wrap{
   display:flex;
+  align-items:center;
   gap:8px;
   padding-block:12px;
   overflow-x:auto;
+  scroll-padding-inline:clamp(20px,4vw,48px);
   scrollbar-width:none;
 }
 .bar .wrap::-webkit-scrollbar{display:none}
+.bar .wrap.can-scroll-r{
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 36px),transparent);
+  mask-image:linear-gradient(90deg,#000 calc(100% - 36px),transparent);
+}
+.bar .wrap.can-scroll-l{
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 32px);
+  mask-image:linear-gradient(90deg,transparent,#000 32px);
+}
+.bar .wrap.can-scroll-l.can-scroll-r{
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 32px,#000 calc(100% - 36px),transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 32px,#000 calc(100% - 36px),transparent);
+}
 .bar a{
   flex:none;
-  padding:7px 14px;
+  white-space:nowrap;
+  padding:7px 13px;
   border-radius:99px;
   border:1px solid var(--line);
   color:var(--muted);
-  font-size:13.5px;
+  font-size:14.5px;
+  line-height:1.35;
   transition:.2s;
 }
 .bar a:hover{color:var(--text);border-color:var(--text)}
@@ -552,45 +568,19 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 }
 .honesty-box strong{
   display:block;
-  font:800 13.5px/1.2 var(--display);
+  font:800 15.5px/1.25 var(--display);
   text-transform:uppercase;
-  letter-spacing:.09em;
+  letter-spacing:.06em;
   color:var(--accent);
-  margin-bottom:7px;
+  margin-bottom:8px;
 }
 .honesty-box p{
   margin:0;
   color:#eef0e8;
-  font-size:15.5px;
-  line-height:1.58;
+  font-size:16.5px;
+  line-height:1.62;
   max-width:86ch;
 }
-.logo-row{
-  display:grid;
-  grid-template-columns:repeat(5,minmax(0,1fr));
-  gap:14px;
-  margin-top:24px;
-}
-.logo-card{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:16px;
-  height:88px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:14px 18px;
-}
-.logo-card img{
-  max-height:42px;
-  max-width:128px;
-  width:auto;
-  height:auto;
-  object-fit:contain;
-}
-.logo-card img.aristocracy,.logo-card img.propercloth{filter:invert(1) brightness(1.05)}
-.logo-card img.pilotfashion,.logo-card img.motionfashion{filter:brightness(1.1) contrast(1.05)}
-.logo-card img.meshki{border-radius:8px}
 
 /* SECTION TYPOGRAPHY & SPLIT DEPARTMENTS */
 .sec-head{
@@ -614,35 +604,33 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   display:grid;
   grid-template-columns:minmax(0,1fr) minmax(0,1fr);
   gap:clamp(28px,4.8vw,60px);
-  align-items:start;
+  align-items:center;
 }
-.dep.center-v .wrap{align-items:center}
-#metal-color .wrap,#watches .wrap{align-items:start}
-#metal-color .media-col{padding-top:34px}
 .dep.flip .media-col{order:2}
+.square-stage.wide-stage{max-width:540px}
 .num{
   display:inline-flex;
   align-items:center;
   flex-wrap:wrap;
   gap:10px;
-  font:800 13px/1 var(--display);
-  letter-spacing:.12em;
+  font:800 14px/1 var(--display);
+  letter-spacing:.1em;
   text-transform:uppercase;
   color:var(--accent);
   margin:0 0 12px;
 }
 .num span{
-  padding:5px 11px;
+  padding:5px 12px;
   border-radius:99px;
   border:1px solid color-mix(in srgb,var(--accent) 42%,transparent);
   font-weight:600;
-  font-size:12px;
-  letter-spacing:.06em;
+  font-size:13px;
+  letter-spacing:.05em;
   color:var(--text);
 }
 .tg{
   color:#c6c9bf;
-  font-size:15.5px;
+  font-size:16px;
   margin:0 0 14px;
 }
 .gm-compare{
@@ -664,30 +652,30 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 }
 .problem-box h3{
   margin:0 0 10px;
-  font:700 13.5px/1.25 var(--display);
+  font:700 14px/1.25 var(--display);
   text-transform:uppercase;
-  letter-spacing:.08em;
+  letter-spacing:.05em;
   color:var(--accent);
 }
 .label-note{
   margin:18px 0 22px;
-  padding:14px 17px;
+  padding:15px 18px;
   border-left:3px solid var(--accent);
   background:rgba(200,241,53,.05);
   border-radius:0 12px 12px 0;
 }
 .label-note strong{
   display:block;
-  font:700 13px/1.25 var(--display);
+  font:700 14px/1.25 var(--display);
   text-transform:uppercase;
-  letter-spacing:.08em;
+  letter-spacing:.05em;
   color:var(--accent);
   margin-bottom:5px;
 }
 .label-note p{
   margin:0;
-  font-size:14.5px;
-  line-height:1.54;
+  font-size:15.2px;
+  line-height:1.56;
   color:#e7e9e1;
 }
 .problem-box ul,.caps{
@@ -695,9 +683,9 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   margin:0;
   padding:0;
   display:grid;
-  gap:8px 18px;
-  font-size:14.5px;
-  line-height:1.5;
+  gap:8px 16px;
+  font-size:15px;
+  line-height:1.52;
 }
 .caps{
   grid-template-columns:1fr 1fr;
@@ -733,7 +721,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   gap:6px;
   color:var(--accent);
   font-weight:600;
-  font-size:15px;
+  font-size:16px;
   padding:6px 0;
   border-bottom:1px solid transparent;
   transition:border-color .2s;
@@ -745,11 +733,11 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   display:inline-flex;
   align-items:center;
   gap:6px;
-  padding:5px 11px;
+  padding:5px 12px;
   border-radius:99px;
   background:rgba(10,10,11,.88);
   border:1px solid rgba(200,241,53,.38);
-  font-size:12px;
+  font-size:13px;
   font-weight:600;
   color:var(--accent);
 }
@@ -763,12 +751,12 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   display:inline-flex;
   align-items:center;
   gap:8px;
-  padding:8px 13px;
+  padding:8px 14px;
   border-radius:99px;
   border:1px solid var(--line);
   background:var(--surface);
   color:var(--text);
-  font:500 13px var(--body);
+  font:500 14.5px var(--body);
   cursor:pointer;
   transition:border-color .2s,background .2s,color .2s;
 }
@@ -793,27 +781,6 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   left:14px;
   z-index:2;
 }
-.inline-quote{
-  margin:18px 0 0;
-  padding:16px 18px;
-  border-radius:14px;
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-left:3px solid var(--accent);
-}
-.inline-quote blockquote{
-  margin:0 0 8px;
-  font-size:14.5px;
-  line-height:1.55;
-  color:#e5e5de;
-}
-.inline-quote cite{
-  display:block;
-  font-style:normal;
-  font-size:12.5px;
-  color:var(--muted);
-}
-.inline-quote cite strong{color:var(--text)}
 .mini-ref{
   margin-top:14px;
   display:grid;
@@ -834,14 +801,14 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 }
 .mini-ref strong{
   display:block;
-  font:700 13.5px/1.25 var(--display);
+  font:700 15px/1.3 var(--display);
   color:var(--accent);
   margin-bottom:4px;
 }
 .mini-ref span{
   display:block;
-  font-size:13px;
-  line-height:1.45;
+  font-size:14.5px;
+  line-height:1.52;
   color:#d7d7d0;
 }
 
@@ -865,7 +832,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   border-bottom:1px solid var(--line);
 }
 .piece-title-pill{
-  font:700 13.5px/1.2 var(--display);
+  font:700 15px/1.25 var(--display);
   color:var(--text);
   letter-spacing:.01em;
 }
@@ -892,7 +859,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   background:var(--surface);
   border:1px solid var(--line);
   border-radius:15px;
-  padding:15px 16px;
+  padding:16px 17px;
   cursor:pointer;
   color:inherit;
   font:inherit;
@@ -912,13 +879,13 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 }
 .piece-card h3{
   margin:0;
-  font:700 16px/1.25 var(--display);
+  font:700 16.2px/1.25 var(--display);
   color:var(--text);
 }
 .piece-card[aria-pressed="true"] h3{color:var(--accent)}
 .piece-card p{
   margin:0;
-  font-size:13.8px;
+  font-size:14.5px;
   line-height:1.5;
   color:#e0e2da;
 }
@@ -958,19 +925,19 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   padding:8px 0;
 }
 .shoot-meta{
-  padding:13px 16px;
+  padding:14px 16px;
   border-top:1px solid var(--line);
 }
 .shoot-meta strong{
   display:block;
-  font:700 14.5px/1.3 var(--display);
+  font:700 16px/1.3 var(--display);
   color:var(--accent);
-  margin-bottom:3px;
+  margin-bottom:4px;
 }
 .shoot-meta span{
   display:block;
-  font-size:13.5px;
-  line-height:1.45;
+  font-size:15px;
+  line-height:1.52;
   color:#eaebe4;
 }
 .chk-list{
@@ -988,12 +955,12 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   display:flex;
   align-items:flex-start;
   gap:12px;
-  padding:13px 15px;
+  padding:14px 16px;
   border-radius:12px;
   background:var(--surface);
   border:1px solid var(--line);
   color:#eaebe4;
-  font:400 14.5px/1.5 var(--body);
+  font:400 15.8px/1.56 var(--body);
   cursor:pointer;
   transition:border-color .2s,background .2s;
 }
@@ -1032,7 +999,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   justify-content:space-between;
   flex-wrap:wrap;
   gap:14px 20px;
-  font-size:14px;
+  font-size:15.5px;
 }
 .naming-codes{
   display:flex;
@@ -1045,7 +1012,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   background:rgba(200,241,53,.1);
   border:1px solid rgba(200,241,53,.3);
   color:var(--accent);
-  font:600 12.5px monospace;
+  font:600 13.5px monospace;
 }
 .naming-actions{
   display:flex;
@@ -1066,7 +1033,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   border-radius:99px;
   background:var(--surface);
   border:1px solid var(--line);
-  font:500 14px var(--body);
+  font:500 15px var(--body);
   color:#e2e2db;
 }
 .spec-grid{
@@ -1082,7 +1049,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 }
 .spec-card h3{
   margin:0 0 14px;
-  font:700 20px var(--display);
+  font:700 21px var(--display);
   color:var(--text);
 }
 .spec-card dl{
@@ -1091,15 +1058,15 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   gap:10px;
 }
 .spec-card dt{
-  font-size:12px;
+  font-size:13px;
   text-transform:uppercase;
-  letter-spacing:.08em;
+  letter-spacing:.07em;
   color:var(--accent);
   font-weight:700;
 }
 .spec-card dd{
   margin:0 0 6px;
-  font-size:15px;
+  font-size:16px;
   color:#d7d7d0;
 }
 .order-steps{
@@ -1116,19 +1083,19 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 }
 .o-step b{
   display:inline-block;
-  font:800 12px/1 var(--display);
-  letter-spacing:.1em;
+  font:800 13px/1 var(--display);
+  letter-spacing:.09em;
   text-transform:uppercase;
   color:var(--accent);
   margin-bottom:8px;
 }
 .o-step h3{
   margin:0 0 8px;
-  font:700 18px/1.25 var(--display);
+  font:700 19.5px/1.25 var(--display);
 }
 .o-step p{
   margin:0;
-  font-size:14.5px;
+  font-size:15.8px;
   color:#d7d7d0;
 }
 
@@ -1154,9 +1121,9 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   align-self:flex-start;
   padding:5px 12px;
   border-radius:99px;
-  font-size:12px;
+  font-size:13px;
   font-weight:700;
-  letter-spacing:.07em;
+  letter-spacing:.06em;
   text-transform:uppercase;
   background:rgba(255,255,255,.07);
   color:#c2c2ba;
@@ -1168,31 +1135,33 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 }
 .price-card h3{
   margin:0 0 8px;
-  font:700 21px/1.2 var(--display);
+  font:700 21px/1.22 var(--display);
+  min-height:2.45em;
 }
 .p-val{
-  font:800 clamp(28px,2.8vw,36px)/1.08 var(--display);
+  font:800 clamp(25px,2.2vw,31px)/1.12 var(--display);
   color:var(--text);
-  margin:10px 0 4px;
+  margin:8px 0 6px;
 }
 .p-val span{
-  font:500 14px var(--body);
+  font:500 14.5px var(--body);
   color:var(--muted);
   white-space:nowrap;
   display:inline-block;
 }
 .p-sub{
-  font-size:14.5px;
+  font-size:15.5px;
   color:var(--muted);
   margin:0 0 18px;
+  min-height:3.1em;
 }
 .price-card ul{
   list-style:none;
   margin:0 0 24px;
   padding:0;
   display:grid;
-  gap:9px;
-  font-size:14.5px;
+  gap:10px;
+  font-size:15.8px;
   color:#e2e2db;
   flex:1;
 }
@@ -1217,7 +1186,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   align-items:center;
   justify-content:space-between;
   gap:14px;
-  font-size:15px;
+  font-size:16px;
   color:#d7d7d0;
 }
 
@@ -1236,10 +1205,10 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   justify-content:space-between;
   gap:18px;
 }
-.rev-stars{color:var(--accent);font-size:14px;letter-spacing:2px}
-.rev-quote{margin:0;color:#e5e5de;font-size:15.5px;line-height:1.58}
-.rev-who strong{display:block;font:700 15px var(--display)}
-.rev-who span{display:block;font-size:13px;color:var(--muted)}
+.rev-stars{color:var(--accent);font-size:15px;letter-spacing:2px}
+.rev-quote{margin:0;color:#e5e5de;font-size:16.5px;line-height:1.62}
+.rev-who strong{display:block;font:700 16px var(--display)}
+.rev-who span{display:block;font-size:14.5px;color:var(--muted)}
 
 .faq-list{
   display:grid;
@@ -1256,7 +1225,7 @@ details[open]{border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
 summary{
   list-style:none;
   cursor:pointer;
-  font:700 17.5px/1.35 var(--display);
+  font:700 18.5px/1.35 var(--display);
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -1274,7 +1243,7 @@ details[open] summary::after{content:"\2212"}
 details p{
   margin:12px 0 0;
   color:#d7d7d0;
-  font-size:15.5px;
+  font-size:16.5px;
 }
 
 .dept-grid{
@@ -1299,18 +1268,18 @@ details p{
 }
 .dept-card strong{
   display:block;
-  font:700 18px/1.25 var(--display);
+  font:700 19px/1.25 var(--display);
   margin-bottom:6px;
 }
 .dept-card p{
   margin:0;
-  font-size:14px;
+  font-size:15.5px;
   color:var(--muted);
-  line-height:1.5;
+  line-height:1.55;
 }
 .dept-card span{
   color:var(--accent);
-  font:600 14px var(--body);
+  font:600 15px var(--body);
 }
 
 .cta-band{
@@ -1326,7 +1295,7 @@ details p{
   max-width:560px;
   margin:0 auto 28px;
   color:var(--muted);
-  font-size:17.5px;
+  font-size:18px;
 }
 .cta-actions{
   display:flex;
@@ -1339,7 +1308,7 @@ footer{
   border-top:1px solid var(--line);
   padding:64px 0 32px;
   color:var(--muted);
-  font-size:15px;
+  font-size:16px;
 }
 footer .g{
   display:grid;
@@ -1365,10 +1334,9 @@ footer a:hover{color:var(--accent)}
 }
 @media(max-width:980px){
   .dep .wrap{grid-template-columns:1fr}
-  #metal-color .media-col{padding-top:0}
   .dep.flip .media-col{order:0}
-  .logo-row{grid-template-columns:repeat(3,minmax(0,1fr))}
   .spec-grid,.price-grid,.rev-grid,.order-steps{grid-template-columns:1fr}
+  .price-card h3,.p-sub{min-height:0}
   .dept-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:860px){
@@ -1380,7 +1348,7 @@ footer a:hover{color:var(--accent)}
   .gm-compare,.chk-list{grid-template-columns:1fr}
 }
 @media(max-width:600px){
-  .logo-row,.piece-grid,.dept-grid{grid-template-columns:1fr}
+  .piece-grid,.dept-grid{grid-template-columns:1fr}
   .shoot-trio{grid-template-columns:1fr;gap:10px}
   .shoot-shot{display:grid;grid-template-columns:108px 1fr;align-items:center}
   .shoot-shot img{height:132px;padding:4px}
@@ -1478,13 +1446,13 @@ footer a:hover{color:var(--accent)}
 <div class="bar">
   <div class="wrap" id="bar">
     <a href="#trust">Honesty Rule</a>
-    <a href="#jewelry-retouch">Diamonds &amp; Rings</a>
-    <a href="#metal-color">Metal Color &amp; Variants</a>
-    <a href="#gemstones">Gemstones &amp; Pearls</a>
+    <a href="#jewelry-retouch">Jewelry</a>
+    <a href="#metal-color">Metal Color</a>
+    <a href="#gemstones">Gemstones</a>
     <a href="#jewelry-types">By Piece</a>
-    <a href="#watches">Watches &amp; Dials</a>
-    <a href="#shooting-guide">Shooting Guide</a>
-    <a href="#specs">Specs &amp; Bulk</a>
+    <a href="#watches">Watches</a>
+    <a href="#shooting-guide">Shoot Guide</a>
+    <a href="#specs">Specs</a>
     <a href="#pricing">Pricing</a>
     <a href="#faq">FAQ</a>
   </div>
@@ -1503,14 +1471,6 @@ footer a:hover{color:var(--accent)}
       <div class="honesty-box" role="note" aria-label="Our Honesty Rule">
         <strong>Our Honesty Rule &mdash; Zero False Claims</strong>
         <p>Retouching should show a piece at its absolute best, never misrepresent what the customer receives. We never falsify a diamond&rsquo;s clarity grade, push a gemstone into an artificial color grade, shift a 14K alloy to impersonate another metal, or paint out genuine scratches and wear on pre-owned watch listings. When a request risks misleading buyers, we flag it upfront and recommend an honest studio fix.</p>
-      </div>
-
-      <div class="logo-row" aria-label="Selected commercial brands and production clients">
-        <div class="logo-card" title="Aristocracy London"><img class="aristocracy" src="/assets/client_logos/aristocracy.png" alt="Aristocracy London logo" width="273" height="87" loading="lazy" decoding="async"></div>
-        <div class="logo-card" title="PilotFashion"><img class="pilotfashion" src="/assets/client_logos/pilotfashion.png" alt="PilotFashion logo" width="681" height="358" loading="lazy" decoding="async"></div>
-        <div class="logo-card" title="Motion Fashion GMBH"><img class="motionfashion" src="/assets/client_logos/motionfashion.png" alt="Motion Fashion GMBH logo" width="64" height="72" loading="lazy" decoding="async"></div>
-        <div class="logo-card" title="Proper Cloth"><img class="propercloth" src="/assets/client_logos/propercloth.png" alt="Proper Cloth logo" width="163" height="29" loading="lazy" decoding="async"></div>
-        <div class="logo-card" title="Meshki"><img class="meshki" src="/assets/client_logos/meshki.avif" alt="Meshki logo" width="400" height="400" loading="lazy" decoding="async"></div>
       </div>
     </div>
   </section>
@@ -1543,7 +1503,7 @@ footer a:hover{color:var(--accent)}
 
         <div class="gm-compare">
           <div class="problem-box">
-            <h3>What goes wrong on set</h3>
+            <h3>On-set issues</h3>
             <ul>
               <li>Macro lint, wax glue, fingerprints &amp; compound scratches</li>
               <li>White metals turning muddy grey or blending into white sweep</li>
@@ -1553,7 +1513,7 @@ footer a:hover{color:var(--accent)}
           </div>
 
           <div class="problem-box">
-            <h3>What we retouch by hand</h3>
+            <h3>Manual retouching</h3>
             <ul>
               <li>Micro-dust &amp; pit cleanup preserving crisp brushed or mirror polish</li>
               <li>Diamond ring prong cleanup &amp; symmetrical claw highlight shaping</li>
@@ -1563,7 +1523,7 @@ footer a:hover{color:var(--accent)}
           </div>
         </div>
 
-        <p style="margin:0 0 18px;font-size:15px;color:#d7d7d0">The finished ring reads just like inspecting it in a jeweler&rsquo;s tray under balanced daylight&mdash;never plastic, airbrushed, or cluttered with artificial star flares.</p>
+        <p style="margin:0 0 18px;font-size:16px;color:#d7d7d0">The finished ring reads just like inspecting it in a jeweler&rsquo;s tray under balanced daylight&mdash;never plastic, airbrushed, or cluttered with artificial star flares.</p>
 
         <div class="cat-links">
           <a class="btn p" href="/contact?service=jewelry">Test 1 Engagement Ring Free</a>
@@ -1636,11 +1596,6 @@ footer a:hover{color:var(--accent)}
           <strong>Jewelry metal color change: one shoot, multiple alloy SKUs</strong>
           <p>Do you manufacture the exact same setting in White, Yellow and Rose Gold? Shoot one master angle, send your physical metal swatches, and we mask every prong and shank precisely into calibrated metal variants. See how our multi-zone pipeline handles <a href="/ecommerce-product-retouching#color-variants" style="color:var(--accent);text-decoration:underline;text-underline-offset:3px">SKU variant recoloring &rarr;</a></p>
         </div>
-
-        <div class="inline-quote">
-          <blockquote>&ldquo;Jewelry is so difficult to retouch without making metals look flat or gemstones look like CGI plastic. Shoaib has this rare touch where every diamond facet sparkles, but the metal still feels real and tactile.&rdquo;</blockquote>
-          <cite><strong>Jennifer Castro</strong> &mdash; Fine Jewelry Designer &amp; Creative Lead (Verified Client)</cite>
-        </div>
       </div>
     </div>
   </section>
@@ -1648,7 +1603,7 @@ footer a:hover{color:var(--accent)}
   <!-- 03 DIAMONDS, COLORED GEMSTONES & TRANSPARENT CUTOUTS -->
   <section class="dep center-v" id="gemstones">
     <div class="wrap">
-      <div class="media-col square-stage">
+      <div class="media-col square-stage wide-stage">
         <div class="ph ba" id="gemBa" style="--x:50%;aspect-ratio:4/3" data-ba>
           <div class="lay before">
             <img src="/assets/agency_showcase/jewelry-emerald-diamond-ring-before.webp" alt="Three-stone Colombian emerald and trapezoid diamond platinum ring raw studio photo before retouching showing washed-out teal cast, milky table glare, acrylic reflection and dark camera silhouette on the left shank" width="1200" height="900" loading="lazy" decoding="async">
@@ -1673,20 +1628,20 @@ footer a:hover{color:var(--accent)}
 
         <div class="gm-compare">
           <div class="problem-box">
-            <h3>Diamonds, emeralds &amp; rubies</h3>
+            <h3>Diamonds &amp; gems</h3>
             <ul>
-              <li><strong>Diamonds:</strong> local table &amp; crown contrast preserving crisp black/white scintillation&mdash;never fake CGI bursts</li>
-              <li><strong>Colored stones:</strong> emeralds, sapphires &amp; rubies matched to your daylight swatch retaining shadow depth</li>
-              <li><strong>Pearls &amp; opals:</strong> natural nacre orient &amp; play-of-color preserved without plastic smoothing</li>
+              <li><strong>Diamonds:</strong> local table &amp; crown contrast with real scintillation&mdash;never fake CGI bursts</li>
+              <li><strong>Colored stones:</strong> emeralds, sapphires &amp; rubies matched to your daylight swatch depth</li>
+              <li><strong>Pearls &amp; opals:</strong> natural nacre orient preserved cleanly without plastic blur</li>
             </ul>
           </div>
 
           <div class="problem-box">
-            <h3>Transparent stone masking</h3>
+            <h3>Stone masking</h3>
             <ul>
-              <li>Automated cutouts mistakenly punch holes through clear pavilions or fill girdles flat white</li>
-              <li>Our artists draw separate Pen Tool paths around prongs, gallery collets &amp; semi-translucent facets</li>
-              <li>A transparent diamond stays crisp over both pure white and rich colored campaign backdrops</li>
+              <li>Automated tools punch holes through clear facets or leave pavilions flat white</li>
+              <li>Separate hand-drawn paths around prongs, collets &amp; semi-translucent facets</li>
+              <li>Transparent diamonds stay crisp over both pure #FFFFFF and dark backdrops</li>
             </ul>
           </div>
         </div>
@@ -1731,8 +1686,8 @@ footer a:hover{color:var(--accent)}
             data-pill="Engagement &amp; Bridal Rings"
             data-alt="18K yellow gold oval solitaire diamond engagement ring paired with a matching micro-pave wedding band focus-stacked on pure white background"
             data-cap="Prongs refined razor-sharp, inner &amp; outer shanks polished smoothly, and both bridal rings focus-stacked on #FFFFFF.">
-            <h3>Engagement &amp; wedding rings</h3>
-            <p>Prong cleanup, inner shank black-band polishing, intact hallmarks &amp; focus-stacked front-to-back sharpness.</p>
+            <h3>Engagement rings</h3>
+            <p>Prong cleanup, inner shank polish, wedding bands, intact hallmarks &amp; focus stacking.</p>
           </button>
 
           <button type="button" class="piece-card" aria-pressed="false"
@@ -1744,7 +1699,7 @@ footer a:hover{color:var(--accent)}
             data-alt="Matched symmetrical pair of 18K yellow gold and pave diamond pearl drop earrings on pure white background"
             data-cap="Left and right pieces balanced for identical tilt, drop length, brightness &amp; post cleanup on #FFFFFF.">
             <h3>Earrings</h3>
-            <p>Symmetric left-right height, identical pav&eacute; sparkle across pairs, crisp backs &amp; balanced pearl drops.</p>
+            <p>Symmetric left-right height, identical pav&eacute; sparkle across pairs, crisp backs &amp; pearl drops.</p>
           </button>
 
           <button type="button" class="piece-card" aria-pressed="false"
@@ -1755,8 +1710,8 @@ footer a:hover{color:var(--accent)}
             data-pill="Necklaces, Pendants &amp; Chains"
             data-alt="18K gold fine cable chain necklace with emerald diamond halo pendant cleanly isolated on white background"
             data-cap="Every fine cable link traced manually, kinked segments smoothed, and centered pendant balanced with deep emerald fire.">
-            <h3>Necklaces, pendants &amp; chains</h3>
-            <p>Smooth tangle-free curves, upright centered pendants, clean clasps &amp; crisp detail on micro chain links.</p>
+            <h3>Necklaces &amp; chains</h3>
+            <p>Smooth tangle-free curves, upright centered pendants, clean clasps &amp; crisp micro links.</p>
           </button>
 
           <button type="button" class="piece-card" aria-pressed="false"
@@ -1767,8 +1722,8 @@ footer a:hover{color:var(--accent)}
             data-pill="Bracelets, Bangles &amp; Cuffs"
             data-alt="White gold, yellow gold and rose gold pavé diamond bangles cleanly retouched side by side on pure white background"
             data-cap="Three-tone bangle geometry straightened evenly with hinged clasps cleaned and reflections smooth across curved edges.">
-            <h3>Bracelets, bangles &amp; cuffs</h3>
-            <p>True circular curve balance, seamless hinged clasps, even engraving &amp; controlled reflections along wide metal bands.</p>
+            <h3>Bracelets &amp; cuffs</h3>
+            <p>True curve balance on bangles, seamless hinged clasps, clean engraving &amp; metal polish.</p>
           </button>
 
           <button type="button" class="piece-card" aria-pressed="false"
@@ -1779,8 +1734,8 @@ footer a:hover{color:var(--accent)}
             data-pill="Pearls &amp; Loose Gemstones"
             data-alt="Akoya cultured pearl strand beside faceted loose Ceylon sapphire and pigeon-blood ruby on pure white background"
             data-cap="Graduated pearl orient balanced without wax blur; sapphire &amp; ruby cut facets sharpened to true daylight saturation.">
-            <h3>Pearls &amp; loose stones</h3>
-            <p>Uniform strand luster with drill-hole threads spotless, plus true faceted depth for loose sapphire, emerald &amp; ruby parcels.</p>
+            <h3>Pearls &amp; stones</h3>
+            <p>Uniform strand luster with spotless drill holes, plus faceted depth for loose gemstone parcels.</p>
           </button>
 
           <button type="button" class="piece-card" aria-pressed="false"
@@ -1792,11 +1747,11 @@ footer a:hover{color:var(--accent)}
             data-alt="Editorial beauty portrait wearing sculptural 18K brushed gold spiral statement earring with untouched natural skin texture"
             data-cap="16-bit manual dodge &amp; burn keeps natural golden skin texture intact while refining reflections on the brushed gold earring.">
             <h3>On-model jewelry</h3>
-            <p>Natural skin cleanup keeping every pore, clean stray hairs &amp; lifted jewelry highlights that never look pasted on.</p>
+            <p>Natural skin cleanup keeping real pores, clean stray hairs &amp; lifted jewelry highlights.</p>
           </button>
         </div>
 
-        <p style="margin:18px 0 20px;font-size:15px;color:var(--muted)">Also retouching luxury brooches (like our <a href="/work" style="color:var(--accent);text-decoration:underline;text-underline-offset:4px">Gold &amp; Silver Butterfly Pair</a>), cufflinks or bespoke high-jewelry collars? Send 1 sample frame for a free proof.</p>
+        <p style="margin:18px 0 20px;font-size:16px;color:var(--muted)">Also retouching luxury brooches (like our <a href="/work" style="color:var(--accent);text-decoration:underline;text-underline-offset:4px">Gold &amp; Silver Butterfly Pair</a>), cufflinks or bespoke high-jewelry collars? Send 1 sample frame for a free proof.</p>
 
         <div class="cat-links">
           <a class="btn p" href="/contact?service=jewelry">Test Your Jewelry Category Free</a>
@@ -1926,18 +1881,18 @@ footer a:hover{color:var(--accent)}
       <div class="naming-bar">
         <div>
           <div style="display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px;margin-bottom:4px">
-            <strong style="font-size:14px;color:var(--text)">Batch Naming Spec:</strong>
+            <strong style="font-size:15.5px;color:var(--text)">Batch Naming Spec:</strong>
             <div class="naming-codes">
               <code>style-code_front</code>
               <code>style-code_dial</code>
               <code>style-code_detail</code>
             </div>
           </div>
-          <span style="font-size:13.5px;color:var(--muted)">Uncertain whether your focus stack aligns or crystal angle is clean enough? Send 1 set and we&rsquo;ll review it with your free proof.</span>
+          <span style="font-size:15px;color:var(--muted)">Uncertain whether your focus stack aligns or crystal angle is clean enough? Send 1 set and we&rsquo;ll review it with your free proof.</span>
         </div>
         <div class="naming-actions">
-          <button type="button" class="btn" id="printChecklistBtn" style="padding:10px 18px;font-size:13.5px">Save / Print Checklist</button>
-          <a class="btn p" href="/contact?service=jewelry" style="padding:10px 18px;font-size:13.5px">Test a Shoot Setup Free</a>
+          <button type="button" class="btn" id="printChecklistBtn" style="padding:10px 18px;font-size:15px">Save / Print Checklist</button>
+          <a class="btn p" href="/contact?service=jewelry" style="padding:10px 18px;font-size:15px">Test a Shoot Setup Free</a>
         </div>
       </div>
     </div>
@@ -1998,7 +1953,7 @@ footer a:hover{color:var(--accent)}
       </div>
 
       <h3 style="font:800 clamp(22px,2.4vw,28px)/1.15 var(--display);margin:44px 0 6px;letter-spacing:-.02em">How an order works</h3>
-      <p style="margin:0;color:var(--muted);font-size:15.5px">Start with 1 free sample frame or upload an entire collection in five minutes.</p>
+      <p style="margin:0;color:var(--muted);font-size:16.5px">Start with 1 free sample frame or upload an entire collection in five minutes.</p>
       <div class="order-steps">
         <div class="o-step">
           <b>Step 01</b>
@@ -2045,7 +2000,7 @@ footer a:hover{color:var(--accent)}
         <article class="price-card feat">
           <span class="p-tag">Most Requested</span>
           <h3>Fine Jewelry, Metal Polish &amp; Focus Stack</h3>
-          <div class="p-val">Custom Quote <span>/ per piece &amp; stones</span></div>
+          <div class="p-val">Custom Quote <span>/ piece</span></div>
           <p class="p-sub">Engagement rings, pav&eacute; settings, earrings, necklaces &amp; loose gems</p>
           <ul>
             <li>Prong cleanup, tripod reflection removal &amp; metal polish</li>
@@ -2058,8 +2013,8 @@ footer a:hover{color:var(--accent)}
 
         <article class="price-card">
           <span class="p-tag">Horology &amp; Dealer Volume</span>
-          <h3>Luxury Watches &amp; Catalog Volume (50&ndash;500+)</h3>
-          <div class="p-val">Volume Quote <span>/ batch &amp; retainer</span></div>
+          <h3>Luxury Watches &amp; Catalog Volume</h3>
+          <div class="p-val">Volume Rate <span>/ batch</span></div>
           <p class="p-sub">Swiss manufacturers, watch dealers &amp; packshot studios</p>
           <ul>
             <li>Dial reflection, AR cast &amp; crystal distortion correction</li>
@@ -2423,22 +2378,44 @@ footer a:hover{color:var(--accent)}
       return document.getElementById(a.getAttribute('href').slice(1));
     }).filter(Boolean);
 
+    function syncBarMask(){
+      var maxScroll = bar.scrollWidth - bar.clientWidth;
+      bar.classList.toggle('can-scroll-l', maxScroll > 2 && bar.scrollLeft > 4);
+      bar.classList.toggle('can-scroll-r', maxScroll > 2 && bar.scrollLeft < maxScroll - 4);
+    }
+
     function syncActiveBar(){
       var y = innerHeight * 0.42;
       var cur = sections[0] ? sections[0].id : '';
       sections.forEach(function(s){
         if (s.getBoundingClientRect().top < y) cur = s.id;
       });
-      navLinks.forEach(function(a){
+      var hasOverflow = bar.scrollWidth > bar.clientWidth + 2;
+      if (!hasOverflow && bar.scrollLeft !== 0) {
+        bar.scrollLeft = 0;
+      }
+      navLinks.forEach(function(a, idx){
         var on = a.getAttribute('href') === '#' + cur;
         a.classList.toggle('on', on);
-        if (on && bar.scrollWidth > bar.clientWidth) {
-          var left = a.offsetLeft - bar.clientWidth / 2 + a.offsetWidth / 2;
-          bar.scrollTo({ left: left, behavior: rm ? 'auto' : 'smooth' });
+        if (on && hasOverflow) {
+          var pad = 24;
+          var viewLeft = bar.scrollLeft;
+          var viewRight = viewLeft + bar.clientWidth;
+          var aLeft = a.offsetLeft;
+          var aRight = aLeft + a.offsetWidth;
+          if (idx === 0) {
+            bar.scrollTo({ left: 0, behavior: rm ? 'auto' : 'smooth' });
+          } else if (aLeft < viewLeft + pad || aRight > viewRight - pad) {
+            var left = Math.max(0, aLeft - bar.clientWidth / 2 + a.offsetWidth / 2);
+            bar.scrollTo({ left: left, behavior: rm ? 'auto' : 'smooth' });
+          }
         }
       });
+      syncBarMask();
     }
+    bar.addEventListener('scroll', syncBarMask, { passive: true });
     addEventListener('scroll', syncActiveBar, { passive: true });
+    addEventListener('resize', syncActiveBar, { passive: true });
     syncActiveBar();
   }
 
