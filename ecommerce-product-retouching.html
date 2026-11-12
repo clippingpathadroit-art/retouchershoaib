@@ -321,8 +321,8 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   align-items:center;
   flex-wrap:wrap;
   gap:8px;
-  font-size:13px;
-  color:var(--muted);
+  font-size:13.5px;
+  color:#b5b5ad;
   margin:0 0 22px;
   position:relative;
 }
@@ -336,12 +336,12 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   align-items:center;
   flex-wrap:wrap;
   gap:8px;
-  padding:6px 14px;
+  padding:7px 15px;
   border-radius:99px;
   background:rgba(200,241,53,.1);
   border:1px solid rgba(200,241,53,.32);
   color:var(--accent);
-  font:600 12px/1.3 var(--body);
+  font:600 12.5px/1.3 var(--body);
   letter-spacing:.06em;
   text-transform:uppercase;
   margin-bottom:22px;
@@ -415,9 +415,9 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   position:absolute;
   bottom:14px;
   z-index:2;
-  padding:5px 12px;
+  padding:6px 12px;
   border-radius:99px;
-  font:600 11.5px/1 var(--body);
+  font:600 12px/1 var(--body);
   letter-spacing:.08em;
   text-transform:uppercase;
   background:rgba(10,10,11,.84);
@@ -470,9 +470,10 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   box-shadow:0 4px 18px rgba(0,0,0,.45);
 }
 .cap-note{
-  margin-top:10px;
-  font-size:13px;
-  color:var(--muted);
+  margin-top:11px;
+  font-size:13.5px;
+  line-height:1.5;
+  color:#c2c2ba;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -585,11 +586,11 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   margin:0 0 12px;
 }
 .num span{
-  padding:4px 10px;
+  padding:5px 11px;
   border-radius:99px;
   border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);
   font-weight:600;
-  font-size:11.5px;
+  font-size:12px;
   letter-spacing:.06em;
   color:var(--text);
 }
@@ -839,12 +840,12 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   position:absolute;
   top:14px;
   left:14px;
-  padding:5px 11px;
+  padding:6px 12px;
   border-radius:99px;
   background:rgba(10,10,11,.88);
   color:#c8f135;
   border:1px solid rgba(200,241,53,.42);
-  font:600 11px/1.1 var(--body);
+  font:600 12px/1.1 var(--body);
   letter-spacing:.06em;
   text-transform:uppercase;
 }
@@ -867,12 +868,12 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   position:static;
 }
 .g-shadow-note span{
-  padding:5px 10px;
+  padding:6px 11px;
   border-radius:99px;
   background:rgba(10,10,11,.88);
   color:#f1f1ec;
   border:1px solid rgba(255,255,255,.18);
-  font:600 11px/1.1 var(--body);
+  font:600 12px/1.1 var(--body);
 }
 
 /* RELATED SPECIALIST DEPARTMENTS GRID */
@@ -982,14 +983,14 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 .p-tag{
   display:inline-block;
   align-self:flex-start;
-  padding:4px 11px;
+  padding:5px 12px;
   border-radius:99px;
-  font-size:11.5px;
+  font-size:12px;
   font-weight:700;
   letter-spacing:.07em;
   text-transform:uppercase;
   background:rgba(255,255,255,.07);
-  color:var(--muted);
+  color:#c2c2ba;
   margin-bottom:14px;
 }
 .price-card.feat .p-tag{
@@ -1179,14 +1180,14 @@ footer a:hover{color:var(--accent)}
   .cos-grid,.dept-grid{grid-template-columns:1fr}
   .cos-card.tall{grid-row:auto;aspect-ratio:4/5}
   .angle-thumbs.four{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .ph.ba .tag{bottom:10px;padding:4px 9px;font-size:10px}
+  .ph.ba .tag{bottom:10px;padding:5px 11px;font-size:12px}
   .ph.ba .tag.b{left:10px}
   .ph.ba .tag.a{right:10px}
   .cut-guide.g-shadow{padding:10px;gap:5px}
-  .g-spec-pill{font-size:9.5px;padding:4px 9px}
+  .g-spec-pill{font-size:12px;padding:5px 10px}
   .g-shadow-note{gap:5px}
-  .g-shadow-note span{font-size:9.5px;padding:4px 8px}
-  .cut-frame .tag.a{font-size:10.5px!important;padding:5px 10px!important;bottom:10px!important;left:10px!important}
+  .g-shadow-note span{font-size:12px;padding:5px 10px}
+  .cut-frame .tag.a{font-size:12px!important;padding:6px 11px!important;bottom:10px!important;left:10px!important}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{
@@ -1509,8 +1510,8 @@ footer a:hover{color:var(--accent)}
           <div class="cut-guide g-shadow" aria-hidden="true">
             <span class="g-spec-pill">Hand-Drawn Bezier Path &middot; 0 AI Halo</span>
             <div class="g-shadow-note">
-              <span>Layer 1: Product Mask</span>
-              <span>Layer 2: Soft Contact Shadow</span>
+              <span>L1: Product Mask</span>
+              <span>L2: Soft Shadow</span>
             </div>
           </div>
           <span class="tag a" id="cutBadge" style="position:absolute;bottom:14px;left:14px;padding:6px 12px;border-radius:99px;font:600 12px/1 var(--body);background:rgba(10,10,11,.86);color:var(--accent);border:1px solid rgba(200,241,53,.4);z-index:2">Pure #FFFFFF Main &middot; RGB (255,255,255)</span>
