@@ -41,7 +41,9 @@
         "https://retouchershoaib.com/assets/agency_showcase/ecom-floral-handbag-mirror-after.webp",
         "https://retouchershoaib.com/assets/agency_showcase/ecommerce-bag-retouching-after.webp",
         "https://retouchershoaib.com/assets/agency_showcase/ecom_oxford_patent_leather_shoes.webp",
-        "https://retouchershoaib.com/assets/agency_showcase/ecommerce-clipping-path-packshot.webp"
+        "https://retouchershoaib.com/assets/agency_showcase/ecom-clipping-lab-analyzer-nc203.webp",
+        "https://retouchershoaib.com/assets/agency_showcase/ecom-clipping-led-lightbar-packshot.webp",
+        "https://retouchershoaib.com/assets/agency_showcase/ecom-clipping-lab-tower-xcyto5.webp"
       ],
       "description": "100% manual hand-retouched e-commerce product photo editing for eyewear, sunglasses, handbags, footwear, cosmetics, and pure #FFFFFF packshots. Hand-drawn Pen Tool clipping paths, pure white backgrounds, lens reflection control, SKU colorway matching, and 12 to 24 hour turnaround.",
       "provider": {
@@ -816,7 +818,9 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   width:100%;
   height:100%;
   display:block;
-  object-fit:cover;
+  object-fit:contain;
+  padding:3%;
+  background:#ffffff;
 }
 .cut-guide{
   position:absolute;
@@ -856,14 +860,23 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   letter-spacing:.06em;
   text-transform:uppercase;
 }
+.cut-guide.g-shadow{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:flex-start;
+  gap:6px;
+  padding:14px;
+}
 .g-shadow-note{
-  position:absolute;
-  right:14px;
-  top:14px;
+  position:static;
   display:flex;
   gap:6px;
   flex-wrap:wrap;
-  justify-content:flex-end;
+  justify-content:flex-start;
+}
+.cut-guide.g-shadow .g-spec-pill{
+  position:static;
 }
 .g-shadow-note span{
   padding:5px 10px;
@@ -1181,6 +1194,11 @@ footer a:hover{color:var(--accent)}
   .ph.ba .tag{bottom:10px;padding:4px 9px;font-size:10px}
   .ph.ba .tag.b{left:10px}
   .ph.ba .tag.a{right:10px}
+  .cut-guide.g-shadow{padding:10px;gap:5px}
+  .g-spec-pill{font-size:9.5px;padding:4px 9px}
+  .g-shadow-note{gap:5px}
+  .g-shadow-note span{font-size:9.5px;padding:4px 8px}
+  .cut-frame .tag.a{font-size:10.5px!important;padding:5px 10px!important;bottom:10px!important;left:10px!important}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{
@@ -1203,8 +1221,8 @@ footer a:hover{color:var(--accent)}
           <a href="/services" role="menuitem"><strong>All Services Overview</strong><span>Compare all 6 commercial departments</span></a>
           <div class="nav-dd-sep" role="separator"></div>
           <a href="/ecommerce-product-retouching" role="menuitem"><strong>E-Commerce Product Retouching <em class="nav-new">Live</em></strong><span>Eyewear, bags, shoes &amp; packshots &middot; From $0.50</span></a>
+          <a href="/ghost-mannequin-fashion-photo-retouching" role="menuitem"><strong>Fashion &amp; Ghost Mannequin <em class="nav-new">Live</em></strong><span>3D neck joins, labels &amp; on-model lookbooks</span></a>
           <a href="/services#jewelry" role="menuitem"><strong>Jewelry &amp; Watch Retouching</strong><span>Diamond clarity &amp; focus stacking</span></a>
-          <a href="/services#fashion" role="menuitem"><strong>Fashion &amp; Ghost Mannequin</strong><span>Apparel shaping &amp; swatch accuracy</span></a>
           <a href="/services#beauty" role="menuitem"><strong>Model &amp; Beauty Portraits</strong><span>Manual dodge &amp; burn skin texture</span></a>
           <a href="/services#still" role="menuitem"><strong>Still Life &amp; Cosmetics</strong><span>Glassware &amp; commercial bottles</span></a>
           <a href="/services#automotive" role="menuitem"><strong>Automotive Retouching</strong><span>Paintwork gloss &amp; background swap</span></a>
@@ -1495,7 +1513,7 @@ footer a:hover{color:var(--accent)}
     <div class="wrap">
       <div class="media-col">
         <div class="cut-frame" id="cutFrame" data-mode="pure">
-          <img src="/assets/agency_showcase/ecommerce-clipping-path-packshot.webp" alt="Tortoiseshell sunglasses packshot isolated cleanly on pure #FFFFFF white background using hand-drawn Pen Tool clipping path and natural contact shadow" width="1200" height="1200" loading="lazy" decoding="async">
+          <img id="cutMainImg" src="/assets/agency_showcase/ecom-clipping-lab-analyzer-nc203.webp" alt="Precision laboratory analyzer hardware packshot isolated cleanly on pure #FFFFFF white background using hand-drawn Pen Tool clipping path and natural contact shadow" width="1024" height="1024" loading="lazy" decoding="async">
           <div class="cut-guide g-amazon" aria-hidden="true">
             <div class="g-amazon-box"></div>
             <span class="g-spec-pill">85% Fill Safe Frame &middot; Centered Grid</span>
@@ -1513,6 +1531,20 @@ footer a:hover{color:var(--accent)}
           <button class="sw-btn" type="button" data-mode="pure" data-label="Pure #FFFFFF Main · RGB (255,255,255)" aria-pressed="true"><span class="sw-dot" style="background:#ffffff"></span>Pure #FFFFFF Main</button>
           <button class="sw-btn" type="button" data-mode="amazon" data-label="Amazon 85% Safe Zone · Equal Padding & Centering" aria-pressed="false"><span class="sw-dot" style="background:#c8f135"></span>Amazon 85% Safe Zone</button>
           <button class="sw-btn" type="button" data-mode="shadow" data-label="Saved PSD Pen Path · Isolated Shadow Layer" aria-pressed="false"><span class="sw-dot" style="background:#7a7a76"></span>Saved Path &amp; Shadow Spec</button>
+        </div>
+        <div class="angle-thumbs" id="cutThumbs" role="group" aria-label="Switch pure #FFFFFF clipping path sample">
+          <button type="button" class="ang-btn" aria-pressed="true" data-src="/assets/agency_showcase/ecom-clipping-lab-analyzer-nc203.webp" data-w="1024" data-h="1024" data-alt="Precision laboratory analyzer hardware packshot isolated cleanly on pure #FFFFFF white background using hand-drawn Pen Tool clipping path and natural contact shadow">
+            <img src="/assets/agency_showcase/ecom-clipping-lab-analyzer-nc203.webp" alt="" width="1024" height="1024" loading="lazy">
+            <span>Lab Analyzer</span>
+          </button>
+          <button type="button" class="ang-btn" aria-pressed="false" data-src="/assets/agency_showcase/ecom-clipping-led-lightbar-packshot.webp" data-w="1000" data-h="1000" data-alt="Commercial LED lightbar hardware with clear optical lens isolated on pure #FFFFFF white background with crisp clipping path and floor reflection">
+            <img src="/assets/agency_showcase/ecom-clipping-led-lightbar-packshot.webp" alt="" width="1000" height="1000" loading="lazy">
+            <span>LED Lightbar</span>
+          </button>
+          <button type="button" class="ang-btn" aria-pressed="false" data-src="/assets/agency_showcase/ecom-clipping-lab-tower-xcyto5.webp" data-w="1024" data-h="1024" data-alt="Matte charcoal benchtop laboratory instrument tower packshot isolated on pure #FFFFFF white background using manual Bezier clipping path and natural contact shadow">
+            <img src="/assets/agency_showcase/ecom-clipping-lab-tower-xcyto5.webp" alt="" width="1024" height="1024" loading="lazy">
+            <span>Lab Tower</span>
+          </button>
         </div>
       </div>
 
@@ -1797,12 +1829,12 @@ footer a:hover{color:var(--accent)}
       </div>
 
       <div class="dept-grid">
-        <a class="dept-card" href="/services#fashion">
+        <a class="dept-card" href="/ghost-mannequin-fashion-photo-retouching">
           <div>
             <strong>Fashion &amp; Ghost Mannequin</strong>
-            <p>Invisible 3D neck joins, garment symmetry, weave preservation &amp; lookbook shaping.</p>
+            <p>Ghost mannequin photo editing, invisible 3D neck joins, garment symmetry &amp; swatch accuracy.</p>
           </div>
-          <span>View Fashion Services &rarr;</span>
+          <span>Explore Ghost Mannequin Photo Editing &rarr;</span>
         </a>
         <a class="dept-card" href="/services#jewelry">
           <div>
@@ -1853,8 +1885,8 @@ footer a:hover{color:var(--accent)}
       <div>
         <h4>Disciplines</h4>
         <a href="/ecommerce-product-retouching" style="color:var(--accent);font-weight:600">E-Commerce Product</a>
+        <a href="/ghost-mannequin-fashion-photo-retouching">Fashion &amp; Ghost Mannequin</a>
         <a href="/services#jewelry">Jewelry &amp; Watches</a>
-        <a href="/services#fashion">Fashion &amp; Ghost Mannequin</a>
         <a href="/services#beauty">Beauty &amp; Portraits</a>
         <a href="/services#still">Still Life &amp; Cosmetics</a>
         <a href="/services#automotive">Automotive</a>
@@ -1958,10 +1990,29 @@ footer a:hover{color:var(--accent)}
     });
   }
 
-  // 4. Interactive Clipping Path & Safe-Margin Mode Inspector
+  // 4. Interactive Clipping Path Sample Switcher & Safe-Margin Mode Inspector
   var cFrame = document.getElementById('cutFrame');
+  var cImg = document.getElementById('cutMainImg');
   var cBadge = document.getElementById('cutBadge');
+  var cThumbs = document.getElementById('cutThumbs');
   var cutBtns = document.querySelectorAll('#clipping-path .sw-btn');
+  if (cThumbs && cImg) {
+    cThumbs.addEventListener('click', function(e){
+      var btn = e.target.closest('.ang-btn');
+      if (!btn) return;
+      var src = btn.getAttribute('data-src');
+      var alt = btn.getAttribute('data-alt');
+      var w = btn.getAttribute('data-w');
+      var h = btn.getAttribute('data-h');
+      if (src) {
+        cImg.src = src;
+        if (alt) cImg.alt = alt;
+        if (w) cImg.setAttribute('width', w);
+        if (h) cImg.setAttribute('height', h);
+      }
+      cThumbs.querySelectorAll('.ang-btn').forEach(function(b){ b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+    });
+  }
   cutBtns.forEach(function(btn){
     btn.addEventListener('click', function(){
       var mode = btn.getAttribute('data-mode');

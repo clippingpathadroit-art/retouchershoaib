@@ -66,8 +66,8 @@
             '<div class="mob-sub">' +
               '<a href="/services"><span>All Services Overview</span></a>' +
               '<a href="/ecommerce-product-retouching"><span>E-Commerce Product Retouching</span><em class="nav-new">Live</em></a>' +
+              '<a href="/ghost-mannequin-fashion-photo-retouching"><span>Fashion &amp; Ghost Mannequin</span><em class="nav-new">Live</em></a>' +
               '<a href="/services#jewelry"><span>Jewelry &amp; Watch Retouching</span></a>' +
-              '<a href="/services#fashion"><span>Fashion &amp; Ghost Mannequin</span></a>' +
               '<a href="/services#beauty"><span>Model &amp; Beauty Portraits</span></a>' +
               '<a href="/services#still"><span>Still Life &amp; Cosmetics</span></a>' +
               '<a href="/services#automotive"><span>Automotive Retouching</span></a>' +
