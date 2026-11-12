@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750" width="600" height="750" role="img" aria-label="Step 1 jewelry and watch photography diagram showing white diffusion tent, black negative fill cards, and locked tripod framing">
+  <defs>
+    <linearGradient id="jbg1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#17171b"/>
+      <stop offset="100%" stop-color="#0d0d10"/>
+    </linearGradient>
+    <radialGradient id="jglow1" cx="0.5" cy="0.45" r="0.58">
+      <stop offset="0%" stop-color="#c8f135" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#c8f135" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="600" height="750" fill="url(#jbg1)"/>
+  <rect width="600" height="750" fill="url(#jglow1)"/>
+
+  <!-- Technical Grid -->
+  <g stroke="#ffffff" stroke-opacity="0.06" stroke-width="1.5">
+    <line x1="0" y1="187" x2="600" y2="187"/>
+    <line x1="0" y1="375" x2="600" y2="375"/>
+    <line x1="0" y1="562" x2="600" y2="562"/>
+    <line x1="150" y1="0" x2="150" y2="750"/>
+    <line x1="300" y1="0" x2="300" y2="750"/>
+    <line x1="450" y1="0" x2="450" y2="750"/>
+  </g>
+
+  <!-- Large Legible Step Badge -->
+  <rect x="28" y="28" width="224" height="60" rx="30" fill="#c8f135" fill-opacity="0.14" stroke="#c8f135" stroke-width="2.5"/>
+  <text x="140" y="71" text-anchor="middle" fill="#c8f135" font-family="'Helvetica Neue',Arial,sans-serif" font-size="38" font-weight="800" letter-spacing="1">SHOT 01</text>
+
+  <!-- Overhead Diffused Light Cone -->
+  <rect x="170" y="120" width="260" height="24" rx="12" fill="#f1f1ec" fill-opacity="0.92"/>
+  <line x1="205" y1="154" x2="235" y2="235" stroke="#c8f135" stroke-opacity="0.55" stroke-width="3" stroke-dasharray="8 6"/>
+  <line x1="300" y1="154" x2="300" y2="235" stroke="#c8f135" stroke-opacity="0.7" stroke-width="3" stroke-dasharray="8 6"/>
+  <line x1="395" y1="154" x2="365" y2="235" stroke="#c8f135" stroke-opacity="0.55" stroke-width="3" stroke-dasharray="8 6"/>
+
+  <!-- Diffusion Tent Arch -->
+  <path d="M126 530 L126 260 C126 190 474 190 474 260 L474 530" fill="none" stroke="#9ea096" stroke-width="3" stroke-dasharray="10 7"/>
+
+  <!-- White Bounce Card Left -->
+  <polygon points="62,284 114,264 114,478 62,498" fill="#f1f1ec" fill-opacity="0.9" stroke="#ffffff" stroke-width="2"/>
+  <!-- Black Negative Fill Card Right -->
+  <polygon points="486,264 538,284 538,498 486,478" fill="#141418" stroke="#c8f135" stroke-width="2.5"/>
+  <line x1="498" y1="305" x2="526" y2="316" stroke="#c8f135" stroke-opacity="0.5" stroke-width="2.5"/>
+  <line x1="498" y1="335" x2="526" y2="346" stroke="#c8f135" stroke-opacity="0.5" stroke-width="2.5"/>
+
+  <!-- Clean Table Surface -->
+  <rect x="134" y="514" width="332" height="18" rx="9" fill="#27272e" stroke="#7b7c74" stroke-width="2"/>
+
+  <!-- Stylized Diamond Engagement Ring on Pedestal -->
+  <ellipse cx="300" cy="512" rx="84" ry="11" fill="#c8f135" fill-opacity="0.16"/>
+  <circle cx="300" cy="432" r="78" fill="none" stroke="#eaebe4" stroke-width="14"/>
+  <circle cx="300" cy="432" r="78" fill="none" stroke="#9fa398" stroke-width="2"/>
+  <!-- Diamond Crown & Table Facets -->
+  <polygon points="300,268 352,306 328,348 272,348 248,306" fill="#23292d" stroke="#c8f135" stroke-width="4" stroke-linejoin="round"/>
+  <polyline points="248,306 352,306" fill="none" stroke="#f1f1ec" stroke-width="2.5"/>
+  <polyline points="274,288 326,288" fill="none" stroke="#c8f135" stroke-opacity="0.7" stroke-width="2"/>
+  <polyline points="274,288 272,348 300,306 328,348 326,288" fill="none" stroke="#f1f1ec" stroke-opacity="0.7" stroke-width="2"/>
+  <!-- Symmetrical Prongs -->
+  <circle cx="268" cy="346" r="7" fill="#c8f135"/>
+  <circle cx="332" cy="346" r="7" fill="#c8f135"/>
+
+  <!-- Locked Macro Camera Badge Bottom Right -->
+  <g transform="translate(442,588)">
+    <rect x="0" y="0" width="130" height="130" rx="22" fill="#171914" stroke="#c8f135" stroke-width="3"/>
+    <rect x="27" y="24" width="76" height="48" rx="10" fill="#101013" stroke="#c8f135" stroke-width="3"/>
+    <circle cx="65" cy="48" r="14" fill="none" stroke="#c8f135" stroke-width="3"/>
+    <circle cx="65" cy="48" r="5" fill="#c8f135"/>
+    <line x1="65" y1="72" x2="40" y2="112" stroke="#b0b0a8" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="65" y1="72" x2="65" y2="114" stroke="#b0b0a8" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="65" y1="72" x2="90" y2="112" stroke="#b0b0a8" stroke-width="3.5" stroke-linecap="round"/>
+    <circle cx="110" cy="20" r="15" fill="#c8f135"/>
+    <polyline points="103,20 108,25 117,15" fill="none" stroke="#0a0a0b" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

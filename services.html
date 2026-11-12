@@ -44,7 +44,7 @@
     "@type": "OfferCatalog",
     "name": "Commercial Retouching Services",
     "itemListElement": [
-      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Luxury Jewelry and Watch Retouching","url":"https://retouchershoaib.com/services#jewelry"}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Luxury Jewelry and Watch Retouching","url":"https://retouchershoaib.com/jewelry-watch-photo-retouching"}},
       {"@type":"Offer","itemOffered":{"@type":"Service","name":"Fashion and Ghost Mannequin Retouching","url":"https://retouchershoaib.com/ghost-mannequin-fashion-photo-retouching"}},
       {"@type":"Offer","itemOffered":{"@type":"Service","name":"Model and Editorial Beauty Portrait Retouching","url":"https://retouchershoaib.com/services#beauty"}},
       {"@type":"Offer","itemOffered":{"@type":"Service","name":"E-commerce Product and Clipping Path Retouching","url":"https://retouchershoaib.com/ecommerce-product-retouching"}},
@@ -593,7 +593,7 @@ footer a:hover{
           <div class="nav-dd-sep" role="separator"></div>
           <a href="/ecommerce-product-retouching" role="menuitem"><strong>E-Commerce Product Retouching <em class="nav-new">Live</em></strong><span>Eyewear, bags, shoes &amp; packshots &middot; From $0.50</span></a>
           <a href="/ghost-mannequin-fashion-photo-retouching" role="menuitem"><strong>Fashion &amp; Ghost Mannequin <em class="nav-new">Live</em></strong><span>3D neck joins, labels &amp; on-model lookbooks</span></a>
-          <a href="/services#jewelry" role="menuitem"><strong>Jewelry &amp; Watch Retouching</strong><span>Diamond clarity &amp; focus stacking</span></a>
+          <a href="/jewelry-watch-photo-retouching" role="menuitem"><strong>Jewelry &amp; Watch Retouching <em class="nav-new">Live</em></strong><span>Diamond prongs, gold color &amp; watch dials</span></a>
           <a href="/services#beauty" role="menuitem"><strong>Model &amp; Beauty Portraits</strong><span>Manual dodge &amp; burn skin texture</span></a>
           <a href="/services#still" role="menuitem"><strong>Still Life &amp; Cosmetics</strong><span>Glassware &amp; commercial bottles</span></a>
           <a href="/services#automotive" role="menuitem"><strong>Automotive Retouching</strong><span>Paintwork gloss &amp; background swap</span></a>
@@ -639,7 +639,10 @@ footer a:hover{
         <p class="tg">Diamond clarity &middot; Metallic luster &middot; Crystal reflections</p>
         <p class="d">Macro post-production for high jewelry, fine jewellery, diamonds, gemstones and fine watches. We remove microscopic dust, scratches and welding marks while keeping real faceting, brilliance and metal luster.</p>
         <ul class="caps"><li>Diamond and gemstone brilliance</li><li>Focus stacking alignment</li><li>Metal luster polishing</li><li>Dial and crystal anti-reflection</li><li>Gold and platinum balancing</li></ul>
-        <a class="btn" href="/contact?service=jewelry">Try jewelry for free</a>
+        <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <a class="btn p" href="/jewelry-watch-photo-retouching">Explore Jewelry &amp; Watch Retouching &rarr;</a>
+          <a class="btn" href="/contact?service=jewelry">Try jewelry for free</a>
+        </div>
       </div>
     </div>
   </section>
@@ -733,7 +736,7 @@ footer a:hover{
       </div>
       <div>
         <h4>Disciplines</h4>
-        <a href="#jewelry">Jewelry</a>
+        <a href="/jewelry-watch-photo-retouching">Jewelry &amp; Watches</a>
         <a href="/ghost-mannequin-fashion-photo-retouching">Ghost Mannequin &amp; Fashion</a>
         <a href="#beauty">Beauty</a>
         <a href="/ecommerce-product-retouching">E-commerce &amp; Packshots</a>
@@ -781,7 +784,12 @@ footer a:hover{
       'service_jewelry',
       'Flagship',
       'center center',
-      { before: 'service_jewelry_before.webp', after: 'service_jewelry_after_v2.webp' }
+      {
+        before: 'service_jewelry_before.webp',
+        after: 'service_jewelry_after_v2.webp',
+        pageHref: '/jewelry-watch-photo-retouching',
+        pageLabel: 'Explore Jewelry & Watch Retouching \u2192'
+      }
     ],
     [
       'fashion',

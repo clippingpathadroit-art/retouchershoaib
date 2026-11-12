@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750" width="600" height="750" role="img" aria-label="Step 2 focus stacking diagram showing three sharp focal slices from front bezel and prongs to back band">
+  <defs>
+    <linearGradient id="jbg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#17171b"/>
+      <stop offset="100%" stop-color="#0d0d10"/>
+    </linearGradient>
+    <radialGradient id="jglow2" cx="0.5" cy="0.52" r="0.6">
+      <stop offset="0%" stop-color="#c8f135" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#c8f135" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="600" height="750" fill="url(#jbg2)"/>
+  <rect width="600" height="750" fill="url(#jglow2)"/>
+
+  <!-- Technical Grid -->
+  <g stroke="#ffffff" stroke-opacity="0.06" stroke-width="1.5">
+    <line x1="0" y1="187" x2="600" y2="187"/>
+    <line x1="0" y1="375" x2="600" y2="375"/>
+    <line x1="0" y1="562" x2="600" y2="562"/>
+    <line x1="150" y1="0" x2="150" y2="750"/>
+    <line x1="300" y1="0" x2="300" y2="750"/>
+    <line x1="450" y1="0" x2="450" y2="750"/>
+  </g>
+
+  <!-- Large Legible Step Badge -->
+  <rect x="28" y="28" width="224" height="60" rx="30" fill="#c8f135" fill-opacity="0.14" stroke="#c8f135" stroke-width="2.5"/>
+  <text x="140" y="71" text-anchor="middle" fill="#c8f135" font-family="'Helvetica Neue',Arial,sans-serif" font-size="38" font-weight="800" letter-spacing="1">SHOT 02</text>
+
+  <!-- Isometric / Angled Ring Side Profile -->
+  <ellipse cx="300" cy="402" rx="170" ry="92" fill="none" stroke="#e4e6de" stroke-width="16"/>
+  <ellipse cx="300" cy="402" rx="170" ry="92" fill="none" stroke="#9ea096" stroke-width="2.5"/>
+  <!-- Top Diamond Setting -->
+  <polygon points="300,248 342,276 324,310 276,310 258,276" fill="#202528" stroke="#f1f1ec" stroke-width="4" stroke-linejoin="round"/>
+  <line x1="258" y1="276" x2="342" y2="276" stroke="#c8f135" stroke-width="2.5"/>
+
+  <!-- Focus Plane 1 (Front Shank) -->
+  <line x1="154" y1="168" x2="154" y2="572" stroke="#c8f135" stroke-width="3" stroke-dasharray="10 6"/>
+  <rect x="114" y="122" width="80" height="44" rx="22" fill="#171914" stroke="#c8f135" stroke-width="2.5"/>
+  <text x="154" y="152" text-anchor="middle" fill="#c8f135" font-family="'Helvetica Neue',Arial,sans-serif" font-size="24" font-weight="800">F1</text>
+
+  <!-- Focus Plane 2 (Crown & Prongs) -->
+  <line x1="300" y1="168" x2="300" y2="572" stroke="#c8f135" stroke-width="3" stroke-dasharray="10 6"/>
+  <rect x="260" y="122" width="80" height="44" rx="22" fill="#c8f135"/>
+  <text x="300" y="152" text-anchor="middle" fill="#0a0a0b" font-family="'Helvetica Neue',Arial,sans-serif" font-size="24" font-weight="800">F2</text>
+
+  <!-- Focus Plane 3 (Back Rim) -->
+  <line x1="446" y1="168" x2="446" y2="572" stroke="#c8f135" stroke-width="3" stroke-dasharray="10 6"/>
+  <rect x="406" y="122" width="80" height="44" rx="22" fill="#171914" stroke="#c8f135" stroke-width="2.5"/>
+  <text x="446" y="152" text-anchor="middle" fill="#c8f135" font-family="'Helvetica Neue',Arial,sans-serif" font-size="24" font-weight="800">F3</text>
+
+  <!-- Stack Merge Bar Bottom Left -->
+  <g transform="translate(36,612)">
+    <rect x="0" y="0" width="96" height="96" rx="18" fill="#1e2026" stroke="#888980" stroke-width="2.5"/>
+    <rect x="14" y="-12" width="96" height="96" rx="18" fill="#23262e" stroke="#b5b6ad" stroke-width="2.5"/>
+    <rect x="28" y="-24" width="96" height="96" rx="18" fill="#171914" stroke="#c8f135" stroke-width="3"/>
+    <circle cx="76" cy="24" r="20" fill="none" stroke="#c8f135" stroke-width="3"/>
+    <polyline points="67,24 73,30 85,18" fill="none" stroke="#c8f135" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

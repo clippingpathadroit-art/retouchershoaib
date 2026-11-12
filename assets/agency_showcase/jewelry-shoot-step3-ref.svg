@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750" width="600" height="750" role="img" aria-label="Step 3 color reference and timepiece dial shooting diagram showing 10:10 watch hands and 18 percent neutral grey reference card">
+  <defs>
+    <linearGradient id="jbg3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#17171b"/>
+      <stop offset="100%" stop-color="#0d0d10"/>
+    </linearGradient>
+    <radialGradient id="jglow3" cx="0.5" cy="0.48" r="0.6">
+      <stop offset="0%" stop-color="#c8f135" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#c8f135" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="600" height="750" fill="url(#jbg3)"/>
+  <rect width="600" height="750" fill="url(#jglow3)"/>
+
+  <!-- Technical Grid -->
+  <g stroke="#ffffff" stroke-opacity="0.06" stroke-width="1.5">
+    <line x1="0" y1="187" x2="600" y2="187"/>
+    <line x1="0" y1="375" x2="600" y2="375"/>
+    <line x1="0" y1="562" x2="600" y2="562"/>
+    <line x1="150" y1="0" x2="150" y2="750"/>
+    <line x1="300" y1="0" x2="300" y2="750"/>
+    <line x1="450" y1="0" x2="450" y2="750"/>
+  </g>
+
+  <!-- Large Legible Step Badge -->
+  <rect x="28" y="28" width="224" height="60" rx="30" fill="#c8f135" fill-opacity="0.14" stroke="#c8f135" stroke-width="2.5"/>
+  <text x="140" y="71" text-anchor="middle" fill="#c8f135" font-family="'Helvetica Neue',Arial,sans-serif" font-size="38" font-weight="800" letter-spacing="1">SHOT 03</text>
+
+  <!-- Watch Case & Bracelet Silhouette (Centered) -->
+  <rect x="228" y="138" width="144" height="444" rx="14" fill="#1e2128" stroke="#8e9088" stroke-width="3"/>
+  <!-- Crown -->
+  <rect x="444" y="340" width="24" height="40" rx="6" fill="#c8f135"/>
+  <!-- Outer Bezel & Dial -->
+  <circle cx="300" cy="360" r="144" fill="#14161a" stroke="#f1f1ec" stroke-width="10"/>
+  <circle cx="300" cy="360" r="126" fill="none" stroke="#c8f135" stroke-opacity="0.45" stroke-width="2.5"/>
+  <!-- Hour Indices -->
+  <line x1="300" y1="244" x2="300" y2="264" stroke="#f1f1ec" stroke-width="6" stroke-linecap="round"/>
+  <line x1="416" y1="360" x2="396" y2="360" stroke="#f1f1ec" stroke-width="6" stroke-linecap="round"/>
+  <line x1="300" y1="476" x2="300" y2="456" stroke="#f1f1ec" stroke-width="6" stroke-linecap="round"/>
+  <line x1="184" y1="360" x2="204" y2="360" stroke="#f1f1ec" stroke-width="6" stroke-linecap="round"/>
+  <!-- Hands Set Cleanly to 10:10 -->
+  <line x1="300" y1="360" x2="232" y2="314" stroke="#c8f135" stroke-width="9" stroke-linecap="round"/>
+  <line x1="300" y1="360" x2="378" y2="302" stroke="#f1f1ec" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="300" cy="360" r="10" fill="#c8f135"/>
+
+  <!-- Neutral 18% Grey Balance Reference Card (Bottom Left) -->
+  <g transform="translate(36,568)">
+    <rect x="0" y="0" width="144" height="144" rx="18" fill="#808080" stroke="#f1f1ec" stroke-width="3"/>
+    <rect x="18" y="18" width="32" height="32" rx="6" fill="#ffffff"/>
+    <rect x="56" y="18" width="32" height="32" rx="6" fill="#0a0a0b"/>
+    <rect x="94" y="18" width="32" height="32" rx="6" fill="#c8f135"/>
+    <text x="72" y="106" text-anchor="middle" fill="#f1f1ec" font-family="'Helvetica Neue',Arial,sans-serif" font-size="24" font-weight="800">18%</text>
+  </g>
+</svg>
