@@ -187,17 +187,15 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap"></noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap">
 <link rel="stylesheet" href="/assets/site-nav.css">
 <style>
 :root{
   --bg:#0a0a0b;
   --surface:#141416;
   --surface-2:#1a1a1e;
-  --text:#f1f1ec;
-  --muted:#95958f;
+  --text:#f2f3ee;
+  --muted:#aeb2a8;
   --line:rgba(255,255,255,.12);
   --accent:#c8f135;
   --on-accent:#0a0a0b;
@@ -220,7 +218,7 @@ body{
   margin:0;
   background:var(--bg);
   color:var(--text);
-  font:400 17px/1.62 var(--body);
+  font:400 17px/1.65 var(--body);
   overflow-x:clip;
   -webkit-font-smoothing:antialiased;
 }
@@ -567,25 +565,25 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 /* SECTION TYPOGRAPHY & SPLIT DEPARTMENTS */
 .sec-head{
   max-width:780px;
-  margin-bottom:clamp(28px,4vw,44px);
+  margin-bottom:clamp(26px,3.6vw,40px);
 }
 .sec-head h2,.dep h2{
-  font:800 clamp(28px,3.6vw,46px)/1.08 var(--display);
-  letter-spacing:-.025em;
+  font:800 clamp(28px,3.4vw,44px)/1.09 var(--display);
+  letter-spacing:-.02em;
   margin:0 0 14px;
 }
 .sec-head p,.dep .d{
-  color:#d7d7d0;
-  margin:0 0 16px;
+  color:#e4e6de;
+  margin:0 0 18px;
 }
 .dep{
-  padding:clamp(54px,7.5vw,98px) 0;
+  padding:clamp(54px,7vw,92px) 0;
   border-bottom:1px solid var(--line);
 }
 .dep .wrap{
   display:grid;
   grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-  gap:clamp(28px,5vw,68px);
+  gap:clamp(28px,4.8vw,60px);
   align-items:start;
 }
 .dep.center-v .wrap{align-items:center}
@@ -604,16 +602,22 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 .num span{
   padding:5px 11px;
   border-radius:99px;
-  border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);
+  border:1px solid color-mix(in srgb,var(--accent) 42%,transparent);
   font-weight:600;
   font-size:12px;
   letter-spacing:.06em;
   color:var(--text);
 }
 .tg{
-  color:var(--muted);
-  font-size:15px;
-  margin:0 0 16px;
+  color:#c6c9bf;
+  font-size:15.5px;
+  margin:0 0 14px;
+}
+.gm-compare{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  margin:18px 0 16px;
 }
 .problem-box{
   background:var(--surface);
@@ -622,47 +626,61 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   padding:16px 18px;
   margin:16px 0;
 }
+.gm-compare .problem-box{
+  margin:0;
+  height:100%;
+}
 .problem-box h3,.label-box h3{
   margin:0 0 10px;
-  font:700 14px/1.25 var(--display);
+  font:700 13.5px/1.25 var(--display);
   text-transform:uppercase;
   letter-spacing:.08em;
   color:var(--accent);
 }
-.label-box{
-  background:linear-gradient(180deg, rgba(200,241,53,.05), rgba(20,20,22,1) 80%);
-  border:1px solid color-mix(in srgb,var(--accent) 32%,transparent);
-  border-radius:14px;
-  padding:16px 18px;
-  margin:16px 0 22px;
+.label-note{
+  margin:0 0 22px;
+  padding:13px 16px;
+  border-left:3px solid var(--accent);
+  background:rgba(200,241,53,.05);
+  border-radius:0 12px 12px 0;
 }
-.label-box p{
+.label-note strong{
+  display:block;
+  font:700 13px/1.25 var(--display);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:var(--accent);
+  margin-bottom:5px;
+}
+.label-note p{
   margin:0;
-  font-size:15px;
-  color:#e2e2db;
+  font-size:14.5px;
+  line-height:1.54;
+  color:#e7e9e1;
 }
 .problem-box ul,.caps{
   list-style:none;
   margin:0;
   padding:0;
   display:grid;
-  gap:8px 20px;
-  font-size:15px;
+  gap:8px 18px;
+  font-size:14.5px;
+  line-height:1.5;
 }
 .caps{
   grid-template-columns:1fr 1fr;
-  margin:18px 0 24px;
+  margin:16px 0 22px;
 }
 .problem-box li,.caps li{
   position:relative;
   padding-left:18px;
-  color:#e2e2db;
+  color:#ebede6;
 }
 .problem-box li::before{
   content:"\2022";
   position:absolute;
   left:0;
-  color:var(--muted);
+  color:var(--accent);
 }
 .caps li::before{
   content:"\2713";
@@ -852,91 +870,82 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 .gar-card[aria-pressed="true"] h3{color:var(--accent)}
 .gar-card p{
   margin:0;
-  font-size:13.5px;
-  line-height:1.48;
-  color:#d0d0c8;
+  font-size:13.8px;
+  line-height:1.52;
+  color:#e0e2da;
 }
 
 /* 03 SHOOTING GUIDE & CHECKLIST */
+.shoot-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:20px 36px;
+  flex-wrap:wrap;
+  margin-bottom:26px;
+}
+.shoot-head .sec-head{
+  margin-bottom:0;
+  max-width:740px;
+}
 .shoot-trio{
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:10px;
+  gap:16px;
 }
 .shoot-shot{
   background:var(--surface);
   border:1px solid var(--line);
-  border-radius:14px;
+  border-radius:16px;
   overflow:hidden;
+  display:flex;
+  flex-direction:column;
 }
 .shoot-shot img{
   width:100%;
-  height:auto;
-  aspect-ratio:600/750;
+  height:230px;
   object-fit:contain;
   display:block;
   background:#0e0e11;
+  padding:8px 0;
 }
 .shoot-meta{
-  padding:11px 12px;
+  padding:13px 16px;
+  border-top:1px solid var(--line);
 }
 .shoot-meta strong{
   display:block;
-  font:700 13.5px/1.3 var(--display);
+  font:700 14.5px/1.3 var(--display);
   color:var(--accent);
   margin-bottom:3px;
 }
 .shoot-meta span{
   display:block;
-  font-size:12.5px;
-  line-height:1.4;
-  color:#e2e2db;
-}
-.naming-bar{
-  margin-top:12px;
-  padding:14px 16px;
-  border-radius:14px;
-  background:var(--surface);
-  border:1px solid var(--line);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  gap:10px;
   font-size:13.5px;
-}
-.naming-codes{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-}
-.naming-codes code{
-  padding:4px 9px;
-  border-radius:8px;
-  background:rgba(200,241,53,.1);
-  border:1px solid rgba(200,241,53,.28);
-  color:var(--accent);
-  font:600 12px monospace;
+  line-height:1.45;
+  color:#eaebe4;
 }
 .chk-list{
   list-style:none;
-  margin:18px 0 22px;
+  margin:22px 0 18px;
   padding:0;
   display:grid;
-  gap:9px;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px 14px;
 }
 .chk-item{
   width:100%;
+  height:100%;
   text-align:left;
   display:flex;
   align-items:flex-start;
   gap:12px;
-  padding:12px 14px;
+  padding:13px 15px;
   border-radius:12px;
   background:var(--surface);
   border:1px solid var(--line);
-  color:#e2e2db;
-  font:400 14.5px/1.48 var(--body);
+  color:#eaebe4;
+  font:400 14.5px/1.5 var(--body);
   cursor:pointer;
   transition:border-color .2s,background .2s;
 }
@@ -949,12 +958,12 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   width:20px;
   height:20px;
   border-radius:6px;
-  border:1.5px solid rgba(255,255,255,.35);
+  border:1.5px solid rgba(255,255,255,.38);
   display:inline-flex;
   align-items:center;
   justify-content:center;
   flex-shrink:0;
-  margin-top:1px;
+  margin-top:2px;
   font:700 12px/1 sans-serif;
   color:var(--on-accent);
   transition:background .18s,border-color .18s;
@@ -964,16 +973,73 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   border-color:var(--accent);
 }
 .chk-item[aria-checked="true"] .chk-box::after{content:"\2713"}
+.naming-bar{
+  margin-top:0;
+  padding:16px 20px;
+  border-radius:14px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:14px 20px;
+  font-size:14px;
+}
+.naming-codes{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+}
+.naming-codes code{
+  padding:4px 10px;
+  border-radius:8px;
+  background:rgba(200,241,53,.1);
+  border:1px solid rgba(200,241,53,.3);
+  color:var(--accent);
+  font:600 12.5px monospace;
+}
+.naming-actions{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+}
 
 /* 04 LOOKBOOK STRIP */
+.lookbook-band{
+  grid-column:1 / -1;
+  order:3;
+  margin-top:6px;
+  padding-top:28px;
+  border-top:1px solid var(--line);
+}
+.lookbook-head{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:6px 18px;
+  margin-bottom:14px;
+}
+.lookbook-head strong{
+  font:700 13px/1.2 var(--display);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:var(--accent);
+}
+.lookbook-head span{
+  font-size:14px;
+  color:var(--muted);
+}
 .look-strip{
   display:grid;
   grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:10px;
-  margin-top:14px;
+  gap:16px;
+  margin-top:0;
 }
 .look-tile{
-  border-radius:12px;
+  border-radius:14px;
   overflow:hidden;
   border:1px solid var(--line);
   background:#ffffff;
@@ -987,9 +1053,10 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 }
 .look-cap{
   background:var(--surface);
-  padding:7px 6px;
-  font-size:12px;
-  color:#e5e5de;
+  padding:9px 10px;
+  font-size:13px;
+  font-weight:500;
+  color:#eaebe4;
   text-align:center;
   border-top:1px solid var(--line);
 }
@@ -1315,19 +1382,31 @@ footer a:hover{color:var(--accent)}
   .caps{grid-template-columns:1fr}
   footer .g{grid-template-columns:1fr 1fr}
 }
+@media(max-width:740px){
+  .gm-compare,.chk-list{grid-template-columns:1fr}
+}
 @media(max-width:600px){
   .logo-row,.garment-grid,.dept-grid{grid-template-columns:1fr}
-  .shoot-trio{grid-template-columns:1fr}
-  .look-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .shoot-trio{grid-template-columns:1fr;gap:10px}
+  .shoot-shot{display:grid;grid-template-columns:108px 1fr;align-items:center}
+  .shoot-shot img{height:132px;padding:4px}
+  .shoot-meta{border-top:0;border-left:1px solid var(--line);padding:12px 14px}
+  .naming-actions{width:100%}
+  .naming-actions .btn{flex:1}
+  .look-strip{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   .ph.ba .tag{bottom:10px;padding:5px 11px;font-size:12px}
   .ph.ba .tag.b{left:10px}
   .ph.ba .tag.a{right:10px}
 }
 @media print{
-  header,.bar,.nav-actions,.hero-cta,.swatch-bar,.garment-grid,.price-grid,.dept-grid,.cta-band,footer,#trust,#ghost-mannequin,#garments,#on-model,#color-accuracy,#specs,#pricing,#reviews,#faq,.hero{display:none!important}
+  header,.bar,.nav-actions,.hero-cta,.swatch-bar,.garment-grid,.price-grid,.dept-grid,.cta-band,.naming-actions,footer,#trust,#ghost-mannequin,#garments,#on-model,#color-accuracy,#specs,#pricing,#reviews,#faq,#other-services,.hero{display:none!important}
   body{background:#ffffff;color:#0a0a0b}
   #shooting-guide{border:0;padding:0}
   #shooting-guide *{color:#0a0a0b!important;border-color:#ccc!important;background:#ffffff!important}
+  .chk-list{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .shoot-trio{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .shoot-shot{display:block!important}
+  .shoot-shot img{height:170px!important}
   .dep .wrap{grid-template-columns:1fr}
 }
 @media(prefers-reduced-motion:reduce){
@@ -1435,7 +1514,7 @@ footer a:hover{color:var(--accent)}
   </section>
 
   <!-- 01 GHOST MANNEQUIN & 3D NECK JOINT EDITING -->
-  <section class="dep" id="ghost-mannequin">
+  <section class="dep center-v" id="ghost-mannequin">
     <div class="wrap">
       <div class="media-col portrait-stage">
         <div class="ph ba" id="gmBa" style="--x:50%;aspect-ratio:819/1024" data-ba>
@@ -1487,44 +1566,38 @@ footer a:hover{color:var(--accent)}
         <div class="cap-note">
           <span id="gmCapNote">Drag slider &mdash; White mannequin limbs, neck cavity &amp; lower post removed cleanly on pure #FFFFFF.</span>
         </div>
-
-        <div class="inline-quote">
-          <blockquote>&ldquo;We run large seasonal apparel drops with strict ghost mannequin guidelines. Shoaib&rsquo;s clipping paths and collar alignments are always spot-on on the first pass. We barely have any revisions.&rdquo;</blockquote>
-          <cite><strong>Peter Helskog</strong> &middot; Studio Production Manager, Scandinavia</cite>
-        </div>
       </div>
 
       <div class="tx-col">
         <div class="num">01 <span>Invisible Mannequin &middot; 3D Neck Joint</span></div>
-        <h2>Ghost Mannequin Photo Editing: The Invisible Look, Done Right</h2>
-        <p class="tg">3D neck joint compositing &middot; Inside brand labels &middot; Symmetrical fabric drape</p>
-        <p class="d">Ghost mannequin (or invisible mannequin) photography shows a garment holding its worn 3D fit without a visible model or stand. Because each finished packshot blends separate frames of the exterior and interior lining by hand, small shortcuts immediately look flat or pasted on.</p>
+        <h2>Ghost mannequin photo editing: the invisible look, done right</h2>
+        <p class="d">Ghost mannequin photography shows a garment holding its worn 3D fit with no stand visible. Because exterior frames and inside lining are blended by hand, any automated shortcut looks flat or pasted on.</p>
 
-        <div class="problem-box">
-          <h3>What goes wrong in ghost mannequin photos</h3>
-          <ul>
-            <li>Visible mannequin necks, plastic arms, clamps, pins, clips or tape</li>
-            <li>Hollow, collapsed or flat-looking neck openings with zero depth</li>
-            <li>Crooked collars, skewed button plackets and mismatched sleeve hems</li>
-            <li>Missing inside back neck and woven label, leaving the garment unfinished</li>
-            <li>Wrinkles, heavy lint, surface dust or color shifts between outer and inner lining</li>
-          </ul>
+        <div class="gm-compare">
+          <div class="problem-box">
+            <h3>What goes wrong</h3>
+            <ul>
+              <li>Visible necks, arms, pins, clamps or tape</li>
+              <li>Flat, hollow collar openings lacking 3D depth</li>
+              <li>Crooked plackets and uneven sleeve hems</li>
+              <li>Creases, lint, missing labels or lining shade shifts</li>
+            </ul>
+          </div>
+
+          <div class="problem-box">
+            <h3>What we do</h3>
+            <ul>
+              <li>Hand-drawn Pen Tool cutouts along real seams</li>
+              <li>3D inside-collar neck joins with natural depth</li>
+              <li>Balanced shoulder, sleeve, cuff &amp; hem drape</li>
+              <li>Crease cleanup and soft grounded floor shadows</li>
+            </ul>
+          </div>
         </div>
 
-        <div class="problem-box">
-          <h3>What we do about it</h3>
-          <ul>
-            <li>Hand-drawn Pen Tool cutouts along real stitching&mdash;never AI edges that bite into fabric</li>
-            <li>3D neck joint editing: blending your inside back neck, lining and collar shot seamlessly</li>
-            <li>Natural shoulder, sleeve, cuff and hemline symmetry while preserving organic drape</li>
-            <li>Subtle interior drop shading so the neckline reads three-dimensional, not pasted on</li>
-            <li>Wrinkle, crease and lint cleanup plus soft grounded floor shadows on white or studio grey</li>
-          </ul>
-        </div>
-
-        <div class="label-box">
-          <h3>Inside labels and brand details</h3>
-          <p>Brand woven labels, embroidery and care tags build immediate trust for premium outerwear and knitwear. We keep, straighten, clean or swap inside neck labels using your supplied close-up frame&mdash;matching fabric perspective, weave grain and interior shadow falloff.</p>
+        <div class="label-note">
+          <strong>Inside labels &amp; care tags</strong>
+          <p>We keep, clean, straighten or composite woven neck labels from your close-up frame&mdash;matching fabric perspective, weave grain and natural interior shadow.</p>
         </div>
 
         <div class="cat-links">
@@ -1536,7 +1609,7 @@ footer a:hover{color:var(--accent)}
   </section>
 
   <!-- 02 GHOST MANNEQUIN EDITING BY GARMENT TYPE -->
-  <section class="dep flip" id="garments">
+  <section class="dep flip center-v" id="garments">
     <div class="wrap">
       <div class="media-col portrait-stage">
         <div class="garment-stage">
@@ -1556,8 +1629,7 @@ footer a:hover{color:var(--accent)}
       <div class="tx-col">
         <div class="num">02 <span>Category-Specific Craft</span></div>
         <h2>Ghost mannequin editing by garment type</h2>
-        <p class="tg">Heavy tailoring, chunky knitwear, sheer organza &amp; denim each need their own retouching rules</p>
-        <p class="d">Applying the same cleanup template to a heavy olive field jacket and a sheer chiffon dress ruins one of them. Click any category below to inspect how we adapt edge paths, interior joins and texture preservation for each garment type:</p>
+        <p class="d">A heavy field jacket and a sheer chiffon dress need different edge paths, interior joins and texture rules. Click any category below to inspect how we handle each garment type:</p>
 
         <div class="garment-grid" role="group" aria-label="Inspect ghost mannequin editing by garment type">
           <button type="button" class="gar-card" aria-pressed="true"
@@ -1568,7 +1640,7 @@ footer a:hover{color:var(--accent)}
             data-alt="Sage floral chiffon dress ghost mannequin finish showing translucent sheer sleeves and balanced midi hemline"
             data-cap="Balanced waist &amp; skirt drape with delicate sheer chiffon sleeve translucency retained.">
             <h3>Dresses &amp; skirts</h3>
-            <p>Smooth silhouettes, balanced hems and natural waistlines without squeezing fabric&mdash;keeping sheer chiffon or lace optical transparency intact.</p>
+            <p>Smooth silhouettes and even hems without squeezing fabric&mdash;sheer chiffon and lace keep optical translucency.</p>
           </button>
 
           <button type="button" class="gar-card" aria-pressed="false"
@@ -1579,7 +1651,7 @@ footer a:hover{color:var(--accent)}
             data-alt="Olive field jacket ghost mannequin editing showing reconstructed diamond quilted lining, brass snap buttons and crisp drawstring hem"
             data-cap="Lapels sculpted, structured shoulders balanced, and full quilted interior lining preserved.">
             <h3>Jackets, blazers &amp; coats</h3>
-            <p>Crisp lapels and shoulders, natural chest structure, clean zippers/buttons and full interior lining where the jacket opens.</p>
+            <p>Crisp lapels and shoulders, natural chest structure, clean hardware and full interior lining where the jacket opens.</p>
           </button>
 
           <button type="button" class="gar-card" aria-pressed="false"
@@ -1590,7 +1662,7 @@ footer a:hover{color:var(--accent)}
             data-alt="Blush pink French terry crewneck sweater ghost mannequin editing with visible knit grain, ribbing and inside neck tag"
             data-cap="Fine fuzz and stray lint cleaned while keeping 100% of knit ribbing, collar tape and weave grain.">
             <h3>Knitwear &amp; sweaters</h3>
-            <p>Stitch texture stays razor-sharp. We remove fuzz and pilling without smearing knit loops, keeping ribbing, cuffs and hems even.</p>
+            <p>Sharp stitch grain with fuzz and pilling removed without smearing loops, keeping cuffs, ribbing and hems even.</p>
           </button>
 
           <button type="button" class="gar-card" aria-pressed="false"
@@ -1601,7 +1673,7 @@ footer a:hover{color:var(--accent)}
             data-alt="Blue paisley button-front shirt ghost mannequin editing with aligned collar, crisp buttons and natural waist tie"
             data-cap="Collars leveled, button plackets straight, and inside neck depth joined seamlessly.">
             <h3>T-shirts, shirts &amp; tops</h3>
-            <p>Clean collars, symmetrical sleeves, aligned buttons and plackets, plus a natural hollow neckline with the inside label visible.</p>
+            <p>Level collars, symmetrical sleeves, aligned button plackets and a clean hollow neckline showing the inside label.</p>
           </button>
 
           <button type="button" class="gar-card" aria-pressed="false"
@@ -1612,22 +1684,22 @@ footer a:hover{color:var(--accent)}
             data-alt="Indigo denim jeans ghost mannequin finish showing hollow 3D waistband, inside tag, brass rivets and straight leg seams"
             data-cap="Straightened outer seams, level hollow waistband, clean hardware and authentic denim wash fade.">
             <h3>Jeans, trousers &amp; shorts</h3>
-            <p>Straight leg seams, level hollow waistbands, balanced inseams and crisp pockets and rivets&mdash;with natural denim twill and whiskering.</p>
+            <p>Straight leg seams, hollow 3D waistbands, crisp pockets and rivets with natural denim twill and wash preserved.</p>
           </button>
 
           <button type="button" class="gar-card" aria-pressed="false"
             data-src="/assets/agency_showcase/fashion-ghost-mannequin-activewear.webp"
             data-ratio="1/1"
             data-badge="Stretch &amp; Flatlock Seams"
-            data-pill="Activewear &amp; Kids&rsquo; Apparel"
+            data-pill="Activewear"
             data-alt="Slate-teal and charcoal quarter-zip performance activewear pullover on invisible 3D ghost mannequin showing hollow inside collar lining, raglan flatlock stitching and thumbhole cuffs"
             data-cap="Contoured stretch knit, raglan flatlock seams and unzipped 3D inside collar join cleanly isolated on pure #FFFFFF.">
-            <h3>Activewear &amp; kids&rsquo; apparel</h3>
-            <p>Smooth technical stretch fabrics, clean flatlock seams and brand logos, keeping small kids&rsquo; proportions true across every size run.</p>
+            <h3>Activewear</h3>
+            <p>Technical stretch knits, raglan flatlock seams, zip plackets and mesh panels contoured with true athletic drape.</p>
           </button>
         </div>
 
-        <p style="margin:18px 0 20px;font-size:15px;color:var(--muted)">Have swimwear, lingerie, structured three-piece suiting (like our <a href="/work" style="color:var(--accent);text-decoration:underline;text-underline-offset:4px">Berlucchi navy suit composite</a>), or scarves not listed above? Send a sample frame and we&rsquo;ll test it free.</p>
+        <p style="margin:18px 0 20px;font-size:15px;color:var(--muted)">Have kids&rsquo; apparel, swimwear, lingerie, structured three-piece suiting (like our <a href="/work" style="color:var(--accent);text-decoration:underline;text-underline-offset:4px">Berlucchi navy suit composite</a>), or scarves not listed above? Send a sample frame and we&rsquo;ll test it free.</p>
 
         <div class="cat-links">
           <a class="btn p" href="/contact?service=fashion">Test Your Garment Category Free</a>
@@ -1637,71 +1709,73 @@ footer a:hover{color:var(--accent)}
   </section>
 
   <!-- 03 HOW TO SHOOT FOR GHOST MANNEQUIN EDITING -->
-  <section class="dep" id="shooting-guide">
+  <section class="band" id="shooting-guide">
     <div class="wrap">
-      <div class="media-col">
-        <div class="shoot-trio" aria-label="Three-step ghost mannequin photography instruction diagrams">
-          <div class="shoot-shot">
-            <img src="/assets/agency_showcase/shoot-guide-step1-front.svg" alt="Instruction diagram Step 1: garment styled on mannequin bust under even softbox lighting with locked tripod height" width="600" height="750" loading="lazy" decoding="async">
-            <div class="shoot-meta">
-              <strong>Shot 1 &middot; Front Bust</strong>
-              <span>Locked tripod, styled &amp; steamed exterior fit</span>
-            </div>
-          </div>
-          <div class="shoot-shot">
-            <img src="/assets/agency_showcase/shoot-guide-step2-neck.svg" alt="Instruction diagram Step 2: top mannequin neck piece removed at same camera distance to show inside back collar and woven brand label" width="600" height="750" loading="lazy" decoding="async">
-            <div class="shoot-meta">
-              <strong>Shot 2 &middot; Inside Neck</strong>
-              <span>Open collar / label captured in same light</span>
-            </div>
-          </div>
-          <div class="shoot-shot">
-            <img src="/assets/agency_showcase/shoot-guide-step3-join.svg" alt="Instruction diagram Step 3: Shot 1 exterior and Shot 2 inside neck combined into final 3D hollow neck ghost mannequin image on pure white" width="600" height="750" loading="lazy" decoding="async">
-            <div class="shoot-meta">
-              <strong>Result &middot; 3D Join</strong>
-              <span>Clean hollow neck, inside tag &amp; pure finish</span>
-            </div>
+      <div class="shoot-head">
+        <div class="sec-head">
+          <div class="num">03 <span>Studio &amp; Photographer Resource</span></div>
+          <h2>How to shoot for ghost mannequin editing</h2>
+          <p>Clean raw captures make editing faster and cheaper per garment. Follow this 3-shot setup and 8-point studio checklist so front frames and inside-neck shots align without perspective distortion:</p>
+        </div>
+      </div>
+
+      <div class="shoot-trio" aria-label="Three-step ghost mannequin photography instruction diagrams">
+        <div class="shoot-shot">
+          <img src="/assets/agency_showcase/shoot-guide-step1-front.svg" alt="Instruction diagram Step 1: garment styled on mannequin bust under even softbox lighting with locked tripod height" width="600" height="750" loading="lazy" decoding="async">
+          <div class="shoot-meta">
+            <strong>Shot 1 &middot; Front Bust</strong>
+            <span>Locked tripod, steamed &amp; styled exterior fit under even softbox light.</span>
           </div>
         </div>
+        <div class="shoot-shot">
+          <img src="/assets/agency_showcase/shoot-guide-step2-neck.svg" alt="Instruction diagram Step 2: top mannequin neck piece removed at same camera distance to show inside back collar and woven brand label" width="600" height="750" loading="lazy" decoding="async">
+          <div class="shoot-meta">
+            <strong>Shot 2 &middot; Inside Neck</strong>
+            <span>Top bust piece removed in same lighting to reveal inside collar &amp; label.</span>
+          </div>
+        </div>
+        <div class="shoot-shot">
+          <img src="/assets/agency_showcase/shoot-guide-step3-join.svg" alt="Instruction diagram Step 3: Shot 1 exterior and Shot 2 inside neck combined into final 3D hollow neck ghost mannequin image on pure white" width="600" height="750" loading="lazy" decoding="async">
+          <div class="shoot-meta">
+            <strong>Result &middot; 3D Join</strong>
+            <span>Mannequin removed by hand with seamless hollow neck &amp; woven tag.</span>
+          </div>
+        </div>
+      </div>
 
-        <div class="naming-bar">
-          <div>
-            <strong style="display:block;font-size:13.5px;color:var(--text);margin-bottom:4px">Recommended Batch Naming Convention</strong>
+      <ul class="chk-list" id="shootChecklist" role="list" aria-label="8-point ghost mannequin shooting checklist">
+        <li><button type="button" class="chk-item" role="checkbox" aria-checked="false"><span class="chk-box" aria-hidden="true"></span><span><strong>Lock camera on a tripod:</strong> keep height, focal length &amp; distance identical between views of a garment.</span></button></li>
+        <li><button type="button" class="chk-item" role="checkbox" aria-checked="false"><span class="chk-box" aria-hidden="true"></span><span><strong>Style the front bust first:</strong> button plackets cleanly and drape sleeves evenly how buyers should see them.</span></button></li>
+        <li><button type="button" class="chk-item" role="checkbox" aria-checked="false"><span class="chk-box" aria-hidden="true"></span><span><strong>Shoot inside neck separately:</strong> remove the neck piece (or flip inside-out) to reveal the full inner back collar.</span></button></li>
+        <li><button type="button" class="chk-item" role="checkbox" aria-checked="false"><span class="chk-box" aria-hidden="true"></span><span><strong>Capture crisp label &amp; lining shots:</strong> include a clear close-up of woven brand tags or quilted linings.</span></button></li>
+        <li><button type="button" class="chk-item" role="checkbox" aria-checked="false"><span class="chk-box" aria-hidden="true"></span><span><strong>Use soft, even studio lighting:</strong> avoid clipped highlights on satin linings or dark shadows across wool.</span></button></li>
+        <li><button type="button" class="chk-item" role="checkbox" aria-checked="false"><span class="chk-box" aria-hidden="true"></span><span><strong>Steam every garment on set:</strong> removing deep transit folds protects fabric texture and speeds turnaround.</span></button></li>
+        <li><button type="button" class="chk-item" role="checkbox" aria-checked="false"><span class="chk-box" aria-hidden="true"></span><span><strong>Keep SKU framing consistent:</strong> shoot tops, coats and dresses to uniform distance so catalog grids align.</span></button></li>
+        <li><button type="button" class="chk-item" role="checkbox" aria-checked="false"><span class="chk-box" aria-hidden="true"></span><span><strong>Name matched views clearly:</strong> group every garment set consistently before batch upload.</span></button></li>
+      </ul>
+
+      <div class="naming-bar">
+        <div>
+          <div style="display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px;margin-bottom:4px">
+            <strong style="font-size:14px;color:var(--text)">Batch Naming Spec:</strong>
             <div class="naming-codes">
               <code>style-code_front</code>
               <code>style-code_neck</code>
               <code>style-code_back</code>
             </div>
           </div>
-          <button type="button" class="btn" id="printChecklistBtn" style="padding:9px 16px;font-size:13px">Save / Print Checklist</button>
+          <span style="font-size:13.5px;color:var(--muted)">Not sure your camera angle or lighting pairs cleanly? Send 1 test set and we&rsquo;ll review it with your free proof.</span>
         </div>
-      </div>
-
-      <div class="tx-col">
-        <div class="num">03 <span>Studio &amp; Photographer Resource</span></div>
-        <h2>How to shoot for ghost mannequin editing (studio checklist)</h2>
-        <p class="tg">Better raw sets make post-production faster, cleaner &amp; cheaper per SKU</p>
-        <p class="d">If your team photographs apparel in-house or in a commercial studio, following these eight shoot habits gives us exact perspective alignment for every neck join (tick items off on set):</p>
-
-        <ul class="chk-list" id="shootChecklist" role="list" aria-label="8-point ghost mannequin shooting checklist">
-          <li><button type="button" class="chk-item" role="checkbox" aria-checked="false"><span class="chk-box" aria-hidden="true"></span><span><strong>Lock camera position on a tripod:</strong> never nudge height, lens focal length or distance between views of the same SKU.</span></button></li>
-          <li><button type="button" class="chk-item" role="checkbox" aria-checked="false"><span class="chk-box" aria-hidden="true"></span><span><strong>Shoot the main frame styled on the mannequin:</strong> fasten buttons, center plackets, and drape sleeves cleanly how shoppers should see them.</span></button></li>
-          <li><button type="button" class="chk-item" role="checkbox" aria-checked="false"><span class="chk-box" aria-hidden="true"></span><span><strong>Shoot a separate inside neck frame:</strong> remove the top neck piece (or flip garment inside-out on board) to reveal the full inner back collar.</span></button></li>
-          <li><button type="button" class="chk-item" role="checkbox" aria-checked="false"><span class="chk-box" aria-hidden="true"></span><span><strong>Capture clear label &amp; lining details:</strong> include an unobstructed shot of the woven brand tag or coat interior you want displayed.</span></button></li>
-          <li><button type="button" class="chk-item" role="checkbox" aria-checked="false"><span class="chk-box" aria-hidden="true"></span><span><strong>Use soft, even studio lighting:</strong> avoid clipped softbox glare on satin linings and harsh dark shadows across wool or denim.</span></button></li>
-          <li><button type="button" class="chk-item" role="checkbox" aria-checked="false"><span class="chk-box" aria-hidden="true"></span><span><strong>Steam every garment thoroughly first:</strong> pressing folds out on set protects delicate weave texture and speeds up turnaround.</span></button></li>
-          <li><button type="button" class="chk-item" role="checkbox" aria-checked="false"><span class="chk-box" aria-hidden="true"></span><span><strong>Keep distance consistent across every SKU:</strong> shoot tops, jackets and dresses cleanly within the same frame scale so catalog grids align.</span></button></li>
-          <li><button type="button" class="chk-item" role="checkbox" aria-checked="false"><span class="chk-box" aria-hidden="true"></span><span><strong>Name matched pairs clearly:</strong> pair files as <code>style-code_front</code>, <code>style-code_neck</code> and <code>style-code_back</code> before uploading.</span></button></li>
-        </ul>
-
-        <p style="margin:0 0 18px;font-size:14.5px;color:var(--muted)">Not sure whether your mannequin lighting or lens angle pairs cleanly? Send 1 test set and we&rsquo;ll review your setup alongside your free retouched proof.</p>
-        <a class="btn p" href="/contact?service=fashion">Test a Shoot Setup Free</a>
+        <div class="naming-actions">
+          <button type="button" class="btn" id="printChecklistBtn" style="padding:10px 18px;font-size:13.5px">Save / Print Checklist</button>
+          <a class="btn p" href="/contact?service=fashion" style="padding:10px 18px;font-size:13.5px">Test a Shoot Setup Free</a>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- 04 ON-MODEL FASHION RETOUCHING & LOOKBOOKS -->
-  <section class="dep flip" id="on-model">
+  <section class="dep flip center-v" id="on-model">
     <div class="wrap">
       <div class="media-col portrait-stage">
         <div class="ph ba" id="modelBa" style="--x:50%;aspect-ratio:1046/1500" data-ba>
@@ -1735,57 +1809,59 @@ footer a:hover{color:var(--accent)}
         <div class="cap-note">
           <span id="modelCapNote">Drag slider &mdash; Backdrop neutralized, waist &amp; sleeve creases relaxed, natural skin &amp; anatomy 100% preserved.</span>
         </div>
-
-        <!-- Same-Lookbook Consistency Proof -->
-        <div style="margin-top:16px">
-          <div style="font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:8px">Same-Lookbook Color &amp; Sheer Consistency Proof</div>
-          <div class="look-strip">
-            <div class="look-tile">
-              <img src="/assets/agency_showcase/client_fashion_lookbook_al_dec_175.webp" alt="Seasonal lookbook frame 1 showing lilac sheer-sleeve plaid dress and uniform backdrop" width="933" height="1400" loading="lazy" decoding="async">
-              <div class="look-cap">01 &middot; Full</div>
-            </div>
-            <div class="look-tile">
-              <img src="/assets/agency_showcase/client_fashion_lookbook_al_dec_193.webp" alt="Lookbook sheer organza sleeve detail with preserved optical skin transparency" width="933" height="1400" loading="lazy" decoding="async">
-              <div class="look-cap">Sheer Detail</div>
-            </div>
-            <div class="look-tile">
-              <img src="/assets/agency_showcase/client_fashion_lookbook_al_dec_402.webp" alt="Polka dot cotton midi dress matched to exact lookbook skin tone and contrast" width="933" height="1400" loading="lazy" decoding="async">
-              <div class="look-cap">48 &middot; Match</div>
-            </div>
-            <div class="look-tile">
-              <img src="/assets/agency_showcase/client_fashion_lookbook_al_dec_773.webp" alt="Yellow plaid lace-hem lookbook frame matched cleanly to opening set exposure" width="933" height="1400" loading="lazy" decoding="async">
-              <div class="look-cap">120 &middot; Lace</div>
-            </div>
-          </div>
-        </div>
       </div>
 
       <div class="tx-col">
         <div class="num">04 <span>Editorial &amp; Catalog Models</span></div>
         <h2>On-model fashion retouching: natural skin, clean fabric</h2>
-        <p class="tg">16-bit manual dodge &amp; burn &middot; Zero plastic blur &middot; Consistent multi-SKU lookbooks</p>
-        <p class="d">Fashion retouching should look expensive, not over-edited. Waxy airbrushed skin and distorted silhouettes signal cheap automation immediately. We retouch the garment first and the person second&mdash;keeping real pores, expression and proportions intact.</p>
+        <p class="d">Waxy airbrushed skin and distorted silhouettes read as cheap automation. We retouch the garment first and the person second&mdash;preserving natural pores, expression and real human proportions.</p>
 
         <div class="problem-box">
           <h3>What we handle on model images</h3>
           <ul>
-            <li>Natural skin retouching: real pores and micro-texture kept while tidying blemishes and redness</li>
-            <li>Garment fabric cleanup: pinching, pulls, transit fold lines, stray lint and pocket bulges</li>
-            <li>Hair and flyaway cleanup that leaves natural volume instead of pasted-on helmets</li>
-            <li>Cross-shoot skin tone matching even when strobe light shifts between studio setups</li>
-            <li>Clean backdrop extensions, studio paper seam cleanup or crisp pure-white cutouts</li>
-            <li>Shape adjustments strictly when instructed&mdash;we never warp a model&rsquo;s body unasked</li>
+            <li>Natural skin retouching: blemishes cleaned with real pore texture intact</li>
+            <li>Garment fabric cleanup: pinching, pulls, fold lines, lint &amp; pocket bulges</li>
+            <li>Flyaway hair cleanup keeping natural hair volume &amp; strand separation</li>
+            <li>Skin tone consistency when lighting shifts between campaign setups</li>
+            <li>Backdrop extension, studio floor seam cleanup or #FFFFFF cutouts</li>
+            <li>Proportions left untouched unless specifically requested in markup notes</li>
           </ul>
         </div>
 
-        <div class="label-box">
-          <h3>Lookbooks, campaigns and catalogues</h3>
-          <p>Shoppers experience a lookbook as one unified grid, not isolated files. Working from your master LUT or reference proof, we match skin warmth, shadow depth and sweep tone so Frame 1 and Frame 150 read as a single cohesive shoot.</p>
+        <div class="label-note">
+          <strong>Lookbooks, campaigns &amp; catalogues</strong>
+          <p>Shoppers judge a lookbook as one unified grid. Working from your approved master proof, we lock skin warmth, contrast depth and sweep tone so Frame 01 through Frame 150 read as one shoot.</p>
         </div>
 
         <div class="cat-links">
           <a class="btn p" href="/contact?service=fashion">Test an On-Model Image Free</a>
           <a class="text-link" href="/services#beauty">See Beauty Portrait Specialist &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Full-Width Lookbook Strip -->
+      <div class="lookbook-band">
+        <div class="lookbook-head">
+          <strong>Same-Lookbook Color, Skin &amp; Sheer Consistency Proof</strong>
+          <span>Matched frame-to-frame across multi-outfit seasonal production drops</span>
+        </div>
+        <div class="look-strip">
+          <div class="look-tile">
+            <img src="/assets/agency_showcase/client_fashion_lookbook_al_dec_175.webp" alt="Seasonal lookbook frame 1 showing lilac sheer-sleeve plaid dress and uniform backdrop" width="933" height="1400" loading="lazy" decoding="async">
+            <div class="look-cap">Frame 01 &middot; Full Look</div>
+          </div>
+          <div class="look-tile">
+            <img src="/assets/agency_showcase/client_fashion_lookbook_al_dec_193.webp" alt="Lookbook sheer organza sleeve detail with preserved optical skin transparency" width="933" height="1400" loading="lazy" decoding="async">
+            <div class="look-cap">Organza &middot; Sheer Detail</div>
+          </div>
+          <div class="look-tile">
+            <img src="/assets/agency_showcase/client_fashion_lookbook_al_dec_402.webp" alt="Polka dot cotton midi dress matched to exact lookbook skin tone and contrast" width="933" height="1400" loading="lazy" decoding="async">
+            <div class="look-cap">Frame 48 &middot; Tone Match</div>
+          </div>
+          <div class="look-tile">
+            <img src="/assets/agency_showcase/client_fashion_lookbook_al_dec_773.webp" alt="Yellow plaid lace-hem lookbook frame matched cleanly to opening set exposure" width="933" height="1400" loading="lazy" decoding="async">
+            <div class="look-cap">Frame 120 &middot; Lace Hem</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1804,60 +1880,47 @@ footer a:hover{color:var(--accent)}
             data-src="/assets/agency_showcase/demo-apparel-color-swatch-matching.webp"
             data-badge="Terracotta Rust &middot; Swatch 01 Match"
             data-alt="Folded terracotta rust knit sweater matched directly to the top terracotta physical fabric swatch card"
-            data-note="Swatch 01 calibrated — folded knit sweater matched directly to the top Terracotta Rust fabric cutting.">
+            data-note="Swatch 01 calibrated — folded knit sweater matched directly to the top Terracotta Rust fabric cutting (sRGB / Adobe RGB / CMYK ready).">
             <span class="sw-dot" style="background:#8a3b2c"></span>Terracotta Rust
           </button>
           <button type="button" class="sw-btn" aria-pressed="false"
             data-src="/assets/agency_showcase/demo-apparel-color-swatch-burgundy.webp"
             data-badge="Deep Burgundy &middot; Swatch 02 Match"
             data-alt="Folded deep burgundy knit sweater recolored to match the middle burgundy fabric swatch card with full knit texture retained"
-            data-note="Swatch 02 calibrated — sweater shifted to Deep Burgundy (#4d1a1f) matching the middle wine swatch with knit ribbing intact.">
+            data-note="Swatch 02 calibrated — shifted to Deep Burgundy matching the middle wine swatch with knit ribbing intact (sRGB / Adobe RGB / CMYK ready).">
             <span class="sw-dot" style="background:#4d1a1f"></span>Deep Burgundy
           </button>
           <button type="button" class="sw-btn" aria-pressed="false"
             data-src="/assets/agency_showcase/demo-apparel-color-swatch-navy.webp"
             data-badge="Midnight Navy &middot; Swatch 03 Match"
             data-alt="Folded midnight navy knit sweater recolored to match the bottom navy fabric swatch card with natural fold depth preserved"
-            data-note="Swatch 03 calibrated — sweater shifted to Midnight Navy (#1b253a) matching the bottom navy swatch without crushing dark wool weave.">
+            data-note="Swatch 03 calibrated — shifted to Midnight Navy matching the bottom navy swatch without crushing dark wool weave (sRGB / Adobe RGB / CMYK ready).">
             <span class="sw-dot" style="background:#1b253a"></span>Midnight Navy
           </button>
         </div>
-        <div class="plat-row" style="margin:12px 0 0;gap:8px">
-          <span class="plat-pill" style="font-size:13px;padding:6px 12px">sRGB (Web Stores)</span>
-          <span class="plat-pill" style="font-size:13px;padding:6px 12px">Adobe RGB (16-Bit Master)</span>
-          <span class="plat-pill" style="font-size:13px;padding:6px 12px">CMYK (Print Lookbooks)</span>
-        </div>
         <div class="cap-note">
-          <span id="colorCapNote">Swatch 01 calibrated &mdash; click a colorway button above to match the folded knit sweater to each physical textile swatch on the right.</span>
+          <span id="colorCapNote">Swatch 01 calibrated &mdash; click a colorway above to match the folded knit sweater to each textile swatch (sRGB / Adobe RGB / CMYK ready).</span>
         </div>
       </div>
 
       <div class="tx-col">
         <div class="num">05 <span>Reduce Return Rates</span></div>
-        <h2>Color accuracy: matching what the customer will actually receive</h2>
-        <p class="tg">Physical fabric swatch matching &middot; Shadow weave recovery &middot; Web &amp; print profiles</p>
-        <p class="d">Color mismatch is one of the highest-cost drivers of fashion e-commerce returns. Strobe temperature drift turns burgundy rusty, pushes navy toward dull grey, and crushes dark wool details into flat black blocks. We calibrate batches on hardware-calibrated displays directly to your physical reference.</p>
+        <h2>Color accuracy: matching what the customer will receive</h2>
+        <p class="d">Color mismatch is one of the highest drivers of fashion returns. Strobe drift turns burgundy rusty, washes navy grey and crushes dark wool into flat black. We calibrate every colorway to your physical swatch on hardware-calibrated monitors.</p>
 
         <div class="problem-box">
           <h3>Swatch matching &amp; shadow detail controls</h3>
           <ul>
-            <li>Send a smartphone swatch snap, physical Pantone/Hex code or approved colorway sample</li>
-            <li>Targeted control on high-drift dyes including deep blacks, midnight navies, emeralds &amp; reds</li>
-            <li>Manual tone recovery inside dark shadow folds so wool twill, rib and stitching stay readable</li>
-            <li>Delivered in web-calibrated <strong>sRGB</strong> alongside <strong>Adobe RGB</strong> or <strong>CMYK</strong> files for print catalogs</li>
+            <li>Match from a physical swatch snap, Pantone/Hex target or approved sample</li>
+            <li>Controlled accuracy on tough dyes: blacks, midnight navies, emeralds &amp; reds</li>
+            <li>Shadow weave recovery so dark wool twill, rib and stitching stay readable</li>
+            <li>Delivered in web <strong>sRGB</strong> plus <strong>Adobe RGB</strong> or <strong>CMYK</strong> files for print catalogs</li>
           </ul>
         </div>
 
-        <ul class="caps">
-          <li>Zero colorway drift in sets</li>
-          <li>Black &amp; navy weave recovery</li>
-          <li>Print CMYK separation ready</li>
-          <li>Single-shoot SKU recoloring</li>
-        </ul>
-
-        <div class="cat-links">
+        <div class="cat-links" style="margin-top:20px">
           <a class="btn p" href="/contact?service=fashion&amp;tab=quote">Request Swatch-Matched Test</a>
-          <a class="text-link" href="/ecommerce-product-retouching#color-variants">Need 1 sample recolored into 10 SKUs? See Variant Recoloring &rarr;</a>
+          <a class="text-link" href="/ecommerce-product-retouching#color-variants">Recolor 1 sample into 10 SKUs &rarr;</a>
         </div>
       </div>
     </div>
