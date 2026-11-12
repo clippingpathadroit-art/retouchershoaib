@@ -377,7 +377,7 @@ textarea{
 }
 .er{
   color:var(--err);
-  font-size:13px;
+  font-size:14px;
   margin:6px 0 0;
   min-height:0;
 }
@@ -428,7 +428,7 @@ textarea{
 }
 .hint{
   color:var(--muted);
-  font-size:13px;
+  font-size:14px;
   margin:8px 0 0;
 }
 .act{
@@ -645,7 +645,7 @@ footer a:hover{
                 <p class="hint">Make sure the link permissions are set to “anyone with the link can view / download”.</p>
               </div>
               <div class="f">
-                <label for="nt">Notes for the retoucher</label>
+                <label for="nt">Notes for our retouching team</label>
                 <textarea id="nt" name="notes" placeholder="Style references, clean background, retain natural skin texture, color matching notes"></textarea>
               </div>
             </div>
@@ -691,7 +691,7 @@ footer a:hover{
 
 <footer>
   <div class="wrap">
-    <span>&copy; 2026 Retoucher Shoaib<sup>&reg;</sup>. Commercial photo retouching studio.</span>
+    <span>&copy; 2016&ndash;2026 Retoucher Shoaib<sup>&reg;</sup> &mdash; Commercial post-production studio &amp; specialist retouching team.</span>
     <span>
       <a href="mailto:retouchershoaib@gmail.com">Email</a> &middot; 
       <a href="https://wa.me/8801710763251" target="_blank" rel="noopener">WhatsApp</a> &middot; 
@@ -749,11 +749,11 @@ footer a:hover{
     if(mode === 'sample') {
       var s = document.querySelector('input[name="service"]:checked');
       var sVal = s ? s.value : 'commercial';
-      waMsg = 'Hi Shoaib, I am ' + name + (brand ? ' from ' + brand : '') + '. Interested in free trial sample retouching for ' + sVal + '.';
+      waMsg = 'Hi Retoucher Shoaib team, I am ' + name + (brand ? ' from ' + brand : '') + '. Interested in free trial sample retouching for ' + sVal + '.';
     } else {
       var t = document.querySelector('input[name="topic"]:checked');
       var tVal = t ? t.value : 'General Inquiry';
-      waMsg = 'Hi Shoaib, I am ' + name + (brand ? ' from ' + brand : '') + '. Inquiry regarding: ' + tVal + '.';
+      waMsg = 'Hi Retoucher Shoaib team, I am ' + name + (brand ? ' from ' + brand : '') + '. Inquiry regarding: ' + tVal + '.';
     }
     var waBtn = $('waBtn');
     if(waBtn) {

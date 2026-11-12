@@ -479,8 +479,8 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 }
 .cap-note{
   margin-top:11px;
-  font-size:13.5px;
-  line-height:1.5;
+  font-size:15px;
+  line-height:1.55;
   color:#c2c2ba;
   display:flex;
   align-items:center;
@@ -492,6 +492,9 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   max-width:440px;
   width:100%;
   margin-inline:auto;
+}
+.portrait-stage.garments-stage{
+  max-width:540px;
 }
 
 /* STICKY SUB-NAVIGATION BAR */
@@ -507,19 +510,35 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 }
 .bar .wrap{
   display:flex;
+  align-items:center;
   gap:8px;
   padding-block:12px;
   overflow-x:auto;
+  scroll-padding-inline:clamp(20px,4vw,48px);
   scrollbar-width:none;
 }
 .bar .wrap::-webkit-scrollbar{display:none}
+.bar .wrap.can-scroll-r{
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 36px),transparent);
+  mask-image:linear-gradient(90deg,#000 calc(100% - 36px),transparent);
+}
+.bar .wrap.can-scroll-l{
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 32px);
+  mask-image:linear-gradient(90deg,transparent,#000 32px);
+}
+.bar .wrap.can-scroll-l.can-scroll-r{
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 32px,#000 calc(100% - 36px),transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 32px,#000 calc(100% - 36px),transparent);
+}
 .bar a{
   flex:none;
-  padding:7px 14px;
+  white-space:nowrap;
+  padding:7px 13px;
   border-radius:99px;
   border:1px solid var(--line);
   color:var(--muted);
-  font-size:13.5px;
+  font-size:14.5px;
+  line-height:1.35;
   transition:.2s;
 }
 .bar a:hover{color:var(--text);border-color:var(--text)}
@@ -558,9 +577,11 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   height:auto;
   object-fit:contain;
 }
-.logo-card img.aristocracy,.logo-card img.propercloth{filter:invert(1) brightness(1.05)}
-.logo-card img.pilotfashion,.logo-card img.motionfashion{filter:brightness(1.1) contrast(1.05)}
-.logo-card img.meshki{border-radius:8px}
+.logo-card img.aristocracy{border-radius:4px}
+.logo-card img.pilotfashion{filter:brightness(0) invert(1)}
+.logo-card img.motionfashion{filter:brightness(1.1) contrast(1.05)}
+.logo-card img.propercloth{max-height:24px;max-width:140px;border-radius:4px}
+.logo-card img.meshki{filter:invert(1) brightness(1.08);mix-blend-mode:screen;border-radius:50%}
 
 /* SECTION TYPOGRAPHY & SPLIT DEPARTMENTS */
 .sec-head{
@@ -587,8 +608,6 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   align-items:start;
 }
 .dep.center-v .wrap{align-items:center}
-#color-accuracy .wrap{align-items:start}
-#color-accuracy .media-col{padding-top:38px}
 #color-accuracy .cap-note{min-height:42px;align-items:flex-start}
 .dep.flip .media-col{order:2}
 .num{
@@ -635,30 +654,30 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 }
 .problem-box h3,.label-box h3{
   margin:0 0 10px;
-  font:700 13.5px/1.25 var(--display);
+  font:700 14.5px/1.25 var(--display);
   text-transform:uppercase;
-  letter-spacing:.08em;
+  letter-spacing:.06em;
   color:var(--accent);
 }
 .label-note{
   margin:0 0 22px;
-  padding:13px 16px;
+  padding:15px 18px;
   border-left:3px solid var(--accent);
   background:rgba(200,241,53,.05);
   border-radius:0 12px 12px 0;
 }
 .label-note strong{
   display:block;
-  font:700 13px/1.25 var(--display);
+  font:700 14px/1.25 var(--display);
   text-transform:uppercase;
-  letter-spacing:.08em;
+  letter-spacing:.06em;
   color:var(--accent);
   margin-bottom:5px;
 }
 .label-note p{
   margin:0;
-  font-size:14.5px;
-  line-height:1.54;
+  font-size:15.2px;
+  line-height:1.56;
   color:#e7e9e1;
 }
 .problem-box ul,.caps{
@@ -667,8 +686,8 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   padding:0;
   display:grid;
   gap:8px 18px;
-  font-size:14.5px;
-  line-height:1.5;
+  font-size:15px;
+  line-height:1.52;
 }
 .caps{
   grid-template-columns:1fr 1fr;
@@ -739,7 +758,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   border:1px solid var(--line);
   background:var(--surface);
   color:var(--text);
-  font:500 13px var(--body);
+  font:500 14.2px var(--body);
   cursor:pointer;
   transition:border-color .2s,background .2s,color .2s;
 }
@@ -760,9 +779,9 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 }
 #colorSwatchBar{gap:7px}
 #colorSwatchBar .sw-btn{
-  padding:7px 11px;
+  padding:8px 12px;
   gap:6px;
-  font-size:12.5px;
+  font-size:13.8px;
   white-space:nowrap;
 }
 .inline-quote{
@@ -841,14 +860,14 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   background:var(--surface);
   border:1px solid var(--line);
   border-radius:15px;
-  padding:15px 16px;
+  padding:14px 16px;
   cursor:pointer;
   color:inherit;
   font:inherit;
   display:flex;
   flex-direction:column;
-  justify-content:space-between;
-  gap:8px;
+  justify-content:flex-start;
+  gap:7px;
   transition:border-color .2s,background .2s,transform .2s;
 }
 .gar-card:hover{
@@ -873,7 +892,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 .gar-card[aria-pressed="true"] h3{color:var(--accent)}
 .gar-card p{
   margin:0;
-  font-size:13.8px;
+  font-size:14.5px;
   line-height:1.52;
   color:#e0e2da;
 }
@@ -948,7 +967,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   background:var(--surface);
   border:1px solid var(--line);
   color:#eaebe4;
-  font:400 14.5px/1.5 var(--body);
+  font:400 15.2px/1.52 var(--body);
   cursor:pointer;
   transition:border-color .2s,background .2s;
 }
@@ -1138,7 +1157,8 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 }
 .o-step p{
   margin:0;
-  font-size:14.5px;
+  font-size:15.2px;
+  line-height:1.55;
   color:#d7d7d0;
 }
 
@@ -1180,6 +1200,9 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   margin:0 0 8px;
   font:700 21px/1.2 var(--display);
 }
+@media(min-width:981px){
+  .price-card h3{min-height:2.4em}
+}
 .p-val{
   font:800 clamp(28px,2.8vw,36px)/1.08 var(--display);
   color:var(--text);
@@ -1192,8 +1215,9 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   display:inline-block;
 }
 .p-sub{
-  font-size:14.5px;
-  color:var(--muted);
+  font-size:15.2px;
+  line-height:1.5;
+  color:#c2c2ba;
   margin:0 0 18px;
 }
 .price-card ul{
@@ -1202,7 +1226,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   padding:0;
   display:grid;
   gap:9px;
-  font-size:14.5px;
+  font-size:15px;
   color:#e2e2db;
   flex:1;
 }
@@ -1266,7 +1290,7 @@ details[open]{border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
 summary{
   list-style:none;
   cursor:pointer;
-  font:700 17.5px/1.35 var(--display);
+  font:700 18.5px/1.35 var(--display);
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -1284,7 +1308,8 @@ details[open] summary::after{content:"\2212"}
 details p{
   margin:12px 0 0;
   color:#d7d7d0;
-  font-size:15.5px;
+  font-size:16.2px;
+  line-height:1.62;
 }
 
 .dept-grid{
@@ -1314,9 +1339,9 @@ details p{
 }
 .dept-card p{
   margin:0;
-  font-size:14px;
-  color:var(--muted);
-  line-height:1.5;
+  font-size:15.2px;
+  color:#c2c2ba;
+  line-height:1.55;
 }
 .dept-card span{
   color:var(--accent);
@@ -1486,7 +1511,7 @@ footer a:hover{color:var(--accent)}
 
 <div class="bar">
   <div class="wrap" id="bar">
-    <a href="#trust">Why Us</a>
+    <a href="#trust">Brand Trust</a>
     <a href="#ghost-mannequin">Ghost Mannequin</a>
     <a href="#garments">Garment Types</a>
     <a href="#shooting-guide">Shooting Guide</a>
@@ -1615,7 +1640,7 @@ footer a:hover{color:var(--accent)}
   <!-- 02 GHOST MANNEQUIN EDITING BY GARMENT TYPE -->
   <section class="dep flip center-v" id="garments">
     <div class="wrap">
-      <div class="media-col portrait-stage">
+      <div class="media-col portrait-stage garments-stage">
         <div class="garment-stage">
           <div class="garment-stage-bar">
             <span class="garment-title-pill" id="garmentTitlePill">Dresses &amp; Skirts</span>
@@ -2078,7 +2103,7 @@ footer a:hover{color:var(--accent)}
         <article class="rev-card">
           <div>
             <div class="rev-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p class="rev-quote">&ldquo;We run large seasonal apparel drops with strict ghost mannequin guidelines. Shoaib&rsquo;s clipping paths and collar alignments are always spot-on on the first pass. We barely have any revisions, which makes my production schedule run so much smoother.&rdquo;</p>
+            <p class="rev-quote">&ldquo;We run large seasonal apparel drops with strict ghost mannequin guidelines. The studio&rsquo;s clipping paths and collar alignments are always spot-on on the first pass. We barely have any revisions, which makes my production schedule run so much smoother.&rdquo;</p>
           </div>
           <div class="rev-who">
             <strong>Peter Helskog</strong>
@@ -2089,7 +2114,7 @@ footer a:hover{color:var(--accent)}
         <article class="rev-card">
           <div>
             <div class="rev-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p class="rev-quote">&ldquo;I rarely leave feedback unless someone genuinely exceeds expectations. We sent over a tough high-volume commercial lookbook under a brutal deadline. Shoaib handled the entire batch with great consistency and got revisions back to me within hours.&rdquo;</p>
+            <p class="rev-quote">&ldquo;I rarely leave feedback unless a studio genuinely exceeds expectations. We sent over a tough high-volume commercial lookbook under a brutal deadline. Shoaib and his team handled the entire batch with great consistency and got revisions back to us within hours.&rdquo;</p>
           </div>
           <div class="rev-who">
             <strong>John Hubbard</strong>
@@ -2100,7 +2125,7 @@ footer a:hover{color:var(--accent)}
         <article class="rev-card">
           <div>
             <div class="rev-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p class="rev-quote">&ldquo;It&rsquo;s the respect Shoaib has for natural skin texture that sets his editorial work apart. Every flyaway hair, dust spot, and skin distraction is carefully removed while preserving original lighting and pore structure.&rdquo;</p>
+            <p class="rev-quote">&ldquo;It&rsquo;s the respect Shoaib and his retouching team have for natural skin texture that sets their editorial work apart. Every flyaway hair, dust spot, and skin distraction is carefully removed while preserving original lighting and pore structure.&rdquo;</p>
           </div>
           <div class="rev-who">
             <strong>Raffaello Montillo</strong>
@@ -2224,7 +2249,7 @@ footer a:hover{color:var(--accent)}
     <div class="g">
       <div>
         <h4>Retoucher Shoaib</h4>
-        <p style="margin:0;max-width:300px;line-height:1.6">High-end commercial post-production directed by Shoaib. Retouching for fashion, ghost mannequin apparel, jewelry and beauty brands.</p>
+        <p style="margin:0;max-width:300px;line-height:1.6">High-end commercial post-production studio founded by Shoaib Siddique, powered by a dedicated team of specialist retouchers for fashion, ghost mannequin apparel, jewelry and beauty brands.</p>
       </div>
       <div>
         <h4>Disciplines</h4>
@@ -2383,22 +2408,44 @@ footer a:hover{color:var(--accent)}
       return document.getElementById(a.getAttribute('href').slice(1));
     }).filter(Boolean);
 
+    function syncBarMask(){
+      var maxScroll = bar.scrollWidth - bar.clientWidth;
+      bar.classList.toggle('can-scroll-l', maxScroll > 2 && bar.scrollLeft > 4);
+      bar.classList.toggle('can-scroll-r', maxScroll > 2 && bar.scrollLeft < maxScroll - 4);
+    }
+
     function syncActiveBar(){
       var y = innerHeight * 0.42;
       var cur = sections[0] ? sections[0].id : '';
       sections.forEach(function(s){
         if (s.getBoundingClientRect().top < y) cur = s.id;
       });
-      navLinks.forEach(function(a){
+      var hasOverflow = bar.scrollWidth > bar.clientWidth + 2;
+      if (!hasOverflow && bar.scrollLeft !== 0) {
+        bar.scrollLeft = 0;
+      }
+      navLinks.forEach(function(a, idx){
         var on = a.getAttribute('href') === '#' + cur;
         a.classList.toggle('on', on);
-        if (on && bar.scrollWidth > bar.clientWidth) {
-          var left = a.offsetLeft - bar.clientWidth / 2 + a.offsetWidth / 2;
-          bar.scrollTo({ left: left, behavior: rm ? 'auto' : 'smooth' });
+        if (on && hasOverflow) {
+          var pad = 24;
+          var viewLeft = bar.scrollLeft;
+          var viewRight = viewLeft + bar.clientWidth;
+          var aLeft = a.offsetLeft;
+          var aRight = aLeft + a.offsetWidth;
+          if (idx === 0) {
+            bar.scrollTo({ left: 0, behavior: rm ? 'auto' : 'smooth' });
+          } else if (aLeft < viewLeft + pad || aRight > viewRight - pad) {
+            var left = Math.max(0, aLeft - bar.clientWidth / 2 + a.offsetWidth / 2);
+            bar.scrollTo({ left: left, behavior: rm ? 'auto' : 'smooth' });
+          }
         }
       });
+      syncBarMask();
     }
+    bar.addEventListener('scroll', syncBarMask, { passive: true });
     addEventListener('scroll', syncActiveBar, { passive: true });
+    addEventListener('resize', syncActiveBar, { passive: true });
     syncActiveBar();
   }
 

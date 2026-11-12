@@ -471,8 +471,8 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 }
 .cap-note{
   margin-top:11px;
-  font-size:13.5px;
-  line-height:1.5;
+  font-size:15px;
+  line-height:1.55;
   color:#c2c2ba;
   display:flex;
   align-items:center;
@@ -494,19 +494,35 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 }
 .bar .wrap{
   display:flex;
+  align-items:center;
   gap:8px;
   padding-block:12px;
   overflow-x:auto;
+  scroll-padding-inline:clamp(20px,4vw,48px);
   scrollbar-width:none;
 }
 .bar .wrap::-webkit-scrollbar{display:none}
+.bar .wrap.can-scroll-r{
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 36px),transparent);
+  mask-image:linear-gradient(90deg,#000 calc(100% - 36px),transparent);
+}
+.bar .wrap.can-scroll-l{
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 32px);
+  mask-image:linear-gradient(90deg,transparent,#000 32px);
+}
+.bar .wrap.can-scroll-l.can-scroll-r{
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 32px,#000 calc(100% - 36px),transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 32px,#000 calc(100% - 36px),transparent);
+}
 .bar a{
   flex:none;
-  padding:8px 16px;
+  white-space:nowrap;
+  padding:7px 13px;
   border-radius:99px;
   border:1px solid var(--line);
   color:var(--muted);
-  font-size:14px;
+  font-size:14.5px;
+  line-height:1.35;
   transition:.2s;
 }
 .bar a:hover{color:var(--text);border-color:var(--text)}
@@ -545,9 +561,11 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   height:auto;
   object-fit:contain;
 }
-.logo-card img.aristocracy,.logo-card img.propercloth{filter:invert(1) brightness(1.05)}
-.logo-card img.pilotfashion,.logo-card img.motionfashion{filter:brightness(1.1) contrast(1.05)}
-.logo-card img.meshki{border-radius:8px}
+.logo-card img.aristocracy{border-radius:4px}
+.logo-card img.pilotfashion{filter:brightness(0) invert(1)}
+.logo-card img.motionfashion{filter:brightness(1.1) contrast(1.05)}
+.logo-card img.propercloth{max-height:24px;max-width:140px;border-radius:4px}
+.logo-card img.meshki{filter:invert(1) brightness(1.08);mix-blend-mode:screen;border-radius:50%}
 
 /* SECTION TYPOGRAPHY & SPLIT DEPARTMENTS */
 .sec-head{
@@ -608,9 +626,9 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 }
 .problem-box h3{
   margin:0 0 10px;
-  font:700 14px/1.2 var(--display);
+  font:700 14.5px/1.25 var(--display);
   text-transform:uppercase;
-  letter-spacing:.08em;
+  letter-spacing:.06em;
   color:var(--accent);
 }
 .problem-box ul,.caps{
@@ -678,7 +696,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   border:1px solid var(--line);
   background:var(--surface);
   color:var(--text);
-  font:500 13.5px var(--body);
+  font:500 14.5px var(--body);
   cursor:pointer;
   transition:border-color .2s,background .2s,color .2s;
 }
@@ -713,7 +731,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   border:1px solid var(--line);
   background:var(--surface);
   color:var(--muted);
-  font:500 12.5px var(--body);
+  font:500 13.5px var(--body);
   cursor:pointer;
   display:grid;
   grid-template-columns:minmax(0,1fr);
@@ -763,13 +781,14 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 }
 .mini-ref strong{
   display:block;
-  font:600 14.5px/1.3 var(--body);
+  font:600 15px/1.3 var(--body);
   color:var(--text);
 }
 .mini-ref span{
   display:block;
-  font-size:13px;
-  color:var(--muted);
+  font-size:14.2px;
+  line-height:1.5;
+  color:#c2c2ba;
 }
 
 /* COSMETICS 3-PIECE PACKSHOT MOSAIC */
@@ -904,9 +923,9 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 }
 .dept-card p{
   margin:0;
-  font-size:14px;
-  color:var(--muted);
-  line-height:1.5;
+  font-size:15.2px;
+  color:#c2c2ba;
+  line-height:1.55;
 }
 .dept-card span{
   color:var(--accent);
@@ -1001,6 +1020,9 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   margin:0 0 8px;
   font:700 21px/1.2 var(--display);
 }
+@media(min-width:981px){
+  .price-card h3{min-height:2.4em}
+}
 .p-val{
   font:800 clamp(30px,3vw,38px)/1.05 var(--display);
   color:var(--text);
@@ -1013,9 +1035,10 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   display:inline-block;
 }
 .p-sub{
-  font-size:14.5px;
-  color:var(--muted);
+  font-size:15.2px;
+  color:#c2c2ba;
   margin:0 0 18px;
+  line-height:1.5;
 }
 .price-card ul{
   list-style:none;
@@ -1023,7 +1046,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   padding:0;
   display:grid;
   gap:9px;
-  font-size:14.5px;
+  font-size:15px;
   color:#e2e2db;
   flex:1;
 }
@@ -1089,7 +1112,7 @@ details[open]{border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
 summary{
   list-style:none;
   cursor:pointer;
-  font:700 17.5px/1.35 var(--display);
+  font:700 18.5px/1.35 var(--display);
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -1107,7 +1130,8 @@ details[open] summary::after{content:"\2212"}
 details p{
   margin:12px 0 0;
   color:#d7d7d0;
-  font-size:15.5px;
+  font-size:16.2px;
+  line-height:1.62;
 }
 
 /* FINAL CTA */
@@ -1262,14 +1286,14 @@ footer a:hover{color:var(--accent)}
 
 <div class="bar">
   <div class="wrap" id="bar">
-    <a href="#trust">Why Brands Trust Us</a>
+    <a href="#trust">Trust &amp; QC</a>
     <a href="#eyewear">Eyewear</a>
     <a href="#bags-leather">Bags &amp; Leather</a>
-    <a href="#color-variants">SKU Color Variants</a>
+    <a href="#color-variants">Color Variants</a>
     <a href="#footwear">Footwear</a>
-    <a href="#clipping-path">Clipping Paths &amp; #FFFFFF</a>
-    <a href="#cosmetics">Cosmetics &amp; Perfume</a>
-    <a href="#specs">Marketplace Specs</a>
+    <a href="#clipping-path">White Cutouts</a>
+    <a href="#cosmetics">Cosmetics</a>
+    <a href="#specs">Specs</a>
     <a href="#pricing">Pricing</a>
     <a href="#faq">FAQ</a>
   </div>
@@ -1461,15 +1485,15 @@ footer a:hover{color:var(--accent)}
         </div>
         <div class="angle-thumbs" id="footwearThumbs" role="group" aria-label="Switch Oxford shoe angle preview">
           <button type="button" class="ang-btn" aria-pressed="true" data-src="/assets/agency_showcase/ecom_oxford_patent_leather_shoes.webp" data-alt="Aristocracy London black patent leather Oxford dress shoes three-quarter angle packshot">
-            <img src="/assets/agency_showcase/ecom_oxford_patent_leather_shoes.webp" alt="" width="1400" height="1400" loading="lazy">
+            <img src="/assets/agency_showcase/ecom_oxford_patent_leather_shoes.webp" alt="Aristocracy London black patent Oxford shoes 3/4 studio view thumbnail" width="1400" height="1400" loading="lazy">
             <span>3/4 Studio Pair</span>
           </button>
           <button type="button" class="ang-btn" aria-pressed="false" data-src="/assets/agency_showcase/client_ecom_oxford_shoes_overhead_pair.webp" data-alt="Handmade Designed in London stitched brown leather shoe sole detail">
-            <img src="/assets/agency_showcase/client_ecom_oxford_shoes_overhead_pair.webp" alt="" width="1400" height="1400" loading="lazy">
+            <img src="/assets/agency_showcase/client_ecom_oxford_shoes_overhead_pair.webp" alt="Stitched brown leather dress shoe outsole detail thumbnail" width="1400" height="1400" loading="lazy">
             <span>Outsole Detail</span>
           </button>
           <button type="button" class="ang-btn" aria-pressed="false" data-src="/assets/agency_showcase/client_ecom_oxford_shoes_side_profile.webp" data-alt="Top-down view inside Aristocracy London patent Oxford leather dress shoes">
-            <img src="/assets/agency_showcase/client_ecom_oxford_shoes_side_profile.webp" alt="" width="1400" height="1400" loading="lazy">
+            <img src="/assets/agency_showcase/client_ecom_oxford_shoes_side_profile.webp" alt="Top-down interior view of black patent Oxford dress shoes thumbnail" width="1400" height="1400" loading="lazy">
             <span>Top-Down Interior</span>
           </button>
         </div>
@@ -1523,15 +1547,15 @@ footer a:hover{color:var(--accent)}
         </div>
         <div class="angle-thumbs" id="cutThumbs" role="group" aria-label="Switch pure #FFFFFF clipping path sample">
           <button type="button" class="ang-btn" aria-pressed="true" data-src="/assets/agency_showcase/ecom-clipping-lab-analyzer-nc203.webp" data-w="1024" data-h="1024" data-alt="Precision laboratory analyzer hardware packshot isolated cleanly on pure #FFFFFF white background using hand-drawn Pen Tool clipping path and natural contact shadow">
-            <img src="/assets/agency_showcase/ecom-clipping-lab-analyzer-nc203.webp" alt="" width="1024" height="1024" loading="lazy">
+            <img src="/assets/agency_showcase/ecom-clipping-lab-analyzer-nc203.webp" alt="Laboratory analyzer pure white cutout packshot thumbnail" width="1024" height="1024" loading="lazy">
             <span>Lab Analyzer</span>
           </button>
           <button type="button" class="ang-btn" aria-pressed="false" data-src="/assets/agency_showcase/ecom-clipping-led-lightbar-packshot.webp" data-w="1000" data-h="1000" data-alt="Commercial LED lightbar hardware with clear optical lens isolated on pure #FFFFFF white background with crisp clipping path and floor reflection">
-            <img src="/assets/agency_showcase/ecom-clipping-led-lightbar-packshot.webp" alt="" width="1000" height="1000" loading="lazy">
+            <img src="/assets/agency_showcase/ecom-clipping-led-lightbar-packshot.webp" alt="LED lightbar pure white cutout packshot thumbnail" width="1000" height="1000" loading="lazy">
             <span>LED Lightbar</span>
           </button>
           <button type="button" class="ang-btn" aria-pressed="false" data-src="/assets/agency_showcase/ecom-clipping-lab-tower-xcyto5.webp" data-w="1024" data-h="1024" data-alt="Matte charcoal benchtop laboratory instrument tower packshot isolated on pure #FFFFFF white background using manual Bezier clipping path and natural contact shadow">
-            <img src="/assets/agency_showcase/ecom-clipping-lab-tower-xcyto5.webp" alt="" width="1024" height="1024" loading="lazy">
+            <img src="/assets/agency_showcase/ecom-clipping-lab-tower-xcyto5.webp" alt="Laboratory instrument tower pure white cutout packshot thumbnail" width="1024" height="1024" loading="lazy">
             <span>Lab Tower</span>
           </button>
         </div>
@@ -1727,7 +1751,7 @@ footer a:hover{color:var(--accent)}
         <article class="rev-card">
           <div>
             <div class="rev-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p class="rev-quote">&ldquo;We run large seasonal apparel drops with strict ghost mannequin guidelines. Shoaib&rsquo;s clipping paths and collar alignments are always spot-on on the first pass. We barely have any revisions, which makes my production schedule run so much smoother.&rdquo;</p>
+            <p class="rev-quote">&ldquo;We run large seasonal apparel drops with strict ghost mannequin guidelines. The studio&rsquo;s clipping paths and collar alignments are always spot-on on the first pass. We barely have any revisions, which makes my production schedule run so much smoother.&rdquo;</p>
           </div>
           <div class="rev-who">
             <strong>Peter Helskog</strong>
@@ -1738,7 +1762,7 @@ footer a:hover{color:var(--accent)}
         <article class="rev-card">
           <div>
             <div class="rev-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p class="rev-quote">&ldquo;Fast, honest, and high quality. We usually upload raw folders to Drive at the end of the day and have web-ready exports waiting in the morning. Even when we throw tight last-minute turnaround requests at him, he delivers without compromising on details.&rdquo;</p>
+            <p class="rev-quote">&ldquo;Fast, honest, and high quality. We usually upload raw folders to Drive at the end of the day and have web-ready exports waiting in the morning. Even when we throw tight last-minute turnaround requests at Shoaib&rsquo;s team, they deliver without compromising on details.&rdquo;</p>
           </div>
           <div class="rev-who">
             <strong>Toby</strong>
@@ -1749,7 +1773,7 @@ footer a:hover{color:var(--accent)}
         <article class="rev-card">
           <div>
             <div class="rev-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-            <p class="rev-quote">&ldquo;I rarely leave feedback unless someone genuinely exceeds expectations. We sent over a tough high-volume commercial lookbook under a brutal deadline. Shoaib handled the entire batch with great consistency and got revisions back to me within hours.&rdquo;</p>
+            <p class="rev-quote">&ldquo;I rarely leave feedback unless a studio genuinely exceeds expectations. We sent over a tough high-volume commercial lookbook under a brutal deadline. Shoaib and his team handled the entire batch with great consistency and got revisions back to us within hours.&rdquo;</p>
           </div>
           <div class="rev-who">
             <strong>John Hubbard</strong>
@@ -1869,7 +1893,7 @@ footer a:hover{color:var(--accent)}
     <div class="g">
       <div>
         <h4>Retoucher Shoaib</h4>
-        <p style="margin:0;max-width:300px;line-height:1.6">High-end commercial post-production directed by Shoaib. Retouching for jewelry, e-commerce, fashion and beauty brands.</p>
+        <p style="margin:0;max-width:300px;line-height:1.6">High-end commercial post-production studio founded by Shoaib Siddique, powered by a dedicated team of specialist retouchers for e-commerce, jewelry, fashion and beauty brands.</p>
       </div>
       <div>
         <h4>Disciplines</h4>
@@ -2020,22 +2044,44 @@ footer a:hover{color:var(--accent)}
       return document.getElementById(a.getAttribute('href').slice(1));
     }).filter(Boolean);
 
+    function syncBarMask(){
+      var maxScroll = bar.scrollWidth - bar.clientWidth;
+      bar.classList.toggle('can-scroll-l', maxScroll > 2 && bar.scrollLeft > 4);
+      bar.classList.toggle('can-scroll-r', maxScroll > 2 && bar.scrollLeft < maxScroll - 4);
+    }
+
     function syncActiveBar(){
       var y = innerHeight * 0.42;
       var cur = sections[0] ? sections[0].id : '';
       sections.forEach(function(s){
         if (s.getBoundingClientRect().top < y) cur = s.id;
       });
-      navLinks.forEach(function(a){
+      var hasOverflow = bar.scrollWidth > bar.clientWidth + 2;
+      if (!hasOverflow && bar.scrollLeft !== 0) {
+        bar.scrollLeft = 0;
+      }
+      navLinks.forEach(function(a, idx){
         var on = a.getAttribute('href') === '#' + cur;
         a.classList.toggle('on', on);
-        if (on && bar.scrollWidth > bar.clientWidth) {
-          var left = a.offsetLeft - bar.clientWidth / 2 + a.offsetWidth / 2;
-          bar.scrollTo({ left: left, behavior: rm ? 'auto' : 'smooth' });
+        if (on && hasOverflow) {
+          var pad = 24;
+          var viewLeft = bar.scrollLeft;
+          var viewRight = viewLeft + bar.clientWidth;
+          var aLeft = a.offsetLeft;
+          var aRight = aLeft + a.offsetWidth;
+          if (idx === 0) {
+            bar.scrollTo({ left: 0, behavior: rm ? 'auto' : 'smooth' });
+          } else if (aLeft < viewLeft + pad || aRight > viewRight - pad) {
+            var left = Math.max(0, aLeft - bar.clientWidth / 2 + a.offsetWidth / 2);
+            bar.scrollTo({ left: left, behavior: rm ? 'auto' : 'smooth' });
+          }
         }
       });
+      syncBarMask();
     }
+    bar.addEventListener('scroll', syncBarMask, { passive: true });
     addEventListener('scroll', syncActiveBar, { passive: true });
+    addEventListener('resize', syncActiveBar, { passive: true });
     syncActiveBar();
   }
 
