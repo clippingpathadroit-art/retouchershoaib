@@ -44,7 +44,7 @@
         "https://retouchershoaib.com/assets/agency_showcase/fashion-ghost-mannequin-pink-sweater.webp",
         "https://retouchershoaib.com/assets/agency_showcase/fashion-ghost-mannequin-blue-blouse.webp",
         "https://retouchershoaib.com/assets/agency_showcase/fashion-ghost-mannequin-activewear.webp",
-        "https://retouchershoaib.com/assets/agency_showcase/fashion-blue-activewear-after.webp",
+        "https://retouchershoaib.com/assets/agency_showcase/fashion-blue-activewear-white-after.webp",
         "https://retouchershoaib.com/assets/agency_showcase/client_fashion_lookbook_al_dec_175.webp"
       ],
       "description": "100% manual ghost mannequin photo editing, 3D neck joint compositing, inside label placement, knitwear and sheer fabric preservation, apparel swatch color matching, and natural on-model fashion lookbook retouching. Flat-lay apparel cutouts from $0.50/image; custom quotes for multi-view ghost mannequin and bulk campaigns with 12 to 24 hour turnaround.",
@@ -587,6 +587,9 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   align-items:start;
 }
 .dep.center-v .wrap{align-items:center}
+#color-accuracy .wrap{align-items:start}
+#color-accuracy .media-col{padding-top:38px}
+#color-accuracy .cap-note{min-height:42px;align-items:flex-start}
 .dep.flip .media-col{order:2}
 .num{
   display:inline-flex;
@@ -1372,6 +1375,7 @@ footer a:hover{color:var(--accent)}
 }
 @media(max-width:980px){
   .dep .wrap{grid-template-columns:1fr}
+  #color-accuracy .media-col{padding-top:0}
   .dep.flip .media-col{order:0}
   .logo-row{grid-template-columns:repeat(3,minmax(0,1fr))}
   .spec-grid,.price-grid,.rev-grid,.order-steps{grid-template-columns:1fr}
@@ -1784,7 +1788,7 @@ footer a:hover{color:var(--accent)}
             <span class="tag b">Before</span>
           </div>
           <div class="lay after">
-            <img id="modelAfterImg" src="/assets/agency_showcase/fashion-blue-activewear-after.webp" alt="Full-body female fitness model after on-model fashion retouching with pure white studio backdrop, fabric fold smoothing, and natural skin preserved" width="713" height="1024" loading="lazy" decoding="async">
+            <img id="modelAfterImg" src="/assets/agency_showcase/fashion-blue-activewear-white-after.webp" alt="Full-body female fitness model after on-model fashion retouching with pure white studio backdrop, fabric fold smoothing, and natural skin preserved" width="713" height="1024" loading="lazy" decoding="async">
             <span class="tag a">After</span>
           </div>
           <input type="range" min="0" max="100" value="50" aria-label="Before and after comparison for on-model fashion photo retouching">
@@ -1793,7 +1797,7 @@ footer a:hover{color:var(--accent)}
         <div class="swatch-bar" role="group" aria-label="Switch on-model fashion retouching example">
           <button type="button" class="sw-btn" aria-pressed="true"
             data-before="/assets/agency_showcase/fashion-blue-activewear-before.webp"
-            data-after="/assets/agency_showcase/fashion-blue-activewear-after.webp"
+            data-after="/assets/agency_showcase/fashion-blue-activewear-white-after.webp"
             data-ratio="1046/1500"
             data-balt="Full-body female fitness model wearing cobalt blue activewear set on warm studio sweep before fashion retouching"
             data-aalt="Full-body female fitness model after on-model fashion retouching with pure white studio backdrop, fabric fold smoothing, and natural skin preserved"
@@ -1880,26 +1884,26 @@ footer a:hover{color:var(--accent)}
             data-src="/assets/agency_showcase/demo-apparel-color-swatch-matching.webp"
             data-badge="Terracotta Rust &middot; Swatch 01 Match"
             data-alt="Folded terracotta rust knit sweater matched directly to the top terracotta physical fabric swatch card"
-            data-note="Swatch 01 calibrated — folded knit sweater matched directly to the top Terracotta Rust fabric cutting (sRGB / Adobe RGB / CMYK ready).">
+            data-note="Swatch 01 calibrated — matched to top Terracotta Rust fabric cutting (sRGB / Adobe RGB / CMYK).">
             <span class="sw-dot" style="background:#8a3b2c"></span>Terracotta Rust
           </button>
           <button type="button" class="sw-btn" aria-pressed="false"
             data-src="/assets/agency_showcase/demo-apparel-color-swatch-burgundy.webp"
             data-badge="Deep Burgundy &middot; Swatch 02 Match"
             data-alt="Folded deep burgundy knit sweater recolored to match the middle burgundy fabric swatch card with full knit texture retained"
-            data-note="Swatch 02 calibrated — shifted to Deep Burgundy matching the middle wine swatch with knit ribbing intact (sRGB / Adobe RGB / CMYK ready).">
+            data-note="Swatch 02 calibrated — matched to middle Deep Burgundy swatch with ribbing intact (sRGB / CMYK).">
             <span class="sw-dot" style="background:#4d1a1f"></span>Deep Burgundy
           </button>
           <button type="button" class="sw-btn" aria-pressed="false"
             data-src="/assets/agency_showcase/demo-apparel-color-swatch-navy.webp"
             data-badge="Midnight Navy &middot; Swatch 03 Match"
             data-alt="Folded midnight navy knit sweater recolored to match the bottom navy fabric swatch card with natural fold depth preserved"
-            data-note="Swatch 03 calibrated — shifted to Midnight Navy matching the bottom navy swatch without crushing dark wool weave (sRGB / Adobe RGB / CMYK ready).">
+            data-note="Swatch 03 calibrated — matched to bottom Midnight Navy swatch keeping dark weave crisp (sRGB / CMYK).">
             <span class="sw-dot" style="background:#1b253a"></span>Midnight Navy
           </button>
         </div>
         <div class="cap-note">
-          <span id="colorCapNote">Swatch 01 calibrated &mdash; click a colorway above to match the folded knit sweater to each textile swatch (sRGB / Adobe RGB / CMYK ready).</span>
+          <span id="colorCapNote">Swatch 01 calibrated &mdash; matched to top Terracotta Rust fabric cutting (sRGB / Adobe RGB / CMYK).</span>
         </div>
       </div>
 
