@@ -18,7 +18,7 @@
 <meta property="og:image" content="https://retouchershoaib.com/assets/agency_showcase/ghost-mannequin-fashion-og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Before and after ghost mannequin tweed blazer 3D neck join and inside label retouching by Retoucher Shoaib">
+<meta property="og:image:alt" content="Before and after ghost mannequin blazer removal and 3D neck joint retouching by Retoucher Shoaib">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ghost Mannequin &amp; Fashion Photo Retouching | Retoucher Shoaib">
 <meta name="twitter:description" content="100% hand-retouched ghost mannequin 3D neck joins, garment symmetry, swatch color calibration &amp; natural on-model fashion retouching in 12–24h.">
@@ -35,12 +35,13 @@
       "serviceType": "Ghost Mannequin Photo Editing and On-Model Fashion Retouching Service",
       "url": "https://retouchershoaib.com/ghost-mannequin-fashion-photo-retouching",
       "image": [
-        "https://retouchershoaib.com/assets/agency_showcase/fashion-tweed-blazer-ghost-after.webp",
+        "https://retouchershoaib.com/assets/agency_showcase/fashion-ghost-blazer-after.webp",
+        "https://retouchershoaib.com/assets/agency_showcase/fashion-kids-swimwear-after.webp",
+        "https://retouchershoaib.com/assets/agency_showcase/fashion-green-vest-after.webp",
         "https://retouchershoaib.com/assets/agency_showcase/work_ghost_mannequin.webp",
         "https://retouchershoaib.com/assets/agency_showcase/fashion-ghost-mannequin-blue-blouse.webp",
         "https://retouchershoaib.com/assets/agency_showcase/fashion-ghost-mannequin-olive-jacket.webp",
         "https://retouchershoaib.com/assets/agency_showcase/fashion-ghost-mannequin-pink-sweater.webp",
-        "https://retouchershoaib.com/assets/agency_showcase/fashion-ghost-mannequin-kids-swimwear.webp",
         "https://retouchershoaib.com/assets/agency_showcase/fashion-blue-activewear-after.webp",
         "https://retouchershoaib.com/assets/agency_showcase/client_fashion_lookbook_al_dec_175.webp"
       ],
@@ -687,20 +688,16 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 .text-link:hover{border-color:var(--accent)}
 
 /* INTERACTIVE SWITCHER BUTTONS */
-.demo-badge{
+.craft-badge{
   display:inline-flex;
   align-items:center;
   gap:6px;
   padding:4px 10px;
   border-radius:99px;
   background:rgba(10,10,11,.88);
-  border:1px solid rgba(255,255,255,.22);
+  border:1px solid rgba(200,241,53,.38);
   font-size:11.5px;
   font-weight:600;
-  color:#f1f1ec;
-}
-.demo-badge.is-demo{
-  border-color:rgba(200,241,53,.45);
   color:var(--accent);
 }
 .swatch-bar{
@@ -728,6 +725,21 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   background:rgba(200,241,53,.12);
   color:var(--accent);
   font-weight:600;
+}
+.sw-dot{
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.35);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.22);
+  flex-shrink:0;
+}
+#colorSwatchBar{gap:7px}
+#colorSwatchBar .sw-btn{
+  padding:7px 11px;
+  gap:6px;
+  font-size:12.5px;
+  white-space:nowrap;
 }
 .inline-quote{
   margin:18px 0 0;
@@ -835,21 +847,6 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   color:var(--text);
 }
 .gar-card[aria-pressed="true"] h3{color:var(--accent)}
-.gar-tag{
-  flex-shrink:0;
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  padding:2px 7px;
-  border-radius:99px;
-  border:1px solid rgba(255,255,255,.18);
-  color:var(--muted);
-}
-.gar-tag.demo{
-  border-color:rgba(200,241,53,.4);
-  color:var(--accent);
-}
 .gar-card p{
   margin:0;
   font-size:13.5px;
@@ -872,10 +869,10 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 .shoot-shot img{
   width:100%;
   height:auto;
-  aspect-ratio:1000/1500;
-  object-fit:cover;
+  aspect-ratio:600/750;
+  object-fit:contain;
   display:block;
-  background:#f4f4f2;
+  background:#0e0e11;
 }
 .shoot-meta{
   padding:10px 11px;
@@ -1438,13 +1435,13 @@ footer a:hover{color:var(--accent)}
   <section class="dep" id="ghost-mannequin">
     <div class="wrap">
       <div class="media-col portrait-stage">
-        <div class="ph ba" id="gmBa" style="--x:50%;aspect-ratio:1000/1500" data-ba>
+        <div class="ph ba" id="gmBa" style="--x:50%;aspect-ratio:1/1" data-ba>
           <div class="lay before">
-            <img id="gmBeforeImg" src="/assets/agency_showcase/fashion-tweed-blazer-mannequin-front.webp" alt="Charcoal tweed blazer photographed on a white studio mannequin showing plastic arms and empty neck cavity before ghost mannequin photo editing" width="1000" height="1500" decoding="async">
+            <img id="gmBeforeImg" src="/assets/agency_showcase/fashion-ghost-blazer-before.webp" alt="Charcoal tweed blazer photographed on a white studio mannequin showing plastic arms and empty neck cavity before ghost mannequin photo editing" width="1024" height="1024" decoding="async">
             <span class="tag b">Before</span>
           </div>
           <div class="lay after">
-            <img id="gmAfterImg" src="/assets/agency_showcase/fashion-tweed-blazer-ghost-after.webp" alt="Charcoal tweed blazer after manual 3D ghost mannequin neck joint editing with mannequin removed, sleeves cleaned, and inside lining plus brand label composited naturally" width="1000" height="1500" decoding="async">
+            <img id="gmAfterImg" src="/assets/agency_showcase/fashion-ghost-blazer-after.webp" alt="Charcoal tweed blazer after manual 3D ghost mannequin neck joint editing with mannequin removed, sleeves cleaned, and inside lining plus brand label composited cleanly" width="1024" height="1024" decoding="async">
             <span class="tag a">After</span>
           </div>
           <input type="range" min="0" max="100" value="50" aria-label="Before and after comparison for ghost mannequin 3D neck joint editing">
@@ -1452,21 +1449,21 @@ footer a:hover{color:var(--accent)}
         </div>
         <div class="swatch-bar" role="group" aria-label="Switch ghost mannequin case study">
           <button type="button" class="sw-btn" aria-pressed="true"
-            data-before="/assets/agency_showcase/fashion-tweed-blazer-mannequin-front.webp"
-            data-after="/assets/agency_showcase/fashion-tweed-blazer-ghost-after.webp"
-            data-ratio="1000/1500"
+            data-before="/assets/agency_showcase/fashion-ghost-blazer-before.webp"
+            data-after="/assets/agency_showcase/fashion-ghost-blazer-after.webp"
+            data-ratio="1/1"
             data-split="50"
             data-balt="Charcoal tweed blazer photographed on a white studio mannequin showing plastic arms and empty neck cavity before ghost mannequin photo editing"
-            data-aalt="Charcoal tweed blazer after manual 3D ghost mannequin neck joint editing with mannequin removed, sleeves cleaned, and inside lining plus brand label composited naturally"
-            data-note="Drag slider — Real studio composite: white mannequin limbs removed &amp; 3D collar depth built.">Blazer &middot; Mannequin Removal</button>
+            data-aalt="Charcoal tweed blazer after manual 3D ghost mannequin neck joint editing with mannequin removed, sleeves cleaned, and inside lining plus brand label composited cleanly"
+            data-note="Drag slider — White mannequin limbs, neck cavity &amp; lower post removed cleanly on pure #FFFFFF.">Blazer &middot; Mannequin Removal</button>
           <button type="button" class="sw-btn" aria-pressed="false"
-            data-before="/assets/agency_showcase/fashion-tweed-blazer-mannequin-lining.webp"
-            data-after="/assets/agency_showcase/fashion-tweed-blazer-ghost-after.webp"
-            data-ratio="1000/1500"
-            data-split="54"
-            data-balt="Raw inside-neck lining shot (top-left inset) alongside mannequin torso frame used to build the ghost mannequin neck joint and inside label"
-            data-aalt="Completed 3D ghost mannequin tweed blazer with inside neck label and satin lining seamlessly matched"
-            data-note="Drag slider — Shot 2 inside lining &amp; woven label frame blended into Shot 1 with natural interior shading.">Blazer &middot; Inside Neck Join</button>
+            data-before="/assets/agency_showcase/fashion-kids-swimwear-before.webp"
+            data-after="/assets/agency_showcase/fashion-kids-swimwear-after.webp"
+            data-ratio="1/1"
+            data-split="50"
+            data-balt="Children striped UPF swimwear and sunhat photographed on a full white child mannequin before ghost mannequin photo editing"
+            data-aalt="Children striped UPF swimwear and sunhat after mannequin head, neck and limb removal with striped inner flap and collar reconstructed"
+            data-note="Drag slider — Child mannequin head &amp; limbs removed with striped inner sunhat flap and neck interior rebuilt.">Kids Swimwear &middot; Hat &amp; Collar</button>
           <button type="button" class="sw-btn" aria-pressed="false"
             data-before="/assets/agency_showcase/service_fashion_before.webp"
             data-after="/assets/agency_showcase/service_fashion_after.webp"
@@ -1476,16 +1473,16 @@ footer a:hover{color:var(--accent)}
             data-aalt="Wool ribbed knit socks after form removal with sculpted hollow inner cuff ribbing and soft floor shadow"
             data-note="Drag slider — Plastic display blocks removed and hollow inner ribbed cuff texture reconstructed by hand.">Wool Knit &middot; Inner Cuff</button>
           <button type="button" class="sw-btn" aria-pressed="false"
-            data-before="/assets/agency_showcase/fashion-tuxedo-vest-before.webp"
-            data-after="/assets/agency_showcase/fashion-tuxedo-vest-after.webp"
+            data-before="/assets/agency_showcase/fashion-green-vest-before.webp"
+            data-after="/assets/agency_showcase/fashion-green-vest-after.webp"
             data-ratio="1/1"
             data-split="50"
-            data-balt="Black tuxedo waistcoat and dress shirt on mannequin bust with unpressed sleeves and studio backdrop seam before retouching"
-            data-aalt="Black tuxedo waistcoat and crisp white shirt after manual wrinkle cleanup, arm alignment, and seamless studio backdrop"
-            data-note="Drag slider — Sleeve creasing softened, background studio edges removed, and garment drape tightened evenly.">Tailored Vest &middot; Drape Polish</button>
+            data-balt="Emerald green tailored tuxedo waistcoat and white dress shirt on wooden-arm mannequin with raw backdrop edge clutter before retouching"
+            data-aalt="Emerald green tailored tuxedo waistcoat after manual studio sweep cleanup, shirt waist tightening, and uniform contrast"
+            data-note="Drag slider — Studio scrim distractions cleared, tucked white shirt tightened evenly, and lighting leveled.">Emerald Vest &middot; Studio Polish</button>
         </div>
         <div class="cap-note">
-          <span id="gmCapNote">Drag slider &mdash; Real studio composite: white mannequin limbs removed &amp; 3D collar depth built.</span>
+          <span id="gmCapNote">Drag slider &mdash; White mannequin limbs, neck cavity &amp; lower post removed cleanly on pure #FFFFFF.</span>
         </div>
 
         <div class="inline-quote">
@@ -1542,7 +1539,7 @@ footer a:hover{color:var(--accent)}
         <div class="garment-stage">
           <div class="garment-stage-bar">
             <span class="garment-title-pill" id="garmentTitlePill">T-Shirts, Shirts &amp; Tops</span>
-            <span class="demo-badge" id="garmentBadge">Real Studio Sample &middot; Shirt &amp; Placket</span>
+            <span class="craft-badge" id="garmentBadge">Collar &amp; Placket Precision</span>
           </div>
           <div class="garment-canvas" id="garmentStage" style="aspect-ratio:1/1">
             <img id="garmentMainImg" src="/assets/agency_showcase/fashion-ghost-mannequin-blue-blouse.webp" alt="Blue paisley button-front blouse ghost mannequin editing showing symmetrical collar, placket buttons and tied waist belt" width="1000" height="1000" loading="lazy" decoding="async">
@@ -1563,90 +1560,66 @@ footer a:hover{color:var(--accent)}
           <button type="button" class="gar-card" aria-pressed="true"
             data-src="/assets/agency_showcase/fashion-ghost-mannequin-blue-blouse.webp"
             data-ratio="1/1"
-            data-badge="Real Studio Sample &middot; Shirt &amp; Placket"
-            data-demo="false"
+            data-badge="Collar &amp; Placket Precision"
             data-pill="T-Shirts, Shirts &amp; Tops"
             data-alt="Blue paisley button-front shirt ghost mannequin editing with aligned collar, crisp buttons and natural waist tie"
             data-cap="Collars leveled, button plackets straight, and inside neck depth joined seamlessly.">
-            <div class="gar-head">
-              <h3>T-shirts, shirts &amp; tops</h3>
-              <span class="gar-tag">Real</span>
-            </div>
+            <h3>T-shirts, shirts &amp; tops</h3>
             <p>Clean collars, symmetrical sleeves, aligned buttons and plackets, plus a natural hollow neckline with the inside label visible.</p>
           </button>
 
           <button type="button" class="gar-card" aria-pressed="false"
             data-src="/assets/agency_showcase/fashion-ghost-mannequin-olive-jacket.webp"
             data-ratio="1/1"
-            data-badge="Real Studio Sample &middot; Outerwear &amp; Lining"
-            data-demo="false"
+            data-badge="Outerwear &amp; Quilted Lining"
             data-pill="Jackets, Blazers &amp; Coats"
             data-alt="Olive field jacket ghost mannequin editing showing reconstructed diamond quilted lining, brass snap buttons and crisp drawstring hem"
             data-cap="Lapels sculpted, structured shoulders balanced, and full quilted interior lining preserved.">
-            <div class="gar-head">
-              <h3>Jackets, blazers &amp; coats</h3>
-              <span class="gar-tag">Real</span>
-            </div>
+            <h3>Jackets, blazers &amp; coats</h3>
             <p>Crisp lapels and shoulders, natural chest structure, clean zippers/buttons and full interior lining where the jacket opens.</p>
           </button>
 
           <button type="button" class="gar-card" aria-pressed="false"
             data-src="/assets/agency_showcase/demo-ghost-mannequin-chiffon-dress.webp"
             data-ratio="1/1"
-            data-badge="Demo Visual &middot; Swap Ready"
-            data-demo="true"
+            data-badge="Sheer Chiffon &amp; Hemline"
             data-pill="Dresses &amp; Skirts"
-            data-alt="Sage floral chiffon dress ghost mannequin demonstration showing translucent sheer sleeves and balanced midi hemline"
-            data-cap="Demo sample — Balanced waist &amp; skirt drape with delicate sheer chiffon sleeve translucency retained.">
-            <div class="gar-head">
-              <h3>Dresses &amp; skirts</h3>
-              <span class="gar-tag demo">Demo</span>
-            </div>
+            data-alt="Sage floral chiffon dress ghost mannequin finish showing translucent sheer sleeves and balanced midi hemline"
+            data-cap="Balanced waist &amp; skirt drape with delicate sheer chiffon sleeve translucency retained.">
+            <h3>Dresses &amp; skirts</h3>
             <p>Smooth silhouettes, balanced hems and natural waistlines without squeezing fabric&mdash;keeping sheer chiffon or lace optical transparency intact.</p>
           </button>
 
           <button type="button" class="gar-card" aria-pressed="false"
             data-src="/assets/agency_showcase/fashion-ghost-mannequin-pink-sweater.webp"
             data-ratio="1/1"
-            data-badge="Real Studio Sample &middot; Knitwear &amp; Ribbing"
-            data-demo="false"
+            data-badge="Knitwear &amp; Ribbing Grain"
             data-pill="Knitwear &amp; Sweaters"
             data-alt="Blush pink French terry crewneck sweater ghost mannequin editing with visible knit grain, ribbing and inside neck tag"
             data-cap="Fine fuzz and stray lint cleaned while keeping 100% of knit ribbing, collar tape and weave grain.">
-            <div class="gar-head">
-              <h3>Knitwear &amp; sweaters</h3>
-              <span class="gar-tag">Real</span>
-            </div>
+            <h3>Knitwear &amp; sweaters</h3>
             <p>Stitch texture stays razor-sharp. We remove fuzz and pilling without smearing knit loops, keeping ribbing, cuffs and hems even.</p>
           </button>
 
           <button type="button" class="gar-card" aria-pressed="false"
             data-src="/assets/agency_showcase/demo-ghost-mannequin-denim-jeans.webp"
             data-ratio="1/1"
-            data-badge="Demo Visual &middot; Swap Ready"
-            data-demo="true"
+            data-badge="Hollow Waistband &amp; Denim"
             data-pill="Jeans, Trousers &amp; Shorts"
-            data-alt="Indigo denim jeans ghost mannequin demonstration showing hollow 3D waistband, inside tag, brass rivets and straight leg seams"
-            data-cap="Demo sample — Straightened outer seams, level hollow waistband, clean hardware and authentic denim wash fade.">
-            <div class="gar-head">
-              <h3>Jeans, trousers &amp; shorts</h3>
-              <span class="gar-tag demo">Demo</span>
-            </div>
+            data-alt="Indigo denim jeans ghost mannequin finish showing hollow 3D waistband, inside tag, brass rivets and straight leg seams"
+            data-cap="Straightened outer seams, level hollow waistband, clean hardware and authentic denim wash fade.">
+            <h3>Jeans, trousers &amp; shorts</h3>
             <p>Straight leg seams, level hollow waistbands, balanced inseams and crisp pockets and rivets&mdash;with natural denim twill and whiskering.</p>
           </button>
 
           <button type="button" class="gar-card" aria-pressed="false"
             data-src="/assets/agency_showcase/fashion-ghost-mannequin-kids-swimwear.webp"
             data-ratio="1/1"
-            data-badge="Real Studio Sample &middot; Kids &amp; Stretch"
-            data-demo="false"
+            data-badge="Stretch &amp; Kids Proportions"
             data-pill="Activewear &amp; Kids&rsquo; Apparel"
             data-alt="Children striped UPF swimwear rashguard and sunhat ghost mannequin editing preserving exact print stripe alignment"
             data-cap="Delicate small-size proportions, stretch fabric tension and multi-piece hood/collar alignment preserved.">
-            <div class="gar-head">
-              <h3>Activewear &amp; kids&rsquo; apparel</h3>
-              <span class="gar-tag">Real</span>
-            </div>
+            <h3>Activewear &amp; kids&rsquo; apparel</h3>
             <p>Smooth technical stretch fabrics, clean flatlock seams and brand logos, keeping small kids&rsquo; proportions true across every size run.</p>
           </button>
         </div>
@@ -1664,23 +1637,23 @@ footer a:hover{color:var(--accent)}
   <section class="dep" id="shooting-guide">
     <div class="wrap">
       <div class="media-col">
-        <div class="shoot-trio" aria-label="Three-step ghost mannequin photography workflow example">
+        <div class="shoot-trio" aria-label="Three-step ghost mannequin photography instruction diagrams">
           <div class="shoot-shot">
-            <img src="/assets/agency_showcase/fashion-tweed-blazer-mannequin-front.webp" alt="Step 1: Front frame shot on ghost mannequin bust with locked tripod distance" width="1000" height="1500" loading="lazy" decoding="async">
+            <img src="/assets/agency_showcase/shoot-guide-step1-front.svg" alt="Instruction diagram Step 1: garment styled on mannequin bust under even softbox lighting with locked tripod height" width="600" height="750" loading="lazy" decoding="async">
             <div class="shoot-meta">
               <strong>Shot 1 &middot; Front Bust</strong>
               <span>Locked tripod, styled &amp; steamed exterior fit</span>
             </div>
           </div>
           <div class="shoot-shot">
-            <img src="/assets/agency_showcase/fashion-tweed-blazer-mannequin-lining.webp" alt="Step 2: Separate neck and lining frame showing inside collar and brand label for compositing" width="1000" height="1500" loading="lazy" decoding="async">
+            <img src="/assets/agency_showcase/shoot-guide-step2-neck.svg" alt="Instruction diagram Step 2: top mannequin neck piece removed at same camera distance to show inside back collar and woven brand label" width="600" height="750" loading="lazy" decoding="async">
             <div class="shoot-meta">
               <strong>Shot 2 &middot; Inside Neck</strong>
               <span>Open collar / label captured in same light</span>
             </div>
           </div>
           <div class="shoot-shot">
-            <img src="/assets/agency_showcase/fashion-tweed-blazer-ghost-after.webp" alt="Step 3: Completed 3D ghost mannequin result after manual neck joint editing" width="1000" height="1500" loading="lazy" decoding="async">
+            <img src="/assets/agency_showcase/shoot-guide-step3-join.svg" alt="Instruction diagram Step 3: Shot 1 exterior and Shot 2 inside neck combined into final 3D hollow neck ghost mannequin image on pure white" width="600" height="750" loading="lazy" decoding="async">
             <div class="shoot-meta">
               <strong>Result &middot; 3D Join</strong>
               <span>Clean hollow neck, inside tag &amp; pure finish</span>
@@ -1734,7 +1707,7 @@ footer a:hover{color:var(--accent)}
             <span class="tag b">Before</span>
           </div>
           <div class="lay after">
-            <img id="modelAfterImg" src="/assets/agency_showcase/fashion-blue-activewear-after.webp" alt="Full-body female fitness model after on-model fashion retouching with neutral bright studio backdrop, fabric fold smoothing, and natural skin preserved" width="1046" height="1500" loading="lazy" decoding="async">
+            <img id="modelAfterImg" src="/assets/agency_showcase/fashion-blue-activewear-after.webp" alt="Full-body female fitness model after on-model fashion retouching with neutral light-grey studio backdrop, fabric fold smoothing, and natural skin preserved" width="713" height="1024" loading="lazy" decoding="async">
             <span class="tag a">After</span>
           </div>
           <input type="range" min="0" max="100" value="50" aria-label="Before and after comparison for on-model fashion photo retouching">
@@ -1819,17 +1792,40 @@ footer a:hover{color:var(--accent)}
   <section class="dep center-v" id="color-accuracy">
     <div class="wrap">
       <div class="media-col portrait-stage">
-        <div class="ph" style="aspect-ratio:1/1">
-          <span class="demo-badge is-demo stage-top-pill">Demo Reference &middot; Swatch Calibration</span>
-          <img src="/assets/agency_showcase/demo-apparel-color-swatch-matching.webp" alt="Folded terracotta knit sweater next to physical textile swatch cards used for apparel color matching" width="1000" height="1000" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block">
+        <div class="ph" style="aspect-ratio:1/1;background:#e5e7e4">
+          <span class="craft-badge stage-top-pill" id="colorSwatchBadge">Terracotta Rust &middot; Swatch 01 Match</span>
+          <img id="colorSwatchImg" src="/assets/agency_showcase/demo-apparel-color-swatch-matching.webp" alt="Folded terracotta rust knit sweater matched directly to the top terracotta physical fabric swatch card" width="1000" height="1000" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block">
         </div>
-        <div class="plat-row" style="margin:14px 0 0;gap:8px">
+        <div class="swatch-bar" id="colorSwatchBar" role="group" aria-label="Switch sweater color to match physical fabric swatches">
+          <button type="button" class="sw-btn" aria-pressed="true"
+            data-src="/assets/agency_showcase/demo-apparel-color-swatch-matching.webp"
+            data-badge="Terracotta Rust &middot; Swatch 01 Match"
+            data-alt="Folded terracotta rust knit sweater matched directly to the top terracotta physical fabric swatch card"
+            data-note="Swatch 01 calibrated — folded knit sweater matched directly to the top Terracotta Rust fabric cutting.">
+            <span class="sw-dot" style="background:#8a3b2c"></span>Terracotta Rust
+          </button>
+          <button type="button" class="sw-btn" aria-pressed="false"
+            data-src="/assets/agency_showcase/demo-apparel-color-swatch-burgundy.webp"
+            data-badge="Deep Burgundy &middot; Swatch 02 Match"
+            data-alt="Folded deep burgundy knit sweater recolored to match the middle burgundy fabric swatch card with full knit texture retained"
+            data-note="Swatch 02 calibrated — sweater shifted to Deep Burgundy (#4d1a1f) matching the middle wine swatch with knit ribbing intact.">
+            <span class="sw-dot" style="background:#4d1a1f"></span>Deep Burgundy
+          </button>
+          <button type="button" class="sw-btn" aria-pressed="false"
+            data-src="/assets/agency_showcase/demo-apparel-color-swatch-navy.webp"
+            data-badge="Midnight Navy &middot; Swatch 03 Match"
+            data-alt="Folded midnight navy knit sweater recolored to match the bottom navy fabric swatch card with natural fold depth preserved"
+            data-note="Swatch 03 calibrated — sweater shifted to Midnight Navy (#1b253a) matching the bottom navy swatch without crushing dark wool weave.">
+            <span class="sw-dot" style="background:#1b253a"></span>Midnight Navy
+          </button>
+        </div>
+        <div class="plat-row" style="margin:12px 0 0;gap:8px">
           <span class="plat-pill" style="font-size:12.5px;padding:6px 12px">sRGB (Web Stores)</span>
           <span class="plat-pill" style="font-size:12.5px;padding:6px 12px">Adobe RGB (16-Bit Master)</span>
           <span class="plat-pill" style="font-size:12.5px;padding:6px 12px">CMYK (Print Lookbooks)</span>
         </div>
         <div class="cap-note">
-          <span>Demo swatch reference &mdash; we calibrate raw studio captures against your physical fabric cuttings, Pantone chips or approved master colorway frames.</span>
+          <span id="colorCapNote">Swatch 01 calibrated &mdash; click a colorway button above to match the folded knit sweater to each physical textile swatch on the right.</span>
         </div>
       </div>
 
@@ -2251,21 +2247,51 @@ footer a:hover{color:var(--accent)}
       var src = card.getAttribute('data-src');
       var ratio = card.getAttribute('data-ratio') || '1/1';
       var badge = card.getAttribute('data-badge') || '';
-      var isDemo = card.getAttribute('data-demo') === 'true';
       var pill = card.getAttribute('data-pill') || '';
       var alt = card.getAttribute('data-alt') || '';
       var cap = card.getAttribute('data-cap') || '';
       if (gStage) gStage.style.aspectRatio = ratio;
       if (gImg && src) { gImg.src = src; if (alt) gImg.alt = alt; }
-      if (gBadge) {
-        gBadge.innerHTML = badge;
-        gBadge.classList.toggle('is-demo', isDemo);
-      }
+      if (gBadge) gBadge.innerHTML = badge;
       if (gPill) gPill.innerHTML = pill;
       if (gCap) gCap.innerHTML = cap;
       garCards.forEach(function(c){ c.setAttribute('aria-pressed', c === card ? 'true' : 'false'); });
     });
   });
+
+  // 2b. Apparel Color Swatch Calibration Switcher
+  var csBar = document.getElementById('colorSwatchBar');
+  var csImg = document.getElementById('colorSwatchImg');
+  var csBadge = document.getElementById('colorSwatchBadge');
+  var csCap = document.getElementById('colorCapNote');
+  if (csBar && csImg) {
+    var csBtns = Array.from(csBar.querySelectorAll('.sw-btn'));
+    var csPreloaded = false;
+    function preloadColorVariants() {
+      if (csPreloaded) return;
+      csPreloaded = true;
+      csBtns.forEach(function(btn){
+        var src = btn.getAttribute('data-src');
+        if (src) { var pre = new Image(); pre.src = src; }
+      });
+    }
+    csBar.addEventListener('pointerenter', preloadColorVariants, { once: true });
+    csBar.addEventListener('focusin', preloadColorVariants, { once: true });
+    csBtns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        preloadColorVariants();
+        var src = btn.getAttribute('data-src');
+        var badge = btn.getAttribute('data-badge') || '';
+        var alt = btn.getAttribute('data-alt') || '';
+        var note = btn.getAttribute('data-note') || '';
+        if (src) csImg.src = src;
+        if (alt) csImg.alt = alt;
+        if (csBadge && badge) csBadge.innerHTML = badge;
+        if (csCap && note) csCap.textContent = note;
+        csBtns.forEach(function(b){ b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+      });
+    });
+  }
 
   // 3. Interactive Ghost Mannequin Shooting Checklist & Print Button
   document.querySelectorAll('#shootChecklist .chk-item').forEach(function(btn){

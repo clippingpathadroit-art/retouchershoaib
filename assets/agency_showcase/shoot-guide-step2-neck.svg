@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750" width="600" height="750" role="img" aria-label="Step 2 inside neck diagram showing top mannequin neck piece removed cleanly to capture the inner back collar and woven brand label at the same tripod height">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#17171b"/>
+      <stop offset="100%" stop-color="#0d0d10"/>
+    </linearGradient>
+    <radialGradient id="glow2" cx="0.5" cy="0.34" r="0.38">
+      <stop offset="0%" stop-color="#c8f135" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#c8f135" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="600" height="750" fill="url(#bg2)"/>
+  <rect width="600" height="750" fill="url(#glow2)"/>
+
+  <!-- Technical Grid -->
+  <g stroke="#ffffff" stroke-opacity="0.06" stroke-width="1.5">
+    <line x1="0" y1="187" x2="600" y2="187"/>
+    <line x1="0" y1="375" x2="600" y2="375"/>
+    <line x1="0" y1="562" x2="600" y2="562"/>
+    <line x1="150" y1="0" x2="150" y2="750"/>
+    <line x1="300" y1="0" x2="300" y2="750"/>
+    <line x1="450" y1="0" x2="450" y2="750"/>
+  </g>
+
+  <!-- Large Step Badge -->
+  <rect x="28" y="26" width="236" height="48" rx="24" fill="#c8f135" fill-opacity="0.14" stroke="#c8f135" stroke-width="2"/>
+  <text x="146" y="57" text-anchor="middle" fill="#c8f135" font-family="'Helvetica Neue',Arial,sans-serif" font-size="22" font-weight="800" letter-spacing="1.2">STEP 02 · SHOT 2</text>
+
+  <!-- Top Mannequin Neck Piece Lifted Up & Removed -->
+  <g>
+    <path d="M254 114 C254 92 346 92 346 114 L352 162 L248 162 Z" fill="none" stroke="#95958f" stroke-width="2.5" stroke-dasharray="6 5" opacity="0.7"/>
+    <line x1="300" y1="168" x2="300" y2="202" stroke="#c8f135" stroke-width="3"/>
+    <polyline points="288,180 300,166 312,180" fill="none" stroke="#c8f135" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Outer Garment Body (Dimmed so Focus Highlights Neck Cavity) -->
+  <path d="M242 222 L142 252 L98 544 L158 552 L188 352 L188 606 L412 606 L412 352 L442 552 L502 544 L458 252 L358 222" fill="#181920" stroke="#7c7c77" stroke-width="2.5" stroke-linejoin="round"/>
+
+  <!-- Highlighted Exposed Interior Collar & Brand Label -->
+  <g>
+    <path d="M242 222 C266 196 334 196 358 222 L342 400 L300 464 L258 400 Z" fill="#252b1b" stroke="#c8f135" stroke-width="4"/>
+    <path d="M256 222 C278 210 322 210 344 222" fill="none" stroke="#f1f1ec" stroke-width="2" stroke-dasharray="5 4"/>
+    <!-- Woven Brand Label Spotlighted Inside Collar -->
+    <rect x="268" y="246" width="64" height="36" rx="5" fill="#f7f7f4" stroke="#c8f135" stroke-width="3"/>
+    <line x1="280" y1="261" x2="320" y2="261" stroke="#0a0a0b" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="288" y1="271" x2="312" y2="271" stroke="#666660" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Mannequin Stand Below -->
+  <line x1="300" y1="606" x2="300" y2="698" stroke="#7c7c77" stroke-width="6"/>
+  <line x1="234" y1="702" x2="366" y2="702" stroke="#7c7c77" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Top-Right Callout Box -->
+  <g transform="translate(334,96)">
+    <rect x="0" y="0" width="242" height="80" rx="14" fill="#171914" stroke="#c8f135" stroke-width="2"/>
+    <text x="121" y="34" text-anchor="middle" fill="#c8f135" font-family="'Helvetica Neue',Arial,sans-serif" font-size="18" font-weight="800">INNER COLLAR + TAG</text>
+    <text x="121" y="60" text-anchor="middle" fill="#f1f1ec" font-family="'Helvetica Neue',Arial,sans-serif" font-size="15.5" font-weight="600">Neck Piece Removed</text>
+  </g>
+
+  <!-- Locked Same-Angle Badge Bottom-Right -->
+  <g transform="translate(432,576)">
+    <rect x="0" y="0" width="142" height="142" rx="18" fill="#171914" stroke="#c8f135" stroke-width="2.5"/>
+    <rect x="35" y="28" width="72" height="44" rx="8" fill="#101013" stroke="#c8f135" stroke-width="2.5"/>
+    <circle cx="71" cy="50" r="12" fill="none" stroke="#c8f135" stroke-width="2.5"/>
+    <line x1="71" y1="72" x2="50" y2="108" stroke="#a6a69e" stroke-width="2.5"/>
+    <line x1="71" y1="72" x2="71" y2="112" stroke="#a6a69e" stroke-width="2.5"/>
+    <line x1="71" y1="72" x2="92" y2="108" stroke="#a6a69e" stroke-width="2.5"/>
+    <text x="71" y="130" text-anchor="middle" fill="#c8f135" font-family="'Helvetica Neue',Arial,sans-serif" font-size="16" font-weight="800">SAME ANGLE</text>
+  </g>
+</svg>

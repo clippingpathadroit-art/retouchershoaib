@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750" width="600" height="750" role="img" aria-label="Step 3 completed ghost mannequin composite diagram showing combined Shot 1 exterior and Shot 2 3D hollow neck join on pure white studio background with hand-drawn Pen Tool path">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#17171b"/>
+      <stop offset="100%" stop-color="#0d0d10"/>
+    </linearGradient>
+    <radialGradient id="floorSh" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="600" height="750" fill="url(#bg3)"/>
+
+  <!-- Top Pills Above White Canvas -->
+  <rect x="28" y="26" width="222" height="48" rx="24" fill="#c8f135"/>
+  <text x="139" y="57" text-anchor="middle" fill="#0a0a0b" font-family="'Helvetica Neue',Arial,sans-serif" font-size="19.5" font-weight="800" letter-spacing="0.8">RESULT · 3D JOIN</text>
+
+  <rect x="266" y="26" width="306" height="48" rx="24" fill="#18181d" stroke="#ffffff" stroke-opacity="0.18" stroke-width="2"/>
+  <text x="419" y="57" text-anchor="middle" fill="#f1f1ec" font-family="'Helvetica Neue',Arial,sans-serif" font-size="17" font-weight="700">PURE #FFFFFF CUTOUT</text>
+
+  <!-- Pure White Product Viewport -->
+  <rect x="28" y="96" width="544" height="626" rx="22" fill="#ffffff"/>
+
+  <!-- Soft Grounded Contact Shadow Under Garment -->
+  <ellipse cx="300" cy="634" rx="146" ry="16" fill="url(#floorSh)"/>
+
+  <!-- Completed 3D Ghost Mannequin Blazer -->
+  <g>
+    <!-- 3D Inner Back Neck Pocket + Interior Lining -->
+    <path d="M248 202 C272 174 328 174 352 202 L332 396 L300 424 L268 396 Z" fill="#191e2a"/>
+    <!-- Woven Brand Label Composited Inside Collar -->
+    <rect x="274" y="212" width="52" height="28" rx="4" fill="#f7f7f4"/>
+    <line x1="284" y1="226" x2="316" y2="226" stroke="#111111" stroke-width="3" stroke-linecap="round"/>
+    <!-- Subtle Natural Interior Drop Shadow -->
+    <path d="M248 202 C272 186 328 186 352 202 L344 216 C322 200 278 200 256 216 Z" fill="#0b0d12" fill-opacity="0.45"/>
+
+    <!-- Garment Exterior Shell (Symmetrical, Zero Stand) -->
+    <path d="M248 202 L144 242 L100 540 L160 548 L190 342 L190 612 L292 612 L300 584 L308 612 L410 612 L410 342 L440 548 L500 540 L456 242 L352 202 L322 390 L300 404 L278 390 Z" fill="#2b3342" stroke="#141820" stroke-width="3" stroke-linejoin="round"/>
+    <!-- Crisp Lapel Details & Fastened Buttons -->
+    <polyline points="244,230 272,298 254,308 286,386" fill="none" stroke="#9aa3b4" stroke-width="2.5"/>
+    <polyline points="356,230 328,298 346,308 314,386" fill="none" stroke="#9aa3b4" stroke-width="2.5"/>
+    <circle cx="300" cy="426" r="6" fill="#111319"/>
+    <circle cx="300" cy="486" r="6" fill="#111319"/>
+  </g>
+
+  <!-- Vector Pen-Tool Path Nodes Overlay -->
+  <g>
+    <path d="M248 202 C200 220 170 230 144 242 L100 540" fill="none" stroke="#6aa000" stroke-width="3" stroke-dasharray="7 5"/>
+    <circle cx="248" cy="202" r="8" fill="#c8f135" stroke="#0a0a0b" stroke-width="3"/>
+    <circle cx="144" cy="242" r="8" fill="#c8f135" stroke="#0a0a0b" stroke-width="3"/>
+    <circle cx="100" cy="540" r="8" fill="#c8f135" stroke="#0a0a0b" stroke-width="3"/>
+
+    <!-- Bold Pill Callouts Inside White Frame -->
+    <rect x="46" y="116" width="212" height="42" rx="10" fill="#0a0a0b"/>
+    <text x="152" y="144" text-anchor="middle" fill="#c8f135" font-family="'Helvetica Neue',Arial,sans-serif" font-size="18" font-weight="800">PEN-TOOL PATH</text>
+    <line x1="168" y1="158" x2="210" y2="218" stroke="#0a0a0b" stroke-width="2.5"/>
+
+    <rect x="342" y="116" width="212" height="42" rx="10" fill="#0a0a0b"/>
+    <text x="448" y="144" text-anchor="middle" fill="#c8f135" font-family="'Helvetica Neue',Arial,sans-serif" font-size="18" font-weight="800">3D NECK + LABEL</text>
+    <line x1="398" y1="158" x2="328" y2="206" stroke="#0a0a0b" stroke-width="2.5"/>
+  </g>
+</svg>
