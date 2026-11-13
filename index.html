@@ -3,19 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Retoucher Shoaib provides high-end jewelry, beauty, fashion and automotive photo retouching for US, UK &amp; European studios. Try one image free within 24h.">
-<title>Retoucher Shoaib — Commercial Photo Retouching Studio</title>
+<meta name="description" content="Commercial photo retouching crafted to campaign standards. Specialist high-end jewelry, beauty, fashion, and luxury e-commerce post-production for global brands.">
+<title>Commercial Photo Retouching Studio for Brands | Retoucher Shoaib</title>
 <link rel="canonical" href="https://retouchershoaib.com/">
 <meta property="og:site_name" content="Retoucher Shoaib">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Retoucher Shoaib — Commercial Photo Retouching Studio">
-<meta property="og:description" content="High-end jewelry, beauty, fashion and automotive photo retouching for brands, studios and photographers. Try one image free within 24 hours.">
+<meta property="og:title" content="Commercial Photo Retouching, Crafted to Campaign Standards | Retoucher Shoaib">
+<meta property="og:description" content="Commercial photo retouching crafted to campaign standards. Specialist high-end jewelry, beauty, fashion, and luxury e-commerce post-production for global brands.">
 <meta property="og:url" content="https://retouchershoaib.com/">
 <meta property="og:image" content="https://retouchershoaib.com/assets/hero_jewelry_poster.webp">
 <meta property="og:image:alt" content="High-end jewelry photo retouching by Retoucher Shoaib Studio">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Retoucher Shoaib — Commercial Photo Retouching Studio">
-<meta name="twitter:description" content="High-end jewelry, beauty, fashion and automotive photo retouching for US, UK &amp; European studios. Free 24h test edit.">
+<meta name="twitter:title" content="Commercial Photo Retouching, Crafted to Campaign Standards | Retoucher Shoaib">
+<meta name="twitter:description" content="Commercial photo retouching crafted to campaign standards. Specialist high-end jewelry, beauty, fashion, and luxury e-commerce post-production for global brands.">
 <meta name="twitter:image" content="https://retouchershoaib.com/assets/hero_jewelry_poster.webp">
 <script type="application/ld+json">
 {
@@ -27,7 +27,7 @@
       "url": "https://retouchershoaib.com/",
       "name": "Retoucher Shoaib",
       "alternateName": ["Retoucher Shoaib Studio", "Shoaib Siddique Retouching"],
-      "description": "High-end commercial photo retouching studio specializing in jewelry, editorial beauty, fashion, ghost mannequin, product packshots and automotive post-production."
+      "description": "High-end commercial photo retouching studio crafted to campaign standards, specializing in jewelry, editorial beauty, fashion, ghost mannequin, product packshots and automotive post-production."
     },
     {
       "@type": "ProfessionalService",
@@ -38,7 +38,7 @@
       "logo": "https://retouchershoaib.com/assets/apple-touch-icon.png",
       "email": "retouchershoaib@gmail.com",
       "telephone": "+8801710763251",
-      "description": "Commercial photo retouching studio founded by Shoaib Siddique and powered by a dedicated team of specialist artists. Non-destructive 16-bit jewelry, fashion, editorial beauty, product and automotive post-production for brands, agencies and photographers across the US, UK and Europe.",
+      "description": "Commercial photo retouching studio founded by Shoaib Siddique. Non-destructive 16-bit jewelry, fashion, editorial beauty, product and automotive post-production crafted to campaign standards for brands, agencies and photographers across the US, UK and Europe.",
       "founder": {
         "@type": "Person",
         "name": "Shoaib Siddique",
@@ -308,7 +308,9 @@ nav a.cur{
   z-index:2;
 }
 .hero h1{
-  font-size:clamp(38px,5.2vw,92px);
+  font-size:clamp(36px,4.5vw,78px);
+  line-height:1.02;
+  letter-spacing:-.03em;
 }
 .ring{
   position:relative;
@@ -362,6 +364,12 @@ nav a.cur{
   .hero h1{
     font-size:clamp(36px,10vw,84px);
   }
+  .hero-eyebrow{
+    font-size:11px;
+    padding:6px 12px;
+    border-radius:12px;
+    margin-bottom:18px;
+  }
 }
 .hero::before{
   content:"";
@@ -379,6 +387,33 @@ nav a.cur{
 @keyframes driftLeft{
   from{transform:scale(1) translate(0, 0)}
   to{transform:scale(1.12) translate(35px, 25px)}
+}
+.hero-eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 16px;
+  background:rgba(212,255,0,.08);
+  border:1px solid rgba(212,255,0,.32);
+  border-radius:99px;
+  font:600 12.5px/1.35 var(--display);
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:22px;
+  max-width:100%;
+  box-sizing:border-box;
+  opacity:0;
+  animation:fade .9s .1s forwards;
+}
+.hero-eyebrow .dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 8px var(--accent);
+  display:inline-block;
+  flex-shrink:0;
 }
 h1{
   font:800 clamp(42px,6.8vw,108px)/.95 var(--display);
@@ -1350,12 +1385,16 @@ footer a:hover{
 <div class="hero">
   <div class="wrap">
     <div class="ht">
-      <h1 aria-label="Photo retouching that never looks retouched.">
-        <span class="l"><span style="--i:0">Photo retouching</span></span>
-        <span class="l"><span style="--i:1">that never looks</span></span>
-        <span class="l"><span style="--i:2">retouched.</span></span>
+      <div class="hero-eyebrow">
+        <span class="dot" aria-hidden="true"></span>
+        <span>Boutique Post-Production for Global Brands</span>
+      </div>
+      <h1 aria-label="Commercial photo retouching, crafted to campaign standards.">
+        <span class="l"><span style="--i:0">Commercial photo retouching,</span></span>
+        <span class="l"><span style="--i:1">crafted to campaign</span></span>
+        <span class="l"><span style="--i:2">standards.</span></span>
       </h1>
-      <p class="sub">High-end jewelry, beauty, fashion and automotive retouching for brands, studios and photographers. Send one image and get it back within 24 hours, free.</p>
+      <p class="sub">High-end jewelry, beauty, fashion, and luxury e-commerce post-production for brands, studios, and commercial photographers worldwide. Send one image and get it back within 24 hours, free.</p>
       <div class="cta">
         <a class="btn p mag" href="#contact">Start free trial</a>
         <a class="btn mag" href="#work">See what we retouch</a>

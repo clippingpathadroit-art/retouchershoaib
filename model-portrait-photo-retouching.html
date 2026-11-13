@@ -1777,6 +1777,48 @@ section[id]{
     addEventListener('resize', syncActiveBar, { passive: true });
     syncActiveBar();
   }
+
+  // 3. Unified Client Portal Auth Button State
+  function syncHeaderClientState() {
+    var sessionRaw = sessionStorage.getItem('shoaib_client_session') || localStorage.getItem('shoaib_client_session') || localStorage.getItem('shoaib_client_profile');
+    var authBtn = document.getElementById('navAuthBtn');
+    if (!authBtn) return;
+
+    var session = null;
+    if (sessionRaw) {
+      try { session = JSON.parse(sessionRaw); } catch(e) {}
+    }
+
+    if (session && (session.email || session.name)) {
+      var isDirector = (session.email || '').toLowerCase().trim() === 'retouchershoaib@gmail.com';
+      if (isDirector) {
+        authBtn.href = '/admin';
+        authBtn.innerHTML = '&#x1f6e1;&#xfe0f; Director Console';
+        authBtn.setAttribute('title', 'Studio Director Console');
+      } else {
+        authBtn.href = '/portal';
+        authBtn.innerHTML = 'Client Portal';
+        authBtn.setAttribute('title', 'Open your client workspace');
+      }
+    } else {
+      authBtn.href = '/portal';
+      authBtn.innerHTML = 'Log In';
+      authBtn.setAttribute('title', 'Log In or Sign Up to Client Portal');
+    }
+  }
+  window.syncHeaderClientState = syncHeaderClientState;
+  syncHeaderClientState();
+
+  window.addEventListener('storage', function(e){
+    if (e.key === 'shoaib_client_session' || e.key === 'shoaib_client_profile' || e.key === 'shoaib_sync_ping') {
+      syncHeaderClientState();
+    }
+  });
+  document.addEventListener('visibilitychange', function(){
+    if (document.visibilityState === 'visible') syncHeaderClientState();
+  });
+  window.addEventListener('focus', syncHeaderClientState);
+  window.addEventListener('pageshow', syncHeaderClientState);
 })();
 </script>
 <script src="./assets/site-nav.js" defer></script>
