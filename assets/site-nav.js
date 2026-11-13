@@ -68,7 +68,7 @@
               '<a href="/ecommerce-product-retouching"><span>E-Commerce Product Retouching</span><em class="nav-new">Live</em></a>' +
               '<a href="/ghost-mannequin-fashion-photo-retouching"><span>Fashion &amp; Ghost Mannequin</span><em class="nav-new">Live</em></a>' +
               '<a href="/jewelry-watch-photo-retouching"><span>Jewelry &amp; Watch Retouching</span><em class="nav-new">Live</em></a>' +
-              '<a href="/services#beauty"><span>Model &amp; Beauty Portraits</span></a>' +
+              '<a href="/model-portrait-photo-retouching"><span>Model &amp; Beauty Portraits</span><em class="nav-new">Live</em></a>' +
               '<a href="/services#still"><span>Still Life &amp; Cosmetics</span></a>' +
               '<a href="/services#automotive"><span>Automotive Retouching</span></a>' +
             '</div>' +

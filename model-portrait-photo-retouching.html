@@ -444,7 +444,10 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   gap:clamp(32px,5vw,64px);
   align-items:center;
 }
-.dep.flip .media-col{order:2}
+.dep.flip .wrap{
+  grid-template-columns:minmax(0,0.95fr) minmax(0,1.05fr);
+}
+.dep.flip .media-col{order:-1}
 .band{
   padding:clamp(54px,7vw,92px) 0;
   border-bottom:1px solid var(--line);
@@ -609,7 +612,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 /* BOUNDARIES LIST (ETHICAL STANDARDS) */
 .boundaries-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  grid-template-columns:repeat(2,minmax(0,1fr));
   gap:18px;
   margin-top:28px;
 }
@@ -619,6 +622,9 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   border-radius:15px;
   padding:22px 24px;
   border-left:4px solid var(--accent);
+}
+.boundary-box:last-child{
+  grid-column:1 / -1;
 }
 .boundary-box strong{
   display:block;
@@ -932,7 +938,9 @@ footer a:hover{color:var(--accent)}
 /* RESPONSIVE BREAKPOINTS */
 @media(max-width:992px){
   .dep .wrap{grid-template-columns:1fr;gap:40px}
-  .dep.flip .media-col{order:0}
+  .dep.flip .wrap{grid-template-columns:1fr}
+  .dep.flip .media-col{order:2}
+  .boundaries-grid{grid-template-columns:1fr}
   footer .g{grid-template-columns:1fr 1fr}
 }
 @media(max-width:640px){
@@ -969,38 +977,12 @@ footer a:hover{color:var(--accent)}
     </nav>
     <div class="nav-actions">
       <a class="btn p" href="/contact?service=model-portrait">Free 24h Test</a>
-      <button class="nav-mob-btn" id="navMobBtn" aria-label="Open mobile menu" aria-expanded="false"><span></span><span></span><span></span></button>
+      <button class="nav-mob-btn" id="navMobBtn" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobDrawer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+      </button>
     </div>
   </div>
 </header>
-
-<!-- MOBILE DRAWER -->
-<div class="nav-drawer" id="navDrawer" aria-hidden="true">
-  <div class="nav-drawer-backdrop" id="navDrawerBackdrop"></div>
-  <div class="nav-drawer-panel">
-    <div class="nav-drawer-head">
-      <a class="logo" href="/">Retoucher Shoaib<sup>&reg;</sup></a>
-      <button class="nav-drawer-close" id="navDrawerClose" aria-label="Close menu">&times;</button>
-    </div>
-    <div class="nav-drawer-body">
-      <span class="nav-drawer-label">Services</span>
-      <a href="/services" class="nav-drawer-link">All Services Overview</a>
-      <a href="/model-portrait-photo-retouching" class="nav-drawer-link cur">Model &amp; Portrait Retouching</a>
-      <a href="/ecommerce-product-retouching" class="nav-drawer-link">E-Commerce Product Retouching</a>
-      <a href="/ghost-mannequin-fashion-photo-retouching" class="nav-drawer-link">Fashion &amp; Ghost Mannequin</a>
-      <a href="/jewelry-watch-photo-retouching" class="nav-drawer-link">Jewelry &amp; Watch Retouching</a>
-      <a href="/services#still" class="nav-drawer-link">Still Life &amp; Cosmetics</a>
-      <a href="/services#automotive" class="nav-drawer-link">Automotive Retouching</a>
-      <div class="nav-dd-sep"></div>
-      <span class="nav-drawer-label">Studio</span>
-      <a href="/studio" class="nav-drawer-link">About the Studio &amp; Team</a>
-      <a href="/work" class="nav-drawer-link">Portfolio &amp; Showcase</a>
-      <a href="/feed" class="nav-drawer-link">Articles &amp; Feed</a>
-      <a href="/contact" class="nav-drawer-link">Contact &amp; Free Trial</a>
-      <a href="/portal" class="nav-drawer-link" rel="nofollow">Client Portal &#x1f512;</a>
-    </div>
-  </div>
-</div>
 
 <main>
   <!-- HERO SECTION: TYPOGRAPHY-FIRST EDITORIAL STANDARD (ZERO IMAGES) -->
@@ -1130,7 +1112,7 @@ footer a:hover{color:var(--accent)}
   </section>
 
   <!-- SECTION 03: MODEL PHOTO RETOUCHING -->
-  <section class="dep" id="model-retouching">
+  <section class="dep flip" id="model-retouching">
     <div class="wrap">
       <div class="tx">
         <span class="sec-tag">Portfolios, Comp Cards &amp; Digitals</span>
@@ -1185,27 +1167,8 @@ footer a:hover{color:var(--accent)}
   </section>
 
   <!-- SECTION 04: PORTRAIT & BEAUTY RETOUCHING -->
-  <section class="dep flip" id="beauty-retouching">
+  <section class="dep" id="beauty-retouching">
     <div class="wrap">
-      <div class="media-col">
-        <div class="ph ba" style="--x:50%;aspect-ratio:1/1" data-ba aria-label="Interactive before and after comparison of hair grooming and flyaway cleanup">
-          <div class="lay before">
-            <img src="./assets/agency_showcase/portrait-beauty-flyaway-before.webp" alt="Beauty portrait before retouching showing wild stray flyaway hairs across forehead and backdrop" width="1000" height="1000" loading="lazy">
-            <span class="tag b">Before</span>
-          </div>
-          <div class="lay after">
-            <img src="./assets/agency_showcase/portrait-beauty-flyaway-after.webp" alt="Beauty portrait after retouching with groomed hair silhouette and flyaways cleanly removed" width="1000" height="1000" loading="lazy">
-            <span class="tag a">After</span>
-          </div>
-          <div class="ba-bar" aria-hidden="true"><div class="ba-handle">&#x2194;</div></div>
-          <input type="range" min="0" max="100" value="50" aria-label="Slide to compare hair grooming before and after">
-        </div>
-        <div class="cap">
-          <span>Hair Grooming: Flyaways removed while preserving organic volume</span>
-          <span>Drag slider to compare</span>
-        </div>
-      </div>
-
       <div class="tx">
         <span class="sec-tag">Macro Precision</span>
         <h2>Portrait &amp; beauty retouching: natural skin, clean hair, true color</h2>
@@ -1233,11 +1196,30 @@ footer a:hover{color:var(--accent)}
           </div>
         </div>
       </div>
+
+      <div class="media-col">
+        <div class="ph ba" style="--x:50%;aspect-ratio:1/1" data-ba aria-label="Interactive before and after comparison of hair grooming and flyaway cleanup">
+          <div class="lay before">
+            <img src="./assets/agency_showcase/portrait-beauty-flyaway-before.webp" alt="Beauty portrait before retouching showing wild stray flyaway hairs across forehead and backdrop" width="1000" height="1000" loading="lazy">
+            <span class="tag b">Before</span>
+          </div>
+          <div class="lay after">
+            <img src="./assets/agency_showcase/portrait-beauty-flyaway-after.webp" alt="Beauty portrait after retouching with groomed hair silhouette and flyaways cleanly removed" width="1000" height="1000" loading="lazy">
+            <span class="tag a">After</span>
+          </div>
+          <div class="ba-bar" aria-hidden="true"><div class="ba-handle">&#x2194;</div></div>
+          <input type="range" min="0" max="100" value="50" aria-label="Slide to compare hair grooming before and after">
+        </div>
+        <div class="cap">
+          <span>Hair Grooming: Flyaways removed while preserving organic volume</span>
+          <span>Drag slider to compare</span>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- SECTION 05: HEADSHOT RETOUCHING -->
-  <section class="dep" id="headshots">
+  <section class="dep flip" id="headshots">
     <div class="wrap">
       <div class="tx">
         <span class="sec-tag">Executive &amp; Casting Presence</span>
@@ -1285,34 +1267,44 @@ footer a:hover{color:var(--accent)}
   </section>
 
   <!-- SECTION 06: SKIN TONE & COMPLEXION ACCURACY -->
-  <section class="band" id="color-accuracy">
+  <section class="dep" id="color-accuracy">
     <div class="wrap">
-      <div class="sec-head">
-        <span class="sec-tag">Color Science</span>
-        <h2>Skin tone and complexion accuracy</h2>
+      <div class="tx">
+        <span class="sec-tag">Color Science &amp; Melanin Fidelity</span>
+        <h2>Skin tone and complexion accuracy: true to the person</h2>
         <p>
-          Studio lights, flash strobes, and backdrops can drastically shift how skin looks in a photograph. 
-          Warm tungsten light can turn skin orange, cool ambient light can make it lifeless gray, and direct flash can wash out or flatten deeper complexions. 
-          We balance color so skin looks like the person looks in real life, and we keep tones consistent across a group.
+          Studio flash strobes, warm tungsten fixtures, and colored backdrops can drastically shift how skin looks on camera. 
+          Direct flash washes out midtones, tungsten turns faces orange, and automated algorithms routinely introduce an unnatural 
+          ashy, grayish tint to deeper skin tones. We balance color so skin looks exactly like the person looks in real life.
         </p>
         <p>
-          Send a reference photo, a color card frame, or a note about how the person looks in daylight, and our team will match to it. 
-          No one-size-fits-all presets, and no artificial lightening or darkening of anyone’s complexion unless requested.
+          Send a reference frame, daylight capture, or gray card balance, and our artists match to it. 
+          No destructive automated presets, no flattening of undertones, and zero artificial bleaching or darkening.
         </p>
+
+        <div class="card-grid" style="grid-template-columns:1fr;gap:14px;margin-top:22px">
+          <div class="card" style="padding:18px 22px">
+            <h3 style="font-size:16.5px;margin-bottom:6px">Melanin &amp; Deep Complexions</h3>
+            <p style="font-size:14.5px;margin:0">Preserving rich golden-bronze undertones, deep espresso depth, and healthy natural luminescence without the ashy veil common in AI filters.</p>
+          </div>
+          <div class="card" style="padding:18px 22px">
+            <h3 style="font-size:16.5px;margin-bottom:6px">Undertone Balancing</h3>
+            <p style="font-size:14.5px;margin:0">Harmonizing localized flush, chest/neck exposure disparities, and makeup edge lines into one seamless, organic transition.</p>
+          </div>
+          <div class="card" style="padding:18px 22px">
+            <h3 style="font-size:16.5px;margin-bottom:6px">Series &amp; Group Uniformity</h3>
+            <p style="font-size:14.5px;margin:0">Ensuring an editorial model spread or an entire executive directory shares calibrated warmth, density, and contrast across all frames.</p>
+          </div>
+        </div>
       </div>
 
-      <div class="card-grid">
-        <div class="card">
-          <h3>Melanin &amp; Deep Complexions</h3>
-          <p>Preserving natural warmth, rich undertones, and healthy luminosity without the ashy or gray cast common in automated filters.</p>
+      <div class="media-col">
+        <div class="ph" style="aspect-ratio:56/75">
+          <img src="./assets/agency_showcase/melanin-skin-tone-accuracy-portrait.webp" alt="Commercial beauty portrait showing calibrated melanin skin tone accuracy with genuine dermal pores and warm golden undertones" width="896" height="1200" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block">
         </div>
-        <div class="card">
-          <h3>Undertone Balancing</h3>
-          <p>Harmonizing differences between facial redness, neck undertones, and chest/shoulder exposure caused by studio lighting or makeup.</p>
-        </div>
-        <div class="card">
-          <h3>Series &amp; Group Uniformity</h3>
-          <p>Ensuring that every model frame in an editorial spread or every team member on an executive roster shares calibrated warmth and contrast.</p>
+        <div class="cap">
+          <span>Melanin Tone Accuracy: 100% natural pores &amp; warm golden undertones</span>
+          <span>16-Bit ProPhoto Fidelity</span>
         </div>
       </div>
     </div>
@@ -1699,25 +1691,8 @@ footer a:hover{color:var(--accent)}
     addEventListener('resize', syncActiveBar, { passive: true });
     syncActiveBar();
   }
-
-  // 3. Mobile Navigation Drawer
-  var mobBtn = document.getElementById('navMobBtn');
-  var drawer = document.getElementById('navDrawer');
-  var drawerClose = document.getElementById('navDrawerClose');
-  var drawerBackdrop = document.getElementById('navDrawerBackdrop');
-
-  function toggleDrawer(open) {
-    if (!drawer) return;
-    drawer.classList.toggle('open', open);
-    drawer.setAttribute('aria-hidden', !open);
-    if (mobBtn) mobBtn.setAttribute('aria-expanded', open);
-    document.body.style.overflow = open ? 'hidden' : '';
-  }
-
-  if (mobBtn) mobBtn.addEventListener('click', function(){ toggleDrawer(true); });
-  if (drawerClose) drawerClose.addEventListener('click', function(){ toggleDrawer(false); });
-  if (drawerBackdrop) drawerBackdrop.addEventListener('click', function(){ toggleDrawer(false); });
 })();
 </script>
+<script src="./assets/site-nav.js" defer></script>
 </body>
 </html>
