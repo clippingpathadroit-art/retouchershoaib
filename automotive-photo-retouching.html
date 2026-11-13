@@ -590,59 +590,135 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 .gm-compare{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:16px;
-  margin:20px 0 24px;
+  gap:20px;
+  margin:28px 0 32px;
 }
 .problem-box{
   background:var(--surface);
   border:1px solid var(--line);
-  border-radius:15px;
-  padding:20px 22px;
+  border-radius:18px;
+  padding:28px 28px;
   height:100%;
+  display:flex;
+  flex-direction:column;
+  transition:border-color .2s ease;
+}
+.problem-box.clean{
+  border-top:3px solid #ff7575;
+}
+.problem-box.preserve{
+  border-top:3px solid var(--accent);
+}
+.problem-box .box-head{
+  margin-bottom:16px;
+  padding-bottom:14px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.problem-box .box-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font:700 11.5px/1 var(--display);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  padding:5px 11px;
+  border-radius:99px;
+  margin-bottom:10px;
+}
+.problem-box.clean .box-pill{
+  color:#ff7575;
+  background:rgba(255,117,117,.1);
+  border:1px solid rgba(255,117,117,.28);
+}
+.problem-box.preserve .box-pill{
+  color:var(--accent);
+  background:rgba(200,241,53,.1);
+  border:1px solid rgba(200,241,53,.28);
 }
 .problem-box h3{
-  margin:0 0 12px;
-  font:700 14.5px/1.25 var(--display);
-  text-transform:uppercase;
-  letter-spacing:.06em;
-  color:var(--accent);
+  margin:0 0 6px;
+  font:700 20px/1.25 var(--display);
+  color:var(--text);
+  letter-spacing:-.01em;
+}
+.problem-box .sub{
+  font-size:14px;
+  line-height:1.55;
+  color:var(--muted);
+  margin:0;
 }
 .problem-box ul{
   margin:0;
-  padding-left:18px;
-  font-size:15px;
-  line-height:1.6;
-  color:#e4e6de;
+  padding:0;
+  list-style:none;
+  display:grid;
+  gap:12px;
 }
-.problem-box li{margin-bottom:8px}
+.problem-box li{
+  position:relative;
+  padding-left:24px;
+  font-size:14.5px;
+  line-height:1.55;
+  color:#dcded4;
+  margin:0;
+}
+.problem-box.clean li::before{
+  content:"✕";
+  position:absolute;
+  left:0;
+  top:1px;
+  font-weight:700;
+  font-size:12px;
+  color:#ff7575;
+}
+.problem-box.preserve li::before{
+  content:"✓";
+  position:absolute;
+  left:0;
+  top:0;
+  font-weight:700;
+  font-size:14px;
+  color:var(--accent);
+}
 
-/* BOUNDARIES LIST */
+/* BOUNDARIES LIST (3-COLUMN BALANCED GRID) */
 .boundaries-grid{
   display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:18px;
-  margin-top:28px;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:20px;
+  margin-top:12px;
 }
 .boundary-box{
-  background:var(--bg);
+  background:var(--surface);
   border:1px solid var(--line);
-  border-radius:15px;
-  padding:22px 24px;
-  border-left:4px solid var(--accent);
+  border-radius:18px;
+  padding:24px 24px;
+  transition:border-color .2s ease, transform .2s ease;
+  display:flex;
+  flex-direction:column;
 }
-.boundary-box:last-child{
-  grid-column:1 / -1;
+.boundary-box:hover{
+  border-color:rgba(200,241,53,.35);
+  transform:translateY(-2px);
 }
-.boundary-box strong{
-  display:block;
-  font:700 17.5px/1.3 var(--display);
+.boundary-box .tag{
+  display:inline-block;
+  font:700 11.5px/1 var(--display);
+  letter-spacing:.08em;
+  text-transform:uppercase;
   color:var(--accent);
   margin-bottom:8px;
 }
+.boundary-box h3{
+  margin:0 0 8px;
+  font:700 18px/1.25 var(--display);
+  color:var(--text);
+  letter-spacing:-.01em;
+}
 .boundary-box p{
-  font-size:15px;
+  font-size:14.5px;
   line-height:1.6;
-  color:#dcded4;
+  color:#c7c9bf;
   margin:0;
 }
 
@@ -982,6 +1058,9 @@ footer a:hover{color:var(--accent)}
     gap:36px;
   }
   .dep.flip .media-col{order:0}
+  .boundaries-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
   .guide-grid{
     grid-template-columns:repeat(2,minmax(0,1fr));
   }
@@ -992,10 +1071,12 @@ footer a:hover{color:var(--accent)}
     grid-template-columns:1fr 1fr;
   }
 }
-@media(max-width:640px){
+@media(max-width:768px){
   .gm-compare, .boundaries-grid{
     grid-template-columns:1fr;
   }
+}
+@media(max-width:640px){
   .guide-grid{
     grid-template-columns:1fr;
   }
@@ -1123,54 +1204,70 @@ footer a:hover{color:var(--accent)}
 
   <!-- SECTION 02: BOUNDARIES (WHAT WE CLEAN VS WHAT WE STRICTLY PRESERVE) -->
   <section class="dep" id="boundaries">
-    <div class="wrap">
-      <div class="tx">
+    <div class="wrap" style="display:block">
+      <div class="sec-head">
         <span class="sec-tag">Ethical Standards &middot; Section 02</span>
         <h2>What we clean vs. what we strictly preserve.</h2>
         <p>
-          Cars have intricate mechanical personalities. Indiscriminate airbrushing or aggressive automated smoothing destroys body creases, erases fastener rivets, and gives tires the artificial look of black plastic toys.
+          Cars have intricate mechanical personalities and sculpted aerodynamic profiles. Indiscriminate airbrushing or aggressive automated smoothing destroys body creases, erases fastener rivets, and gives tires the artificial look of cheap plastic toys.
         </p>
         <p>
           We operate with strict post-production boundaries established over a decade of collaborating with commercial automotive photographers, OEM marketing directors, and classic auction curators.
         </p>
+      </div>
 
-        <div class="gm-compare">
-          <div class="problem-box">
+      <!-- SIDE-BY-SIDE CLEAN VS PRESERVE COMPARISON (EQUAL FULL-WIDTH BOXES) -->
+      <div class="gm-compare">
+        <!-- BOX 1: WHAT WE CLEAN -->
+        <div class="problem-box clean">
+          <div class="box-head">
+            <span class="box-pill">&#x2715; Environmental Flaws Removed</span>
             <h3>What We Clean &amp; Perfect</h3>
-            <ul>
-              <li>Chaotic environmental reflections (fences, crowd, power cables, lighting rigs)</li>
-              <li>Dealership asphalt cracks, oil stains, puddles &amp; yellow parking lines</li>
-              <li>Micro-scratches, swirl marks, dust motes &amp; fingerprint smudges</li>
-              <li>Window sky burn, polarized glare &amp; distracting dashboard reflections</li>
-              <li>Tire scuff marks, road film &amp; brake dust accumulation on alloy rims</li>
-              <li>Uneven color casts caused by mixed fluorescent and tungsten canopy lighting</li>
-            </ul>
+            <p class="sub">Eliminating distracting on-location chaos, asphalt blemishes, and lighting anomalies without altering the vehicle:</p>
           </div>
-          <div class="problem-box">
+          <ul>
+            <li><strong>Chaotic environmental reflections:</strong> Paddock awnings, spectator crowds, fence wiring, power cables, and light stand rigs.</li>
+            <li><strong>Dealership asphalt defects:</strong> Oil stains, puddle reflections, asphalt sealant cracks, and yellow parking lot lines.</li>
+            <li><strong>Surface clear-coat flaws:</strong> Micro-scratches, swirl marks, airborne dust motes, and fingerprint smudges.</li>
+            <li><strong>Windshield &amp; glass flare:</strong> Window sky burn, polarized milky haze, and distracting dashboard reflection streaks.</li>
+            <li><strong>Wheel &amp; tire grime:</strong> Embedded metallic brake dust on alloy barrels, tire scuff marks, and road tar film.</li>
+            <li><strong>Mixed lighting casts:</strong> Harsh color contamination from mixed fluorescent shop bulbs and tungsten paddock canopies.</li>
+          </ul>
+        </div>
+
+        <!-- BOX 2: WHAT WE PRESERVE -->
+        <div class="problem-box preserve">
+          <div class="box-head">
+            <span class="box-pill">&#10003; 100% OEM Authenticity Kept</span>
             <h3>What We Strictly Preserve</h3>
-            <ul>
-              <li>Factory body panel shut-lines, door margins &amp; aero hood vents</li>
-              <li>Original metallic pearl flake distribution &amp; clear coat depth</li>
-              <li>Razor-sharp sponsor decals, livery typography &amp; manufacturer emblems</li>
-              <li>Authentic glass refraction angles &amp; interior cockpit visibility</li>
-              <li>DOT tire sidewall lettering, tread patterns &amp; valve stem details</li>
-              <li>Carbon fiber 2x2 twill weave patterns &amp; titanium exhaust heat-tinting</li>
-            </ul>
+            <p class="sub">Protecting the authentic mechanical DNA, design tolerances, and aerodynamic lines of the vehicle:</p>
           </div>
+          <ul>
+            <li><strong>Factory shut-lines:</strong> Precise door gaps, bonnet seams, aerodynamic hood vents, and light surround margins.</li>
+            <li><strong>Paint chemistry:</strong> Original metallic pearl flake dispersion, clear-coat depth, and specular tone curvature.</li>
+            <li><strong>Livery &amp; branding:</strong> Razor-sharp sponsor decals, livery typography, technical badging, and manufacturer crests.</li>
+            <li><strong>Authentic glass optics:</strong> Real glass refraction angles, interior steering wheel leather, and roll cage geometry.</li>
+            <li><strong>Tire mechanical details:</strong> DOT sidewall lettering, tread depth patterns, and machined alloy valve stems.</li>
+            <li><strong>Exotic materials:</strong> 2x2 carbon fiber twill weave alignment, titanium exhaust heat bluing, and Alcantara textures.</li>
+          </ul>
         </div>
       </div>
 
+      <!-- 3-COLUMN STANDARDS GRID -->
       <div class="boundaries-grid">
         <div class="boundary-box">
-          <strong>Auction &amp; Consignment Honesty</strong>
-          <p>For Bring a Trailer, RM Sotheby's, and collector consignment listings, we offer truthful condition presentation where panel gaps and period-correct patina remain authentic while removing distracting environmental reflections.</p>
+          <span class="tag">RM Sotheby's &amp; BaT Standards</span>
+          <h3>Auction &amp; Consignment Honesty</h3>
+          <p>For Bring a Trailer, Collecting Cars, and RM Sotheby's listings, we deliver truthful condition presentation where panel gaps, factory spot welds, and period-correct patina remain authentic while removing distracting environmental clutter.</p>
         </div>
         <div class="boundary-box">
-          <strong>CAD-Accurate Shut-Lines</strong>
-          <p>We never paste synthetic vehicle bodies. Door seams, bonnet gaps, and headlamp edges remain 100% anatomically and aerodynamically accurate to the vehicle's factory design.</p>
+          <span class="tag">Aerodynamic Precision</span>
+          <h3>CAD-Accurate Shut-Lines</h3>
+          <p>We never paste synthetic vehicle bodies. Door seams, bonnet gaps, light cluster seals, and aerodynamic wing margins remain 100% anatomically and aerodynamically true to the vehicle's original CAD engineering.</p>
         </div>
         <div class="boundary-box">
-          <strong>Physical Light Direction Matching</strong>
+          <span class="tag">Mathematical Lighting</span>
+          <h3>Physical Light Direction Matching</h3>
           <p>When swapping backgrounds, we match the key light angle, softbox falloff, and color temperature of the vehicle's coachwork highlights to the new studio environment with mathematical fidelity.</p>
         </div>
       </div>
