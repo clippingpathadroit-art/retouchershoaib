@@ -70,7 +70,7 @@
               '<a href="/jewelry-watch-photo-retouching"><span>Jewelry &amp; Watch Retouching</span><em class="nav-new">Live</em></a>' +
               '<a href="/model-portrait-photo-retouching"><span>Model &amp; Beauty Portraits</span><em class="nav-new">Live</em></a>' +
               '<a href="/services#still"><span>Still Life &amp; Cosmetics</span></a>' +
-              '<a href="/services#automotive"><span>Automotive Retouching</span></a>' +
+              '<a href="/automotive-photo-retouching"><span>Automotive Photo Retouching</span><em class="nav-new">Live</em></a>' +
             '</div>' +
           '</details>' +
           '<a class="mob-link" href="/studio">Studio</a>' +
