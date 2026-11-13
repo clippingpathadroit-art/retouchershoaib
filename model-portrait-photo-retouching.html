@@ -715,19 +715,31 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 }
 .card li{margin-bottom:6px}
 
-/* STUDIO SHOOT GUIDE GRID (BALANCED 2x2) */
+/* STUDIO SHOOT GUIDE GRID (BALANCED 4-COLUMN ON DESKTOP, 2x2 ON TABLET) */
+#shooting-tips{
+  padding:clamp(36px,4.5vw,52px) 0 clamp(44px,5.5vw,64px);
+  scroll-margin-top:112px;
+}
+#shooting-tips .sec-head{
+  margin-bottom:18px;
+}
+#shooting-tips .sec-head p{
+  margin:8px 0 0;
+}
 .guide-grid{
   display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:20px;
-  margin-top:28px;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:16px;
+  margin-top:20px;
 }
 .guide-card{
   background:var(--surface);
   border:1px solid var(--line);
   border-radius:16px;
-  padding:28px 30px;
+  padding:22px 20px;
   transition:border-color .2s ease, transform .2s ease;
+  display:flex;
+  flex-direction:column;
 }
 .guide-card:hover{
   border-color:rgba(200,241,53,.35);
@@ -735,20 +747,20 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 }
 .guide-card b{
   display:inline-block;
-  font:800 11.5px/1 var(--display);
+  font:800 11px/1 var(--display);
   letter-spacing:.1em;
   text-transform:uppercase;
   color:var(--accent);
-  margin-bottom:12px;
+  margin-bottom:8px;
 }
 .guide-card h3{
-  font:700 20px/1.25 var(--display);
-  margin:0 0 10px;
+  font:700 17px/1.25 var(--display);
+  margin:0 0 8px;
   color:var(--text);
   letter-spacing:-.01em;
 }
 .guide-card p{
-  font-size:14.5px;
+  font-size:13.5px;
   line-height:1.55;
   color:var(--muted);
   margin:0;
@@ -979,6 +991,10 @@ footer a:hover{color:var(--accent)}
   color:#7e8278;
 }
 
+section[id]{
+  scroll-margin-top:112px;
+}
+
 /* RESPONSIVE BREAKPOINTS */
 @media(max-width:992px){
   .dep .wrap{grid-template-columns:1fr;gap:40px}
@@ -988,13 +1004,14 @@ footer a:hover{color:var(--accent)}
   .order-steps{grid-template-columns:1fr}
   footer .g{grid-template-columns:1fr 1fr}
 }
-@media(max-width:768px){
-  .guide-grid{grid-template-columns:1fr;gap:16px;margin-top:22px}
-  .guide-card{padding:22px 20px}
+@media(max-width:1024px){
+  .guide-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 }
 @media(max-width:640px){
   footer .g{grid-template-columns:1fr}
   .gm-compare{grid-template-columns:1fr}
+  .guide-grid{grid-template-columns:1fr;gap:14px;margin-top:16px}
+  .guide-card{padding:18px 16px}
 }
 </style>
 </head>
