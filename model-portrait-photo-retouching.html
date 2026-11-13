@@ -40,8 +40,7 @@
         "https://retouchershoaib.com/assets/agency_showcase/portrait-studio-man-glasses-after.webp",
         "https://retouchershoaib.com/assets/agency_showcase/natural-skin-beauty-retouching.webp",
         "https://retouchershoaib.com/assets/agency_showcase/crimson-editorial-beauty-portrait-retouching.webp",
-        "https://retouchershoaib.com/assets/agency_showcase/warm-studio-beauty-portrait-retouching.webp",
-        "https://retouchershoaib.com/assets/agency_showcase/silver-glow-complexion-beauty-retouching.webp"
+        "https://retouchershoaib.com/assets/agency_showcase/warm-studio-beauty-portrait-retouching.webp"
       ],
       "description": "100% manual model portfolio retouching, actor headshots, corporate LinkedIn portraits, and high-end editorial beauty photo post-production. Non-destructive frequency separation, micro dodge and burn, authentic dermal pore retention, and flyaway hair grooming with 12 to 24 hour turnaround.",
       "provider": {
@@ -296,9 +295,9 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   transform:scale(1.02);
 }
 
-/* HERO */
+/* HERO: CLEAN TYPOGRAPHY-FIRST EDITORIAL STANDARD (NO IMAGE) */
 .hero{
-  padding:clamp(128px,13vw,152px) 0 clamp(40px,5vw,56px);
+  padding:clamp(132px,14vw,156px) 0 clamp(44px,5vw,60px);
   position:relative;
   overflow:hidden;
 }
@@ -323,11 +322,8 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   position:relative;
 }
 .crumb a:hover{color:var(--accent)}
-.hero-grid{
-  display:grid;
-  grid-template-columns:minmax(0,1.15fr) minmax(0,0.85fr);
-  gap:clamp(32px,5vw,64px);
-  align-items:center;
+.hero-inner{
+  max-width:960px;
   position:relative;
 }
 .eye-pill{
@@ -341,28 +337,33 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   color:var(--accent);
   font:600 13px/1 var(--body);
   letter-spacing:.02em;
-  margin-bottom:18px;
+  margin-bottom:20px;
 }
 .hero h1{
-  font:800 clamp(36px,4.8vw,60px)/1.08 var(--display);
-  letter-spacing:-.03em;
+  font:800 clamp(36px,4.5vw,58px)/1.1 var(--display);
+  letter-spacing:-.025em;
   margin:0 0 20px;
+}
+.hero h1 em{
+  font-style:italic;
+  color:var(--accent);
+  font-weight:700;
 }
 .hero .lead{
   color:#e4e6de;
-  font-size:clamp(17px,1.25vw,19px);
+  font-size:clamp(17px,1.25vw,19.5px);
   line-height:1.65;
   margin:0 0 28px;
-  max-width:620px;
+  max-width:780px;
 }
-.hero-actions{
+.hero-cta{
   display:flex;
   align-items:center;
   flex-wrap:wrap;
   gap:14px;
   margin-bottom:28px;
 }
-.trust-strip{
+.hero-trust{
   display:flex;
   flex-wrap:wrap;
   gap:16px 24px;
@@ -371,7 +372,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   border-top:1px solid var(--line);
   padding-top:20px;
 }
-.trust-strip span{
+.hero-trust span{
   display:inline-flex;
   align-items:center;
   gap:6px;
@@ -430,7 +431,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   color:var(--on-accent);
 }
 
-/* SECTIONS & TWO-COLUMN SHOWCASE */
+/* SECTIONS, BANDS & TWO-COLUMN SHOWCASE */
 .dep{
   padding:clamp(54px,7vw,92px) 0;
   border-bottom:1px solid var(--line);
@@ -438,10 +439,15 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 .dep .wrap{
   display:grid;
   grid-template-columns:minmax(0,1.05fr) minmax(0,0.95fr);
-  gap:clamp(28px,4.8vw,60px);
+  gap:clamp(32px,5vw,64px);
   align-items:center;
 }
 .dep.flip .media-col{order:2}
+.band{
+  padding:clamp(54px,7vw,92px) 0;
+  border-bottom:1px solid var(--line);
+  background:var(--surface);
+}
 .sec-head{
   max-width:820px;
   margin-bottom:clamp(28px,3.8vw,44px);
@@ -568,6 +574,96 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   gap:12px;
 }
 
+/* SIDE-BY-SIDE ON-SET VS RETOUCHING COMPARISON BOXES */
+.gm-compare{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+  margin:20px 0 24px;
+}
+.problem-box{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:20px 22px;
+  height:100%;
+}
+.problem-box h3{
+  margin:0 0 12px;
+  font:700 14px/1.2 var(--display);
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  color:var(--accent);
+}
+.problem-box ul{
+  margin:0;
+  padding-left:18px;
+  font-size:14.5px;
+  line-height:1.6;
+  color:#d4d6cd;
+}
+.problem-box li{margin-bottom:8px}
+
+/* BOUNDARIES LIST (ETHICAL STANDARDS) */
+.boundaries-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:18px;
+  margin-top:28px;
+}
+.boundary-box{
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:22px 24px;
+  border-left:4px solid var(--accent);
+}
+.boundary-box strong{
+  display:block;
+  font:700 16.5px/1.3 var(--display);
+  color:var(--accent);
+  margin-bottom:8px;
+}
+.boundary-box p{
+  font-size:15px;
+  line-height:1.58;
+  color:#dcded4;
+  margin:0;
+}
+
+/* SHOWCASE PORTFOLIO TILES */
+.showcase-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+}
+.showcase-tile{
+  position:relative;
+  border-radius:15px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:var(--surface);
+  aspect-ratio:3/4;
+}
+.showcase-tile img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .4s ease;
+}
+.showcase-tile:hover img{
+  transform:scale(1.03);
+}
+.showcase-tile .tile-info{
+  position:absolute;
+  inset:auto 0 0;
+  padding:24px 14px 12px;
+  background:linear-gradient(to top,rgba(10,10,11,.92),transparent);
+  font:600 13px/1.3 var(--body);
+  color:#ffffff;
+}
+
 /* CARDS & GRIDS */
 .card-grid{
   display:grid;
@@ -579,7 +675,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   background:var(--surface);
   border:1px solid var(--line);
   border-radius:16px;
-  padding:24px;
+  padding:24px 26px;
   transition:border-color .2s, transform .2s;
 }
 .card:hover{
@@ -606,104 +702,63 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 }
 .card li{margin-bottom:6px}
 
-/* BOUNDARIES LIST */
-.boundaries-grid{
+/* LEVELS PRICING CARDS */
+.price-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:16px;
-  margin-top:28px;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:22px;
+  margin:28px 0;
 }
-.boundary-box{
+.price-card{
   background:var(--surface);
   border:1px solid var(--line);
-  border-radius:14px;
-  padding:20px 22px;
-  border-left:3px solid var(--accent);
+  border-radius:18px;
+  padding:28px 26px;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
 }
-.boundary-box strong{
-  display:block;
-  font:700 16px/1.3 var(--display);
+.price-card.pop{
+  border-color:rgba(200,241,53,.45);
+  background:linear-gradient(180deg,rgba(200,241,53,.06),rgba(20,20,22,1) 85%);
+}
+.price-card .pop-tag{
+  position:absolute;
+  top:-12px;
+  right:20px;
+  background:var(--accent);
+  color:var(--on-accent);
+  font:700 11px/1 var(--display);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  padding:5px 12px;
+  border-radius:99px;
+}
+.price-card h3{
+  margin:0 0 6px;
+  font:700 20px/1.2 var(--display);
+  color:var(--text);
+}
+.price-card .rate{
+  font:800 24px/1.2 var(--display);
   color:var(--accent);
-  margin-bottom:6px;
+  margin:0 0 14px;
 }
-.boundary-box p{
+.price-card .desc{
   font-size:14.5px;
   line-height:1.55;
-  color:#d4d6cd;
-  margin:0;
+  color:#c7c9bf;
+  margin:0 0 18px;
 }
-
-/* SHOWCASE PORTFOLIO TILES */
-.showcase-grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:16px;
-}
-.showcase-tile{
-  position:relative;
-  border-radius:14px;
-  overflow:hidden;
-  border:1px solid var(--line);
-  background:var(--surface);
-  aspect-ratio:3/4;
-}
-.showcase-tile img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-  transition:transform .4s ease;
-}
-.showcase-tile:hover img{
-  transform:scale(1.03);
-}
-.showcase-tile .tile-info{
-  position:absolute;
-  inset:auto 0 0;
-  padding:24px 14px 12px;
-  background:linear-gradient(to top,rgba(10,10,11,.92),transparent);
-  font:600 13px/1.3 var(--body);
-  color:#ffffff;
-}
-
-/* LEVELS PRICING TABLE */
-.table-wrap{
-  overflow-x:auto;
-  border-radius:16px;
-  border:1px solid var(--line);
-  background:var(--surface);
-  margin:24px 0;
-}
-table.levels-tbl{
-  width:100%;
-  border-collapse:collapse;
-  text-align:left;
-  font-size:15px;
-}
-table.levels-tbl th{
-  background:rgba(255,255,255,.03);
-  padding:18px 22px;
-  font:700 13.5px var(--display);
-  letter-spacing:.05em;
-  text-transform:uppercase;
-  color:var(--accent);
-  border-bottom:1px solid var(--line);
-}
-table.levels-tbl td{
-  padding:20px 22px;
-  border-bottom:1px solid rgba(255,255,255,.06);
+.price-card ul{
+  margin:0 0 22px;
+  padding-left:18px;
+  font-size:14.5px;
   line-height:1.6;
   color:#d4d6cd;
-  vertical-align:top;
 }
-table.levels-tbl tr:last-child td{border-bottom:none}
-table.levels-tbl tr:hover td{background:rgba(255,255,255,.02)}
-table.levels-tbl td strong{
-  color:var(--text);
-  font-size:16px;
-  display:block;
-  margin-bottom:4px;
-}
+.price-card li{margin-bottom:8px}
 
 /* FAQ ACCORDION */
 .faq-list{
@@ -713,9 +768,9 @@ table.levels-tbl td strong{
   margin:0 auto;
 }
 .faq-item{
-  background:var(--surface);
+  background:var(--bg);
   border:1px solid var(--line);
-  border-radius:14px;
+  border-radius:15px;
   overflow:hidden;
   transition:border-color .2s;
 }
@@ -755,10 +810,10 @@ table.levels-tbl td strong{
   gap:20px;
 }
 .rev-card{
-  background:var(--surface);
+  background:var(--bg);
   border:1px solid var(--line);
   border-radius:16px;
-  padding:24px;
+  padding:24px 26px;
 }
 .rev-card blockquote{
   margin:0 0 16px;
@@ -786,10 +841,10 @@ table.levels-tbl td strong{
   margin-top:24px;
 }
 .dept-card{
-  background:var(--surface);
+  background:var(--bg);
   border:1px solid var(--line);
-  border-radius:14px;
-  padding:20px;
+  border-radius:15px;
+  padding:20px 22px;
   transition:border-color .2s, transform .2s;
 }
 .dept-card:hover{
@@ -874,16 +929,14 @@ footer a:hover{color:var(--accent)}
 
 /* RESPONSIVE BREAKPOINTS */
 @media(max-width:992px){
-  .hero-grid{grid-template-columns:1fr;gap:40px}
-  .dep .wrap{grid-template-columns:1fr;gap:36px}
+  .dep .wrap{grid-template-columns:1fr;gap:40px}
   .dep.flip .media-col{order:0}
   footer .g{grid-template-columns:1fr 1fr}
 }
 @media(max-width:640px){
   footer .g{grid-template-columns:1fr}
+  .gm-compare{grid-template-columns:1fr}
   .showcase-grid{grid-template-columns:1fr}
-  .table-wrap{border-radius:12px}
-  table.levels-tbl th,table.levels-tbl td{padding:14px 16px;font-size:14px}
   .bar a.pill-cta{display:none}
 }
 </style>
@@ -949,56 +1002,35 @@ footer a:hover{color:var(--accent)}
 </div>
 
 <main>
-  <!-- HERO SECTION -->
+  <!-- HERO SECTION: TYPOGRAPHY-FIRST EDITORIAL STANDARD (ZERO IMAGES) -->
   <section class="hero" id="hero">
     <div class="wrap">
-      <div class="crumb">
+      <nav class="crumb" aria-label="Breadcrumb">
         <a href="/">Home</a>
         <span aria-hidden="true">/</span>
         <a href="/services">Services</a>
         <span aria-hidden="true">/</span>
-        <span>Model &amp; Portrait Retouching</span>
-      </div>
+        <span aria-current="page" style="color:var(--text)">Model &amp; Portrait Photo Retouching</span>
+      </nav>
 
-      <div class="hero-grid">
-        <div class="hero-left">
-          <span class="eye-pill">Commercial Post-Production Studio</span>
-          <h1>Model and Portrait Retouching, Done by Hand.</h1>
-          <p class="lead">
-            People don’t want to look like someone else. They want to look like themselves on a really good day. 
-            Our dedicated studio retouches model, portrait, and executive headshot photos entirely by hand—preserving 
-            natural dermal pores, grooming hair, and keeping skin tones true to life. Zero AI smoothing filters, zero plastic 
-            skin, and zero unrecognizable faces.
-          </p>
-          <div class="hero-actions">
-            <a href="#trial" class="btn p">Start Free Test Edit (24h Turnaround)</a>
-            <a href="#philosophy" class="btn">Explore Before &amp; After Showcase</a>
-          </div>
-          <div class="trust-strip">
-            <span>✓ Hand-Retouched, Never AI-Filtered</span>
-            <span>✓ 12 to 24-Hour Studio Turnaround</span>
-            <span>✓ Confidentiality &amp; NDA Assured</span>
-            <span>✓ Revisions Included</span>
-          </div>
+      <div class="hero-inner">
+        <div class="eye-pill">100% Hand-Retouched &middot; No AI Filters &middot; 12&ndash;24h Turnaround</div>
+        <h1>Model &amp; Portrait Retouching, <em>Done by Hand.</em></h1>
+        <p class="lead">
+          People don’t want to look like someone else. They want to look like themselves on a really good day. 
+          We retouch model, portrait, and executive headshot photos by hand in 16-bit Photoshop so skin keeps its authentic micro-texture, 
+          hair looks clean, and skin tone stays true to the person. No AI smoothing filters, no plastic finish, no face you don’t recognise. 
+          Send one image and get it back retouched, free, within 24 hours.
+        </p>
+        <div class="hero-cta">
+          <a class="btn p" href="/contact?service=model-portrait">Request 1&ndash;2 Free Test Edits</a>
+          <a class="btn" href="#philosophy">See Before &amp; After Examples</a>
         </div>
-
-        <div class="hero-right">
-          <div class="ph ba" style="--x:50%;aspect-ratio:764/1024" data-ba aria-label="Interactive before and after comparison of high-end beauty portrait retouching">
-            <div class="lay before">
-              <img src="/assets/agency_showcase/service_beauty_before.webp" alt="Beauty portrait before manual retouching showing temporary blemishes, redness and skin shine" width="764" height="1024" fetchpriority="high">
-              <span class="tag b">Before</span>
-            </div>
-            <div class="lay after">
-              <img src="/assets/agency_showcase/service_beauty_after.webp" alt="Beauty portrait after manual dodge and burn retouching with natural dermal pores preserved" width="764" height="1024" fetchpriority="high">
-              <span class="tag a">After</span>
-            </div>
-            <div class="ba-bar" aria-hidden="true"><div class="ba-handle">&#x2194;</div></div>
-            <input type="range" min="0" max="100" value="50" aria-label="Slide to compare before and after beauty portrait retouching">
-          </div>
-          <div class="cap">
-            <span>Commercial Beauty: 100% manual dodge &amp; burn</span>
-            <span>Drag slider to compare</span>
-          </div>
+        <div class="hero-trust">
+          <span>✓ Hand-retouched, never AI-filtered</span>
+          <span>✓ 12 to 24 hour turnaround</span>
+          <span>✓ Mutual NDA available</span>
+          <span>✓ Revisions included</span>
         </div>
       </div>
     </div>
@@ -1013,82 +1045,85 @@ footer a:hover{color:var(--accent)}
       <a href="#beauty-retouching">Beauty &amp; Skin</a>
       <a href="#headshots">Headshots</a>
       <a href="#color-accuracy">Skin Tones</a>
-      <a href="#levels">Levels &amp; Pricing</a>
-      <a href="#photographers">Photographers</a>
+      <a href="#levels">Retouching Levels</a>
+      <a href="#photographers">For Photographers</a>
       <a href="#shooting-tips">Shooting Guide</a>
       <a href="#faq">FAQ</a>
       <a href="#trial" class="pill-cta">Free Trial</a>
     </div>
   </div>
 
-  <!-- SECTION 01: RETOUCHING PHILOSOPHY -->
+  <!-- SECTION 01: RETOUCHING PHILOSOPHY & FIRST FLAGSHIP VISUAL PROOF -->
   <section class="dep" id="philosophy">
     <div class="wrap">
-      <div class="media-col">
-        <div class="card" style="margin-bottom:16px;background:rgba(20,20,22,.9);">
-          <span class="sec-tag">The Artificial AI Trap</span>
-          <h3 style="color:#ff7a7a">What Goes Wrong With Automated AI Retouching</h3>
-          <p>One-click plugins and AI headshot apps blur pixels together, stripping out fine dermal pores and leaving a greasy plastic mask. Cheekbones lose three-dimensional depth, eyes glow with synthetic reflections, and subjects become unrecognizable.</p>
-        </div>
-        <div class="card" style="background:rgba(200,241,53,.05);border-color:rgba(200,241,53,.25);">
-          <span class="sec-tag">Our Hand-Crafted Difference</span>
-          <h3 style="color:var(--accent)">How Our Studio Delivers Authentic Fidelity</h3>
-          <p>We work in 16-bit non-destructive Adobe Photoshop layers. We separate spatial texture from tonal values using calibrated frequency separation, then sculpt facial contours with microscopic 1–2 pixel dodge and burn strokes so skin looks radiant, authentic, and completely natural.</p>
-        </div>
-      </div>
-
       <div class="tx">
         <span class="sec-tag">Authentic Skin Fidelity</span>
-        <h2>Retouching That Makes People Look Like Themselves</h2>
+        <h2>Retouching that makes people look like themselves</h2>
         <p>
-          An over-edited portrait is immediately obvious: waxy skin, missing dermal pores, glowing eyes, and a jawline 
-          that never existed in real life. Viewers may not pinpoint the exact technical flaw, but they instinctively stop 
-          trusting the photograph. A masterfully retouched portrait does the exact opposite: it captures the subject on 
-          their absolute best day—fatigue softened, temporary blemishes and stray hairs cleaned, and studio lighting balanced.
+          An over-edited portrait is easy to spot: waxy skin, missing pores, eyes that glow, a jawline that wasn’t there in real life. 
+          Viewers may not pinpoint the exact technical flaw, but they instinctively stop trusting the image. A well-retouched portrait 
+          does the opposite. It looks like the person on their best day: tired skin evened out, stray hairs and distractions gone, light and color balanced.
         </p>
         <p>
-          We collaborate with commercial portrait and fashion model photographers, talent agencies, creative directors, and 
-          independent studios worldwide. Every photograph is refined by trained professional retouchers, inspected at 200% zoom, 
-          and returned in your exact required color space and resolution.
+          We work with portrait and model photographers, modeling agencies, commercial studios, and individual clients worldwide. Every image is 
+          edited by real professional artists, inspected at 200% zoom, and returned in the exact format and color profile you need.
         </p>
         <p>
-          This is fundamentally different from AI headshot generators. Those tools construct a synthetic, predictive approximation of 
-          a face. Our studio retouches your authentic photograph pixel by pixel, ensuring the person in the picture is genuinely 
-          the person who walks into the room.
+          This is fundamentally different from AI headshot generators. Those tools construct a synthetic approximation of a face. 
+          We retouch your real photograph, so the person in the picture is genuinely the person who walks into the room.
         </p>
+      </div>
+
+      <div class="media-col">
+        <div class="ph ba" style="--x:50%;aspect-ratio:764/1024" data-ba aria-label="Interactive before and after comparison of high-end beauty portrait retouching">
+          <div class="lay before">
+            <img src="/assets/agency_showcase/service_beauty_before.webp" alt="Beauty portrait before manual retouching showing temporary blemishes, redness and skin shine" width="764" height="1024" fetchpriority="high">
+            <span class="tag b">Before</span>
+          </div>
+          <div class="lay after">
+            <img src="/assets/agency_showcase/service_beauty_after.webp" alt="Beauty portrait after manual dodge and burn retouching with natural dermal pores preserved" width="764" height="1024" fetchpriority="high">
+            <span class="tag a">After</span>
+          </div>
+          <div class="ba-bar" aria-hidden="true"><div class="ba-handle">&#x2194;</div></div>
+          <input type="range" min="0" max="100" value="50" aria-label="Slide to compare before and after beauty portrait retouching">
+        </div>
+        <div class="cap">
+          <span>Commercial Beauty: 100% manual dodge &amp; burn</span>
+          <span>Drag slider to compare</span>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- SECTION 02: OUR RETOUCHING BOUNDARIES -->
-  <section class="dep" id="boundaries" style="background:var(--surface)">
-    <div class="wrap" style="grid-template-columns:1fr">
+  <section class="band" id="boundaries">
+    <div class="wrap">
       <div class="sec-head">
-        <span class="sec-tag">Ethical Craftsmanship</span>
-        <h2>Our Retouching Boundaries: What We Keep, What We Never Change</h2>
-        <p>High-end commercial portraiture demands strict artistic discipline. Unless you explicitly instruct us otherwise, our studio adheres to these non-negotiable boundaries:</p>
+        <span class="sec-tag">Ethical Post-Production</span>
+        <h2>Our retouching boundaries: what we keep, what we never change</h2>
+        <p>Good retouching has strict rules. We follow these boundaries unless you explicitly tell us otherwise:</p>
       </div>
 
       <div class="boundaries-grid">
         <div class="boundary-box">
-          <strong>Zero Unprompted Reshaping</strong>
-          <p>We never reshape facial anatomy, bone structure, or body silhouettes without your explicit creative brief.</p>
+          <strong>We don’t reshape faces or bodies</strong>
+          <p>Any change to shape happens only when you explicitly ask for it. Facial features, bone structure, and silhouettes remain 100% natural.</p>
         </div>
         <div class="boundary-box">
-          <strong>Preserving Natural Character</strong>
-          <p>Freckles, beauty marks, authentic scars, tattoos, and character lines are kept intact by default.</p>
+          <strong>We keep natural identity markers</strong>
+          <p>We keep freckles, beauty marks, scars, tattoos, and natural character lines by default, and ask before removing anything that is part of who someone is.</p>
         </div>
         <div class="boundary-box">
-          <strong>Micro-Texture Protection</strong>
-          <p>We preserve authentic dermal pores and fine peach fuzz instead of obliterating them with surface blurs.</p>
+          <strong>We preserve pores &amp; micro-texture</strong>
+          <p>We preserve authentic skin pores and fine dermal grain instead of smoothing them away with destructive surface blurs.</p>
         </div>
         <div class="boundary-box">
-          <strong>True-to-Life Skin Tones</strong>
-          <p>We match complexions to the person’s authentic daylight look, not to fleeting social media color presets.</p>
+          <strong>We keep skin tone true to the person</strong>
+          <p>Skin tones are matched to how the person looks in daylight, not to fleeting social media color presets or artificial saturation shifts.</p>
         </div>
         <div class="boundary-box">
-          <strong>Agency Digitals Integrity</strong>
-          <p>For model digitals and actor casting submissions, our edits remain light and honest because casting teams require unvarnished truth.</p>
+          <strong>We keep agency digitals honest</strong>
+          <p>For agency digitals and casting submissions, we keep edits minimal, light, and clean, because casting teams expect to see the real person.</p>
         </div>
       </div>
     </div>
@@ -1098,24 +1133,39 @@ footer a:hover{color:var(--accent)}
   <section class="dep" id="model-retouching">
     <div class="wrap">
       <div class="tx">
-        <span class="sec-tag">Fashion &amp; Talent Industry</span>
-        <h2>Model Photo Retouching: Portfolios, Comp Cards &amp; Digitals</h2>
+        <span class="sec-tag">Portfolios, Comp Cards &amp; Digitals</span>
+        <h2>Model photo retouching: portfolios, comp cards and digitals</h2>
         <p>
-          A professional model’s book succeeds when every single frame reflects consistent caliber and the model’s true identity. 
-          A single over-smoothed frame or inconsistent color grade weakens the entire portfolio.
+          A model’s book works when every image feels like the same person and the same standard. 
+          A single over-edited frame, or one that looks different from the rest, weakens the whole portfolio.
         </p>
-        <div class="card" style="margin-bottom:16px">
-          <h3>Common Model Portfolio Challenges</h3>
-          <ul>
-            <li>Uneven skin redness, shine, and temporary blemishes from long shoot days</li>
-            <li>Distracting flyaway hairs, hairline gaps, and wind-blown strands across eyes</li>
-            <li>Creased foundation, makeup smudges, and flash hot-spots</li>
-            <li>Studio backdrop scuffs, floor tape marks, and wardrobe micro-lint</li>
-            <li>Color drifts across different lighting setups and camera bodies</li>
-          </ul>
+
+        <div class="gm-compare">
+          <div class="problem-box">
+            <h3>What goes wrong in model photos</h3>
+            <ul>
+              <li>Uneven skin tone, redness, shine, and temporary shoot blemishes</li>
+              <li>Stray hairs, wild flyaways, and messy hairlines across eyes</li>
+              <li>Foundation creases, makeup smudges, and flash hot-spots</li>
+              <li>Backdrop marks, floor tape, and wardrobe micro-lint</li>
+              <li>Inconsistent color temperatures across different lighting setups</li>
+            </ul>
+          </div>
+
+          <div class="problem-box">
+            <h3>What our studio does about it</h3>
+            <ul>
+              <li>Natural skin retouching with 100% dermal pore texture intact</li>
+              <li>Hair grooming: flyaways and gaps tidied without flattening volume</li>
+              <li>Eyes and teeth polished gently, never glowing or chalky white</li>
+              <li>Backdrop and wardrobe cleanup so focus stays entirely on the model</li>
+              <li>Light and color balanced across the entire book to read as one</li>
+            </ul>
+          </div>
         </div>
+
         <p style="font-size:15px;color:#aeb2a8">
-          <em>Looking for garment shaping, neck joins, or clothing lookbook retouching? Visit our dedicated <a href="/ghost-mannequin-fashion-photo-retouching" style="color:var(--accent);text-decoration:underline">Fashion &amp; Ghost Mannequin Retouching Department</a>.</em>
+          <em>Looking for on-model fashion apparel, garment shape alignment, or ghost mannequin editing? Visit our dedicated <a href="/ghost-mannequin-fashion-photo-retouching" style="color:var(--accent);text-decoration:underline">Fashion &amp; Ghost Mannequin Retouching Department</a>.</em>
         </p>
       </div>
 
@@ -1123,19 +1173,11 @@ footer a:hover{color:var(--accent)}
         <div class="showcase-grid">
           <div class="showcase-tile">
             <img src="/assets/agency_showcase/natural-skin-beauty-retouching.webp" alt="Model comp card portrait with natural skin texture and clean studio lighting" width="933" height="1400" loading="lazy">
-            <div class="tile-info">Natural Skin &amp; Comp Card Polish</div>
+            <div class="tile-info">Model Comp Card &amp; Natural Skin Polish</div>
           </div>
           <div class="showcase-tile">
             <img src="/assets/agency_showcase/crimson-editorial-beauty-portrait-retouching.webp" alt="Editorial beauty portrait featuring balanced skin tones and subtle makeup refinement" width="896" height="1200" loading="lazy">
-            <div class="tile-info">Editorial Beauty &amp; Makeup Harmony</div>
-          </div>
-          <div class="showcase-tile">
-            <img src="/assets/agency_showcase/warm-studio-beauty-portrait-retouching.webp" alt="Studio beauty portrait with warm lighting and authentic facial contours" width="1376" height="768" loading="lazy">
-            <div class="tile-info">Studio Lighting Calibration</div>
-          </div>
-          <div class="showcase-tile">
-            <img src="/assets/agency_showcase/silver-glow-complexion-beauty-retouching.webp" alt="High-fashion model portrait with preserved skin micro-texture" width="1376" height="768" loading="lazy">
-            <div class="tile-info">Complexion &amp; Tone Consistency</div>
+            <div class="tile-info">Editorial Beauty &amp; Tone Harmony</div>
           </div>
         </div>
       </div>
@@ -1159,34 +1201,35 @@ footer a:hover{color:var(--accent)}
           <input type="range" min="0" max="100" value="50" aria-label="Slide to compare hair grooming before and after">
         </div>
         <div class="cap">
-          <span>Hair Grooming: Flyaway removal &amp; natural hairline preservation</span>
+          <span>Hair Grooming: Flyaways removed while preserving organic volume</span>
           <span>Drag slider to compare</span>
         </div>
       </div>
 
       <div class="tx">
         <span class="sec-tag">Macro Precision</span>
-        <h2>Portrait &amp; Beauty Retouching: Natural Skin, Clean Hair &amp; True Color</h2>
+        <h2>Portrait &amp; beauty retouching: natural skin, clean hair, true color</h2>
         <p>
-          Macro beauty portraits are evaluated up close on high-resolution displays and print covers. At this scale, every micro-adjustment matters. 
-          We build our beauty edits on non-destructive layered PSD architectures rather than global filters:
+          Portraits and beauty images are judged up close, so tiny decisions show. We work in 16-bit non-destructive layers 
+          so every adjustment can be fine-tuned, and we build the skin edit in steps rather than applying a smoothing filter.
         </p>
+
         <div class="card-grid" style="grid-template-columns:1fr 1fr;gap:14px;margin:20px 0">
           <div class="card" style="padding:18px">
-            <h3 style="font-size:16px">Frequency Separation &amp; D&amp;B</h3>
-            <p style="font-size:14px;margin:0">Splitting color frequencies from texture to even out blotchiness and sculpt cheekbone highlights with microscopic brush strokes.</p>
+            <h3 style="font-size:16px">Skin &amp; Dodge &amp; Burn</h3>
+            <p style="font-size:14px;margin:0">Separating color and tone from fine texture. Evening out blotchiness and sculpting facial contours with careful 1–2 pixel light and shadow work.</p>
           </div>
           <div class="card" style="padding:18px">
-            <h3 style="font-size:16px">Hair &amp; Lash Grooming</h3>
-            <p style="font-size:14px;margin:0">Removing erratic flyaways over skin and clothing while meticulously redrawing edge strands to preserve organic volume.</p>
+            <h3 style="font-size:16px">Hair &amp; Eyebrows</h3>
+            <p style="font-size:14px;margin:0">Stray hairs and forehead flyaways removed, gaps cleaned, and edges refined against the backdrop without blurring natural root volume.</p>
           </div>
           <div class="card" style="padding:18px">
-            <h3 style="font-size:16px">Eyes &amp; Enamel Shading</h3>
-            <p style="font-size:14px;margin:0">Clearing sclera redness and enhancing iris catchlights. Teeth whitened to natural enamel shades, never artificial chalk white.</p>
+            <h3 style="font-size:16px">Eyes &amp; Teeth</h3>
+            <p style="font-size:14px;margin:0">Gentle sclera vessel cleanup, catchlight balancing, and believable enamel tooth shading with no unnatural chalky brightness.</p>
           </div>
           <div class="card" style="padding:18px">
-            <h3 style="font-size:16px">Highlight Control</h3>
-            <p style="font-size:14px;margin:0">Controlling harsh flash hot spots and skin shine along the T-zone, restoring a soft, silky commercial glow.</p>
+            <h3 style="font-size:16px">Shine &amp; Highlights</h3>
+            <p style="font-size:14px;margin:0">Controlled where flash strobes or oil created hot spots along the T-zone, restoring a soft, silky commercial glow.</p>
           </div>
         </div>
       </div>
@@ -1198,22 +1241,25 @@ footer a:hover{color:var(--accent)}
     <div class="wrap">
       <div class="tx">
         <span class="sec-tag">Executive &amp; Casting Presence</span>
-        <h2>Headshot Retouching: LinkedIn, Corporate Teams &amp; Actor Headshots</h2>
+        <h2>Headshot retouching: LinkedIn, corporate and actor headshots</h2>
         <p>
-          A professional headshot has one critical job: creating an instant, trustworthy first impression. 
-          Whether for an executive board, an agency casting call, or a personal LinkedIn profile, the image must look polished yet completely authentic.
+          Headshots do a specific job, which is making an instant, credible first impression. 
+          They have to look like the person, look professional, and stay consistent when a whole team is shown together.
         </p>
+
         <div class="card" style="margin-bottom:14px">
           <h3>Corporate &amp; LinkedIn Headshots</h3>
-          <p style="margin:0">We soften fatigue, tidy collars, balance skin tones, and eliminate background scuffs. For executive directories, we match lighting and tone across all team members for a cohesive corporate look.</p>
+          <p style="margin:0">We clean skin, tidy hair, balance color, and fix clothing creases and background marks. For executive directories, we match skin tone, brightness, and background across everyone so a team page looks like one cohesive shoot.</p>
         </div>
+
         <div class="card" style="margin-bottom:14px">
-          <h3>Actor &amp; Talent Headshots</h3>
-          <p style="margin:0">Casting directors require absolute honesty. We provide clean, transparent retouching—evening out blemishes and distractions while preserving the natural characteristics that define your casting type.</p>
+          <h3>Actor Headshots</h3>
+          <p style="margin:0">Casting teams want to meet the person in the photo. We keep edits light and honest: even skin, clear eyes, tidy hair, and a clean background, while preserving the authentic features that define your casting type.</p>
         </div>
+
         <div class="card">
           <h3>Bulk Headshot Retouching for Studios</h3>
-          <p style="margin:0">Shooting 50 to 500 corporate employees in a single week? Send your RAW catalog to our studio. We calibrate to your favorite master grade and deliver consistent batches on schedule.</p>
+          <p style="margin:0">If you shoot dozens or hundreds of headshots, we handle the repetitive production. Send a few favorite master edits as a reference, we match your exact style on the first batch, and you approve before we process the rest.</p>
         </div>
       </div>
 
@@ -1239,163 +1285,178 @@ footer a:hover{color:var(--accent)}
   </section>
 
   <!-- SECTION 06: SKIN TONE & COMPLEXION ACCURACY -->
-  <section class="dep" id="color-accuracy" style="background:var(--surface)">
-    <div class="wrap" style="grid-template-columns:1fr">
+  <section class="band" id="color-accuracy">
+    <div class="wrap">
       <div class="sec-head">
         <span class="sec-tag">Color Science</span>
-        <h2>Skin Tone &amp; Complexion Accuracy: True to the Person, Not a Trend</h2>
+        <h2>Skin tone and complexion accuracy</h2>
         <p>
-          Studio strobes, ambient room lighting, and colored backdrops can drastically alter how skin appears in digital captures. 
-          Warm tungsten lighting pushes skin toward artificial orange, cool modifiers turn complexions dull and gray, and harsh direct flash can flatten rich, deep complexions.
+          Studio lights, flash strobes, and backdrops can drastically shift how skin looks in a photograph. 
+          Warm tungsten light can turn skin orange, cool ambient light can make it lifeless gray, and direct flash can wash out or flatten deeper complexions. 
+          We balance color so skin looks like the person looks in real life, and we keep tones consistent across a group.
         </p>
         <p>
-          Our studio balances skin tones using calibrated color coordinates in sRGB, Adobe RGB, and CMYK. Share a daylight reference shot, a color checker frame, or client notes, and our team will match it precisely. We never apply generic one-size-fits-all color LUTs.
+          Send a reference photo, a color card frame, or a note about how the person looks in daylight, and our team will match to it. 
+          No one-size-fits-all presets, and no artificial lightening or darkening of anyone’s complexion unless requested.
         </p>
       </div>
 
-      <div class="card-grid" style="margin-top:20px">
+      <div class="card-grid">
         <div class="card">
-          <h3>Melanin Harmony</h3>
-          <p>Preserving the rich undertones, warmth, and natural luminosity of diverse complexions without ashiness or muddy saturation.</p>
+          <h3>Melanin &amp; Deep Complexions</h3>
+          <p>Preserving natural warmth, rich undertones, and healthy luminosity without the ashy or gray cast common in automated filters.</p>
         </div>
         <div class="card">
           <h3>Undertone Balancing</h3>
-          <p>Harmonizing differences between facial redness, neck undertones, and chest/shoulder exposure caused by makeup or studio lighting.</p>
+          <p>Harmonizing differences between facial redness, neck undertones, and chest/shoulder exposure caused by studio lighting or makeup.</p>
         </div>
         <div class="card">
-          <h3>Cross-Frame Consistency</h3>
-          <p>Ensuring that every image in an editorial spread or multi-page lookbook shares an identical skin tone grade and color temperature.</p>
+          <h3>Series &amp; Group Uniformity</h3>
+          <p>Ensuring that every model frame in an editorial spread or every team member on an executive roster shares calibrated warmth and contrast.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 07: CHOOSE YOUR RETOUCHING LEVEL -->
+  <!-- SECTION 07: CHOOSE YOUR RETOUCHING LEVEL (PRICING TIERS) -->
   <section class="dep" id="levels">
     <div class="wrap" style="grid-template-columns:1fr">
       <div class="sec-head">
         <span class="sec-tag">Transparent Tiers</span>
-        <h2>Choose Your Retouching Level</h2>
-        <p>Different photography assignments require different depths of post-production. Select the exact level that matches your project scope:</p>
+        <h2>Choose your retouching level</h2>
+        <p>Different photos need different amounts of work. These three levels make it clear what you get, so you only pay for what you need:</p>
       </div>
 
-      <div class="table-wrap">
-        <table class="levels-tbl">
-          <thead>
-            <tr>
-              <th style="width:22%">Retouching Level</th>
-              <th style="width:48%">What’s Included</th>
-              <th style="width:30%">Best Suited For</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <strong>Clean-up</strong>
-                <span style="font-size:13px;color:var(--muted)">Starting from $0.79/img</span>
-              </td>
-              <td>Temporary blemish and dust removal, light flyaway tidying, exposure correction, and basic color balancing.</td>
-              <td>Agency digitals, high-volume corporate headshot shoots, quick casting submissions.</td>
-            </tr>
-            <tr>
-              <td>
-                <strong>Natural Beauty</strong>
-                <span style="font-size:13px;color:var(--accent)">Popular Studio Tier</span>
-              </td>
-              <td>Everything in Clean-up plus localized skin tone harmonization, eye/teeth refinement, hairline grooming, and calibrated color grading.</td>
-              <td>Model portfolios, comp cards, executive LinkedIn headshots, and personal branding campaigns.</td>
-            </tr>
-            <tr>
-              <td>
-                <strong>Editorial &amp; Commercial</strong>
-                <span style="font-size:13px;color:var(--muted)">Bespoke Campaign Tier</span>
-              </td>
-              <td>Full pixel-level micro dodge and burn, macro skin sculpting, high-end hair reconstruction, backdrop/wardrobe perfection, and lookbook series consistency.</td>
-              <td>Editorial magazine covers, luxury beauty campaigns, cosmetic packaging, and high-fashion advertising.</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="price-grid">
+        <div class="price-card">
+          <div>
+            <h3>Clean-up</h3>
+            <div class="rate">Starting from $0.79 <span style="font-size:14px;color:var(--muted);font-weight:400">/ image</span></div>
+            <p class="desc">Essential blemish cleanup, stray hair tidying, and light color balancing. Fast, affordable, and clean.</p>
+            <ul>
+              <li>Temporary blemish and dust removal</li>
+              <li>Light flyaway hair tidying</li>
+              <li>Exposure and contrast balance</li>
+              <li>Clean studio backdrop sweep</li>
+            </ul>
+          </div>
+          <div style="font-size:13.5px;color:var(--accent);font-weight:600">Best for: Digitals, quick headshots, high-volume sets</div>
+        </div>
+
+        <div class="price-card pop">
+          <div class="pop-tag">Most Popular</div>
+          <div>
+            <h3>Natural Beauty</h3>
+            <div class="rate">Bespoke Studio Quote</div>
+            <p class="desc">Everything in Clean-up plus localized skin tone evening, eye and teeth refinement, and full calibrated color grade.</p>
+            <ul>
+              <li>Everything included in Clean-up</li>
+              <li>Localized skin tone and redness evening</li>
+              <li>Eye sclera cleanup and catchlight balance</li>
+              <li>Hairline and eyebrow grooming</li>
+              <li>Natural enamel tooth shade refinement</li>
+            </ul>
+          </div>
+          <div style="font-size:13.5px;color:var(--accent);font-weight:600">Best for: Portfolios, comp cards, LinkedIn &amp; branding</div>
+        </div>
+
+        <div class="price-card">
+          <div>
+            <h3>Editorial &amp; Commercial</h3>
+            <div class="rate">Commercial Campaign Quote</div>
+            <p class="desc">Everything above plus detailed pixel-level micro dodge and burn, macro skin sculpting, wardrobe and series consistency.</p>
+            <ul>
+              <li>Everything in Natural Beauty</li>
+              <li>Micro dodge and burn light sculpting</li>
+              <li>High-frequency dermal pore preservation</li>
+              <li>Precise wardrobe crease &amp; lint cleanup</li>
+              <li>Full collection-wide series consistency</li>
+            </ul>
+          </div>
+          <div style="font-size:13.5px;color:var(--accent);font-weight:600">Best for: Magazines, advertising campaigns, beauty covers</div>
+        </div>
       </div>
+
       <p style="font-size:15px;color:#c7c9bf">
-        Not sure which level your project requires? Send us a sample RAW frame and our team will recommend the ideal tier alongside your free 24-hour proof.
+        Volume pricing available for batches of 50+ or 200+ images. Send a few sample images for an exact quote, and we’ll reply within hours.
       </p>
     </div>
   </section>
 
-  <!-- SECTION 08: FOR COMMERCIAL PHOTOGRAPHERS -->
-  <section class="dep" id="photographers" style="background:var(--surface)">
+  <!-- SECTION 08: FOR COMMERCIAL PORTRAIT PHOTOGRAPHERS -->
+  <section class="band" id="photographers">
     <div class="wrap">
       <div class="tx">
         <span class="sec-tag">White-Label Partnership</span>
-        <h2>Outsource Portrait Retouching: Your Style, Overnight Turnaround &amp; NDA</h2>
-        <p>
-          If you spend your days behind the camera and your nights drowning in Photoshop, our studio is built to become your seamless post-production department:
-        </p>
-        <div class="card" style="margin-bottom:14px">
-          <h3>Your Signature Aesthetic, Guaranteed</h3>
-          <p style="margin:0">Send 3 to 5 reference frames that represent your personal style. We calibrate our brushwork and color grading to match your exact look.</p>
+        <h2>Retouching for portrait and model photographers</h2>
+        <p>If you shoot for clients and spend your evenings editing, our studio can take the repeat production off your desk:</p>
+        
+        <div class="card" style="margin-bottom:14px;background:var(--bg)">
+          <h3>Your style, not ours</h3>
+          <p style="margin:0">Send 3 to 5 edited images you love. We calibrate our brushwork, contrast, and color grading to match your exact aesthetic signature.</p>
         </div>
-        <div class="card" style="margin-bottom:14px">
-          <h3>Batch Consistency Without Drift</h3>
-          <p style="margin:0">We retouch an initial test set for your approval, establishing the benchmark for the remainder of your catalog.</p>
+
+        <div class="card" style="margin-bottom:14px;background:var(--bg)">
+          <h3>Consistent batches without drift</h3>
+          <p style="margin:0">We retouch a first set, you approve it, and it becomes the benchmark reference for the remainder of your client catalog.</p>
         </div>
-        <div class="card">
-          <h3>Overnight 12 to 24h Turnaround &amp; Strict NDA</h3>
-          <p style="margin:0">Upload RAWs at the close of your shoot day and receive finished proofs the next morning. We routinely sign mutual NDAs to protect unreleased client work.</p>
+
+        <div class="card" style="background:var(--bg)">
+          <h3>Overnight turnaround &amp; mutual NDA</h3>
+          <p style="margin:0">Upload at the end of your shoot day and get proofs the next morning for most standard orders. We routinely sign mutual NDAs to protect your client relationships.</p>
         </div>
       </div>
 
       <div class="media-col">
-        <div class="card" style="padding:28px;border-color:rgba(200,241,53,.3);background:rgba(10,10,11,.6)">
-          <span class="sec-tag">Photographer Workflow</span>
-          <h3 style="font-size:22px;margin-bottom:16px">How an Order Works</h3>
+        <div class="card" style="padding:28px;border-color:rgba(200,241,53,.3);background:var(--bg)">
+          <span class="sec-tag">Studio Workflow</span>
+          <h3 style="font-size:22px;margin-bottom:16px">How an order works</h3>
           <ol style="margin:0;padding-left:20px;font-size:15px;line-height:1.75;color:#d4d6cd">
-            <li><strong>Upload Files:</strong> Share your RAW or 16-bit TIFF files via Dropbox, Google Drive, or WeTransfer alongside your brief.</li>
-            <li><strong>Studio Retouching:</strong> Every portrait is retouched by hand using non-destructive layers and inspected at 200% zoom.</li>
-            <li><strong>Proof Delivery:</strong> Receive layered PSDs and web-ready JPEGs within 12 to 24 hours.</li>
-            <li><strong>Revisions Included:</strong> Request fine adjustments until every frame matches your vision.</li>
+            <li><strong>Send your files:</strong> Upload through our client portal or share a Google Drive, Dropbox, or WeTransfer link with notes and your desired retouching level.</li>
+            <li><strong>We retouch and check:</strong> Every portrait is retouched by hand in Photoshop and reviewed at 200% zoom. Most orders take 12 to 24 hours.</li>
+            <li><strong>You review and approve:</strong> You get layered PSDs or web-ready files back. Revisions are included until every frame is right.</li>
           </ol>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 09: SHOOTING TIPS -->
+  <!-- SECTION 09: SHOOTING GUIDE FOR PHOTOGRAPHERS -->
   <section class="dep" id="shooting-tips">
     <div class="wrap" style="grid-template-columns:1fr">
       <div class="sec-head">
         <span class="sec-tag">Studio Guide</span>
-        <h2>How to Shoot Portraits and Models for Faster, Sharper Retouching</h2>
-        <p>Superior source captures enable faster delivery and breathtaking final results. A few studio best practices make a dramatic difference:</p>
+        <h2>How to shoot portraits and models for easier retouching</h2>
+        <p>Better source captures mean faster delivery and superior results. A few simple habits help tremendously:</p>
       </div>
 
       <div class="card-grid">
         <div class="card">
-          <h3>1. Shoot in 14-Bit or 16-Bit RAW</h3>
-          <p>Preserves full dynamic range, allowing shadow recovery without introducing digital noise or skin color banding.</p>
+          <h3>1. Shoot in RAW</h3>
+          <p>Always capture in 14-bit or 16-bit RAW so our studio has maximum dynamic range to correct lighting, shadow detail, and color casts.</p>
         </div>
         <div class="card">
-          <h3>2. Control T-Zone Specular Shine</h3>
-          <p>Have translucent powder on set to manage forehead and nasal shine before it turns into blown-out white highlight clipping.</p>
+          <h3>2. Watch Flash Shine on Forehead &amp; Nose</h3>
+          <p>Use translucent powder or feather your key light to prevent blown-out white specular hot-spots along the T-zone.</p>
         </div>
         <div class="card">
-          <h3>3. Use a Color Checker Reference</h3>
-          <p>A single reference frame photographed with a standardized gray card ensures 100% accurate color balance in post.</p>
+          <h3>3. Take a Daylight / Gray Card Frame</h3>
+          <p>A single reference frame photographed with a standardized gray card ensures 100% accurate skin tone color balance in post.</p>
         </div>
         <div class="card">
           <h3>4. Tame Hairlines Before the Shutter</h3>
-          <p>A quick pass with hairspray on set prevents wild flyaways across the eyes and lips, keeping turnaround swift.</p>
+          <p>Keep hair tidy before the frame and check for stray strands across eyes in the first shots to keep turnaround times swift.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 10: CLIENT REVIEWS -->
-  <section class="dep" id="reviews" style="background:var(--surface)">
+  <!-- SECTION 10: CLIENT FEEDBACK -->
+  <section class="band" id="reviews">
     <div class="wrap" style="grid-template-columns:1fr">
       <div class="sec-head center">
         <span class="sec-tag">Client Feedback</span>
-        <h2>Trusted by Portrait Photographers, Agencies &amp; Studios</h2>
+        <h2>Trusted by portrait photographers, agencies &amp; commercial studios</h2>
       </div>
 
       <div class="rev-grid">
@@ -1406,6 +1467,7 @@ footer a:hover{color:var(--accent)}
           <cite>Raffaello Montillo</cite>
           <span>Editorial Fashion &amp; Portrait Photographer</span>
         </div>
+
         <div class="rev-card">
           <blockquote>
             “I rarely leave feedback unless someone genuinely exceeds expectations. We sent over a tough high-volume commercial model shoot under a brutal deadline. Shoaib’s studio handled the entire batch with great consistency and got revisions back to me within hours.”
@@ -1413,6 +1475,7 @@ footer a:hover{color:var(--accent)}
           <cite>John Hubbard</cite>
           <span>Commercial Fashion Photographer</span>
         </div>
+
         <div class="rev-card">
           <blockquote>
             “Our agency needed 45 corporate leadership headshots unified across three offices. Retoucher Shoaib balanced the backgrounds, hair flyaways, and skin warmth flawlessly. Outstanding studio turnaround.”
@@ -1424,69 +1487,69 @@ footer a:hover{color:var(--accent)}
     </div>
   </section>
 
-  <!-- SECTION 11: FAQ -->
+  <!-- SECTION 11: FREQUENTLY ASKED QUESTIONS -->
   <section class="dep" id="faq">
     <div class="wrap" style="grid-template-columns:1fr">
       <div class="sec-head center">
         <span class="sec-tag">Frequently Asked Questions</span>
-        <h2>Questions About Our Model &amp; Portrait Retouching Services</h2>
+        <h2>Questions about our model &amp; portrait retouching services</h2>
       </div>
 
       <div class="faq-list">
         <details class="faq-item" open>
-          <summary>What is the difference between basic portrait retouching and high-end beauty retouching?</summary>
-          <p>Basic portrait retouching focuses on global exposure, blemish removal, and basic contrast adjustment. High-end beauty retouching is a meticulous non-destructive discipline involving pixel-by-pixel micro dodge and burn, frequency separation, individual lash and iris refinement, and specular highlight balancing without altering natural skin pores or facial anatomy.</p>
+          <summary>What is portrait retouching?</summary>
+          <p>It’s the careful editing of a portrait to even out skin tone, clean blemishes and distractions, tidy hair, balance light and color, and bring out the best of the photo, while keeping the person looking completely like themselves.</p>
         </details>
 
         <details class="faq-item">
-          <summary>Will skin look plastic, blurred, or over-smoothed?</summary>
-          <p>Never. We strictly preserve authentic dermal pores, fine skin grain, and natural character. We clean skin tones on separate non-destructive layers rather than using blur filters or automated airbrushing software.</p>
+          <summary>How much does portrait and model retouching cost?</summary>
+          <p>It depends on the retouching level, the number of faces in the image, and how much work each photo needs. Clean-up starts from $0.79 per image, with volume pricing for 50+ and 200+ images. Send a few sample images for an exact quote within hours.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Will my skin look plastic or over-smoothed?</summary>
+          <p>No. We keep authentic pores and natural texture, and we even out tone and clean blemishes in non-destructive layers instead of using a smoothing filter. If something looks over-edited, we adjust it until it looks natural.</p>
         </details>
 
         <details class="faq-item">
           <summary>Do you reshape faces or bodies?</summary>
-          <p>Only when explicitly requested by the client or agency. By default, we keep all facial proportions, bone structure, and natural lines 100% authentic.</p>
+          <p>Not unless you ask. By default we keep natural facial proportions, features, and lines. If you want a shape change, tell us exactly what and we’ll confirm what’s reasonable.</p>
         </details>
 
         <details class="faq-item">
-          <summary>Do you remove scars, tattoos, or beauty marks?</summary>
-          <p>We keep permanent identity marks (scars, birthmarks, beauty spots, and tattoos) by default. If your subject or client wishes to have a specific mark removed or subdued, simply specify it in your order notes.</p>
+          <summary>Will you remove tattoos, scars or moles?</summary>
+          <p>We keep them by default, because they are part of who someone is. If you want a specific mark removed or subdued, tell us in your order notes and we’ll do it.</p>
         </details>
 
         <details class="faq-item">
-          <summary>Can you retouch actor headshots and model digitals for agency casting?</summary>
-          <p>Yes. For model digitals and actor casting submissions, our team keeps edits subtle, clean, and honest, ensuring casting directors see the real person. For comp cards and portfolio books, we deliver a polished commercial finish.</p>
+          <summary>Can you retouch actor headshots and model digitals for casting?</summary>
+          <p>Yes. For digitals and casting submissions we keep edits light and honest, because casting teams want to see the real person. For portfolio and comp card images we can do a fuller natural commercial retouch.</p>
         </details>
 
         <details class="faq-item">
-          <summary>Can you retouch a corporate team roster so all headshots match?</summary>
-          <p>Yes. We harmonize skin tone warmth, exposure, contrast, and background brightness across your entire executive directory, ensuring a unified corporate look even if photos were taken in different cities or on different dates.</p>
+          <summary>Can you retouch a whole team’s headshots so they match?</summary>
+          <p>Yes. We match skin tone warmth, exposure, contrast, and background across everyone, so a corporate team directory looks like one cohesive shoot even when people were photographed on different days.</p>
         </details>
 
         <details class="faq-item">
-          <summary>Do you use automated AI tools to generate or edit faces?</summary>
-          <p>No. Every image is manually retouched in Adobe Photoshop by experienced professional artists using pressure-sensitive graphics tablets. We do not generate synthetic AI faces.</p>
+          <summary>Do you use AI to retouch or generate faces?</summary>
+          <p>No. Every image is retouched manually in Adobe Photoshop with non-destructive layers. We don’t generate synthetic faces, and we don’t use one-click AI smoothing filters.</p>
         </details>
 
         <details class="faq-item">
-          <summary>What file formats do you accept and deliver?</summary>
-          <p>We accept all major RAW camera formats (CR2, CR3, ARW, NEF, DNG) as well as 16-bit TIFF and PSD files. We deliver layered master PSDs, high-resolution print TIFF/JPEGs, and optimized sRGB WebP files for web use.</p>
-        </details>
-
-        <details class="faq-item">
-          <summary>How fast is your turnaround time, and can we test your quality first?</summary>
-          <p>Standard orders return within 12 to 24 hours (larger batches within 48 hours). We offer a 100% free, no-obligation test edit (1–2 images) for photographers, agencies, and brands to judge our craftsmanship firsthand.</p>
+          <summary>What files should I send, and how fast can you deliver?</summary>
+          <p>Send RAW (CR2, CR3, ARW, NEF, DNG) or 16-bit TIFF/PSD files. Most orders return within 12 to 24 hours. Larger batches take 24 to 48 hours, and rush delivery can be arranged upon request.</p>
         </details>
       </div>
     </div>
   </section>
 
   <!-- SECTION 12: EXPLORE OTHER DEPARTMENTS -->
-  <section class="dep" style="background:var(--surface)">
+  <section class="band" id="other-services">
     <div class="wrap" style="grid-template-columns:1fr">
       <div class="sec-head">
         <span class="sec-tag">Commercial Expertise</span>
-        <h2>Explore Our Other Dedicated Retouching Departments</h2>
+        <h2>Explore our other dedicated retouching departments</h2>
         <p>In addition to model and beauty portraits, Retoucher Shoaib Studio operates specialized departments for every commercial discipline:</p>
       </div>
 
@@ -1515,13 +1578,13 @@ footer a:hover{color:var(--accent)}
     </div>
   </section>
 
-  <!-- SECTION 13: FINAL CTA BANNER & TRIAL -->
+  <!-- SECTION 13: FINAL CTA BANNER -->
   <div class="wrap">
     <section class="cta-banner" id="trial">
       <span class="sec-tag" style="color:var(--accent)">Free 24h Studio Trial</span>
-      <h2>Send One Portrait. See the Difference.</h2>
+      <h2>Send one portrait. See the difference.</h2>
       <p>
-        Upload one image or share a folder link. Receive a finished, hand-retouched proof within 24 hours—completely free with zero commitment.
+        Upload one image or a folder link and get a finished, hand-retouched proof back within 24 hours, free. No commitment.
       </p>
       <a href="/contact?service=model-portrait" class="btn p" style="padding:16px 36px;font-size:16px">Request Your Free 24h Sample Edit</a>
     </section>
