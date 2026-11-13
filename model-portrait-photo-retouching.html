@@ -639,37 +639,167 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   margin:0;
 }
 
-/* SHOWCASE PORTFOLIO TILES */
-.showcase-grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:16px;
-}
-.showcase-tile{
+/* MODEL PORTFOLIO INTERACTIVE SHOWCASE */
+.model-showcase{
   position:relative;
-  border-radius:15px;
-  overflow:hidden;
-  border:1px solid var(--line);
-  background:var(--surface);
-  aspect-ratio:3/4;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  width:100%;
 }
-.showcase-tile img{
+.model-showcase-nav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.m-tab{
+  padding:7px 14px;
+  border-radius:99px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  color:var(--muted);
+  font:600 13px/1.2 var(--body);
+  cursor:pointer;
+  transition:all .2s ease;
+}
+.m-tab:hover{
+  color:var(--text);
+  border-color:rgba(255,255,255,.24);
+}
+.m-tab.on{
+  background:var(--accent);
+  color:var(--on-accent);
+  border-color:var(--accent);
+  font-weight:700;
+}
+.model-frame{
+  position:relative;
+  border-radius:18px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.14);
+  background:var(--surface);
+  box-shadow:0 24px 60px rgba(0,0,0,.45);
+  aspect-ratio:3/4;
+  width:100%;
+}
+.m-slide{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .35s ease, visibility .35s ease;
+}
+.m-slide.on{
+  opacity:1;
+  visibility:visible;
+  z-index:2;
+}
+.m-slide img{
   width:100%;
   height:100%;
   object-fit:cover;
   display:block;
-  transition:transform .4s ease;
 }
-.showcase-tile:hover img{
-  transform:scale(1.03);
-}
-.showcase-tile .tile-info{
+.m-cap{
   position:absolute;
   inset:auto 0 0;
-  padding:24px 14px 12px;
-  background:linear-gradient(to top,rgba(10,10,11,.92),transparent);
-  font:600 13px/1.3 var(--body);
+  padding:40px 20px 18px;
+  background:linear-gradient(to top, rgba(10,10,11,.94) 25%, transparent);
   color:#ffffff;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  pointer-events:none;
+}
+.m-cap strong{
+  font:700 15.5px/1.3 var(--display);
+  color:#ffffff;
+}
+.m-cap span{
+  font-size:13px;
+  color:#b8bcb0;
+}
+.m-ctrl{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:4;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:rgba(10,10,11,.75);
+  color:var(--text);
+  border:1px solid rgba(255,255,255,.2);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+  line-height:1;
+  cursor:pointer;
+  transition:all .2s ease;
+}
+.m-ctrl:hover{
+  background:var(--accent);
+  color:var(--on-accent);
+  border-color:var(--accent);
+  transform:translateY(-50%) scale(1.08);
+}
+.m-ctrl.prev{left:14px}
+.m-ctrl.next{right:14px}
+.m-count{
+  position:absolute;
+  top:14px;
+  right:14px;
+  z-index:4;
+  padding:5px 12px;
+  border-radius:99px;
+  background:rgba(10,10,11,.75);
+  color:#ffffff;
+  border:1px solid rgba(255,255,255,.18);
+  backdrop-filter:blur(8px);
+  font:700 12px/1 var(--body);
+  letter-spacing:.05em;
+  pointer-events:none;
+}
+
+/* 3-STEP ORDER WORKFLOW */
+.order-steps{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+  margin-top:24px;
+}
+.o-step{
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:24px 22px;
+  transition:border-color .2s ease, transform .2s ease;
+}
+.o-step:hover{
+  border-color:rgba(200,241,53,.35);
+  transform:translateY(-2px);
+}
+.o-step b{
+  display:inline-block;
+  font:800 12px/1 var(--display);
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:8px;
+}
+.o-step h3{
+  margin:0 0 8px;
+  font:700 18px/1.25 var(--display);
+  color:var(--text);
+}
+.o-step p{
+  margin:0;
+  font-size:15px;
+  line-height:1.6;
+  color:#d7d7d0;
 }
 
 /* CARDS & GRIDS */
@@ -941,12 +1071,14 @@ footer a:hover{color:var(--accent)}
   .dep.flip .wrap{grid-template-columns:1fr}
   .dep.flip .media-col{order:2}
   .boundaries-grid{grid-template-columns:1fr}
+  .order-steps{grid-template-columns:1fr}
   footer .g{grid-template-columns:1fr 1fr}
 }
 @media(max-width:640px){
   footer .g{grid-template-columns:1fr}
   .gm-compare{grid-template-columns:1fr}
-  .showcase-grid{grid-template-columns:1fr}
+  .model-showcase-nav{gap:6px}
+  .m-tab{padding:6px 11px;font-size:12px}
 }
 </style>
 </head>
@@ -1152,14 +1284,48 @@ footer a:hover{color:var(--accent)}
       </div>
 
       <div class="media-col">
-        <div class="showcase-grid">
-          <div class="showcase-tile">
-            <img src="./assets/agency_showcase/natural-skin-beauty-retouching.webp" alt="Model comp card portrait with natural skin texture and clean studio lighting" width="933" height="1400" loading="lazy">
-            <div class="tile-info">Model Comp Card &amp; Natural Skin Polish</div>
+        <div class="model-showcase" id="modelShowcase" data-model-slider aria-label="Interactive model portfolio and comp card retouching showcase">
+          <div class="model-showcase-nav">
+            <button type="button" class="m-tab on" data-slide="0">Comp Card</button>
+            <button type="button" class="m-tab" data-slide="1">Editorial Cover</button>
+            <button type="button" class="m-tab" data-slide="2">Commercial Look</button>
+            <button type="button" class="m-tab" data-slide="3">Full Portfolio</button>
           </div>
-          <div class="showcase-tile">
-            <img src="./assets/agency_showcase/crimson-editorial-beauty-portrait-retouching.webp" alt="Editorial beauty portrait featuring balanced skin tones and subtle makeup refinement" width="896" height="1200" loading="lazy">
-            <div class="tile-info">Editorial Beauty &amp; Tone Harmony</div>
+
+          <div class="model-frame">
+            <div class="m-slide on" data-idx="0">
+              <img src="./assets/agency_showcase/natural-skin-beauty-retouching.webp" alt="Model comp card portrait with natural skin texture and clean studio lighting" width="933" height="1400" loading="lazy">
+              <div class="m-cap">
+                <strong>Model Comp Card &amp; Natural Skin Polish</strong>
+                <span>100% dermal pore fidelity &middot; Clean studio backdrop</span>
+              </div>
+            </div>
+            <div class="m-slide" data-idx="1">
+              <img src="./assets/agency_showcase/crimson-editorial-beauty-portrait-retouching.webp" alt="Editorial beauty portrait featuring balanced skin tones and subtle makeup refinement" width="896" height="1200" loading="lazy">
+              <div class="m-cap">
+                <strong>Editorial Beauty Cover &amp; Tone Harmony</strong>
+                <span>Micro dodge &amp; burn &middot; 16-bit color grading</span>
+              </div>
+            </div>
+            <div class="m-slide" data-idx="2">
+              <img src="./assets/agency_showcase/aviator-eyewear-portrait-retouch.webp" alt="Commercial eyewear model portrait with balanced skin tone and studio lighting" width="933" height="1400" loading="lazy">
+              <div class="m-cap">
+                <strong>Commercial Lookbook &amp; Eyewear Presence</strong>
+                <span>Glare suppression &middot; Facial feature preservation</span>
+              </div>
+            </div>
+            <div class="m-slide" data-idx="3">
+              <img src="./assets/agency_showcase/suede-blazer-beauty-editing.webp" alt="Full length model portfolio fashion portrait with wardrobe crease cleanup" width="933" height="1400" loading="lazy">
+              <div class="m-cap">
+                <strong>Fashion Model Portfolio &amp; Shape Symmetry</strong>
+                <span>Wardrobe refinement &middot; Organic volume intact</span>
+              </div>
+            </div>
+
+            <button type="button" class="m-ctrl prev" id="modelPrev" aria-label="Previous model photo">&#x2039;</button>
+            <button type="button" class="m-ctrl next" id="modelNext" aria-label="Next model photo">&#x203A;</button>
+            
+            <div class="m-count" id="modelCount">1 / 4</div>
           </div>
         </div>
       </div>
@@ -1377,18 +1543,20 @@ footer a:hover{color:var(--accent)}
 
   <!-- SECTION 08: FOR COMMERCIAL PORTRAIT PHOTOGRAPHERS -->
   <section class="band" id="photographers">
-    <div class="wrap">
-      <div class="tx">
+    <div class="wrap" style="grid-template-columns:1fr">
+      <div class="sec-head">
         <span class="sec-tag">White-Label Partnership</span>
         <h2>Retouching for portrait and model photographers</h2>
         <p>If you shoot for clients and spend your evenings editing, our studio can take the repeat production off your desk:</p>
-        
-        <div class="card" style="margin-bottom:14px;background:var(--bg)">
+      </div>
+
+      <div class="card-grid" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;margin-bottom:44px">
+        <div class="card" style="background:var(--bg)">
           <h3>Your style, not ours</h3>
           <p style="margin:0">Send 3 to 5 edited images you love. We calibrate our brushwork, contrast, and color grading to match your exact aesthetic signature.</p>
         </div>
 
-        <div class="card" style="margin-bottom:14px;background:var(--bg)">
+        <div class="card" style="background:var(--bg)">
           <h3>Consistent batches without drift</h3>
           <p style="margin:0">We retouch a first set, you approve it, and it becomes the benchmark reference for the remainder of your client catalog.</p>
         </div>
@@ -1399,15 +1567,24 @@ footer a:hover{color:var(--accent)}
         </div>
       </div>
 
-      <div class="media-col">
-        <div class="card" style="padding:28px;border-color:rgba(200,241,53,.3);background:var(--bg)">
-          <span class="sec-tag">Studio Workflow</span>
-          <h3 style="font-size:22px;margin-bottom:16px">How an order works</h3>
-          <ol style="margin:0;padding-left:20px;font-size:15px;line-height:1.75;color:#d4d6cd">
-            <li><strong>Send your files:</strong> Upload through our client portal or share a Google Drive, Dropbox, or WeTransfer link with notes and your desired retouching level.</li>
-            <li><strong>We retouch and check:</strong> Every portrait is retouched by hand in Photoshop and reviewed at 200% zoom. Most orders take 12 to 24 hours.</li>
-            <li><strong>You review and approve:</strong> You get layered PSDs or web-ready files back. Revisions are included until every frame is right.</li>
-          </ol>
+      <!-- 3-STEP SIDE-BY-SIDE STUDIO ORDER WORKFLOW -->
+      <h3 style="font:800 clamp(22px,2.4vw,28px)/1.15 var(--display);margin:40px 0 6px;letter-spacing:-.02em">How an order works</h3>
+      <p style="margin:0;color:var(--muted);font-size:15.5px">Send one test image or a full shoot batch in five minutes.</p>
+      <div class="order-steps">
+        <div class="o-step">
+          <b>Step 01</b>
+          <h3>Send Your Files (~5 mins)</h3>
+          <p>Upload RAW or 16-bit files through our private <a href="/portal" style="color:var(--accent);text-decoration:underline">Client Portal</a> or share a Google Drive, Dropbox, or WeTransfer link with notes and retouching level.</p>
+        </div>
+        <div class="o-step">
+          <b>Step 02</b>
+          <h3>Hand-Retouched &amp; Checked (12&ndash;24h)</h3>
+          <p>Every portrait is retouched by hand in Photoshop with 100% dermal pore fidelity, and reviewed frame-by-frame at 200% zoom against your master style.</p>
+        </div>
+        <div class="o-step">
+          <b>Step 03</b>
+          <h3>Review &amp; Approve</h3>
+          <p>Download layered PSDs or web-ready exports. Need a strand adjusted or contrast refined? Revisions are included at no extra hassle.</p>
         </div>
       </div>
     </div>
@@ -1690,6 +1867,43 @@ footer a:hover{color:var(--accent)}
     addEventListener('scroll', syncActiveBar, { passive: true });
     addEventListener('resize', syncActiveBar, { passive: true });
     syncActiveBar();
+  }
+
+  // 3. Model Showcase Interactive Slider
+  var mSlider = document.getElementById('modelShowcase');
+  if (mSlider) {
+    var slides = mSlider.querySelectorAll('.m-slide');
+    var tabs = mSlider.querySelectorAll('.m-tab');
+    var prevBtn = document.getElementById('modelPrev');
+    var nextBtn = document.getElementById('modelNext');
+    var counter = document.getElementById('modelCount');
+    var curIdx = 0;
+
+    function showSlide(idx) {
+      if (idx < 0) idx = slides.length - 1;
+      if (idx >= slides.length) idx = 0;
+      curIdx = idx;
+      slides.forEach(function(s, i){ s.classList.toggle('on', i === curIdx); });
+      tabs.forEach(function(t, i){ t.classList.toggle('on', i === curIdx); });
+      if (counter) counter.textContent = (curIdx + 1) + ' / ' + slides.length;
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', function(){ showSlide(curIdx - 1); });
+    if (nextBtn) nextBtn.addEventListener('click', function(){ showSlide(curIdx + 1); });
+    tabs.forEach(function(tab, i){
+      tab.addEventListener('click', function(){ showSlide(i); });
+    });
+
+    var startX = 0;
+    mSlider.addEventListener('touchstart', function(e){
+      startX = e.touches[0].clientX;
+    }, { passive: true });
+    mSlider.addEventListener('touchend', function(e){
+      var diffX = e.changedTouches[0].clientX - startX;
+      if (Math.abs(diffX) > 40) {
+        showSlide(diffX > 0 ? curIdx - 1 : curIdx + 1);
+      }
+    }, { passive: true });
   }
 })();
 </script>
