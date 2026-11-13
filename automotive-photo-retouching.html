@@ -817,6 +817,166 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   margin:0;
 }
 
+/* SECTION 07: DISCIPLINE ARCHITECTURAL GRID */
+.discipline-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:20px;
+  margin-top:28px;
+}
+.discipline-card{
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:28px 24px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  transition:border-color .25s ease, transform .25s ease, box-shadow .25s ease;
+  position:relative;
+  overflow:hidden;
+}
+.discipline-card::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:3px;
+  background:transparent;
+  transition:background .25s ease;
+}
+.discipline-card:hover{
+  border-color:rgba(200,241,53,.4);
+  transform:translateY(-4px);
+  box-shadow:0 20px 40px rgba(0,0,0,.5);
+}
+.discipline-card:hover::before{
+  background:var(--accent);
+}
+.discipline-card .card-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:14px;
+}
+.discipline-card .num-badge{
+  font:800 13px/1 var(--display);
+  letter-spacing:.06em;
+  color:var(--accent);
+  background:rgba(200,241,53,.1);
+  border:1px solid rgba(200,241,53,.25);
+  padding:4px 9px;
+  border-radius:99px;
+}
+.discipline-card .sector-tag{
+  font:700 11px/1 var(--display);
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:var(--muted);
+}
+.discipline-card h3{
+  font:700 19px/1.25 var(--display);
+  color:var(--text);
+  margin:0 0 8px;
+  letter-spacing:-.015em;
+}
+.discipline-card .target{
+  font-size:13.5px;
+  line-height:1.5;
+  color:var(--accent);
+  margin:0 0 16px;
+  font-weight:500;
+}
+.discipline-card ul{
+  margin:0;
+  padding:0;
+  list-style:none;
+  display:grid;
+  gap:10px;
+}
+.discipline-card li{
+  position:relative;
+  padding-left:22px;
+  font-size:14px;
+  line-height:1.55;
+  color:#dcded4;
+  margin:0;
+}
+.discipline-card li::before{
+  content:"✓";
+  position:absolute;
+  left:0;
+  top:0;
+  font-weight:700;
+  font-size:13px;
+  color:var(--accent);
+}
+
+/* FEATURED CASE STUDY SHOWCASE BOX */
+.case-study-box{
+  background:linear-gradient(180deg,rgba(20,20,22,1) 0%,rgba(14,14,16,1) 100%);
+  border:1px solid rgba(200,241,53,.28);
+  border-radius:24px;
+  padding:clamp(24px,4vw,42px);
+  margin-top:clamp(44px,6vw,68px);
+  box-shadow:0 30px 80px rgba(0,0,0,.6);
+  position:relative;
+}
+.case-study-head{
+  display:grid;
+  grid-template-columns:minmax(0,1.2fr) minmax(0,0.8fr);
+  gap:24px;
+  align-items:end;
+  margin-bottom:24px;
+}
+.case-study-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  justify-content:flex-end;
+}
+.case-chip{
+  font:600 12px/1 var(--body);
+  letter-spacing:.02em;
+  padding:6px 12px;
+  border-radius:99px;
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--line);
+  color:#c7c9bf;
+  white-space:nowrap;
+}
+.case-chip strong{
+  color:var(--accent);
+  font-weight:600;
+}
+.case-breakdown{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+  margin-top:20px;
+}
+.breakdown-card{
+  background:rgba(10,10,11,.6);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;
+  padding:16px 18px;
+}
+.breakdown-card b{
+  display:block;
+  font:700 13px/1 var(--display);
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:6px;
+}
+.breakdown-card p{
+  font-size:13.5px;
+  line-height:1.55;
+  color:#d4d6cd;
+  margin:0;
+}
+
 /* STUDIO SHOOT GUIDE GRID */
 .guide-grid{
   display:grid;
@@ -1052,6 +1212,18 @@ footer a:hover{color:var(--accent)}
 }
 
 /* RESPONSIVE BREAKPOINTS */
+@media(max-width:1080px){
+  .discipline-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .case-study-head{
+    grid-template-columns:1fr;
+    align-items:start;
+  }
+  .case-study-chips{
+    justify-content:flex-start;
+  }
+}
 @media(max-width:960px){
   .dep .wrap, .dep.flip .wrap{
     grid-template-columns:1fr;
@@ -1072,7 +1244,7 @@ footer a:hover{color:var(--accent)}
   }
 }
 @media(max-width:768px){
-  .gm-compare, .boundaries-grid{
+  .gm-compare, .boundaries-grid, .discipline-grid, .case-breakdown{
     grid-template-columns:1fr;
   }
 }
@@ -1449,59 +1621,99 @@ footer a:hover{color:var(--accent)}
         </p>
       </div>
 
-      <div class="card-grid">
-        <div class="card">
-          <h3>1. Exotic Supercars &amp; Hypercars</h3>
-          <p>For Ferrari, McLaren, Lamborghini, and Bugatti editorial features and collector portfolios.</p>
-          <ul>
-            <li>Exposed carbon fiber weave alignment &amp; luster</li>
-            <li>Active aero wing &amp; diffuser highlight sculpting</li>
-            <li>Bespoke leather &amp; contrast stitching enhancement</li>
-            <li>Multi-exposure bracket blending for ultra-wide dynamic range</li>
-          </ul>
+      <!-- 4-CARD ARCHITECTURAL DISCIPLINE GRID -->
+      <div class="discipline-grid">
+        <!-- CARD 01 -->
+        <div class="discipline-card">
+          <div>
+            <div class="card-top">
+              <span class="sector-tag">Sector 01</span>
+              <span class="num-badge">01</span>
+            </div>
+            <h3>Exotic Supercars &amp; Hypercars</h3>
+            <div class="target">Ferrari, McLaren, Lamborghini &amp; Bugatti lookbooks</div>
+            <ul>
+              <li>Exposed carbon fiber 2x2 weave alignment &amp; luster</li>
+              <li>Active aero wing &amp; diffuser highlight sculpting</li>
+              <li>Bespoke leather &amp; contrast stitching enhancement</li>
+              <li>Multi-exposure bracket blending for ultra-wide dynamic range</li>
+            </ul>
+          </div>
         </div>
-        <div class="card">
-          <h3>2. Motorsport &amp; Trackside Action</h3>
-          <p>For GT3, Formula, and Le Mans racing teams, sponsors, and motorsport media.</p>
-          <ul>
-            <li>Sponsor livery decal crispness &amp; color accuracy</li>
-            <li>Paddock tent, gantry &amp; crowd distraction removal</li>
-            <li>Wheel motion blur composites &amp; brake rotor heat glow</li>
-            <li>Visor tint balancing &amp; cockpit roll bar isolation</li>
-          </ul>
+
+        <!-- CARD 02 -->
+        <div class="discipline-card">
+          <div>
+            <div class="card-top">
+              <span class="sector-tag">Sector 02</span>
+              <span class="num-badge">02</span>
+            </div>
+            <h3>Motorsport &amp; Trackside Action</h3>
+            <div class="target">GT3, Formula, and Le Mans racing teams &amp; media</div>
+            <ul>
+              <li>Sponsor livery decal crispness &amp; Pantone color accuracy</li>
+              <li>Paddock tent, gantry &amp; crowd distraction removal</li>
+              <li>Wheel motion blur composites &amp; brake rotor heat glow</li>
+              <li>Visor tint balancing &amp; cockpit roll bar isolation</li>
+            </ul>
+          </div>
         </div>
-        <div class="card">
-          <h3>3. Dealership Inventory &amp; Marketplaces</h3>
-          <p>For franchised dealerships, auto groups, and digital car sales platforms.</p>
-          <ul>
-            <li>Rapid 12–24h turnaround on high-volume batches</li>
-            <li>Virtual showroom background swap &amp; floor branding</li>
-            <li>Dealer plate insert or subtle privacy plate blur</li>
-            <li>Consistent 16:9 and 4:3 VDP web aspect ratio formatting</li>
-          </ul>
+
+        <!-- CARD 03 -->
+        <div class="discipline-card">
+          <div>
+            <div class="card-top">
+              <span class="sector-tag">Sector 03</span>
+              <span class="num-badge">03</span>
+            </div>
+            <h3>Dealership Inventory &amp; Marketplaces</h3>
+            <div class="target">Franchised auto groups &amp; digital car sales platforms</div>
+            <ul>
+              <li>Rapid 12–24h overnight turnaround on volume batches</li>
+              <li>Virtual showroom background swap &amp; floor branding</li>
+              <li>Dealer plate insert or subtle privacy plate blur</li>
+              <li>Standardized 16:9 and 4:3 VDP web aspect ratio formatting</li>
+            </ul>
+          </div>
         </div>
-        <div class="card">
-          <h3>4. Classic Cars &amp; Auction Consignment</h3>
-          <p>For Bring a Trailer, Collecting Cars, RM Sotheby's, and private collector archives.</p>
-          <ul>
-            <li>Honest condition preservation without masking authentic patina</li>
-            <li>Chrome bumper, wire wheel &amp; brightwork specular polishing</li>
-            <li>Engine bay wiring, carburetor &amp; manifold cleaning</li>
-            <li>Period-correct color grading matching original factory codes</li>
-          </ul>
+
+        <!-- CARD 04 -->
+        <div class="discipline-card">
+          <div>
+            <div class="card-top">
+              <span class="sector-tag">Sector 04</span>
+              <span class="num-badge">04</span>
+            </div>
+            <h3>Classic Cars &amp; Auction Consignment</h3>
+            <div class="target">Bring a Trailer, Collecting Cars &amp; RM Sotheby's</div>
+            <ul>
+              <li>Truthful condition preservation without masking authentic patina</li>
+              <li>Chrome bumper, wire wheel &amp; brightwork specular polishing</li>
+              <li>Engine bay wiring, carburetor &amp; manifold cleaning</li>
+              <li>Period-correct color grading matching original factory codes</li>
+            </ul>
+          </div>
         </div>
       </div>
 
       <!-- FEATURED MOTORSPORT CASE STUDY (PORSCHE 935 TRACKSIDE PADDOCK SLIDER) -->
-      <div style="margin-top:clamp(40px,5vw,60px)">
-        <div class="sec-head" style="margin-bottom:22px">
-          <span class="sec-tag">Live Case Study &middot; Motorsport Post-Production</span>
-          <h3 style="font:800 clamp(22px,2.6vw,34px)/1.2 var(--display);letter-spacing:-.02em;margin:0 0 12px;color:var(--text)">
-            Porsche 935: Trackside paddock awning to clean studio extraction
-          </h3>
-          <p style="color:#dcded4;font-size:16px;line-height:1.65;margin:0 0 16px;max-width:78ch">
-            Photographed inside a congested trackside paddock tent with steel canopy poles, heavy ground cables, and distracting spectator crowds. We meticulously masked the complex aerodynamic rear wing and front splitter, eliminated harsh tent reflections across the windshield, perfected the vibrant teal livery, and placed the car onto a clean studio cyc with photorealistic contact ground shadows.
-          </p>
+      <div class="case-study-box">
+        <div class="case-study-head">
+          <div>
+            <span class="sec-tag" style="margin-bottom:8px">Featured Case Study &middot; Sector 02</span>
+            <h3 style="font:800 clamp(22px,2.8vw,34px)/1.2 var(--display);letter-spacing:-.02em;margin:0 0 10px;color:var(--text)">
+              Porsche 935: Paddock tent awning to clean studio extraction
+            </h3>
+            <p style="color:#dcded4;font-size:15.5px;line-height:1.65;margin:0;max-width:72ch">
+              Captured inside a congested trackside paddock tent with steel canopy poles, heavy ground cables, and distracting spectator crowds. We meticulously masked the complex aerodynamic rear wing, eliminated harsh reflections across the windshield, perfected the vibrant teal livery, and placed the car onto a clean studio cyc with photorealistic contact ground shadows.
+            </p>
+          </div>
+          <div class="case-study-chips">
+            <span class="case-chip">Vehicle: <strong>1977 Porsche 935</strong></span>
+            <span class="case-chip">Location: <strong>Paddock Awning</strong></span>
+            <span class="case-chip">Discipline: <strong>Motorsport</strong></span>
+            <span class="case-chip">Turnaround: <strong>18 Hours</strong></span>
+          </div>
         </div>
 
         <div class="ph ba" data-ba style="aspect-ratio:1022/575;max-width:100%;--x:50%;">
@@ -1519,6 +1731,22 @@ footer a:hover{color:var(--accent)}
         <div class="cap">
           <span>Interactive 1:1 Comparison: Porsche 935 endurance race car &mdash; tent canopy, support pole, and crowd elimination to clean commercial studio presentation.</span>
           <span>Drag slider left / right</span>
+        </div>
+
+        <!-- 3-POINT TECHNICAL BREAKDOWN -->
+        <div class="case-breakdown">
+          <div class="breakdown-card">
+            <b>01 &middot; Decal Integrity</b>
+            <p>100% razor-sharp preservation of vintage sponsor livery (Dunlop, Shell, Bilstein) without raster blurring.</p>
+          </div>
+          <div class="breakdown-card">
+            <b>02 &middot; Paddock Extraction</b>
+            <p>Complete elimination of yellow awning struts, crowd reflections, power cables, and floor asphalt grime.</p>
+          </div>
+          <div class="breakdown-card">
+            <b>03 &middot; Ground Contact Shadow</b>
+            <p>Multi-layer ambient occlusion shadow accurately calculated from front splitter clearance and chassis wheelbase.</p>
+          </div>
         </div>
       </div>
     </div>
