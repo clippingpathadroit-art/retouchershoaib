@@ -384,7 +384,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 .bar .wrap{
   display:flex;
   align-items:center;
-  gap:8px;
+  gap:7px;
   padding-block:12px;
   overflow-x:auto;
   scroll-padding-inline:clamp(20px,4vw,48px);
@@ -406,11 +406,11 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 .bar a{
   flex:none;
   white-space:nowrap;
-  padding:7px 13px;
+  padding:6px 10px;
   border-radius:99px;
   border:1px solid var(--line);
   color:var(--muted);
-  font-size:14.5px;
+  font-size:13.5px;
   line-height:1.35;
   transition:all .2s ease;
 }
@@ -977,6 +977,110 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   margin:0;
 }
 
+/* SECTION 09: AGENCY PARTNERSHIP CARDS */
+.partner-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:20px;
+  margin-top:28px;
+}
+.partner-card{
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:26px 24px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  transition:border-color .25s ease, transform .25s ease, box-shadow .25s ease;
+  position:relative;
+}
+.partner-card:hover{
+  border-color:rgba(200,241,53,.4);
+  transform:translateY(-3px);
+  box-shadow:0 18px 36px rgba(0,0,0,.5);
+}
+.partner-card .tag{
+  font:700 11px/1 var(--display);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--accent);
+  background:rgba(200,241,53,.1);
+  border:1px solid rgba(200,241,53,.25);
+  padding:5px 10px;
+  border-radius:99px;
+  display:inline-block;
+  margin-bottom:14px;
+  align-self:flex-start;
+}
+.partner-card h3{
+  font:700 18.5px/1.25 var(--display);
+  color:var(--text);
+  margin:0 0 10px;
+  letter-spacing:-.015em;
+}
+.partner-card p{
+  font-size:14px;
+  line-height:1.6;
+  color:#c7c9bf;
+  margin:0 0 16px;
+}
+.partner-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:auto;
+  padding-top:14px;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+.partner-chip{
+  font-size:11.5px;
+  font-weight:600;
+  color:var(--muted);
+  background:rgba(255,255,255,.04);
+  padding:3px 8px;
+  border-radius:6px;
+}
+
+/* 3-STEP ORDER WORKFLOW */
+.order-steps{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+  margin-top:24px;
+}
+.o-step{
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:24px 22px;
+  transition:border-color .25s ease, transform .25s ease;
+}
+.o-step:hover{
+  border-color:rgba(200,241,53,.35);
+  transform:translateY(-2px);
+}
+.o-step b{
+  display:inline-block;
+  font:800 12px/1 var(--display);
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:8px;
+}
+.o-step h3{
+  margin:0 0 8px;
+  font:700 18px/1.25 var(--display);
+  color:var(--text);
+  letter-spacing:-.01em;
+}
+.o-step p{
+  margin:0;
+  font-size:14.5px;
+  line-height:1.6;
+  color:#d7d7d0;
+}
+
 /* STUDIO SHOOT GUIDE GRID */
 .guide-grid{
   display:grid;
@@ -1213,7 +1317,7 @@ footer a:hover{color:var(--accent)}
 
 /* RESPONSIVE BREAKPOINTS */
 @media(max-width:1080px){
-  .discipline-grid{
+  .discipline-grid, .partner-grid{
     grid-template-columns:repeat(2,minmax(0,1fr));
   }
   .case-study-head{
@@ -1244,7 +1348,7 @@ footer a:hover{color:var(--accent)}
   }
 }
 @media(max-width:768px){
-  .gm-compare, .boundaries-grid, .discipline-grid, .case-breakdown{
+  .gm-compare, .boundaries-grid, .discipline-grid, .case-breakdown, .partner-grid, .order-steps{
     grid-template-columns:1fr;
   }
 }
@@ -1324,18 +1428,18 @@ footer a:hover{color:var(--accent)}
   </section>
 
   <!-- STICKY SUB-NAVIGATION BAR -->
-  <div class="bar" id="bar">
-    <div class="wrap">
+  <div class="bar">
+    <div class="wrap" id="bar">
       <a href="#philosophy" class="on">Philosophy</a>
       <a href="#boundaries">Boundaries</a>
       <a href="#paint-gloss">Paint &amp; Gloss</a>
-      <a href="#glass-glare">Glass &amp; Reflections</a>
+      <a href="#glass-glare">Glass &amp; Glare</a>
       <a href="#wheels-brakes">Wheels &amp; Brakes</a>
       <a href="#lot-to-studio">Lot-to-Studio</a>
       <a href="#disciplines">Disciplines</a>
-      <a href="#pricing">Pricing Tiers</a>
-      <a href="#photographers">Agencies &amp; Photographers</a>
-      <a href="#shooting-guide">Shooting Tips</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#photographers">Photographers</a>
+      <a href="#shooting-guide">Shoot Guide</a>
       <a href="#faq">FAQ</a>
     </div>
   </div>
@@ -1828,28 +1932,98 @@ footer a:hover{color:var(--accent)}
     <div class="wrap">
       <div class="sec-head">
         <span class="sec-tag">Agency Partnership &middot; Section 09</span>
-        <h2>Built for automotive photographers &amp; creative directors.</h2>
+        <h2>Built for automotive photographers &amp; commercial agencies.</h2>
         <p>
-          We act as the invisible, high-capacity post-production wing for commercial car photographers, creative agencies, and OEM production teams worldwide.
+          We act as the confidential, high-capacity post-production department for commercial car photographers, creative agencies, and OEM production teams worldwide. From on-location plate ingestion to master 16-bit layered PSD delivery.
         </p>
       </div>
 
-      <div class="card-grid">
-        <div class="card">
-          <h3>EIZO ColorEdge Calibrated Monitors</h3>
-          <p>Every workstation is hardware-calibrated to DCI-P3 and Adobe RGB 1998 standards, ensuring metallic car paints match official OEM paint codes in print and digital.</p>
+      <!-- 4-CARD AGENCY CAPABILITY ARCHITECTURAL GRID -->
+      <div class="partner-grid">
+        <!-- CARD 01 -->
+        <div class="partner-card">
+          <div>
+            <span class="tag">Color Science &middot; DCI-P3</span>
+            <h3>EIZO ColorEdge Calibrated Monitors</h3>
+            <p>Hardware-calibrated to DCI-P3 and Adobe RGB 1998 standards, ensuring exotic metallic and pearl paints match official OEM paint codes in print billboards and digital campaigns.</p>
+          </div>
+          <div class="partner-chips">
+            <span class="partner-chip">&Delta;E &lt; 1.0</span>
+            <span class="partner-chip">DCI-P3 &amp; Adobe RGB</span>
+            <span class="partner-chip">Press Proofing</span>
+          </div>
         </div>
-        <div class="card">
-          <h3>16-Bit Layered Master PSDs</h3>
-          <p>Clean, non-destructive layer hierarchies organized into clearly labeled groups: <code>[Color Correction]</code>, <code>[Paintwork]</code>, <code>[Glass &amp; Interior]</code>, <code>[Wheels]</code>, and <code>[Ground Shadows]</code>.</p>
+
+        <!-- CARD 02 -->
+        <div class="partner-card">
+          <div>
+            <span class="tag">Non-Destructive Post</span>
+            <h3>16-Bit Layered Master PSDs</h3>
+            <p>Clean, non-destructive layer hierarchies organized into clearly labeled groups: <code>[Color]</code>, <code>[Paintwork]</code>, <code>[Glass &amp; Interior]</code>, <code>[Wheels]</code>, and <code>[Ground Shadows]</code>.</p>
+          </div>
+          <div class="partner-chips">
+            <span class="partner-chip">Layered PSD / PSB</span>
+            <span class="partner-chip">Pen Tool Paths</span>
+            <span class="partner-chip">Smart Objects</span>
+          </div>
         </div>
-        <div class="card">
-          <h3>Strict NDA &amp; Prototype Embargoes</h3>
-          <p>We sign rigorous Non-Disclosure Agreements for unreleased model year launches and secret concept cars. Files are stored on encrypted servers with strict zero-public-share policies.</p>
+
+        <!-- CARD 03 -->
+        <div class="partner-card">
+          <div>
+            <span class="tag">Confidentiality Guaranteed</span>
+            <h3>Strict NDA &amp; Prototype Embargoes</h3>
+            <p>We sign rigorous Non-Disclosure Agreements for unreleased model year launches and secret concept cars. Files are stored on encrypted local workstations with strict zero-public-share policies.</p>
+          </div>
+          <div class="partner-chips">
+            <span class="partner-chip">Signed NDAs</span>
+            <span class="partner-chip">Encrypted Vaults</span>
+            <span class="partner-chip">Embargo Protocols</span>
+          </div>
         </div>
-        <div class="card">
-          <h3>LUT &amp; Lookbook Matching</h3>
-          <p>Send us your color grade LUTs, Capture One session styles, or client lookbooks. We seamlessly adhere to your distinct visual signature across entire multi-day productions.</p>
+
+        <!-- CARD 04 -->
+        <div class="partner-card">
+          <div>
+            <span class="tag">Aesthetic Consistency</span>
+            <h3>LUT &amp; Lookbook Matching</h3>
+            <p>Send us your Capture One session styles, 3D LUTs, or agency lookbooks. We seamlessly adhere to your distinct visual signature across multi-day studio and location shoots without tonal drift.</p>
+          </div>
+          <div class="partner-chips">
+            <span class="partner-chip">Capture One Styles</span>
+            <span class="partner-chip">3D LUTs</span>
+            <span class="partner-chip">Lookbook Match</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3-STEP AGENCY ORDER WORKFLOW -->
+      <div style="margin-top:clamp(44px,6vw,68px);padding-top:clamp(32px,4vw,48px);border-top:1px solid var(--line)">
+        <div class="sec-head" style="margin-bottom:22px">
+          <span class="sec-tag">Production Workflow</span>
+          <h3 style="font:800 clamp(22px,2.6vw,32px)/1.2 var(--display);letter-spacing:-.02em;margin:0 0 10px;color:var(--text)">
+            How an agency production works.
+          </h3>
+          <p style="color:#dcded4;font-size:15.5px;line-height:1.6;margin:0">
+            Send 1 or 2 test plates or offload a multi-car shoot at wrap time in five minutes.
+          </p>
+        </div>
+        <div class="order-steps">
+          <div class="o-step">
+            <b>Step 01</b>
+            <h3>Send Your RAW Plates (~5 mins)</h3>
+            <p>Upload ProRAW camera brackets, backplates, and bracketed polarizer passes via our private <a href="/portal" style="color:var(--accent);text-decoration:underline">Client Portal</a>, Dropbox, Google Drive, or WeTransfer.</p>
+          </div>
+          <div class="o-step">
+            <b>Step 02</b>
+            <h3>Hand-Retouched &amp; Proofed (12&ndash;24h)</h3>
+            <p>Our senior automotive retouchers hand-mask coachwork, sculpt light tubes, clean windshield glare, build ground shadows, and verify tone fidelity on calibrated EIZO displays.</p>
+          </div>
+          <div class="o-step">
+            <b>Step 03</b>
+            <h3>Review, Polish &amp; Approve</h3>
+            <p>Download layered 16-bit PSDs or high-res print TIFFs. Request subtle highlight tweaks or crop adjustments with rapid turnaround included at no extra charge.</p>
+          </div>
         </div>
       </div>
     </div>
