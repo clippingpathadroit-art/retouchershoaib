@@ -1894,6 +1894,20 @@ dialog::backdrop{
     shown = 12;
     pillsR();
     render();
+
+    var main = document.querySelector('main');
+    var bar = document.querySelector('.bar');
+    var header = document.querySelector('header');
+    if (main && bar) {
+      var headerH = header ? header.offsetHeight : 68;
+      var targetY = main.offsetTop - (headerH + bar.offsetHeight);
+      if (window.pageYOffset > targetY + 8) {
+        window.scrollTo({
+          top: targetY,
+          behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+        });
+      }
+    }
   });
 
   more.addEventListener('click', function(){
