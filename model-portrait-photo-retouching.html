@@ -6,10 +6,10 @@
 <meta name="description" content="Hand-retouched model, portrait &amp; headshot photos: authentic skin texture, clean hair, true skin tone. No AI, 12–24h turnaround. Free 24h test edit.">
 <meta name="keywords" content="model portfolio retouching, actor headshot retouching, headshot retouching service, bulk headshot retouching for photographers, natural skin retouching service, outsource portrait retouching, comp card retouching, high end beauty retouching, editorial portrait photo editing">
 <link rel="canonical" href="https://retouchershoaib.com/model-portrait-photo-retouching">
-<link rel="icon" type="image/png" href="/assets/favicon-96x96.png" sizes="96x96">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="shortcut icon" href="/favicon.ico">
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="./assets/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<link rel="shortcut icon" href="./favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
 <meta property="og:site_name" content="Retoucher Shoaib">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Model &amp; Portrait Retouching Service | Retoucher Shoaib">
@@ -175,7 +175,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap">
-<link rel="stylesheet" href="/assets/site-nav.css">
+<link rel="stylesheet" href="./assets/site-nav.css">
 <style>
 :root{
   --bg:#0a0a0b;
@@ -295,7 +295,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   transform:scale(1.02);
 }
 
-/* HERO: CLEAN TYPOGRAPHY-FIRST EDITORIAL STANDARD (NO IMAGE) */
+/* HERO: CLEAN TYPOGRAPHY-FIRST EDITORIAL STANDARD (ZERO IMAGES) */
 .hero{
   padding:clamp(132px,14vw,156px) 0 clamp(44px,5vw,60px);
   position:relative;
@@ -378,7 +378,7 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   gap:6px;
 }
 
-/* STICKY SUB-NAVIGATION BAR */
+/* STICKY SUB-NAVIGATION BAR (ZERO CLIPPING STANDARD) */
 .bar{
   position:sticky;
   top:calc(env(safe-area-inset-top,0px) + 68px);
@@ -399,36 +399,38 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   scrollbar-width:none;
 }
 .bar .wrap::-webkit-scrollbar{display:none}
+.bar .wrap.can-scroll-r{
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 36px),transparent);
+  mask-image:linear-gradient(90deg,#000 calc(100% - 36px),transparent);
+}
+.bar .wrap.can-scroll-l{
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 32px);
+  mask-image:linear-gradient(90deg,transparent,#000 32px);
+}
+.bar .wrap.can-scroll-l.can-scroll-r{
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 32px,#000 calc(100% - 36px),transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 32px,#000 calc(100% - 36px),transparent);
+}
 .bar a{
   flex:none;
   white-space:nowrap;
-  padding:7px 14px;
+  padding:7px 13px;
   border-radius:99px;
   border:1px solid var(--line);
   color:var(--muted);
-  font:500 13.5px var(--body);
+  font-size:14px;
+  line-height:1.35;
   transition:all .2s ease;
 }
 .bar a:hover{
   color:var(--text);
-  border-color:rgba(255,255,255,.28);
+  border-color:var(--text);
 }
-.bar a.cur{
+.bar a.on{
   color:var(--on-accent);
   background:var(--accent);
   border-color:var(--accent);
   font-weight:600;
-}
-.bar a.pill-cta{
-  margin-left:auto;
-  background:rgba(200,241,53,.12);
-  border-color:rgba(200,241,53,.35);
-  color:var(--accent);
-  font-weight:600;
-}
-.bar a.pill-cta:hover{
-  background:var(--accent);
-  color:var(--on-accent);
 }
 
 /* SECTIONS, BANDS & TWO-COLUMN SHOWCASE */
@@ -937,7 +939,6 @@ footer a:hover{color:var(--accent)}
   footer .g{grid-template-columns:1fr}
   .gm-compare{grid-template-columns:1fr}
   .showcase-grid{grid-template-columns:1fr}
-  .bar a.pill-cta{display:none}
 }
 </style>
 </head>
@@ -1036,20 +1037,19 @@ footer a:hover{color:var(--accent)}
     </div>
   </section>
 
-  <!-- STICKY SUB-NAVIGATION BAR -->
-  <div class="bar" id="subnavBar" aria-label="Page navigation">
-    <div class="wrap" id="subnavWrap">
-      <a href="#philosophy" class="cur">Philosophy</a>
+  <!-- STICKY SUB-NAVIGATION BAR (ZERO CLIPPING STANDARD) -->
+  <div class="bar">
+    <div class="wrap" id="bar">
+      <a href="#philosophy">Philosophy</a>
       <a href="#boundaries">Boundaries</a>
-      <a href="#model-retouching">Model &amp; Comp Cards</a>
+      <a href="#model-retouching">Model Books</a>
       <a href="#beauty-retouching">Beauty &amp; Skin</a>
       <a href="#headshots">Headshots</a>
       <a href="#color-accuracy">Skin Tones</a>
-      <a href="#levels">Retouching Levels</a>
-      <a href="#photographers">For Photographers</a>
-      <a href="#shooting-tips">Shooting Guide</a>
+      <a href="#levels">Levels</a>
+      <a href="#photographers">Photographers</a>
+      <a href="#shooting-tips">Shoot Guide</a>
       <a href="#faq">FAQ</a>
-      <a href="#trial" class="pill-cta">Free Trial</a>
     </div>
   </div>
 
@@ -1077,11 +1077,11 @@ footer a:hover{color:var(--accent)}
       <div class="media-col">
         <div class="ph ba" style="--x:50%;aspect-ratio:764/1024" data-ba aria-label="Interactive before and after comparison of high-end beauty portrait retouching">
           <div class="lay before">
-            <img src="/assets/agency_showcase/service_beauty_before.webp" alt="Beauty portrait before manual retouching showing temporary blemishes, redness and skin shine" width="764" height="1024" fetchpriority="high">
+            <img src="./assets/agency_showcase/service_beauty_before.webp" alt="Beauty portrait before manual retouching showing temporary blemishes, redness and skin shine" width="764" height="1024" fetchpriority="high">
             <span class="tag b">Before</span>
           </div>
           <div class="lay after">
-            <img src="/assets/agency_showcase/service_beauty_after.webp" alt="Beauty portrait after manual dodge and burn retouching with natural dermal pores preserved" width="764" height="1024" fetchpriority="high">
+            <img src="./assets/agency_showcase/service_beauty_after.webp" alt="Beauty portrait after manual dodge and burn retouching with natural dermal pores preserved" width="764" height="1024" fetchpriority="high">
             <span class="tag a">After</span>
           </div>
           <div class="ba-bar" aria-hidden="true"><div class="ba-handle">&#x2194;</div></div>
@@ -1172,11 +1172,11 @@ footer a:hover{color:var(--accent)}
       <div class="media-col">
         <div class="showcase-grid">
           <div class="showcase-tile">
-            <img src="/assets/agency_showcase/natural-skin-beauty-retouching.webp" alt="Model comp card portrait with natural skin texture and clean studio lighting" width="933" height="1400" loading="lazy">
+            <img src="./assets/agency_showcase/natural-skin-beauty-retouching.webp" alt="Model comp card portrait with natural skin texture and clean studio lighting" width="933" height="1400" loading="lazy">
             <div class="tile-info">Model Comp Card &amp; Natural Skin Polish</div>
           </div>
           <div class="showcase-tile">
-            <img src="/assets/agency_showcase/crimson-editorial-beauty-portrait-retouching.webp" alt="Editorial beauty portrait featuring balanced skin tones and subtle makeup refinement" width="896" height="1200" loading="lazy">
+            <img src="./assets/agency_showcase/crimson-editorial-beauty-portrait-retouching.webp" alt="Editorial beauty portrait featuring balanced skin tones and subtle makeup refinement" width="896" height="1200" loading="lazy">
             <div class="tile-info">Editorial Beauty &amp; Tone Harmony</div>
           </div>
         </div>
@@ -1190,11 +1190,11 @@ footer a:hover{color:var(--accent)}
       <div class="media-col">
         <div class="ph ba" style="--x:50%;aspect-ratio:1/1" data-ba aria-label="Interactive before and after comparison of hair grooming and flyaway cleanup">
           <div class="lay before">
-            <img src="/assets/agency_showcase/portrait-beauty-flyaway-before.webp" alt="Beauty portrait before retouching showing wild stray flyaway hairs across forehead and backdrop" width="1000" height="1000" loading="lazy">
+            <img src="./assets/agency_showcase/portrait-beauty-flyaway-before.webp" alt="Beauty portrait before retouching showing wild stray flyaway hairs across forehead and backdrop" width="1000" height="1000" loading="lazy">
             <span class="tag b">Before</span>
           </div>
           <div class="lay after">
-            <img src="/assets/agency_showcase/portrait-beauty-flyaway-after.webp" alt="Beauty portrait after retouching with groomed hair silhouette and flyaways cleanly removed" width="1000" height="1000" loading="lazy">
+            <img src="./assets/agency_showcase/portrait-beauty-flyaway-after.webp" alt="Beauty portrait after retouching with groomed hair silhouette and flyaways cleanly removed" width="1000" height="1000" loading="lazy">
             <span class="tag a">After</span>
           </div>
           <div class="ba-bar" aria-hidden="true"><div class="ba-handle">&#x2194;</div></div>
@@ -1266,11 +1266,11 @@ footer a:hover{color:var(--accent)}
       <div class="media-col">
         <div class="ph ba" style="--x:50%;aspect-ratio:1/1" data-ba aria-label="Interactive before and after comparison of executive studio headshot retouching">
           <div class="lay before">
-            <img src="/assets/agency_showcase/portrait-studio-man-glasses-before.webp" alt="Corporate headshot before retouching showing glasses lens glare, uneven skin shine and facial fatigue" width="1400" height="1400" loading="lazy">
+            <img src="./assets/agency_showcase/portrait-studio-man-glasses-before.webp" alt="Corporate headshot before retouching showing glasses lens glare, uneven skin shine and facial fatigue" width="1400" height="1400" loading="lazy">
             <span class="tag b">Before</span>
           </div>
           <div class="lay after">
-            <img src="/assets/agency_showcase/portrait-studio-man-glasses-after.webp" alt="Corporate headshot after retouching with suppressed lens glare, polished skin tone and crisp executive presentation" width="1400" height="1400" loading="lazy">
+            <img src="./assets/agency_showcase/portrait-studio-man-glasses-after.webp" alt="Corporate headshot after retouching with suppressed lens glare, polished skin tone and crisp executive presentation" width="1400" height="1400" loading="lazy">
             <span class="tag a">After</span>
           </div>
           <div class="ba-bar" aria-hidden="true"><div class="ba-handle">&#x2194;</div></div>
@@ -1650,29 +1650,54 @@ footer a:hover{color:var(--accent)}
     rng.addEventListener('change', updateVal);
   });
 
-  // 2. Subnav ScrollSpy Active Pill
-  var subnav = document.getElementById('subnavBar');
-  if (subnav) {
-    var links = subnav.querySelectorAll('a[href^="#"]:not(.pill-cta)');
-    var sections = Array.from(links).map(function(l){
-      return document.querySelector(l.getAttribute('href'));
+  // 2. Sticky Subnav Active Pill & Mask Sync
+  var bar = document.getElementById('bar');
+  if (bar) {
+    var navLinks = Array.from(bar.querySelectorAll('a'));
+    var sections = navLinks.map(function(a){
+      return document.querySelector(a.getAttribute('href'));
     }).filter(Boolean);
+    var rm = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function onScroll() {
-      var top = window.scrollY + 180;
-      var cur = sections[0];
-      for (var i = 0; i < sections.length; i++) {
-        if (sections[i].offsetTop <= top) cur = sections[i];
-      }
-      if (cur) {
-        var id = '#' + cur.id;
-        links.forEach(function(l){
-          if (l.getAttribute('href') === id) l.classList.add('cur');
-          else l.classList.remove('cur');
-        });
-      }
+    function syncBarMask(){
+      var maxScroll = bar.scrollWidth - bar.clientWidth;
+      bar.classList.toggle('can-scroll-l', bar.scrollLeft > 6);
+      bar.classList.toggle('can-scroll-r', maxScroll > 2 && bar.scrollLeft < maxScroll - 4);
     }
-    window.addEventListener('scroll', onScroll, { passive: true });
+
+    function syncActiveBar(){
+      var y = innerHeight * 0.42;
+      var cur = sections[0] ? sections[0].id : '';
+      sections.forEach(function(s){
+        if (s && s.getBoundingClientRect().top < y) cur = s.id;
+      });
+      var hasOverflow = bar.scrollWidth > bar.clientWidth + 2;
+      if (!hasOverflow && bar.scrollLeft !== 0) {
+        bar.scrollLeft = 0;
+      }
+      navLinks.forEach(function(a, idx){
+        var on = a.getAttribute('href') === '#' + cur;
+        a.classList.toggle('on', on);
+        if (on && hasOverflow) {
+          var pad = 24;
+          var viewLeft = bar.scrollLeft;
+          var viewRight = viewLeft + bar.clientWidth;
+          var aLeft = a.offsetLeft;
+          var aRight = aLeft + a.offsetWidth;
+          if (idx === 0) {
+            bar.scrollTo({ left: 0, behavior: rm ? 'auto' : 'smooth' });
+          } else if (aLeft < viewLeft + pad || aRight > viewRight - pad) {
+            var left = Math.max(0, aLeft - bar.clientWidth / 2 + a.offsetWidth / 2);
+            bar.scrollTo({ left: left, behavior: rm ? 'auto' : 'smooth' });
+          }
+        }
+      });
+      syncBarMask();
+    }
+    bar.addEventListener('scroll', syncBarMask, { passive: true });
+    addEventListener('scroll', syncActiveBar, { passive: true });
+    addEventListener('resize', syncActiveBar, { passive: true });
+    syncActiveBar();
   }
 
   // 3. Mobile Navigation Drawer
