@@ -639,131 +639,6 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   margin:0;
 }
 
-/* MODEL PORTFOLIO INTERACTIVE SHOWCASE */
-.model-showcase{
-  position:relative;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  width:100%;
-}
-.model-showcase-nav{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-}
-.m-tab{
-  padding:7px 14px;
-  border-radius:99px;
-  background:var(--surface);
-  border:1px solid var(--line);
-  color:var(--muted);
-  font:600 13px/1.2 var(--body);
-  cursor:pointer;
-  transition:all .2s ease;
-}
-.m-tab:hover{
-  color:var(--text);
-  border-color:rgba(255,255,255,.24);
-}
-.m-tab.on{
-  background:var(--accent);
-  color:var(--on-accent);
-  border-color:var(--accent);
-  font-weight:700;
-}
-.model-frame{
-  position:relative;
-  border-radius:18px;
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,.14);
-  background:var(--surface);
-  box-shadow:0 24px 60px rgba(0,0,0,.45);
-  aspect-ratio:3/4;
-  width:100%;
-}
-.m-slide{
-  position:absolute;
-  inset:0;
-  opacity:0;
-  visibility:hidden;
-  transition:opacity .35s ease, visibility .35s ease;
-}
-.m-slide.on{
-  opacity:1;
-  visibility:visible;
-  z-index:2;
-}
-.m-slide img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-}
-.m-cap{
-  position:absolute;
-  inset:auto 0 0;
-  padding:40px 20px 18px;
-  background:linear-gradient(to top, rgba(10,10,11,.94) 25%, transparent);
-  color:#ffffff;
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-  pointer-events:none;
-}
-.m-cap strong{
-  font:700 15.5px/1.3 var(--display);
-  color:#ffffff;
-}
-.m-cap span{
-  font-size:13px;
-  color:#b8bcb0;
-}
-.m-ctrl{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  z-index:4;
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  background:rgba(10,10,11,.75);
-  color:var(--text);
-  border:1px solid rgba(255,255,255,.2);
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:24px;
-  line-height:1;
-  cursor:pointer;
-  transition:all .2s ease;
-}
-.m-ctrl:hover{
-  background:var(--accent);
-  color:var(--on-accent);
-  border-color:var(--accent);
-  transform:translateY(-50%) scale(1.08);
-}
-.m-ctrl.prev{left:14px}
-.m-ctrl.next{right:14px}
-.m-count{
-  position:absolute;
-  top:14px;
-  right:14px;
-  z-index:4;
-  padding:5px 12px;
-  border-radius:99px;
-  background:rgba(10,10,11,.75);
-  color:#ffffff;
-  border:1px solid rgba(255,255,255,.18);
-  backdrop-filter:blur(8px);
-  font:700 12px/1 var(--body);
-  letter-spacing:.05em;
-  pointer-events:none;
-}
-
 /* 3-STEP ORDER WORKFLOW */
 .order-steps{
   display:grid;
@@ -1077,8 +952,6 @@ footer a:hover{color:var(--accent)}
 @media(max-width:640px){
   footer .g{grid-template-columns:1fr}
   .gm-compare{grid-template-columns:1fr}
-  .model-showcase-nav{gap:6px}
-  .m-tab{padding:6px 11px;font-size:12px}
 }
 </style>
 </head>
@@ -1284,49 +1157,21 @@ footer a:hover{color:var(--accent)}
       </div>
 
       <div class="media-col">
-        <div class="model-showcase" id="modelShowcase" data-model-slider aria-label="Interactive model portfolio and comp card retouching showcase">
-          <div class="model-showcase-nav">
-            <button type="button" class="m-tab on" data-slide="0">Comp Card</button>
-            <button type="button" class="m-tab" data-slide="1">Editorial Cover</button>
-            <button type="button" class="m-tab" data-slide="2">Commercial Look</button>
-            <button type="button" class="m-tab" data-slide="3">Full Portfolio</button>
+        <div class="ph ba" style="--x:50%;aspect-ratio:682/1024" data-ba aria-label="Interactive before and after comparison of full-length model photo retouching and studio backdrop cleanup">
+          <div class="lay before">
+            <img src="./assets/agency_showcase/purple-sequin-cocktail-dress-fashion-retouching-before.webp" alt="Full-length fashion model couple before retouching showing studio floor tape marks, backdrop stand top pole, and fabric creasing" width="682" height="1024" loading="lazy">
+            <span class="tag b">Before</span>
           </div>
-
-          <div class="model-frame">
-            <div class="m-slide on" data-idx="0">
-              <img src="./assets/agency_showcase/natural-skin-beauty-retouching.webp" alt="Model comp card portrait with natural skin texture and clean studio lighting" width="933" height="1400" loading="lazy">
-              <div class="m-cap">
-                <strong>Model Comp Card &amp; Natural Skin Polish</strong>
-                <span>100% dermal pore fidelity &middot; Clean studio backdrop</span>
-              </div>
-            </div>
-            <div class="m-slide" data-idx="1">
-              <img src="./assets/agency_showcase/crimson-editorial-beauty-portrait-retouching.webp" alt="Editorial beauty portrait featuring balanced skin tones and subtle makeup refinement" width="896" height="1200" loading="lazy">
-              <div class="m-cap">
-                <strong>Editorial Beauty Cover &amp; Tone Harmony</strong>
-                <span>Micro dodge &amp; burn &middot; 16-bit color grading</span>
-              </div>
-            </div>
-            <div class="m-slide" data-idx="2">
-              <img src="./assets/agency_showcase/aviator-eyewear-portrait-retouch.webp" alt="Commercial eyewear model portrait with balanced skin tone and studio lighting" width="933" height="1400" loading="lazy">
-              <div class="m-cap">
-                <strong>Commercial Lookbook &amp; Eyewear Presence</strong>
-                <span>Glare suppression &middot; Facial feature preservation</span>
-              </div>
-            </div>
-            <div class="m-slide" data-idx="3">
-              <img src="./assets/agency_showcase/suede-blazer-beauty-editing.webp" alt="Full length model portfolio fashion portrait with wardrobe crease cleanup" width="933" height="1400" loading="lazy">
-              <div class="m-cap">
-                <strong>Fashion Model Portfolio &amp; Shape Symmetry</strong>
-                <span>Wardrobe refinement &middot; Organic volume intact</span>
-              </div>
-            </div>
-
-            <button type="button" class="m-ctrl prev" id="modelPrev" aria-label="Previous model photo">&#x2039;</button>
-            <button type="button" class="m-ctrl next" id="modelNext" aria-label="Next model photo">&#x203A;</button>
-            
-            <div class="m-count" id="modelCount">1 / 4</div>
+          <div class="lay after">
+            <img src="./assets/agency_showcase/purple-sequin-cocktail-dress-fashion-retouching.webp" alt="Full-length fashion model couple after commercial retouching with seamless infinite backdrop sweep, clean floor, and polished suiting" width="682" height="1024" loading="lazy">
+            <span class="tag a">After</span>
           </div>
+          <div class="ba-bar" aria-hidden="true"><div class="ba-handle">&#x2194;</div></div>
+          <input type="range" min="0" max="100" value="50" aria-label="Slide to compare before and after model photo retouching and studio backdrop cleanup">
+        </div>
+        <div class="cap">
+          <span>Studio Full-Length &amp; Sweep: Floor tape, pole removal &amp; wardrobe polish</span>
+          <span>Drag slider to compare</span>
         </div>
       </div>
     </div>
@@ -1867,43 +1712,6 @@ footer a:hover{color:var(--accent)}
     addEventListener('scroll', syncActiveBar, { passive: true });
     addEventListener('resize', syncActiveBar, { passive: true });
     syncActiveBar();
-  }
-
-  // 3. Model Showcase Interactive Slider
-  var mSlider = document.getElementById('modelShowcase');
-  if (mSlider) {
-    var slides = mSlider.querySelectorAll('.m-slide');
-    var tabs = mSlider.querySelectorAll('.m-tab');
-    var prevBtn = document.getElementById('modelPrev');
-    var nextBtn = document.getElementById('modelNext');
-    var counter = document.getElementById('modelCount');
-    var curIdx = 0;
-
-    function showSlide(idx) {
-      if (idx < 0) idx = slides.length - 1;
-      if (idx >= slides.length) idx = 0;
-      curIdx = idx;
-      slides.forEach(function(s, i){ s.classList.toggle('on', i === curIdx); });
-      tabs.forEach(function(t, i){ t.classList.toggle('on', i === curIdx); });
-      if (counter) counter.textContent = (curIdx + 1) + ' / ' + slides.length;
-    }
-
-    if (prevBtn) prevBtn.addEventListener('click', function(){ showSlide(curIdx - 1); });
-    if (nextBtn) nextBtn.addEventListener('click', function(){ showSlide(curIdx + 1); });
-    tabs.forEach(function(tab, i){
-      tab.addEventListener('click', function(){ showSlide(i); });
-    });
-
-    var startX = 0;
-    mSlider.addEventListener('touchstart', function(e){
-      startX = e.touches[0].clientX;
-    }, { passive: true });
-    mSlider.addEventListener('touchend', function(e){
-      var diffX = e.changedTouches[0].clientX - startX;
-      if (Math.abs(diffX) > 40) {
-        showSlide(diffX > 0 ? curIdx - 1 : curIdx + 1);
-      }
-    }, { passive: true });
   }
 })();
 </script>
