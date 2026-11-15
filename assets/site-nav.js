@@ -89,11 +89,11 @@
             '</details>' +
             '<a class="mob-link" href="/de/#preise">Preise (€)</a>' +
             '<a class="mob-link" href="/de/#faq">Fragen &amp; Antworten</a>' +
-            '<a class="mob-link" href="/contact?ref=de">Kontakt</a>' +
+            '<a class="mob-link" href="/de/kontakt">Kontakt</a>' +
             '' +
           '</div>' +
           '<div class="mob-ctas">' +
-            '<a class="mob-cta-p" href="/contact?ref=de">Kostenlose Testbearbeitung anfordern &rarr;</a>' +
+            '<a class="mob-cta-p" href="/de/kontakt">Kostenlose Testbearbeitung anfordern &rarr;</a>' +
             '<a class="mob-cta-s" href="/portal" rel="nofollow">Anmelden</a>' +
           '</div>' +
         '</div>';

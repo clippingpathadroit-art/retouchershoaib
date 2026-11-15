@@ -72,7 +72,7 @@
           "unitText": "ab €4,50 pro Bild für Porträt & Beauty Retusche"
         },
         "availability": "https://schema.org/InStock",
-        "url": "https://retouchershoaib.com/contact?service=portrait&ref=de"
+        "url": "https://retouchershoaib.com/de/kontakt?service=portrait"
       }
     },
     {
@@ -628,6 +628,48 @@ section.band{
   color:#dcded4;
 }
 
+/* 3-STEP WORKFLOW */
+.order-steps{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:20px;
+  margin-top:28px;
+}
+.o-step{
+  background:var(--panel-2);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:28px 24px;
+  transition:border-color .25s ease, transform .25s ease;
+  display:flex;
+  flex-direction:column;
+}
+.o-step:hover{
+  border-color:rgba(200,241,53,.35);
+  transform:translateY(-2px);
+}
+.o-step b{
+  display:inline-block;
+  font:800 12px/1 var(--display);
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:12px;
+}
+.o-step h3{
+  margin:0 0 10px;
+  font:700 19px/1.25 var(--display);
+  color:var(--text);
+  letter-spacing:-.01em;
+}
+.o-step p{
+  margin:0;
+  font-size:15px;
+  line-height:1.65;
+  color:#d7d7d0;
+  flex:1;
+}
+
 /* FAQ ACCORDION */
 .faq-list{
   max-width:860px;
@@ -751,7 +793,7 @@ footer a:hover{color:var(--accent)}
     </nav>
     <div class="nav-actions">
       <a class="btn" id="navAuthBtn" href="/portal" rel="nofollow">Anmelden</a>
-      <a class="btn p nav-cta-desk" href="/contact?service=portrait&ref=de">Testbild senden</a>
+      <a class="btn p nav-cta-desk" href="/de/kontakt?service=portrait">Testbild senden</a>
       <button class="nav-mob-btn" id="navMobBtn" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobDrawer">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
       </button>
@@ -777,7 +819,7 @@ footer a:hover{color:var(--accent)}
           Gute Beauty-Retusche fällt nicht auf. Die Haut sieht gepflegt aus, aber niemals glatt gebügelt: Poren, feine Struktur und lebendiges Licht bleiben zu 100 % erhalten. Wir bearbeiten Porträts, Beauty- und Modefotos mit meisterhafter High-End-Hautretusche von Hand. Mittels manueller Frequenztrennung und Dodge &amp; Burn &mdash; ab 4,50 € pro Motiv. Lieferung zuverlässig in 12–24 Stunden.
         </p>
         <div class="hero-cta">
-          <a href="/contact?service=portrait&ref=de" class="btn p">Kostenloses Testbild anfordern (1 Motiv gratis)</a>
+          <a href="/de/kontakt?service=portrait" class="btn p">Kostenloses Testbild anfordern (1 Motiv gratis)</a>
           <a href="#poren" class="btn">Vorher-Nachher Porenvergleich ansehen &darr;</a>
         </div>
         <div class="hero-trust">
@@ -1090,22 +1132,22 @@ footer a:hover{color:var(--accent)}
 
       <div class="card-grid">
         <div class="card">
-          <div class="img-wrap" style="aspect-ratio:4/3;border-radius:12px;overflow:hidden;margin-bottom:16px;background:#050506;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);">
-            <img src="/assets/agency_showcase/warm-studio-beauty-portrait-retouching.webp" alt="Warme Studio Beauty Retusche für Model Sedcard" width="1376" height="768" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block">
+          <div class="img-wrap" style="aspect-ratio:4/5;border-radius:14px;overflow:hidden;margin-bottom:18px;background:#0e0e11;border:1px solid var(--line)">
+            <img src="/assets/agency_showcase/ivory-couture-blazer-fashion-retouching.webp" alt="Model Sedcard und Portfolio Retusche mit Couture Blazer" width="896" height="1200" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:center 15%;display:block">
           </div>
           <h3>Model-Sedcards &amp; Portfolios</h3>
           <p>Charakterstarke Aufnahmen, die Modelscouts überzeugen: lebendige Augen, gesunde Haut und markante Züge ohne Überarbeitung.</p>
         </div>
         <div class="card">
-          <div class="img-wrap" style="aspect-ratio:4/3;border-radius:12px;overflow:hidden;margin-bottom:16px;background:#050506;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);">
-            <img src="/assets/agency_showcase/melanin-skin-tone-accuracy-portrait.webp" alt="Farbgenaue Teint-Kalibrierung für Melanin Hauttöne" width="896" height="1200" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block">
+          <div class="img-wrap" style="aspect-ratio:4/5;border-radius:14px;overflow:hidden;margin-bottom:18px;background:#0e0e11;border:1px solid var(--line)">
+            <img src="/assets/agency_showcase/skin-tone-complexion-accuracy.webp" alt="Farbverbindliche Teint-Kalibrierung und natürliche Hautporen" width="764" height="1024" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block">
           </div>
           <h3>Farbverbindliche Teint-Kalibrierung</h3>
           <p>Perfekte Wiedergabe für helle Porzellanhaut, warme Olivtöne und tiefe Melanin-Hautfarben ohne Vergrauen oder Farbstiche.</p>
         </div>
         <div class="card">
-          <div class="img-wrap" style="aspect-ratio:4/3;border-radius:12px;overflow:hidden;margin-bottom:16px;background:#050506;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);">
-            <img src="/assets/agency_showcase/crimson-editorial-beauty-portrait-retouching.webp" alt="Editorial Fashion und Beauty Kampagnen Retusche" width="896" height="1200" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block">
+          <div class="img-wrap" style="aspect-ratio:4/5;border-radius:14px;overflow:hidden;margin-bottom:18px;background:#0e0e11;border:1px solid var(--line)">
+            <img src="/assets/agency_showcase/avant-garde-copper-cape-fashion-retouching.webp" alt="Editorial Fashion Kampagnen Retusche im Kupfer-Cape" width="896" height="1200" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block">
           </div>
           <h3>Editorial- &amp; Kampagnen-Serien</h3>
           <p>Serienretusche mit identischer Farbstimmung über alle 20 bis 80 Aufnahmen eines Lookbooks hinweg.</p>
@@ -1170,7 +1212,7 @@ footer a:hover{color:var(--accent)}
               <li>Lieferzeit: 12–24h</li>
             </ul>
           </div>
-          <a href="/contact?service=portrait&ref=de" class="btn">Porträt anfragen</a>
+          <a href="/de/kontakt?service=portrait" class="btn">Porträt anfragen</a>
         </div>
 
         <!-- TIER 2 -->
@@ -1190,7 +1232,7 @@ footer a:hover{color:var(--accent)}
               <li>Lieferzeit: 24h</li>
             </ul>
           </div>
-          <a href="/contact?service=portrait&ref=de" class="btn p">Editorial anfragen</a>
+          <a href="/de/kontakt?service=portrait" class="btn p">Editorial anfragen</a>
         </div>
 
         <!-- TIER 3 -->
@@ -1209,7 +1251,7 @@ footer a:hover{color:var(--accent)}
               <li>Unbegrenzte Revisionen bis zur Freigabe</li>
             </ul>
           </div>
-          <a href="/contact?service=portrait&ref=de" class="btn">Beauty anfragen</a>
+          <a href="/de/kontakt?service=portrait" class="btn">Beauty anfragen</a>
         </div>
       </div>
     </div>
@@ -1217,34 +1259,34 @@ footer a:hover{color:var(--accent)}
 
   <!-- SEKTION 09: 3-SCHRITTE ABLAUF -->
   <section class="dep" id="ablauf">
-    <div class="wrap">
+    <div class="wrap" style="display:block">
       <div class="sec-head center">
         <span class="sec-tag">Unkomplizierter Ablauf</span>
         <h2>In 3 Schritten zu meisterhaften Porträt- &amp; Beauty-Ergebnissen.</h2>
         <p>Direkt, zuverlässig und perfekt in den Workflow von Fotografen und Agenturen integriert.</p>
       </div>
 
-      <div class="card-grid">
-        <div class="card">
-          <div style="font-size:28px;margin-bottom:10px">&#128229;</div>
-          <h3>01. Bilder &amp; Briefing senden</h3>
-          <p>Laden Sie Ihre RAW-, TIFF- oder JPEG-Dateien über unser Kundenportal, WeTransfer oder Dropbox hoch. Nennen Sie uns Ihren gewünschten Look oder fügen Sie ein Referenzbild bei.</p>
+      <div class="order-steps">
+        <div class="o-step">
+          <b>Schritt 01</b>
+          <h3>Bilder &amp; Briefing senden (~5 Min)</h3>
+          <p>Laden Sie Ihre RAW-, TIFF- oder JPEG-Dateien über unser gesichertes <a href="/portal" style="color:var(--accent);text-decoration:underline">Kundenportal</a>, WeTransfer oder Dropbox hoch. Nennen Sie uns Ihren gewünschten Look oder fügen Sie ein Referenzbild bei.</p>
         </div>
-        <div class="card">
-          <div style="font-size:28px;margin-bottom:10px">&#10002;</div>
-          <h3>02. Kostenloses Testbild freigeben</h3>
-          <p>Wir bearbeiten ein Motiv kostenlos zur Ansicht. Sie prüfen die Hautstruktur, Schärfe und Farbgebung im Detail und geben uns Feedback zur Feinabstimmung.</p>
+        <div class="o-step">
+          <b>Schritt 02</b>
+          <h3>Kostenloses Testbild freigeben</h3>
+          <p>Wir bearbeiten ein Motiv kostenlos zur Ansicht. Sie prüfen Hautstruktur, Poren und Farbtreue im Detail auf Ihrem Monitor und geben uns Feedback zur Feinabstimmung.</p>
         </div>
-        <div class="card">
-          <div style="font-size:28px;margin-bottom:10px">&#128640;</div>
-          <h3>03. Serienbearbeitung &amp; Download</h3>
-          <p>Nach Ihrer Freigabe retuschieren wir die gesamte Serie im identischen Stil und liefern pünktlich innerhalb von 12–24 Stunden in Ihren Wunschformaten (inkl. PSD mit Ebenen).</p>
+        <div class="o-step">
+          <b>Schritt 03</b>
+          <h3>Serienbearbeitung &amp; Download (12&ndash;24h)</h3>
+          <p>Nach Ihrer Freigabe retuschieren wir die gesamte Serie im identischen Stil und liefern pünktlich innerhalb von 12–24 Stunden in Ihren Wunschformaten (inkl. PSD mit intakten Ebenen).</p>
         </div>
       </div>
 
-      <div style="text-align:center;margin-top:44px">
-        <a href="/contact?service=portrait&ref=de" class="btn p" style="padding:16px 36px;font-size:16px">Jetzt kostenloses Testbild anfordern &rarr;</a>
-        <p style="font-size:13.5px;color:var(--muted);margin:10px 0 0">100% unverbindlich &middot; Keine Zahlungsdaten erforderlich &middot; 24h Rückmeldung</p>
+      <div style="text-align:center;margin-top:48px">
+        <a href="/de/kontakt?service=portrait" class="btn p" style="padding:16px 36px;font-size:16px">Jetzt kostenloses Testbild anfordern &rarr;</a>
+        <p style="font-size:13.5px;color:var(--muted);margin:12px 0 0">100% unverbindlich &middot; Keine Zahlungsdaten erforderlich &middot; 12&ndash;24h Rückmeldung</p>
       </div>
     </div>
   </section>
@@ -1307,7 +1349,7 @@ footer a:hover{color:var(--accent)}
         <h4>Navigation</h4>
         <a href="/de/">Startseite (DE)</a>
                 <a href="/work">Portfolio</a>
-        <a href="/contact?service=portrait&ref=de">Kontakt &amp; Angebot</a>
+        <a href="/de/kontakt?service=portrait">Kontakt &amp; Angebot</a>
         <a href="/portal" rel="nofollow">Kundenportal &#x1f512;</a>
       </div>
       <div>
