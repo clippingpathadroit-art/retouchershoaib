@@ -357,22 +357,41 @@ nav a.cur, .nav-drop-btn.cur{color:var(--accent);font-weight:600}
   position:sticky;
   top:calc(env(safe-area-inset-top,0px) + 68px);
   z-index:25;
-  background:color-mix(in srgb,var(--bg) 90%,transparent);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
+  background:color-mix(in srgb,var(--bg) 92%,transparent);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
   border-top:1px solid var(--line);
   border-bottom:1px solid var(--line);
+  width:100%;
 }
 .bar .wrap{
   display:flex;
   align-items:center;
-  gap:7px;
+  gap:8px;
   padding-block:12px;
   overflow-x:auto;
   scroll-padding-inline:clamp(20px,4vw,48px);
   scrollbar-width:none;
+  -ms-overflow-style:none;
 }
 .bar .wrap::-webkit-scrollbar{display:none}
+.bar .wrap::after{
+  content:"";
+  flex:0 0 clamp(24px, 5vw, 60px);
+  height:1px;
+}
+.bar .wrap.can-scroll-r{
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 48px),transparent);
+  mask-image:linear-gradient(90deg,#000 calc(100% - 48px),transparent);
+}
+.bar .wrap.can-scroll-l{
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 40px);
+  mask-image:linear-gradient(90deg,transparent,#000 40px);
+}
+.bar .wrap.can-scroll-l.can-scroll-r{
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 40px,#000 calc(100% - 48px),transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 40px,#000 calc(100% - 48px),transparent);
+}
 .bar a{
   flex:none;
   white-space:nowrap;
@@ -792,6 +811,37 @@ footer a:hover{color:var(--accent)}
 @media(max-width:640px){
   footer .g{grid-template-columns:1fr}
 }
+
+/* GARMENT STAGE, LOOKBOOK & SHOOTING DIAGRAMS */
+.garment-stage{position:relative;border-radius:18px;overflow:hidden;background:rgba(255,255,255,.03);border:1px solid var(--line);box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.garment-stage-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:12px 16px;background:rgba(255,255,255,.05);border-bottom:1px solid var(--line)}
+.garment-title-pill{font:700 14px/1.2 var(--sans,inherit);color:var(--text);letter-spacing:.01em}
+.garment-canvas{aspect-ratio:1/1;background:#ffffff;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.garment-canvas img{width:100%;height:100%;object-fit:contain;display:block;transition:opacity .25s ease}
+.garment-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+@media(max-width:680px){.garment-grid{grid-template-columns:1fr}}
+.gar-card{text-align:left;width:100%;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:15px;padding:14px 16px;cursor:pointer;color:inherit;font:inherit;display:flex;flex-direction:column;gap:6px;transition:border-color .2s,background .2s,transform .2s}
+.gar-card:hover{border-color:rgba(255,255,255,.35);transform:translateY(-1px)}
+.gar-card[aria-pressed="true"]{border-color:var(--accent);background:rgba(200,241,53,.07)}
+.gar-card h3{margin:0;font-size:15px;color:#ffffff}
+.gar-card p{margin:0;font-size:13px;line-height:1.5;color:var(--muted)}
+.shoot-trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:28px}
+@media(max-width:840px){.shoot-trio{grid-template-columns:1fr}}
+.shoot-shot{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.shoot-shot img{width:100%;height:220px;object-fit:contain;display:block;background:#0e0e11;padding:12px}
+.shoot-meta{padding:14px 16px;border-top:1px solid var(--line)}
+.shoot-meta strong{display:block;font-size:14px;color:#fff;margin-bottom:4px}
+.shoot-meta span{display:block;font-size:13px;line-height:1.5;color:var(--muted)}
+.lookbook-band{width:100%;margin-top:32px;padding-top:28px;border-top:1px solid var(--line)}
+.lookbook-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:6px 18px;margin-bottom:16px}
+.lookbook-head strong{font:700 13px/1.2 var(--sans,inherit);text-transform:uppercase;letter-spacing:.08em;color:var(--accent)}
+.lookbook-head span{font-size:14px;color:var(--muted)}
+.look-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+@media(max-width:768px){.look-strip{grid-template-columns:repeat(2,1fr)}}
+.look-tile{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#ffffff}
+.look-tile img{width:100%;height:auto;aspect-ratio:933/1400;object-fit:cover;display:block}
+.look-cap{background:rgba(255,255,255,.05);padding:9px 10px;font-size:13px;font-weight:500;color:#eaebe4;text-align:center;border-top:1px solid var(--line)}
+
 </style>
 </head>
 <body>
@@ -869,9 +919,10 @@ footer a:hover{color:var(--accent)}
       <a href="#kleider">Kleider &amp; Röcke</a>
       <a href="#kategorien">Sortiment</a>
       <a href="#shooting">Shooting-Anleitung</a>
+      <a href="#on-model">Mode am Model</a>
       <a href="#farbtreue">Farbtreue</a>
       <a href="#marktplatz">Marktplatz-Normen</a>
-      <a href="#preise">Preise (€)</a>
+      <a href="#preise">Preise (&euro;)</a>
       <a href="#ablauf">Ablauf</a>
       <a href="#faq">Fragen</a>
     </div>
@@ -902,12 +953,12 @@ footer a:hover{color:var(--accent)}
       </div>
       <div class="media-col">
         <!-- INTERACTIVE BEFORE/AFTER SLIDER (BLAZER) -->
-        <div class="ph ba" data-ba style="aspect-ratio:1200/800;max-width:100%;--x:50%;">
+        <div class="ph ba" data-ba style="aspect-ratio:1/1;max-width:540px;margin:0 auto;--x:50%;">
           <div class="lay before">
-            <img src="/assets/agency_showcase/fashion-ghost-blazer-before.webp" alt="Geisterpuppe Bildbearbeitung: Rohfoto des Blazers auf Puppe mit sichtbarem Hals und Falten" width="1200" height="800" loading="eager" decoding="async">
+            <img src="/assets/agency_showcase/fashion-ghost-blazer-before.webp" alt="Geisterpuppe Bildbearbeitung: Rohfoto des Blazers auf Puppe mit sichtbarem Hals und Falten" width="1024" height="1024" loading="eager" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block">
           </div>
           <div class="lay after">
-            <img src="/assets/agency_showcase/fashion-ghost-blazer-after.webp" alt="Ghost Mannequin Mode-Retusche: Fertiger Blazer mit unsichtbarer Puppe und nahtlosem Innenkragen" width="1200" height="800" loading="eager" decoding="async">
+            <img src="/assets/agency_showcase/fashion-ghost-blazer-after.webp" alt="Ghost Mannequin Mode-Retusche: Fertiger Blazer mit unsichtbarer Puppe und nahtlosem Innenkragen" width="1024" height="1024" loading="eager" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block">
           </div>
           <span class="tag b">Vorher: Sichtbare Puppe</span>
           <span class="tag a">Nachher: 3D Geisterpuppe</span>
@@ -944,7 +995,7 @@ footer a:hover{color:var(--accent)}
           </div>
           <div class="media-col">
             <div class="ph" style="aspect-ratio:1000/1000">
-              <img src="/assets/agency_showcase/demo-ghost-mannequin-chiffon-dress.webp" alt="Geisterpuppe Bildbearbeitung für Chiffonkleid mit transparenten Ärmeln und 3D Hals" width="1000" height="1000" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block">
+              <img src="/assets/agency_showcase/demo-ghost-mannequin-chiffon-dress.webp" alt="Geisterpuppe Bildbearbeitung für Chiffonkleid mit transparenten Ärmeln und 3D Hals" width="1000" height="1000" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block">
             </div>
             <div class="cap">
               <span>Chiffonkleid mit transparenter Ärmelfreistellung, 3D-Ausschnitt und perfekt ausbalanciertem Midi-Saum.</span>
@@ -957,30 +1008,89 @@ footer a:hover{color:var(--accent)}
   </section>
 
   <!-- SEKTION 03: APPAREL KATEGORIEN -->
-  <section class="dep" id="kategorien">
-    <div class="wrap" style="display:block">
-      <div class="sec-head center">
-        <span class="sec-tag">Das gesamte Sortiment</span>
-        <h2>Geisterpuppen-Bearbeitung für alle Textil-Kategorien.</h2>
-        <p>Vom leichten Basic-Shirt bis zum schweren Wollmantel &mdash; materialspezifische Workflows für perfekten Sitz.</p>
+  <section class="dep flip center-v" id="kategorien">
+    <div class="wrap">
+      <div class="media-col square-stage">
+        <div class="garment-stage">
+          <div class="garment-stage-bar">
+            <span class="garment-title-pill" id="garmentTitlePill">Kleider &amp; Chiffon</span>
+            <span class="craft-badge" id="garmentBadge">Zarte Transparenz &amp; Saum</span>
+          </div>
+          <div class="garment-canvas" id="garmentCanvas">
+            <img id="garmentMainImg" src="/assets/agency_showcase/demo-ghost-mannequin-chiffon-dress.webp" alt="Salbeigrünes Chiffonkleid mit transparenter Ärmelstruktur und symmetrischem Saum" width="1000" height="1000" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="cap" style="margin-top:10px">
+          <span id="garmentCap">Fließende Chiffon-Ärmel mit transparentem Durchschein-Effekt und ausgewogenem Saumverlauf.</span>
+          <span>Interaktive Auswahl</span>
+        </div>
       </div>
 
-      <div class="card-grid">
-        <div class="card">
-          <h3>T-Shirts, Polos &amp; Tops</h3>
-          <p>Kragenausrichtung, Ärmelsymmetrie, Glättung von Bauchfalten und zentriertes Nackenlabel.</p>
-        </div>
-        <div class="card">
-          <h3>Hemden, Blusen &amp; Tuniken</h3>
-          <p>Knopfleisten-Begradigung, Manschettensymmetrie, Kragensteifigkeit und Faltenentfernung.</p>
-        </div>
-        <div class="card">
-          <h3>Hosen, Jeans &amp; Shorts</h3>
-          <p>3D-Bundmontage (Hosenbund innen), Beinlängenausgleich, Schrittfaltenreduktion und Denim-Waschungserhalt.</p>
-        </div>
-        <div class="card">
-          <h3>Jacken, Mäntel &amp; Outerwear</h3>
-          <p>Ausformung voluminöser Daunensteppungen, Reißverschluss-Begradigung und Innenfuttermontage.</p>
+      <div class="tx-col" style="flex:1">
+        <span class="sec-tag">Das gesamte Sortiment &middot; Sektion 03</span>
+        <h2>Geisterpuppen-Bearbeitung für alle Textil-Kategorien.</h2>
+        <p class="d">Ein schwerer Wollmantel und eine durchscheinende Bluse verlangen nach völlig unterschiedlichen Schnittpfaden und Innenkragen-Montagen. Klicken Sie auf eine Kategorie, um Beispiele zu inspizieren:</p>
+
+        <div class="garment-grid" role="group" aria-label="Geisterpuppen-Bearbeitung nach Kategorie">
+          <button type="button" class="gar-card" aria-pressed="true"
+            data-src="/assets/agency_showcase/demo-ghost-mannequin-chiffon-dress.webp"
+            data-badge="Zarte Transparenz &amp; Saum"
+            data-pill="Kleider &amp; Chiffon"
+            data-alt="Salbeigrünes Chiffonkleid mit transparenter Ärmelstruktur und symmetrischem Saum"
+            data-cap="Fließende Chiffon-Ärmel mit transparentem Durchschein-Effekt und ausgewogenem Saumverlauf.">
+            <h3>Kleider &amp; Röcke</h3>
+            <p>Taillenfurche, Volants, transparente Organza-Ärmel &amp; ausbalancierte Säume.</p>
+          </button>
+
+          <button type="button" class="gar-card" aria-pressed="false"
+            data-src="/assets/agency_showcase/fashion-ghost-mannequin-olive-jacket.webp"
+            data-badge="3D Kragen &amp; Reißverschluss"
+            data-pill="Jacken &amp; Outerwear"
+            data-alt="Olivgrüne Outdoor-Jacke mit 3D-Halsmontage, Innenfutter und begradigtem Reißverschluss"
+            data-cap="Voluminöse Jackenform, Futtereinpassung und symmetrische Reißverschlusskanten.">
+            <h3>Jacken &amp; Mäntel</h3>
+            <p>Ausformung voluminöser Steppungen, Reißverschluss-Begradigung &amp; Futtermontage.</p>
+          </button>
+
+          <button type="button" class="gar-card" aria-pressed="false"
+            data-src="/assets/agency_showcase/fashion-ghost-mannequin-pink-sweater.webp"
+            data-badge="Strickmaschen &amp; Bündchen"
+            data-pill="Strickwaren &amp; Pullover"
+            data-alt="Rosa Feinstrickpullover mit gleichmäßigem Rundhalsausschnitt und intakter Maschenstruktur"
+            data-cap="Feinstrickbündchen ohne Verzug, zentriertes Innenlabel und elastische Saumformung.">
+            <h3>Strickwaren &amp; Sweaters</h3>
+            <p>Maschenerhalt, Kragenrundung, Bündchensymmetrie &amp; Beseitigung von Fusselknötchen.</p>
+          </button>
+
+          <button type="button" class="gar-card" aria-pressed="false"
+            data-src="/assets/agency_showcase/fashion-ghost-mannequin-blue-blouse.webp"
+            data-badge="Knopfleiste &amp; Kragensteifigkeit"
+            data-pill="Hemden &amp; Blusen"
+            data-alt="Dunkelblaue Seidenbluse mit unsichtbarer Puppenmontage und gerader Knopfleiste"
+            data-cap="Gerade Knopfleiste, exakte Manschettensymmetrie und knitterfreie Kragenkanten.">
+            <h3>Hemden &amp; Blusen</h3>
+            <p>Knopfleisten-Begradigung, Manschettensymmetrie &amp; faltenfreie Schultern.</p>
+          </button>
+
+          <button type="button" class="gar-card" aria-pressed="false"
+            data-src="/assets/agency_showcase/demo-ghost-mannequin-denim-jeans.webp"
+            data-badge="3D-Innenbund &amp; Waschung"
+            data-pill="Hosen, Jeans &amp; Denim"
+            data-alt="Denim Jeans mit 3D-Bundmontage, geradem Hosenbein und erhaltenem Waschungs-Charakter"
+            data-cap="Hosenbund innen dreidimensional montiert, Beinlängen angeglichen und Schrittfalten geglättet.">
+            <h3>Hosen &amp; Jeans</h3>
+            <p>3D-Innenbundmontage, Beinlängenausgleich &amp; Erhalt charakteristischer Waschungen.</p>
+          </button>
+
+          <button type="button" class="gar-card" aria-pressed="false"
+            data-src="/assets/agency_showcase/fashion-ghost-mannequin-activewear.webp"
+            data-badge="Elastik-Passform &amp; Nähte"
+            data-pill="Sportbekleidung &amp; Activewear"
+            data-alt="Sportbekleidung mit ergonomischer Schnittführung und glatten Flachnähten auf Weiß"
+            data-cap="Spannungsfalten von Funktionsgeweben beseitigt, Mesh-Zonen sauber isoliert.">
+            <h3>Sport &amp; Activewear</h3>
+            <p>Flachnähte, elastische Bündchen, ergonomische Form &amp; saubere Mesh-Einsätze.</p>
+          </button>
         </div>
       </div>
     </div>
@@ -990,26 +1100,32 @@ footer a:hover{color:var(--accent)}
   <section class="band" id="shooting">
     <div class="wrap">
       <div class="sec-head center">
-        <span class="sec-tag">Einfacher Leitfaden</span>
+        <span class="sec-tag">Studio &amp; Fotografen-Leitfaden &middot; Sektion 04</span>
         <h2>So fotografieren Sie für den perfekten Ghost-Mannequin-Effekt.</h2>
-        <p>Mit nur zwei gezielten Aufnahmen im Studio erhalten Sie perfekte Rohdaten für die Montage.</p>
+        <p>Saubere Rohaufnahmen beschleunigen die Postproduktion und senken Ihre Stückkosten. Befolgen Sie diese 3 visuellen Schritte für perfekte Ausrichtung ohne Perspektivverzerrung:</p>
       </div>
 
-      <div class="card-grid">
-        <div class="card">
-          <div style="font-size:24px;margin-bottom:10px">&#128085;</div>
-          <h3>Schritt 01: Vorderseite auf Puppe</h3>
-          <p>Ziehen Sie das Kleidungsstück auf die Puppe. Achten Sie auf mittige Knöpfung und faltenfreien Sitz der Schultern. Fotografieren Sie auf Augenhöhe mit diffusem Licht.</p>
+      <div class="shoot-trio" aria-label="Drei Schritte für die Ghost-Mannequin-Fotografie">
+        <div class="shoot-shot">
+          <img src="/assets/agency_showcase/shoot-guide-step1-front.svg" alt="Schritt 1 Studioaufbau: Kleidungsstück auf Schaufensterpuppe unter gleichmäßigem Softbox-Licht bei fixierter Stativhöhe" width="600" height="750" loading="lazy" decoding="async">
+          <div class="shoot-meta">
+            <strong>Schritt 1 &middot; Vorderansicht auf Puppe</strong>
+            <span>Fixiertes Stativ, gedämpfte &amp; zentrierte Passform unter diffusem Studiolicht.</span>
+          </div>
         </div>
-        <div class="card">
-          <div style="font-size:24px;margin-bottom:10px">&#128248;</div>
-          <h3>Schritt 02: Innenkragen / Nacken</h3>
-          <p>Drehen Sie das Kleidungsstück um oder stülpen Sie den Kragen um, sodass der hintere Innenkragen, das Futter und das Etikett im gleichen Lichtwinkel sichtbar fotografiert werden.</p>
+        <div class="shoot-shot">
+          <img src="/assets/agency_showcase/shoot-guide-step2-neck.svg" alt="Schritt 2 Nackenaufnahme: Oberes Puppenteil entfernt bei gleicher Kameradistanz für sichtbares Futter und Label" width="600" height="750" loading="lazy" decoding="async">
+          <div class="shoot-meta">
+            <strong>Schritt 2 &middot; Innenkragen &amp; Futteretikett</strong>
+            <span>Gleicher Kamerawinkel &amp; Distanz: Fotografieren Sie den Innenkragen mit Futter und Markenlabel.</span>
+          </div>
         </div>
-        <div class="card">
-          <div style="font-size:24px;margin-bottom:10px">&#9881;</div>
-          <h3>Schritt 03: Unsere 3D-Montage</h3>
-          <p>Wir schneiden die Puppe digital heraus, montieren den Nackenteil nahtlos hinter den vorderen Halsausschnitt und fügen einen realistischen Innenschatten für plastische Tiefe hinzu.</p>
+        <div class="shoot-shot">
+          <img src="/assets/agency_showcase/shoot-guide-step3-join.svg" alt="Schritt 3 Nahtlose 3D-Fusion: Vektorpfade, Tiefenmontage und realistischer Innenschatten auf Weiß" width="600" height="750" loading="lazy" decoding="async">
+          <div class="shoot-meta">
+            <strong>Schritt 3 &middot; Unsere 3D-Halsmontage</strong>
+            <span>Wir isolieren die Puppe, verschmelzen Vorder- und Nackenteil nahtlos und setzen 3D-Innenschatten.</span>
+          </div>
         </div>
       </div>
 
@@ -1027,7 +1143,78 @@ footer a:hover{color:var(--accent)}
   </section>
 
   <!-- SEKTION 05: FARBTREUE & FARBKALIBRIERUNG -->
-  <section class="dep" id="farbtreue">
+  
+  <!-- ON-MODEL FASHION RETOUCHING & LOOKBOOK CONSISTENCY -->
+  <section class="dep flip center-v" id="on-model" style="border-top:1px solid var(--line);padding:60px 0">
+    <div class="wrap">
+      <div class="media-col portrait-stage">
+        <div class="ph ba" id="modelBa" style="--x:50%;aspect-ratio:713/1024" data-ba>
+          <div class="lay before">
+            <img id="modelBeforeImg" src="/assets/agency_showcase/fashion-blue-activewear-matched-before.webp" alt="Fitnessmodel in blauem Activewear-Set vor der Bildbearbeitung mit Faltenspannung auf Studiorolle" width="713" height="1024" loading="lazy" decoding="async">
+            <span class="tag b">Vorher (Studio)</span>
+          </div>
+          <div class="lay after">
+            <img id="modelAfterImg" src="/assets/agency_showcase/fashion-blue-activewear-matched-after.webp" alt="Fitnessmodel nach Mode-Retusche mit reinweißem Hintergrund, geglätteten Stofffalten und erhaltener Hauttextur" width="713" height="1024" loading="lazy" decoding="async">
+            <span class="tag a">Nachher (Verkauf)</span>
+          </div>
+          <div class="ba-bar"><div class="ba-handle">&#x2194;</div></div>
+          <input type="range" min="0" max="100" value="50" aria-label="Vorher-Nachher Vergleich Mode-Retusche am Model">
+        </div>
+        <div class="cap" style="margin-top:10px">
+          <span>Interaktiver Vergleich: Freistellung auf reinweißes #FFFFFF, Entspannung störender Stoffzüge und 100% natürlicher Erhalt von Haut und Proportionen.</span>
+          <span>Schieberegler ziehen &harr;</span>
+        </div>
+      </div>
+
+      <div class="tx-col" style="flex:1">
+        <span class="sec-tag">Editorial &amp; Katalog-Models &middot; Sektion 05</span>
+        <h2>Model- &amp; Fashion-Retusche: Natürliche Passform auf echten Models.</h2>
+        <p class="d">Wachsartig weichgezeichnete Haut und unnatürlich verbogene Silhouetten wirken billig. Wir retuschieren zuerst das Kleidungsstück und dann die Person &mdash; natürliche Hautporen, echter Gesichtsausdruck und authentische menschliche Proportionen bleiben vollkommen erhalten.</p>
+
+        <div class="card-grid" style="margin-top:20px">
+          <div class="card">
+            <h3>Stoff- &amp; Nahtkorrektur</h3>
+            <p>Glättung unschöner Falten, Ausbeulungen, Taschenspannungen und Beseitigung von Textilflusen.</p>
+          </div>
+          <div class="card">
+            <h3>Haut &amp; Haar-Grooming</h3>
+            <p>Entfernung störender fliegender Haare und temporärer Rötungen bei vollem Porenstrukturerhalt.</p>
+          </div>
+        </div>
+
+        <div style="margin-top:22px;padding:16px 20px;border-radius:12px;background:rgba(200,241,53,.05);border:1px solid rgba(200,241,53,.2);font-size:14px;color:#dcded4;line-height:1.6">
+          <strong style="color:var(--accent)">Lookbooks, Kampagnen &amp; Kollektionen:</strong> Käufer betrachten einen Mode-Lookbook als stimmige Einheit. Wir gleichen Hauttöne, Kontraste und Hohlkehlen über 50 bis 500 Motive hinweg synchron ab.
+        </div>
+      </div>
+
+      <!-- Full-Width Lookbook Strip -->
+      <div class="lookbook-band">
+        <div class="lookbook-head">
+          <strong>Einheitliche Farb- &amp; Stoff-Konsistenz über die gesamte Kollektion</strong>
+          <span>Synchronisierte Bildabstimmung von Frame 01 bis Frame 150</span>
+        </div>
+        <div class="look-strip">
+          <div class="look-tile">
+            <img src="/assets/agency_showcase/lookbook-lilac-plaid-dress-retouching.webp" alt="Mode Lookbook Retusche: Fliederfarbenes Kleid mit transparenten Ärmeln" width="933" height="1400" loading="lazy" decoding="async">
+            <div class="look-cap">Frame 01 &middot; Gesamtsilhouette</div>
+          </div>
+          <div class="look-tile">
+            <img src="/assets/agency_showcase/periwinkle-organza-puff-sleeve-dress-portrait-retouching.webp" alt="Lookbook Organza-Ärmel Retusche mit erhaltener optischer Transparenz" width="933" height="1400" loading="lazy" decoding="async">
+            <div class="look-cap">Organza &middot; Transparenz</div>
+          </div>
+          <div class="look-tile">
+            <img src="/assets/agency_showcase/lookbook-polka-dot-midi-dress-retouching.webp" alt="Gepunktetes Sommerkleid Mode-Retusche farblich exakt synchronisiert" width="933" height="1400" loading="lazy" decoding="async">
+            <div class="look-cap">Frame 48 &middot; Teint-Match</div>
+          </div>
+          <div class="look-tile">
+            <img src="/assets/agency_showcase/lookbook-yellow-plaid-dress-retouching.webp" alt="Gelbes Karokleid mit Spitzenabschluss farbgetreu retuschiert" width="933" height="1400" loading="lazy" decoding="async">
+            <div class="look-cap">Frame 120 &middot; Spitzenabschluss</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<section class="dep" id="farbtreue">
     <div class="wrap">
       <div class="dep flip" style="padding:0;border:none">
         <div class="wrap" style="padding:0">
@@ -1047,8 +1234,8 @@ footer a:hover{color:var(--accent)}
             </ul>
           </div>
           <div class="media-col">
-            <div class="ph" style="aspect-ratio:1200/800">
-              <img src="/assets/agency_showcase/apparel-knitwear-color-swatch-retouching.webp" alt="Strickwaren Farbkalibrierung und Farbmusterabgleich nach Pantone für Modeshops" width="1200" height="800" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block">
+            <div class="ph" style="aspect-ratio:1/1;max-width:520px;margin:0 auto;background:#ffffff;border-radius:18px;overflow:hidden;border:1px solid var(--line)">
+              <img src="/assets/agency_showcase/apparel-knitwear-color-swatch-retouching.webp" alt="Strickwaren Farbkalibrierung und Farbmusterabgleich nach Pantone für Modeshops" width="1000" height="1000" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block">
             </div>
             <div class="cap">
               <span>Strickwaren-Farbkalibrierung: Echte Wollstruktur bei exakt abgestimmter Pantone-Garnfarbe.</span>
@@ -1331,28 +1518,85 @@ footer a:hover{color:var(--accent)}
     rng.addEventListener('change', updateVal);
   });
 
-  // 2. Sticky Subnav Active Pill Sync
+  // 2. Sticky Subnav Active Pill Sync with Auto-Scroll & Mask (Never cut off)
   var bar = document.getElementById('bar');
   if (bar) {
     var navLinks = Array.from(bar.querySelectorAll('a'));
     var sections = navLinks.map(function(a){
       return document.querySelector(a.getAttribute('href'));
     }).filter(Boolean);
+    var rm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function syncBarMask(){
+      var maxScroll = bar.scrollWidth - bar.clientWidth;
+      bar.classList.toggle('can-scroll-l', bar.scrollLeft > 6);
+      bar.classList.toggle('can-scroll-r', maxScroll > 2 && bar.scrollLeft < maxScroll - 4);
+    }
+
     function syncActiveBar(){
       var y = innerHeight * 0.42;
       var cur = sections[0] ? sections[0].id : '';
       sections.forEach(function(s){
         if (s && s.getBoundingClientRect().top < y) cur = s.id;
       });
-      navLinks.forEach(function(a){
-        a.classList.toggle('on', a.getAttribute('href') === '#' + cur);
+      var hasOverflow = bar.scrollWidth > bar.clientWidth + 2;
+      if (!hasOverflow && bar.scrollLeft !== 0) {
+        bar.scrollLeft = 0;
+      }
+      navLinks.forEach(function(a, idx){
+        var on = a.getAttribute('href') === '#' + cur;
+        a.classList.toggle('on', on);
+        if (on && hasOverflow) {
+          var pad = 24;
+          var viewLeft = bar.scrollLeft;
+          var viewRight = viewLeft + bar.clientWidth;
+          var aLeft = a.offsetLeft;
+          var aRight = aLeft + a.offsetWidth;
+          if (idx === 0) {
+            bar.scrollTo({ left: 0, behavior: rm ? 'auto' : 'smooth' });
+          } else if (aLeft < viewLeft + pad || aRight > viewRight - pad) {
+            var left = Math.max(0, aLeft - bar.clientWidth / 2 + a.offsetWidth / 2);
+            bar.scrollTo({ left: left, behavior: rm ? 'auto' : 'smooth' });
+          }
+        }
       });
+      syncBarMask();
     }
+    bar.addEventListener('scroll', syncBarMask, { passive: true });
     addEventListener('scroll', syncActiveBar, { passive: true });
+    addEventListener('resize', function(){ syncActiveBar(); syncBarMask(); }, { passive: true });
     syncActiveBar();
   }
 })();
 </script>
 <script src="/assets/site-nav.js" defer></script>
+<script>
+  // Garment Category Switcher
+  (function(){
+    var grid = document.querySelector('.garment-grid');
+    var img = document.getElementById('garmentMainImg');
+    var pill = document.getElementById('garmentTitlePill');
+    var badge = document.getElementById('garmentBadge');
+    var cap = document.getElementById('garmentCap');
+    if (!grid || !img) return;
+    var cards = grid.querySelectorAll('.gar-card');
+    cards.forEach(function(card){
+      card.addEventListener('click', function(){
+        cards.forEach(function(c){ c.setAttribute('aria-pressed', 'false'); });
+        card.setAttribute('aria-pressed', 'true');
+        var src = card.getAttribute('data-src');
+        var alt = card.getAttribute('data-alt');
+        var p = card.getAttribute('data-pill');
+        var b = card.getAttribute('data-badge');
+        var cText = card.getAttribute('data-cap');
+        if (src) img.src = src;
+        if (alt) img.alt = alt;
+        if (pill && p) pill.textContent = p;
+        if (badge && b) badge.textContent = b;
+        if (cap && cText) cap.textContent = cText;
+      });
+    });
+  })();
+</script>
 </body>
 </html>

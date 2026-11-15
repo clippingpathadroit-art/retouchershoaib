@@ -392,22 +392,41 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   position:sticky;
   top:calc(env(safe-area-inset-top,0px) + 68px);
   z-index:25;
-  background:color-mix(in srgb,var(--bg) 90%,transparent);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
+  background:color-mix(in srgb,var(--bg) 92%,transparent);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
   border-top:1px solid var(--line);
   border-bottom:1px solid var(--line);
+  width:100%;
 }
 .bar .wrap{
   display:flex;
   align-items:center;
-  gap:7px;
+  gap:8px;
   padding-block:12px;
   overflow-x:auto;
   scroll-padding-inline:clamp(20px,4vw,48px);
   scrollbar-width:none;
+  -ms-overflow-style:none;
 }
 .bar .wrap::-webkit-scrollbar{display:none}
+.bar .wrap::after{
+  content:"";
+  flex:0 0 clamp(24px, 5vw, 60px);
+  height:1px;
+}
+.bar .wrap.can-scroll-r{
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 48px),transparent);
+  mask-image:linear-gradient(90deg,#000 calc(100% - 48px),transparent);
+}
+.bar .wrap.can-scroll-l{
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 40px);
+  mask-image:linear-gradient(90deg,transparent,#000 40px);
+}
+.bar .wrap.can-scroll-l.can-scroll-r{
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 40px,#000 calc(100% - 48px),transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 40px,#000 calc(100% - 48px),transparent);
+}
 .bar a{
   flex:none;
   white-space:nowrap;
@@ -1051,7 +1070,7 @@ footer a:hover{color:var(--accent)}
       </div>
       <div class="media-col">
         <!-- INTERACTIVE BEFORE/AFTER SLIDER -->
-        <div class="ph ba" data-ba style="aspect-ratio:1200/800;max-width:100%;--x:50%;">
+        <div class="ph ba" data-ba style="aspect-ratio:1024/818;max-width:100%;--x:50%;">
           <div class="lay before">
             <img src="/assets/agency_showcase/ecommerce-eyewear-glare-removal-before.webp" alt="Produktfotos bearbeiten lassen: Rohes Brillen-Produktfoto vor der Bildbearbeitung mit Spiegelungen" width="1200" height="800" loading="eager" decoding="async">
           </div>
@@ -1093,12 +1112,12 @@ footer a:hover{color:var(--accent)}
           </div>
           <div class="media-col">
             <!-- INTERACTIVE BEFORE/AFTER SLIDER (HANDBAG) -->
-            <div class="ph ba" data-ba style="aspect-ratio:1200/800;max-width:100%;--x:50%;">
+            <div class="ph ba" data-ba style="aspect-ratio:1/1;max-width:540px;margin:0 auto;--x:50%;">
               <div class="lay before">
-                <img src="/assets/agency_showcase/ecom-floral-handbag-mirror-before.webp" alt="Handtasche Produktfoto vor Freistellung mit Spiegelung auf Studiotisch" width="1200" height="800" loading="lazy" decoding="async">
+                <img src="/assets/agency_showcase/ecom-floral-handbag-mirror-before.webp" alt="Handtasche Produktfoto vor Freistellung mit Spiegelung auf Studiotisch" width="751" height="751" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block">
               </div>
               <div class="lay after">
-                <img src="/assets/agency_showcase/ecom-floral-handbag-mirror-after.webp" alt="Handtasche Produktfoto freigestellt mit natürlichem Schatten und reinweißem Hintergrund" width="1200" height="800" loading="lazy" decoding="async">
+                <img src="/assets/agency_showcase/ecom-floral-handbag-mirror-after.webp" alt="Handtasche Produktfoto freigestellt mit natürlichem Schatten und reinweißem Hintergrund" width="751" height="751" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block">
               </div>
               <span class="tag b">Vorher: Studiotisch-Spiegelung</span>
               <span class="tag a">Nachher: Freigestellt &amp; Sauber</span>
@@ -1139,8 +1158,8 @@ footer a:hover{color:var(--accent)}
         </div>
       </div>
       <div class="media-col">
-        <div class="media-card" style="aspect-ratio:1200/800">
-          <img src="/assets/agency_showcase/patent-leather-oxford-shoes-retouching.webp" alt="Herrenschuhe und Lackleder Oxford Schuhe Bildbearbeitung und Freisteller" width="1200" height="800" loading="lazy" decoding="async">
+        <div class="media-card" style="aspect-ratio:1/1;max-width:540px;margin:0 auto">
+          <img src="/assets/agency_showcase/patent-leather-oxford-shoes-retouching.webp" alt="Herrenschuhe und Lackleder Oxford Schuhe Bildbearbeitung und Freisteller" width="1400" height="1400" style="width:100%;height:100%;object-fit:contain;display:block" loading="lazy" decoding="async">
         </div>
         <div class="cap">
           <span>Lackleder-Oxfords mit handgezeichnetem Freistellerpfad, Fersen-Symmetrie und weichem Bodenkontaktschatten.</span>
@@ -1237,8 +1256,8 @@ footer a:hover{color:var(--accent)}
         </ul>
       </div>
       <div class="media-col">
-        <div class="media-card" style="aspect-ratio:1200/800">
-          <img src="/assets/agency_showcase/luxury-perfume-bottle-packshot-retouching.webp" alt="Kosmetik Produktfoto bearbeiten: Luxus Parfümflakon mit Lichtröhren und reinem Glas" width="1200" height="800" loading="lazy" decoding="async">
+        <div class="media-card" style="aspect-ratio:896/1200;max-width:480px;margin:0 auto">
+          <img src="/assets/agency_showcase/luxury-perfume-bottle-packshot-retouching.webp" alt="Kosmetik Produktfoto bearbeiten: Luxus Parfümflakon mit Lichtröhren und reinem Glas" width="896" height="1200" style="width:100%;height:100%;object-fit:contain;display:block" loading="lazy" decoding="async">
         </div>
         <div class="cap">
           <span>Luxus-Parfümflakon mit sanftem Farbverlauf, zentriertem Etikett und edler Bodenreflexion.</span>
@@ -1567,24 +1586,53 @@ footer a:hover{color:var(--accent)}
     rng.addEventListener('change', updateVal);
   });
 
-  // 2. Sticky Subnav Active Pill Sync
+  // 2. Sticky Subnav Active Pill Sync with Auto-Scroll & Mask (Never cut off)
   var bar = document.getElementById('bar');
   if (bar) {
     var navLinks = Array.from(bar.querySelectorAll('a'));
     var sections = navLinks.map(function(a){
       return document.querySelector(a.getAttribute('href'));
     }).filter(Boolean);
+    var rm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function syncBarMask(){
+      var maxScroll = bar.scrollWidth - bar.clientWidth;
+      bar.classList.toggle('can-scroll-l', bar.scrollLeft > 6);
+      bar.classList.toggle('can-scroll-r', maxScroll > 2 && bar.scrollLeft < maxScroll - 4);
+    }
+
     function syncActiveBar(){
       var y = innerHeight * 0.42;
       var cur = sections[0] ? sections[0].id : '';
       sections.forEach(function(s){
         if (s && s.getBoundingClientRect().top < y) cur = s.id;
       });
-      navLinks.forEach(function(a){
-        a.classList.toggle('on', a.getAttribute('href') === '#' + cur);
+      var hasOverflow = bar.scrollWidth > bar.clientWidth + 2;
+      if (!hasOverflow && bar.scrollLeft !== 0) {
+        bar.scrollLeft = 0;
+      }
+      navLinks.forEach(function(a, idx){
+        var on = a.getAttribute('href') === '#' + cur;
+        a.classList.toggle('on', on);
+        if (on && hasOverflow) {
+          var pad = 24;
+          var viewLeft = bar.scrollLeft;
+          var viewRight = viewLeft + bar.clientWidth;
+          var aLeft = a.offsetLeft;
+          var aRight = aLeft + a.offsetWidth;
+          if (idx === 0) {
+            bar.scrollTo({ left: 0, behavior: rm ? 'auto' : 'smooth' });
+          } else if (aLeft < viewLeft + pad || aRight > viewRight - pad) {
+            var left = Math.max(0, aLeft - bar.clientWidth / 2 + a.offsetWidth / 2);
+            bar.scrollTo({ left: left, behavior: rm ? 'auto' : 'smooth' });
+          }
+        }
       });
+      syncBarMask();
     }
+    bar.addEventListener('scroll', syncBarMask, { passive: true });
     addEventListener('scroll', syncActiveBar, { passive: true });
+    addEventListener('resize', function(){ syncActiveBar(); syncBarMask(); }, { passive: true });
     syncActiveBar();
   }
 })();

@@ -358,22 +358,41 @@ nav a.cur, .nav-drop-btn.cur{color:var(--accent);font-weight:600}
   position:sticky;
   top:calc(env(safe-area-inset-top,0px) + 68px);
   z-index:25;
-  background:color-mix(in srgb,var(--bg) 90%,transparent);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
+  background:color-mix(in srgb,var(--bg) 92%,transparent);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
   border-top:1px solid var(--line);
   border-bottom:1px solid var(--line);
+  width:100%;
 }
 .bar .wrap{
   display:flex;
   align-items:center;
-  gap:7px;
+  gap:8px;
   padding-block:12px;
   overflow-x:auto;
   scroll-padding-inline:clamp(20px,4vw,48px);
   scrollbar-width:none;
+  -ms-overflow-style:none;
 }
 .bar .wrap::-webkit-scrollbar{display:none}
+.bar .wrap::after{
+  content:"";
+  flex:0 0 clamp(24px, 5vw, 60px);
+  height:1px;
+}
+.bar .wrap.can-scroll-r{
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 48px),transparent);
+  mask-image:linear-gradient(90deg,#000 calc(100% - 48px),transparent);
+}
+.bar .wrap.can-scroll-l{
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 40px);
+  mask-image:linear-gradient(90deg,transparent,#000 40px);
+}
+.bar .wrap.can-scroll-l.can-scroll-r{
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 40px,#000 calc(100% - 48px),transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 40px,#000 calc(100% - 48px),transparent);
+}
 .bar a{
   flex:none;
   white-space:nowrap;
@@ -793,6 +812,34 @@ footer a:hover{color:var(--accent)}
 @media(max-width:640px){
   footer .g{grid-template-columns:1fr}
 }
+
+/* PRECIOUS METAL SWITCHER & PIECE STAGE */
+.swatch-bar{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.sw-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--text);font:500 13.5px var(--sans,inherit);cursor:pointer;transition:border-color .2s,background .2s,color .2s}
+.sw-btn:hover{border-color:var(--text);color:#fff}
+.sw-btn[aria-pressed="true"]{border-color:var(--accent);background:rgba(200,241,53,.12);color:var(--accent)}
+.sw-dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex-shrink:0}
+.piece-stage{position:relative;border-radius:18px;overflow:hidden;background:rgba(255,255,255,.03);border:1px solid var(--line);box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.piece-stage-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:12px 16px;background:rgba(255,255,255,.05);border-bottom:1px solid var(--line)}
+.piece-title-pill{font:700 15px/1.25 var(--sans,inherit);color:var(--text);letter-spacing:.01em}
+.craft-badge{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);padding:4px 10px;border-radius:99px;background:rgba(200,241,53,.1);border:1px solid rgba(200,241,53,.25)}
+.piece-canvas{aspect-ratio:1/1;background:#ffffff;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.piece-canvas img{width:100%;height:100%;object-fit:contain;display:block;transition:opacity .25s ease}
+.piece-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+@media(max-width:680px){.piece-grid{grid-template-columns:1fr}}
+.piece-card{text-align:left;width:100%;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:15px;padding:16px 17px;cursor:pointer;color:inherit;font:inherit;display:flex;flex-direction:column;gap:6px;transition:border-color .2s,background .2s,transform .2s}
+.piece-card:hover{border-color:rgba(255,255,255,.35);transform:translateY(-1px)}
+.piece-card[aria-pressed="true"]{border-color:var(--accent);background:rgba(200,241,53,.07)}
+.piece-card h3{margin:0;font-size:16px;color:#ffffff}
+.piece-card p{margin:0;font-size:13px;line-height:1.5;color:var(--muted)}
+.shoot-trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:28px}
+@media(max-width:840px){.shoot-trio{grid-template-columns:1fr}}
+.shoot-shot{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.shoot-shot img{width:100%;height:220px;object-fit:contain;display:block;background:#0e0e11;padding:12px}
+.shoot-meta{padding:14px 16px;border-top:1px solid var(--line)}
+.shoot-meta strong{display:block;font-size:14px;color:#fff;margin-bottom:4px}
+.shoot-meta span{display:block;font-size:13px;line-height:1.5;color:var(--muted)}
+
 </style>
 </head>
 <body>
@@ -906,12 +953,12 @@ footer a:hover{color:var(--accent)}
       </div>
       <div class="media-col">
         <!-- INTERACTIVE BEFORE/AFTER SLIDER (ROSE GOLD CLUSTER RING) -->
-        <div class="ph ba" data-ba style="aspect-ratio:1200/900;max-width:100%;--x:50%;">
+        <div class="ph ba" data-ba style="aspect-ratio:819/1024;max-width:520px;margin:0 auto;--x:50%;">
           <div class="lay before">
-            <img src="/assets/agency_showcase/jewelry-rose-gold-cluster-ring-before.webp" alt="Schmuck Retusche: Roségold Diamantring vor der Bearbeitung mit Staub und Reflexionen" width="1200" height="900" loading="eager" decoding="async">
+            <img src="/assets/agency_showcase/jewelry-rose-gold-cluster-ring-before.webp" alt="Schmuck Retusche: Roségold Diamantring vor der Bearbeitung mit Staub und Reflexionen" width="819" height="1024" loading="eager" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block">
           </div>
           <div class="lay after">
-            <img src="/assets/agency_showcase/jewelry-rose-gold-cluster-ring-after.webp" alt="Schmuckretusche: Fertiger Roségold Diamantring nach digitaler Metallpolitur und Facetten-Schärfung" width="1200" height="900" loading="eager" decoding="async">
+            <img src="/assets/agency_showcase/jewelry-rose-gold-cluster-ring-after.webp" alt="Schmuckretusche: Fertiger Roségold Diamantring nach digitaler Metallpolitur und Facetten-Schärfung" width="819" height="1024" loading="eager" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block">
           </div>
           <span class="tag b">Vorher: Staub &amp; Rohfoto</span>
           <span class="tag a">Nachher: Makelloser Glanz</span>
@@ -947,12 +994,38 @@ footer a:hover{color:var(--accent)}
             </ul>
           </div>
           <div class="media-col">
-            <div class="ph" style="aspect-ratio:1200/900">
-              <img src="/assets/agency_showcase/white-gold-diamond-ring-photo-retouching.webp" alt="Weißgold Diamantring farbverbindlich retuschiert mit reinweißem Hintergrund und Schatten" width="1200" height="900" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block">
+            <div class="ph" style="aspect-ratio:1/1;background:#ffffff;border-radius:18px;overflow:hidden;border:1px solid var(--line)">
+              <img id="metalMainImg" src="/assets/agency_showcase/white-gold-diamond-ring-photo-retouching.webp" alt="Weißgold Diamantring farbverbindlich retuschiert mit reinweißem Hintergrund und Schatten" width="1000" height="1000" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block">
             </div>
-            <div class="cap">
-              <span>Perfekt abgestimmter Weißgoldton mit Rhodium-Glanz, Krappenschärfung und natürlichem Verlaufsschatten.</span>
-              <span>100% Farbverbindlich</span>
+            <div class="swatch-bar" id="metalSwatchBar" role="group" aria-label="Edelmetall-Varianten vergleichen">
+              <button type="button" class="sw-btn" aria-pressed="true"
+                data-src="/assets/agency_showcase/white-gold-diamond-ring-photo-retouching.webp"
+                data-alt="Weißgold und Platin Diamantring farbverbindlich kalibriert auf reinweißem Grund"
+                data-note="Weißgold / Platin: Rhodium-Neutralisation, Beseitigung warmer Studio-Gelbstiche.">
+                <span class="sw-dot" style="background:#e5e4e2"></span>Weißgold / Platin
+              </button>
+              <button type="button" class="sw-btn" aria-pressed="false"
+                data-src="/assets/agency_showcase/jewelry-engagement-ring-yellow-gold.webp"
+                data-alt="18K Gelbgold Diamantring farbverbindlich retuschiert mit sattem Edelmetall-Lüster"
+                data-note="18K Gelbgold: Edle, warme Sättigung ohne Grünstich oder unnatürliche Überstrahlung.">
+                <span class="sw-dot" style="background:#e6ca65"></span>18K Gelbgold
+              </button>
+              <button type="button" class="sw-btn" aria-pressed="false"
+                data-src="/assets/agency_showcase/jewelry-engagement-ring-rose-gold.webp"
+                data-alt="Roségold Diamantring farbverbindlich kalibriert mit harmonischem Kupfer-Gold-Glanz"
+                data-note="Roségold: Harmonischer Roségold-Farbton bei vollem Erhalt der Porenfreiheit.">
+                <span class="sw-dot" style="background:#b76e79"></span>Roségold
+              </button>
+              <button type="button" class="sw-btn" aria-pressed="false"
+                data-src="/assets/agency_showcase/jewelry-engagement-ring-before.webp"
+                data-alt="Unretuschierte RAW-Kameraaufnahme mit warmem Wolfram-Gelbstich und Wachsresten"
+                data-note="Kamera-RAW: Ungewollter Gelbstich durch warmes Studiolicht vor der Kalibrierung.">
+                <span class="sw-dot" style="background:#c2a868"></span>RAW (Gelbstich)
+              </button>
+            </div>
+            <div class="cap" style="margin-top:10px">
+              <span id="metalCapNote">Weißgold / Platin: Rhodium-Neutralisation, Beseitigung warmer Studio-Gelbstiche.</span>
+              <span>Klick zum Umschalten</span>
             </div>
           </div>
         </div>
@@ -985,12 +1058,12 @@ footer a:hover{color:var(--accent)}
       </div>
       <div class="media-col">
         <!-- INTERACTIVE BEFORE/AFTER SLIDER (EMERALD & DIAMOND) -->
-        <div class="ph ba" data-ba style="aspect-ratio:1200/900;max-width:100%;--x:50%;">
+        <div class="ph ba" data-ba style="aspect-ratio:1200/900;max-width:560px;margin:0 auto;--x:50%;">
           <div class="lay before">
-            <img src="/assets/agency_showcase/jewelry-emerald-diamond-ring-before.webp" alt="Smaragd- und Diamantring vor der Retusche mit milchigen Reflexionen" width="1200" height="900" loading="lazy" decoding="async">
+            <img src="/assets/agency_showcase/jewelry-emerald-diamond-ring-before.webp" alt="Smaragd- und Diamantring vor der Retusche mit milchigen Reflexionen" width="1200" height="900" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block">
           </div>
           <div class="lay after">
-            <img src="/assets/agency_showcase/jewelry-emerald-diamond-ring-after.webp" alt="Smaragd- und Diamantring nach der High-End Schmuckretusche mit klarem Grün und funkelnden Diamanten" width="1200" height="900" loading="lazy" decoding="async">
+            <img src="/assets/agency_showcase/jewelry-emerald-diamond-ring-after.webp" alt="Smaragd- und Diamantring nach der High-End Schmuckretusche mit klarem Grün und funkelnden Diamanten" width="1200" height="900" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block">
           </div>
           <span class="tag b">Vorher: Milchig &amp; Matt</span>
           <span class="tag a">Nachher: Kristallklar &amp; Brillant</span>
@@ -1006,39 +1079,90 @@ footer a:hover{color:var(--accent)}
   </section>
 
   <!-- SEKTION 04: SCHMUCK-KATEGORIEN -->
-  <section class="band" id="kategorien">
+  <section class="dep flip center-v" id="kategorien">
     <div class="wrap">
-      <div class="sec-head center">
-        <span class="sec-tag">Maßgeschneiderte Workflows</span>
+      <div class="media-col square-stage">
+        <div class="piece-stage">
+          <div class="piece-stage-bar">
+            <span class="piece-title-pill" id="pieceTitlePill">Solitär- &amp; Trauringe</span>
+            <span class="craft-badge" id="pieceBadge">Krappen &amp; #FFFFFF Freisteller</span>
+          </div>
+          <div class="piece-canvas" id="pieceCanvas">
+            <img id="pieceMainImg" src="/assets/agency_showcase/bridal-diamond-ring-set-packshot.webp" alt="18K Gelbgold Solitär-Diamantring mit Memoire-Trauring auf reinweißem Hintergrund" width="1024" height="1024" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="cap" style="margin-top:10px">
+          <span id="pieceCap">Messerscharf geschliffene Krappen, polierte Ringschienen innen &amp; außen und 3D-Bodenkontaktschatten.</span>
+          <span>Interaktive Auswahl</span>
+        </div>
+      </div>
+
+      <div class="tx-col" style="flex:1">
+        <span class="sec-tag">Maßgeschneiderte Workflows &middot; Sektion 04</span>
         <h2>Schmuckretusche abgestimmt auf jedes Schmuckstück.</h2>
-        <p>Jede Schmuckart stellt individuelle physikalische Anforderungen an Lichtführung, Freistellung und Schattenwurf.</p>
-      </div>
+        <p class="d">Eine filigrane Ankerkette, ein Ohrringpaar und lose Farbedelsteine verhalten sich im Studio völlig unterschiedlich. Wählen Sie eine Kategorie, um unsere Retusche zu inspizieren:</p>
 
-      <div class="card-grid">
-        <div class="card">
-          <h3>Solitär- &amp; Trauringe</h3>
-          <p>Präzise Ringschienenspiegelung, Krappenpolitur, Gravurbereinigung und exakter 3D-Bodenkontaktschatten.</p>
-        </div>
-        <div class="card">
-          <h3>Ohrringe &amp; Creolen</h3>
-          <p>Paarweise Symmetrie-Ausrichtung, Beseitigung von Scharnierfett und saubere Stecker-Freistellung.</p>
-        </div>
-        <div class="card">
-          <h3>Halsketten &amp; Colliers</h3>
-          <p>Gliedersäuberung, Anhängerzentrierung und makellose Kettenglieder ohne unschöne Knicke im Verlauf.</p>
-        </div>
-        <div class="card">
-          <h3>Armreifen &amp; Tennisarmbänder</h3>
-          <p>Rhythmische Pavé-Ausrichtung, Glanzverlauf entlang des Handgelenkbogens und Schließenpolitur.</p>
-        </div>
-      </div>
+        <div class="piece-grid" role="group" aria-label="Schmuckretusche nach Kategorie">
+          <button type="button" class="piece-card" aria-pressed="true"
+            data-src="/assets/agency_showcase/bridal-diamond-ring-set-packshot.webp"
+            data-badge="Krappen &amp; #FFFFFF Freisteller"
+            data-pill="Solitär- &amp; Trauringe"
+            data-alt="18K Gelbgold Solitär-Diamantring mit Memoire-Trauring auf reinweißem Hintergrund"
+            data-cap="Messerscharf geschliffene Krappen, polierte Ringschienen innen &amp; außen und 3D-Bodenkontaktschatten.">
+            <h3>Solitär- &amp; Trauringe</h3>
+            <p>Ringschienenspiegelung, Krappenpolitur, Gravurbereinigung &amp; Fokus-Stacking.</p>
+          </button>
 
-      <div class="media-card" style="margin-top:24px;border-radius:18px;overflow:hidden;border:1px solid var(--line);box-shadow:0 24px 60px rgba(0,0,0,.5);aspect-ratio:1200/600">
-        <img src="/assets/agency_showcase/bridal-diamond-ring-set-packshot.webp" alt="Brautschmuck Diamantring-Set auf reinweißem Grund mit eleganter Spiegelung" width="1200" height="600" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block">
-      </div>
-      <div class="cap" style="margin-top:10px">
-        <span>Katalog-Packshot eines Brautschmuck-Sets: Perfekt harmonierende Goldtöne, synchronisierte Lichteinfälle und reinweißer Hintergrund.</span>
-        <span>E-Commerce &amp; Lookbook</span>
+          <button type="button" class="piece-card" aria-pressed="false"
+            data-src="/assets/agency_showcase/jewelry-diamond-pearl-earrings.webp"
+            data-badge="Symmetrie &amp; Glanz"
+            data-pill="Ohrringe &amp; Creolen"
+            data-alt="Symmetrisches Paar 18K Gelbgold Pavé-Diamant Perlenohrringe auf reinweißem Grund"
+            data-cap="Perfekt ausgerichtete Links-Rechts-Symmetrie, identisches Pavé-Lichtspiel und saubere Stecker.">
+            <h3>Ohrringe &amp; Creolen</h3>
+            <p>Paarweise Symmetrie-Ausrichtung, Beseitigung von Scharnierfett &amp; Stecker-Freistellung.</p>
+          </button>
+
+          <button type="button" class="piece-card" aria-pressed="false"
+            data-src="/assets/agency_showcase/jewelry-emerald-pendant-necklace.webp"
+            data-badge="Knotenfreie Kettenglieder"
+            data-pill="Halsketten &amp; Colliers"
+            data-alt="18K Gold Feingliederkette mit Smaragd-Diamant-Anhänger isoliert auf Weiß"
+            data-cap="Jedes einzelne Kettenglied manuell freigestellt, Anhänger zentriert mit feurigem Smaragdgrün.">
+            <h3>Halsketten &amp; Colliers</h3>
+            <p>Gliedersäuberung, Anhängerzentrierung &amp; makellose Kettenglieder ohne Knicke.</p>
+          </button>
+
+          <button type="button" class="piece-card" aria-pressed="false"
+            data-src="/assets/agency_showcase/panther-bangles-white-cutout.webp"
+            data-badge="Bangle-Geometrie &amp; Schließen"
+            data-pill="Armreifen &amp; Tennisarmbänder"
+            data-alt="Weißgold, Gelbgold und Roségold Pavé-Diamantarmreifen sauber freigestellt"
+            data-cap="Glanzverlauf entlang des Handgelenkbogens, Schließenpolitur und Pavé-Ausrichtung.">
+            <h3>Armreifen &amp; Bangles</h3>
+            <p>Rhythmische Pavé-Ausrichtung, Glanzverlauf entlang des Bogens &amp; Schließenpolitur.</p>
+          </button>
+
+          <button type="button" class="piece-card" aria-pressed="false"
+            data-src="/assets/agency_showcase/jewelry-pearls-loose-gemstones.webp"
+            data-badge="Orient &amp; Facettentiefe"
+            data-pill="Perlen &amp; Lose Edelsteine"
+            data-alt="Akoya Zuchtperlenstrang neben facettiertem Ceylon-Saphir und Rubin auf reinweißem Grund"
+            data-cap="Gleichmäßiger Perlenschmelz ohne Weichzeichner; Saphir- und Rubinfacetten gestochen scharf.">
+            <h3>Perlen &amp; Edelsteine</h3>
+            <p>Farbstein-Kalibrierung, Perlenglanz &amp; makellose Bohrungslöcher bei Lossteinen.</p>
+          </button>
+
+          <button type="button" class="piece-card" aria-pressed="false"
+            data-src="/assets/agency_showcase/gold-earring-editorial-retouch.webp"
+            data-badge="Echte Hautporen &amp; Goldglanz"
+            data-pill="Schmuck am Model"
+            data-alt="Editorial Beauty Porträt mit skulpturalem 18K Goldohrring und natürlicher Hauttextur"
+            data-cap="16-Bit Hand-Dodge &amp; Burn bewahrt echte Hautporen bei lebendigem Goldglanz.">
+            <h3>Schmuck am Model</h3>
+            <p>High-End Hautretusche mit echten Poren, sauberen Haarsträhnen &amp; strahlendem Schmuck.</p>
+          </button>
+        </div>
       </div>
     </div>
   </section>
@@ -1071,20 +1195,34 @@ footer a:hover{color:var(--accent)}
       </div>
       <div class="media-col">
         <!-- INTERACTIVE BEFORE/AFTER SLIDER (WATCH CRYSTAL GLARE) -->
-        <div class="ph ba" data-ba style="aspect-ratio:1200/900;max-width:100%;--x:50%;">
+        <div class="ph ba" id="watchBa" data-ba style="aspect-ratio:4/5;max-width:500px;margin:0 auto;--x:50%;">
           <div class="lay before">
-            <img src="/assets/agency_showcase/watch-crystal-glare-before.webp" alt="Uhren Bildbearbeitung: Luxusuhr vor der Retusche mit starker Glasreflexion auf Zifferblatt" width="1200" height="900" loading="lazy" decoding="async">
+            <img id="watchBeforeImg" src="/assets/agency_showcase/watch-crystal-glare-before.webp" alt="Uhren Bildbearbeitung: Luxusuhr vor der Retusche mit starker Glasreflexion auf Zifferblatt" width="800" height="1000" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block">
           </div>
           <div class="lay after">
-            <img src="/assets/agency_showcase/watch-crystal-glare-after.webp" alt="Uhren Retusche: Fertiges Zifferblatt ohne Reflexion mit glasklar lesbaren Zeigern" width="1200" height="900" loading="lazy" decoding="async">
+            <img id="watchAfterImg" src="/assets/agency_showcase/watch-crystal-glare-after.webp" alt="Uhren Retusche: Fertiges Zifferblatt ohne Reflexion mit glasklar lesbaren Zeigern" width="800" height="1000" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block">
           </div>
           <span class="tag b">Vorher: Glasreflexion</span>
           <span class="tag a">Nachher: Glasklar &amp; Scharf</span>
           <div class="ba-bar"><div class="ba-handle">&#x2194;</div></div>
           <input type="range" min="0" max="100" value="50" aria-label="Schieben für Vorher-Nachher Vergleich der Uhren-Entspiegelung">
         </div>
-        <div class="cap">
-          <span>Interaktiver Vergleich: Chronographen-Zifferblatt &mdash; Beseitigung weißer Softbox-Streifen bei 100% Erhalt von guillochierten Subdials und Lünette.</span>
+        <div class="swatch-bar" id="watchSwitchBar" role="group" aria-label="Uhren-Fallstudie auswählen" style="margin-top:12px">
+          <button type="button" class="sw-btn" aria-pressed="true"
+            data-before="/assets/agency_showcase/watch-crystal-glare-before.webp"
+            data-after="/assets/agency_showcase/watch-crystal-glare-after.webp"
+            data-note="Interaktiver Vergleich: Edelstahl Chronograph &mdash; Beseitigung weißer Softbox-Streifen bei 100% Erhalt von guillochierten Subdials und Lünette.">
+            <span>Edelstahl Chronograph (Entspiegelung)</span>
+          </button>
+          <button type="button" class="sw-btn" aria-pressed="false"
+            data-before="/assets/agency_showcase/two-tone-watch-dial-before.webp"
+            data-after="/assets/agency_showcase/two-tone-watch-dial-after.webp"
+            data-note="Interaktiver Vergleich: Bicolor-Uhr &mdash; Bereinigung von Linsenspiegelungen und Wiederherstellung des edlen Sonnenschliffs auf dem Zifferblatt.">
+            <span>Bicolor Zifferblatt (Sonnenschliff)</span>
+          </button>
+        </div>
+        <div class="cap" style="margin-top:8px">
+          <span id="watchCapNote">Interaktiver Vergleich: Edelstahl Chronograph &mdash; Beseitigung weißer Softbox-Streifen bei 100% Erhalt von guillochierten Subdials und Lünette.</span>
           <span>Schieberegler ziehen &harr;</span>
         </div>
       </div>
@@ -1095,26 +1233,32 @@ footer a:hover{color:var(--accent)}
   <section class="band" id="fotografie">
     <div class="wrap">
       <div class="sec-head center">
-        <span class="sec-tag">Effizienter Workflow</span>
+        <span class="sec-tag">Studio &amp; Fotografen-Leitfaden &middot; Sektion 06</span>
         <h2>So fotografieren Sie Schmuck für schnellere &amp; schärfere Retusche.</h2>
-        <p>Kleine Vorbereitungen beim Shooting sparen Zeit und garantieren maximale Schärfe in der Postproduktion.</p>
+        <p>Saubere Rohdaten bedeuten schnellere Lieferzeiten und geringere Stückkosten. Befolgen Sie diese 3 visuellen Schritte für Schmuck-Packshots und Chrono24-Listings:</p>
       </div>
 
-      <div class="card-grid">
-        <div class="card">
-          <div style="font-size:24px;margin-bottom:10px">&#128080;</div>
-          <h3>Fokus-Stacking nutzen</h3>
-          <p>Fotografieren Sie Schmuckstücke mit 3–8 Fokus-Schichten (Focus Stacking). Wir fügen die Ebenen nahtlos zusammen, sodass der Ring von der vorderen Ringschiene bis zum hinteren Stein durchgehend gestochen scharf ist.</p>
+      <div class="shoot-trio" aria-label="Drei Schritte für Makro-Schmuckaufnahmen">
+        <div class="shoot-shot">
+          <img src="/assets/agency_showcase/jewelry-shoot-step1-setup.svg" alt="Schritt 1 Studioaufbau: Lichtzelt, schwarze Negativaufheller-Karten und stabiles Makrostativ vor Diamantring" width="600" height="750" loading="lazy" decoding="async">
+          <div class="shoot-meta">
+            <strong>Schritt 1 &middot; Lichtzelt &amp; Negativ-Flags</strong>
+            <span>Fixieren Sie die Stativhöhe im Lichtzelt. Schwarze Kärtchen definieren kontrastreiche Metallkanten.</span>
+          </div>
         </div>
-        <div class="card">
-          <div style="font-size:24px;margin-bottom:10px">&#9889;</div>
-          <h3>Diffuses Licht &amp; Polarisationsfilter</h3>
-          <p>Nutzen Sie Lichtzelte oder Diffusoren, um harte Spiegelungen zu vermeiden. Ein Polfilter hilft dabei, Lichtflecken auf Zifferblättern und facettierten Steinen zu minimieren.</p>
+        <div class="shoot-shot">
+          <img src="/assets/agency_showcase/jewelry-shoot-step2-stack.svg" alt="Schritt 2 Fokus-Stacking Diagramm: F1 vordere Krappen, F2 Solitärstein und F3 hintere Ringschiene kombiniert" width="600" height="750" loading="lazy" decoding="async">
+          <div class="shoot-meta">
+            <strong>Schritt 2 &middot; Fokus-Stacking Ebenen</strong>
+            <span>3 bis 8 Aufnahmen mit versetztem Fokus (F1 Krappen, F2 Stein, F3 Schiene) für durchgehende Schärfe.</span>
+          </div>
         </div>
-        <div class="card">
-          <div style="font-size:24px;margin-bottom:10px">&#128396;</div>
-          <h3>Handschuhe &amp; Blasebalg</h3>
-          <p>Reinigen Sie das Schmuckstück vor der Aufnahme mit Isopropanol und einem Blasebalg. Je weniger Fingerabdrücke auf dem Rohfoto sind, desto natürlicher bleibt die Textur nach der Retusche.</p>
+        <div class="shoot-shot">
+          <img src="/assets/agency_showcase/jewelry-shoot-step3-ref.svg" alt="Schritt 3 Zeiger- und Farbreferenz: Uhrenzeiger auf 10 nach 10 ausgerichtet neben 18 Prozent Graukarte" width="600" height="750" loading="lazy" decoding="async">
+          <div class="shoot-meta">
+            <strong>Schritt 3 &middot; Referenz &amp; 10:10 Zeiger</strong>
+            <span>Fotografieren Sie Uhren mit Zeigern auf 10:10 und nutzen Sie eine 18% Graukarte für exakten Weißabgleich.</span>
+          </div>
         </div>
       </div>
     </div>
@@ -1369,28 +1513,129 @@ footer a:hover{color:var(--accent)}
     rng.addEventListener('change', updateVal);
   });
 
-  // 2. Sticky Subnav Active Pill Sync
+  // 2. Sticky Subnav Active Pill Sync with Auto-Scroll & Mask (Never cut off)
   var bar = document.getElementById('bar');
   if (bar) {
     var navLinks = Array.from(bar.querySelectorAll('a'));
     var sections = navLinks.map(function(a){
       return document.querySelector(a.getAttribute('href'));
     }).filter(Boolean);
+    var rm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function syncBarMask(){
+      var maxScroll = bar.scrollWidth - bar.clientWidth;
+      bar.classList.toggle('can-scroll-l', bar.scrollLeft > 6);
+      bar.classList.toggle('can-scroll-r', maxScroll > 2 && bar.scrollLeft < maxScroll - 4);
+    }
+
     function syncActiveBar(){
       var y = innerHeight * 0.42;
       var cur = sections[0] ? sections[0].id : '';
       sections.forEach(function(s){
         if (s && s.getBoundingClientRect().top < y) cur = s.id;
       });
-      navLinks.forEach(function(a){
-        a.classList.toggle('on', a.getAttribute('href') === '#' + cur);
+      var hasOverflow = bar.scrollWidth > bar.clientWidth + 2;
+      if (!hasOverflow && bar.scrollLeft !== 0) {
+        bar.scrollLeft = 0;
+      }
+      navLinks.forEach(function(a, idx){
+        var on = a.getAttribute('href') === '#' + cur;
+        a.classList.toggle('on', on);
+        if (on && hasOverflow) {
+          var pad = 24;
+          var viewLeft = bar.scrollLeft;
+          var viewRight = viewLeft + bar.clientWidth;
+          var aLeft = a.offsetLeft;
+          var aRight = aLeft + a.offsetWidth;
+          if (idx === 0) {
+            bar.scrollTo({ left: 0, behavior: rm ? 'auto' : 'smooth' });
+          } else if (aLeft < viewLeft + pad || aRight > viewRight - pad) {
+            var left = Math.max(0, aLeft - bar.clientWidth / 2 + a.offsetWidth / 2);
+            bar.scrollTo({ left: left, behavior: rm ? 'auto' : 'smooth' });
+          }
+        }
       });
+      syncBarMask();
     }
+    bar.addEventListener('scroll', syncBarMask, { passive: true });
     addEventListener('scroll', syncActiveBar, { passive: true });
+    addEventListener('resize', function(){ syncActiveBar(); syncBarMask(); }, { passive: true });
     syncActiveBar();
   }
 })();
 </script>
 <script src="/assets/site-nav.js" defer></script>
+<script>
+  // Metal Swatch Switcher
+  (function(){
+    var bar = document.getElementById('metalSwatchBar');
+    var img = document.getElementById('metalMainImg');
+    var note = document.getElementById('metalCapNote');
+    if (!bar || !img) return;
+    var btns = bar.querySelectorAll('.sw-btn');
+    btns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        btns.forEach(function(b){ b.setAttribute('aria-pressed', 'false'); });
+        btn.setAttribute('aria-pressed', 'true');
+        var src = btn.getAttribute('data-src');
+        var alt = btn.getAttribute('data-alt');
+        var n = btn.getAttribute('data-note');
+        if (src) img.src = src;
+        if (alt) img.alt = alt;
+        if (note && n) note.textContent = n;
+      });
+    });
+  })();
+
+  // Piece Category Switcher
+  (function(){
+    var grid = document.querySelector('.piece-grid');
+    var img = document.getElementById('pieceMainImg');
+    var pill = document.getElementById('pieceTitlePill');
+    var badge = document.getElementById('pieceBadge');
+    var cap = document.getElementById('pieceCap');
+    if (!grid || !img) return;
+    var cards = grid.querySelectorAll('.piece-card');
+    cards.forEach(function(card){
+      card.addEventListener('click', function(){
+        cards.forEach(function(c){ c.setAttribute('aria-pressed', 'false'); });
+        card.setAttribute('aria-pressed', 'true');
+        var src = card.getAttribute('data-src');
+        var alt = card.getAttribute('data-alt');
+        var p = card.getAttribute('data-pill');
+        var b = card.getAttribute('data-badge');
+        var cText = card.getAttribute('data-cap');
+        if (src) img.src = src;
+        if (alt) img.alt = alt;
+        if (pill && p) pill.textContent = p;
+        if (badge && b) badge.textContent = b;
+        if (cap && cText) cap.textContent = cText;
+      });
+    });
+  })();
+
+  // Watch Switcher
+  (function(){
+    var bar = document.getElementById('watchSwitchBar');
+    var bImg = document.getElementById('watchBeforeImg');
+    var aImg = document.getElementById('watchAfterImg');
+    var note = document.getElementById('watchCapNote');
+    if (!bar || !bImg || !aImg) return;
+    var btns = bar.querySelectorAll('.sw-btn');
+    btns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        btns.forEach(function(b){ b.setAttribute('aria-pressed', 'false'); });
+        btn.setAttribute('aria-pressed', 'true');
+        var bSrc = btn.getAttribute('data-before');
+        var aSrc = btn.getAttribute('data-after');
+        var n = btn.getAttribute('data-note');
+        if (bSrc) bImg.src = bSrc;
+        if (aSrc) aImg.src = aSrc;
+        if (note && n) note.textContent = n;
+      });
+    });
+  })();
+
+</script>
 </body>
 </html>
