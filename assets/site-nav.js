@@ -16,6 +16,19 @@
       btn.setAttribute('aria-expanded', v ? 'true' : 'false');
     }
 
+    btn.addEventListener('click', function(e){
+      if (!drop.classList.contains('open')) {
+        e.preventDefault();
+        setOpen(true);
+      }
+    });
+
+    document.addEventListener('click', function(e){
+      if (!drop.contains(e.target)) {
+        setOpen(false);
+      }
+    });
+
     drop.addEventListener('mouseenter', function(){ setOpen(true); });
     drop.addEventListener('mouseleave', function(){ setOpen(false); });
     drop.addEventListener('focusin', function(){ setOpen(true); });
