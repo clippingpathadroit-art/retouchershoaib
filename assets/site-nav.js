@@ -70,7 +70,7 @@
 
     if (isDe) {
       drawer.innerHTML =
-        '<div class="mob-panel notranslate" role="dialog" aria-modal="true" aria-label="Webseitennavigation">' +
+        '<div class="mob-panel notranslate" translate="no" role="dialog" aria-modal="true" aria-label="Webseitennavigation">' +
           '<div class="mob-top">' +
             '<span class="mob-title">Retoucher Shoaib<sup>&reg;</sup></span>' +
             '<button class="mob-close" id="mobClose" type="button" aria-label="Menü schließen">&times;</button>' +
@@ -90,7 +90,7 @@
             '<a class="mob-link" href="/de/#preise">Preise (€)</a>' +
             '<a class="mob-link" href="/de/#faq">Fragen &amp; Antworten</a>' +
             '<a class="mob-link" href="/contact?ref=de">Kontakt</a>' +
-            '<a class="mob-link" href="/" title="Englische Version der Website">English Website (EN)</a>' +
+            '' +
           '</div>' +
           '<div class="mob-ctas">' +
             '<a class="mob-cta-p" href="/contact?ref=de">Kostenlose Testbearbeitung anfordern &rarr;</a>' +

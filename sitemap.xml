@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://retouchershoaib.com/</loc>
     <lastmod>2026-11-11</lastmod>
@@ -47,30 +47,213 @@
     <lastmod>2026-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/client_logos/motionfashion.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/client_logos/aristocracy.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/client_logos/pilotfashion.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/client_logos/propercloth.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/client_logos/meshki.avif</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/ecommerce-eyewear-glare-removal-before.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/ecommerce-eyewear-glare-removal-after.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/aristocracy-leather-goods-gift-set-packshot-retouching.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/jewelry-rose-gold-cluster-ring-before.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/jewelry-rose-gold-cluster-ring-after.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/fashion-ghost-blazer-before.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/fashion-ghost-blazer-after.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/beauty-portrait-retouching-before.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/beauty-portrait-retouching-after.webp</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://retouchershoaib.com/de/produktfotos-bearbeiten-lassen</loc>
     <lastmod>2026-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/ecommerce-eyewear-glare-removal-before.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/ecommerce-eyewear-glare-removal-after.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/ecom-floral-handbag-mirror-before.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/ecom-floral-handbag-mirror-after.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/patent-leather-oxford-shoes-retouching.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/ecom-hardware-clipping-path-packshot-retouching.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/ecom-clipping-led-lightbar-packshot.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/aristocracy-minimalist-cardholder-packshot-retouching.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/luxury-perfume-bottle-packshot-retouching.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/ecommerce-bag-variant-cobalt.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/ecommerce-bag-variant-terracotta.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/ecommerce-bag-variant-slate.webp</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://retouchershoaib.com/de/schmuckretusche</loc>
     <lastmod>2026-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/jewelry-rose-gold-cluster-ring-before.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/jewelry-rose-gold-cluster-ring-after.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/white-gold-diamond-ring-photo-retouching.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/jewelry-emerald-diamond-ring-before.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/jewelry-emerald-diamond-ring-after.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/bridal-diamond-ring-set-packshot.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/watch-crystal-glare-before.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/watch-crystal-glare-after.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/jewelry-shoot-step1-setup.svg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/jewelry-shoot-step2-stack.svg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/jewelry-shoot-step3-ref.svg</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://retouchershoaib.com/de/geisterpuppe-mode-retusche</loc>
     <lastmod>2026-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/fashion-ghost-blazer-before.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/fashion-ghost-blazer-after.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/demo-ghost-mannequin-chiffon-dress.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/shoot-guide-step1-front.svg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/shoot-guide-step2-neck.svg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/shoot-guide-step3-join.svg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/fashion-blue-activewear-matched-before.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/fashion-blue-activewear-matched-after.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/lookbook-lilac-plaid-dress-retouching.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/periwinkle-organza-puff-sleeve-dress-portrait-retouching.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/lookbook-polka-dot-midi-dress-retouching.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/lookbook-yellow-plaid-dress-retouching.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/apparel-knitwear-color-swatch-retouching.webp</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://retouchershoaib.com/de/beauty-retusche</loc>
     <lastmod>2026-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/beauty-portrait-retouching-before.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/beauty-portrait-retouching-after.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/studio-model-retouching-before.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/studio-model-retouching-after.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/portrait-beauty-flyaway-before.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/portrait-beauty-flyaway-after.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/corporate-headshot-retouching-before.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/corporate-headshot-retouching-after.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/warm-studio-beauty-portrait-retouching.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/melanin-skin-tone-accuracy-portrait.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/crimson-editorial-beauty-portrait-retouching.webp</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://retouchershoaib.com/work</loc>
