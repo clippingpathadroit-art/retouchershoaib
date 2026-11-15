@@ -17,10 +17,8 @@
     }
 
     btn.addEventListener('click', function(e){
-      if (!drop.classList.contains('open')) {
-        e.preventDefault();
-        setOpen(true);
-      }
+      e.preventDefault();
+      setOpen(!drop.classList.contains('open'));
     });
 
     document.addEventListener('click', function(e){
@@ -72,7 +70,7 @@
 
     if (isDe) {
       drawer.innerHTML =
-        '<div class="mob-panel" role="dialog" aria-modal="true" aria-label="Webseitennavigation">' +
+        '<div class="mob-panel notranslate" role="dialog" aria-modal="true" aria-label="Webseitennavigation">' +
           '<div class="mob-top">' +
             '<span class="mob-title">Retoucher Shoaib<sup>&reg;</sup></span>' +
             '<button class="mob-close" id="mobClose" type="button" aria-label="Menü schließen">&times;</button>' +
@@ -124,6 +122,7 @@
             '<a class="mob-link" href="/work">Work</a>' +
             '<a class="mob-link" href="/feed">Feed</a>' +
             '<a class="mob-link" href="/contact">Contact</a>' +
+            '<a class="mob-link" href="/de/" title="Deutsche Version der Website (DACH)">Deutsch (DACH) &rarr;</a>' +
           '</div>' +
           '<div class="mob-ctas">' +
             '<a class="mob-cta-p" href="/contact?service=ecom">Start Free 24h Test Edit &rarr;</a>' +

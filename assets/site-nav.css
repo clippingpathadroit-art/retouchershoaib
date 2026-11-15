@@ -125,6 +125,33 @@
   margin:4px 8px;
 }
 
+/* Language Toggle Pill */
+.lang-toggle{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:12.5px;
+  font-weight:600;
+  letter-spacing:.04em;
+  padding:4px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);
+  margin-left:4px;
+}
+.lang-toggle a{
+  color:var(--muted, #8b8b86);
+  transition:color .2s;
+  text-decoration:none;
+}
+.lang-toggle a:hover{
+  color:var(--text, #f1f1ec);
+}
+.lang-toggle span.active{
+  color:var(--accent, #c8f135);
+  font-weight:700;
+}
+
 /* Mobile Menu Toggle Button */
 .nav-mob-btn{
   display:none;
