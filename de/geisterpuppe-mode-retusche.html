@@ -836,15 +836,145 @@ footer a:hover{color:var(--accent)}
 .shoot-meta{padding:14px 16px;border-top:1px solid var(--line)}
 .shoot-meta strong{display:block;font-size:14px;color:#fff;margin-bottom:4px}
 .shoot-meta span{display:block;font-size:13px;line-height:1.5;color:var(--muted)}
-.lookbook-band{width:100%;margin-top:32px;padding-top:28px;border-top:1px solid var(--line)}
-.lookbook-head{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:6px 18px;margin-bottom:16px}
-.lookbook-head strong{font:700 13px/1.2 var(--sans,inherit);text-transform:uppercase;letter-spacing:.08em;color:var(--accent)}
-.lookbook-head span{font-size:14px;color:var(--muted)}
-.look-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
-@media(max-width:768px){.look-strip{grid-template-columns:repeat(2,1fr)}}
-.look-tile{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#ffffff}
-.look-tile img{width:100%;height:auto;aspect-ratio:933/1400;object-fit:cover;display:block}
-.look-cap{background:rgba(255,255,255,.05);padding:9px 10px;font-size:13px;font-weight:500;color:#eaebe4;text-align:center;border-top:1px solid var(--line)}
+.lookbook-band{width:100%}
+.lookbook-head{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px 24px;margin-bottom:24px}
+.look-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+@media(max-width:960px){.look-strip{grid-template-columns:repeat(2,1fr);gap:14px}}
+@media(max-width:480px){.look-strip{grid-template-columns:1fr;gap:12px}}
+.look-tile{
+  border-radius:16px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.09);
+  background:#101014;
+  box-shadow:0 12px 30px rgba(0,0,0,.35);
+  display:flex;
+  flex-direction:column;
+  transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.look-tile:hover{
+  transform:translateY(-5px);
+  border-color:rgba(200,241,53,.35);
+  box-shadow:0 20px 48px rgba(0,0,0,.6);
+}
+.look-tile-img{
+  position:relative;
+  width:100%;
+  aspect-ratio:933/1400;
+  background:#ffffff;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.look-tile-img img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .4s cubic-bezier(.2,.8,.2,1);
+}
+.look-tile:hover .look-tile-img img{
+  transform:scale(1.04);
+}
+.look-tile-info{
+  padding:14px 16px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  background:rgba(255,255,255,.02);
+  border-top:1px solid rgba(255,255,255,.06);
+}
+.look-tile-badge{
+  font:700 11.5px/1.2 var(--sans,inherit);
+  color:var(--accent);
+  text-transform:uppercase;
+  letter-spacing:.07em;
+}
+.look-tile-title{
+  font:600 14.5px/1.35 var(--display);
+  color:var(--text);
+}
+
+/* FARBTREUE STAGE & SWATCHES */
+.farb-stage{
+  background:#0e0e12;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:22px;
+  padding:clamp(16px,3vw,24px);
+  box-shadow:0 30px 80px rgba(0,0,0,.5);
+  position:relative;
+}
+.farb-stage-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.farb-canvas{
+  aspect-ratio:1/1;
+  width:100%;
+  max-width:520px;
+  margin:0 auto;
+  background:#ffffff;
+  border-radius:16px;
+  overflow:hidden;
+  border:1px solid rgba(0,0,0,.08);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.farb-canvas img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+}
+.farb-swatches-box{
+  margin-top:16px;
+  background:#15151a;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;
+  padding:14px 16px;
+}
+.farb-swatches-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:10px;
+}
+.farb-swatches-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+}
+@media(max-width:540px){
+  .farb-stage-head{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
+  }
+  .farb-swatches-head{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:4px;
+  }
+  .farb-swatches-grid{
+    grid-template-columns:1fr;
+  }
+}
+.farb-swatch-item{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:rgba(255,255,255,.03);
+  padding:8px 10px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.06);
+}
 
 </style>
 </head>
@@ -1007,24 +1137,8 @@ footer a:hover{color:var(--accent)}
   </section>
 
   <!-- SEKTION 03: APPAREL KATEGORIEN -->
-  <section class="dep flip center-v" id="kategorien">
+  <section class="dep center-v" id="kategorien">
     <div class="wrap">
-      <div class="media-col square-stage">
-        <div class="garment-stage">
-          <div class="garment-stage-bar">
-            <span class="garment-title-pill" id="garmentTitlePill">Kleider &amp; Chiffon</span>
-            <span class="craft-badge" id="garmentBadge">Zarte Transparenz &amp; Saum</span>
-          </div>
-          <div class="garment-canvas" id="garmentCanvas">
-            <img id="garmentMainImg" src="/assets/agency_showcase/demo-ghost-mannequin-chiffon-dress.webp" alt="Salbeigrünes Chiffonkleid mit transparenter Ärmelstruktur und symmetrischem Saum" width="1000" height="1000" loading="lazy" decoding="async">
-          </div>
-        </div>
-        <div class="cap" style="margin-top:10px">
-          <span id="garmentCap">Fließende Chiffon-Ärmel mit transparentem Durchschein-Effekt und ausgewogenem Saumverlauf.</span>
-          <span>Interaktive Auswahl</span>
-        </div>
-      </div>
-
       <div class="tx-col" style="flex:1">
         <span class="sec-tag">Das gesamte Sortiment &middot; Sektion 03</span>
         <h2>Geisterpuppen-Bearbeitung für alle Textil-Kategorien.</h2>
@@ -1032,13 +1146,13 @@ footer a:hover{color:var(--accent)}
 
         <div class="garment-grid" role="group" aria-label="Geisterpuppen-Bearbeitung nach Kategorie">
           <button type="button" class="gar-card" aria-pressed="true"
-            data-src="/assets/agency_showcase/demo-ghost-mannequin-chiffon-dress.webp"
-            data-badge="Zarte Transparenz &amp; Saum"
-            data-pill="Kleider &amp; Chiffon"
-            data-alt="Salbeigrünes Chiffonkleid mit transparenter Ärmelstruktur und symmetrischem Saum"
-            data-cap="Fließende Chiffon-Ärmel mit transparentem Durchschein-Effekt und ausgewogenem Saumverlauf.">
-            <h3>Kleider &amp; Röcke</h3>
-            <p>Taillenfurche, Volants, transparente Organza-Ärmel &amp; ausbalancierte Säume.</p>
+            data-src="/assets/agency_showcase/demo-ghost-mannequin-denim-jeans.webp"
+            data-badge="3D-Innenbund &amp; Waschung"
+            data-pill="Hosen, Jeans &amp; Denim"
+            data-alt="Denim Jeans mit 3D-Bundmontage, geradem Hosenbein und erhaltenem Waschungs-Charakter"
+            data-cap="Hosenbund innen dreidimensional montiert, Beinlängen angeglichen und Schrittfalten geglättet.">
+            <h3>Hosen &amp; Jeans</h3>
+            <p>3D-Innenbundmontage, Beinlängenausgleich &amp; Erhalt charakteristischer Waschungen.</p>
           </button>
 
           <button type="button" class="gar-card" aria-pressed="false"
@@ -1049,6 +1163,16 @@ footer a:hover{color:var(--accent)}
             data-cap="Voluminöse Jackenform, Futtereinpassung und symmetrische Reißverschlusskanten.">
             <h3>Jacken &amp; Mäntel</h3>
             <p>Ausformung voluminöser Steppungen, Reißverschluss-Begradigung &amp; Futtermontage.</p>
+          </button>
+
+          <button type="button" class="gar-card" aria-pressed="false"
+            data-src="/assets/agency_showcase/demo-ghost-mannequin-chiffon-dress.webp"
+            data-badge="Zarte Transparenz &amp; Saum"
+            data-pill="Kleider &amp; Chiffon"
+            data-alt="Salbeigrünes Chiffonkleid mit transparenter Ärmelstruktur und symmetrischem Saum"
+            data-cap="Fließende Chiffon-Ärmel mit transparentem Durchschein-Effekt und ausgewogenem Saumverlauf.">
+            <h3>Kleider &amp; Röcke</h3>
+            <p>Taillenfurche, Volants, transparente Organza-Ärmel &amp; ausbalancierte Säume.</p>
           </button>
 
           <button type="button" class="gar-card" aria-pressed="false"
@@ -1072,16 +1196,6 @@ footer a:hover{color:var(--accent)}
           </button>
 
           <button type="button" class="gar-card" aria-pressed="false"
-            data-src="/assets/agency_showcase/demo-ghost-mannequin-denim-jeans.webp"
-            data-badge="3D-Innenbund &amp; Waschung"
-            data-pill="Hosen, Jeans &amp; Denim"
-            data-alt="Denim Jeans mit 3D-Bundmontage, geradem Hosenbein und erhaltenem Waschungs-Charakter"
-            data-cap="Hosenbund innen dreidimensional montiert, Beinlängen angeglichen und Schrittfalten geglättet.">
-            <h3>Hosen &amp; Jeans</h3>
-            <p>3D-Innenbundmontage, Beinlängenausgleich &amp; Erhalt charakteristischer Waschungen.</p>
-          </button>
-
-          <button type="button" class="gar-card" aria-pressed="false"
             data-src="/assets/agency_showcase/fashion-ghost-mannequin-activewear.webp"
             data-badge="Elastik-Passform &amp; Nähte"
             data-pill="Sportbekleidung &amp; Activewear"
@@ -1090,6 +1204,22 @@ footer a:hover{color:var(--accent)}
             <h3>Sport &amp; Activewear</h3>
             <p>Flachnähte, elastische Bündchen, ergonomische Form &amp; saubere Mesh-Einsätze.</p>
           </button>
+        </div>
+      </div>
+
+      <div class="media-col square-stage">
+        <div class="garment-stage">
+          <div class="garment-stage-bar">
+            <span class="garment-title-pill" id="garmentTitlePill">Hosen, Jeans &amp; Denim</span>
+            <span class="craft-badge" id="garmentBadge">3D-Innenbund &amp; Waschung</span>
+          </div>
+          <div class="garment-canvas" id="garmentCanvas">
+            <img id="garmentMainImg" src="/assets/agency_showcase/demo-ghost-mannequin-denim-jeans.webp" alt="Denim Jeans mit 3D-Bundmontage, geradem Hosenbein und erhaltenem Waschungs-Charakter" width="1000" height="1000" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <div class="cap" style="margin-top:10px">
+          <span id="garmentCap">Hosenbund innen dreidimensional montiert, Beinlängen angeglichen und Schrittfalten geglättet.</span>
+          <span>Interaktive Auswahl</span>
         </div>
       </div>
     </div>
@@ -1141,9 +1271,7 @@ footer a:hover{color:var(--accent)}
     </div>
   </section>
 
-  <!-- SEKTION 05: FARBTREUE & FARBKALIBRIERUNG -->
-  
-  <!-- ON-MODEL FASHION RETOUCHING & LOOKBOOK CONSISTENCY -->
+  <!-- SEKTION 05: ON-MODEL FASHION RETOUCHING & LOOKBOOK CONSISTENCY -->
   <section class="dep flip center-v" id="on-model" style="border-top:1px solid var(--line);padding:60px 0">
     <div class="wrap">
       <div class="media-col portrait-stage">
@@ -1185,72 +1313,159 @@ footer a:hover{color:var(--accent)}
           <strong style="color:var(--accent)">Lookbooks, Kampagnen &amp; Kollektionen:</strong> Käufer betrachten einen Mode-Lookbook als stimmige Einheit. Wir gleichen Hauttöne, Kontraste und Hohlkehlen über 50 bis 500 Motive hinweg synchron ab.
         </div>
       </div>
+    </div>
 
-      <!-- Full-Width Lookbook Strip -->
+    <!-- FULL-WIDTH LOOKBOOK GALLERY STRIP -->
+    <div class="wrap" style="margin-top:54px;padding-top:40px;border-top:1px solid rgba(255,255,255,.08);display:block">
       <div class="lookbook-band">
         <div class="lookbook-head">
-          <strong>Einheitliche Farb- &amp; Stoff-Konsistenz über die gesamte Kollektion</strong>
-          <span>Synchronisierte Bildabstimmung von Frame 01 bis Frame 150</span>
+          <div>
+            <span class="sec-tag" style="margin-bottom:8px">Lookbook &amp; Kollektionen</span>
+            <h3 style="font:700 clamp(20px,2.2vw,28px) var(--display);color:var(--text);margin:0">
+              Einheitliche Farb- &amp; Stoff-Konsistenz über die gesamte Kollektion.
+            </h3>
+          </div>
+          <p style="font-size:14.5px;color:var(--muted);max-width:480px;margin:0;line-height:1.55">
+            Synchronisierte Bildabstimmung von Frame 01 bis Frame 150 &mdash; identischer Teint, ausbalancierte Kontraste und einheitlicher Fall aller Stoffe.
+          </p>
         </div>
         <div class="look-strip">
           <div class="look-tile">
-            <img src="/assets/agency_showcase/lookbook-lilac-plaid-dress-retouching.webp" alt="Mode Lookbook Retusche: Fliederfarbenes Kleid mit transparenten Ärmeln" width="933" height="1400" loading="lazy" decoding="async">
-            <div class="look-cap">Frame 01 &middot; Gesamtsilhouette</div>
+            <div class="look-tile-img">
+              <img src="/assets/agency_showcase/lookbook-lilac-plaid-dress-retouching.webp" alt="Mode Lookbook Retusche: Fliederfarbenes Kleid mit transparenten Ärmeln" width="933" height="1400" loading="lazy" decoding="async">
+            </div>
+            <div class="look-tile-info">
+              <span class="look-tile-badge">Frame 01</span>
+              <strong class="look-tile-title">Gesamtsilhouette</strong>
+              <span style="font-size:12.5px;color:var(--muted)">Proportion &amp; Saumfall</span>
+            </div>
           </div>
           <div class="look-tile">
-            <img src="/assets/agency_showcase/periwinkle-organza-puff-sleeve-dress-portrait-retouching.webp" alt="Lookbook Organza-Ärmel Retusche mit erhaltener optischer Transparenz" width="933" height="1400" loading="lazy" decoding="async">
-            <div class="look-cap">Organza &middot; Transparenz</div>
+            <div class="look-tile-img">
+              <img src="/assets/agency_showcase/periwinkle-organza-puff-sleeve-dress-portrait-retouching.webp" alt="Lookbook Organza-Ärmel Retusche mit erhaltener optischer Transparenz" width="933" height="1400" loading="lazy" decoding="async">
+            </div>
+            <div class="look-tile-info">
+              <span class="look-tile-badge">Organza &middot; Detail</span>
+              <strong class="look-tile-title">Transparenz-Erhalt</strong>
+              <span style="font-size:12.5px;color:var(--muted)">Zarte Stofftextur</span>
+            </div>
           </div>
           <div class="look-tile">
-            <img src="/assets/agency_showcase/lookbook-polka-dot-midi-dress-retouching.webp" alt="Gepunktetes Sommerkleid Mode-Retusche farblich exakt synchronisiert" width="933" height="1400" loading="lazy" decoding="async">
-            <div class="look-cap">Frame 48 &middot; Teint-Match</div>
+            <div class="look-tile-img">
+              <img src="/assets/agency_showcase/lookbook-polka-dot-midi-dress-retouching.webp" alt="Gepunktetes Sommerkleid Mode-Retusche farblich exakt synchronisiert" width="933" height="1400" loading="lazy" decoding="async">
+            </div>
+            <div class="look-tile-info">
+              <span class="look-tile-badge">Frame 48</span>
+              <strong class="look-tile-title">Teint-Match &amp; Haut</strong>
+              <span style="font-size:12.5px;color:var(--muted)">Farbabgleich Serie</span>
+            </div>
           </div>
           <div class="look-tile">
-            <img src="/assets/agency_showcase/lookbook-yellow-plaid-dress-retouching.webp" alt="Gelbes Karokleid mit Spitzenabschluss farbgetreu retuschiert" width="933" height="1400" loading="lazy" decoding="async">
-            <div class="look-cap">Frame 120 &middot; Spitzenabschluss</div>
+            <div class="look-tile-img">
+              <img src="/assets/agency_showcase/lookbook-yellow-plaid-dress-retouching.webp" alt="Gelbes Karokleid mit Spitzenabschluss farbgetreu retuschiert" width="933" height="1400" loading="lazy" decoding="async">
+            </div>
+            <div class="look-tile-info">
+              <span class="look-tile-badge">Frame 120</span>
+              <strong class="look-tile-title">Spitzenabschluss</strong>
+              <span style="font-size:12.5px;color:var(--muted)">Saubere Kanten</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-<section class="dep" id="farbtreue">
+  <!-- SEKTION 06: FARBTREUE & FARBKALIBRIERUNG -->
+  <section class="dep center-v" id="farbtreue">
     <div class="wrap">
-      <div class="dep flip" style="padding:0;border:none">
-        <div class="wrap" style="padding:0">
-          <div class="tx">
-            <span class="sec-tag">Retouren senken &middot; Sektion 05</span>
-            <h2>Farbtreue: Exakte Nuancen zwischen Bildschirm und Realität.</h2>
-            <p>
-              Die Hauptursache für hohe Retourenquoten im Online-Modehandel: Der Pullover wirkt im Onlineshop warm-beige, kommt beim Kunden aber mit kühlem Graustich an. Unstimmige Studiobeleuchtung verzerrt empfindliche Textilfarben enorm.
-            </p>
-            <p>
-              Wir gleichen Kleidungsstücke auf farbkalibrierten EIZO-Monitoren nach Farbtafeln (z.B. X-Rite ColorChecker) oder Ihren Pantone-/Hex-Farbreferenzen ab. So stellen Sie sicher, dass Ihre Kunden genau das erhalten, was sie auf dem Bildschirm gesehen haben.
-            </p>
-            <ul style="color:#dcded4;padding-left:18px;margin:18px 0;line-height:1.7">
-              <li><strong>Farbabgleich nach Pantone:</strong> 100%ige Farbtreue für gesamte Kollektionen.</li>
-              <li><strong>sRGB-Standard für alle Screens:</strong> Keine Farbverschiebungen auf Smartphones und Laptops.</li>
-              <li><strong>SKU-Umfärbungen:</strong> Farbtreue Übertragung auf alle Farbvarianten eines Modells.</li>
-            </ul>
+      <div class="tx-col">
+        <span class="sec-tag">Retouren senken &middot; Sektion 06</span>
+        <h2>Farbtreue: Exakte Nuancen zwischen Bildschirm und Realität.</h2>
+        <p>
+          Die Hauptursache für hohe Retourenquoten im Online-Modehandel: Der Pullover wirkt im Onlineshop warm-beige, kommt beim Kunden aber mit kühlem Graustich an. Unstimmige Studiobeleuchtung verzerrt empfindliche Textilfarben enorm.
+        </p>
+        <p>
+          Wir gleichen Kleidungsstücke auf farbkalibrierten EIZO-Monitoren nach Farbtafeln (z.B. X-Rite ColorChecker) oder Ihren Pantone-/Hex-Farbreferenzen ab. So stellen Sie sicher, dass Ihre Kunden genau das erhalten, was sie auf dem Bildschirm gesehen haben.
+        </p>
+
+        <div class="card-grid" style="margin-top:24px;gap:16px">
+          <div class="card" style="padding:20px 22px">
+            <h3 style="font-size:17px;margin-bottom:6px">Farbabgleich nach Pantone</h3>
+            <p style="font-size:14px">100%ige Farbtreue für gesamte Kollektionen &mdash; exakte Abstimmung auf physische Stoff- und Garnmuster.</p>
           </div>
-          <div class="media-col">
-            <div class="ph" style="aspect-ratio:1/1;max-width:520px;margin:0 auto;background:#ffffff;border-radius:18px;overflow:hidden;border:1px solid var(--line)">
-              <img src="/assets/agency_showcase/apparel-knitwear-color-swatch-retouching.webp" alt="Strickwaren Farbkalibrierung und Farbmusterabgleich nach Pantone für Modeshops" width="1000" height="1000" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block">
+          <div class="card" style="padding:20px 22px">
+            <h3 style="font-size:17px;margin-bottom:6px">sRGB &amp; Display-P3 Standard</h3>
+            <p style="font-size:14px">Verlässliche Farbwiedergabe ohne Farbkippen auf Smartphones, Tablets und OLED-Screens.</p>
+          </div>
+          <div class="card" style="padding:20px 22px;grid-column:1 / -1">
+            <h3 style="font-size:17px;margin-bottom:6px">Digitale SKU-Umfärbungen</h3>
+            <p style="font-size:14px">Ein einziges Basisshooting reicht: Farbverbindliche Übertragung auf alle Pantone-Farbvarianten spart bis zu 60% Shooting-Kosten.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="media-col">
+        <div class="farb-stage">
+          <div class="farb-stage-head">
+            <span style="display:inline-flex;align-items:center;gap:6px;font:700 11.5px/1 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--accent);background:rgba(200,241,53,.1);border:1px solid rgba(200,241,53,.25);padding:6px 12px;border-radius:99px">
+              <span style="width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)"></span>
+              EIZO ColorEdge &middot; Delta E &lt; 1
+            </span>
+            <span style="font:600 12px/1 var(--sans);color:var(--muted)">Pantone&reg; &amp; sRGB</span>
+          </div>
+
+          <div class="farb-canvas">
+            <img src="/assets/agency_showcase/apparel-knitwear-color-swatch-retouching.webp" alt="Strickwaren Farbkalibrierung und Farbmusterabgleich nach Pantone für Modeshops" width="1000" height="1000" loading="lazy" decoding="async">
+          </div>
+
+          <!-- Color Swatches Bar -->
+          <div class="farb-swatches-box">
+            <div class="farb-swatches-head">
+              <span style="font:700 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)">
+                Referenzierte Farbpalette
+              </span>
+              <span style="font:600 11px/1 var(--sans);color:var(--accent)">
+                Labor-Messung
+              </span>
             </div>
-            <div class="cap">
-              <span>Strickwaren-Farbkalibrierung: Echte Wollstruktur bei exakt abgestimmter Pantone-Garnfarbe.</span>
-              <span>Geringere Retouren</span>
+            <div class="farb-swatches-grid">
+              <div class="farb-swatch-item">
+                <span style="width:20px;height:20px;border-radius:5px;background:#a8523b;border:1px solid rgba(255,255,255,.25);flex-shrink:0;box-shadow:0 2px 6px rgba(0,0,0,.4)"></span>
+                <div style="overflow:hidden">
+                  <strong style="display:block;font-size:12px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Terracotta</strong>
+                  <span style="display:block;font-size:10.5px;color:var(--muted);font-family:var(--mono)">18-1443 TCX</span>
+                </div>
+              </div>
+              <div class="farb-swatch-item">
+                <span style="width:20px;height:20px;border-radius:5px;background:#6a2336;border:1px solid rgba(255,255,255,.25);flex-shrink:0;box-shadow:0 2px 6px rgba(0,0,0,.4)"></span>
+                <div style="overflow:hidden">
+                  <strong style="display:block;font-size:12px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Marsala</strong>
+                  <span style="display:block;font-size:10.5px;color:var(--muted);font-family:var(--mono)">19-1533 TCX</span>
+                </div>
+              </div>
+              <div class="farb-swatch-item">
+                <span style="width:20px;height:20px;border-radius:5px;background:#262f46;border:1px solid rgba(255,255,255,.25);flex-shrink:0;box-shadow:0 2px 6px rgba(0,0,0,.4)"></span>
+                <div style="overflow:hidden">
+                  <strong style="display:block;font-size:12px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Dark Indigo</strong>
+                  <span style="display:block;font-size:10.5px;color:var(--muted);font-family:var(--mono)">19-3921 TCX</span>
+                </div>
+              </div>
             </div>
+          </div>
+
+          <div class="cap" style="margin-top:14px;padding:0 2px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+            <span style="font-size:13px;color:#b0b4a8">Strickwaren-Farbkalibrierung: Echte Wollstruktur bei exakt abgestimmter Pantone-Garnfarbe.</span>
+            <span style="font-size:12px;color:var(--accent);font-weight:700;background:rgba(200,241,53,.1);padding:4px 10px;border-radius:99px;border:1px solid rgba(200,241,53,.25);white-space:nowrap">&minus;35% Retouren</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SEKTION 06: MARKTPLATZ-KONFORMITÄT -->
+  <!-- SEKTION 07: MARKTPLATZ-KONFORMITÄT -->
   <section class="band" id="marktplatz">
     <div class="wrap">
       <div class="sec-head center">
-        <span class="sec-tag">Zulassung garantiert &middot; Sektion 06</span>
+        <span class="sec-tag">Zulassung garantiert &middot; Sektion 07</span>
         <h2>100% konform mit Amazon Fashion, Zalando &amp; Otto.</h2>
         <p>Europäische Marktplätze stellen strenge formale Anforderungen an Freisteller im Modebereich.</p>
       </div>
@@ -1272,11 +1487,11 @@ footer a:hover{color:var(--accent)}
     </div>
   </section>
 
-  <!-- SEKTION 07: PREISE IN EURO (€) -->
+  <!-- SEKTION 08: PREISE IN EURO (€) -->
   <section class="dep" id="preise">
     <div class="wrap" style="display:block">
       <div class="sec-head center">
-        <span class="sec-tag">Transparente Preise &middot; Sektion 07</span>
+        <span class="sec-tag">Transparente Preise &middot; Sektion 08</span>
         <h2>Faire Staffelpreise in Euro (€). Abgestimmt auf den Kleidungs-Typ.</h2>
         <p>Vom Basic T-Shirt bis zur anspruchsvollen Daunenjacke &mdash; transparente Kalkulation mit attraktiven Mengenrabatten.</p>
       </div>
