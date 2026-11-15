@@ -2,6 +2,9 @@
   var path = (window.location.pathname || '/').replace(/\.html$/, '') || '/';
   if (path !== '/' && path.endsWith('/')) path = path.slice(0, -1);
 
+  var isDe = (document.documentElement.lang || '').toLowerCase() === 'de' ||
+             (window.location.pathname || '').indexOf('/de') !== -1;
+
   // Desktop Services Dropdown ARIA + Click/Escape Support
   document.querySelectorAll('[data-nav-drop]').forEach(function(drop){
     var btn = drop.querySelector('.nav-drop-btn');
@@ -54,7 +57,6 @@
     drawer.className = 'mob-drawer';
     drawer.setAttribute('aria-hidden', 'true');
 
-    var isDe = path === '/de' || path.startsWith('/de/');
     if (isDe) {
       drawer.innerHTML =
         '<div class="mob-panel" role="dialog" aria-modal="true" aria-label="Webseitennavigation">' +
@@ -68,11 +70,10 @@
               '<summary>Leistungen (DACH) <span aria-hidden="true">&#9662;</span></summary>' +
               '<div class="mob-sub">' +
                 '<a href="/de/"><span>Alle Leistungen (Übersicht)</span></a>' +
-                '<a href="/de/produktfotos-bearbeiten-lassen"><span>Produktfotos &amp; Freisteller</span><em class="nav-new">Live</em></a>' +
-                '<a href="/de/schmuckretusche"><span>Schmuck &amp; Uhren</span><em class="nav-new">Live</em></a>' +
-                '<a href="/de/geisterpuppe-mode-retusche"><span>Geisterpuppe &amp; Mode</span><em class="nav-new">Live</em></a>' +
-                '<a href="/de/beauty-retusche"><span>Porträts &amp; Beauty</span><em class="nav-new">Live</em></a>' +
-                '<a href="/automotive-photo-retouching"><span>Fahrzeug- &amp; Auto-Retusche</span><em class="nav-new">Live</em></a>' +
+                '<a href="/de/produktfotos-bearbeiten-lassen"><span>Produktfotos &amp; Freisteller</span><em class="nav-new">Neu</em></a>' +
+                '<a href="/de/schmuckretusche"><span>Schmuck &amp; Uhren</span><em class="nav-new">Neu</em></a>' +
+                '<a href="/de/geisterpuppe-mode-retusche"><span>Geisterpuppe &amp; Mode</span><em class="nav-new">Neu</em></a>' +
+                '<a href="/de/beauty-retusche"><span>Beauty &amp; Porträts</span><em class="nav-new">Neu</em></a>' +
               '</div>' +
             '</details>' +
             '<a class="mob-link" href="/de/#preise">Preise (€)</a>' +
@@ -82,7 +83,7 @@
           '</div>' +
           '<div class="mob-ctas">' +
             '<a class="mob-cta-p" href="/contact?ref=de">Kostenlose Testbearbeitung anfordern &rarr;</a>' +
-            '<a class="mob-cta-s" href="/portal" rel="nofollow">Kundenportal &#x1f512;</a>' +
+            '<a class="mob-cta-s" href="/portal" rel="nofollow">Anmelden</a>' +
           '</div>' +
         '</div>';
     } else {
@@ -173,7 +174,6 @@
     var sessionRaw = sessionStorage.getItem('shoaib_client_session') ||
                      localStorage.getItem('shoaib_client_session') ||
                      localStorage.getItem('shoaib_client_profile');
-    var isDe = path === '/de' || path.startsWith('/de/');
     var authBtn = document.getElementById('navAuthBtn');
     var mobAuthBtn = drawer ? drawer.querySelector('.mob-cta-s') : null;
 
@@ -197,7 +197,7 @@
         authBtn.setAttribute('title', isDe ? 'Ihr persönlicher Kundenbereich' : 'Open your client workspace');
       } else {
         authBtn.href = '/portal';
-        authBtn.innerHTML = isDe ? 'Log In' : 'Log In';
+        authBtn.innerHTML = isDe ? 'Anmelden' : 'Log In';
         authBtn.setAttribute('title', isDe ? 'Im Kundenportal anmelden' : 'Log In or Sign Up to Client Portal');
       }
     }
@@ -212,7 +212,7 @@
         mobAuthBtn.innerHTML = isDe ? 'Kundenportal &#x1f512;' : 'Client Portal';
       } else {
         mobAuthBtn.href = '/portal';
-        mobAuthBtn.innerHTML = isDe ? 'Log In' : 'Log In';
+        mobAuthBtn.innerHTML = isDe ? 'Anmelden' : 'Log In';
       }
     }
   }
