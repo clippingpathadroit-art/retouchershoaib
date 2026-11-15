@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Geisterpuppe Bildbearbeitung &amp; Mode-Retusche ab 1,20 €. Perfekte 3D-Halsmontagen, Symmetrie &amp; echte Farben für Onlineshops. 24h Test gratis.">
-<meta name="keywords" content="Geisterpuppe Bildbearbeitung, Ghost Mannequin Photoshop, Hollow Man Effekt, Mode Freisteller, Bekleidung Bildbearbeitung, Textil Retusche, Unsichtbare Mannequin Montage, Modekatalog Retusche Österreich Deutschland">
+<meta name="description" content="Geisterpuppe freistellen lassen &amp; 3D-Halsmontage ab 1,20 €. Unsichtbare Puppe (Ghost Mannequin Bildbearbeitung) für Onlineshops. 24h Test gratis.">
+<meta name="keywords" content="Geisterpuppe Freistellen, Ghost Mannequin Bildbearbeitung, Geisterpuppe Bildbearbeitung, Hollow Man Montage, Mode Freisteller, Bekleidung Bildbearbeitung, Textil Retusche, Unsichtbare Mannequin Montage">
 <link rel="canonical" href="https://retouchershoaib.com/de/geisterpuppe-mode-retusche">
 <link rel="alternate" hreflang="de" href="https://retouchershoaib.com/de/geisterpuppe-mode-retusche">
 <link rel="alternate" hreflang="de-AT" href="https://retouchershoaib.com/de/geisterpuppe-mode-retusche">
@@ -29,7 +29,7 @@
 <meta name="twitter:title" content="Geisterpuppe Bildbearbeitung &amp; Mode-Retusche | Retoucher Shoaib">
 <meta name="twitter:description" content="3D-Halsmontage, Faltenreduktion &amp; perfekte Passform ohne störende Puppe. 100% manuelle Retusche ab 1,20 €/Bild.">
 <meta name="twitter:image" content="https://retouchershoaib.com/assets/agency_showcase/fashion-ghost-blazer-after.webp">
-<title>Geisterpuppe Bildbearbeitung &amp; Mode-Retusche | Retoucher Shoaib</title>
+<title>Geisterpuppe Freistellen &amp; Mode-Retusche | Ghost Mannequin Service</title>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -212,9 +212,9 @@ nav{
   font-size:15px;
   white-space:nowrap;
 }
-nav>a{transition:color .2s}
-nav>a:hover{color:var(--text)}
-nav a.cur{color:var(--accent);font-weight:600}
+nav>a, .nav-drop-btn{transition:color .2s}
+nav>a:hover, .nav-drop-btn:hover{color:var(--text)}
+nav a.cur, .nav-drop-btn.cur{color:var(--accent);font-weight:600}
 .lang-toggle{
   display:inline-flex;
   align-items:center;
@@ -783,6 +783,9 @@ footer a:hover{color:var(--accent)}
   .dep.flip .media-col{order:0}
   footer .g{grid-template-columns:1fr 1fr}
 }
+@media(max-width:860px){
+  nav{display:none}
+}
 @media(max-width:768px){
   .order-steps{grid-template-columns:1fr}
 }
@@ -798,12 +801,20 @@ footer a:hover{color:var(--accent)}
   <div class="wrap">
     <a class="logo" href="/de/">Retoucher Shoaib<sup>&reg;</sup></a>
     <nav>
-      <a href="/de/produktfotos-bearbeiten-lassen">Produktfotos</a>
-      <a href="/de/schmuckretusche">Schmuck &amp; Uhren</a>
-      <a href="/de/geisterpuppe-mode-retusche" class="cur">Geisterpuppe &amp; Mode</a>
-      <a href="/de/#beauty">Porträts</a>
+      <div class="nav-drop" data-nav-drop>
+        <a href="/de/" class="nav-drop-btn" aria-haspopup="true" aria-expanded="false">
+          Leistungen <span class="nav-chev" aria-hidden="true">&#9662;</span>
+        </a>
+        <div class="nav-dd-menu" role="menu">
+          <a href="/de/" role="menuitem"><strong>Alle Leistungen (Übersicht)</strong><span>DACH E-Commerce &amp; High-End Bildbearbeitung</span></a>
+          <a href="/de/produktfotos-bearbeiten-lassen" role="menuitem"><strong>Produktfotos &amp; Freisteller <em class="nav-new">Live</em></strong><span>Freisteller, Pfade &amp; Amazon-Bilder</span></a>
+          <a href="/de/schmuckretusche" role="menuitem"><strong>Schmuck &amp; Uhren <em class="nav-new">Live</em></strong><span>Makro-Retusche, Edelsteine &amp; Uhren</span></a>
+          <a href="/de/geisterpuppe-mode-retusche" role="menuitem"><strong>Geisterpuppe &amp; Mode <em class="nav-new">Live</em></strong><span>Hollow-Mannequin &amp; Texturtreue</span></a>
+          <a href="/de/beauty-retusche" role="menuitem"><strong>Beauty &amp; Porträts <em class="nav-new">Live</em></strong><span>High-End Haut &amp; Frequenztrennung</span></a>
+        </div>
+      </div>
       <a href="/de/#preise">Preise</a>
-      <a href="/de/#faq">FAQ</a>
+      <a href="/de/#faq">Fragen</a>
       <div class="lang-toggle" title="Sprache wählen / Select Language">
         <span class="active">DE</span>
         <span>|</span>
@@ -811,7 +822,11 @@ footer a:hover{color:var(--accent)}
       </div>
     </nav>
     <div class="nav-actions">
-      <a class="btn p" href="/contact?service=fashion&ref=de">Testbild senden</a>
+      <a class="btn" id="navAuthBtn" href="/portal" rel="nofollow">Log In</a>
+      <a class="btn p nav-cta-desk" href="/contact?service=fashion&ref=de">Testbild senden</a>
+      <button class="nav-mob-btn" id="navMobBtn" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobDrawer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+      </button>
     </div>
   </div>
 </header>
@@ -828,10 +843,10 @@ footer a:hover{color:var(--accent)}
         <span>Geisterpuppe Bildbearbeitung &amp; Mode-Retusche</span>
       </div>
       <div class="hero-inner">
-        <span class="eye-pill">&#9889; Ghost Mannequin &amp; Textil-Freisteller DACH</span>
-        <h1>Geisterpuppe Bildbearbeitung &amp; Mode-Retusche mit <em>3D-Passform</em>.</h1>
+        <span class="eye-pill">&#9889; Geisterpuppe Freistellen &amp; 3D-Halsmontage DACH</span>
+        <h1>Geisterpuppe Freistellen &amp; Mode-Retusche mit <em>3D-Passform</em>.</h1>
         <p class="lead">
-          Perfekte 3D-Halsmontagen (Ghost Mannequin / Hohle Puppe), Kragen-Fusionen, Faltenbeseitigung und natürliche Saumsymmetrie ab 1,20 € pro Bild. Maßgeschneidert für Bekleidungsmarken, Onlineshops und Modekataloge in Österreich, Deutschland und der Schweiz. Schnelle 12–24h Express-Lieferung.
+          Perfekte 3D-Halsmontagen (Ghost Mannequin Bildbearbeitung / Hohle Puppe), Kragen-Fusionen, Faltenbeseitigung und natürliche Saumsymmetrie ab 1,20 € pro Bild. Wenn Sie professionell Ihre <strong>Geisterpuppe freistellen</strong> lassen möchten: Maßgeschneidert für Bekleidungsmarken, Onlineshops und Modekataloge in Österreich, Deutschland und der Schweiz. Schnelle 12–24h Express-Lieferung.
         </p>
         <div class="hero-cta">
           <a href="/contact?service=fashion&ref=de" class="btn p">Kostenlose Testbearbeitung anfordern (1 Kleidungsstück gratis)</a>
@@ -858,7 +873,7 @@ footer a:hover{color:var(--accent)}
       <a href="#marktplatz">Marktplatz-Normen</a>
       <a href="#preise">Preise (€)</a>
       <a href="#ablauf">Ablauf</a>
-      <a href="#faq">FAQ</a>
+      <a href="#faq">Fragen</a>
     </div>
   </div>
 
@@ -867,7 +882,7 @@ footer a:hover{color:var(--accent)}
     <div class="wrap">
       <div class="tx">
         <span class="sec-tag">3D-Passform &middot; Sektion 01</span>
-        <h2>Ghost Mannequin: Der unsichtbare Look, handwerklich perfekt montiert.</h2>
+        <h2>Geisterpuppe Freistellen (Ghost Mannequin): Der unsichtbare Look, handwerklich montiert.</h2>
         <p>
           Schaufensterpuppen im Produktbild lenken vom Wesentlichen ab und mindern die wahrgenommene Wertigkeit einer Modemarke. Die Geisterpuppen-Montage (Hollow Man Effekt) lässt das Kleidungsstück so wirken, als würde es von einer unsichtbaren Person getragen.
         </p>
@@ -995,6 +1010,17 @@ footer a:hover{color:var(--accent)}
           <div style="font-size:24px;margin-bottom:10px">&#9881;</div>
           <h3>Schritt 03: Unsere 3D-Montage</h3>
           <p>Wir schneiden die Puppe digital heraus, montieren den Nackenteil nahtlos hinter den vorderen Halsausschnitt und fügen einen realistischen Innenschatten für plastische Tiefe hinzu.</p>
+        </div>
+      </div>
+
+      <!-- PRAXIS-TIPPS FÜR DAS SHOOTING -->
+      <div style="margin:36px auto 0;max-width:960px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:26px 30px">
+        <h3 style="font:700 18px var(--display);color:var(--text);margin:0 0 12px">Praxis-Tipps für die Vorbereitung im Fotostudio:</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:14px;color:#dcded4;font-size:14px;line-height:1.6">
+          <div><strong style="color:var(--accent)">1. Kleidung dampfen:</strong> Grobe Knitterfalten vor dem Shooting kurz aufdampfen &mdash; das spart Retuschezeit und Kosten.</div>
+          <div><strong style="color:var(--accent)">2. Passende Puppengröße:</strong> Wählen Sie eine Puppe, die dem Schnitt entspricht, damit der Stoff natürlich fällt.</div>
+          <div><strong style="color:var(--accent)">3. Kamera auf Stativ:</strong> Feste Kameraposition und gleicher Lichtabstand zwischen Vorderteil und Innenhals.</div>
+          <div><strong style="color:var(--accent)">4. Etiketten sichtbar:</strong> Achten Sie darauf, dass Größenlabel und Markenlogos im Nacken gut ausgeleuchtet sind.</div>
         </div>
       </div>
     </div>
@@ -1250,13 +1276,11 @@ footer a:hover{color:var(--accent)}
         <p style="margin:0;max-width:300px;line-height:1.6;color:var(--muted)">Professionelles Postproduktions-Studio von Shoaib Siddique. Spezialisiert auf Geisterpuppe Bildbearbeitung (Ghost Mannequin), Mode, High-End Schmuckretusche und E-Commerce Freisteller für Marken in Österreich, Deutschland und der Schweiz.</p>
       </div>
       <div>
-        <h4>Geisterpuppe &amp; Mode</h4>
-        <a href="#blazer" style="color:var(--accent);font-weight:600">Blazer &amp; Jacken</a>
-        <a href="#kleider">Kleider &amp; Röcke</a>
-        <a href="#kategorien">Sortiment</a>
-        <a href="#shooting">Shooting-Anleitung</a>
-        <a href="#farbtreue">Farbtreue</a>
-        <a href="#preise">Preise (€)</a>
+        <h4>Leistungen (DACH)</h4>
+        <a href="/de/produktfotos-bearbeiten-lassen">Produktfotos &amp; Freisteller</a>
+        <a href="/de/schmuckretusche">Schmuckretusche &amp; Uhren</a>
+        <a href="/de/geisterpuppe-mode-retusche" style="color:var(--accent);font-weight:600">Geisterpuppe &amp; Mode</a>
+        <a href="/de/beauty-retusche">High-End Hautretusche &amp; Beauty</a>
       </div>
       <div>
         <h4>Navigation</h4>
@@ -1272,6 +1296,15 @@ footer a:hover{color:var(--accent)}
         <a href="https://wa.me/8801710763251" target="_blank" rel="noopener">WhatsApp Direct</a>
         <a href="https://instagram.com/retouchershoaib" target="_blank" rel="noopener">Instagram Studio</a>
         <a href="https://linkedin.com/in/retouchershoaib" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div style="margin-top:32px;padding:18px 24px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);font-size:13px;color:#a5a59e;line-height:1.6">
+      <div style="font-weight:700;color:var(--text);margin-bottom:6px;display:flex;align-items:center;gap:8px">
+        <span>&#x1f512; B2B-Standard für Deutschland, Österreich &amp; die Schweiz (DACH)</span>
+      </div>
+      <div>
+        <strong>Impressum &amp; geschäftliche Angaben:</strong> Retoucher Shoaib Studio &middot; Inhaber: Shoaib Siddique &middot; E-Mail: <a href="mailto:retouchershoaib@gmail.com" style="color:var(--accent);text-decoration:underline">retouchershoaib@gmail.com</a> &middot; WhatsApp: +880 1710 763251.<br>
+        <strong>EU-DSGVO &amp; Vertraulichkeit:</strong> Strikter Datenschutz nach EU-DSGVO, verschlüsselte Dateiübertragung &amp; Unterzeichnung von Geheimhaltungsvereinbarungen (NDA) auf Wunsch &middot; B2B-Rechnungsstellung mit ausgewiesener Währung in Euro (€) &middot; SEPA-Überweisung &middot; Express-Support in der europäischen Zeitzone (CET).
       </div>
     </div>
     <div class="foot-bot">

@@ -11,6 +11,10 @@
   color:inherit;
   font:inherit;
   cursor:pointer;
+  background:transparent;
+  border:none;
+  padding:0;
+  text-decoration:none;
 }
 .nav-chev{
   font-size:11px;
@@ -290,8 +294,16 @@
 }
 
 @media(max-width:860px){
+  header nav{
+    display:none !important;
+  }
   .nav-mob-btn{
-    display:inline-flex;
+    display:inline-flex !important;
+  }
+}
+@media(max-width:640px){
+  .nav-cta-desk{
+    display:none !important;
   }
 }
 @media(max-width:440px){

@@ -222,7 +222,7 @@ nav{
   font-size:15px;
   white-space:nowrap;
 }
-nav>a{transition:color .2s}
+nav>a,.nav-drop-btn{transition:color .2s}
 nav>a:hover,.nav-drop-btn:hover{color:var(--text)}
 nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 .lang-toggle{
@@ -908,6 +908,9 @@ footer a:hover{color:var(--accent)}
   .pillar-grid{grid-template-columns:1fr}
   footer .g{grid-template-columns:1fr 1fr}
 }
+@media(max-width:860px){
+  nav{display:none}
+}
 @media(max-width:768px){
   .order-steps{grid-template-columns:1fr}
 }
@@ -923,12 +926,20 @@ footer a:hover{color:var(--accent)}
   <div class="wrap">
     <a class="logo" href="/de/">Retoucher Shoaib<sup>&reg;</sup></a>
     <nav>
-      <a href="/de/produktfotos-bearbeiten-lassen">Produktfotos</a>
-      <a href="/de/schmuckretusche">Schmuck</a>
-      <a href="/de/geisterpuppe-mode-retusche">Geisterpuppe</a>
-      <a href="/de/#beauty">Beauty</a>
+      <div class="nav-drop" data-nav-drop>
+        <a href="/de/" class="nav-drop-btn" aria-haspopup="true" aria-expanded="false">
+          Leistungen <span class="nav-chev" aria-hidden="true">&#9662;</span>
+        </a>
+        <div class="nav-dd-menu" role="menu">
+          <a href="/de/" role="menuitem"><strong>Alle Leistungen (Übersicht)</strong><span>DACH E-Commerce &amp; High-End Bildbearbeitung</span></a>
+          <a href="/de/produktfotos-bearbeiten-lassen" role="menuitem"><strong>Produktfotos &amp; Freisteller <em class="nav-new">Live</em></strong><span>Freisteller, Pfade &amp; Amazon-Bilder</span></a>
+          <a href="/de/schmuckretusche" role="menuitem"><strong>Schmuck &amp; Uhren <em class="nav-new">Live</em></strong><span>Makro-Retusche, Edelsteine &amp; Uhren</span></a>
+          <a href="/de/geisterpuppe-mode-retusche" role="menuitem"><strong>Geisterpuppe &amp; Mode <em class="nav-new">Live</em></strong><span>Hollow-Mannequin &amp; Texturtreue</span></a>
+          <a href="/de/beauty-retusche" role="menuitem"><strong>Beauty &amp; Porträts <em class="nav-new">Live</em></strong><span>High-End Haut &amp; Frequenztrennung</span></a>
+        </div>
+      </div>
       <a href="/de/#preise">Preise</a>
-      <a href="/de/#faq">FAQ</a>
+      <a href="/de/#faq">Fragen</a>
       <div class="lang-toggle" title="Sprache wählen / Select Language">
         <span class="active">DE</span>
         <span>|</span>
@@ -936,7 +947,11 @@ footer a:hover{color:var(--accent)}
       </div>
     </nav>
     <div class="nav-actions">
-      <a class="btn p" href="/contact?ref=de">Testbild senden</a>
+      <a class="btn" id="navAuthBtn" href="/portal" rel="nofollow">Log In</a>
+      <a class="btn p nav-cta-desk" href="/contact?ref=de">Testbild senden</a>
+      <button class="nav-mob-btn" id="navMobBtn" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobDrawer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+      </button>
     </div>
   </div>
 </header>
@@ -946,9 +961,9 @@ footer a:hover{color:var(--accent)}
   <section class="hero">
     <div class="wrap">
       <div class="crumb">
-        <a href="/">Startseite (EN)</a>
+        <a href="/de/">Startseite</a>
         <span aria-hidden="true">&rsaquo;</span>
-        <span>Deutsch (Österreich &middot; Deutschland &middot; Schweiz)</span>
+        <span>Bildbearbeitung für DACH (Deutschland, Österreich, Schweiz)</span>
       </div>
       <div class="hero-inner">
         <span class="eye-pill">&#9889; E-Commerce Freisteller &amp; High-End Bildbearbeitung DACH</span>
@@ -973,14 +988,14 @@ footer a:hover{color:var(--accent)}
   <!-- STICKY SUB-NAVIGATION BAR -->
   <div class="bar">
     <div class="wrap" id="bar">
-      <a href="#produktfotos" class="on">E-Commerce &amp; Freisteller</a>
+      <a href="#produktfotos" class="on">Produktfotos &amp; Freisteller</a>
       <a href="#schatten">Schatten &amp; Reflexionen</a>
       <a href="#schmuck">Schmuckretusche</a>
       <a href="#mode">Geisterpuppe &amp; Mode</a>
-      <a href="#beauty">High-End Beauty</a>
+      <a href="#beauty">Porträts &amp; Beauty</a>
       <a href="#vorteile">B2B-Vorteile DACH</a>
       <a href="#preise">Preise (€)</a>
-      <a href="#faq">FAQ</a>
+      <a href="#faq">Fragen &amp; Antworten</a>
     </div>
   </div>
 
@@ -1155,11 +1170,11 @@ footer a:hover{color:var(--accent)}
     </div>
   </section>
 
-  <!-- SECTION 05: HIGH-END BEAUTY & PORTRÄT (CORE PILLAR) -->
+  <!-- SEKTION 05: PORTRÄTS & BEAUTY (KERNBEREICH) -->
   <section class="dep" id="beauty">
     <div class="wrap">
       <div class="tx">
-        <span class="sec-tag">Beauty &middot; Sektion 05</span>
+        <span class="sec-tag">Porträts &amp; Beauty &middot; Sektion 05</span>
         <h2>High-End Hautretusche ohne Plastikeffekt: Frequenztrennung für Fotografen.</h2>
         <p>
           Billige Filter lassen Porträts flach, unscharf und wachsartig aussehen. Als verlässlicher <strong>Postproduktions-Partner für Porträt- und Modefotografen</strong> garantieren wir natürliche, lebendige Hautstrukturen.
@@ -1406,11 +1421,11 @@ footer a:hover{color:var(--accent)}
         <p style="margin:0;max-width:300px;line-height:1.6;color:var(--muted)">Professionelles Bildbearbeitungs- und Retusche-Studio gegründet von Shoaib Siddique. Spezialisiert auf E-Commerce-Freisteller, High-End Schmuckretusche, Geisterpuppe und Mode für den europäischen Markt.</p>
       </div>
       <div>
-        <h4>Leistungen</h4>
-        <a href="/de/produktfotos-bearbeiten-lassen" style="color:var(--accent);font-weight:600">Produktfotos &amp; Freisteller</a>
+        <h4>Leistungen (DACH)</h4>
+        <a href="/de/produktfotos-bearbeiten-lassen">Produktfotos &amp; Freisteller</a>
         <a href="/de/schmuckretusche">Schmuckretusche &amp; Uhren</a>
         <a href="/de/geisterpuppe-mode-retusche">Geisterpuppe &amp; Mode</a>
-        <a href="#beauty">High-End Porträts</a>
+        <a href="/de/beauty-retusche">High-End Hautretusche &amp; Beauty</a>
       </div>
       <div>
         <h4>Navigation</h4>
@@ -1426,6 +1441,15 @@ footer a:hover{color:var(--accent)}
         <a href="https://wa.me/8801710763251" target="_blank" rel="noopener">WhatsApp Direct</a>
         <a href="https://instagram.com/retouchershoaib" target="_blank" rel="noopener">Instagram Studio</a>
         <a href="https://linkedin.com/in/retouchershoaib" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div style="margin-top:32px;padding:18px 24px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);font-size:13px;color:#a5a59e;line-height:1.6">
+      <div style="font-weight:700;color:var(--text);margin-bottom:6px;display:flex;align-items:center;gap:8px">
+        <span>&#x1f512; B2B-Standard für Deutschland, Österreich &amp; die Schweiz (DACH)</span>
+      </div>
+      <div>
+        <strong>Impressum &amp; geschäftliche Angaben:</strong> Retoucher Shoaib Studio &middot; Inhaber: Shoaib Siddique &middot; E-Mail: <a href="mailto:retouchershoaib@gmail.com" style="color:var(--accent);text-decoration:underline">retouchershoaib@gmail.com</a> &middot; WhatsApp: +880 1710 763251.<br>
+        <strong>EU-DSGVO &amp; Vertraulichkeit:</strong> Strikter Datenschutz nach EU-DSGVO, verschlüsselte Dateiübertragung &amp; Unterzeichnung von Geheimhaltungsvereinbarungen (NDA) auf Wunsch &middot; B2B-Rechnungsstellung mit ausgewiesener Währung in Euro (€) &middot; SEPA-Überweisung &middot; Express-Support in der europäischen Zeitzone (CET).
       </div>
     </div>
     <div class="foot-bot">

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="High-End Schmuckretusche &amp; Uhren Bildbearbeitung ab 3,50 €. Makelloses Diamantenfeuer, echte Goldtöne, reflexionsfreies Glas &amp; 100% Handarbeit. 24h Test gratis.">
-<meta name="keywords" content="Schmuck Retusche, Schmuck freistellen, Schmuckfotos bearbeiten lassen, Uhren Bildbearbeitung, Uhren Retusche, Diamant Glanz Photoshop, Weißgold Farbkorrektur, Makro Retusche Wien Österreich, Schmuckfotografie Nachbearbeitung">
+<meta name="description" content="Ihre spezialisierte Schmuckretusche Agentur für Juweliere &amp; Marken. Diamant Ring Retusche &amp; Uhren Fotobearbeitung ab 3,50 €. Makelloses Funkeln. 24h Test gratis.">
+<meta name="keywords" content="Schmuckretusche Agentur, Diamant Ring Retusche, Uhren Fotobearbeitung, Schmuck Retusche, Schmuck freistellen, Schmuckfotos bearbeiten lassen, Uhren Bildbearbeitung, Uhren Retusche, Diamant Glanz Photoshop, Weißgold Farbkorrektur, Makro Retusche Wien Österreich">
 <link rel="canonical" href="https://retouchershoaib.com/de/schmuckretusche">
 <link rel="alternate" hreflang="de" href="https://retouchershoaib.com/de/schmuckretusche">
 <link rel="alternate" hreflang="de-AT" href="https://retouchershoaib.com/de/schmuckretusche">
@@ -29,7 +29,7 @@
 <meta name="twitter:title" content="Schmuckretusche &amp; Uhren Bildbearbeitung | Retoucher Shoaib">
 <meta name="twitter:description" content="100% manuelle Schmuck- &amp; Uhrenretusche ohne künstliche KI-Filter. Diamantenbrillanz, Metallpolitur, Krappen-Säuberung ab 3,50 €/Bild.">
 <meta name="twitter:image" content="https://retouchershoaib.com/assets/luxury-jewelry-retouching-after.webp">
-<title>Schmuckretusche &amp; Uhren Bildbearbeitung | Retoucher Shoaib</title>
+<title>Schmuckretusche Agentur &amp; Uhren Fotobearbeitung | Diamant Ring Retusche</title>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -213,9 +213,9 @@ nav{
   font-size:15px;
   white-space:nowrap;
 }
-nav>a{transition:color .2s}
-nav>a:hover{color:var(--text)}
-nav a.cur{color:var(--accent);font-weight:600}
+nav>a, .nav-drop-btn{transition:color .2s}
+nav>a:hover, .nav-drop-btn:hover{color:var(--text)}
+nav a.cur, .nav-drop-btn.cur{color:var(--accent);font-weight:600}
 .lang-toggle{
   display:inline-flex;
   align-items:center;
@@ -784,6 +784,9 @@ footer a:hover{color:var(--accent)}
   .dep.flip .media-col{order:0}
   footer .g{grid-template-columns:1fr 1fr}
 }
+@media(max-width:860px){
+  nav{display:none}
+}
 @media(max-width:768px){
   .order-steps{grid-template-columns:1fr}
 }
@@ -799,12 +802,20 @@ footer a:hover{color:var(--accent)}
   <div class="wrap">
     <a class="logo" href="/de/">Retoucher Shoaib<sup>&reg;</sup></a>
     <nav>
-      <a href="/de/produktfotos-bearbeiten-lassen">Produktfotos</a>
-      <a href="/de/schmuckretusche" class="cur">Schmuck &amp; Uhren</a>
-      <a href="/de/geisterpuppe-mode-retusche">Geisterpuppe</a>
-      <a href="/de/#beauty">Porträts</a>
+      <div class="nav-drop" data-nav-drop>
+        <a href="/de/" class="nav-drop-btn" aria-haspopup="true" aria-expanded="false">
+          Leistungen <span class="nav-chev" aria-hidden="true">&#9662;</span>
+        </a>
+        <div class="nav-dd-menu" role="menu">
+          <a href="/de/" role="menuitem"><strong>Alle Leistungen (Übersicht)</strong><span>DACH E-Commerce &amp; High-End Bildbearbeitung</span></a>
+          <a href="/de/produktfotos-bearbeiten-lassen" role="menuitem"><strong>Produktfotos &amp; Freisteller <em class="nav-new">Live</em></strong><span>Freisteller, Pfade &amp; Amazon-Bilder</span></a>
+          <a href="/de/schmuckretusche" role="menuitem"><strong>Schmuck &amp; Uhren <em class="nav-new">Live</em></strong><span>Makro-Retusche, Edelsteine &amp; Uhren</span></a>
+          <a href="/de/geisterpuppe-mode-retusche" role="menuitem"><strong>Geisterpuppe &amp; Mode <em class="nav-new">Live</em></strong><span>Hollow-Mannequin &amp; Texturtreue</span></a>
+          <a href="/de/beauty-retusche" role="menuitem"><strong>Beauty &amp; Porträts <em class="nav-new">Live</em></strong><span>High-End Haut &amp; Frequenztrennung</span></a>
+        </div>
+      </div>
       <a href="/de/#preise">Preise</a>
-      <a href="/de/#faq">FAQ</a>
+      <a href="/de/#faq">Fragen</a>
       <div class="lang-toggle" title="Sprache wählen / Select Language">
         <span class="active">DE</span>
         <span>|</span>
@@ -812,7 +823,11 @@ footer a:hover{color:var(--accent)}
       </div>
     </nav>
     <div class="nav-actions">
-      <a class="btn p" href="/contact?service=jewelry&ref=de">Testbild senden</a>
+      <a class="btn" id="navAuthBtn" href="/portal" rel="nofollow">Log In</a>
+      <a class="btn p nav-cta-desk" href="/contact?service=jewelry&ref=de">Testbild senden</a>
+      <button class="nav-mob-btn" id="navMobBtn" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobDrawer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+      </button>
     </div>
   </div>
 </header>
@@ -829,10 +844,10 @@ footer a:hover{color:var(--accent)}
         <span>Schmuckretusche &amp; Uhren Bildbearbeitung</span>
       </div>
       <div class="hero-inner">
-        <span class="eye-pill">&#9889; High-End Schmuckretusche für Juweliere &amp; Luxusmarken DACH</span>
+        <span class="eye-pill">&#9889; Ihre spezialisierte Schmuckretusche Agentur für Juweliere &amp; Luxusmarken DACH</span>
         <h1>Schmuckretusche &amp; Uhren Bildbearbeitung mit <em>Meisterpräzision</em>.</h1>
         <p class="lead">
-          100 % manuelle Makro-Retusche für Diamantringe, Halsketten, Uhren und Edelsteine ab 3,50 € pro Bild. Makellose Krappen-Säuberung, facettenreiches Diamantenfeuer, farbverbindliche Goldtöne und reflexionsfreie Zifferblätter für Händler in Österreich, Deutschland und der Schweiz.
+          Als inhabergeführte <strong>Schmuckretusche Agentur</strong> bieten wir 100 % manuelle Makro-Retusche für Diamantringe, Halsketten, Uhren und Edelsteine ab 3,50 € pro Bild. Meisterhafte <strong>Diamant Ring Retusche</strong>, makellose Krappen-Säuberung, facettenreiches Diamantenfeuer, farbverbindliche Goldtöne und professionelle <strong>Uhren Fotobearbeitung</strong> für Händler in Österreich, Deutschland und der Schweiz.
         </p>
         <div class="hero-cta">
           <a href="/contact?service=jewelry&ref=de" class="btn p">Kostenlose Testbearbeitung anfordern (1 Schmuckstück gratis)</a>
@@ -859,16 +874,16 @@ footer a:hover{color:var(--accent)}
       <a href="#fotografie">Shooting-Tipps</a>
       <a href="#preise">Preise (€)</a>
       <a href="#ablauf">Ablauf</a>
-      <a href="#faq">FAQ</a>
+      <a href="#faq">Fragen</a>
     </div>
   </div>
 
-  <!-- SEKTION 01: RINGE & KRAPPEN (INTERACTIVE SLIDER) -->
+  <!-- SEKTION 01: DIAMANT RING RETUSCHE (INTERACTIVE SLIDER) -->
   <section class="dep" id="ringe">
     <div class="wrap">
       <div class="tx">
         <span class="sec-tag">Makro-Präzision &middot; Sektion 01</span>
-        <h2>Diamantringe: Echtes Funkeln, saubere Krappen &amp; makelloses Metall.</h2>
+        <h2>Diamant Ring Retusche: Echtes Funkeln, saubere Krappen &amp; makelloses Metall.</h2>
         <p>
           Im Makrobereich der Schmuckfotografie wirkt jedes mikroskopische Staubkorn wie ein Felsbrocken. Polierte Ringschienen spiegeln unbarmherzig Kamera-Linsen, Fingerabdrücke und Lichtquellen wider.
         </p>
@@ -884,6 +899,9 @@ footer a:hover{color:var(--accent)}
             <h3>Digitale Metallpolitur</h3>
             <p>Beseitigung von Gussunebenheiten und Mikrokratzern bei echtem Metallglanz.</p>
           </div>
+        </div>
+        <div style="margin-top:22px;padding:16px 20px;border-radius:12px;background:rgba(200,241,53,.05);border:1px solid rgba(200,241,53,.2);font-size:14px;color:#dcded4;line-height:1.6">
+          <strong style="color:var(--accent)">Unsere Qualitätsgrenze:</strong> Wir verändern keine Qualitätsmerkmale des Edelsteins wie Farbe, Reinheit oder Einschlüsse. Das Bild soll verkaufen, aber nicht täuschen. Das schützt Sie vor Reklamationen und stärkt das Vertrauen Ihrer Kunden.
         </div>
       </div>
       <div class="media-col">
@@ -1025,12 +1043,12 @@ footer a:hover{color:var(--accent)}
     </div>
   </section>
 
-  <!-- SEKTION 05: UHREN & ZIFFERBLÄTTER (INTERACTIVE SLIDER) -->
+  <!-- SEKTION 05: UHREN FOTOBEARBEITUNG (INTERACTIVE SLIDER) -->
   <section class="dep" id="uhren">
     <div class="wrap">
       <div class="tx">
-        <span class="sec-tag">Uhren-Retusche &middot; Sektion 05</span>
-        <h2>Uhren Bildbearbeitung: Saphirglas entspiegeln &amp; Zifferblatt-Details schärfen.</h2>
+        <span class="sec-tag">Uhren Fotobearbeitung &middot; Sektion 05</span>
+        <h2>Uhren Fotobearbeitung: Saphirglas entspiegeln &amp; Zifferblatt-Details schärfen.</h2>
         <p>
           Uhren vereinen gewölbtes Saphirglas, gebürstete oder polierte Edelstahlgehäuse, filigrane Zeiger und strukturierte Leder- oder Metallarmbänder. Störende Reflexionen auf dem Glas machen Zifferblatt-Indizes oft unleserlich.
         </p>
@@ -1046,6 +1064,9 @@ footer a:hover{color:var(--accent)}
             <h3>Gehäuse-Finish</h3>
             <p>Gestochen scharfer Kontrast zwischen polierten Fasen und satiniertem Bürstenschliff.</p>
           </div>
+        </div>
+        <div style="margin-top:22px;padding:16px 20px;border-radius:12px;background:rgba(200,241,53,.05);border:1px solid rgba(200,241,53,.2);font-size:14px;color:#dcded4;line-height:1.6">
+          <strong style="color:var(--accent)">Ehrliche Retusche für Uhrenhändler &amp; Reseller:</strong> Bei gebrauchten Uhren (z. B. für Chrono24 oder Sammler-Listings) behalten wir echte Gebrauchsspuren bewusst bei, wenn sie zum Originalzustand gehören. Ein ehrliches Bild schützt vor Reklamationen und schafft dauerhaftes Vertrauen.
         </div>
       </div>
       <div class="media-col">
@@ -1293,13 +1314,11 @@ footer a:hover{color:var(--accent)}
         <p style="margin:0;max-width:300px;line-height:1.6;color:var(--muted)">Professionelles Postproduktions-Studio von Shoaib Siddique. Spezialisiert auf High-End Schmuckretusche, Uhren, E-Commerce Freisteller und Mode für Marken und Fotografen in Österreich, Deutschland und der Schweiz.</p>
       </div>
       <div>
-        <h4>Schmuck &amp; Uhren</h4>
-        <a href="#ringe" style="color:var(--accent);font-weight:600">Ringe &amp; Krappen</a>
-        <a href="#metalle">Gold &amp; Platin Töne</a>
-        <a href="#edelsteine">Diamanten &amp; Steine</a>
-        <a href="#kategorien">Schmuck-Kategorien</a>
-        <a href="#uhren">Uhren &amp; Zifferblätter</a>
-        <a href="#preise">Preise (€)</a>
+        <h4>Leistungen (DACH)</h4>
+        <a href="/de/produktfotos-bearbeiten-lassen">Produktfotos &amp; Freisteller</a>
+        <a href="/de/schmuckretusche" style="color:var(--accent);font-weight:600">Schmuckretusche &amp; Uhren</a>
+        <a href="/de/geisterpuppe-mode-retusche">Geisterpuppe &amp; Mode</a>
+        <a href="/de/beauty-retusche">High-End Hautretusche &amp; Beauty</a>
       </div>
       <div>
         <h4>Navigation</h4>
@@ -1315,6 +1334,15 @@ footer a:hover{color:var(--accent)}
         <a href="https://wa.me/8801710763251" target="_blank" rel="noopener">WhatsApp Direct</a>
         <a href="https://instagram.com/retouchershoaib" target="_blank" rel="noopener">Instagram Studio</a>
         <a href="https://linkedin.com/in/retouchershoaib" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div style="margin-top:32px;padding:18px 24px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);font-size:13px;color:#a5a59e;line-height:1.6">
+      <div style="font-weight:700;color:var(--text);margin-bottom:6px;display:flex;align-items:center;gap:8px">
+        <span>&#x1f512; B2B-Standard für Deutschland, Österreich &amp; die Schweiz (DACH)</span>
+      </div>
+      <div>
+        <strong>Impressum &amp; geschäftliche Angaben:</strong> Retoucher Shoaib Studio &middot; Inhaber: Shoaib Siddique &middot; E-Mail: <a href="mailto:retouchershoaib@gmail.com" style="color:var(--accent);text-decoration:underline">retouchershoaib@gmail.com</a> &middot; WhatsApp: +880 1710 763251.<br>
+        <strong>EU-DSGVO &amp; Vertraulichkeit:</strong> Strikter Datenschutz nach EU-DSGVO, verschlüsselte Dateiübertragung &amp; Unterzeichnung von Geheimhaltungsvereinbarungen (NDA) auf Wunsch &middot; B2B-Rechnungsstellung mit ausgewiesener Währung in Euro (€) &middot; SEPA-Überweisung &middot; Express-Support in der europäischen Zeitzone (CET).
       </div>
     </div>
     <div class="foot-bot">
