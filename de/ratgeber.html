@@ -43,7 +43,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap">
 
 <style>
 :root{
@@ -55,8 +55,8 @@
   --accent:#c8f135;
   --text:#f4f5f1;
   --muted:#8c8f85;
-  --display:'Syne',sans-serif;
-  --body:'Plus Jakarta Sans',sans-serif;
+  --display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+  --body:"DM Sans","Helvetica Neue",Arial,sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box}
 body{
@@ -88,11 +88,16 @@ header .wrap{
   justify-content:space-between;
 }
 .logo{
-  font:800 20px/1 var(--display);
-  letter-spacing:-.02em;
+  font:800 19px var(--display);
+  letter-spacing:-.01em;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  white-space:nowrap;
+  flex-shrink:0;
   color:var(--text);
 }
-.logo sup{font-size:10px;color:var(--accent);margin-left:2px}
+.logo sup{font-size:10px;color:var(--accent)}
 nav{
   display:flex;
   align-items:center;
@@ -357,9 +362,9 @@ footer a:hover{color:var(--accent)}
           <a href="/de/beauty-retusche" role="menuitem"><strong>Beauty &amp; Porträts <em class="nav-new">Neu</em></strong><span>High-End Haut &amp; Frequenztrennung</span></a>
         </div>
       </div>
-      <a href="/de/ratgeber" class="cur">Ratgeber</a>
       <a href="/de/#preise">Preise</a>
       <a href="/de/#faq">Fragen</a>
+      <a href="/de/ratgeber" class="cur">Ratgeber</a>
       <a href="/de/kontakt">Kontakt</a>
     </nav>
     <div class="nav-actions">
