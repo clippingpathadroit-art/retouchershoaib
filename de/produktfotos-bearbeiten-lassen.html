@@ -48,6 +48,8 @@
         "https://retouchershoaib.com/assets/agency_showcase/ecommerce-eyewear-glare-removal-after.webp",
         "https://retouchershoaib.com/assets/agency_showcase/ecom-floral-handbag-mirror-after.webp",
         "https://retouchershoaib.com/assets/agency_showcase/patent-leather-oxford-shoes-retouching.webp",
+        "https://retouchershoaib.com/assets/agency_showcase/oxford-shoes-outsole-packshot-retouching.webp",
+        "https://retouchershoaib.com/assets/agency_showcase/oxford-shoes-profile-packshot-retouching.webp",
         "https://retouchershoaib.com/assets/agency_showcase/ecom-hardware-clipping-path-packshot-retouching.webp",
         "https://retouchershoaib.com/assets/agency_showcase/luxury-perfume-bottle-packshot-retouching.webp"
       ],
@@ -598,6 +600,13 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   justify-content:space-between;
   gap:12px;
 }
+.cap span:last-child{
+  white-space:nowrap;
+  flex-shrink:0;
+  color:var(--accent);
+  font-weight:600;
+  font-size:12.5px;
+}
 
 /* CARDS & GRIDS */
 .card-grid{
@@ -650,6 +659,52 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   height:auto;
   display:block;
   object-fit:cover;
+}
+
+/* FOOTWEAR MULTI-ANGLE GALLERY SWITCHER */
+.angle-thumbs{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin-top:12px;
+}
+.ang-btn{
+  padding:8px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:var(--surface);
+  color:var(--muted);
+  font:500 13px var(--body);
+  cursor:pointer;
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:7px;
+  text-align:center;
+  transition:border-color .2s,color .2s,background .2s,transform .15s;
+}
+.ang-btn img{
+  width:100%;
+  height:auto;
+  aspect-ratio:1/1;
+  object-fit:cover;
+  border-radius:8px;
+  background:#ffffff;
+  display:block;
+}
+.ang-btn:hover{
+  border-color:rgba(200,241,53,.45);
+  color:var(--text);
+  transform:translateY(-1px);
+}
+.ang-btn[aria-pressed="true"]{
+  border-color:var(--accent);
+  color:var(--accent);
+  font-weight:600;
+  background:rgba(200,241,53,.06);
+}
+@media(max-width:600px){
+  .angle-thumbs{gap:8px;margin-top:10px}
+  .ang-btn{padding:6px;font-size:11.5px;gap:5px;border-radius:10px}
 }
 
 /* 3-COLUMN GALLERY / PACKSHOT GRID */
@@ -1039,6 +1094,7 @@ footer a:hover{color:var(--accent)}
       </div>
       <a href="/de/#preise">Preise</a>
       <a href="/de/#faq">Fragen</a>
+      <a href="/de/ratgeber">Ratgeber</a>
     </nav>
     <div class="nav-actions">
       <a class="btn" id="navAuthBtn" href="/portal" rel="nofollow">Anmelden</a>
@@ -1211,11 +1267,25 @@ footer a:hover{color:var(--accent)}
       </div>
       <div class="media-col">
         <div class="media-card" style="aspect-ratio:1/1;max-width:540px;margin:0 auto">
-          <img src="/assets/agency_showcase/patent-leather-oxford-shoes-retouching.webp" alt="Herrenschuhe und Lackleder Oxford Schuhe Bildbearbeitung und Freisteller" width="1400" height="1400" style="width:100%;height:100%;object-fit:contain;display:block" loading="lazy" decoding="async">
+          <img id="shoeMainImg" src="/assets/agency_showcase/patent-leather-oxford-shoes-retouching.webp" alt="Herrenschuhe Freisteller &amp; Retusche – Lackleder Oxford Schuhe 3/4 Studio-Paaransicht auf reinweißem Grund" width="1400" height="1400" style="width:100%;height:100%;object-fit:contain;display:block" loading="lazy" decoding="async">
         </div>
-        <div class="cap">
-          <span>Lackleder-Oxfords mit handgezeichnetem Freistellerpfad, Fersen-Symmetrie und weichem Bodenkontaktschatten.</span>
-          <span>Präzise Schuh-Retusche</span>
+        <div class="angle-thumbs" id="footwearThumbs" role="group" aria-label="Winkel-Vorschau der Lackleder-Oxfords wechseln" style="max-width:540px;margin:12px auto 0">
+          <button type="button" class="ang-btn" aria-pressed="true" data-src="/assets/agency_showcase/patent-leather-oxford-shoes-retouching.webp" data-alt="Herrenschuhe Freisteller &amp; Retusche – Lackleder Oxford Schuhe 3/4 Studio-Paaransicht auf reinweißem Grund" data-cap="Lackleder-Oxfords mit handgezeichnetem Freistellerpfad, Fersen-Symmetrie und weichem Bodenkontaktschatten." data-badge="3/4 Studio-Paar">
+            <img src="/assets/agency_showcase/patent-leather-oxford-shoes-retouching.webp" alt="Lackleder-Oxfords 3/4 Studioansicht Miniaturansicht" width="1400" height="1400" loading="lazy">
+            <span>3/4 Studio-Paar</span>
+          </button>
+          <button type="button" class="ang-btn" aria-pressed="false" data-src="/assets/agency_showcase/oxford-shoes-outsole-packshot-retouching.webp" data-alt="Lederschuh Sohlen-Retusche – Handgefertigte Ledersohle Detailaufnahme mit handgezeichnetem Freistellerpfad" data-cap="Handgefertigte Ledersohle mit bereinigten Kanten, makelloser Ziernaht und neutraler Schattierung." data-badge="Sohlen-Detail">
+            <img src="/assets/agency_showcase/oxford-shoes-outsole-packshot-retouching.webp" alt="Handgefertigte Ledersohle Detailansicht Miniaturansicht" width="1400" height="1400" loading="lazy">
+            <span>Sohlen-Detail</span>
+          </button>
+          <button type="button" class="ang-btn" aria-pressed="false" data-src="/assets/agency_showcase/oxford-shoes-profile-packshot-retouching.webp" data-alt="Schuhfotografie Draufsicht Innensohle – Lackschuhe Freistellen für E-Commerce und Kataloge" data-cap="Draufsicht mit Innensohlen-Prägung, harmonischer Schnürung und faltenfreiem Schaft." data-badge="Innensohle Draufsicht">
+            <img src="/assets/agency_showcase/oxford-shoes-profile-packshot-retouching.webp" alt="Draufsicht Innensohle Miniaturansicht" width="1400" height="1400" loading="lazy">
+            <span>Innensohle Draufsicht</span>
+          </button>
+        </div>
+        <div class="cap" style="max-width:540px;margin:10px auto 0">
+          <span id="shoeCapText">Lackleder-Oxfords mit handgezeichnetem Freistellerpfad, Fersen-Symmetrie und weichem Bodenkontaktschatten.</span>
+          <span id="shoeCapBadge">3/4 Studio-Paar</span>
         </div>
       </div>
     </div>
@@ -1626,7 +1696,8 @@ footer a:hover{color:var(--accent)}
       <div>
         <h4>Navigation</h4>
         <a href="/de/">Startseite (DE)</a>
-                <a href="/work">Portfolio</a>
+        <a href="/work">Portfolio</a>
+        <a href="/de/ratgeber">Ratgeber &amp; Leitfäden</a>
         <a href="/de/kontakt">Kontakt &amp; Angebot</a>
         <a href="/portal" rel="nofollow">Kundenportal &#x1f512;</a>
       </div>
@@ -1719,6 +1790,31 @@ footer a:hover{color:var(--accent)}
     addEventListener('scroll', syncActiveBar, { passive: true });
     addEventListener('resize', function(){ syncActiveBar(); syncBarMask(); }, { passive: true });
     syncActiveBar();
+  }
+
+  // 3. Interactive Footwear Multi-Angle Gallery Switcher
+  var sImg = document.getElementById('shoeMainImg');
+  var fThumbs = document.getElementById('footwearThumbs');
+  var sCap = document.getElementById('shoeCapText');
+  var sBadge = document.getElementById('shoeCapBadge');
+  if (fThumbs && sImg) {
+    fThumbs.addEventListener('click', function(e){
+      var btn = e.target.closest('.ang-btn');
+      if (!btn) return;
+      var src = btn.getAttribute('data-src');
+      var alt = btn.getAttribute('data-alt');
+      var cap = btn.getAttribute('data-cap');
+      var badge = btn.getAttribute('data-badge');
+      if (src) {
+        sImg.src = src;
+        if (alt) sImg.alt = alt;
+      }
+      if (sCap && cap) sCap.textContent = cap;
+      if (sBadge && badge) sBadge.textContent = badge;
+      fThumbs.querySelectorAll('.ang-btn').forEach(function(b){
+        b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+      });
+    });
   }
 })();
 </script>
