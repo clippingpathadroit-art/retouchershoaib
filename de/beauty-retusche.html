@@ -355,7 +355,7 @@ h1 em{font-style:italic;color:var(--accent)}
   color:#b5b5ad;
 }
 
-/* STICKY CHAPTER BAR */
+/* STICKY SUB-NAVIGATION BAR - ZERO CUT-OFF */
 .bar{
   position:sticky;
   top:calc(env(safe-area-inset-top,0px) + 68px);
@@ -368,46 +368,63 @@ h1 em{font-style:italic;color:var(--accent)}
   width:100%;
 }
 .bar .wrap{
+  position:relative;
   display:flex;
   align-items:center;
-  gap:8px;
-  padding-block:12px;
+  gap:6px;
+  padding:10px clamp(16px,2.5vw,36px);
+  max-width:1400px;
+  margin:0 auto;
   overflow-x:auto;
-  scroll-padding-inline:clamp(20px,4vw,48px);
+  overscroll-behavior-x:contain;
+  -webkit-overflow-scrolling:touch;
+  scroll-padding-inline:clamp(16px,2.5vw,36px);
   scrollbar-width:none;
   -ms-overflow-style:none;
 }
 .bar .wrap::-webkit-scrollbar{display:none}
-.bar .wrap::after{
-  content:"";
-  flex:0 0 clamp(24px, 5vw, 60px);
-  height:1px;
-}
+.bar .wrap::after{display:none !important}
 .bar .wrap.can-scroll-r{
-  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 48px),transparent);
-  mask-image:linear-gradient(90deg,#000 calc(100% - 48px),transparent);
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent);
+  mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent);
 }
 .bar .wrap.can-scroll-l{
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 40px);
-  mask-image:linear-gradient(90deg,transparent,#000 40px);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 20px);
+  mask-image:linear-gradient(90deg,transparent,#000 20px);
 }
 .bar .wrap.can-scroll-l.can-scroll-r{
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 40px,#000 calc(100% - 48px),transparent);
-  mask-image:linear-gradient(90deg,transparent,#000 40px,#000 calc(100% - 48px),transparent);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 20px,#000 calc(100% - 24px),transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 20px,#000 calc(100% - 24px),transparent);
 }
 .bar a{
-  padding:7px 14px;
-  border-radius:99px;
-  font-size:13.5px;
+  flex:none;
   white-space:nowrap;
+  padding:6px 11px;
+  border-radius:99px;
+  border:1px solid var(--line);
   color:var(--muted);
-  transition:color .2s,background .2s;
-  border:1px solid transparent;
+  font-size:13px;
+  line-height:1.35;
+  transition:all .2s ease;
+  scroll-snap-align:start;
 }
-.bar a:hover{color:var(--text);background:rgba(255,255,255,.05)}
+@media(min-width:1200px){
+  .bar a{
+    font-size:13px;
+    padding:6px 12px;
+  }
+  .bar .wrap{
+    gap:7px;
+  }
+}
+.bar a:hover{
+  color:var(--text);
+  border-color:var(--text);
+}
 .bar a.on{
   color:var(--on-accent);
   background:var(--accent);
+  border-color:var(--accent);
   font-weight:600;
 }
 
@@ -845,7 +862,7 @@ footer a:hover{color:var(--accent)}
       <a href="#grenzen">Ethische Grenzen</a>
       <a href="#preise">Preise (&euro;)</a>
       <a href="#ablauf">Ablauf</a>
-      <a href="#faq">Fragen</a>
+      <a href="#faq">FAQ</a>
     </div>
   </div>
 
@@ -1399,7 +1416,7 @@ footer a:hover{color:var(--accent)}
     rng.addEventListener('change', updateVal);
   });
 
-  // 2. Sticky Subnav Active Pill Sync with Auto-Scroll & Mask (Never cut off)
+    // 2. Sticky Subnav Active Pill Sync with Auto-Scroll & Safe Mask (Zero Cut-Off)
   var bar = document.getElementById('bar');
   if (bar) {
     var navLinks = Array.from(bar.querySelectorAll('a'));
@@ -1410,9 +1427,9 @@ footer a:hover{color:var(--accent)}
     var rm = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     function syncBarMask(){
-      var maxScroll = bar.scrollWidth - bar.clientWidth;
+      var maxScroll = Math.max(0, bar.scrollWidth - bar.clientWidth);
       bar.classList.toggle('can-scroll-l', bar.scrollLeft > 6);
-      bar.classList.toggle('can-scroll-r', maxScroll > 2 && bar.scrollLeft < maxScroll - 4);
+      bar.classList.toggle('can-scroll-r', maxScroll > 2 && bar.scrollLeft < maxScroll - 6);
     }
 
     function syncActiveBar(){
@@ -1429,16 +1446,18 @@ footer a:hover{color:var(--accent)}
         var on = a.getAttribute('href') === '#' + cur;
         a.classList.toggle('on', on);
         if (on && hasOverflow) {
-          var pad = 24;
-          var viewLeft = bar.scrollLeft;
-          var viewRight = viewLeft + bar.clientWidth;
-          var aLeft = a.offsetLeft;
-          var aRight = aLeft + a.offsetWidth;
+          var barRect = bar.getBoundingClientRect();
+          var aRect = a.getBoundingClientRect();
+          var maxScroll = Math.max(0, bar.scrollWidth - bar.clientWidth);
           if (idx === 0) {
             bar.scrollTo({ left: 0, behavior: rm ? 'auto' : 'smooth' });
-          } else if (aLeft < viewLeft + pad || aRight > viewRight - pad) {
-            var left = Math.max(0, aLeft - bar.clientWidth / 2 + a.offsetWidth / 2);
-            bar.scrollTo({ left: left, behavior: rm ? 'auto' : 'smooth' });
+          } else if (idx === navLinks.length - 1) {
+            bar.scrollTo({ left: maxScroll, behavior: rm ? 'auto' : 'smooth' });
+          } else {
+            // Smoothly center active pill without edge clipping
+            var targetScroll = bar.scrollLeft + (aRect.left - barRect.left) - (bar.clientWidth - a.offsetWidth) / 2;
+            var safeScroll = Math.max(0, Math.min(maxScroll, targetScroll));
+            bar.scrollTo({ left: safeScroll, behavior: rm ? 'auto' : 'smooth' });
           }
         }
       });
