@@ -122,7 +122,6 @@
             '<a class="mob-link" href="/work">Work</a>' +
             '<a class="mob-link" href="/feed">Feed</a>' +
             '<a class="mob-link" href="/contact">Contact</a>' +
-            '<a class="mob-link" href="/de/" title="Deutsche Version der Website (DACH)">Deutsch (DACH) &rarr;</a>' +
           '</div>' +
           '<div class="mob-ctas">' +
             '<a class="mob-cta-p" href="/contact?service=ecom">Start Free 24h Test Edit &rarr;</a>' +
