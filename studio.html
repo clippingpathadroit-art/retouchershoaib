@@ -32,7 +32,27 @@
     "worksFor": {
       "@type": "Organization",
       "name": "Retoucher Shoaib",
-      "url": "https://retouchershoaib.com/"
+      "url": "https://retouchershoaib.com/",
+      "member": [
+        {
+          "@type": "Person",
+          "name": "Mahbub",
+          "jobTitle": "Production Manager",
+          "image": "https://retouchershoaib.com/assets/mahbub_production_manager.jpg"
+        },
+        {
+          "@type": "Person",
+          "name": "Tabassum",
+          "jobTitle": "Beauty & Jewelry Retouching Team Leader",
+          "image": "https://retouchershoaib.com/assets/tabassum_beauty_jewelry_lead.jpg"
+        },
+        {
+          "@type": "Person",
+          "name": "Santos",
+          "jobTitle": "Apparel & Ghost Mannequin Team Leader",
+          "image": "https://retouchershoaib.com/assets/santos_apparel_ghost_lead.jpg"
+        }
+      ]
     },
     "sameAs": [
       "https://instagram.com/retouchershoaib",
@@ -317,9 +337,21 @@ h2{
 /* LEADERSHIP GRID */
 .ld{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  grid-template-columns:1fr;
   gap:16px;
   margin-top:48px;
+}
+@media(min-width:600px){
+  .ld{
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+  }
+}
+@media(min-width:1080px){
+  .ld{
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+  }
 }
 .pc{
   background:var(--surface);
@@ -585,27 +617,33 @@ footer a:hover{
           </div>
         </article>
         <article class="pc rv">
-          <div class="im"><div class="mono" aria-hidden="true">B</div></div>
+          <div class="im">
+            <img src="./assets/mahbub_production_manager.webp" alt="Mahbub — Production Manager at Retoucher Shoaib commercial post-production studio" width="819" height="1024" loading="lazy" decoding="async">
+          </div>
           <div class="tx">
-            <h3>Beauty lead</h3>
-            <p class="rl">Model and skin</p>
-            <p>Frequency separation, dodge and burn sculpting, and natural skin texture preservation.</p>
+            <h3>Mahbub</h3>
+            <p class="rl">Production Manager</p>
+            <p>Directing daily studio production pipelines, high-volume batch turnarounds and client delivery SLAs.</p>
           </div>
         </article>
         <article class="pc rv">
-          <div class="im"><div class="mono" aria-hidden="true">J</div></div>
+          <div class="im">
+            <img src="./assets/tabassum_beauty_jewelry_lead.webp" alt="Tabassum — Beauty &amp; Jewelry Retouching Team Leader at Retoucher Shoaib commercial post-production studio" width="819" height="1024" loading="lazy" decoding="async">
+          </div>
           <div class="tx">
-            <h3>Jewelry and horology lead</h3>
-            <p class="rl">Macro polish</p>
-            <p>Diamond facet brilliance, focus stacking alignment and metallic luster refinement.</p>
+            <h3>Tabassum</h3>
+            <p class="rl">Beauty &amp; Jewelry Retouching Team Leader</p>
+            <p>Leading high-end dodge &amp; burn skin work, natural texture preservation, diamond brilliance and macro metal polish.</p>
           </div>
         </article>
         <article class="pc rv">
-          <div class="im"><div class="mono" aria-hidden="true">A</div></div>
+          <div class="im">
+            <img src="./assets/santos_apparel_ghost_lead.webp" alt="Santos — Apparel &amp; Ghost Mannequin Team Leader at Retoucher Shoaib commercial post-production studio" width="819" height="1024" loading="lazy" decoding="async">
+          </div>
           <div class="tx">
-            <h3>Apparel and ghost lead</h3>
-            <p class="rl">3D hollow joints</p>
-            <p>Garment symmetry, neck joints, fabric crease smoothing and catalog-scale batches.</p>
+            <h3>Santos</h3>
+            <p class="rl">Apparel &amp; Ghost Mannequin Team Leader</p>
+            <p>Specializing in 3D hollow neck joints, garment drape symmetry, crease smoothing and catalog fashion consistency.</p>
           </div>
         </article>
       </div>
