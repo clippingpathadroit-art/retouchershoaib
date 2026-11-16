@@ -824,9 +824,9 @@ footer a:hover{color:var(--accent)}
 .sw-btn[aria-pressed="true"]{border-color:var(--accent);background:rgba(200,241,53,.12);color:var(--accent)}
 .sw-dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex-shrink:0}
 .piece-stage{position:relative;border-radius:18px;overflow:hidden;background:rgba(255,255,255,.03);border:1px solid var(--line);box-shadow:0 24px 60px rgba(0,0,0,.45)}
-.piece-stage-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:12px 16px;background:rgba(255,255,255,.05);border-bottom:1px solid var(--line)}
-.piece-title-pill{font:700 15px/1.25 var(--sans,inherit);color:var(--text);letter-spacing:.01em}
-.craft-badge{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);padding:4px 10px;border-radius:99px;background:rgba(200,241,53,.1);border:1px solid rgba(200,241,53,.25)}
+.piece-stage-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:nowrap;min-height:50px;box-sizing:border-box;padding:10px 16px;background:rgba(255,255,255,.05);border-bottom:1px solid var(--line)}
+.piece-title-pill{font:700 15px/1.25 var(--sans,inherit);color:var(--text);letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.craft-badge{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);padding:4px 10px;border-radius:99px;background:rgba(200,241,53,.1);border:1px solid rgba(200,241,53,.25);white-space:nowrap;flex-shrink:0}
 .piece-canvas{aspect-ratio:1/1;background:#ffffff;overflow:hidden;display:flex;align-items:center;justify-content:center}
 .piece-canvas img{width:100%;height:100%;object-fit:contain;display:block;transition:opacity .25s ease}
 .piece-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
@@ -1090,9 +1090,9 @@ footer a:hover{color:var(--accent)}
             <img id="pieceMainImg" src="/assets/agency_showcase/bridal-diamond-ring-set-packshot.webp" alt="18K Gelbgold Solitär-Diamantring mit Memoire-Trauring auf reinweißem Hintergrund" width="1024" height="1024" loading="lazy" decoding="async">
           </div>
         </div>
-        <div class="cap" style="margin-top:10px">
+        <div class="cap" style="margin-top:10px;min-height:42px;align-items:flex-start">
           <span id="pieceCap">Messerscharf geschliffene Krappen, polierte Ringschienen innen &amp; außen und 3D-Bodenkontaktschatten.</span>
-          <span>Interaktive Auswahl</span>
+          <span style="white-space:nowrap;flex-shrink:0">Interaktive Auswahl</span>
         </div>
       </div>
 
@@ -1134,8 +1134,8 @@ footer a:hover{color:var(--accent)}
 
           <button type="button" class="piece-card" aria-pressed="false"
             data-src="/assets/agency_showcase/panther-bangles-white-cutout.webp"
-            data-badge="Bangle-Geometrie &amp; Schließen"
-            data-pill="Armreifen &amp; Tennisarmbänder"
+            data-badge="Bangle-Geometrie &amp; Pavé"
+            data-pill="Armreifen &amp; Bangles"
             data-alt="Weißgold, Gelbgold und Roségold Pavé-Diamantarmreifen sauber freigestellt"
             data-cap="Glanzverlauf entlang des Handgelenkbogens, Schließenpolitur und Pavé-Ausrichtung.">
             <h3>Armreifen &amp; Bangles</h3>
@@ -1153,7 +1153,7 @@ footer a:hover{color:var(--accent)}
           </button>
 
           <button type="button" class="piece-card" aria-pressed="false"
-            data-src="/assets/agency_showcase/gold-earring-editorial-retouch.webp"
+            data-src="/assets/agency_showcase/gold-earring-editorial-retouch-square.webp"
             data-badge="Echte Hautporen &amp; Goldglanz"
             data-pill="Schmuck am Model"
             data-alt="Editorial Beauty Porträt mit skulpturalem 18K Goldohrring und natürlicher Hauttextur"
