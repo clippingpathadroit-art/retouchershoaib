@@ -292,6 +292,12 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://retouchershoaib.com/de/ratgeber</loc>
+    <lastmod>2026-11-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://retouchershoaib.com/privacy</loc>
     <lastmod>2026-11-11</lastmod>
     <changefreq>yearly</changefreq>

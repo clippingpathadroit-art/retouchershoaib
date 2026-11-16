@@ -89,6 +89,7 @@
             '</details>' +
             '<a class="mob-link" href="/de/#preise">Preise (€)</a>' +
             '<a class="mob-link" href="/de/#faq">Fragen &amp; Antworten</a>' +
+            '<a class="mob-link" href="/de/ratgeber">Ratgeber &amp; Leitfäden</a>' +
             '<a class="mob-link" href="/de/kontakt">Kontakt</a>' +
             '' +
           '</div>' +
