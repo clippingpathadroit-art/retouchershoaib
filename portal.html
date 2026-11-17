@@ -4558,10 +4558,10 @@ function renderInvoicesList() {
   if (statUnpaidSub) {
     if (totalUnpaid === 0) {
       statUnpaidSub.textContent = 'All Invoices Settled ✓';
-      statUnpaidSub.style.color = '#059669';
+      statUnpaidSub.style.color = 'rgba(255, 255, 255, 0.95)';
     } else {
-      statUnpaidSub.textContent = unpaidCount + ' Orders Due ($' + totalUnpaid.toFixed(2) + ' Total)';
-      statUnpaidSub.style.color = '#d97706';
+      statUnpaidSub.textContent = unpaidCount + (unpaidCount === 1 ? ' Order Due ($' : ' Orders Due ($') + totalUnpaid.toFixed(2) + ' Total)';
+      statUnpaidSub.style.color = 'rgba(255, 255, 255, 0.95)';
     }
   }
 }
