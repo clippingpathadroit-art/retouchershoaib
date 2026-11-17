@@ -695,8 +695,8 @@ footer a:hover{
                 <p class="er" id="qimg-e"></p>
               </div>
               <div>
-                <label for="ql">Sample or reference link <span style="opacity:.7">(optional)</span></label>
-                <input id="ql" name="quote_link" type="url" placeholder="Google Drive, Dropbox, WeTransfer">
+                <label for="ql">Link to your images <i>*</i></label>
+                <input id="ql" name="images_link" type="url" placeholder="Google Drive, Dropbox, WeTransfer">
                 <p class="er" id="ql-e"></p>
               </div>
               <div class="f">
@@ -904,11 +904,7 @@ footer a:hover{
       var qCount = parseInt(($('qimg').value || '').trim(), 10);
       chk('qimg', !isNaN(qCount) && qCount >= 1, 'Please enter the number of images (at least 1).');
       var qLink = $('ql').value.trim();
-      if(qLink){
-        chk('ql', /^https?:\/\/\S+\.\S+/.test(qLink), 'Please paste a valid link starting with https:// (or leave blank).');
-      } else {
-        err('ql', '');
-      }
+      chk('ql', /^https?:\/\/\S+\.\S+/.test(qLink), 'Please paste a cloud link to your images starting with https://');
       chk('qm', $('qm').value.trim().length > 4, 'Please share a brief note about your project (at least 5 characters).');
     } else {
       chk('m', $('m').value.trim().length > 4, 'Please write a message with at least 5 characters.');
@@ -948,7 +944,7 @@ footer a:hover{
       data.editing_level = qlv ? qlv.value : '';
       data.number_of_images = $('qimg').value.trim();
       data.turnaround = qt ? qt.value : '';
-      data.reference_link = $('ql').value.trim() || '—';
+      data.images_link = $('ql').value.trim();
       data.project_details = $('qm').value.trim();
     } else {
       var t = document.querySelector('input[name="topic"]:checked');
