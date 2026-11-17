@@ -758,20 +758,44 @@ h2{
 .brands-block {
   margin-top: 10px;
 }
-.logo-row {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
+/* BRANDS INFINITE MARQUEE TICKER */
+.brands-marquee-wrap {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
   margin-top: 24px;
+  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  padding: 10px 0;
 }
-@media (max-width: 990px) {
-  .logo-row {
-    grid-template-columns: repeat(3, 1fr);
-  }
+
+.brands-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: brandsScrollLeft 28s linear infinite;
+  will-change: transform;
 }
-@media (max-width: 600px) {
-  .logo-row {
-    grid-template-columns: repeat(2, 1fr);
+
+.brands-marquee-wrap:hover .brands-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes brandsScrollLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.brands-logo-group {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-right: 20px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brands-marquee-track {
+    animation: none;
+    overflow-x: auto;
   }
 }
 .logo-card {
@@ -784,6 +808,8 @@ h2{
   justify-content: center;
   padding: 16px 20px;
   transition: transform .25s ease, border-color .25s ease, background .25s ease;
+  min-width: 220px;
+  flex-shrink: 0;
 }
 .logo-card:hover {
   border-color: rgba(200, 241, 53, 0.45);
@@ -1854,21 +1880,74 @@ footer a:hover{
         <h2>Brands we work with</h2>
         <p class="lead" style="margin:0 0 28px">Trusted by bespoke tailors, jewelry studios, and international fashion brands across the US, UK and Europe.</p>
       </div>
-      <div class="logo-row">
-        <div class="logo-card" title="Aristocracy London — Luxury Bespoke Menswear">
-          <img class="aristocracy" src="/assets/client_logos/aristocracy.png" alt="Aristocracy London" width="273" height="87" loading="lazy" decoding="async">
-        </div>
-        <div class="logo-card" title="PilotFashion — Commercial Apparel">
-          <img class="pilotfashion" src="/assets/client_logos/pilotfashion.png" alt="PilotFashion" width="681" height="358" loading="lazy" decoding="async">
-        </div>
-        <div class="logo-card" title="Motion Fashion GMBH — Contemporary European Fashion">
-          <img class="motionfashion" src="/assets/client_logos/motionfashion.png" alt="Motion Fashion GMBH" width="64" height="72" loading="lazy" decoding="async">
-        </div>
-        <div class="logo-card" title="Proper Cloth — Custom &amp; Made-to-Measure Menswear">
-          <img class="propercloth" src="/assets/client_logos/propercloth.png" alt="Proper Cloth" width="163" height="29" loading="lazy" decoding="async">
-        </div>
-        <div class="logo-card" title="Meshki — Contemporary Luxury &amp; Eveningwear">
-          <img class="meshki" src="/assets/client_logos/meshki.avif" alt="Meshki" width="400" height="400" loading="lazy" decoding="async">
+      <div class="brands-marquee-wrap" aria-label="Partner Brand Logos Marquee">
+        <div class="brands-marquee-track">
+          <!-- GROUP 1 -->
+          <div class="brands-logo-group">
+            <div class="logo-card" title="Aristocracy London — Luxury Bespoke Menswear">
+              <img class="aristocracy" src="/assets/client_logos/aristocracy.png" alt="Aristocracy London" width="273" height="87" loading="lazy" decoding="async">
+            </div>
+            <div class="logo-card" title="PilotFashion — Commercial Apparel">
+              <img class="pilotfashion" src="/assets/client_logos/pilotfashion.png" alt="PilotFashion" width="681" height="358" loading="lazy" decoding="async">
+            </div>
+            <div class="logo-card" title="Motion Fashion GMBH — Contemporary European Fashion">
+              <img class="motionfashion" src="/assets/client_logos/motionfashion.png" alt="Motion Fashion GMBH" width="64" height="72" loading="lazy" decoding="async">
+            </div>
+            <div class="logo-card" title="Proper Cloth — Custom &amp; Made-to-Measure Menswear">
+              <img class="propercloth" src="/assets/client_logos/propercloth.png" alt="Proper Cloth" width="163" height="29" loading="lazy" decoding="async">
+            </div>
+            <div class="logo-card" title="Meshki — Contemporary Luxury &amp; Eveningwear">
+              <img class="meshki" src="/assets/client_logos/meshki.avif" alt="Meshki" width="400" height="400" loading="lazy" decoding="async">
+            </div>
+            <div class="logo-card" title="Aristocracy London — Luxury Bespoke Menswear">
+              <img class="aristocracy" src="/assets/client_logos/aristocracy.png" alt="Aristocracy London" width="273" height="87" loading="lazy" decoding="async">
+            </div>
+            <div class="logo-card" title="PilotFashion — Commercial Apparel">
+              <img class="pilotfashion" src="/assets/client_logos/pilotfashion.png" alt="PilotFashion" width="681" height="358" loading="lazy" decoding="async">
+            </div>
+            <div class="logo-card" title="Motion Fashion GMBH — Contemporary European Fashion">
+              <img class="motionfashion" src="/assets/client_logos/motionfashion.png" alt="Motion Fashion GMBH" width="64" height="72" loading="lazy" decoding="async">
+            </div>
+            <div class="logo-card" title="Proper Cloth — Custom &amp; Made-to-Measure Menswear">
+              <img class="propercloth" src="/assets/client_logos/propercloth.png" alt="Proper Cloth" width="163" height="29" loading="lazy" decoding="async">
+            </div>
+            <div class="logo-card" title="Meshki — Contemporary Luxury &amp; Eveningwear">
+              <img class="meshki" src="/assets/client_logos/meshki.avif" alt="Meshki" width="400" height="400" loading="lazy" decoding="async">
+            </div>
+          </div>
+          <!-- GROUP 2 (SEAMLESS DUPLICATE FOR INFINITE LOOP) -->
+          <div class="brands-logo-group" aria-hidden="true">
+            <div class="logo-card" title="Aristocracy London — Luxury Bespoke Menswear">
+              <img class="aristocracy" src="/assets/client_logos/aristocracy.png" alt="Aristocracy London" width="273" height="87" loading="lazy" decoding="async">
+            </div>
+            <div class="logo-card" title="PilotFashion — Commercial Apparel">
+              <img class="pilotfashion" src="/assets/client_logos/pilotfashion.png" alt="PilotFashion" width="681" height="358" loading="lazy" decoding="async">
+            </div>
+            <div class="logo-card" title="Motion Fashion GMBH — Contemporary European Fashion">
+              <img class="motionfashion" src="/assets/client_logos/motionfashion.png" alt="Motion Fashion GMBH" width="64" height="72" loading="lazy" decoding="async">
+            </div>
+            <div class="logo-card" title="Proper Cloth — Custom &amp; Made-to-Measure Menswear">
+              <img class="propercloth" src="/assets/client_logos/propercloth.png" alt="Proper Cloth" width="163" height="29" loading="lazy" decoding="async">
+            </div>
+            <div class="logo-card" title="Meshki — Contemporary Luxury &amp; Eveningwear">
+              <img class="meshki" src="/assets/client_logos/meshki.avif" alt="Meshki" width="400" height="400" loading="lazy" decoding="async">
+            </div>
+            <div class="logo-card" title="Aristocracy London — Luxury Bespoke Menswear">
+              <img class="aristocracy" src="/assets/client_logos/aristocracy.png" alt="Aristocracy London" width="273" height="87" loading="lazy" decoding="async">
+            </div>
+            <div class="logo-card" title="PilotFashion — Commercial Apparel">
+              <img class="pilotfashion" src="/assets/client_logos/pilotfashion.png" alt="PilotFashion" width="681" height="358" loading="lazy" decoding="async">
+            </div>
+            <div class="logo-card" title="Motion Fashion GMBH — Contemporary European Fashion">
+              <img class="motionfashion" src="/assets/client_logos/motionfashion.png" alt="Motion Fashion GMBH" width="64" height="72" loading="lazy" decoding="async">
+            </div>
+            <div class="logo-card" title="Proper Cloth — Custom &amp; Made-to-Measure Menswear">
+              <img class="propercloth" src="/assets/client_logos/propercloth.png" alt="Proper Cloth" width="163" height="29" loading="lazy" decoding="async">
+            </div>
+            <div class="logo-card" title="Meshki — Contemporary Luxury &amp; Eveningwear">
+              <img class="meshki" src="/assets/client_logos/meshki.avif" alt="Meshki" width="400" height="400" loading="lazy" decoding="async">
+            </div>
+          </div>
         </div>
       </div>
     </div>
