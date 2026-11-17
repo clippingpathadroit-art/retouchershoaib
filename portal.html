@@ -6027,30 +6027,44 @@ async function sendAiMessage() {
 
 function getConciergeResponse(q) {
   const query = q.toLowerCase();
+  const waLink = "<a href='https://wa.me/8801710763251' target='_blank' rel='noopener' style='color: #10b981; font-weight: 700;'>Speak with Retoucher on WhatsApp ↗</a>";
 
   // 1. STRICT SECURITY & CONFIDENTIALITY GUARDRAILS
   if (query.includes('admin') || query.includes('password') || query.includes('credential') || 
       query.includes('database') || query.includes('all client') || query.includes('other client') || 
       query.includes('who else') || query.includes('user list') || query.includes('পাসওয়ার্ড') || query.includes('লগইন')) {
-    return "<strong>🛡️ Confidentiality &amp; Privacy Protocol:</strong><br>" +
-           "As Shoaib's studio concierge, I operate under strict non-disclosure and security policies.<br><br>" +
+    return "<strong>🛡️ Confidentiality &amp; Studio NDA Protocol:</strong><br>" +
+           "As the Retoucher Shoaib Studio Concierge, I operate under strict studio non-disclosure and client isolation policies.<br><br>" +
            "I cannot disclose administrative passwords, backend credentials, database records, or private details regarding other studio clients.<br><br>" +
-           "You have verified, isolated access to your own commissions and invoices. How may I assist you with your current retouching project?";
+           "Your workspace is completely isolated for your own orders, master files, and invoices. How can our studio assist with your current project?";
   }
 
-  // 2. STRICT GUARDRAIL: PRICE NEGOTIATION & COMMISSION CHANGES FORBIDDEN
+  // 2. STRICT GUARDRAIL: PRICE NEGOTIATION, QUOTES & COMMISSION CHANGES
   if (query.includes('change price') || query.includes('reduce price') || query.includes('discount') || 
       query.includes('cheaper') || query.includes('negotiate') || query.includes('custom rate') || 
       query.includes('modify price') || query.includes('alter order') || query.includes('change scope') ||
       query.includes('price') || query.includes('pricing') || query.includes('rate') || query.includes('cost') ||
-      query.includes('how much') || query.includes('টাকা') || query.includes('দাম') || query.includes('ডিসকাউন্ট')) {
-    return "<strong>⚠️ Project Rates &amp; Pricing Authority Policy:</strong><br>" +
-           "Adjusting project rates, offering discounts, altering invoices, or modifying agreed commission scopes is <strong>strictly outside my authority as an AI assistant</strong>.<br><br>" +
-           "All commercial quotes, volume pricing, and rates are personally agreed upon by <strong>Shoaib Siddique</strong> based on resolution, art direction complexity, and image count.<br><br>" +
-           "To discuss custom commercial terms or request revisions, please connect directly with Shoaib on WhatsApp: <a href='https://wa.me/8801710763251' target='_blank' style='color: #10b981; font-weight: 700;'>+880 1710-763251 ↗</a> or propose your budget on the <strong>+ Place New Order</strong> form.";
+      query.includes('quote') || query.includes('quotation') || query.includes('how much') ||
+      query.includes('টাকা') || query.includes('দাম') || query.includes('ডিসকাউন্ট')) {
+    return "<strong>⚠️ Custom Quotes &amp; Studio Pricing Policy:</strong><br>" +
+           "Quoting custom rates, offering discounts, altering invoices, or modifying agreed scopes is handled exclusively by our <strong>senior production team</strong> — never automated by AI.<br><br>" +
+           "Every batch is quoted fairly based on editing level (<strong>Basic, Standard, or High-End</strong>), image count, and turnaround (<strong>12h Rush, 24h, 48h, or 72h</strong>).<br><br>" +
+           "&bull; Submit a batch request via our <a href='/contact?tab=quote' style='color: #3b82f6; font-weight: 700;'>Request Quote form ↗</a><br>" +
+           "&bull; Email our studio desk: <a href='mailto:retouchershoaib@gmail.com' style='color: #3b82f6; font-weight: 700;'>retouchershoaib@gmail.com</a><br>" +
+           "&bull; Or connect directly: " + waLink;
   }
 
-  // 3. CARD PAYMENT & WISE SIGN-UP GUIDANCE (EXTREMELY IMPORTANT)
+  // 3. VERIFIED CLIENT TESTIMONIAL SUBMISSION
+  if (query.includes('testimonial') || query.includes('review') || query.includes('feedback') || query.includes('rating') || query.includes('রিভিউ')) {
+    return "<strong>⭐ How to Submit a Verified Client Testimonial:</strong><br>" +
+           "Only verified logged-in portal clients can submit a testimonial:<br><br>" +
+           "1. Click <strong>⭐ Submit Testimonial</strong> in your left sidebar menu.<br>" +
+           "2. Your verified client account details are pre-filled automatically.<br>" +
+           "3. Select your service category, choose a star rating, write your feedback, and click <strong>Submit Verified Testimonial</strong>.<br><br>" +
+           "Thank you for sharing your experience with Retoucher Shoaib Studio!";
+  }
+
+  // 4. CARD PAYMENT & WISE SIGN-UP GUIDANCE
   if (query.includes('card') || query.includes('credit') || query.includes('debit') || 
       query.includes('sign up') || query.includes('signup') || query.includes('register') || 
       query.includes('account') || query.includes('visa') || query.includes('mastercard') || 
@@ -6058,83 +6072,88 @@ function getConciergeResponse(q) {
     return "<strong>💳 Paying by Card via Wise (Everything You Need to Know):</strong><br>" +
            "When you click <em>'Credit / Debit Card'</em> on your invoice, your card checkout is securely processed through Wise's PCI-DSS compliant international infrastructure.<br><br>" +
            "<strong>Why does Wise ask to 'Sign Up' or 'Create an Account'?</strong><br>" +
-           "Please do not be confused! Wise requires a quick 1-minute free registration to comply with global banking standards (3D-Secure authentication) and protect you from inflated foreign exchange fees charged by traditional card networks.<br><br>" +
+           "Wise requires a quick 1-minute free registration to comply with international 3D-Secure banking standards and protect you from inflated foreign exchange markups charged by traditional card networks.<br><br>" +
            "<strong>Your Payment Options:</strong><br>" +
-           "&bull; <strong>Option A (Card):</strong> Complete the quick 1-minute free registration on Wise, then enter your regular Visa, MasterCard, or Amex card to pay in seconds.<br>" +
-           "&bull; <strong>Option B (Direct Bank Transfer):</strong> If you do not wish to create a Wise account, simply select your currency tab (<strong>🇺🇸 USD ACH, 🇪🇺 EUR SEPA, or 🇬🇧 GBP Sort Code</strong>) on your invoice and transfer directly from your normal banking app with zero sign-up required!";
+           "&bull; <strong>Option A (Card):</strong> Complete the quick 1-minute free registration on Wise, then pay with Visa, MasterCard, or Amex in seconds.<br>" +
+           "&bull; <strong>Option B (Direct Bank Transfer):</strong> Select your currency tab (<strong>🇺🇸 USD ACH, 🇪🇺 EUR SEPA, or 🇬🇧 GBP Sort Code</strong>) on your invoice and transfer directly from your banking app with zero Wise sign-up required!";
   }
 
-  // 4. ABOUT WISE (WHAT IS WISE & IS IT SAFE?)
+  // 5. ABOUT WISE
   if (query.includes('what is wise') || query.includes('is wise safe') || query.includes('about wise') || 
       query.includes('transferwise') || query.includes('trust wise') || query.includes('ওয়াইজ')) {
     return "<strong>🌐 About Wise (formerly TransferWise):</strong><br>" +
-           "Wise is an internationally regulated financial institution authorized by the UK Financial Conduct Authority (FCA), FinCEN in the United States, and financial authorities across Europe and Asia.<br><br>" +
-           "<strong>Why Shoaib's Studio Uses Wise:</strong><br>" +
-           "&bull; <strong>Zero Hidden Currency Markups:</strong> Traditional wire transfers and PayPal charge up to 4–6% in hidden exchange rate markups plus $30–$50 wire fees. Wise uses the real mid-market exchange rate.<br>" +
+           "Wise is an internationally regulated financial institution authorized by the UK Financial Conduct Authority (FCA), FinCEN in the United States, and regulators across Europe and Asia.<br><br>" +
+           "<strong>Why Retoucher Shoaib Studio Uses Wise:</strong><br>" +
+           "&bull; <strong>Zero Hidden Currency Markups:</strong> Uses the real mid-market exchange rate without $30–$50 wire fees or 4–6% conversion markups.<br>" +
            "&bull; <strong>Bank-Level Security:</strong> 2-Factor Authentication, HTTPS encryption, and 3D-Secure protection.<br>" +
-           "&bull; <strong>Over 16 Million Clients:</strong> Trusted worldwide by Fortune 500 companies, creative studios, and global enterprises.";
+           "&bull; <strong>Globally Trusted:</strong> Used by over 16 million commercial studios, agencies, and global brands.";
   }
 
-  // 5. PAYMENT REFERENCE CODE SUBMISSION
+  // 6. PAYMENT REFERENCE CODE SUBMISSION
   if (query.includes('reference') || query.includes('ref') || query.includes('code') || query.includes('রেফারেন্স')) {
     return "<strong>🏷️ What is the Payment Reference Code?</strong><br>" +
-           "When you complete a transfer via Wise, Domestic Bank (ACH/SEPA/Sort Code), or Card, your banking app or Wise receipt displays a unique <strong>Transaction Reference #</strong> (e.g. <em>Wise #982401</em> or bank confirmation code).<br><br>" +
+           "After completing a transfer via Wise, Domestic Bank (ACH/SEPA/Sort Code), or Card, your receipt displays a unique <strong>Transaction Reference #</strong> (e.g. <em>Wise #982401</em> or bank confirmation code).<br><br>" +
            "<strong>How to Submit Your Reference:</strong><br>" +
            "1. Open your invoice under <strong>Invoices &amp; Billing</strong>.<br>" +
-           "2. Scroll down to the payment section.<br>" +
-           "3. Paste your code into the <em>'Enter Wise / Bank Transfer Reference'</em> input box.<br>" +
-           "4. Click <strong>Confirm Transfer</strong>. Shoaib's studio will verify the funds and issue an official paid receipt!";
+           "2. Scroll down to the payment confirmation box.<br>" +
+           "3. Paste your code into <em>'Enter Wise / Bank Transfer Reference'</em> and click <strong>Confirm Transfer</strong>.<br>" +
+           "4. Our studio billing desk will verify the transfer and issue your official paid receipt!";
   }
 
-  // 6. GENERAL PAYMENT INSTRUCTIONS
+  // 7. GENERAL PAYMENT INSTRUCTIONS
   if (query.includes('pay') || query.includes('invoice') || query.includes('bank') || query.includes('wise') || query.includes('পেমেন্ট')) {
     return "<strong>💳 How to Pay Your Invoice:</strong><br>" +
-           "1. Click <strong>Invoices &amp; Billing</strong> in your left menu.<br>" +
-           "2. Click <strong>[View Invoice 👁️]</strong> or <strong>[Pay 💳]</strong> on your active commission.<br>" +
-           "3. Choose your currency tab:<br>" +
-           "&nbsp;&nbsp;&bull; <strong>🇺🇸 USD ACH:</strong> US Domestic Routing &amp; Account Number (No Wire Fees!)<br>" +
+           "1. Click <strong>Invoices &amp; Billing</strong> in your left sidebar.<br>" +
+           "2. Click <strong>[View Invoice 👁️]</strong> or <strong>[Pay 💳]</strong> on your active project.<br>" +
+           "3. Choose your preferred payment method:<br>" +
+           "&nbsp;&nbsp;&bull; <strong>🇺🇸 USD ACH:</strong> US Domestic Routing &amp; Account Number (No Wire Fees)<br>" +
            "&nbsp;&nbsp;&bull; <strong>🇪🇺 EUR SEPA:</strong> European IBAN &amp; BIC<br>" +
            "&nbsp;&nbsp;&bull; <strong>🇬🇧 GBP Sort Code:</strong> UK Account Number &amp; Sort Code<br>" +
-           "&nbsp;&nbsp;&bull; <strong>🌐 Wise Direct:</strong> Direct Wise email transfer to shoaib.graphicdesign.bd@gmail.com<br>" +
-           "&nbsp;&nbsp;&bull; <strong>💳 Card Checkout:</strong> Instant Visa/Mastercard processing via Wise<br>" +
+           "&nbsp;&nbsp;&bull; <strong>🌐 Wise Direct:</strong> Direct Wise transfer to <strong>retouchershoaib@gmail.com</strong><br>" +
+           "&nbsp;&nbsp;&bull; <strong>💳 Card Checkout:</strong> Visa / MasterCard via Wise<br>" +
            "4. Submit your payment reference code once sent!";
   }
 
-  // 7. DOWNLOAD DELIVERABLES INSTRUCTIONS
+  // 8. DOWNLOAD DELIVERABLES INSTRUCTIONS
   if (query.includes('download') || query.includes('zip') || query.includes('file') || query.includes('psd') || query.includes('raw') || query.includes('ডাউনলোড')) {
     return "<strong>📥 How to Download Your Master Files:</strong><br>" +
-           "1. Navigate to <strong>Archive &amp; Completed</strong> (or Active Orders if marked delivered) in your sidebar.<br>" +
-           "2. Locate your delivered project.<br>" +
-           "3. Click <strong>[📥 Download Files (ZIP)]</strong> to download certified 16-bit master PSDs with intact alpha channels and high-res JPEGs directly from Google Drive.";
+           "1. Open <strong>Archive &amp; Completed</strong> (or <strong>Active Orders</strong> if marked delivered) in your sidebar.<br>" +
+           "2. Locate your completed project.<br>" +
+           "3. Click <strong>[📥 Download Files]</strong> to access your 16-bit layered PSDs, TIFFs, PNGs, or web-ready JPEGs directly from your private Google Drive delivery folder.";
   }
 
-  // 8. NEW COMMISSION SUBMISSION
-  if (query.includes('order') || query.includes('submit') || query.includes('new') || query.includes('commission') || query.includes('অর্ডার')) {
-    return "<strong>⚡ How to Submit a New Retouching Commission:</strong><br>" +
-           "1. Click the <strong>+ Place New Order</strong> button at the top right of your dashboard.<br>" +
-           "2. Enter your Project Name, select Desired Returning Formats (PSD, TIFF, JPEG), and choose your Turnaround SLA (24h Express, 48h Standard).<br>" +
-           "3. Drag &amp; drop your RAW camera files into Option A or paste a Google Drive link in Option B.<br>" +
-           "4. Click <strong>Send Order →</strong>. Your dedicated order folder is provisioned immediately!";
+  // 9. NEW COMMISSION SUBMISSION & TURNAROUND
+  if (query.includes('order') || query.includes('submit') || query.includes('new') || query.includes('commission') || query.includes('turnaround') || query.includes('rush') || query.includes('অর্ডার')) {
+    return "<strong>⚡ How to Submit a New Retouching Order:</strong><br>" +
+           "1. Click <strong>+ Place New Order</strong> at the top right of your dashboard.<br>" +
+           "2. Enter your Project Name, select deliverable formats (PSD, TIFF, JPEG, PNG, WEBP), and pick your turnaround (<strong>12h Rush, 24h, 48h, or 72h</strong>).<br>" +
+           "3. Upload your master files directly in Step 3 or paste a Google Drive / Dropbox / WeTransfer link.<br>" +
+           "4. Click <strong>Send Order →</strong> — your dedicated studio folder is provisioned immediately!";
   }
 
-  // 9. STUDIO CAPABILITIES & SPECS
+  // 10. STUDIO CAPABILITIES & ALL 6 COMMERCIAL DEPARTMENTS
   if (query.includes('service') || query.includes('jewelry') || query.includes('watch') || 
-      query.includes('fashion') || query.includes('beauty') || query.includes('skin') || 
-      query.includes('spec') || query.includes('format')) {
-    return "<strong>✨ Shoaib's Studio Retouching Capabilities:</strong><br>" +
-           "&bull; <strong>Jewelry &amp; Watches:</strong> Metallic texture preservation, diamond sparkle facets, focus stacking, micro-scratch removal.<br>" +
-           "&bull; <strong>Beauty &amp; Fashion:</strong> Natural micro-skin texture preservation (non-destructive dodge &amp; burn), frequency separation, high-fashion color grading.<br>" +
-           "&bull; <strong>Technical Delivery:</strong> 16-bit Master PSDs with layered cutouts &amp; preserved alpha channels, lossless TIFFs, web-optimized sRGB/Adobe RGB.<br>" +
-           "&bull; <strong>Camera RAWs Supported:</strong> Canon CR2/CR3, Nikon NEF, Sony ARW, Fuji RAF, Hasselblad 3FR, Phase One IIQ, and DNG.";
+      query.includes('fashion') || query.includes('ghost') || query.includes('mannequin') ||
+      query.includes('beauty') || query.includes('skin') || query.includes('ecommerce') ||
+      query.includes('packshot') || query.includes('product') || query.includes('automotive') ||
+      query.includes('car') || query.includes('cosmetic') || query.includes('spec') || query.includes('format')) {
+    return "<strong>✨ Retoucher Shoaib Studio — Commercial Departments:</strong><br>" +
+           "&bull; <strong>E-Commerce Product Packshots:</strong> Hand-drawn Pen Tool cutouts on pure #FFFFFF, eyewear glare &amp; AR sheen, leather bags, footwear &amp; multi-colorway variants.<br>" +
+           "&bull; <strong>Fashion &amp; 3D Ghost Mannequin:</strong> Invisible mannequin neck joins, inside label composites, crease/symmetry polish &amp; on-model lookbooks.<br>" +
+           "&bull; <strong>High Jewelry &amp; Watches:</strong> Honest diamond fire, white/yellow/rose gold polish, focus stacking &amp; watch dial crystal cleanup.<br>" +
+           "&bull; <strong>Model &amp; Editorial Beauty:</strong> 100% manual 16-bit dodge &amp; burn with natural pore texture preserved.<br>" +
+           "&bull; <strong>Still Life &amp; Cosmetics:</strong> Glassware, perfume bottles &amp; clean studio reflections.<br>" +
+           "&bull; <strong>Automotive Retouching:</strong> Liquid paintwork reflections, studio cyclorama replacement &amp; glass clarity.<br><br>" +
+           "<strong>Camera RAWs &amp; Deliverables:</strong> CR2/CR3, NEF, ARW, RAF, 3FR, IIQ, DNG &rarr; 16-bit layered PSD, TIFF, PNG, WebP, or sRGB/Adobe RGB JPEG.";
   }
 
-  // 10. DEFAULT CONCIERGE HELP
-  return "Hello! I am Shoaib's Studio Concierge. How can I assist your retouching workflow today?<br><br>" +
-         "&bull; <strong>Invoices &amp; Wise Payments:</strong> Guidance on ACH/SEPA/Card and Wise sign-up.<br>" +
-         "&bull; <strong>Payment Reference Code:</strong> How to submit your transfer code to verify payment.<br>" +
-         "&bull; <strong>Download Deliverables:</strong> Accessing certified 16-bit master PSDs.<br>" +
-         "&bull; <strong>New Commissions:</strong> Submitting RAW files and setting SLAs.<br><br>" +
-         "For custom rates or bespoke creative direction, connect directly with Shoaib on WhatsApp: <a href='https://wa.me/8801710763251' target='_blank' style='color: #10b981; font-weight: 700;'>+880 1710-763251 ↗</a>";
+  // 11. DEFAULT CONCIERGE HELP
+  return "Hello! Welcome to <strong>Retoucher Shoaib Studio</strong>. How can our studio assistant help your production workflow today?<br><br>" +
+         "&bull; <strong>Invoices &amp; Wise Payments:</strong> Guidance on USD ACH, EUR SEPA, GBP Sort Code, Wise Direct, or Card.<br>" +
+         "&bull; <strong>New Orders &amp; Turnaround:</strong> Uploading RAW files and choosing 12h Rush, 24h, 48h, or 72h delivery.<br>" +
+         "&bull; <strong>Download Deliverables:</strong> Accessing finished 16-bit master PSDs &amp; packshots.<br>" +
+         "&bull; <strong>Verified Testimonials:</strong> Sharing your feedback via the <strong>⭐ Submit Testimonial</strong> tab.<br><br>" +
+         "Need custom batch rates or direct creative direction? " + waLink + " or email <a href='mailto:retouchershoaib@gmail.com' style='color: #3b82f6; font-weight: 700;'>retouchershoaib@gmail.com</a>.";
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -6993,24 +7012,24 @@ document.addEventListener('DOMContentLoaded', checkAuthGate);
   <div class="ai-concierge-head">
     <div>
       <div style="font-weight: 800; font-size: 14px; font-family: var(--f-display);">🤖 Studio Concierge (AI)</div>
-      <div style="font-size: 11px; color: #86efac;">● Online &bull; Retoucher Shoaib Assistant</div>
+      <div style="font-size: 11px; color: #86efac;">● Online &bull; Retoucher Shoaib Studio</div>
     </div>
     <button class="modal-close" style="color: #fff; font-size: 16px;" onclick="toggleAiConcierge()">✕</button>
   </div>
 
   <div class="ai-concierge-body" id="aiChatBody">
     <div class="ai-msg bot">
-      Hello! I am Shoaib's Studio Assistant. I can guide you through paying your invoice, locating your payment reference code, tracking production, or downloading finished RAW/PSD files.<br><br>
-      <em>Note: Project rates are customized personally by Shoaib; for pricing inquiries, you can message Shoaib directly on WhatsApp!</em>
+      Hello! Welcome to <strong>Retoucher Shoaib Studio</strong>. I can help you place a new order, track files, pay invoices, download finished masters, or submit a verified testimonial.<br><br>
+      <em>Note: Custom batch quotes and commercial rates are handled directly by our senior retouching team.</em>
     </div>
 
     <!-- QUICK PROMPTS -->
     <div style="display: flex; flex-direction: column; gap: 6px; margin: 10px 0;" id="aiQuickChips">
       <button class="ai-chip" onclick="handleAiChipClick('How do I pay my invoice?')">💳 How do I pay my invoice?</button>
-      <button class="ai-chip" onclick="handleAiChipClick('What is the Payment Reference Code?')">🏷️ What is the Payment Reference Code?</button>
       <button class="ai-chip" onclick="handleAiChipClick('How do I download finished master files?')">📥 How do I download finished files?</button>
       <button class="ai-chip" onclick="handleAiChipClick('How do I submit a new retouching order?')">⚡ How do I submit a new order?</button>
-      <a href="https://wa.me/8801710763251" target="_blank" class="ai-chip" style="color: #10b981; border-color: #10b981; text-decoration: none; text-align: center;">💬 Speak with Shoaib on WhatsApp ↗</a>
+      <button class="ai-chip" onclick="handleAiChipClick('How do I submit a verified testimonial?')">⭐ How do I submit a testimonial?</button>
+      <a href="https://wa.me/8801710763251" target="_blank" rel="noopener" class="ai-chip" style="color: #10b981; border-color: #10b981; text-decoration: none; text-align: center;">💬 Speak with Retoucher on WhatsApp ↗</a>
     </div>
   </div>
 
