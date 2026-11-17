@@ -842,18 +842,116 @@ dialog::backdrop{
     </div>
   </div>
 
-  <!-- DRAG TO COMPARE SECTION -->
-  <section>
+  <!-- OFFICIAL BEHANCE PORTFOLIO SHOWCASE SECTION -->
+  <section class="behance-section" id="behance" style="padding: clamp(60px, 8vw, 100px) 0; border-top: 1px solid var(--line);">
     <div class="wrap">
-      <h2>Drag to compare</h2>
-      <p class="lead">The same jewelry shot, before and after retouching.</p>
-      <div class="ba" id="ba">
-        <img src="/assets/luxury-jewelry-retouching-before.webp" alt="Luxury diamond ring before professional jewelry retouching with raw dust, prong scratches and studio reflections" width="1400" height="1050" loading="lazy" decoding="async">
-        <img class="af" src="/assets/luxury-jewelry-retouching-after.webp" alt="Luxury diamond ring after professional jewelry retouching with hand-polished facets, crisp metal luster and diamond brilliance" width="1400" height="1050" loading="lazy" decoding="async">
-        <span class="tag b">Before</span>
-        <span class="tag a">After</span>
-        <div class="hd"></div>
-        <input type="range" min="0" max="100" value="50" aria-label="Before and after comparison">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; margin-bottom: clamp(32px, 5vw, 48px);">
+        <div style="max-width: 640px;">
+          <div style="display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-4.321 0-6.005-3.003-6.005-6.05 0-3.358 1.944-6.177 5.922-6.177 4.095 0 5.485 2.871 5.341 6.077h-8.795c.053 2.11 1.205 3.738 3.538 3.738 1.636 0 2.584-.784 3.013-1.588h2.087zm-7.618-5.321h6.634c-.067-1.782-1.077-3.159-3.23-3.159-2.091 0-3.228 1.377-3.404 3.159zm-10.108 5.321h-6v-14h6.056c2.756 0 4.944 1.155 4.944 3.87 0 1.583-.878 2.652-2.072 3.193 1.625.437 2.572 1.775 2.572 3.513 0 2.898-2.316 3.424-5.5 3.424zm-3.5-8.24h2.955c1.42 0 2.545-.429 2.545-1.77 0-1.272-.945-1.63-2.389-1.63h-3.111v3.4zm0 5.88h3.361c1.556 0 2.766-.549 2.766-2.016 0-1.464-1.21-1.924-2.766-1.924h-3.361v3.94z"/></svg>
+            <span>Verified Portfolio Platform</span>
+          </div>
+          <h2 style="font: 800 clamp(28px, 4.5vw, 44px)/1.15 var(--display); letter-spacing: -0.03em; margin: 0 0 14px;">Live Projects on Adobe Behance</h2>
+          <p style="color: var(--muted); font-size: clamp(15px, 1.8vw, 17px); line-height: 1.6; margin: 0;">Explore full multi-angle campaign lookbooks, high-resolution client case studies, and before/after breakdowns published directly on our verified Behance studio profile.</p>
+        </div>
+        <div>
+          <a href="https://www.behance.net/retouchershoaib" target="_blank" rel="noopener" class="btn p" style="display: inline-flex; align-items: center; gap: 10px; background: #0057ff; color: #ffffff; border-color: #0057ff; padding: 14px 28px; font-weight: 700;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-4.321 0-6.005-3.003-6.005-6.05 0-3.358 1.944-6.177 5.922-6.177 4.095 0 5.485 2.871 5.341 6.077h-8.795c.053 2.11 1.205 3.738 3.538 3.738 1.636 0 2.584-.784 3.013-1.588h2.087zm-7.618-5.321h6.634c-.067-1.782-1.077-3.159-3.23-3.159-2.091 0-3.228 1.377-3.404 3.159zm-10.108 5.321h-6v-14h6.056c2.756 0 4.944 1.155 4.944 3.87 0 1.583-.878 2.652-2.072 3.193 1.625.437 2.572 1.775 2.572 3.513 0 2.898-2.316 3.424-5.5 3.424zm-3.5-8.24h2.955c1.42 0 2.545-.429 2.545-1.77 0-1.272-.945-1.63-2.389-1.63h-3.111v3.4zm0 5.88h3.361c1.556 0 2.766-.549 2.766-2.016 0-1.464-1.21-1.924-2.766-1.924h-3.361v3.94z"/></svg>
+            <span>Visit Behance Profile &rarr;</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- BEHANCE PROJECTS GRID (6 FEATURED CASES) -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: clamp(20px, 3vw, 28px);">
+        <!-- Project 1 -->
+        <a href="https://www.behance.net/gallery/256193953/Studio-Portrait-Retouching-Black-Background" target="_blank" rel="noopener" class="card" style="display: flex; flex-direction: column; overflow: hidden; border-radius: 16px; padding: 0; background: #121214; border: 1px solid var(--line); text-decoration: none; transition: transform .3s ease, border-color .3s ease;">
+          <div style="position: relative; aspect-ratio: 16/11; overflow: hidden; background: #0a0a0b;">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/1bfcc6256193953.Y3JvcCwxMDAyLDc4NCwxMTEsMzI3.jpg" alt="Studio Portrait Retouching - Black Background on Behance" width="808" height="632" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease;">
+            <span style="position: absolute; top: 14px; left: 14px; background: rgba(10,10,12,0.85); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.15); border-radius: 99px; padding: 5px 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--accent);">Beauty &amp; Portrait</span>
+          </div>
+          <div style="padding: 22px;">
+            <h3 style="font: 700 18px/1.3 var(--display); color: var(--text); margin: 0 0 8px;">Studio Portrait Retouching - Black Background</h3>
+            <p style="color: var(--muted); font-size: 14px; line-height: 1.5; margin: 0 0 16px;">Non-destructive frequency separation, iris luminosity, and micro-pore retention under studio lighting.</p>
+            <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #3b82f6;">View on Behance &rarr;</span>
+          </div>
+        </a>
+
+        <!-- Project 2 -->
+        <a href="https://www.behance.net/gallery/256311631/High-End-Jewelry-Retouching-Product-Post-Processing" target="_blank" rel="noopener" class="card" style="display: flex; flex-direction: column; overflow: hidden; border-radius: 16px; padding: 0; background: #121214; border: 1px solid var(--line); text-decoration: none; transition: transform .3s ease, border-color .3s ease;">
+          <div style="position: relative; aspect-ratio: 16/11; overflow: hidden; background: #0a0a0b;">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/dcf900256311631.Y3JvcCw5NDYsNzQwLDIyNywxNTQ.jpg" alt="High-End Jewelry Retouching on Behance" width="808" height="632" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease;">
+            <span style="position: absolute; top: 14px; left: 14px; background: rgba(10,10,12,0.85); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.15); border-radius: 99px; padding: 5px 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--accent);">Luxury Jewelry</span>
+          </div>
+          <div style="padding: 22px;">
+            <h3 style="font: 700 18px/1.3 var(--display); color: var(--text); margin: 0 0 8px;">High-End Jewelry Retouching &amp; Post-Processing</h3>
+            <p style="color: var(--muted); font-size: 14px; line-height: 1.5; margin: 0 0 16px;">Multi-angle focus stacking, diamond fire reflection isolation, and pristine metal luster polish.</p>
+            <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #3b82f6;">View on Behance &rarr;</span>
+          </div>
+        </a>
+
+        <!-- Project 3 -->
+        <a href="https://www.behance.net/gallery/221210157/Flat-Lay-Clothing-Photo-Retouching" target="_blank" rel="noopener" class="card" style="display: flex; flex-direction: column; overflow: hidden; border-radius: 16px; padding: 0; background: #121214; border: 1px solid var(--line); text-decoration: none; transition: transform .3s ease, border-color .3s ease;">
+          <div style="position: relative; aspect-ratio: 16/11; overflow: hidden; background: #0a0a0b;">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/1384a9221210157.Y3JvcCw3NTUsNTkwLDI2LDIw.jpg" alt="Flat Lay Clothing Photo Retouching on Behance" width="808" height="632" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease;">
+            <span style="position: absolute; top: 14px; left: 14px; background: rgba(10,10,12,0.85); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.15); border-radius: 99px; padding: 5px 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--accent);">Fashion &amp; Apparel</span>
+          </div>
+          <div style="padding: 22px;">
+            <h3 style="font: 700 18px/1.3 var(--display); color: var(--text); margin: 0 0 8px;">Flat Lay Clothing Photo Retouching</h3>
+            <p style="color: var(--muted); font-size: 14px; line-height: 1.5; margin: 0 0 16px;">Symmetrical apparel contouring, fabric creasing reduction, and pantone-calibrated swatch matching.</p>
+            <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #3b82f6;">View on Behance &rarr;</span>
+          </div>
+        </a>
+
+        <!-- Project 4 -->
+        <a href="https://www.behance.net/gallery/209459195/Suit-Menswear-Photo-Retouching" target="_blank" rel="noopener" class="card" style="display: flex; flex-direction: column; overflow: hidden; border-radius: 16px; padding: 0; background: #121214; border: 1px solid var(--line); text-decoration: none; transition: transform .3s ease, border-color .3s ease;">
+          <div style="position: relative; aspect-ratio: 16/11; overflow: hidden; background: #0a0a0b;">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/607e06209459195.Y3JvcCwxMjAwLDkzOCwwLDEzMA.jpg" alt="Suit &amp; Menswear Photo Retouching on Behance" width="808" height="632" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease;">
+            <span style="position: absolute; top: 14px; left: 14px; background: rgba(10,10,12,0.85); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.15); border-radius: 99px; padding: 5px 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--accent);">Fashion &amp; Apparel</span>
+          </div>
+          <div style="padding: 22px;">
+            <h3 style="font: 700 18px/1.3 var(--display); color: var(--text); margin: 0 0 8px;">Suit &amp; Menswear Photo Retouching</h3>
+            <p style="color: var(--muted); font-size: 14px; line-height: 1.5; margin: 0 0 16px;">Formal suiting lapel alignment, woven wool texture preservation, and 3D hollow mannequin finishing.</p>
+            <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #3b82f6;">View on Behance &rarr;</span>
+          </div>
+        </a>
+
+        <!-- Project 5 -->
+        <a href="https://www.behance.net/gallery/206886527/Eyewear-Retouching" target="_blank" rel="noopener" class="card" style="display: flex; flex-direction: column; overflow: hidden; border-radius: 16px; padding: 0; background: #121214; border: 1px solid var(--line); text-decoration: none; transition: transform .3s ease, border-color .3s ease;">
+          <div style="position: relative; aspect-ratio: 16/11; overflow: hidden; background: #0a0a0b;">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/23137a206886527.Y3JvcCwzMjIyLDI1MjAsMCwzNTA.jpg" alt="Luxury Eyewear Retouching on Behance" width="808" height="632" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease;">
+            <span style="position: absolute; top: 14px; left: 14px; background: rgba(10,10,12,0.85); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.15); border-radius: 99px; padding: 5px 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--accent);">Product &amp; Packshot</span>
+          </div>
+          <div style="padding: 22px;">
+            <h3 style="font: 700 18px/1.3 var(--display); color: var(--text); margin: 0 0 8px;">Luxury Eyewear Retouching</h3>
+            <p style="color: var(--muted); font-size: 14px; line-height: 1.5; margin: 0 0 16px;">Glare reflection removal, acetate frame polishing, gradient lens balancing, and clean alpha paths.</p>
+            <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #3b82f6;">View on Behance &rarr;</span>
+          </div>
+        </a>
+
+        <!-- Project 6 -->
+        <a href="https://www.behance.net/gallery/173540777/PRODUCT-PHOTO-RETOUCHING" target="_blank" rel="noopener" class="card" style="display: flex; flex-direction: column; overflow: hidden; border-radius: 16px; padding: 0; background: #121214; border: 1px solid var(--line); text-decoration: none; transition: transform .3s ease, border-color .3s ease;">
+          <div style="position: relative; aspect-ratio: 16/11; overflow: hidden; background: #0a0a0b;">
+            <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/a5b029173540777.Y3JvcCw5NTgsNzUwLDIxLDA.jpg" alt="Commercial Product Photo Retouching on Behance" width="808" height="632" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease;">
+            <span style="position: absolute; top: 14px; left: 14px; background: rgba(10,10,12,0.85); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.15); border-radius: 99px; padding: 5px 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--accent);">Product &amp; Packshot</span>
+          </div>
+          <div style="padding: 22px;">
+            <h3 style="font: 700 18px/1.3 var(--display); color: var(--text); margin: 0 0 8px;">Commercial Product Photo Retouching</h3>
+            <p style="color: var(--muted); font-size: 14px; line-height: 1.5; margin: 0 0 16px;">Pure #FFFFFF background isolation, hand-drawn vector clipping paths, and organic contact shadows.</p>
+            <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #3b82f6;">View on Behance &rarr;</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- BOTTOM BANNER LINK -->
+      <div style="margin-top: 36px; padding: 24px 32px; background: #121214; border: 1px solid var(--line); border-radius: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div>
+          <b style="font-size: 16px; color: var(--text); display: block;">Looking for more specialized portfolio cases?</b>
+          <span style="font-size: 14px; color: var(--muted);">Browse 20+ additional lookbooks, before-and-after breakdowns, and behind-the-scenes on our Behance profile.</span>
+        </div>
+        <a href="https://www.behance.net/retouchershoaib" target="_blank" rel="noopener" class="btn" style="background: transparent; color: var(--text); border: 1px solid var(--line); font-size: 13px; padding: 10px 20px;">
+          Open @retouchershoaib on Behance &rarr;
+        </a>
       </div>
     </div>
   </section>
