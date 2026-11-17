@@ -1181,22 +1181,13 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 @media(min-width:981px){
   .price-card h3{min-height:2.4em}
 }
-.p-val{
-  font:800 clamp(28px,2.8vw,36px)/1.08 var(--display);
-  color:var(--text);
-  margin:10px 0 4px;
-}
-.p-val span{
-  font:500 14px var(--body);
-  color:var(--muted);
-  white-space:nowrap;
-  display:inline-block;
-}
 .p-sub{
   font-size:15.2px;
   line-height:1.5;
   color:#c2c2ba;
   margin:0 0 18px;
+  padding-bottom:16px;
+  border-bottom:1px solid var(--line);
 }
 .price-card ul{
   list-style:none;
@@ -1495,7 +1486,7 @@ footer a:hover{color:var(--accent)}
     <a href="#on-model">On-Model</a>
     <a href="#color-accuracy">Color Accuracy</a>
     <a href="#specs">Specs &amp; Bulk</a>
-    <a href="#pricing">Pricing</a>
+    <a href="#pricing">Editing Tiers</a>
     <a href="#faq">FAQ</a>
   </div>
 </div>
@@ -2002,20 +1993,19 @@ footer a:hover{color:var(--accent)}
     </div>
   </section>
 
-  <!-- PRICING -->
+  <!-- EDITING TIERS & QUOTING -->
   <section class="band" id="pricing">
     <div class="wrap">
       <div class="sec-head">
-        <h2>Transparent apparel retouching pricing, quoted to the garment</h2>
-        <p>Price depends on the garment, number of view frames required for the composite, and editing depth. Simple flat-lay clothing cutouts start from <strong style="color:var(--accent)">bespoke volume studio rates</strong>, while multi-shot 3D ghost mannequin jackets, knitwear and sheer dresses are quoted custom.</p>
+        <h2>Editing tiers, scoped to the garment</h2>
+        <p>Every apparel batch is quoted by garment structure, number of composite frames (front, back, inside neck), and editing depth&mdash;so simple flat-lay tees are never bundled at complex outerwear rates. Pick your tier and send 1&ndash;2 test garments for a free proof and exact per-garment quote.</p>
       </div>
 
       <div class="price-grid">
         <article class="price-card">
-          <span class="p-tag">Entry Base Rate</span>
+          <span class="p-tag">Tier 01 &middot; Flat-Lay &amp; Cutouts</span>
           <h3>Flat-Lay &amp; Simple Garment Cutout</h3>
-          <div class="p-val">Studio Batch Rates <span>/ image</span></div>
-          <p class="p-sub">Single-shot tees, basic flat-lays &amp; pure white isolation</p>
+          <p class="p-sub">Single-shot tees, basic flat-lays &amp; pure white marketplace isolation.</p>
           <ul>
             <li>100% hand-drawn Pen Tool clipping path</li>
             <li>Pure RGB (255,255,255) or transparent PNG</li>
@@ -2026,36 +2016,34 @@ footer a:hover{color:var(--accent)}
         </article>
 
         <article class="price-card feat">
-          <span class="p-tag">Most Requested</span>
+          <span class="p-tag">Tier 02 &middot; Most Requested</span>
           <h3>3D Ghost Mannequin &amp; Neck Join</h3>
-          <div class="p-val">Custom Quote <span>/ per garment &amp; views</span></div>
-          <p class="p-sub">Shirts, blazers, knitwear, dresses, denim &amp; kids&rsquo; collections</p>
+          <p class="p-sub">Shirts, blazers, knitwear, dresses, denim &amp; kids&rsquo; apparel drops.</p>
           <ul>
             <li>Mannequin bust, clamp &amp; arm removal by hand</li>
             <li>3D inside back neck, collar &amp; lining composite</li>
             <li>Perspective-matched inside brand label insertion</li>
             <li>Wrinkle cleanup, sleeve symmetry &amp; swatch matching</li>
           </ul>
-          <a class="btn p" href="/contact?service=fashion&amp;tab=quote">Get Exact Garment Quote &rarr;</a>
+          <a class="btn p" href="/contact?service=fashion&amp;tab=quote">Request Garment Quote &rarr;</a>
         </article>
 
         <article class="price-card">
-          <span class="p-tag">Volume &amp; Editorial</span>
+          <span class="p-tag">Tier 03 &middot; Editorial &amp; Bulk</span>
           <h3>On-Model Lookbooks &amp; Bulk (50&ndash;500+)</h3>
-          <div class="p-val">Volume Quote <span>/ batch &amp; retainer</span></div>
-          <p class="p-sub">Seasonal campaigns, multi-SKU drops &amp; studio retainers</p>
+          <p class="p-sub">Seasonal campaigns, multi-SKU catalog drops &amp; ongoing studio retainers.</p>
           <ul>
             <li>16-bit natural skin dodge &amp; burn (pores kept)</li>
             <li>Flyaway hair cleanup, fabric fit &amp; sweep polish</li>
             <li>Style-Lock QA guaranteeing Batch #1 = Frame #500</li>
             <li>12&ndash;24h overnight turnaround &amp; mutual NDA</li>
           </ul>
-          <a class="btn" href="/contact?service=fashion&amp;tab=quote">Ask Bulk Studio Rate &rarr;</a>
+          <a class="btn" href="/contact?service=fashion&amp;tab=quote">Request Bulk Studio Quote &rarr;</a>
         </article>
       </div>
 
       <div class="price-note">
-        <span>Planning a drop of 50, 200 or 1,000+ garments? <strong style="color:var(--text)">Send 1&ndash;2 sample images (front + neck shot if applicable) and receive a free finished proof plus firm rate per garment within hours.</strong></span>
+        <span>Planning a drop of 50, 200 or 1,000+ garments? <strong style="color:var(--text)">Send 1&ndash;2 sample images (front + neck shot if applicable) and receive a free finished proof plus firm per-garment quote within hours.</strong></span>
         <a class="btn p" href="/contact?service=fashion&amp;tab=quote">Request Free Trial &amp; Quote</a>
       </div>
     </div>
