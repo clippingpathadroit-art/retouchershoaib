@@ -555,39 +555,11 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
   font-weight:600;
 }
 
-/* TRUST & BRANDS BAND */
+/* TRUST BAND */
 .band{
   padding:clamp(48px,7vw,86px) 0;
   border-bottom:1px solid var(--line);
 }
-.logo-row{
-  display:grid;
-  grid-template-columns:repeat(5,minmax(0,1fr));
-  gap:14px;
-  margin-top:24px;
-}
-.logo-card{
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:16px;
-  height:88px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:14px 18px;
-}
-.logo-card img{
-  max-height:42px;
-  max-width:128px;
-  width:auto;
-  height:auto;
-  object-fit:contain;
-}
-.logo-card img.aristocracy{border-radius:4px}
-.logo-card img.pilotfashion{filter:brightness(0) invert(1)}
-.logo-card img.motionfashion{filter:brightness(1.1) contrast(1.05)}
-.logo-card img.propercloth{max-height:24px;max-width:140px;border-radius:4px}
-.logo-card img.meshki{filter:invert(1) brightness(1.08);mix-blend-mode:screen;border-radius:50%}
 
 /* SECTION TYPOGRAPHY & SPLIT DEPARTMENTS */
 .sec-head{
@@ -1408,7 +1380,6 @@ footer a:hover{color:var(--accent)}
   .dep .wrap{grid-template-columns:1fr}
   #color-accuracy .media-col{padding-top:0}
   .dep.flip .media-col{order:0}
-  .logo-row{grid-template-columns:repeat(3,minmax(0,1fr))}
   .spec-grid,.price-grid,.rev-grid,.order-steps{grid-template-columns:1fr}
   .dept-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
@@ -1421,7 +1392,7 @@ footer a:hover{color:var(--accent)}
   .gm-compare,.chk-list{grid-template-columns:1fr}
 }
 @media(max-width:600px){
-  .logo-row,.garment-grid,.dept-grid{grid-template-columns:1fr}
+  .garment-grid,.dept-grid{grid-template-columns:1fr}
   .shoot-trio{grid-template-columns:1fr;gap:10px}
   .shoot-shot{display:grid;grid-template-columns:108px 1fr;align-items:center}
   .shoot-shot img{height:132px;padding:4px}
@@ -1533,17 +1504,10 @@ footer a:hover{color:var(--accent)}
   <!-- WHY FASHION BRANDS TRUST US -->
   <section class="band" id="trust">
     <div class="wrap">
-      <div class="sec-head">
+      <div class="sec-head" style="margin-bottom:0">
         <h2>Fashion photo retouching that makes clothes look worth the price</h2>
         <p>Shoppers judge fabric by eye. A hollow collar, a twisted sleeve, a stray thread or a color that sits a shade off tells them the garment might not be what they expect. They don&rsquo;t blame the retouching&mdash;they simply scroll past, or buy and return it.</p>
         <p style="margin:0;color:var(--muted)">We work with fashion brands, e-commerce retailers, commercial studios and fashion photographers needing clean apparel images in volume. Every file is edited by a human artist, checked at full 200% zoom and delivered in the exact format your catalog, lookbook or campaign requires.</p>
-      </div>
-      <div class="logo-row" aria-label="Selected apparel and fashion brands worked with">
-        <div class="logo-card" title="Aristocracy London"><img class="aristocracy" src="/assets/client_logos/aristocracy.png" alt="Aristocracy London logo" width="273" height="87" loading="lazy" decoding="async"></div>
-        <div class="logo-card" title="PilotFashion"><img class="pilotfashion" src="/assets/client_logos/pilotfashion.png" alt="PilotFashion logo" width="681" height="358" loading="lazy" decoding="async"></div>
-        <div class="logo-card" title="Motion Fashion GMBH"><img class="motionfashion" src="/assets/client_logos/motionfashion.png" alt="Motion Fashion GMBH logo" width="64" height="72" loading="lazy" decoding="async"></div>
-        <div class="logo-card" title="Proper Cloth"><img class="propercloth" src="/assets/client_logos/propercloth.png" alt="Proper Cloth logo" width="163" height="29" loading="lazy" decoding="async"></div>
-        <div class="logo-card" title="Meshki"><img class="meshki" src="/assets/client_logos/meshki.avif" alt="Meshki logo" width="400" height="400" loading="lazy" decoding="async"></div>
       </div>
     </div>
   </section>
