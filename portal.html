@@ -2813,8 +2813,7 @@ body {
     </div>
 
     <!-- ACTIONS -->
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 24px;">
-      <a id="modalDriveLink" href="https://drive.google.com" target="_blank" class="btn btn-outline btn-sm">Open Google Drive ↗</a>
+    <div style="display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 24px;">
       <div id="modalDownloadContainer"></div>
     </div>
   </div>
@@ -3900,26 +3899,12 @@ function openOrderDetails(id) {
   const serviceEl = document.getElementById('modalService');
   const formatEl = document.getElementById('modalFormat');
   const instEl = document.getElementById('modalInstructions');
-  const driveEl = document.getElementById('modalDriveLink');
 
   if (titleEl) titleEl.textContent = 'Order ' + o.id + ' — ' + o.title;
   if (deadlineEl) deadlineEl.textContent = o.deadline;
   if (serviceEl) serviceEl.textContent = o.service;
   if (formatEl) formatEl.textContent = o.images + ' • ' + o.format;
   if (instEl) instEl.textContent = o.instructions || 'No special instructions provided.';
-  
-  if (driveEl) {
-    const s = getCurrentSession();
-    const em = (s && s.email ? s.email : '').toLowerCase().trim();
-    const targetDrive = getOrderRawDriveUrl(o, em);
-    if (targetDrive && /^https?:\/\//i.test(targetDrive)) {
-      driveEl.href = targetDrive;
-      driveEl.style.display = 'inline-flex';
-      driveEl.textContent = 'Open Order Drive Folder ↗';
-    } else {
-      driveEl.style.display = 'none';
-    }
-  }
 
   const modalTimer = document.getElementById('modalTimer');
   if (modalTimer) {
