@@ -6220,17 +6220,17 @@ async function handlePortalTestimonialSubmit(ev) {
   if (btn) { btn.disabled = true; btn.textContent = 'Submitting...'; }
 
   const payload = {
-    _subject: 'Verified Client Testimonial (' + rating + '★) — ' + name + (brand ? ' (' + brand + ')' : ''),
-    _replyto: sess.email,
-    _template: 'table',
-    verified_portal_email: sess.email,
-    client_name: name,
+    name: name,
+    email: sess.email,
     brand_or_studio: brand,
-    role_or_title: role || '—',
+    role_or_title: role || '-',
     service_category: service,
-    star_rating: rating + ' / 5',
-    testimonial: text,
-    submitted_from: 'Verified Client Portal Dashboard'
+    star_rating: rating + ' / 5 Stars',
+    message: text,
+    submitted_from: 'Verified Client Portal Dashboard',
+    _subject: 'Verified Client Testimonial (' + rating + '/5) - ' + name + (brand ? ' (' + brand + ')' : ''),
+    _replyto: sess.email,
+    _template: 'table'
   };
 
   function showSuccess() {
