@@ -2,15 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://retouchershoaib.com/</loc>
-    <lastmod>2026-11-11</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/hero_jewelry_poster.webp</image:loc>
+      <image:title>Commercial Photo Retouching Studio Portfolio</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://retouchershoaib.com/services</loc>
-    <lastmod>2026-11-12</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://retouchershoaib.com/assets/agency_showcase/skeleton-tourbillon-watch-retouching.jpg</image:loc>
+      <image:title>Commercial Photo Retouching Departments</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://retouchershoaib.com/ecommerce-product-retouching</loc>

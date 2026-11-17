@@ -535,7 +535,7 @@ footer a:hover{
         <div class="nav-dd-menu" role="menu">
           <a href="/services" role="menuitem"><strong>All Services Overview</strong><span>Compare all 6 commercial departments</span></a>
           <div class="nav-dd-sep" role="separator"></div>
-          <a href="/ecommerce-product-retouching" role="menuitem"><strong>E-Commerce Product Retouching <em class="nav-new">Live</em></strong><span>Eyewear, bags, shoes &amp; packshots &middot; From $0.49</span></a>
+          <a href="/ecommerce-product-retouching" role="menuitem"><strong>E-Commerce Product Retouching <em class="nav-new">Live</em></strong><span>Eyewear, bags, shoes &amp; packshots &middot; Volume Batch Rates</span></a>
           <a href="/ghost-mannequin-fashion-photo-retouching" role="menuitem"><strong>Fashion &amp; Ghost Mannequin <em class="nav-new">Live</em></strong><span>3D neck joins, labels &amp; on-model lookbooks</span></a>
           <a href="/jewelry-watch-photo-retouching" role="menuitem"><strong>Jewelry &amp; Watch Retouching <em class="nav-new">Live</em></strong><span>Diamond prongs, gold color &amp; watch dials</span></a>
           <a href="/model-portrait-photo-retouching" role="menuitem"><strong>Model &amp; Beauty Portraits <em class="nav-new">Live</em></strong><span>Natural skin texture, hair &amp; headshots</span></a>
@@ -571,7 +571,7 @@ footer a:hover{
   <div class="wrap">
     <figure class="team rv">
       <div class="fr">
-        <img id="tp" src="./assets/studio_team_collective.webp" alt="Retoucher Shoaib commercial photo retouching studio team and senior specialists" width="1024" height="576" loading="eager" fetchpriority="high" decoding="async">
+        <img id="tp" src="/assets/studio_team_collective.webp" alt="Retoucher Shoaib commercial photo retouching studio team and senior specialists" width="1024" height="576" loading="eager" fetchpriority="high" decoding="async">
       </div>
       <figcaption>Studio production floor &middot; 10&ndash;15 senior retouchers</figcaption>
     </figure>
@@ -608,7 +608,7 @@ footer a:hover{
       <div class="ld">
         <article class="pc rv">
           <div class="im">
-            <img src="./assets/shoaib_siddique_founder.webp?v=2" alt="Shoaib Siddique — Founder & Studio Director at Retoucher Shoaib commercial post-production studio" width="819" height="1024" loading="lazy" decoding="async">
+            <img src="/assets/shoaib_siddique_founder.webp?v=2" alt="Shoaib Siddique — Founder & Studio Director at Retoucher Shoaib commercial post-production studio" width="819" height="1024" loading="lazy" decoding="async">
           </div>
           <div class="tx">
             <h3>Shoaib Siddique</h3>
@@ -618,7 +618,7 @@ footer a:hover{
         </article>
         <article class="pc rv">
           <div class="im">
-            <img src="./assets/tabassum_beauty_jewelry_lead.webp?v=2" alt="Tabassum — Lead Beauty Retoucher at Retoucher Shoaib commercial post-production studio" width="819" height="1024" loading="lazy" decoding="async">
+            <img src="/assets/tabassum_beauty_jewelry_lead.webp?v=2" alt="Tabassum — Lead Beauty Retoucher at Retoucher Shoaib commercial post-production studio" width="819" height="1024" loading="lazy" decoding="async">
           </div>
           <div class="tx">
             <h3>Tabassum</h3>
@@ -628,7 +628,7 @@ footer a:hover{
         </article>
         <article class="pc rv">
           <div class="im">
-            <img src="./assets/mahbub_production_manager.webp?v=2" alt="Mahbub — Lead Jewelry Retoucher at Retoucher Shoaib commercial post-production studio" width="819" height="1024" loading="lazy" decoding="async">
+            <img src="/assets/mahbub_production_manager.webp?v=2" alt="Mahbub — Lead Jewelry Retoucher at Retoucher Shoaib commercial post-production studio" width="819" height="1024" loading="lazy" decoding="async">
           </div>
           <div class="tx">
             <h3>Mahbub</h3>
@@ -638,7 +638,7 @@ footer a:hover{
         </article>
         <article class="pc rv">
           <div class="im">
-            <img src="./assets/santos_apparel_ghost_lead.webp?v=2" alt="Santos — Lead Fashion &amp; Ghost Retoucher at Retoucher Shoaib commercial post-production studio" width="819" height="1024" loading="lazy" decoding="async">
+            <img src="/assets/santos_apparel_ghost_lead.webp?v=2" alt="Santos — Lead Fashion &amp; Ghost Retoucher at Retoucher Shoaib commercial post-production studio" width="819" height="1024" loading="lazy" decoding="async">
           </div>
           <div class="tx">
             <h3>Santos</h3>
@@ -667,9 +667,9 @@ footer a:hover{
         </div>
         <div class="tc rv">
           <small>Throughput</small>
-          <b><span data-to="500">0</span>+</b>
-          <h3>Complex images a day</h3>
-          <p>Two rotating shifts keep delivery at 12 to 24 hours, even on large commercial batches.</p>
+          <b><span data-to="2500">0</span>+</b>
+          <h3>Campaign assets monthly</h3>
+          <p>Two dedicated production shifts keep turnaround at 12 to 24 hours, even on 100-look lookbooks.</p>
         </div>
       </div>
     </div>
@@ -679,7 +679,7 @@ footer a:hover{
     <div class="wrap">
       <h2>Let us retouch<br>your first image.</h2>
       <p>Send 1 or 2 test photos and see the quality for yourself. It&rsquo;s free, and you get them back in 12 to 24 hours.</p>
-      <a class="btn p" href="/contact">Start free trial</a>
+      <a class="btn p" href="/contact">Request a Test Retouch</a>
     </div>
   </section>
 </main>
@@ -781,7 +781,16 @@ footer a:hover{
     var p = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
     tp.style.transform = 'translateY(' + (-9 - p * 8) + '%)';
   }
-  addEventListener('scroll', par, { passive: true });
+  var studioScrollTicking = false;
+  addEventListener('scroll', function(){
+    if (!studioScrollTicking) {
+      requestAnimationFrame(function(){
+        par();
+        studioScrollTicking = false;
+      });
+      studioScrollTicking = true;
+    }
+  }, { passive: true });
   par();
 
   // UNIFIED HEADER CLIENT AUTH STATE & MULTI-TAB SYNC

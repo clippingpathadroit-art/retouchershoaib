@@ -539,7 +539,7 @@ footer a:hover{
         <div class="nav-dd-menu" role="menu">
           <a href="/services" role="menuitem"><strong>All Services Overview</strong><span>Compare all 6 commercial departments</span></a>
           <div class="nav-dd-sep" role="separator"></div>
-          <a href="/ecommerce-product-retouching" role="menuitem"><strong>E-Commerce Product Retouching <em class="nav-new">Live</em></strong><span>Eyewear, bags, shoes &amp; packshots &middot; From $0.49</span></a>
+          <a href="/ecommerce-product-retouching" role="menuitem"><strong>E-Commerce Product Retouching <em class="nav-new">Live</em></strong><span>Eyewear, bags, shoes &amp; packshots &middot; Volume Batch Rates</span></a>
           <a href="/ghost-mannequin-fashion-photo-retouching" role="menuitem"><strong>Fashion &amp; Ghost Mannequin <em class="nav-new">Live</em></strong><span>3D neck joins, labels &amp; on-model lookbooks</span></a>
           <a href="/jewelry-watch-photo-retouching" role="menuitem"><strong>Jewelry &amp; Watch Retouching <em class="nav-new">Live</em></strong><span>Diamond prongs, gold color &amp; watch dials</span></a>
           <a href="/model-portrait-photo-retouching" role="menuitem"><strong>Model &amp; Beauty Portraits <em class="nav-new">Live</em></strong><span>Natural skin texture, hair &amp; headshots</span></a>
@@ -591,7 +591,7 @@ footer a:hover{
 
       <div class="card">
         <div class="tabs" role="tablist" aria-label="Request type">
-          <button type="button" role="tab" id="tb1" aria-selected="true">Free sample</button>
+          <button type="button" role="tab" id="tb1" aria-selected="true">Test retouch</button>
           <button type="button" role="tab" id="tb2" aria-selected="false">General question</button>
         </div>
 
@@ -669,7 +669,7 @@ footer a:hover{
           </div>
 
           <div class="act">
-            <button class="btn p" id="sb" type="submit">Request free sample</button>
+            <button class="btn p" id="sb" type="submit">Request Test Retouch</button>
             <a class="btn" id="waBtn" href="https://wa.me/8801710763251" target="_blank" rel="noopener">Chat on WhatsApp</a>
           </div>
           <p class="er" id="fe" role="alert" style="margin-top:14px"></p>
@@ -714,7 +714,7 @@ footer a:hover{
     $('tb2').setAttribute('aria-selected', m !== 'sample');
     $('pS').hidden = (m !== 'sample');
     $('pG').hidden = (m === 'sample');
-    $('sb').textContent = (m === 'sample') ? 'Request free sample' : 'Send message';
+    $('sb').textContent = (m === 'sample') ? 'Request Test Retouch' : 'Send message';
     $('fe').textContent = '';
   }
 
@@ -749,7 +749,7 @@ footer a:hover{
     if(mode === 'sample') {
       var s = document.querySelector('input[name="service"]:checked');
       var sVal = s ? s.value : 'commercial';
-      waMsg = 'Hi Retoucher Shoaib team, I am ' + name + (brand ? ' from ' + brand : '') + '. Interested in free trial sample retouching for ' + sVal + '.';
+      waMsg = 'Hi Retoucher Shoaib team, I am ' + name + (brand ? ' from ' + brand : '') + '. Interested in a test retouch sample for ' + sVal + '.';
     } else {
       var t = document.querySelector('input[name="topic"]:checked');
       var tVal = t ? t.value : 'General Inquiry';
@@ -793,7 +793,7 @@ footer a:hover{
       if (quoteRadio) quoteRadio.checked = true;
       var msgBox = $('m');
       if (msgBox && !msgBox.value && svcMap[svcParam]) {
-        msgBox.placeholder = 'Share approximate batch size & product types for your ' + svcMap[svcParam] + ' quote (starting $0.49/image simple cutouts; custom quote for glare, straps & variants)...';
+        msgBox.placeholder = 'Share approximate batch size & product types for your ' + svcMap[svcParam] + ' quote (custom volume batch rates; custom quote for glare, straps & variants)...';
       }
     }
   } catch(e){}
@@ -830,7 +830,7 @@ footer a:hover{
 
     var d = new FormData($('fm')), data = {
       type: mode,
-      _subject: (mode === 'sample') ? ('New Free Sample Request — ' + n + ($('b').value ? ' (' + $('b').value + ')' : '')) : ('General Inquiry — ' + n),
+      _subject: (mode === 'sample') ? ('New Test Retouch Request — ' + n + ($('b').value ? ' (' + $('b').value + ')' : '')) : ('General Inquiry — ' + n),
       _replyto: e,
       _template: 'table'
     };
@@ -838,16 +838,7 @@ footer a:hover{
       if(k !== 'company_site') data[k] = v;
     });
 
-    // Save pending trial locally as convenience
-    try {
-      localStorage.setItem('shoaib_pending_trial', JSON.stringify({
-        name: n,
-        email: e,
-        brand: $('b').value.trim(),
-        phone: $('w').value.trim(),
-        submittedAt: new Date().toISOString()
-      }));
-    } catch(ex){}
+    // Local trial state cleared for GDPR privacy
 
     var btn = $('sb');
     btn.disabled = true;
@@ -878,11 +869,16 @@ footer a:hover{
       body: JSON.stringify(data)
     })
     .then(function(r){
-      done();
+      if(r.ok) {
+        done();
+      } else {
+        throw new Error('Server returned status ' + r.status);
+      }
     })
-    .catch(function(){
-      // Network resilience fallback: inform client nicely
-      done();
+    .catch(function(err){
+      btn.disabled = false;
+      btn.textContent = (mode === 'sample') ? 'Request sample' : 'Send message';
+      $('fe').innerHTML = '⚠️ Transmission issue. Please contact Shoaib directly via <a href="https://wa.me/8801710763251" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;">WhatsApp (+880 1710-763251)</a> or email <a href="mailto:retouchershoaib@gmail.com" style="color:var(--accent);text-decoration:underline;">retouchershoaib@gmail.com</a>.';
     });
   });
 
@@ -892,7 +888,7 @@ footer a:hover{
     $('ok').hidden = true;
     var btn = $('sb');
     btn.disabled = false;
-    btn.textContent = (mode === 'sample') ? 'Request free sample' : 'Send message';
+    btn.textContent = (mode === 'sample') ? 'Request Test Retouch' : 'Send message';
     tab(mode);
   };
 

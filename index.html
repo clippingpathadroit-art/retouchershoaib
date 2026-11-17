@@ -42,6 +42,33 @@
       "email": "retouchershoaib@gmail.com",
       "telephone": "+8801710763251",
       "description": "Commercial photo retouching studio founded by Shoaib Siddique. Non-destructive 16-bit jewelry, fashion, editorial beauty, product and automotive post-production crafted to campaign standards for brands, agencies and photographers across the US, UK and Europe.",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "48",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": { "@type": "Person", "name": "Jennifer Castro", "jobTitle": "Fine Jewelry Designer & Creative Lead" },
+          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+          "reviewBody": "Jewelry is so difficult to retouch without making metals look flat or gemstones look like CGI plastic. Shoaib’s specialist team has this rare touch where every diamond facet sparkles, yet the metal still feels real and tactile."
+        },
+        {
+          "@type": "Review",
+          "author": { "@type": "Person", "name": "John Hubbard", "jobTitle": "Commercial Fashion Photographer" },
+          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+          "reviewBody": "Retoucher Shoaib Studio is an absolute lifesaver during lookbook season. When you’re dealing with 150+ frames across three shoot days, keeping skin tones matching and fabric folds clean is a massive headache. Shoaib and his team handled the entire batch with great consistency."
+        },
+        {
+          "@type": "Review",
+          "author": { "@type": "Person", "name": "Raffaello Montillo", "jobTitle": "Editorial Fashion Producer, Milan" },
+          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+          "reviewBody": "What impressed me most is how much respect Shoaib and his beauty retouchers have for natural skin texture. In editorial work, artificial blur completely ruins the vibe. They remove blemishes cleanly while keeping all the original pores and lighting intact."
+        }
+      ],
       "founder": {
         "@type": "Person",
         "name": "Shoaib Siddique",
@@ -1361,7 +1388,7 @@ footer a:hover{
         <div class="nav-dd-menu" role="menu">
           <a href="/services" role="menuitem"><strong>All Services Overview</strong><span>Compare all 6 commercial departments</span></a>
           <div class="nav-dd-sep" role="separator"></div>
-          <a href="/ecommerce-product-retouching" role="menuitem"><strong>E-Commerce Product Retouching <em class="nav-new">Live</em></strong><span>Eyewear, bags, shoes &amp; packshots &middot; From $0.49</span></a>
+          <a href="/ecommerce-product-retouching" role="menuitem"><strong>E-Commerce Product Retouching <em class="nav-new">Live</em></strong><span>Eyewear, bags, shoes &amp; packshots &middot; Volume Batch Rates</span></a>
           <a href="/ghost-mannequin-fashion-photo-retouching" role="menuitem"><strong>Fashion &amp; Ghost Mannequin <em class="nav-new">Live</em></strong><span>3D neck joins, labels &amp; on-model lookbooks</span></a>
           <a href="/jewelry-watch-photo-retouching" role="menuitem"><strong>Jewelry &amp; Watch Retouching <em class="nav-new">Live</em></strong><span>Diamond prongs, gold color &amp; watch dials</span></a>
           <a href="/model-portrait-photo-retouching" role="menuitem"><strong>Model &amp; Beauty Portraits <em class="nav-new">Live</em></strong><span>Natural skin texture, hair &amp; headshots</span></a>
@@ -1397,18 +1424,17 @@ footer a:hover{
         <span class="l"><span style="--i:1">crafted to campaign</span></span>
         <span class="l"><span style="--i:2">standards.</span></span>
       </h1>
-      <p class="sub">High-end jewelry, beauty, fashion, and luxury e-commerce post-production for brands, studios, and commercial photographers worldwide. Send one image and get it back within 24 hours, free.</p>
+      <p class="sub">High-end jewelry, beauty, fashion, and luxury e-commerce post-production for brands, studios, and commercial photographers worldwide. Send a sample frame and experience our 16-bit studio caliber within 24 hours.</p>
       <div class="cta">
-        <a class="btn p mag" href="#contact">Start free trial</a>
-        <a class="btn mag" href="#work">See what we retouch</a>
-        <a class="btn mag" href="/work">View 83+ Portfolio Works &rarr;</a>
+        <a class="btn p mag" href="#contact">Request a Test Retouch</a>
+        <a class="btn mag" href="/work">Explore 83+ Client Works &rarr;</a>
       </div>
     </div>
     <div class="ring" id="ring" aria-hidden="true">
-      <img class="ring-poster" src="./assets/hero_jewelry_poster.webp" alt="Commercial high-end jewelry ring retouching with polished gold facets and clean diamonds" width="720" height="1280" fetchpriority="high" decoding="sync">
-      <video id="rv" muted playsinline loop preload="metadata" poster="./assets/hero_jewelry_poster.webp">
-        <source src="./assets/hero_jewelry_rotation_v2.mp4" type="video/mp4">
-        <source src="./assets/hero_jewelry_rotation_v2.webm" type="video/webm">
+      <img class="ring-poster" src="/assets/hero_jewelry_poster.webp" alt="Commercial high-end jewelry ring retouching with polished gold facets and clean diamonds" width="720" height="1280" fetchpriority="high" decoding="sync">
+      <video id="rv" muted playsinline loop preload="metadata" poster="/assets/hero_jewelry_poster.webp">
+        <source src="/assets/hero_jewelry_rotation_v2.mp4" type="video/mp4">
+        <source src="/assets/hero_jewelry_rotation_v2.webm" type="video/webm">
       </video>
     </div>
   </div>
@@ -1434,6 +1460,31 @@ footer a:hover{
 <section>
   <div class="wrap">
     <p class="stmt" id="stmt">More images shouldn’t mean more pressure on your team. We handle the retouching so every product looks finished, consistent and ready to sell.</p>
+  </div>
+</section>
+
+<!-- INTERACTIVE BEFORE/AFTER QUALITY PROOF -->
+<section class="home-ba-section" id="proof" style="padding: clamp(40px, 6vw, 70px) 0; background: #08080a;">
+  <div class="wrap">
+    <div style="text-align: center; max-width: 680px; margin: 0 auto 36px;">
+      <div class="hero-eyebrow" style="margin-bottom: 12px;"><span class="dot" aria-hidden="true"></span><span>Studio Benchmark Proof</span></div>
+      <h2 style="font: 800 clamp(28px, 4vw, 44px)/1.15 var(--display); letter-spacing: -0.02em; margin-bottom: 14px;">16-Bit Hand Retouching vs. Raw Capture</h2>
+      <p style="color: var(--muted); font-size: clamp(15px, 1.8vw, 17px); line-height: 1.6;">Slide to inspect hand-polished diamond facets, prong cleaning, and authentic metal luster without artificial CGI blur.</p>
+    </div>
+    <div class="ba home-ba" id="homeBa" style="position:relative;aspect-ratio:16/10;max-width:1040px;margin:0 auto;border-radius:20px;overflow:hidden;background:#101012;border:1px solid var(--line);box-shadow:0 24px 60px rgba(0,0,0,.6);touch-action:pan-y;">
+      <img src="/assets/luxury-jewelry-retouching-before.webp" alt="Raw fine jewelry ring before retouching with metal imperfections and dust" width="1400" height="1050" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+      <img class="af" src="/assets/luxury-jewelry-retouching-after.webp" alt="Finished fine jewelry ring after retouching with pristine diamond fire and metal polish" width="1400" height="1050" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;clip-path:polygon(50% 0, 100% 0, 100% 100%, 50% 100%);">
+      <span class="tag b" style="position:absolute;left:20px;top:20px;background:rgba(10,10,12,.8);border:1px solid rgba(255,255,255,.14);padding:6px 14px;border-radius:99px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#fff;backdrop-filter:blur(8px);pointer-events:none;z-index:2;">Before: Raw Capture</span>
+      <span class="tag a" style="position:absolute;right:20px;top:20px;background:rgba(10,10,12,.8);border:1px solid rgba(200, 241, 53, .35);padding:6px 14px;border-radius:99px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);backdrop-filter:blur(8px);pointer-events:none;z-index:2;">After: Studio Finished</span>
+      <div class="hd" style="position:absolute;top:0;bottom:0;left:50%;width:2px;background:var(--accent);box-shadow:0 0 16px rgba(200, 241, 53, .6);pointer-events:none;z-index:3;transform:translateX(-50%);">
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;border-radius:50%;background:#0a0a0b;border:2px solid var(--accent);box-shadow:0 4px 20px rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:16px;">&#x2194;</div>
+      </div>
+      <input type="range" min="0" max="100" value="50" aria-label="Slide to compare raw image and finished studio retouching" aria-valuenow="50" style="position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0;z-index:4;">
+    </div>
+    <div style="display:flex;justify-content:space-between;max-width:1040px;margin:14px auto 0;color:var(--muted);font-size:13px;padding:0 8px;">
+      <span>Bespoke 1:1 Comparison &mdash; Fine Jewelry Macro Calibration</span>
+      <span>Drag slider left / right</span>
+    </div>
   </div>
 </section>
 
@@ -1484,49 +1535,49 @@ footer a:hover{
       <div class="stream-track stream-scroll-left">
         <div class="stream-group">
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/cosmetic-bottle-still-life-retouching.webp" alt="Cosmetic bottle still life photo retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/cosmetic-bottle-still-life-retouching.webp" alt="Cosmetic bottle still life photo retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/silk-trench-coat-fashion-retouching.webp" alt="Silk trench coat fashion lookbook retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/silk-trench-coat-fashion-retouching.webp" alt="Silk trench coat fashion lookbook retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/editorial-studio-fashion-portrait-retouching.webp" alt="Editorial studio fashion portrait retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/editorial-studio-fashion-portrait-retouching.webp" alt="Editorial studio fashion portrait retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/natural-skin-beauty-portrait-retouching.webp" alt="Natural skin beauty portrait retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/natural-skin-beauty-portrait-retouching.webp" alt="Natural skin beauty portrait retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/skincare-textile-beauty-portrait-retouching.webp" alt="Skincare and textile editorial beauty retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/skincare-textile-beauty-portrait-retouching.webp" alt="Skincare and textile editorial beauty retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/metallic-apparel-fashion-retouching.webp" alt="Metallic apparel commercial fashion retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/metallic-apparel-fashion-retouching.webp" alt="Metallic apparel commercial fashion retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/eyewear-glare-cleanup-portrait-retouching.webp" alt="Eyewear glare cleanup and portrait retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/eyewear-glare-cleanup-portrait-retouching.webp" alt="Eyewear glare cleanup and portrait retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
         </div>
         <!-- DUPLICATE GROUP FOR SEAMLESS 60FPS LOOP -->
         <div class="stream-group" aria-hidden="true">
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/cosmetic-bottle-still-life-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/cosmetic-bottle-still-life-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/silk-trench-coat-fashion-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/silk-trench-coat-fashion-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/editorial-studio-fashion-portrait-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/editorial-studio-fashion-portrait-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/natural-skin-beauty-portrait-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/natural-skin-beauty-portrait-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/skincare-textile-beauty-portrait-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/skincare-textile-beauty-portrait-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/metallic-apparel-fashion-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/metallic-apparel-fashion-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/eyewear-glare-cleanup-portrait-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/eyewear-glare-cleanup-portrait-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
         </div>
       </div>
@@ -1537,49 +1588,49 @@ footer a:hover{
       <div class="stream-track stream-scroll-right">
         <div class="stream-group">
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/streetwear-campaign-fashion-retouching.webp" alt="Streetwear campaign color grading and retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/streetwear-campaign-fashion-retouching.webp" alt="Streetwear campaign color grading and retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/knitwear-apparel-texture-retouching.webp" alt="Knitwear texture and apparel retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/knitwear-apparel-texture-retouching.webp" alt="Knitwear texture and apparel retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/outerwear-orange-jacket-fashion-retouching.webp" alt="Commercial outerwear fashion retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/outerwear-orange-jacket-fashion-retouching.webp" alt="Commercial outerwear fashion retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/eveningwear-green-gown-beauty-retouching.webp" alt="Luxury eveningwear editorial beauty retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/eveningwear-green-gown-beauty-retouching.webp" alt="Luxury eveningwear editorial beauty retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/studio-fashion-campaign-beauty-retouching.webp" alt="Studio fashion beauty campaign retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/studio-fashion-campaign-beauty-retouching.webp" alt="Studio fashion beauty campaign retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/tweed-jacket-bespoke-tailoring-retouching.webp" alt="Bespoke tailoring and tweed texture retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/tweed-jacket-bespoke-tailoring-retouching.webp" alt="Bespoke tailoring and tweed texture retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/yellow-puffer-coat-winter-lookbook-retouching.webp" alt="Winter apparel lookbook photo retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/yellow-puffer-coat-winter-lookbook-retouching.webp" alt="Winter apparel lookbook photo retouching" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
         </div>
         <!-- DUPLICATE GROUP FOR SEAMLESS 60FPS LOOP -->
         <div class="stream-group" aria-hidden="true">
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/streetwear-campaign-fashion-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/streetwear-campaign-fashion-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/knitwear-apparel-texture-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/knitwear-apparel-texture-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/outerwear-orange-jacket-fashion-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/outerwear-orange-jacket-fashion-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/eveningwear-green-gown-beauty-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/eveningwear-green-gown-beauty-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/studio-fashion-campaign-beauty-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/studio-fashion-campaign-beauty-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/tweed-jacket-bespoke-tailoring-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/tweed-jacket-bespoke-tailoring-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
           <div class="stream-card">
-            <img src="./assets/Home%20Page%20Animation%20for%20two%20Raw/yellow-puffer-coat-winter-lookbook-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
+            <img src="/assets/Home%20Page%20Animation%20for%20two%20Raw/yellow-puffer-coat-winter-lookbook-retouching.webp" alt="" width="800" height="446" loading="lazy" decoding="async" fetchpriority="low">
           </div>
         </div>
       </div>
@@ -1593,27 +1644,27 @@ footer a:hover{
     <h2>What we retouch</h2>
     <p class="lead">Six areas, each with its own manual checklist. Hover any row to preview the category.</p>
     <div class="rows">
-      <a class="row" href="/jewelry-watch-photo-retouching" data-h="42" data-t="Jewelry and watches" data-img="./assets/agency_showcase/skeleton-tourbillon-watch-retouching.webp">
+      <a class="row" href="/jewelry-watch-photo-retouching" data-h="42" data-t="Jewelry and watches" data-img="/assets/agency_showcase/skeleton-tourbillon-watch-retouching.webp">
         <h3>Jewelry and watches</h3>
         <p>Clean metal, sharp gemstones, true reflections.</p>
       </a>
-      <a class="row" href="/ghost-mannequin-fashion-photo-retouching" data-h="330" data-t="Fashion and apparel" data-img="./assets/agency_showcase/tailored-suit-trench-coat-fashion-retouching.webp">
+      <a class="row" href="/ghost-mannequin-fashion-photo-retouching" data-h="330" data-t="Fashion and apparel" data-img="/assets/agency_showcase/tailored-suit-trench-coat-fashion-retouching.webp">
         <h3>Fashion and apparel</h3>
         <p>Natural drape, wrinkle cleanup, exact color.</p>
       </a>
-      <a class="row" href="/model-portrait-photo-retouching" data-h="12" data-t="Editorial beauty" data-img="./assets/agency_showcase/crimson-editorial-beauty-portrait-retouching.webp">
+      <a class="row" href="/model-portrait-photo-retouching" data-h="12" data-t="Editorial beauty" data-img="/assets/agency_showcase/crimson-editorial-beauty-portrait-retouching.webp">
         <h3>Editorial beauty</h3>
         <p>Real skin texture, never plastic.</p>
       </a>
-      <a class="row" href="/ecommerce-product-retouching" data-h="190" data-t="E-Commerce &amp; Product Packshots" data-img="./assets/agency_showcase/ecommerce-eyewear-glare-removal-after.webp">
+      <a class="row" href="/ecommerce-product-retouching" data-h="190" data-t="E-Commerce &amp; Product Packshots" data-img="/assets/agency_showcase/ecommerce-eyewear-glare-removal-after.webp">
         <h3>E-commerce &amp; packshots</h3>
-        <p>Eyewear, bags, shoes, paths &amp; shadows &middot; From $0.49/img.</p>
+        <p>Eyewear, bags, shoes, paths &amp; shadows &middot; Volume batch rates.</p>
       </a>
-      <a class="row" href="/automotive-photo-retouching" data-h="210" data-t="Automotive and vehicles" data-img="./assets/agency_showcase/porsche-935-trackside-retouching-after.webp">
+      <a class="row" href="/automotive-photo-retouching" data-h="210" data-t="Automotive and vehicles" data-img="/assets/agency_showcase/porsche-935-trackside-retouching-after.webp">
         <h3>Automotive and vehicles</h3>
         <p>Clean paintwork, glare removal, true reflections.</p>
       </a>
-      <a class="row" href="/model-portrait-photo-retouching#headshots" data-h="260" data-t="Portraits" data-img="./assets/agency_showcase/brown-polka-dot-puff-sleeve-midi-dress-retouching.webp">
+      <a class="row" href="/model-portrait-photo-retouching#headshots" data-h="260" data-t="Portraits" data-img="/assets/agency_showcase/brown-polka-dot-puff-sleeve-midi-dress-retouching.webp">
         <h3>Portraits</h3>
         <p>Balanced light, clean hair, same expression.</p>
       </a>
@@ -1665,7 +1716,7 @@ footer a:hover{
 
       <article class="card">
         <h3>E-commerce &amp; packshots</h3>
-        <p>For stores, eyewear, bags, footwear and cosmetics brands needing clean consistency from $0.49/image.</p>
+        <p>For stores, eyewear, bags, footwear and cosmetics brands needing clean consistency at volume production scale.</p>
         <ul>
           <li>Hand-drawn pen-tool clipping paths</li>
           <li>Eyewear glare &amp; lens sheen control</li>
@@ -1805,19 +1856,19 @@ footer a:hover{
       </div>
       <div class="logo-row">
         <div class="logo-card" title="Aristocracy London — Luxury Bespoke Menswear">
-          <img class="aristocracy" src="./assets/client_logos/aristocracy.png" alt="Aristocracy London" width="273" height="87" loading="lazy" decoding="async">
+          <img class="aristocracy" src="/assets/client_logos/aristocracy.png" alt="Aristocracy London" width="273" height="87" loading="lazy" decoding="async">
         </div>
         <div class="logo-card" title="PilotFashion — Commercial Apparel">
-          <img class="pilotfashion" src="./assets/client_logos/pilotfashion.png" alt="PilotFashion" width="681" height="358" loading="lazy" decoding="async">
+          <img class="pilotfashion" src="/assets/client_logos/pilotfashion.png" alt="PilotFashion" width="681" height="358" loading="lazy" decoding="async">
         </div>
         <div class="logo-card" title="Motion Fashion GMBH — Contemporary European Fashion">
-          <img class="motionfashion" src="./assets/client_logos/motionfashion.png" alt="Motion Fashion GMBH" width="64" height="72" loading="lazy" decoding="async">
+          <img class="motionfashion" src="/assets/client_logos/motionfashion.png" alt="Motion Fashion GMBH" width="64" height="72" loading="lazy" decoding="async">
         </div>
         <div class="logo-card" title="Proper Cloth — Custom &amp; Made-to-Measure Menswear">
-          <img class="propercloth" src="./assets/client_logos/propercloth.png" alt="Proper Cloth" width="163" height="29" loading="lazy" decoding="async">
+          <img class="propercloth" src="/assets/client_logos/propercloth.png" alt="Proper Cloth" width="163" height="29" loading="lazy" decoding="async">
         </div>
         <div class="logo-card" title="Meshki — Contemporary Luxury &amp; Eveningwear">
-          <img class="meshki" src="./assets/client_logos/meshki.avif" alt="Meshki" width="400" height="400" loading="lazy" decoding="async">
+          <img class="meshki" src="/assets/client_logos/meshki.avif" alt="Meshki" width="400" height="400" loading="lazy" decoding="async">
         </div>
       </div>
     </div>
@@ -2062,7 +2113,7 @@ footer a:hover{
         <label for="m">Notes</label>
         <textarea id="m" placeholder="Any specific requirements, color profile, or references..."></textarea>
       </div>
-      <button class="btn p mag" type="submit">Request free trial</button>
+      <button class="btn p mag" type="submit">Request a Test Retouch</button>
       <p id="ok" role="status"></p>
     </form>
   </div>
@@ -2323,6 +2374,25 @@ footer a:hover{
     });
   }
 
+  
+  // 5B. HOMEPAGE INTERACTIVE BEFORE/AFTER SLIDER
+  var homeBa = document.getElementById('homeBa');
+  if (homeBa) {
+    var hRng = homeBa.querySelector('input[type="range"]');
+    var hAf = homeBa.querySelector('.af');
+    var hHd = homeBa.querySelector('.hd');
+    if (hRng && hAf && hHd) {
+      function hUpd() {
+        var v = hRng.value;
+        hAf.style.clipPath = 'polygon(' + v + '% 0, 100% 0, 100% 100%, ' + v + '% 100%)';
+        hHd.style.left = v + '%';
+        hRng.setAttribute('aria-valuenow', v);
+      }
+      hRng.addEventListener('input', hUpd);
+      hUpd();
+    }
+  }
+
   // 6. FORM SUBMISSION HANDLER
   var fm = document.getElementById('fm');
   if (fm) {
@@ -2368,7 +2438,7 @@ footer a:hover{
       }).catch(function(){
         ok.textContent = '✓ Saved! You can also share your link directly via WhatsApp or retouchershoaib@gmail.com.';
       }).finally(function(){
-        if (btn) { btn.disabled = false; btn.textContent = 'Request free trial'; }
+        if (btn) { btn.disabled = false; btn.textContent = 'Request a Test Retouch'; }
       });
     });
   }

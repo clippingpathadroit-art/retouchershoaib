@@ -8,30 +8,35 @@
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-<title>404 — Page Not Found | Retoucher Shoaib®</title>
+<title>404 — Frame Not Found | Retoucher Shoaib®</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #ffffff;
-  --fg: #0a0a0a;
-  --mut: #82827e;
-  --line: #e8e8e4;
-  --accent: #f26a1b;
-  --f: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
-  --f-display: 'Plus Jakarta Sans', var(--f);
+  --bg: #0a0a0b;
+  --surface: #141416;
+  --surface-hover: #1c1c20;
+  --text: #f1f1ec;
+  --muted: #a3a39e;
+  --line: rgba(255, 255, 255, 0.12);
+  --accent: #c8f135;
+  --accent-hover: #e5c158;
+  --on-accent: #0a0a0b;
+  --display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --body: "DM Sans", "Helvetica Neue", Arial, sans-serif;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   background: var(--bg);
-  color: var(--fg);
-  font: 400 15px/1.6 var(--f);
+  color: var(--text);
+  font: 400 16px/1.6 var(--body);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: clamp(20px, 4vw, 56px);
+  -webkit-font-smoothing: antialiased;
 }
 header {
   display: flex;
@@ -41,43 +46,58 @@ header {
   border-bottom: 1px solid var(--line);
 }
 .brand {
-  font-family: var(--f-display);
+  font-family: var(--display);
   font-weight: 800;
-  font-size: 15px;
+  font-size: 16px;
   letter-spacing: -0.02em;
   text-decoration: none;
-  color: var(--fg);
+  color: var(--text);
 }
 .brand sup {
   color: var(--accent);
-  font-size: 0.6em;
+  font-size: 0.65em;
+  margin-left: 2px;
+}
+.badge-404 {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  text-transform: uppercase;
+  background: rgba(200, 241, 53,  0.1);
+  border: 1px solid rgba(200, 241, 53,  0.25);
+  padding: 4px 10px;
+  border-radius: 99px;
 }
 main {
   text-align: center;
-  padding: 80px 20px;
+  padding: clamp(48px, 10vh, 96px) 20px;
   max-width: 680px;
   margin: 0 auto;
 }
 .error-code {
-  font-family: var(--f-display);
-  font-size: clamp(80px, 18vw, 180px);
+  font-family: var(--display);
+  font-size: clamp(80px, 18vw, 160px);
   font-weight: 800;
   line-height: 0.9;
-  letter-spacing: -0.06em;
-  color: var(--fg);
-  margin-bottom: 20px;
+  letter-spacing: -0.05em;
+  color: var(--accent);
+  margin-bottom: 24px;
+  text-shadow: 0 0 60px rgba(200, 241, 53,  0.25);
 }
 h1 {
-  font-size: clamp(20px, 3vw, 28px);
-  font-weight: 700;
+  font-family: var(--display);
+  font-size: clamp(22px, 3.5vw, 34px);
+  font-weight: 800;
   letter-spacing: -0.03em;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
+  color: var(--text);
 }
 p {
-  color: var(--mut);
-  font-size: 15px;
-  margin-bottom: 32px;
-  line-height: 1.6;
+  color: var(--muted);
+  font-size: 16px;
+  margin-bottom: 36px;
+  line-height: 1.65;
 }
 .btn-row {
   display: flex;
@@ -88,56 +108,74 @@ p {
 .btn {
   display: inline-flex;
   align-items: center;
-  padding: 12px 24px;
+  gap: 8px;
+  padding: 13px 26px;
   border-radius: 99px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: -0.01em;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .btn-primary {
-  background: var(--fg);
-  color: #fff;
+  background: var(--accent);
+  color: var(--on-accent);
 }
 .btn-primary:hover {
-  background: #222;
-  transform: translateY(-1px);
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(200, 241, 53,  0.3);
 }
 .btn-secondary {
+  background: var(--surface);
   border: 1px solid var(--line);
-  color: var(--fg);
+  color: var(--text);
 }
 .btn-secondary:hover {
-  background: #f7f6f3;
+  background: var(--surface-hover);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
 }
 footer {
   text-align: center;
-  font-size: 12px;
-  color: var(--mut);
+  font-size: 13px;
+  color: var(--muted);
   padding-top: 24px;
   border-top: 1px solid var(--line);
+}
+footer a {
+  color: var(--text);
+  text-decoration: none;
+  margin: 0 8px;
+}
+footer a:hover {
+  color: var(--accent);
 }
 </style>
 </head>
 <body>
   <header>
-    <a href="/" class="brand">RETOUCHER SHOAIB<sup>&reg;</sup></a>
-    <div style="font-size: 11px; font-weight: 600; letter-spacing: 0.1em; color: var(--mut); text-transform: uppercase;">404 Not Found</div>
+    <a href="/" class="brand">Retoucher Shoaib<sup>&reg;</sup></a>
+    <div class="badge-404">404 &middot; Frame Missing</div>
   </header>
 
   <main>
     <div class="error-code">404</div>
-    <h1>The pixel you're looking for does not exist.</h1>
-    <p>The page may have been moved, renamed, or temporarily unavailable. Return to the homepage or explore our selected portfolio works.</p>
+    <h1>The pixel or frame you're looking for does not exist.</h1>
+    <p>The asset may have been moved, archived, or temporarily relocated. Explore our curated commercial portfolio or return to the studio overview.</p>
     <div class="btn-row">
-      <a href="/" class="btn btn-primary">Return to Homepage</a>
-      <a href="/work" class="btn btn-secondary">Explore Selected Works</a>
+      <a href="/" class="btn btn-primary">Return to Studio &rarr;</a>
+      <a href="/work" class="btn btn-secondary">Explore 83+ Commercial Works</a>
+      <a href="/contact" class="btn btn-secondary">Contact Studio</a>
     </div>
   </main>
 
   <footer>
-    &copy; 2016–2026 Retoucher Shoaib&reg; • All Rights Reserved.
+    &copy; 2016–2026 Retoucher Shoaib&reg; &middot; Commercial Post-Production Studio &middot;
+    <a href="/services">Services</a> &middot;
+    <a href="/work">Portfolio</a> &middot;
+    <a href="/studio">Studio</a> &middot;
+    <a href="/contact">Contact</a>
   </footer>
 </body>
 </html>

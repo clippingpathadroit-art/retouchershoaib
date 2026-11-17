@@ -125,7 +125,7 @@
             '<a class="mob-link" href="/contact">Contact</a>' +
           '</div>' +
           '<div class="mob-ctas">' +
-            '<a class="mob-cta-p" href="/contact?service=ecom">Start Free 24h Test Edit &rarr;</a>' +
+            '<a class="mob-cta-p" href="/contact?service=ecom">Request 24h Test Retouch &rarr;</a>' +
             '<a class="mob-cta-s" href="/portal" rel="nofollow">Client Portal</a>' +
           '</div>' +
         '</div>';

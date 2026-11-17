@@ -1,2 +1,23 @@
-# Cloudflare Pages automatically handles Pretty URLs natively:
-# /work.html -> /work
+# Cloudflare Pages 301 Permanent Redirects for Clean Canonical URLs
+/index.html                           /                                     301
+/services.html                        /services                             301
+/ecommerce-product-retouching.html    /ecommerce-product-retouching         301
+/ghost-mannequin-fashion-photo-retouching.html /ghost-mannequin-fashion-photo-retouching 301
+/jewelry-watch-photo-retouching.html  /jewelry-watch-photo-retouching       301
+/model-portrait-photo-retouching.html /model-portrait-photo-retouching      301
+/automotive-photo-retouching.html     /automotive-photo-retouching          301
+/studio.html                          /studio                               301
+/work.html                            /work                                 301
+/contact.html                         /contact                              301
+/feed.html                            /feed                                 301
+/privacy.html                         /privacy                              301
+/terms.html                           /terms                                301
+
+# German Pages 301 Clean URLs
+/de/index.html                        /de/                                  301
+/de/produktfotos-bearbeiten-lassen.html /de/produktfotos-bearbeiten-lassen  301
+/de/schmuckretusche.html              /de/schmuckretusche                   301
+/de/geisterpuppe-mode-retusche.html   /de/geisterpuppe-mode-retusche        301
+/de/beauty-retusche.html              /de/beauty-retusche                   301
+/de/kontakt.html                      /de/kontakt                           301
+/de/ratgeber.html                     /de/ratgeber                          301

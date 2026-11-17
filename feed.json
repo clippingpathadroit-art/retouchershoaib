@@ -1,0 +1,65 @@
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": "Retoucher Shoaib Studio Feed",
+  "home_page_url": "https://retouchershoaib.com/feed",
+  "feed_url": "https://retouchershoaib.com/feed.json",
+  "description": "Practical perspectives on modern photo retouching, non-destructive dodge & burn, jewelry specular highlights, and luxury e-commerce standards.",
+  "items": [
+    {
+      "id": "ai-photo-retouching-vs-manual-dodge-and-burn",
+      "url": "https://retouchershoaib.com/ai-photo-retouching-vs-manual-dodge-and-burn",
+      "title": "AI Photo Retouching vs. Manual Dodge and Burn: Why High-End Brands and Photographers Still Hire Human Retouchers",
+      "tags": [
+        "Beauty & AI Insights",
+        "Dodge & Burn",
+        "High-End Retouching"
+      ],
+      "summary": "Struggling with plastic AI skin or blurry jewelry facets? Discover why commercial brands choose manual 16-bit dodge and burn work by Retoucher Shoaib over one-click AI filters.",
+      "content_text": "Struggling with plastic AI skin or blurry jewelry facets? Discover why commercial brands choose manual 16-bit dodge and burn work by Retoucher Shoaib over one-click AI filters. While AI models can quickly blur noise, they destroy the natural dermal pores and micro-contrast that luxury art directors expect.",
+      "image": "https://retouchershoaib.com/assets/agency_showcase/manual-dodge-and-burn-skin-texture-200-zoom.jpg",
+      "date_published": "2026-11-16T12:00:00Z"
+    },
+    {
+      "id": "natural-skin-texture-retention",
+      "url": "https://retouchershoaib.com/feed#post-skin-texture",
+      "title": "The Science of Retaining Natural Skin Texture",
+      "tags": [
+        "Model & Beauty",
+        "Skin Texture",
+        "Editorial Retouching"
+      ],
+      "summary": "Automated smoothing averages neighbouring pixels and removes micro-contrast, making faces look like plastic on billboards and 100% zoom. Here is how separate layer dodge and burn preserves authentic pores and campaign consistency.",
+      "content_text": "Automated smoothing averages neighbouring pixels and removes micro-contrast, making faces look like plastic on billboards and 100% zoom. Here is how separate layer dodge and burn preserves authentic pores and campaign consistency.",
+      "image": "https://retouchershoaib.com/assets/agency_showcase/warm-studio-beauty-portrait-retouching.webp",
+      "date_published": "2026-11-15T10:00:00Z"
+    },
+    {
+      "id": "specular-highlights-on-diamonds",
+      "url": "https://retouchershoaib.com/feed#post-diamonds",
+      "title": "Mastering Specular Highlights on Diamonds & Luxury Watches",
+      "tags": [
+        "Jewelry & Horology",
+        "Diamonds",
+        "Watch Retouching"
+      ],
+      "summary": "Specular highlights tell the human eye a stone is well-cut and precious metal is polished. Cleaning around them rather than flattening them keeps pieces looking high-end on e-commerce catalogs.",
+      "content_text": "Specular highlights tell the human eye a stone is well-cut and precious metal is polished. Cleaning around them rather than flattening them keeps pieces looking high-end on e-commerce catalogs.",
+      "image": "https://retouchershoaib.com/assets/agency_showcase/skeleton-tourbillon-watch-retouching.webp",
+      "date_published": "2026-11-14T09:00:00Z"
+    },
+    {
+      "id": "pen-tool-vs-automated-masks",
+      "url": "https://retouchershoaib.com/feed#post-clipping-paths",
+      "title": "Why Hand-Drawn Pen Tool Outperforms Automated AI Masks",
+      "tags": [
+        "E-Commerce Production",
+        "Clipping Paths",
+        "Pen Tool"
+      ],
+      "summary": "Automated AI masks fail on low-contrast edges, fine straps, jewelry links, and transparent fabrics, leaving halos and jagged artifacts. Hand-drawn clipping paths maintain flawless edge tension across 500+ SKUs.",
+      "content_text": "Automated AI masks fail on low-contrast edges, fine straps, jewelry links, and transparent fabrics, leaving halos and jagged artifacts. Hand-drawn clipping paths maintain flawless edge tension across 500+ SKUs.",
+      "image": "https://retouchershoaib.com/assets/agency_showcase/cosmetics-dropper-serum-bottle-packshot-retouching.webp",
+      "date_published": "2026-11-13T08:00:00Z"
+    }
+  ]
+}

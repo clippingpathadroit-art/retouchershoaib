@@ -779,7 +779,7 @@ dialog::backdrop{
         <div class="nav-dd-menu" role="menu">
           <a href="/services" role="menuitem"><strong>All Services Overview</strong><span>Compare all 6 commercial departments</span></a>
           <div class="nav-dd-sep" role="separator"></div>
-          <a href="/ecommerce-product-retouching" role="menuitem"><strong>E-Commerce Product Retouching <em class="nav-new">Live</em></strong><span>Eyewear, bags, shoes &amp; packshots &middot; From $0.49</span></a>
+          <a href="/ecommerce-product-retouching" role="menuitem"><strong>E-Commerce Product Retouching <em class="nav-new">Live</em></strong><span>Eyewear, bags, shoes &amp; packshots &middot; Volume Batch Rates</span></a>
           <a href="/ghost-mannequin-fashion-photo-retouching" role="menuitem"><strong>Fashion &amp; Ghost Mannequin <em class="nav-new">Live</em></strong><span>3D neck joins, labels &amp; on-model lookbooks</span></a>
           <a href="/jewelry-watch-photo-retouching" role="menuitem"><strong>Jewelry &amp; Watch Retouching <em class="nav-new">Live</em></strong><span>Diamond prongs, gold color &amp; watch dials</span></a>
           <a href="/model-portrait-photo-retouching" role="menuitem"><strong>Model &amp; Beauty Portraits <em class="nav-new">Live</em></strong><span>Natural skin texture, hair &amp; headshots</span></a>
@@ -848,8 +848,8 @@ dialog::backdrop{
       <h2>Drag to compare</h2>
       <p class="lead">The same jewelry shot, before and after retouching.</p>
       <div class="ba" id="ba">
-        <img src="./assets/luxury-jewelry-retouching-before.webp" alt="Luxury diamond ring before professional jewelry retouching with raw dust, prong scratches and studio reflections" width="1400" height="1050" loading="lazy" decoding="async">
-        <img class="af" src="./assets/luxury-jewelry-retouching-after.webp" alt="Luxury diamond ring after professional jewelry retouching with hand-polished facets, crisp metal luster and diamond brilliance" width="1400" height="1050" loading="lazy" decoding="async">
+        <img src="/assets/luxury-jewelry-retouching-before.webp" alt="Luxury diamond ring before professional jewelry retouching with raw dust, prong scratches and studio reflections" width="1400" height="1050" loading="lazy" decoding="async">
+        <img class="af" src="/assets/luxury-jewelry-retouching-after.webp" alt="Luxury diamond ring after professional jewelry retouching with hand-polished facets, crisp metal luster and diamond brilliance" width="1400" height="1050" loading="lazy" decoding="async">
         <span class="tag b">Before</span>
         <span class="tag a">After</span>
         <div class="hd"></div>
@@ -873,7 +873,7 @@ dialog::backdrop{
   <section class="end" id="contact">
     <div class="wrap">
       <h2>Send one image.<br>See the difference.</h2>
-      <a class="btn p" href="/contact">Start free trial &rarr;</a>
+      <a class="btn p" href="/contact">Request a Test Retouch &rarr;</a>
     </div>
   </section>
 </main>
@@ -913,12 +913,78 @@ dialog::backdrop{
 
 <script>
 (function(){
-  var CATS = { all: 'All', jewelry: 'Jewelry', fashion: 'Fashion', beauty: 'Beauty', product: 'Product' };
+  var CATS = { all: 'All', jewelry: 'Jewelry', fashion: 'Fashion', beauty: 'Beauty', product: 'Product', automotive: 'Automotive' };
   
   // DATASET OF ALL COMBINED PROJECTS (CURATED SPOTLIGHTS FIRST)
   var items = [
   {
-    "img": "./assets/agency_showcase/skeleton-tourbillon-watch-retouching.webp",
+    "img": "/assets/agency_showcase/martini-porsche-retouching-after.webp",
+    "t": "Martini Porsche 936 Trackside Studio Conversion",
+    "c": "automotive",
+    "s": [
+      "Paddock tent cleanup & studio conversion",
+      "Curved bodywork reflection feathering",
+      "Livery & sponsor decal sharpening",
+      "Natural tire contact shadow generation"
+    ]
+  },
+  {
+    "img": "/assets/agency_showcase/porsche-935-trackside-retouching-after.webp",
+    "t": "Porsche 935 Turbo Racecar Post-Production",
+    "c": "automotive",
+    "s": [
+      "Trackside canopy distraction removal",
+      "Teal studio backdrop composite",
+      "Aerodynamic fender reflection alignment",
+      "Bespoke race wheel rim polish"
+    ]
+  },
+  {
+    "img": "/assets/agency_showcase/automotive-paint-gloss-retouching.webp",
+    "t": "Commercial Supercar Liquid Paint Gloss",
+    "c": "automotive",
+    "s": [
+      "Studio light tube reflection balancing",
+      "Deep clearcoat highlight roll-off",
+      "Panel gap & body contour precision",
+      "Metallic paint sparkle enhancement"
+    ]
+  },
+  {
+    "img": "/assets/agency_showcase/toyota-suv-retouching-after.webp",
+    "t": "Commercial SUV Dealership to Studio Floor Swap",
+    "c": "automotive",
+    "s": [
+      "Outdoor gravel lot replacement",
+      "Clean studio infinity floor",
+      "Chrome trim reflection control",
+      "Dual directional floor shadow"
+    ]
+  },
+  {
+    "img": "/assets/agency_showcase/alloy-wheel-caliper-retouching.webp",
+    "t": "Bespoke Alloy Wheel & Ceramic Caliper Macro",
+    "c": "automotive",
+    "s": [
+      "Carbon ceramic brake disc grain retention",
+      "Brembo caliper specular glow control",
+      "Tire tread micro-contrast polish",
+      "Lug nut & valve stem blemish removal"
+    ]
+  },
+  {
+    "img": "/assets/agency_showcase/windshield-glare-reflection-retouching.webp",
+    "t": "Supercar Windshield Reflection & Cockpit Reveal",
+    "c": "automotive",
+    "s": [
+      "Overhead sky glare elimination",
+      "Interior dashboard & sport seat reveal",
+      "Curved glass optical clarity balance",
+      "A-pillar gloss consistency"
+    ]
+  },
+  {
+    "img": "/assets/agency_showcase/skeleton-tourbillon-watch-retouching.webp",
     "t": "Skeleton Tourbillon Watch Retouching",
     "c": "jewelry",
     "s": [
@@ -928,13 +994,13 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/jewelry-rose-gold-cluster-ring-after.webp",
+    "img": "/assets/agency_showcase/jewelry-rose-gold-cluster-ring-after.webp",
     "t": "Rose Gold Diamond Cluster Ring (B/A)",
     "c": "jewelry",
     "series": 1,
     "imgs": [
-      "./assets/agency_showcase/jewelry-rose-gold-cluster-ring-after.webp",
-      "./assets/agency_showcase/jewelry-rose-gold-cluster-ring-before.webp"
+      "/assets/agency_showcase/jewelry-rose-gold-cluster-ring-after.webp",
+      "/assets/agency_showcase/jewelry-rose-gold-cluster-ring-before.webp"
     ],
     "s": [
       "Manual Pen Tool isolation on #FFFFFF",
@@ -943,13 +1009,13 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/jewelry-emerald-diamond-ring-after.webp",
+    "img": "/assets/agency_showcase/jewelry-emerald-diamond-ring-after.webp",
     "t": "Colombian Emerald Diamond Ring (B/A)",
     "c": "jewelry",
     "series": 1,
     "imgs": [
-      "./assets/agency_showcase/jewelry-emerald-diamond-ring-after.webp",
-      "./assets/agency_showcase/jewelry-emerald-diamond-ring-before.webp"
+      "/assets/agency_showcase/jewelry-emerald-diamond-ring-after.webp",
+      "/assets/agency_showcase/jewelry-emerald-diamond-ring-before.webp"
     ],
     "s": [
       "Color-calibrated Muzo green saturation",
@@ -958,7 +1024,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/bridal-diamond-ring-set-packshot.webp",
+    "img": "/assets/agency_showcase/bridal-diamond-ring-set-packshot.webp",
     "t": "Bridal Diamond Ring Set Packshot",
     "c": "jewelry",
     "s": [
@@ -968,13 +1034,13 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/watch-crystal-glare-after.webp",
+    "img": "/assets/agency_showcase/watch-crystal-glare-after.webp",
     "t": "Swiss Chronograph Glare Removal (B/A)",
     "c": "jewelry",
     "series": 1,
     "imgs": [
-      "./assets/agency_showcase/watch-crystal-glare-after.webp",
-      "./assets/agency_showcase/watch-crystal-glare-before.webp"
+      "/assets/agency_showcase/watch-crystal-glare-after.webp",
+      "/assets/agency_showcase/watch-crystal-glare-before.webp"
     ],
     "s": [
       "Softbox crystal glare extraction",
@@ -983,7 +1049,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/sapphire-cocktail-ring-retouch.webp",
+    "img": "/assets/agency_showcase/sapphire-cocktail-ring-retouch.webp",
     "t": "Sapphire Diamond Cocktail Ring Retouching",
     "c": "jewelry",
     "s": [
@@ -993,7 +1059,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/emerald-necklace-photo-editing.webp",
+    "img": "/assets/agency_showcase/emerald-necklace-photo-editing.webp",
     "t": "Emerald Diamond Pendant Photo Editing",
     "c": "jewelry",
     "s": [
@@ -1003,7 +1069,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/panther-bangles-white-cutout.webp",
+    "img": "/assets/agency_showcase/panther-bangles-white-cutout.webp",
     "t": "Gold Pavé Diamond Bangle Trio Cutout",
     "c": "jewelry",
     "s": [
@@ -1013,7 +1079,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/panther-diamond-ring-retouching.webp",
+    "img": "/assets/agency_showcase/panther-diamond-ring-retouching.webp",
     "t": "Emerald-Eyed Panther Diamond Ring Retouching",
     "c": "jewelry",
     "s": [
@@ -1023,7 +1089,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/butterfly-brooches-jewelry-cutout.webp",
+    "img": "/assets/agency_showcase/butterfly-brooches-jewelry-cutout.webp",
     "t": "Butterfly Gemstone Brooches Cutout",
     "c": "jewelry",
     "s": [
@@ -1033,7 +1099,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/scarlet-chiffon-gown-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/scarlet-chiffon-gown-fashion-retouching.webp",
     "t": "Scarlet Chiffon Gown Retouching",
     "c": "fashion",
     "s": [
@@ -1043,7 +1109,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/avant-garde-copper-cape-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/avant-garde-copper-cape-fashion-retouching.webp",
     "t": "Copper Metallic Cape Editorial Retouching",
     "c": "fashion",
     "s": [
@@ -1053,7 +1119,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/emerald-silk-gown-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/emerald-silk-gown-fashion-retouching.webp",
     "t": "Emerald Silk Gown Retouching",
     "c": "fashion",
     "s": [
@@ -1063,7 +1129,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/black-tie-evening-duo-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/black-tie-evening-duo-fashion-retouching.webp",
     "t": "Black-Tie Velvet Suiting Duo Retouching",
     "c": "fashion",
     "s": [
@@ -1073,7 +1139,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/tailored-suit-trench-coat-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/tailored-suit-trench-coat-fashion-retouching.webp",
     "t": "Bespoke Suiting & Trench Coat Retouching",
     "c": "fashion",
     "s": [
@@ -1083,7 +1149,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/urban-streetwear-apparel-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/urban-streetwear-apparel-fashion-retouching.webp",
     "t": "Urban Streetwear Duo Retouching",
     "c": "fashion",
     "s": [
@@ -1093,7 +1159,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/ivory-couture-blazer-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/ivory-couture-blazer-fashion-retouching.webp",
     "t": "Ivory Couture Tweed Blazer Retouching",
     "c": "fashion",
     "s": [
@@ -1103,13 +1169,13 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/fashion-ghost-blazer-after.webp",
+    "img": "/assets/agency_showcase/fashion-ghost-blazer-after.webp",
     "t": "Charcoal Glen-Plaid Ghost Blazer",
     "c": "fashion",
     "series": 1,
     "imgs": [
-      "./assets/agency_showcase/fashion-ghost-blazer-after.webp",
-      "./assets/agency_showcase/fashion-ghost-blazer-before.webp"
+      "/assets/agency_showcase/fashion-ghost-blazer-after.webp",
+      "/assets/agency_showcase/fashion-ghost-blazer-before.webp"
     ],
     "s": [
       "Full mannequin bust & arm removal by hand",
@@ -1118,13 +1184,13 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/fashion-blue-activewear-matched-after.webp",
+    "img": "/assets/agency_showcase/fashion-blue-activewear-matched-after.webp",
     "t": "Cobalt Activewear Lookbook (B/A)",
     "c": "fashion",
     "series": 1,
     "imgs": [
-      "./assets/agency_showcase/fashion-blue-activewear-matched-after.webp",
-      "./assets/agency_showcase/fashion-blue-activewear-matched-before.webp"
+      "/assets/agency_showcase/fashion-blue-activewear-matched-after.webp",
+      "/assets/agency_showcase/fashion-blue-activewear-matched-before.webp"
     ],
     "s": [
       "Studio backdrop cleaned to pure #FFFFFF white",
@@ -1133,7 +1199,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/silk-drape-beauty-portrait-retouching.webp",
+    "img": "/assets/agency_showcase/silk-drape-beauty-portrait-retouching.webp",
     "t": "Silk Drape Beauty Portrait Retouching",
     "c": "beauty",
     "s": [
@@ -1143,7 +1209,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/silver-glow-complexion-beauty-retouching.webp",
+    "img": "/assets/agency_showcase/silver-glow-complexion-beauty-retouching.webp",
     "t": "Silver Glow Makeup Editorial Retouching",
     "c": "beauty",
     "s": [
@@ -1153,7 +1219,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/warm-studio-beauty-portrait-retouching.webp",
+    "img": "/assets/agency_showcase/warm-studio-beauty-portrait-retouching.webp",
     "t": "Studio Beauty Portrait Skin Retouching",
     "c": "beauty",
     "s": [
@@ -1163,7 +1229,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/crimson-editorial-beauty-portrait-retouching.webp",
+    "img": "/assets/agency_showcase/crimson-editorial-beauty-portrait-retouching.webp",
     "t": "Crimson Lip Beauty Retouching",
     "c": "beauty",
     "s": [
@@ -1173,7 +1239,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/aviator-eyewear-editorial-editing.webp",
+    "img": "/assets/agency_showcase/aviator-eyewear-editorial-editing.webp",
     "t": "Vintage Aviator Eyewear Portrait Retouching",
     "c": "beauty",
     "s": [
@@ -1183,13 +1249,13 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/corporate-headshot-retouching-after.webp",
+    "img": "/assets/agency_showcase/corporate-headshot-retouching-after.webp",
     "t": "Executive Headshot Glare Removal (B/A)",
     "c": "beauty",
     "series": 1,
     "imgs": [
-      "./assets/agency_showcase/corporate-headshot-retouching-after.webp",
-      "./assets/agency_showcase/corporate-headshot-retouching-before.webp"
+      "/assets/agency_showcase/corporate-headshot-retouching-after.webp",
+      "/assets/agency_showcase/corporate-headshot-retouching-before.webp"
     ],
     "s": [
       "Green AR eyeglass reflection cleared manually",
@@ -1198,13 +1264,13 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/portrait-beauty-flyaway-after.webp",
+    "img": "/assets/agency_showcase/portrait-beauty-flyaway-after.webp",
     "t": "Editorial Skin & Hair Retouching (B/A)",
     "c": "beauty",
     "series": 1,
     "imgs": [
-      "./assets/agency_showcase/portrait-beauty-flyaway-after.webp",
-      "./assets/agency_showcase/portrait-beauty-flyaway-before.webp"
+      "/assets/agency_showcase/portrait-beauty-flyaway-after.webp",
+      "/assets/agency_showcase/portrait-beauty-flyaway-before.webp"
     ],
     "s": [
       "Subtle dodge & burn retaining real skin pores",
@@ -1213,7 +1279,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/luxury-perfume-bottle-packshot-retouching.webp",
+    "img": "/assets/agency_showcase/luxury-perfume-bottle-packshot-retouching.webp",
     "t": "Crystal Perfume Bottle Packshot",
     "c": "product",
     "s": [
@@ -1223,7 +1289,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/cosmetics-pressed-powder-packshot-retouching.webp",
+    "img": "/assets/agency_showcase/cosmetics-pressed-powder-packshot-retouching.webp",
     "t": "Mineral Powder Compact Packshot",
     "c": "product",
     "s": [
@@ -1233,7 +1299,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/cosmetics-dropper-serum-bottle-packshot-retouching.webp",
+    "img": "/assets/agency_showcase/cosmetics-dropper-serum-bottle-packshot-retouching.webp",
     "t": "Dropper Serum Bottle Packshot",
     "c": "product",
     "s": [
@@ -1243,7 +1309,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/navy-suiting-blazer-ghost-mannequin-retouching.webp",
+    "img": "/assets/agency_showcase/navy-suiting-blazer-ghost-mannequin-retouching.webp",
     "t": "Navy Suiting Ghost Mannequin Retouching",
     "c": "product",
     "s": [
@@ -1253,15 +1319,15 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/ecom-spectator-oxford-pair.webp",
+    "img": "/assets/agency_showcase/ecom-spectator-oxford-pair.webp",
     "t": "Two-Tone Spectator Oxfords Packshot",
     "c": "product",
     "series": 1,
     "imgs": [
-      "./assets/agency_showcase/ecom-spectator-oxford-pair.webp",
-      "./assets/agency_showcase/ecom-spectator-oxford-top.webp",
-      "./assets/agency_showcase/ecom-spectator-oxford-outsole.webp",
-      "./assets/agency_showcase/ecom-spectator-oxford-toe-macro.webp"
+      "/assets/agency_showcase/ecom-spectator-oxford-pair.webp",
+      "/assets/agency_showcase/ecom-spectator-oxford-top.webp",
+      "/assets/agency_showcase/ecom-spectator-oxford-outsole.webp",
+      "/assets/agency_showcase/ecom-spectator-oxford-toe-macro.webp"
     ],
     "s": [
       "Velvet, ivory silk jacquard & patent cap-toe clarity",
@@ -1270,13 +1336,13 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/ecom-clutch-bag-after.webp",
+    "img": "/assets/agency_showcase/ecom-clutch-bag-after.webp",
     "t": "Olive Leather Clutch Bag (B/A)",
     "c": "product",
     "series": 1,
     "imgs": [
-      "./assets/agency_showcase/ecom-clutch-bag-after.webp",
-      "./assets/agency_showcase/ecom-clutch-bag-before.webp"
+      "/assets/agency_showcase/ecom-clutch-bag-after.webp",
+      "/assets/agency_showcase/ecom-clutch-bag-before.webp"
     ],
     "s": [
       "Tabletop reflections & studio dust extracted",
@@ -1285,17 +1351,17 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/bespoke-navy-suit-garment-bag-packshot-retouching.webp",
+    "img": "/assets/agency_showcase/bespoke-navy-suit-garment-bag-packshot-retouching.webp",
     "t": "Navy Wool Suiting Set Packshot",
     "c": "product",
     "series": 1,
     "imgs": [
-      "./assets/agency_showcase/bespoke-navy-suit-garment-bag-packshot-retouching.webp",
-      "./assets/agency_showcase/charcoal-wool-tuxedo-packaging-packshot-retouching.webp",
-      "./assets/agency_showcase/burgundy-velvet-tuxedo-stand-packshot-retouching.webp",
-      "./assets/agency_showcase/leather-wallet-open-compartments-packshot-retouching.webp",
-      "./assets/agency_showcase/handcrafted-leather-dress-belt-packshot-retouching.webp",
-      "./assets/agency_showcase/oxford-shoes-outsole-packshot-retouching.webp"
+      "/assets/agency_showcase/bespoke-navy-suit-garment-bag-packshot-retouching.webp",
+      "/assets/agency_showcase/charcoal-wool-tuxedo-packaging-packshot-retouching.webp",
+      "/assets/agency_showcase/burgundy-velvet-tuxedo-stand-packshot-retouching.webp",
+      "/assets/agency_showcase/leather-wallet-open-compartments-packshot-retouching.webp",
+      "/assets/agency_showcase/handcrafted-leather-dress-belt-packshot-retouching.webp",
+      "/assets/agency_showcase/oxford-shoes-outsole-packshot-retouching.webp"
     ],
     "s": [
       "Suits, shoes and leather goods",
@@ -1304,7 +1370,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/panther-emerald-bangle-packshot.webp",
+    "img": "/assets/agency_showcase/panther-emerald-bangle-packshot.webp",
     "t": "Gold Pavé Panther Bangle Packshot",
     "c": "jewelry",
     "s": [
@@ -1314,7 +1380,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/panther-ring-profile-editing.webp",
+    "img": "/assets/agency_showcase/panther-ring-profile-editing.webp",
     "t": "Gold Panther Bypass Ring Editing",
     "c": "jewelry",
     "s": [
@@ -1324,7 +1390,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/black-tie-tuxedo-eveningwear-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/black-tie-tuxedo-eveningwear-fashion-retouching.webp",
     "t": "Black-Tie Tuxedo & Gown Retouching",
     "c": "fashion",
     "s": [
@@ -1334,7 +1400,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/gold-sequin-cowl-neck-gown-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/gold-sequin-cowl-neck-gown-fashion-retouching.webp",
     "t": "Gold Sequin Cowl-Neck Gown Retouching",
     "c": "fashion",
     "s": [
@@ -1344,13 +1410,13 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/studio-model-retouching-after.webp",
+    "img": "/assets/agency_showcase/studio-model-retouching-after.webp",
     "t": "Violet Suiting & Sequin Dress Retouching (B/A)",
     "c": "fashion",
     "series": 1,
     "imgs": [
-      "./assets/agency_showcase/studio-model-retouching-after.webp",
-      "./assets/agency_showcase/studio-model-retouching-before.webp"
+      "/assets/agency_showcase/studio-model-retouching-after.webp",
+      "/assets/agency_showcase/studio-model-retouching-before.webp"
     ],
     "s": [
       "Studio floor tape & backdrop stand removal",
@@ -1359,7 +1425,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/velvet-tuxedo-gold-sequin-gown-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/velvet-tuxedo-gold-sequin-gown-fashion-retouching.webp",
     "t": "Velvet Tuxedo & Sequin Midi Retouching",
     "c": "fashion",
     "s": [
@@ -1369,7 +1435,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/navy-sequin-off-shoulder-gown-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/navy-sequin-off-shoulder-gown-fashion-retouching.webp",
     "t": "Navy Sequin Off-Shoulder Gown Retouching",
     "c": "fashion",
     "s": [
@@ -1379,7 +1445,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/emerald-satin-cocktail-gown-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/emerald-satin-cocktail-gown-fashion-retouching.webp",
     "t": "Emerald Satin Cocktail Gown Retouching",
     "c": "fashion",
     "s": [
@@ -1389,7 +1455,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/gold-sequin-camel-tailoring-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/gold-sequin-camel-tailoring-fashion-retouching.webp",
     "t": "Gold Sequin & Camel Suiting Retouching",
     "c": "fashion",
     "s": [
@@ -1399,7 +1465,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/bespoke-ivory-cocktail-suiting-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/bespoke-ivory-cocktail-suiting-fashion-retouching.webp",
     "t": "Ivory Bespoke Suiting Duo Retouching",
     "c": "fashion",
     "s": [
@@ -1409,7 +1475,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/black-tie-quartet-suiting-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/black-tie-quartet-suiting-fashion-retouching.webp",
     "t": "Black-Tie Suiting Quartet Retouching",
     "c": "fashion",
     "s": [
@@ -1419,7 +1485,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/gold-cowl-neck-gown-waistcoat-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/gold-cowl-neck-gown-waistcoat-fashion-retouching.webp",
     "t": "Gold Cowl-Neck & Waistcoat Retouching",
     "c": "fashion",
     "s": [
@@ -1429,7 +1495,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/burgundy-velvet-sequin-gown-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/burgundy-velvet-sequin-gown-fashion-retouching.webp",
     "t": "Burgundy Suiting & Wine Gown Retouching",
     "c": "fashion",
     "s": [
@@ -1439,7 +1505,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/gentlemen-black-tie-suiting-trio-retouching.webp",
+    "img": "/assets/agency_showcase/gentlemen-black-tie-suiting-trio-retouching.webp",
     "t": "Black-Tie Suiting Trio Retouching",
     "c": "fashion",
     "s": [
@@ -1449,7 +1515,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/classic-dinner-suit-velvet-cocktail-retouching.webp",
+    "img": "/assets/agency_showcase/classic-dinner-suit-velvet-cocktail-retouching.webp",
     "t": "Classic Dinner Suiting Duo Retouching",
     "c": "fashion",
     "s": [
@@ -1459,7 +1525,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/poplin-shirt-suspenders-formalwear-retouching.webp",
+    "img": "/assets/agency_showcase/poplin-shirt-suspenders-formalwear-retouching.webp",
     "t": "Poplin Shirt & Suspenders Retouching",
     "c": "fashion",
     "s": [
@@ -1469,7 +1535,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/aristocracy-navy-tailored-blazer-packshot-retouching.webp",
+    "img": "/assets/agency_showcase/aristocracy-navy-tailored-blazer-packshot-retouching.webp",
     "t": "Aristocracy Navy Blazer Packshot",
     "c": "product",
     "s": [
@@ -1479,7 +1545,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/aristocracy-black-tie-dinner-jacket-packshot-retouching.webp",
+    "img": "/assets/agency_showcase/aristocracy-black-tie-dinner-jacket-packshot-retouching.webp",
     "t": "Aristocracy Dinner Jacket Packshot",
     "c": "product",
     "s": [
@@ -1489,7 +1555,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/aristocracy-royal-blue-tuxedo-packshot-retouching.webp",
+    "img": "/assets/agency_showcase/aristocracy-royal-blue-tuxedo-packshot-retouching.webp",
     "t": "Aristocracy Royal Blue Tuxedo Packshot",
     "c": "product",
     "s": [
@@ -1499,7 +1565,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/aristocracy-ivory-gala-tuxedo-ghost-mannequin-retouching.webp",
+    "img": "/assets/agency_showcase/aristocracy-ivory-gala-tuxedo-ghost-mannequin-retouching.webp",
     "t": "Aristocracy Ivory Tuxedo Ghost Retouching",
     "c": "product",
     "s": [
@@ -1509,7 +1575,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/aristocracy-calfskin-bifold-wallet-packshot-retouching.webp",
+    "img": "/assets/agency_showcase/aristocracy-calfskin-bifold-wallet-packshot-retouching.webp",
     "t": "Aristocracy Calfskin Wallet Packshot",
     "c": "product",
     "s": [
@@ -1519,7 +1585,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/aristocracy-minimalist-cardholder-packshot-retouching.webp",
+    "img": "/assets/agency_showcase/aristocracy-minimalist-cardholder-packshot-retouching.webp",
     "t": "Aristocracy Leather Cardholder Packshot",
     "c": "product",
     "s": [
@@ -1529,7 +1595,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/aristocracy-bifold-wallet-gift-box-packshot-retouching.webp",
+    "img": "/assets/agency_showcase/aristocracy-bifold-wallet-gift-box-packshot-retouching.webp",
     "t": "Aristocracy Bifold Wallet & Box Packshot",
     "c": "product",
     "s": [
@@ -1539,7 +1605,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/aristocracy-leather-goods-gift-set-packshot-retouching.webp",
+    "img": "/assets/agency_showcase/aristocracy-leather-goods-gift-set-packshot-retouching.webp",
     "t": "Aristocracy Leather Gift Set Packshot",
     "c": "product",
     "s": [
@@ -1549,7 +1615,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/polka-dot-silk-halter-gown-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/polka-dot-silk-halter-gown-fashion-retouching.webp",
     "t": "Polka-Dot Silk Halter Gown Retouching",
     "c": "fashion",
     "s": [
@@ -1559,7 +1625,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/houndstooth-tweed-midi-dress-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/houndstooth-tweed-midi-dress-fashion-retouching.webp",
     "t": "Houndstooth Tweed Midi Dress Retouching",
     "c": "fashion",
     "s": [
@@ -1569,7 +1635,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/tweed-sleeveless-sheath-dress-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/tweed-sleeveless-sheath-dress-fashion-retouching.webp",
     "t": "Tweed Sheath Dress Retouching",
     "c": "fashion",
     "s": [
@@ -1579,7 +1645,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/polka-dot-silk-halter-top-portrait-retouching.webp",
+    "img": "/assets/agency_showcase/polka-dot-silk-halter-top-portrait-retouching.webp",
     "t": "Polka-Dot Silk Halter Retouching",
     "c": "fashion",
     "s": [
@@ -1589,7 +1655,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/polka-dot-backless-halter-neck-editorial-retouching.webp",
+    "img": "/assets/agency_showcase/polka-dot-backless-halter-neck-editorial-retouching.webp",
     "t": "Polka-Dot Backless Halter Retouching",
     "c": "fashion",
     "s": [
@@ -1599,7 +1665,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/polka-dot-lace-trim-evening-gown-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/polka-dot-lace-trim-evening-gown-fashion-retouching.webp",
     "t": "Polka-Dot Lace Evening Gown Retouching",
     "c": "fashion",
     "s": [
@@ -1609,7 +1675,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/lace-trim-polka-dot-silk-midi-skirt-lookbook-retouching.webp",
+    "img": "/assets/agency_showcase/lace-trim-polka-dot-silk-midi-skirt-lookbook-retouching.webp",
     "t": "Lace-Trim Polka-Dot Skirt Retouching",
     "c": "fashion",
     "s": [
@@ -1619,7 +1685,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/polka-dot-silk-midi-skirt-lace-hem-retouching.webp",
+    "img": "/assets/agency_showcase/polka-dot-silk-midi-skirt-lace-hem-retouching.webp",
     "t": "Polka-Dot Skirt Lace Hem Retouching",
     "c": "fashion",
     "s": [
@@ -1629,7 +1695,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/brown-polka-dot-puff-sleeve-midi-dress-retouching.webp",
+    "img": "/assets/agency_showcase/brown-polka-dot-puff-sleeve-midi-dress-retouching.webp",
     "t": "Polka-Dot Puff-Sleeve Dress Retouching",
     "c": "fashion",
     "s": [
@@ -1639,7 +1705,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/brown-polka-dot-square-neck-midi-dress-retouching.webp",
+    "img": "/assets/agency_showcase/brown-polka-dot-square-neck-midi-dress-retouching.webp",
     "t": "Polka-Dot Square-Neck Dress Retouching",
     "c": "fashion",
     "s": [
@@ -1649,7 +1715,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/chocolate-brown-tailored-trouser-suit-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/chocolate-brown-tailored-trouser-suit-fashion-retouching.webp",
     "t": "Tailored Trouser Suit Retouching",
     "c": "fashion",
     "s": [
@@ -1659,7 +1725,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/chocolate-brown-fitted-safari-jacket-retouching.webp",
+    "img": "/assets/agency_showcase/chocolate-brown-fitted-safari-jacket-retouching.webp",
     "t": "Fitted Safari Jacket Retouching",
     "c": "fashion",
     "s": [
@@ -1669,7 +1735,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/plaid-smocked-square-neck-blouse-lookbook-retouching.webp",
+    "img": "/assets/agency_showcase/plaid-smocked-square-neck-blouse-lookbook-retouching.webp",
     "t": "Plaid Square-Neck Blouse Retouching",
     "c": "fashion",
     "s": [
@@ -1679,7 +1745,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/plaid-smocked-puff-sleeve-blouse-portrait-retouching.webp",
+    "img": "/assets/agency_showcase/plaid-smocked-puff-sleeve-blouse-portrait-retouching.webp",
     "t": "Plaid Puff-Sleeve Blouse Retouching",
     "c": "fashion",
     "s": [
@@ -1689,7 +1755,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/yellow-plaid-ruffle-hem-smocked-midi-dress-retouching.webp",
+    "img": "/assets/agency_showcase/yellow-plaid-ruffle-hem-smocked-midi-dress-retouching.webp",
     "t": "Yellow Plaid Ruffle Dress Retouching",
     "c": "fashion",
     "s": [
@@ -1699,7 +1765,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/yellow-plaid-lace-hem-midi-skirt-detail-retouching.webp",
+    "img": "/assets/agency_showcase/yellow-plaid-lace-hem-midi-skirt-detail-retouching.webp",
     "t": "Yellow Plaid Lace-Hem Skirt Retouching",
     "c": "fashion",
     "s": [
@@ -1709,7 +1775,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/yellow-plaid-smocked-long-sleeve-blouse-retouching.webp",
+    "img": "/assets/agency_showcase/yellow-plaid-smocked-long-sleeve-blouse-retouching.webp",
     "t": "Yellow Plaid Smocked Blouse Retouching",
     "c": "fashion",
     "s": [
@@ -1719,7 +1785,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/yellow-plaid-smocked-blouse-editorial-retouching.webp",
+    "img": "/assets/agency_showcase/yellow-plaid-smocked-blouse-editorial-retouching.webp",
     "t": "Yellow Plaid Blouse Portrait Retouching",
     "c": "fashion",
     "s": [
@@ -1729,7 +1795,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/blue-pinstripe-crinkle-oxford-shirt-lookbook-retouching.webp",
+    "img": "/assets/agency_showcase/blue-pinstripe-crinkle-oxford-shirt-lookbook-retouching.webp",
     "t": "Pinstripe Oxford Shirt Retouching",
     "c": "fashion",
     "s": [
@@ -1739,7 +1805,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/blue-pinstripe-crinkled-shirt-portrait-retouching.webp",
+    "img": "/assets/agency_showcase/blue-pinstripe-crinkled-shirt-portrait-retouching.webp",
     "t": "Pinstripe Crinkled Shirt Retouching",
     "c": "fashion",
     "s": [
@@ -1749,7 +1815,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/white-eyelet-lace-halter-dress-editorial-retouching.webp",
+    "img": "/assets/agency_showcase/white-eyelet-lace-halter-dress-editorial-retouching.webp",
     "t": "White Eyelet Halter Dress Retouching",
     "c": "fashion",
     "s": [
@@ -1759,7 +1825,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/periwinkle-sheer-organza-mini-dress-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/periwinkle-sheer-organza-mini-dress-fashion-retouching.webp",
     "t": "Organza Sheer Mini Dress Retouching",
     "c": "fashion",
     "s": [
@@ -1769,7 +1835,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/periwinkle-organza-puff-sleeve-dress-portrait-retouching.webp",
+    "img": "/assets/agency_showcase/periwinkle-organza-puff-sleeve-dress-portrait-retouching.webp",
     "t": "Organza Puff-Sleeve Dress Retouching",
     "c": "fashion",
     "s": [
@@ -1779,7 +1845,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/smocked-rust-plaid-midi-dress-fashion-retouching.webp",
+    "img": "/assets/agency_showcase/smocked-rust-plaid-midi-dress-fashion-retouching.webp",
     "t": "Rust Plaid Editorial Dress Retouching",
     "c": "fashion",
     "s": [
@@ -1789,7 +1855,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/aviator-eyewear-portrait-retouch.webp",
+    "img": "/assets/agency_showcase/aviator-eyewear-portrait-retouch.webp",
     "t": "Aviator Glasses & Blouse Retouching",
     "c": "beauty",
     "s": [
@@ -1799,7 +1865,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/natural-skin-beauty-retouching.webp",
+    "img": "/assets/agency_showcase/natural-skin-beauty-retouching.webp",
     "t": "Polka-Dot Cardigan Beauty Retouching",
     "c": "beauty",
     "s": [
@@ -1809,7 +1875,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/amber-sunglasses-editorial-retouch.webp",
+    "img": "/assets/agency_showcase/amber-sunglasses-editorial-retouch.webp",
     "t": "Amber Sunglasses Beauty Retouching",
     "c": "beauty",
     "s": [
@@ -1819,7 +1885,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/suede-blazer-beauty-editing.webp",
+    "img": "/assets/agency_showcase/suede-blazer-beauty-editing.webp",
     "t": "Suede Blazer Beauty Portrait Editing",
     "c": "beauty",
     "s": [
@@ -1829,7 +1895,7 @@ dialog::backdrop{
     ]
   },
   {
-    "img": "./assets/agency_showcase/editorial-plaid-portrait-retouch.webp",
+    "img": "/assets/agency_showcase/editorial-plaid-portrait-retouch.webp",
     "t": "Mustard Plaid Dress Portrait Retouching",
     "c": "beauty",
     "s": [
@@ -1840,7 +1906,10 @@ dialog::backdrop{
   }
 ];
 
-  var cur = 'all', shown = 12, idx = 0, imgs = [], k = 0;
+  var urlParams = new URLSearchParams(window.location.search);
+  var qCat = (urlParams.get('category') || urlParams.get('c') || '').toLowerCase();
+  var cur = (qCat && CATS[qCat]) ? qCat : 'all';
+  var shown = 12, idx = 0, imgs = [], k = 0;
   var grid = document.getElementById('grid');
   var list = document.getElementById('list');
   var pills = document.getElementById('pills');
@@ -1892,6 +1961,10 @@ dialog::backdrop{
     if (!b) return;
     cur = b.dataset.c;
     shown = 12;
+    if (window.history && window.history.replaceState) {
+      var newUrl = cur === 'all' ? window.location.pathname : window.location.pathname + '?category=' + encodeURIComponent(cur);
+      window.history.replaceState(null, '', newUrl);
+    }
     pillsR();
     render();
 

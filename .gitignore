@@ -3,7 +3,17 @@
 # Ignore raw drafts / archive files (>25MB)
 _archive/
 *.wav
-*.mjs
+*.mp3
+*.mp4
+*.exe
+yt-dlp.exe
+social_vault/
+.agents/
+
+# Keep automation scripts & webhook endpoints private to this local machine
+automation/
+PROJECT_MASTER_CONTEXT.md
+
 transcribe.mjs
 transcript.txt
 color_grade_preview.html
