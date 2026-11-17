@@ -845,7 +845,7 @@ footer a:hover{color:var(--accent)}
 
 <script>
 (function(){
-  var ENDPOINT = 'https://formsubmit.co/ajax/retouchershoaib@gmail.com';
+  var ENDPOINT = 'https://api.web3forms.com/submit';
   var mode = 'sample';
   var $ = function(i){ return document.getElementById(i); };
 
@@ -943,7 +943,7 @@ footer a:hover{color:var(--accent)}
   } catch(e){}
   updateWaLink();
 
-  // Form Submission via AJAX to formsubmit.co
+  // Form Submission via AJAX to Web3Forms
   $('fm').addEventListener('submit', function(ev){
     ev.preventDefault();
     var n = $('n').value.trim(), e = $('e').value.trim(), good = true, first = null;
@@ -974,11 +974,12 @@ footer a:hover{color:var(--accent)}
     if($('fm').company_site.value) return; // Honeypot caught bot
 
     var d = new FormData($('fm')), data = {
+      access_key: '3220bf99-f78f-41e1-b2e9-1ba7dfffa841',
+      from_name: 'Retoucher Shoaib (DE)',
       type: mode,
       sprache: 'DE (DACH)',
-      _subject: (mode === 'sample') ? ('Neue DACH-Testretusche Anfrage — ' + n + ($('b').value ? ' (' + $('b').value + ')' : '')) : ('Allgemeine DACH-Anfrage — ' + n),
-      _replyto: e,
-      _template: 'table'
+      subject: (mode === 'sample') ? ('Neue DACH-Testretusche Anfrage - ' + n + ($('b').value ? ' (' + $('b').value + ')' : '')) : ('Allgemeine DACH-Anfrage - ' + n),
+      replyto: e
     };
     d.forEach(function(v, k){
       if(k !== 'company_site') data[k] = v;
@@ -1002,7 +1003,8 @@ footer a:hover{color:var(--accent)}
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify(data)
     }).then(function(res){
-      if(res.ok) {
+      return res.json().then(function(j){
+        if(res.ok && j && j.success) {
         $('fm').hidden = true;
         $('ok').hidden = false;
         $('ok').focus();
@@ -1011,9 +1013,10 @@ footer a:hover{color:var(--accent)}
         } else {
           $('okm').textContent = 'Vielen Dank für Ihre Nachricht. Unser Team wird Ihre Anfrage prüfen und sich innerhalb weniger Stunden bei Ihnen melden.';
         }
-      } else {
-        throw new Error('Fehler beim Senden.');
-      }
+        } else {
+          throw new Error((j && j.message) || 'Fehler beim Senden.');
+        }
+      });
     }).catch(function(err){
       $('fe').textContent = 'Beim Übermitteln ist ein Fehler aufgetreten. Bitte schreiben Sie uns direkt per WhatsApp oder an retouchershoaib@gmail.com.';
     }).finally(function(){

@@ -6132,7 +6132,7 @@ checkDeletedOrdersSync();
 
 
 // ========================================================
-// VERIFIED CLIENT TESTIMONIAL SUBMISSION (GMAIL VIA FORMSUBMIT)
+// VERIFIED CLIENT TESTIMONIAL SUBMISSION (GMAIL VIA WEB3FORMS)
 // ========================================================
 window.__portalPendingTab = (function() {
   try {
@@ -6220,6 +6220,10 @@ async function handlePortalTestimonialSubmit(ev) {
   if (btn) { btn.disabled = true; btn.textContent = 'Submitting...'; }
 
   const payload = {
+    access_key: '3220bf99-f78f-41e1-b2e9-1ba7dfffa841',
+    from_name: 'Retoucher Shoaib Client Portal',
+    subject: 'Verified Client Testimonial (' + rating + '/5) - ' + name + (brand ? ' (' + brand + ')' : ''),
+    replyto: sess.email,
     name: name,
     email: sess.email,
     brand_or_studio: brand,
@@ -6227,10 +6231,7 @@ async function handlePortalTestimonialSubmit(ev) {
     service_category: service,
     star_rating: rating + ' / 5 Stars',
     message: text,
-    submitted_from: 'Verified Client Portal Dashboard',
-    _subject: 'Verified Client Testimonial (' + rating + '/5) - ' + name + (brand ? ' (' + brand + ')' : ''),
-    _replyto: sess.email,
-    _template: 'table'
+    submitted_from: 'Verified Client Portal Dashboard'
   };
 
   function showSuccess() {
@@ -6247,7 +6248,7 @@ async function handlePortalTestimonialSubmit(ev) {
   }
 
   try {
-    const res = await fetch('https://formsubmit.co/ajax/retouchershoaib@gmail.com', {
+    const res = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -6255,7 +6256,8 @@ async function handlePortalTestimonialSubmit(ev) {
       },
       body: JSON.stringify(payload)
     });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const resJson = await res.json().catch(() => ({}));
+    if (!res.ok || !resJson.success) throw new Error(resJson.message || ('HTTP ' + res.status));
     showSuccess();
   } catch (err) {
     if (btn) { btn.disabled = false; btn.textContent = '✓ Submit Verified Testimonial'; }

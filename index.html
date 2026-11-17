@@ -2349,21 +2349,27 @@ footer a:hover{
         date: new Date().toISOString()
       }));
 
-      fetch('https://formsubmit.co/ajax/retouchershoaib@gmail.com', {
+      fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify({
+          access_key: '3220bf99-f78f-41e1-b2e9-1ba7dfffa841',
+          from_name: 'Retoucher Shoaib Website',
+          subject: 'New Homepage Free Trial Request - ' + name,
+          replyto: email,
           name: name,
           email: email,
           service: cat,
           file_link: link,
-          notes: notes || '—',
-          type: 'homepage_free_trial',
-          _subject: 'New Homepage Free Trial Request - ' + name,
-          _replyto: email,
-          _template: 'table'
+          notes: notes || '-',
+          type: 'homepage_free_trial'
         })
-      }).then(function(r){ return r.json(); }).then(function(){
+      }).then(function(r){
+        return r.json().then(function(j){
+          if (!r.ok || !j || !j.success) throw new Error((j && j.message) || r.status);
+          return j;
+        });
+      }).then(function(){
         ok.textContent = '✓ Request sent! We will deliver your free retouched proof to ' + email + ' within 24 hours.';
         fm.reset();
       }).catch(function(){

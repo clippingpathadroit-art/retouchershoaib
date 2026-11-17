@@ -768,7 +768,7 @@ footer a:hover{
 
 <script>
 (function(){
-  var ENDPOINT = 'https://formsubmit.co/ajax/retouchershoaib@gmail.com';
+  var ENDPOINT = 'https://api.web3forms.com/submit';
   var mode = 'sample';
   var $ = function(i){ return document.getElementById(i); };
 
@@ -918,19 +918,20 @@ footer a:hover{
     if($('fm').company_site.value) return; // honeypot caught a bot
 
     var data = {
+      access_key: '3220bf99-f78f-41e1-b2e9-1ba7dfffa841',
+      from_name: 'Retoucher Shoaib Website',
       type: mode,
       name: n,
       email: e,
-      brand: brand || '—',
-      phone: phone || '—',
-      _replyto: e,
-      _template: 'table'
+      replyto: e,
+      brand: brand || '-',
+      phone: phone || '-'
     };
 
     if(mode === 'sample'){
       var s = document.querySelector('input[name="service"]:checked');
       var v = document.querySelector('input[name="volume"]:checked');
-      data._subject = 'New Test Retouch Request - ' + n + (brand ? ' (' + brand + ')' : '');
+      data.subject = 'New Test Retouch Request - ' + n + (brand ? ' (' + brand + ')' : '');
       data.service = s ? s.value : '';
       data.volume = v ? v.value : '';
       data.link = $('l').value.trim();
@@ -939,7 +940,7 @@ footer a:hover{
       var qs = document.querySelector('input[name="quote_service"]:checked');
       var qlv = document.querySelector('input[name="editing_level"]:checked');
       var qt = document.querySelector('input[name="turnaround"]:checked');
-      data._subject = 'New Project Quote Request - ' + n + (brand ? ' (' + brand + ')' : '');
+      data.subject = 'New Project Quote Request - ' + n + (brand ? ' (' + brand + ')' : '');
       data.service = qs ? qs.value : '';
       data.editing_level = qlv ? qlv.value : '';
       data.number_of_images = $('qimg').value.trim();
@@ -948,7 +949,7 @@ footer a:hover{
       data.project_details = $('qm').value.trim();
     } else {
       var t = document.querySelector('input[name="topic"]:checked');
-      data._subject = 'General Inquiry - ' + n + (brand ? ' (' + brand + ')' : '');
+      data.subject = 'General Inquiry - ' + n + (brand ? ' (' + brand + ')' : '');
       data.topic = t ? t.value : '';
       data.message = $('m').value.trim();
     }
@@ -988,11 +989,13 @@ footer a:hover{
       body: JSON.stringify(data)
     })
     .then(function(r){
-      if(r.ok) {
-        done();
-      } else {
-        throw new Error('Server returned status ' + r.status);
-      }
+      return r.json().then(function(j){
+        if(r.ok && j && j.success) {
+          done();
+        } else {
+          throw new Error((j && j.message) || ('Server returned status ' + r.status));
+        }
+      });
     })
     .catch(function(err){
       btn.disabled = false;
