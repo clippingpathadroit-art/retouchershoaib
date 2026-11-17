@@ -1006,59 +1006,6 @@ h2{
   color: var(--muted);
   font-size: 14px;
 }
-/* REVIEW SUBMISSION DIALOG MODAL */
-.rev-dialog {
-  border: 1px solid var(--line);
-  border-radius: 24px;
-  background: var(--surface);
-  color: var(--text);
-  max-width: 600px;
-  width: 92vw;
-  max-height: 90vh;
-  overflow-y: auto;
-  padding: 36px clamp(20px, 4vw, 40px);
-  position: fixed;
-  inset: 0;
-  margin: auto;
-  box-shadow: 0 24px 64px rgba(0,0,0,.7);
-  z-index: 100;
-}
-.rev-dialog::backdrop {
-  background: rgba(0,0,0,.75);
-  backdrop-filter: blur(8px);
-}
-.rev-form-wrap form {
-  display: block!important;
-  max-width: 100%!important;
-  margin-top: 0!important;
-}
-.rev-close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: none;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  color: var(--text);
-  font-size: 22px;
-  line-height: 1;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  transition: .2s;
-}
-.rev-close:hover {
-  background: var(--accent);
-  color: var(--on-accent);
-  border-color: var(--accent);
-}
-@media (max-width: 560px) {
-  .rev-form-wrap .modal-cols {
-    grid-template-columns: 1fr!important;
-  }
-}
 /* FAQ DETAILS */
 details{
   border-bottom:1px solid var(--line);
@@ -2059,65 +2006,19 @@ footer a:hover{
         </div>
       </div>
 
-      <!-- Submit a Client Review Option -->
+      <!-- Submit a Client Review Option (Verified Clients via Portal) -->
       <div class="leave-review-bar">
         <div>
           <b>Worked with Retoucher Shoaib Studio on a campaign or catalog?</b>
-          <span>Share your feedback with future clients.</span>
+          <span>Verified clients can submit a testimonial from their Client Portal dashboard.</span>
         </div>
-        <button class="btn" id="openReviewModal" type="button">Submit your testimonial &rarr;</button>
+        <a class="btn" href="/portal?tab=testimonial" rel="nofollow">Submit your testimonial &rarr;</a>
       </div>
 
     </div>
 
   </div>
 </section>
-
-<!-- SUBMIT TESTIMONIAL MODAL DIALOG -->
-<dialog id="revModal" class="rev-dialog" aria-label="Submit a Client Testimonial">
-  <button class="rev-close" id="revClose" type="button" aria-label="Close dialog">&times;</button>
-  <div class="rev-form-wrap">
-    <h3 style="font:800 clamp(24px,3vw,32px)/1.1 var(--display);margin:0 0 8px">Share your experience</h3>
-    <p class="lead" style="margin:0 0 24px;font-size:15px">Thank you for trusting Retoucher Shoaib Studio with your imagery. Your review helps other brands and art directors.</p>
-    <form id="revForm">
-      <div class="rev-fields">
-        <div class="modal-cols" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-          <div>
-            <label for="rvName">Your name <i>*</i></label>
-            <input id="rvName" type="text" required placeholder="e.g. Marcus Vance">
-          </div>
-          <div>
-            <label for="rvBrand">Brand, studio, or website <i>*</i></label>
-            <input id="rvBrand" type="text" required placeholder="e.g. Vance Studios London">
-          </div>
-        </div>
-        <div style="margin-top:16px;">
-          <label for="rvRole">Your role / title</label>
-          <input id="rvRole" type="text" placeholder="e.g. Creative Director / Photographer">
-        </div>
-        <div style="margin-top:16px;">
-          <label for="rvService">Retouching category</label>
-          <select id="rvService" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:14px 16px;color:var(--text);font:400 16px var(--body);">
-            <option>Automotive &amp; Vehicles</option>
-            <option>High Jewelry &amp; Watches</option>
-            <option>Commercial Fashion &amp; Apparel</option>
-            <option>Model &amp; Editorial Beauty</option>
-            <option>Ghost Mannequin &amp; Packshots</option>
-            <option>Other Commercial Retouching</option>
-          </select>
-        </div>
-        <div style="margin-top:16px;">
-          <label for="rvText">Your testimonial <i>*</i></label>
-          <textarea id="rvText" required placeholder="How was the retouching quality, turnaround speed, and communication?"></textarea>
-        </div>
-      </div>
-      <div style="display:flex;gap:14px;margin-top:24px;align-items:center;flex-wrap:wrap">
-        <button class="btn p" type="submit">Submit Testimonial</button>
-        <span id="rvStatus" style="font-size:14px;color:var(--accent);"></span>
-      </div>
-    </form>
-  </div>
-</dialog>
 
 <!-- QUESTIONS WE GET A LOT (FAQ) -->
 <section id="faq">
@@ -2390,55 +2291,6 @@ footer a:hover{
   }
   updateRevCounter();
   revRaf = requestAnimationFrame(revLoop);
-
-  // REVIEW MODAL
-  var revModal = document.getElementById('revModal');
-  var openRevBtn = document.getElementById('openReviewModal');
-  var closeRevBtn = document.getElementById('revClose');
-  if (openRevBtn && revModal) {
-    openRevBtn.addEventListener('click', function(){ revModal.showModal(); });
-  }
-  if (closeRevBtn && revModal) {
-    closeRevBtn.addEventListener('click', function(){ revModal.close(); });
-  }
-  if (revModal) {
-    revModal.addEventListener('click', function(e){
-      if (e.target === revModal) revModal.close();
-    });
-  }
-
-  var revForm = document.getElementById('revForm');
-  if (revForm) {
-    revForm.addEventListener('submit', function(e){
-      e.preventDefault();
-      var rName = document.getElementById('rvName').value.trim();
-      var rBrand = document.getElementById('rvBrand').value.trim();
-      var rRole = document.getElementById('rvRole').value.trim();
-      var rService = document.getElementById('rvService').value;
-      var rText = document.getElementById('rvText').value.trim();
-      var status = document.getElementById('rvStatus');
-
-      try {
-        var existing = JSON.parse(localStorage.getItem('shoaib_client_reviews') || '[]');
-        existing.push({
-          name: rName,
-          brand: rBrand,
-          role: rRole,
-          service: rService,
-          text: rText,
-          date: new Date().toISOString()
-        });
-        localStorage.setItem('shoaib_client_reviews', JSON.stringify(existing));
-      } catch(ex){}
-
-      status.textContent = '✓ Testimonial submitted! Thank you so much.';
-      setTimeout(function(){
-        revForm.reset();
-        status.textContent = '';
-        if (revModal) revModal.close();
-      }, 1500);
-    });
-  }
 
   // 5. MAGNETIC BUTTON HOVER EFFECT
   if (!rm && matchMedia('(hover:hover)').matches) {

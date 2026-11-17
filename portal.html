@@ -1739,6 +1739,9 @@ body {
         RETOUCHER SHOAIB<sup>&reg;</sup>
       </div>
       <div style="font-size: 12px; color: #9ca3af; margin-top: 4px;">Commercial Post-Production Client Portal</div>
+      <div id="authTestimonialNotice" style="display: none; margin-top: 12px; padding: 10px 12px; background: rgba(200, 241, 53, 0.12); border: 1px solid rgba(200, 241, 53, 0.35); border-radius: 8px; font-size: 12px; color: #e2e8f0; line-height: 1.45;">
+        ⭐ Log in to your verified client account to submit a testimonial.
+      </div>
     </div>
 
     <!-- TABS: LOG IN / SIGN UP -->
@@ -1879,6 +1882,13 @@ body {
         <div class="nav-item-left">
           <span class="nav-item-icon">👤</span>
           <span>Billing Details</span>
+        </div>
+      </button>
+
+      <button class="nav-item" id="sideNavTestimonial" onclick="switchPortalSection('testimonial')">
+        <div class="nav-item-left">
+          <span class="nav-item-icon">⭐</span>
+          <span>Submit Testimonial</span>
         </div>
       </button>
 
@@ -2407,6 +2417,97 @@ body {
               </button>
             </div>
           </form>
+        </div>
+      </div>
+
+
+      <!-- SECTION 5B: VERIFIED CLIENT TESTIMONIAL SUBMISSION -->
+      <div id="viewTestimonial" style="display: none;">
+        <div class="app-card" style="max-width: 760px;">
+          <div class="app-card-header">
+            <div>
+              <div class="app-card-title">⭐ Submit a Verified Client Testimonial</div>
+              <div class="app-card-subtitle">Share your experience working with Retoucher Shoaib Studio. Verified reviews are reviewed and featured on our website.</div>
+            </div>
+          </div>
+
+          <div id="portalTestimonialFormWrap">
+            <div style="display: flex; align-items: center; gap: 10px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 12px 16px; margin-bottom: 18px; font-size: 13px; color: #166534;">
+              <span style="font-size: 16px;">✓</span>
+              <span>Submitting as verified portal client: <strong id="testimVerifiedIdentity">Studio Client</strong></span>
+            </div>
+
+            <form id="portalTestimonialForm" onsubmit="handlePortalTestimonialSubmit(event)">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div class="form-field">
+                  <label class="form-label" for="testimName">Your Name *</label>
+                  <input type="text" id="testimName" class="form-input" required placeholder="e.g. Marcus Vance">
+                </div>
+                <div class="form-field">
+                  <label class="form-label" for="testimBrand">Brand, Studio, or Website *</label>
+                  <input type="text" id="testimBrand" class="form-input" required placeholder="e.g. Vance Studios London">
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div class="form-field">
+                  <label class="form-label" for="testimRole">Your Role / Title</label>
+                  <input type="text" id="testimRole" class="form-input" placeholder="e.g. Creative Director / Brand Owner">
+                </div>
+                <div class="form-field">
+                  <label class="form-label" for="testimService">Service Category *</label>
+                  <select id="testimService" class="form-input" required>
+                    <option value="E-Commerce Product Retouching">E-Commerce Product Retouching</option>
+                    <option value="Fashion & Ghost Mannequin">Fashion &amp; Ghost Mannequin</option>
+                    <option value="High Jewelry & Watches">High Jewelry &amp; Watches</option>
+                    <option value="Model & Editorial Beauty">Model &amp; Editorial Beauty</option>
+                    <option value="Still Life & Cosmetics">Still Life &amp; Cosmetics</option>
+                    <option value="Automotive & Vehicles">Automotive &amp; Vehicles</option>
+                    <option value="Other Commercial Retouching">Other Commercial Retouching</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label class="form-label">Overall Rating *</label>
+                <div id="testimStars" role="radiogroup" aria-label="Star rating" style="display: flex; align-items: center; gap: 6px; margin-top: 4px;">
+                  <button type="button" class="testim-star-btn" data-star="1" onclick="setPortalTestimonialRating(1)" aria-label="1 star" style="background: none; border: none; font-size: 28px; cursor: pointer; padding: 2px 4px; color: #f59e0b; line-height: 1;">★</button>
+                  <button type="button" class="testim-star-btn" data-star="2" onclick="setPortalTestimonialRating(2)" aria-label="2 stars" style="background: none; border: none; font-size: 28px; cursor: pointer; padding: 2px 4px; color: #f59e0b; line-height: 1;">★</button>
+                  <button type="button" class="testim-star-btn" data-star="3" onclick="setPortalTestimonialRating(3)" aria-label="3 stars" style="background: none; border: none; font-size: 28px; cursor: pointer; padding: 2px 4px; color: #f59e0b; line-height: 1;">★</button>
+                  <button type="button" class="testim-star-btn" data-star="4" onclick="setPortalTestimonialRating(4)" aria-label="4 stars" style="background: none; border: none; font-size: 28px; cursor: pointer; padding: 2px 4px; color: #f59e0b; line-height: 1;">★</button>
+                  <button type="button" class="testim-star-btn" data-star="5" onclick="setPortalTestimonialRating(5)" aria-label="5 stars" style="background: none; border: none; font-size: 28px; cursor: pointer; padding: 2px 4px; color: #f59e0b; line-height: 1;">★</button>
+                  <span id="testimRatingLabel" style="margin-left: 8px; font-size: 13px; font-weight: 700; color: #0f172a;">5 / 5 Stars</span>
+                </div>
+                <input type="hidden" id="testimRating" value="5">
+              </div>
+
+              <div class="form-field">
+                <label class="form-label" for="testimText">Your Testimonial *</label>
+                <textarea id="testimText" class="form-textarea" rows="4" required placeholder="How was the retouching quality, turnaround speed, and communication with our studio?"></textarea>
+              </div>
+
+              <div id="testimError" style="display: none; color: #dc2626; font-size: 13px; font-weight: 600; margin-bottom: 12px;"></div>
+
+              <div style="display: flex; gap: 10px; justify-content: flex-end; align-items: center; margin-top: 10px;">
+                <button type="button" class="btn btn-outline btn-sm" onclick="switchPortalSection('dashboard')">Cancel</button>
+                <button type="submit" id="testimSubmitBtn" class="btn btn-primary" style="padding: 11px 24px;">
+                  ✓ Submit Verified Testimonial
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div id="portalTestimonialSuccess" style="display: none; text-align: center; padding: 36px 20px;">
+            <div style="width: 64px; height: 64px; border-radius: 50%; background: #dcfce7; color: #16a34a; display: inline-flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 800; margin-bottom: 16px;">✓</div>
+            <h3 style="font-family: var(--f-display); font-size: 22px; font-weight: 800; color: #0f172a; margin: 0 0 8px;">Thank you for your testimonial!</h3>
+            <p style="font-size: 14px; color: var(--mut); max-width: 460px; margin: 0 auto 22px; line-height: 1.6;">
+              Your verified review has been delivered to Shoaib&rsquo;s studio team. We truly appreciate your trust and partnership.
+            </p>
+            <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+              <button type="button" class="btn btn-primary btn-sm" onclick="switchPortalSection('dashboard')">Back to Dashboard</button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="resetPortalTestimonialForm()">Submit Another</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -3915,7 +4016,7 @@ function switchPortalSection(section) {
   if (section === 'new-order' || section === 'submit-order') section = 'new';
   if (section === 'billing') section = 'profile';
 
-  const views = ['viewDashboard', 'viewOrders', 'viewArchive', 'viewInvoices', 'viewProfile', 'viewNewOrder'];
+  const views = ['viewDashboard', 'viewOrders', 'viewArchive', 'viewInvoices', 'viewProfile', 'viewTestimonial', 'viewNewOrder'];
   views.forEach(v => {
     const el = document.getElementById(v);
     if (el) el.style.display = 'none';
@@ -3926,7 +4027,8 @@ function switchPortalSection(section) {
     orders: 'sideNavOrders',
     archive: 'sideNavArchive',
     invoices: 'sideNavInvoices',
-    profile: 'sideNavProfile'
+    profile: 'sideNavProfile',
+    testimonial: 'sideNavTestimonial'
   };
 
   Object.values(navIds).forEach(id => {
@@ -3940,6 +4042,7 @@ function switchPortalSection(section) {
     archive: 'Completed Projects Archive',
     invoices: 'Invoices & Billing Statements',
     profile: 'Client Profile & Tax ID',
+    testimonial: 'Submit Verified Testimonial',
     new: 'Submit New Retouching Order'
   };
 
@@ -3967,6 +4070,10 @@ function switchPortalSection(section) {
   } else if (section === 'profile') {
     document.getElementById('viewProfile').style.display = 'block';
     document.getElementById('sideNavProfile')?.classList.add('active');
+  } else if (section === 'testimonial') {
+    document.getElementById('viewTestimonial').style.display = 'block';
+    document.getElementById('sideNavTestimonial')?.classList.add('active');
+    if (typeof populateTestimonialForm === 'function') populateTestimonialForm();
   } else if (section === 'new') {
     document.getElementById('viewNewOrder').style.display = 'block';
   }
@@ -6023,20 +6130,172 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 checkDeletedOrdersSync();
 
+
+// ========================================================
+// VERIFIED CLIENT TESTIMONIAL SUBMISSION (GMAIL VIA FORMSUBMIT)
+// ========================================================
+window.__portalPendingTab = (function() {
+  try {
+    const qp = new URLSearchParams(window.location.search);
+    return (qp.get('tab') || '').toLowerCase();
+  } catch (e) {
+    return '';
+  }
+})();
+
+function populateTestimonialForm() {
+  const sess = (typeof getCurrentSession === 'function') ? getCurrentSession() : null;
+  let prof = {};
+  try { prof = JSON.parse(localStorage.getItem('shoaib_client_profile') || '{}'); } catch (e) {}
+  const email = (sess && sess.email) || prof.email || '';
+  const name = prof.name || (sess && sess.name) || '';
+  const company = prof.company || (sess && sess.company) || '';
+
+  const idEl = document.getElementById('testimVerifiedIdentity');
+  if (idEl) idEl.textContent = (name ? name + ' (' + email + ')' : email || 'Verified Client');
+
+  const nameEl = document.getElementById('testimName');
+  const brandEl = document.getElementById('testimBrand');
+  if (nameEl && !nameEl.value && name) nameEl.value = name;
+  if (brandEl && !brandEl.value && company) brandEl.value = company;
+}
+
+function setPortalTestimonialRating(stars) {
+  const val = Math.max(1, Math.min(5, parseInt(stars, 10) || 5));
+  const hidden = document.getElementById('testimRating');
+  if (hidden) hidden.value = String(val);
+  const label = document.getElementById('testimRatingLabel');
+  if (label) label.textContent = val + ' / 5 ' + (val === 1 ? 'Star' : 'Stars');
+  document.querySelectorAll('#testimStars .testim-star-btn').forEach(btn => {
+    const s = parseInt(btn.getAttribute('data-star'), 10);
+    btn.style.color = (s <= val) ? '#f59e0b' : '#cbd5e1';
+  });
+}
+
+function resetPortalTestimonialForm() {
+  const form = document.getElementById('portalTestimonialForm');
+  const wrap = document.getElementById('portalTestimonialFormWrap');
+  const ok = document.getElementById('portalTestimonialSuccess');
+  const errEl = document.getElementById('testimError');
+  const btn = document.getElementById('testimSubmitBtn');
+  if (form) form.reset();
+  if (errEl) { errEl.textContent = ''; errEl.style.display = 'none'; }
+  if (btn) { btn.disabled = false; btn.textContent = '✓ Submit Verified Testimonial'; }
+  setPortalTestimonialRating(5);
+  populateTestimonialForm();
+  if (wrap) wrap.style.display = 'block';
+  if (ok) ok.style.display = 'none';
+}
+
+async function handlePortalTestimonialSubmit(ev) {
+  ev.preventDefault();
+  const sess = (typeof getCurrentSession === 'function') ? getCurrentSession() : null;
+  const errEl = document.getElementById('testimError');
+  const btn = document.getElementById('testimSubmitBtn');
+
+  if (!sess || !sess.email) {
+    if (errEl) {
+      errEl.textContent = 'Please log in to your client account to submit a verified testimonial.';
+      errEl.style.display = 'block';
+    }
+    return;
+  }
+
+  const name = (document.getElementById('testimName')?.value || '').trim();
+  const brand = (document.getElementById('testimBrand')?.value || '').trim();
+  const role = (document.getElementById('testimRole')?.value || '').trim();
+  const service = (document.getElementById('testimService')?.value || '').trim();
+  const rating = (document.getElementById('testimRating')?.value || '5').trim();
+  const text = (document.getElementById('testimText')?.value || '').trim();
+
+  if (!name || !brand || text.length < 10) {
+    if (errEl) {
+      errEl.textContent = 'Please fill in your name, brand/studio, and a testimonial of at least 10 characters.';
+      errEl.style.display = 'block';
+    }
+    return;
+  }
+
+  if (errEl) { errEl.textContent = ''; errEl.style.display = 'none'; }
+  if (btn) { btn.disabled = true; btn.textContent = 'Submitting...'; }
+
+  const payload = {
+    _subject: 'Verified Client Testimonial (' + rating + '★) — ' + name + (brand ? ' (' + brand + ')' : ''),
+    _replyto: sess.email,
+    _template: 'table',
+    verified_portal_email: sess.email,
+    client_name: name,
+    brand_or_studio: brand,
+    role_or_title: role || '—',
+    service_category: service,
+    star_rating: rating + ' / 5',
+    testimonial: text,
+    submitted_from: 'Verified Client Portal Dashboard'
+  };
+
+  function showSuccess() {
+    const wrap = document.getElementById('portalTestimonialFormWrap');
+    const ok = document.getElementById('portalTestimonialSuccess');
+    if (wrap) wrap.style.display = 'none';
+    if (ok) ok.style.display = 'block';
+    if (btn) { btn.disabled = false; btn.textContent = '✓ Submit Verified Testimonial'; }
+  }
+
+  if (window.location.protocol === 'file:') {
+    setTimeout(showSuccess, 400);
+    return;
+  }
+
+  try {
+    const res = await fetch('https://formsubmit.co/ajax/retouchershoaib@gmail.com', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    showSuccess();
+  } catch (err) {
+    if (btn) { btn.disabled = false; btn.textContent = '✓ Submit Verified Testimonial'; }
+    if (errEl) {
+      errEl.innerHTML = '⚠️ Could not send right now. Please email your testimonial directly to <a href="mailto:retouchershoaib@gmail.com" style="color: #0f172a; text-decoration: underline;">retouchershoaib@gmail.com</a> or share it via <a href="https://wa.me/8801710763251" target="_blank" rel="noopener" style="color: #0f172a; text-decoration: underline;">WhatsApp</a>.';
+      errEl.style.display = 'block';
+    }
+  }
+}
+
 function checkAuthGate() {
   const gate = document.getElementById('authGateScreen');
   const appLayout = document.querySelector('.app-layout');
   const sess = getCurrentSession();
+  const testimNotice = document.getElementById('authTestimonialNotice');
 
   if (!sess || !sess.email) {
     if (gate) gate.style.display = 'flex';
     if (appLayout) appLayout.style.display = 'none';
     if (document.body) document.body.style.overflow = 'hidden';
+    if (testimNotice) {
+      testimNotice.style.display = (window.__portalPendingTab === 'testimonial') ? 'block' : 'none';
+    }
     return false;
   } else {
     if (gate) gate.style.display = 'none';
     if (appLayout) appLayout.style.display = 'flex';
     if (document.body) document.body.style.overflow = '';
+    if (testimNotice) testimNotice.style.display = 'none';
+    if (window.__portalPendingTab === 'testimonial') {
+      window.__portalPendingTab = '';
+      try {
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+      } catch (e) {}
+      if (typeof switchPortalSection === 'function') {
+        setTimeout(() => switchPortalSection('testimonial'), 0);
+      }
+    }
     return true;
   }
 }
