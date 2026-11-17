@@ -259,6 +259,21 @@ h1 .l span{
   transition:color .3s;
   word-break:break-word;
 }
+.ch-wa{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+}
+.ch-wa svg{
+  width:22px;
+  height:22px;
+  fill:#25D366;
+  flex-shrink:0;
+  transition:transform .25s ease;
+}
+.ch:hover .ch-wa svg{
+  transform:scale(1.08);
+}
 .steps{
   margin:36px 0 0;
   padding:0;
@@ -313,6 +328,7 @@ h1 .l span{
 }
 .tabs{
   display:inline-flex;
+  flex-wrap:wrap;
   gap:4px;
   border:1px solid var(--line);
   border-radius:99px;
@@ -353,7 +369,7 @@ label i{
   font-style:normal;
   font-weight:700;
 }
-input[type=text],input[type=email],input[type=url],textarea{
+input[type=text],input[type=email],input[type=url],input[type=number],textarea{
   width:100%;
   background:var(--bg);
   border:1px solid var(--line);
@@ -514,6 +530,8 @@ footer a:hover{
 }
 @media(max-width:560px){
   .g{grid-template-columns:1fr}
+  .tabs{display:flex;border-radius:18px;width:100%}
+  .tabs button{flex:1;padding:10px 10px;font-size:14px;text-align:center}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{
@@ -575,8 +593,7 @@ footer a:hover{
       <aside class="info">
         <h2>Reach us directly</h2>
         <a class="ch" href="mailto:retouchershoaib@gmail.com"><small>Email</small><b>retouchershoaib@gmail.com</b></a>
-        <a class="ch" href="https://wa.me/8801710763251" target="_blank" rel="noopener"><small>WhatsApp</small><b>+880 1710-763251</b></a>
-        <a class="ch" href="https://www.behance.net/retouchershoaib" target="_blank" rel="noopener"><small>Portfolio</small><b>Behance</b></a>
+        <a class="ch" href="https://wa.me/8801710763251" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp"><small>Instant Chat</small><b class="ch-wa"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16.01 3.2c-7.07 0-12.8 5.73-12.8 12.8 0 2.26.59 4.46 1.71 6.4L3.1 28.9l6.67-1.75a12.75 12.75 0 0 0 6.24 1.62h.01c7.06 0 12.8-5.73 12.8-12.8 0-3.42-1.33-6.64-3.75-9.05A12.73 12.73 0 0 0 16.01 3.2zm0 23.4h-.01a10.6 10.6 0 0 1-5.41-1.48l-.39-.23-3.96 1.04 1.06-3.86-.25-.4a10.56 10.56 0 0 1-1.63-5.67c0-5.85 4.76-10.61 10.61-10.61 2.83 0 5.5 1.1 7.5 3.11a10.54 10.54 0 0 1 3.1 7.51c0 5.85-4.76 10.6-10.62 10.6zm5.82-7.95c-.32-.16-1.89-.93-2.18-1.04-.29-.11-.51-.16-.72.16-.21.32-.82 1.04-1.01 1.25-.19.21-.37.24-.69.08-.32-.16-1.35-.5-2.57-1.59-.95-.85-1.59-1.9-1.78-2.22-.19-.32-.02-.49.14-.65.14-.14.32-.37.48-.56.16-.19.21-.32.32-.53.11-.21.05-.4-.03-.56-.08-.16-.72-1.73-.98-2.37-.26-.62-.52-.54-.72-.55h-.61c-.21 0-.56.08-.85.4-.29.32-1.12 1.09-1.12 2.66s1.15 3.09 1.31 3.3c.16.21 2.26 3.45 5.47 4.84.76.33 1.36.53 1.82.68.77.24 1.47.21 2.02.13.62-.09 1.89-.77 2.16-1.52.27-.75.27-1.38.19-1.52-.08-.13-.29-.21-.61-.37z"/></svg>WhatsApp</b></a>
         <ol class="steps">
           <li><span><b>You send your files.</b> One or two raw images, plus any notes.</span></li>
           <li><span><b>We retouch them.</b> Back to you in 12 to 24 hours.</span></li>
@@ -592,6 +609,7 @@ footer a:hover{
       <div class="card">
         <div class="tabs" role="tablist" aria-label="Request type">
           <button type="button" role="tab" id="tb1" aria-selected="true">Test retouch</button>
+          <button type="button" role="tab" id="tb3" aria-selected="false">Request quote</button>
           <button type="button" role="tab" id="tb2" aria-selected="false">General question</button>
         </div>
 
@@ -650,13 +668,60 @@ footer a:hover{
               </div>
             </div>
 
+            <div id="pQ" class="f g" style="padding:0" hidden>
+              <div class="f">
+                <span class="lb" id="qsvl">Service</span>
+                <div class="chips" role="radiogroup" aria-labelledby="qsvl">
+                  <label><input type="radio" name="quote_service" value="Jewelry and watches" checked><span>Jewelry and watches</span></label>
+                  <label><input type="radio" name="quote_service" value="Fashion and ghost mannequin"><span>Fashion</span></label>
+                  <label><input type="radio" name="quote_service" value="Model and beauty"><span>Beauty</span></label>
+                  <label><input type="radio" name="quote_service" value="E-commerce packshots"><span>Packshots</span></label>
+                  <label><input type="radio" name="quote_service" value="Still life and cosmetics"><span>Cosmetics</span></label>
+                  <label><input type="radio" name="quote_service" value="Automotive retouching"><span>Automotive</span></label>
+                </div>
+              </div>
+              <div class="f">
+                <span class="lb" id="qlvl">Editing level</span>
+                <div class="chips" role="radiogroup" aria-labelledby="qlvl">
+                  <label><input type="radio" name="editing_level" value="Basic (Cutout & Clean)"><span>Basic (Cutout &amp; Clean)</span></label>
+                  <label><input type="radio" name="editing_level" value="Standard (Full Retouch)" checked><span>Standard (Full Retouch)</span></label>
+                  <label><input type="radio" name="editing_level" value="High-End (Complex / Editorial)"><span>High-End (Complex / Editorial)</span></label>
+                  <label><input type="radio" name="editing_level" value="Not sure yet"><span>Not sure yet</span></label>
+                </div>
+              </div>
+              <div>
+                <label for="qimg">Number of images <i>*</i></label>
+                <input id="qimg" name="image_count" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g. 50">
+                <p class="er" id="qimg-e"></p>
+              </div>
+              <div>
+                <label for="ql">Sample or reference link <span style="opacity:.7">(optional)</span></label>
+                <input id="ql" name="quote_link" type="url" placeholder="Google Drive, Dropbox, WeTransfer">
+                <p class="er" id="ql-e"></p>
+              </div>
+              <div class="f">
+                <span class="lb" id="qtl">Preferred turnaround</span>
+                <div class="chips" role="radiogroup" aria-labelledby="qtl">
+                  <label><input type="radio" name="turnaround" value="12 Hours (Rush)"><span>12 Hours (Rush)</span></label>
+                  <label><input type="radio" name="turnaround" value="24 Hours" checked><span>24 Hours</span></label>
+                  <label><input type="radio" name="turnaround" value="48 Hours"><span>48 Hours</span></label>
+                  <label><input type="radio" name="turnaround" value="72 Hours"><span>72 Hours</span></label>
+                </div>
+              </div>
+              <div class="f">
+                <label for="qm">Project details &amp; instructions <i>*</i></label>
+                <textarea id="qm" name="quote_details" placeholder="Tell us about your products, background preference (#FFFFFF, transparent, shadow), color matching, or file format needs"></textarea>
+                <p class="er" id="qm-e"></p>
+              </div>
+            </div>
+
             <div id="pG" class="f g" style="padding:0" hidden>
               <div class="f">
                 <span class="lb" id="tpl">Topic</span>
                 <div class="chips" role="radiogroup" aria-labelledby="tpl">
-                  <label><input type="radio" name="topic" value="Pricing and quotes" checked><span>Pricing</span></label>
-                  <label><input type="radio" name="topic" value="Monthly retainer"><span>Monthly retainer</span></label>
+                  <label><input type="radio" name="topic" value="Monthly retainer" checked><span>Monthly retainer</span></label>
                   <label><input type="radio" name="topic" value="Turnaround and security"><span>Turnaround and security</span></label>
+                  <label><input type="radio" name="topic" value="Workflow and file formats"><span>Workflow &amp; formats</span></label>
                   <label><input type="radio" name="topic" value="Something else"><span>Something else</span></label>
                 </div>
               </div>
@@ -695,7 +760,6 @@ footer a:hover{
     <span>
       <a href="mailto:retouchershoaib@gmail.com">Email</a> &middot; 
       <a href="https://wa.me/8801710763251" target="_blank" rel="noopener">WhatsApp</a> &middot; 
-      <a href="https://www.behance.net/retouchershoaib" target="_blank" rel="noopener">Behance</a> &middot; 
       <a href="/privacy">Privacy</a> &middot; 
       <a href="/terms">Terms</a>
     </span>
@@ -708,17 +772,27 @@ footer a:hover{
   var mode = 'sample';
   var $ = function(i){ return document.getElementById(i); };
 
+  function btnLabel(m){
+    if(m === 'sample') return 'Request Test Retouch';
+    if(m === 'quote') return 'Request Project Quote';
+    return 'Send message';
+  }
+
   function tab(m){
     mode = m;
     $('tb1').setAttribute('aria-selected', m === 'sample');
-    $('tb2').setAttribute('aria-selected', m !== 'sample');
+    $('tb3').setAttribute('aria-selected', m === 'quote');
+    $('tb2').setAttribute('aria-selected', m === 'general');
     $('pS').hidden = (m !== 'sample');
-    $('pG').hidden = (m === 'sample');
-    $('sb').textContent = (m === 'sample') ? 'Request Test Retouch' : 'Send message';
+    $('pQ').hidden = (m !== 'quote');
+    $('pG').hidden = (m !== 'general');
+    $('sb').textContent = btnLabel(m);
     $('fe').textContent = '';
+    updateWaLink();
   }
 
   $('tb1').onclick = function(){ tab('sample'); };
+  $('tb3').onclick = function(){ tab('quote'); };
   $('tb2').onclick = function(){ tab('general'); };
 
   function err(id, msg){
@@ -734,7 +808,7 @@ footer a:hover{
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
   }
 
-  ['n', 'e', 'l', 'm'].forEach(function(id){
+  ['n', 'e', 'l', 'm', 'qimg', 'ql', 'qm'].forEach(function(id){
     var el = $(id);
     if(el) {
       el.addEventListener('input', function(){ err(id, ''); });
@@ -743,17 +817,29 @@ footer a:hover{
 
   // Dynamic WhatsApp Link Updater
   function updateWaLink() {
-    var name = $('n').value.trim() || 'Hi';
+    var rawName = $('n').value.trim();
     var brand = $('b').value.trim();
+    var intro = rawName
+      ? ('I am ' + rawName + (brand ? ' from ' + brand : ''))
+      : (brand ? ('I am reaching out from ' + brand) : 'I am reaching out');
     var waMsg = '';
     if(mode === 'sample') {
       var s = document.querySelector('input[name="service"]:checked');
       var sVal = s ? s.value : 'commercial';
-      waMsg = 'Hi Retoucher Shoaib team, I am ' + name + (brand ? ' from ' + brand : '') + '. Interested in a test retouch sample for ' + sVal + '.';
+      waMsg = 'Hi Retoucher Shoaib team, ' + intro + '. Interested in a free test retouch for ' + sVal + '.';
+    } else if(mode === 'quote') {
+      var qs = document.querySelector('input[name="quote_service"]:checked');
+      var qlv = document.querySelector('input[name="editing_level"]:checked');
+      var qt = document.querySelector('input[name="turnaround"]:checked');
+      var qCount = $('qimg') ? $('qimg').value.trim() : '';
+      waMsg = 'Hi Retoucher Shoaib team, ' + intro + '. I would like a quote for '
+        + (qCount ? qCount + ' ' : '')
+        + (qs ? qs.value : 'commercial')
+        + ' images (' + (qlv ? qlv.value : 'Standard') + ', ' + (qt ? qt.value : '24 Hours') + ' turnaround).';
     } else {
       var t = document.querySelector('input[name="topic"]:checked');
       var tVal = t ? t.value : 'General Inquiry';
-      waMsg = 'Hi Retoucher Shoaib team, I am ' + name + (brand ? ' from ' + brand : '') + '. Inquiry regarding: ' + tVal + '.';
+      waMsg = 'Hi Retoucher Shoaib team, ' + intro + '. Inquiry regarding: ' + tVal + '.';
     }
     var waBtn = $('waBtn');
     if(waBtn) {
@@ -763,6 +849,7 @@ footer a:hover{
 
   $('n').addEventListener('input', updateWaLink);
   $('b').addEventListener('input', updateWaLink);
+  if($('qimg')) $('qimg').addEventListener('input', updateWaLink);
   document.querySelectorAll('input[type="radio"]').forEach(function(r){
     r.addEventListener('change', updateWaLink);
   });
@@ -781,27 +868,23 @@ footer a:hover{
       automotive: 'Automotive retouching'
     };
     if (svcMap[svcParam]) {
-      var targetRadio = document.querySelector('input[name="service"][value="' + svcMap[svcParam] + '"]');
-      if (targetRadio) {
-        tab('sample');
-        targetRadio.checked = true;
-      }
+      var targetSampleRadio = document.querySelector('input[name="service"][value="' + svcMap[svcParam] + '"]');
+      var targetQuoteRadio = document.querySelector('input[name="quote_service"][value="' + svcMap[svcParam] + '"]');
+      if (targetSampleRadio) targetSampleRadio.checked = true;
+      if (targetQuoteRadio) targetQuoteRadio.checked = true;
+      tab('sample');
     }
-    if (tabParam === 'quote' || tabParam === 'general' || tabParam === 'pricing') {
+    if (tabParam === 'quote' || tabParam === 'pricing') {
+      tab('quote');
+    } else if (tabParam === 'general') {
       tab('general');
-      var quoteRadio = document.querySelector('input[name="topic"][value="Pricing and quotes"]');
-      if (quoteRadio) quoteRadio.checked = true;
-      var msgBox = $('m');
-      if (msgBox && !msgBox.value && svcMap[svcParam]) {
-        msgBox.placeholder = 'Share approximate batch size & product types for your ' + svcMap[svcParam] + ' quote (custom volume batch rates; custom quote for glare, straps & variants)...';
-      }
     }
   } catch(e){}
   updateWaLink();
 
   $('fm').addEventListener('submit', function(ev){
     ev.preventDefault();
-    var n = $('n').value.trim(), e = $('e').value.trim(), good = true, first = null;
+    var n = $('n').value.trim(), e = $('e').value.trim(), brand = $('b').value.trim(), phone = $('w').value.trim(), good = true, first = null;
 
     function chk(id, cond, msg){
       var r = err(id, cond ? '' : msg);
@@ -817,6 +900,16 @@ footer a:hover{
     if(mode === 'sample'){
       var l = $('l').value.trim();
       chk('l', /^https?:\/\/\S+\.\S+/.test(l), 'Please paste a cloud link starting with https://');
+    } else if(mode === 'quote'){
+      var qCount = parseInt(($('qimg').value || '').trim(), 10);
+      chk('qimg', !isNaN(qCount) && qCount >= 1, 'Please enter the number of images (at least 1).');
+      var qLink = $('ql').value.trim();
+      if(qLink){
+        chk('ql', /^https?:\/\/\S+\.\S+/.test(qLink), 'Please paste a valid link starting with https:// (or leave blank).');
+      } else {
+        err('ql', '');
+      }
+      chk('qm', $('qm').value.trim().length > 4, 'Please share a brief note about your project (at least 5 characters).');
     } else {
       chk('m', $('m').value.trim().length > 4, 'Please write a message with at least 5 characters.');
     }
@@ -828,15 +921,41 @@ footer a:hover{
 
     if($('fm').company_site.value) return; // honeypot caught a bot
 
-    var d = new FormData($('fm')), data = {
+    var data = {
       type: mode,
-      _subject: (mode === 'sample') ? ('New Test Retouch Request — ' + n + ($('b').value ? ' (' + $('b').value + ')' : '')) : ('General Inquiry — ' + n),
+      name: n,
+      email: e,
+      brand: brand || '—',
+      phone: phone || '—',
       _replyto: e,
       _template: 'table'
     };
-    d.forEach(function(v, k){
-      if(k !== 'company_site') data[k] = v;
-    });
+
+    if(mode === 'sample'){
+      var s = document.querySelector('input[name="service"]:checked');
+      var v = document.querySelector('input[name="volume"]:checked');
+      data._subject = 'New Test Retouch Request — ' + n + (brand ? ' (' + brand + ')' : '');
+      data.service = s ? s.value : '';
+      data.volume = v ? v.value : '';
+      data.link = $('l').value.trim();
+      data.notes = $('nt').value.trim() || '—';
+    } else if(mode === 'quote'){
+      var qs = document.querySelector('input[name="quote_service"]:checked');
+      var qlv = document.querySelector('input[name="editing_level"]:checked');
+      var qt = document.querySelector('input[name="turnaround"]:checked');
+      data._subject = 'New Project Quote Request — ' + n + (brand ? ' (' + brand + ')' : '');
+      data.service = qs ? qs.value : '';
+      data.editing_level = qlv ? qlv.value : '';
+      data.number_of_images = $('qimg').value.trim();
+      data.turnaround = qt ? qt.value : '';
+      data.reference_link = $('ql').value.trim() || '—';
+      data.project_details = $('qm').value.trim();
+    } else {
+      var t = document.querySelector('input[name="topic"]:checked');
+      data._subject = 'General Inquiry — ' + n + (brand ? ' (' + brand + ')' : '');
+      data.topic = t ? t.value : '';
+      data.message = $('m').value.trim();
+    }
 
     // Local trial state cleared for GDPR privacy
 
@@ -848,9 +967,13 @@ footer a:hover{
     function done(){
       $('fm').hidden = true;
       $('ok').hidden = false;
-      $('okm').textContent = (mode === 'sample') 
-        ? 'We’ll retouch your images and email them back within 12 to 24 hours.' 
-        : 'Thanks for the message. We’ll reply to ' + e + ' shortly.';
+      if(mode === 'sample'){
+        $('okm').textContent = 'We’ll retouch your images and email them back within 12 to 24 hours.';
+      } else if(mode === 'quote'){
+        $('okm').textContent = 'Thanks for your quote request. We’ll review your project details and send a firm quotation to ' + e + ' within hours.';
+      } else {
+        $('okm').textContent = 'Thanks for the message. We’ll reply to ' + e + ' shortly.';
+      }
       $('ok').focus();
     }
 
@@ -877,8 +1000,8 @@ footer a:hover{
     })
     .catch(function(err){
       btn.disabled = false;
-      btn.textContent = (mode === 'sample') ? 'Request sample' : 'Send message';
-      $('fe').innerHTML = '⚠️ Transmission issue. Please contact Shoaib directly via <a href="https://wa.me/8801710763251" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;">WhatsApp (+880 1710-763251)</a> or email <a href="mailto:retouchershoaib@gmail.com" style="color:var(--accent);text-decoration:underline;">retouchershoaib@gmail.com</a>.';
+      btn.textContent = btnLabel(mode);
+      $('fe').innerHTML = '⚠️ Transmission issue. Please contact Shoaib directly via <a href="https://wa.me/8801710763251" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;">WhatsApp</a> or email <a href="mailto:retouchershoaib@gmail.com" style="color:var(--accent);text-decoration:underline;">retouchershoaib@gmail.com</a>.';
     });
   });
 
@@ -888,7 +1011,7 @@ footer a:hover{
     $('ok').hidden = true;
     var btn = $('sb');
     btn.disabled = false;
-    btn.textContent = (mode === 'sample') ? 'Request Test Retouch' : 'Send message';
+    btn.textContent = btnLabel(mode);
     tab(mode);
   };
 
