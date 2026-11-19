@@ -78,6 +78,10 @@ Generate tailored social media posts strictly in professional, native GERMAN fol
 - Title: Punchy SEO Pin Title (max 100 chars, e.g. "Ghost Mannequin Retusche & Neck Joint Service | Retoucher Shoaib").
 - Description: Informative SEO description (150-300 chars) highlighting technical post-production with 3-4 German hashtags.
 
+### 5. X / TWITTER POST RULES (in German):
+- Short, punchy B2B tweet strictly under 220 characters.
+- 1 concise hook + CTA to "${article.url}" + 2 hashtags (#Bildbearbeitung #RetoucherShoaib).
+
 Return the response strictly as valid, parsable JSON matching this schema:
 {
   "article_title": "${article.title}",
@@ -99,6 +103,9 @@ Return the response strictly as valid, parsable JSON matching this schema:
   "pinterest": {
     "title": "string",
     "description": "string"
+  },
+  "twitter": {
+    "tweet_text": "string"
   }
 }
 ` : `
@@ -143,6 +150,11 @@ Generate tailored social media posts following these strict guidelines:
 - Title: High-intent SEO title (max 100 chars, e.g. "3D Ghost Mannequin Neck Join: Symmetrical Collar Retouching | Retoucher Shoaib").
 - Description: Informative B2B Pin description (150-350 chars) explaining the technical craft, compliance, and ending with a clear CTA to visit the site, followed by 3-4 hashtags.
 
+### 5. X / TWITTER POST RULES:
+- Target audience: Creative Directors, Art Buyers, Commercial Photographers on X.
+- Character Limit: STRICTLY UNDER 220 CHARACTERS.
+- Structure: 1 contrarian hook sentence + direct link ("${article.url}") + exactly 2 hashtags (e.g. #PhotoRetouching #CreativeDirectors).
+
 Return the response strictly as valid, parsable JSON matching this schema:
 {
   "article_title": "${article.title}",
@@ -164,6 +176,9 @@ Return the response strictly as valid, parsable JSON matching this schema:
   "pinterest": {
     "title": "string",
     "description": "string"
+  },
+  "twitter": {
+    "tweet_text": "string"
   }
 }
 `;
@@ -227,6 +242,12 @@ Return the response strictly as valid, parsable JSON matching this schema:
   result.pinterest_title = result.pinterest.title;
   result.pinterest_description = result.pinterest.description;
   result.pinterest_link = article.url;
+
+  // Twitter / X Tweet payload normalizer (strict character length protection)
+  result.twitter = result.twitter || {};
+  result.twitter.tweet_text = result.twitter.tweet_text || `${article.title.slice(0, 160)}... ${article.url} #PhotoRetouching`;
+  result.tweet_text = result.twitter.tweet_text;
+  result.tweet = result.twitter.tweet_text;
 
   if (result.linkedin?.hashtags?.length && !result.linkedin.post_body.includes('#')) {
     result.linkedin.post_body += '\n\n' + result.linkedin.hashtags.join(' ');
