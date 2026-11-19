@@ -1,5 +1,12 @@
 # Cloudflare Pages & Git Ignore Rules
 
+# Scratch & card render folders
+node_modules/
+Apparel_Card_Design/
+Shoe_Card_Design/
+UltimateGainz_Reel/
+Fonts/
+
 # Ignore raw drafts / archive files (>25MB)
 _archive/
 *.wav

@@ -1,0 +1,44 @@
+name: Bi-Weekly Social Media Auto-Publisher
+
+on:
+  schedule:
+    # Runs at 13:00 UTC (7:00 PM Bangladesh Time) every Monday and Thursday
+    - cron: '0 13 * * 1,4'
+  workflow_dispatch:
+    inputs:
+      force_article_id:
+        description: 'Optional Article ID to force broadcast (leave empty for latest)'
+        required: false
+        default: ''
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run Master Social Publisher
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          MAKE_WEBHOOK_URL: ${{ secrets.MAKE_WEBHOOK_URL || 'https://hook.eu1.make.com/tgwsml7u8d82v4ia4nophw2nltyu9yfx' }}
+        run: |
+          if [ -n "${{ github.event.inputs.force_article_id }}" ]; then
+            node automation/scheduled_publisher.mjs "${{ github.event.inputs.force_article_id }}"
+          else
+            node automation/scheduled_publisher.mjs
+          fi
+
+      - name: Commit Updated Publishing Log
+        run: |
+          git config --global user.name "Retoucher Shoaib Studio Bot"
+          git config --global user.email "contact@retouchershoaib.com"
+          git add automation/published_history.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(social): update published history log [skip ci]" && git push)
