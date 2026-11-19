@@ -2,19 +2,21 @@ import fs from 'fs';
 import path from 'path';
 
 /**
- * RETOUCHER SHOAIB® — Master Social Media Scheduled Publisher
- * Runs every Monday & Thursday at 7:00 PM BDT (Peak US/EU B2B Reach Window).
+ * RETOUCHER SHOAIB® — Master Social Media Scheduled Publisher (Multi-Language: EN & DE)
+ * Runs every Monday & Thursday at 7:00 PM BDT (13:00 UTC) (Peak US/EU B2B Reach Window).
  * 
  * Workflow:
- * 1. Checks feed.json for newly published articles.
+ * 1. Checks ONLY the top/latest articles (index 0) in feed.json and de/feed.json.
  * 2. Compares against automation/published_history.json to prevent duplicate posts.
- * 3. Adapts article into tailored high-converting copy using Gemini AI.
- * 4. Pushes HD image + copy + direct link to Make.com Webhook.
- * 5. Make.com publishes live to LinkedIn and Facebook Pages simultaneously.
+ * 3. STRICT ANTI-STALE RULE: Never fall back to older backlog items (index >= 1).
+ * 4. Automatically detects language ('en' vs 'de') and adapts article into tailored high-converting copy using Gemini AI.
+ * 5. Pushes HD image + native copy + direct link to Make.com Webhook.
+ * 6. Make.com publishes live to LinkedIn and Facebook Pages simultaneously.
  */
 
 const BASE_DIR = path.resolve('C:/Users/USER/Downloads/Antigrevity Website Design');
 const FEED_PATH = path.join(BASE_DIR, 'feed.json');
+const DE_FEED_PATH = path.join(BASE_DIR, 'de', 'feed.json');
 const HISTORY_PATH = path.join(BASE_DIR, 'automation', 'published_history.json');
 const WEBHOOK_URL = process.env.MAKE_WEBHOOK_URL || 'https://hook.eu1.make.com/tgwsml7u8d82v4ia4nophw2nltyu9yfx';
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
@@ -41,12 +43,61 @@ async function generateSocialPosts(article) {
     throw new Error('GEMINI_API_KEY environment variable is not set.');
   }
 
-  const prompt = `
+  const isGerman = article.language === 'de' || (article.url && article.url.includes('/de/'));
+
+  const prompt = isGerman ? `
+You are a senior creative copywriter and B2B social media growth strategist for "Retoucher Shoaib", writing in fluent, professional GERMAN (Deutsch) for high-end fashion brands, e-commerce directors, creative producers, and commercial photographers in the DACH region (Germany, Austria, Switzerland: Zalando brand partners, luxury apparel labels, high-fashion boutiques).
+
+Article to adapt:
+Titel: "${article.title}"
+Kategorie: "${article.category || 'Mode & E-Commerce Retusche'}"
+Zusammenfassung: "${article.summary}"
+Artikel-URL: "${article.url}"
+Hero-Bild-URL: "${article.image}"
+
+Generate tailored social media posts strictly in professional, native GERMAN following these guidelines:
+
+### 1. LINKEDIN POST RULES (in German):
+- Target audience: Art Directors, Creative Producers, E-Commerce Operations Leads, Commercial Photographers in Germany, Austria, and Switzerland.
+- Tone: Professional, authoritative, and insightful B2B German.
+- Hook: 1-2 sentence hook addressing e-commerce rejection rates, Zalando/Amazon DE compliance, or manual retouching precision vs automated AI flaws.
+- Body: 3-4 structured bullet points explaining the technical craft, color fidelity (Delta-E), and quality advantages.
+- Call-to-Action (CTA): Direct readers to read the full technical guide at "${article.url}".
+- Hashtags: 3-5 German and international B2B tags (e.g., #Bildbearbeitung #ECommerceDACH #ZalandoPartner #Modefotografie #RetoucherShoaib).
+
+### 2. FACEBOOK PAGE POST RULES (in German):
+- Engaging story/behind-the-scenes post in German (2-3 short paragraphs).
+- Direct URL link to "${article.url}".
+- 2-3 relevant hashtags in German.
+
+### 3. INSTAGRAM POST RULES (in German):
+- Caption in German with visual format recommendation and 10-12 hashtags.
+
+Return the response strictly as valid, parsable JSON matching this schema:
+{
+  "article_title": "${article.title}",
+  "article_url": "${article.url}",
+  "image_url": "${article.image}",
+  "linkedin": {
+    "post_body": "string",
+    "hashtags": ["string"]
+  },
+  "facebook": {
+    "post_body": "string",
+    "hashtags": ["string"]
+  },
+  "instagram": {
+    "visual_format_recommendation": "string",
+    "caption": "string",
+    "hashtags": ["string"]
+  }
+}
+` : `
 You are a senior creative copywriter and B2B social media growth strategist for "Retoucher Shoaib", a high-end commercial photo retouching and post-production studio (clients: luxury jewelry, fashion brands, beauty campaigns, e-commerce directors across US and Europe).
 
 Article to adapt:
 Title: "${article.title}"
-Category: "${article.category}"
+Category: "${article.category || 'Apparel & Fashion'}"
 Summary: "${article.summary}"
 Article URL: "${article.url}"
 Hero Image URL: "${article.image}"
@@ -111,7 +162,7 @@ Return the response strictly as valid, parsable JSON matching this schema:
 
   for (const model of candidateModels) {
     try {
-      console.log(`[AI] Generating copy with ${model}...`);
+      console.log(`[AI] Generating copy with ${model} (Language: ${isGerman ? 'DE' : 'EN'})...`);
       const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -138,6 +189,7 @@ Return the response strictly as valid, parsable JSON matching this schema:
   }
 
   if (!rawText) throw lastErr || new Error('All Gemini candidate models failed.');
+
   const result = JSON.parse(rawText);
   result.image_url = result.image_url || article.image;
 
@@ -173,34 +225,61 @@ async function runScheduledPublisher(forceId = null) {
   console.log(`📅 Retoucher Shoaib® Social Auto-Publisher [${new Date().toISOString()}]`);
   console.log(`======================================================`);
 
-  if (!fs.existsSync(FEED_PATH)) {
-    console.error(`Error: feed.json not found at ${FEED_PATH}`);
-    return;
-  }
-
-  const feed = JSON.parse(fs.readFileSync(FEED_PATH, 'utf8'));
   const history = getPublishedHistory();
 
   let targetArticle = null;
 
   if (forceId) {
-    targetArticle = feed.items.find(i => i.id === forceId);
+    // Explicit force mode: search both feeds
+    let allArticles = [];
+    if (fs.existsSync(FEED_PATH)) {
+      try {
+        const feed = JSON.parse(fs.readFileSync(FEED_PATH, 'utf8'));
+        if (Array.isArray(feed.items)) allArticles.push(...feed.items);
+      } catch (e) {}
+    }
+    if (fs.existsSync(DE_FEED_PATH)) {
+      try {
+        const deFeed = JSON.parse(fs.readFileSync(DE_FEED_PATH, 'utf8'));
+        if (Array.isArray(deFeed.items)) allArticles.push(...deFeed.items.map(i => ({ ...i, language: 'de' })));
+      } catch (e) {}
+    }
+    targetArticle = allArticles.find(i => i.id === forceId);
   } else {
-    // STRICT RULE: Only broadcast the LATEST published article (feed.items[0]).
-    // NEVER fall back to older backlog articles if today's run was missed or pending review.
-    const latest = feed.items[0];
-    if (latest && !history.published_ids.includes(latest.id)) {
-      targetArticle = latest;
+    // STRICT ANTI-STALE LOGIC:
+    // Only inspect the FIRST/LATEST article in each feed (index 0).
+    // NEVER fall back to index 1, 2, 3...
+    
+    // Check German feed latest (de/feed.json item 0)
+    if (fs.existsSync(DE_FEED_PATH)) {
+      try {
+        const deFeed = JSON.parse(fs.readFileSync(DE_FEED_PATH, 'utf8'));
+        const latestDe = deFeed.items?.[0];
+        if (latestDe && !history.published_ids.includes(latestDe.id)) {
+          targetArticle = { ...latestDe, language: 'de' };
+        }
+      } catch (e) {}
+    }
+
+    // If no fresh German article, check English feed latest (feed.json item 0)
+    if (!targetArticle && fs.existsSync(FEED_PATH)) {
+      try {
+        const feed = JSON.parse(fs.readFileSync(FEED_PATH, 'utf8'));
+        const latestEn = feed.items?.[0];
+        if (latestEn && !history.published_ids.includes(latestEn.id)) {
+          targetArticle = latestEn;
+        }
+      } catch (e) {}
     }
   }
 
   if (!targetArticle) {
-    console.log('✨ The latest article in feed.json has already been broadcast to social media.');
-    console.log('🔒 Anti-Stale Protection: System will never post older fallback articles.');
+    console.log('✨ All fresh articles (top of feed.json & de/feed.json) have already been broadcast.');
+    console.log('🔒 Anti-Stale Protection: System strictly refuses to broadcast older backlog articles.');
     return;
   }
 
-  console.log(`🚀 New Article Found to Broadcast: "${targetArticle.title}" (${targetArticle.id})`);
+  console.log(`🚀 New Article Found to Broadcast: "${targetArticle.title}" (${targetArticle.id}) [Lang: ${targetArticle.language || 'en'}]`);
 
   try {
     const payload = await generateSocialPosts(targetArticle);
@@ -213,6 +292,7 @@ async function runScheduledPublisher(forceId = null) {
     history.log.push({
       article_id: targetArticle.id,
       title: targetArticle.title,
+      language: targetArticle.language || 'en',
       published_at: new Date().toISOString(),
       status: 'success'
     });
