@@ -192,7 +192,15 @@ Return the response strictly as valid, parsable JSON matching this schema:
   if (!rawText) throw lastErr || new Error('All Gemini candidate models failed.');
 
   const result = JSON.parse(rawText);
-  result.image_url = result.image_url || article.image;
+  const targetImage = result.image_url || article.image || 'https://retouchershoaib.com/assets/agency_showcase/aristocracy-ivory-gala-tuxedo-ghost-mannequin-retouching.webp';
+  result.url = targetImage;          // Critical: Make.com HTTP module 6 expects 'url'
+  result.image = targetImage;        // Alternative common Make.com mapping
+  result.image_url = targetImage;    // Explicit snake_case
+  result.imageUrl = targetImage;     // Explicit camelCase
+  result.article_url = result.article_url || article.url;
+  result.article_link = result.article_url;
+  result.link = result.article_url;
+  result.title = result.article_title || article.title;
 
   if (result.linkedin?.hashtags?.length && !result.linkedin.post_body.includes('#')) {
     result.linkedin.post_body += '\n\n' + result.linkedin.hashtags.join(' ');
@@ -208,7 +216,14 @@ Return the response strictly as valid, parsable JSON matching this schema:
 }
 
 async function dispatchToMake(payload) {
+  if (!payload.url && payload.image_url) {
+    payload.url = payload.image_url;
+  }
+  if (!payload.url) {
+    throw new Error('Pre-flight check failed: Required parameter "url" (image URL) is missing in payload. Halting to prevent Make.com BundleValidationError.');
+  }
   console.log(`[Make.com] Dispatching to Webhook: ${WEBHOOK_URL}...`);
+  console.log(`[Make.com] Verified parameters: image url="${payload.url}", article url="${payload.article_url}"`);
   const res = await fetch(WEBHOOK_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
