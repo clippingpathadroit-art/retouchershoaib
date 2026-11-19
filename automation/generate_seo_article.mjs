@@ -25,7 +25,8 @@ export const EDITORIAL_CALENDAR = {
   de: [
     {
       id: 'geisterpuppen-retusche-mode-leitfaden',
-      title: '3D-Hohlpuppen-Retusche & Mode-Freisteller: Symmetrische Kragenmontage, Zalando-Richtlinien & 100% Farbverbindlichkeit',
+      title: '3D-Hohlpuppen-Retusche: Kragenmontage & Zalando-Specs',
+      h1: '3D-Hohlpuppen-Retusche: Symmetrische Kragenmontage & Zalando-Standards',
       category: 'Mode & E-Commerce Retusche',
       parentService: 'de/geisterpuppe-mode-retusche.html',
       metaDescription: 'Technischer Leitfaden für 3D-Hohlpuppen-Retusche: Symmetrische Kragenmontage, Zalando- und Amazon DE-Richtlinien, Freisteller und Delta-E Farbtreue für Modehersteller.',
@@ -48,7 +49,8 @@ export const EDITORIAL_CALENDAR = {
     },
     {
       id: 'schmuckretusche-luxusuhren-makro-leitfaden',
-      title: 'High-End Schmuckretusche & Uhren-Postproduktion: Fokus-Stacking, Glanzlichter & Edelstein-Feuer',
+      title: 'Schmuckretusche & Uhren: Fokus-Stacking & Glanzlichter',
+      h1: 'High-End Schmuckretusche: Makro Fokus-Stacking & Edelstein-Feuer',
       category: 'Schmuck & Luxusuhren',
       parentService: 'de/schmuckretusche.html',
       metaDescription: 'Praxisleitfaden für High-End Schmuckretusche und Luxusuhren: Makro Fokus-Stacking, Glanzpunkt-Korrektur und Spiegelungsbereinigung für Juweliere im DACH-Raum.',
@@ -73,7 +75,8 @@ export const EDITORIAL_CALENDAR = {
   en: [
     {
       id: 'luxury-jewelry-watch-retouching-focus-stacking-guide',
-      title: 'Luxury Jewelry & Watch Retouching: Focus Stacking, Gemstone Fire & Specular Highlight Physics',
+      title: 'Luxury Jewelry & Watch Retouching: Focus Stacking Guide',
+      h1: 'Luxury Jewelry & Watch Retouching: Focus Stacking & Highlight Physics',
       category: 'Jewelry & Watches',
       parentService: 'jewelry-watch-photo-retouching.html',
       metaDescription: 'Master luxury jewelry and watch post-production: deep focus stacking alignment, gemstone refraction, metal polish preservation, and crystal glare removal.',
@@ -90,7 +93,8 @@ export const EDITORIAL_CALENDAR = {
     },
     {
       id: 'ecommerce-packshot-clipping-path-grounding-shadow-guide',
-      title: 'High-Volume E-Commerce Packshots: Vector Pen Paths vs. AI Cutouts & Contact Shadow Physics',
+      title: 'E-Commerce Packshot Retouching: Clipping Paths vs AI',
+      h1: 'High-Volume E-Commerce Packshots: Vector Pen Paths vs. AI Cutouts',
       category: 'E-Commerce & Packshots',
       parentService: 'ecommerce-product-retouching.html',
       metaDescription: 'Deep dive into commercial packshot post-production: hand-drawn clipping paths vs. fuzzy AI alpha masks, authentic contact shadows, and 100% white background standards.',
