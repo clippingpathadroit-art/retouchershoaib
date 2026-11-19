@@ -77,21 +77,39 @@ export function validateArticle(filePathArg) {
     `Found only ${inBodyLinksCount} contextual internal links in body copy. Must have at least 4 links to relevant studio service pages and guides.`
   );
 
+  // 3.1 TITLE TAG LENGTH (SERP DISPLAY OPTIMIZED: <= 65 chars)
+  const titleMatch = html.match(/<title>([^<]+)<\/title>/i);
+  const titleLength = titleMatch ? titleMatch[1].length : 0;
+  check(
+    `Title Tag SERP Length (Length: ${titleLength} chars, Max: 65)`,
+    titleLength > 10 && titleLength <= 65,
+    `Title tag length is ${titleLength} chars. Must be under 65 chars to avoid truncation in Google SERP.`
+  );
+
   // 4. STRUCTURED DATA (JSON-LD TRIPLE GRAPH)
   let hasValidJsonLd = false;
   let hasFAQ = false;
   let hasBreadcrumbs = false;
   let hasArticleSchema = false;
+  let hasAuthorSameAs = false;
+  let hasDateModified = false;
 
   const jsonLdMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/i);
   if (jsonLdMatch) {
     try {
       const parsed = JSON.parse(jsonLdMatch[1]);
       hasValidJsonLd = true;
-      const types = (parsed['@graph'] || [parsed]).map(g => g['@type']);
+      const graph = parsed['@graph'] || [parsed];
+      const types = graph.map(g => g['@type']);
       hasArticleSchema = types.includes('TechArticle') || types.includes('Article');
       hasBreadcrumbs = types.includes('BreadcrumbList');
       hasFAQ = types.includes('FAQPage');
+
+      const techArticle = graph.find(g => g['@type'] === 'TechArticle' || g['@type'] === 'Article');
+      if (techArticle) {
+        hasAuthorSameAs = Array.isArray(techArticle.author?.sameAs) && techArticle.author.sameAs.length > 0;
+        hasDateModified = !!techArticle.dateModified;
+      }
     } catch (e) {
       errors.push(`JSON-LD Parse Error: ${e.message}`);
     }
@@ -100,6 +118,8 @@ export function validateArticle(filePathArg) {
   check('JSON-LD Article Schema (TechArticle/Article)', hasArticleSchema, 'Missing TechArticle or Article node in JSON-LD.');
   check('JSON-LD BreadcrumbList Schema', hasBreadcrumbs, 'Missing BreadcrumbList node in JSON-LD.');
   check('JSON-LD FAQPage Schema (Direct AI Overviews Answer Engine)', hasFAQ, 'Missing FAQPage schema in JSON-LD. Necessary for rich snippet and AI quotation.');
+  check('Author E-E-A-T sameAs Profiles (LinkedIn / Studio)', hasAuthorSameAs, 'Missing sameAs social/profile array on author in JSON-LD.');
+  check('Publication & Freshness Date (dateModified)', hasDateModified, 'Missing dateModified timestamp in JSON-LD.');
 
   // 5. ROBOTS & CANONICAL
   const hasCanonical = html.includes('<link rel="canonical"');
