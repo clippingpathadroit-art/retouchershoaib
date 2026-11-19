@@ -12,7 +12,7 @@
 <!-- OPEN GRAPH & TWITTER -->
 <meta property="og:site_name" content="Retoucher Shoaib">
 <meta property="og:type" content="article">
-<meta property="og:title" content="3D Ghost Mannequin Retouching: Symmetrical Neck Joins & Marketplace Compliance">
+<meta property="og:title" content="3D Ghost Mannequin Retouching: Symmetrical Neck Joins &amp; Marketplace Compliance">
 <meta property="og:description" content="In-depth technical breakdown of 3D ghost mannequin retouching: seamless neck composites, tailoring symmetry, organic fabric drape, and marketplace compliance standards.">
 <meta property="og:url" content="https://retouchershoaib.com/ghost-mannequin-apparel-retouching-guide">
 <meta property="og:image" content="https://retouchershoaib.com/assets/agency_showcase/aristocracy-ivory-gala-tuxedo-ghost-mannequin-retouching.jpg">
@@ -54,7 +54,7 @@
       "inLanguage": "en-US",
       "mainEntityOfPage": "https://retouchershoaib.com/ghost-mannequin-apparel-retouching-guide",
       "datePublished": "2026-11-19T10:00:00+06:00",
-      "dateModified": "2026-11-19T23:55:00+06:00",
+      "dateModified": "2026-11-20T00:15:00+06:00",
       "author": {
         "@type": "Person",
         "name": "Shoaib Siddique",
@@ -107,170 +107,1089 @@
 </script>
 
 <style>
-:root {
-  --bg: #07090d;
-  --surface: #0e121a;
-  --surface-2: #141a26;
-  --surface-3: #1a2233;
-  --border: rgba(255, 255, 255, 0.08);
-  --border-focus: rgba(212, 175, 55, 0.4);
-  --text: #e6ebf2;
-  --text-muted: #9aa5b5;
-  --accent: #10b981;
-  --gold: #d4af37;
-  --gold-glow: rgba(212, 175, 55, 0.15);
-  --font-head: 'Bricolage Grotesque', sans-serif;
-  --font-body: 'DM Sans', sans-serif;
+
+:root{
+  --bg:#0a0a0b;
+  --surface:#141416;
+  --surface-2:#1a1a1d;
+  --text:#f1f1ec;
+  --muted:#9a9a94;
+  --line:rgba(255,255,255,.12);
+  --accent:#c8f135;
+  --on-accent:#0a0a0b;
+  --display:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif;
+  --body:"DM Sans","Helvetica Neue",Arial,sans-serif;
+  color-scheme:dark;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{
+  scroll-padding-top:calc(env(safe-area-inset-top,0px) + 92px);
+  background:var(--bg);
+  scroll-behavior:smooth;
+}
+*,*::before,*::after{
+  box-sizing:inherit;
+}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font:400 17px/1.7 var(--body);
+  overflow-x:clip;
+  -webkit-font-smoothing:antialiased;
+}
+a{
+  color:inherit;
+  text-decoration:none;
+}
+img{
+  display:block;
+  max-width:100%;
+}
+.wrap{
+  max-width:1240px;
+  margin:0 auto;
+  padding:0 clamp(20px,4vw,48px);
 }
 
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* READING PROGRESS BAR */
+.read-progress{
+  position:fixed;
+  top:68px;
+  left:0;
+  width:100%;
+  height:2px;
+  background:rgba(255,255,255,.06);
+  z-index:99;
+  pointer-events:none;
+}
+.read-progress span{
+  display:block;
+  height:100%;
+  width:0%;
+  background:var(--accent);
+  transition:width .06s linear;
 }
 
-body {
-  background-color: var(--bg);
-  color: var(--text);
-  font-family: var(--font-body);
-  font-size: 17px;
-  line-height: 1.75;
-  -webkit-font-smoothing: antialiased;
-  padding-top: 72px;
+/* UNIFIED HEADER & NAVIGATION */
+header{
+  position:fixed;
+  inset:0 0 auto;
+  z-index:100;
+  padding-top:env(safe-area-inset-top,0px);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  background:color-mix(in srgb,var(--bg) 78%,transparent);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+header .wrap{
+  max-width:1240px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  height:68px;
+}
+.logo{
+  font:800 19px var(--display);
+  letter-spacing:-.01em;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.logo sup{
+  font-size:10px;
+  color:var(--accent);
+}
+nav{
+  display:flex;
+  align-items:center;
+  gap:clamp(18px,2.2vw,28px);
+  color:var(--muted);
+  font-size:15px;
+  white-space:nowrap;
+}
+nav a{
+  transition:color .2s;
+}
+nav a:hover{
+  color:var(--text);
+}
+nav a.cur{
+  color:var(--accent);
+  font-weight:600;
+}
+.nav-actions{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
 }
 
-a {
-  color: var(--gold);
-  text-decoration: none;
-  transition: color 0.2s ease;
+/* BUTTONS */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:13px 26px;
+  border-radius:99px;
+  font:500 15px var(--body);
+  border:1px solid var(--line);
+  background:none;
+  color:var(--text);
+  cursor:pointer;
+  white-space:nowrap;
+  transition:transform .25s ease,background .25s,color .25s,border-color .25s;
 }
-a:hover {
-  color: #f3cf65;
-  text-decoration: underline;
+.btn.p{
+  background:var(--accent);
+  color:var(--on-accent);
+  border-color:var(--accent);
+  font-weight:600;
 }
-
-.art-container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 48px 24px 100px;
+.btn:hover{
+  background:var(--text);
+  color:var(--bg);
+  border-color:var(--text);
 }
-
-/* BREADCRUMB */
-.breadcrumb-nav {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-bottom: 24px;
-}
-.breadcrumb-nav a {
-  color: var(--text-muted);
-}
-.breadcrumb-nav span {
-  color: var(--gold);
-}
-
-/* HERO SECTION */
-.art-hero {
-  margin-bottom: 48px;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 40px;
+.btn.p:hover{
+  background:#ffffff;
+  color:#000000;
+  border-color:#ffffff;
+  transform:scale(1.02);
 }
 
-.meta-badge-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
+/* ARTICLE HERO */
+.art-hero{
+  padding:124px 0 38px;
+  position:relative;
+  overflow:hidden;
+}
+.art-hero::before{
+  content:"";
+  position:absolute;
+  width:52vmax;
+  height:52vmax;
+  right:-22vmax;
+  top:-18vmax;
+  background:radial-gradient(circle,color-mix(in srgb,var(--accent) 16%,transparent),transparent 62%);
+  pointer-events:none;
+}
+.art-narrow{
+  max-width:820px;
+  margin:0 auto;
+}
+.crumb{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  color:var(--muted);
+  font-size:14px;
+  font-weight:500;
+  margin-bottom:22px;
+  transition:color .2s,transform .2s;
+}
+.crumb:hover{
+  color:var(--accent);
+  transform:translateX(-3px);
+}
+.art-meta{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:10px 14px;
+  color:var(--accent);
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.03em;
+  text-transform:uppercase;
+  margin-bottom:18px;
+}
+.art-meta .by{
+  color:var(--text);
+  text-transform:none;
+  letter-spacing:0;
+  font-weight:500;
+}
+.art-hero h1{
+  font:800 clamp(32px,4.8vw,58px)/1.05 var(--display);
+  letter-spacing:-.035em;
+  margin:0 0 24px;
+}
+.lede-group{
+  display:grid;
+  gap:16px;
+  margin-bottom:28px;
+}
+.lede-group p{
+  margin:0;
+  color:var(--muted);
+  font-size:clamp(17px,1.8vw,20px);
+  line-height:1.58;
+}
+.lede-group p:first-child{
+  color:var(--text);
+  font-size:clamp(18px,2vw,22px);
+  line-height:1.48;
+}
+.toc-bar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:36px;
+}
+.toc-bar a{
+  font-size:13px;
+  font-weight:500;
+  color:var(--muted);
+  padding:7px 14px;
+  border-radius:99px;
+  border:1px solid var(--line);
+  background:var(--surface);
+  transition:border-color .2s,color .2s,background .2s;
+}
+.toc-bar a:hover{
+  color:var(--on-accent);
+  background:var(--accent);
+  border-color:var(--accent);
+}
+.hero-plate{
+  max-width:1020px;
+  margin:0 auto;
+  border-radius:22px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:var(--surface);
+  box-shadow:0 24px 60px rgba(0,0,0,.45);
+}
+.hero-plate img{
+  width:100%;
+  height:auto;
+  aspect-ratio:1200 / 630;
+  object-fit:cover;
+}
+.plate-cap{
+  padding:13px 20px;
+  font-size:13px;
+  color:var(--muted);
+  border-top:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:8px 16px;
+}
+.plate-cap strong{
+  color:var(--text);
+  font-weight:600;
 }
 
-.lens-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(212, 175, 55, 0.1);
-  border: 1px solid rgba(212, 175, 55, 0.25);
-  color: var(--gold);
-  padding: 5px 12px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+/* ARTICLE BODY TYPOGRAPHY */
+.art-main{
+  padding:20px 0 96px;
+}
+.prose{
+  max-width:780px;
+  margin:0 auto;
+}
+.prose h2{
+  font:800 clamp(26px,3.2vw,38px)/1.12 var(--display);
+  letter-spacing:-.025em;
+  margin:64px 0 18px;
+  padding-top:24px;
+  border-top:1px solid var(--line);
+  color:var(--text);
+}
+.prose h2:first-child{
+  margin-top:16px;
+  padding-top:0;
+  border-top:0;
+}
+.prose h3{
+  font:800 clamp(20px,2.2vw,26px)/1.2 var(--display);
+  letter-spacing:-.015em;
+  margin:34px 0 12px;
+  color:var(--text);
+}
+.prose p{
+  color:#c9c9c2;
+  margin:0 0 20px;
+  font-size:17px;
+  line-height:1.75;
+}
+.prose p strong{
+  color:var(--text);
+  font-weight:600;
+}
+.prose a.inline-link{
+  color:var(--accent);
+  text-decoration:underline;
+  text-underline-offset:4px;
+  text-decoration-thickness:1px;
+  transition:color .2s;
+}
+.prose a.inline-link:hover{
+  color:#ffffff;
 }
 
-.art-date, .art-read {
-  font-size: 13px;
-  color: var(--text-muted);
+/* STRUCTURED POINT CARDS */
+.point-list{
+  list-style:none;
+  padding:0;
+  margin:22px 0 30px;
+  display:grid;
+  gap:14px;
+}
+.point-list li{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 22px;
+  color:#c9c9c2;
+  font-size:16px;
+  line-height:1.65;
+  transition:border-color .25s;
+}
+.point-list li:hover{
+  border-color:rgba(200,241,53,.4);
+}
+.point-list li strong{
+  color:var(--text);
+  font-weight:600;
+}
+.point-list li > strong:first-of-type{
+  display:block;
+  font:700 17px/1.3 var(--display);
+  color:var(--text);
+  margin-bottom:6px;
+}
+.point-list li .kicker{
+  color:var(--accent);
+  font-size:12px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  margin-bottom:4px;
+  display:inline-block;
 }
 
-.art-title {
-  font-family: var(--font-head);
-  font-size: clamp(32px, 4.5vw, 46px);
-  font-weight: 800;
-  line-height: 1.15;
-  color: #ffffff;
-  letter-spacing: -0.02em;
-  margin-bottom: 24px;
+/* NICHE PROBLEM / SOLUTION BOX */
+.split-callout{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  margin:18px 0 28px;
+}
+.callout-card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px 20px;
+}
+.callout-card.manual{
+  border-color:rgba(200,241,53,.32);
+  background:linear-gradient(180deg,rgba(200,241,53,.05),var(--surface));
+}
+.callout-label{
+  display:inline-block;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.callout-card.ai .callout-label{color:#ff8f70;}
+.callout-card.manual .callout-label{color:var(--accent);}
+.callout-card p{
+  margin:0;
+  font-size:15.5px;
+  line-height:1.62;
+  color:#c9c9c2;
 }
 
-.art-lead {
-  font-size: 19px;
-  line-height: 1.6;
-  color: #c5d0de;
-  font-weight: 400;
+/* INTERACTIVE 200% ZOOM LOUPE + BEFORE/AFTER INSPECTOR */
+.inspector-shell{
+  max-width:920px;
+  margin:36px auto 48px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:24px;
+  overflow:hidden;
+  box-shadow:0 24px 64px rgba(0,0,0,.45);
+}
+.insp-head{
+  padding:20px 24px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:14px;
+}
+.insp-title-wrap small{
+  display:block;
+  color:var(--accent);
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-bottom:4px;
+}
+.insp-title-wrap h3{
+  font:800 clamp(20px,2.3vw,26px)/1.15 var(--display);
+  margin:0;
+  letter-spacing:-.02em;
+}
+.insp-controls{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.toggle-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:9px 16px;
+  border-radius:99px;
+  border:1px solid var(--line);
+  background:var(--bg);
+  color:var(--text);
+  font:600 13px var(--body);
+  cursor:pointer;
+  transition:background .2s,color .2s,border-color .2s;
+}
+.toggle-pill[aria-pressed="true"]{
+  background:var(--accent);
+  color:var(--on-accent);
+  border-color:var(--accent);
+}
+.toggle-pill:hover{
+  border-color:var(--accent);
+}
+.spot-pills{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px;
+  padding:12px 24px;
+  background:rgba(255,255,255,.02);
+  border-bottom:1px solid var(--line);
+}
+.spot-pills span.lbl{
+  font-size:12px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  font-weight:600;
+  margin-right:4px;
+}
+.spot-btn{
+  padding:6px 13px;
+  border-radius:99px;
+  border:1px solid var(--line);
+  background:transparent;
+  color:var(--muted);
+  font:500 13px var(--body);
+  cursor:pointer;
+  transition:all .2s;
+}
+.spot-btn:hover{
+  color:var(--text);
+  border-color:rgba(255,255,255,.35);
+}
+.spot-btn.active{
+  color:var(--on-accent);
+  background:var(--accent);
+  border-color:var(--accent);
+  font-weight:600;
+}
+.loupe-stage-wrap{
+  padding:20px 24px 12px;
+  display:flex;
+  justify-content:center;
+}
+.loupe-stage{
+  position:relative;
+  width:100%;
+  max-width:600px;
+  aspect-ratio:764 / 1024;
+  border-radius:16px;
+  overflow:hidden;
+  background:#070709;
+  border:1px solid var(--line);
+  user-select:none;
+  touch-action:pan-y;
+}
+.loupe-stage.loupe-on{
+  cursor:crosshair;
+  touch-action:none;
+}
+.loupe-stage .layer{
+  position:absolute;
+  inset:0;
+}
+.loupe-stage .layer img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  pointer-events:none;
+}
+.loupe-stage .layer.before{
+  z-index:2;
+  clip-path:inset(0 calc(100% - var(--split,50%)) 0 0);
+}
+.loupe-stage .layer.after{
+  z-index:1;
+}
+.loupe-stage .stage-tag{
+  position:absolute;
+  bottom:14px;
+  z-index:12;
+  padding:6px 12px;
+  border-radius:99px;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.03em;
+  text-transform:uppercase;
+  background:rgba(10,10,11,.82);
+  backdrop-filter:blur(8px);
+  pointer-events:none;
+}
+.loupe-stage .stage-tag.b{
+  left:14px;
+  color:#f1f1ec;
+  border:1px solid rgba(255,255,255,.22);
+}
+.loupe-stage .stage-tag.a{
+  right:14px;
+  color:var(--accent);
+  border:1px solid rgba(200,241,53,.4);
+}
+.stage-divider{
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:var(--split,50%);
+  width:2px;
+  background:var(--accent);
+  z-index:10;
+  pointer-events:none;
+  transform:translateX(-1px);
+}
+.stage-divider::after{
+  content:"";
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:var(--accent);
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 0 6px color-mix(in srgb,var(--accent) 22%,transparent),0 4px 16px rgba(0,0,0,.6);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%230a0a0b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 7l-5 5 5 5M16 7l5 5-5 5'/%3E%3C/svg%3E");
+  background-position:center;
+  background-repeat:no-repeat;
+}
+.loupe-stage.loupe-on .stage-divider::after{
+  opacity:.75;
+}
+.loupe-stage input.stage-range{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  opacity:0;
+  margin:0;
+  cursor:ew-resize;
+  z-index:11;
+}
+.loupe-stage.loupe-on input.stage-range{
+  pointer-events:none;
 }
 
-/* AUTHOR PLATE */
-.author-plate {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-top: 28px;
-  padding: 16px 20px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
+/* OPTICAL 200% SPLIT LENS */
+.zoom-lens{
+  position:absolute;
+  width:184px;
+  height:184px;
+  border-radius:50%;
+  border:2px solid var(--accent);
+  box-shadow:0 0 0 4px rgba(10,10,11,.7),0 18px 40px rgba(0,0,0,.78);
+  overflow:hidden;
+  pointer-events:none;
+  z-index:20;
+  transform:translate(-50%,-50%);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  background:#070709;
+  opacity:0;
+  transition:opacity .15s ease;
 }
-.author-avatar {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  border: 1px solid var(--gold);
-  object-fit: cover;
+.loupe-stage.loupe-on .zoom-lens{
+  opacity:1;
 }
-.author-name {
-  font-size: 15px;
-  font-weight: 700;
-  color: #ffffff;
+.zoom-lens .lens-half{
+  position:relative;
+  height:100%;
+  background-repeat:no-repeat;
 }
-.author-role {
-  font-size: 13px;
-  color: var(--text-muted);
+.zoom-lens .lens-half.ai{
+  border-right:1.5px solid var(--accent);
+}
+.zoom-lens .lens-cap{
+  position:absolute;
+  bottom:14px;
+  padding:2px 7px;
+  border-radius:99px;
+  background:rgba(10,10,11,.82);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.zoom-lens .lens-half.ai .lens-cap{right:6px;color:#ffffff;border:1px solid rgba(255,255,255,.2);}
+.zoom-lens .lens-half.man .lens-cap{left:6px;color:var(--accent);border:1px solid rgba(200,241,53,.4);}
+.zoom-lens .lens-badge{
+  position:absolute;
+  top:10px;
+  left:50%;
+  transform:translateX(-50%);
+  background:rgba(10,10,11,.88);
+  color:var(--accent);
+  border:1px solid rgba(200,241,53,.4);
+  font-size:9.5px;
+  font-weight:800;
+  padding:2px 8px;
+  border-radius:99px;
+  z-index:2;
+  white-space:nowrap;
 }
 
-/* TECH SPECIFICATION BOX */
+/* SLIDER BAR + SYNCHRONIZED 200% SWATCH STRIP */
+.stage-scrubber{
+  max-width:600px;
+  margin:0 auto;
+  padding:6px 24px 16px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.stage-scrubber label{
+  font-size:13px;
+  font-weight:600;
+  color:var(--muted);
+  white-space:nowrap;
+}
+.stage-scrubber input[type=range]{
+  flex:1;
+  accent-color:var(--accent);
+  cursor:pointer;
+}
+.stage-scrubber output{
+  font:700 13px var(--display);
+  color:var(--accent);
+  min-width:40px;
+  text-align:right;
+}
+
+.sync-swatches{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  padding:18px 24px 22px;
+  border-top:1px solid var(--line);
+  background:var(--surface-2);
+}
+.swatch-card{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.swatch-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:13px;
+  font-weight:700;
+}
+.swatch-head span.ai-t{color:#ff8f70;}
+.swatch-head span.man-t{color:var(--accent);}
+.swatch-head small{color:var(--muted);font-weight:500;}
+.swatch-box{
+  height:142px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background-repeat:no-repeat;
+  background-color:#070709;
+  position:relative;
+}
+.swatch-card.man .swatch-box{
+  border-color:rgba(200,241,53,.4);
+}
+.swatch-note{
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.45;
+}
+
+/* IN-ARTICLE BEFORE/AFTER CASE SLIDERS */
+.ba-showcase{
+  max-width:680px;
+  margin:28px auto 36px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:20px;
+  overflow:hidden;
+}
+.ba-widget{
+  position:relative;
+  aspect-ratio:4 / 5;
+  background:#0a0a0b;
+  overflow:hidden;
+  user-select:none;
+  --x:50%;
+}
+.ba-widget .lay{
+  position:absolute;
+  inset:0;
+}
+.ba-widget .lay img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  pointer-events:none;
+}
+.ba-widget .lay.before{
+  z-index:2;
+  clip-path:inset(0 calc(100% - var(--x,50%)) 0 0);
+}
+.ba-widget .lay.after{
+  z-index:1;
+}
+.ba-widget .tag{
+  position:absolute;
+  bottom:14px;
+  z-index:10;
+  padding:6px 13px;
+  border-radius:99px;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  background:rgba(10,10,11,.8);
+  backdrop-filter:blur(8px);
+  pointer-events:none;
+}
+.ba-widget .tag.b{left:14px;color:#f1f1ec;border:1px solid rgba(255,255,255,.22);}
+.ba-widget .tag.a{right:14px;color:var(--accent);border:1px solid rgba(200,241,53,.4);}
+.ba-widget input[type=range]{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  opacity:0;
+  cursor:ew-resize;
+  margin:0;
+  z-index:20;
+}
+.ba-widget .ba-bar{
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:var(--x,50%);
+  width:2px;
+  background:var(--accent);
+  pointer-events:none;
+  z-index:15;
+  transform:translateX(-1px);
+}
+.ba-widget .ba-bar::after{
+  content:"";
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:var(--accent);
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 0 7px color-mix(in srgb,var(--accent) 24%,transparent),0 6px 20px rgba(0,0,0,.55);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='%230a0a0b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 7l-5 5 5 5M16 7l5 5-5 5'/%3E%3C/svg%3E");
+  background-position:center;
+  background-repeat:no-repeat;
+}
+.ba-caption{
+  padding:14px 20px;
+  font-size:13.5px;
+  color:var(--muted);
+  border-top:1px solid var(--line);
+}
+.ba-caption strong{
+  color:var(--text);
+}
+
+/* COMPARISON TABLE */
+.tbl-wrap{
+  margin:26px 0 36px;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:var(--surface);
+  overflow-x:auto;
+}
+table.cmp{
+  width:100%;
+  min-width:580px;
+  border-collapse:collapse;
+  text-align:left;
+  font-size:15.5px;
+}
+table.cmp th,table.cmp td{
+  padding:16px 20px;
+  border-bottom:1px solid var(--line);
+  vertical-align:top;
+}
+table.cmp thead th{
+  font:800 14px/1.3 var(--display);
+  letter-spacing:.03em;
+  text-transform:uppercase;
+  color:var(--text);
+  background:rgba(255,255,255,.03);
+}
+table.cmp thead th.col-man{
+  color:var(--accent);
+}
+table.cmp tbody tr:last-child td{
+  border-bottom:0;
+}
+table.cmp tbody td:first-child{
+  font-weight:600;
+  color:var(--text);
+  width:28%;
+}
+table.cmp tbody td:nth-child(2){
+  color:#a8a8a1;
+  width:34%;
+}
+table.cmp tbody td:nth-child(3){
+  color:#e4e4dd;
+  width:38%;
+}
+
+/* STUDIO SPEC BAR */
+.studio-specs{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin:24px 0 32px;
+}
+.spec-box{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px;
+}
+.spec-box b{
+  display:block;
+  font:800 clamp(22px,2.4vw,30px)/1.1 var(--display);
+  color:var(--accent);
+  margin-bottom:6px;
+}
+.spec-box span{
+  font-size:14px;
+  color:var(--muted);
+  line-height:1.5;
+  display:block;
+}
+
+/* FAQ ACCORDION */
+.faq-list{
+  display:grid;
+  gap:12px;
+  margin:24px 0 42px;
+}
+details.faq-item{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:0 22px;
+  transition:border-color .25s;
+}
+details.faq-item[open]{
+  border-color:rgba(200,241,53,.45);
+}
+details.faq-item summary{
+  list-style:none;
+  cursor:pointer;
+  padding:19px 0;
+  font:700 17.5px/1.35 var(--display);
+  color:var(--text);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+}
+details.faq-item summary::-webkit-details-marker{display:none;}
+details.faq-item summary::after{
+  content:"+";
+  font:700 22px var(--display);
+  color:var(--accent);
+  flex-shrink:0;
+  transition:transform .2s;
+}
+details.faq-item[open] summary::after{
+  transform:rotate(45deg);
+}
+details.faq-item .faq-a{
+  padding:0 0 20px;
+  color:#c9c9c2;
+  font-size:16px;
+  line-height:1.7;
+  border-top:1px solid var(--line);
+  padding-top:16px;
+}
+
+/* BOTTOM CONVERSION CTA & JOURNAL NAV */
+.art-cta{
+  max-width:780px;
+  margin:56px auto 36px;
+  padding:clamp(26px,4vw,40px);
+  border-radius:24px;
+  background:linear-gradient(135deg,rgba(200,241,53,.09),var(--surface) 55%);
+  border:1px solid rgba(200,241,53,.32);
+}
+.art-cta small{
+  display:inline-block;
+  color:var(--accent);
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.art-cta h2{
+  font:800 clamp(26px,3vw,36px)/1.12 var(--display);
+  margin:0 0 12px;
+  border:0;
+  padding:0;
+  letter-spacing:-.025em;
+}
+.art-cta p{
+  color:#c9c9c2;
+  margin:0 0 24px;
+  font-size:16.5px;
+  line-height:1.65;
+}
+.cta-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+}
+.post-next{
+  max-width:780px;
+  margin:0 auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  padding:24px 0;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  transition:border-color .25s,padding .25s;
+}
+.post-next:hover{
+  border-color:var(--accent);
+  padding-left:10px;
+}
+.post-next small{
+  color:var(--accent);
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  display:block;
+  margin-bottom:4px;
+}
+.post-next b{
+  font:800 clamp(18px,2vw,23px)/1.2 var(--display);
+}
+.post-next span{
+  font-size:22px;
+  color:var(--accent);
+}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--line);
+  padding:64px 0 32px;
+  color:var(--muted);
+  font-size:15px;
+}
+footer .g{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:36px;
+  margin-bottom:48px;
+}
+footer h4{
+  margin:0 0 14px;
+  color:var(--text);
+  font:800 17px var(--display);
+}
+footer a{
+  display:block;
+  padding:4px 0;
+  transition:color .2s;
+}
+footer a:hover{
+  color:var(--accent);
+}
+
+/* RESPONSIVE */
+.btn:focus-visible,a:focus-visible,button:focus-visible,summary:focus-visible{
+  outline:2px solid var(--text);
+  outline-offset:3px;
+}
+@media(max-width:860px){
+  nav{display:none}
+  .split-callout,.studio-specs,.sync-swatches{grid-template-columns:1fr}
+  .insp-head{padding:18px}
+  .spot-pills,.loupe-stage-wrap,.stage-scrubber,.sync-swatches{padding-left:16px;padding-right:16px}
+  .zoom-lens{width:146px;height:146px}
+  .zoom-lens .lens-cap{bottom:18px;font-size:9px;padding:2px 6px}
+  footer .g{grid-template-columns:1fr 1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  *{transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+}
+
+
+/* BESPOKE GHOST MANNEQUIN TOPIC COMPONENTS (LIME ACCENTS) */
 .spec-box {
-  background: linear-gradient(145deg, #0f141f, #090c12);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--gold);
-  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 12px;
   padding: 24px;
-  margin: 36px 0 48px;
+  margin: 36px 0 44px;
 }
 .spec-box-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 .spec-box-title {
-  font-family: var(--font-head);
-  font-size: 16px;
+  font-family: var(--display);
+  font-size: 15px;
   font-weight: 700;
-  color: var(--gold);
+  color: var(--accent);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   display: flex;
@@ -283,69 +1202,30 @@ a:hover {
   gap: 16px;
 }
 .spec-item {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   padding: 14px;
   border-radius: 8px;
 }
 .spec-label {
-  font-size: 12px;
-  color: var(--text-muted);
+  font-size: 11.5px;
+  color: var(--muted);
   text-transform: uppercase;
+  letter-spacing: 0.04em;
   margin-bottom: 4px;
 }
 .spec-value {
   font-size: 14px;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--text);
 }
 
-/* ARTICLE BODY STYLES */
-.art-content h2 {
-  font-family: var(--font-head);
-  font-size: clamp(24px, 3.2vw, 30px);
-  font-weight: 700;
-  color: #ffffff;
-  margin: 54px 0 20px;
-  letter-spacing: -0.01em;
-  line-height: 1.25;
-}
-
-.art-content h3 {
-  font-family: var(--font-head);
-  font-size: clamp(19px, 2.5vw, 22px);
-  font-weight: 600;
-  color: #e2e8f0;
-  margin: 36px 0 16px;
-  line-height: 1.35;
-}
-
-.art-content p {
-  margin-bottom: 22px;
-  color: #d1d9e6;
-}
-
-.art-content ul, .art-content ol {
-  margin: 20px 0 26px 24px;
-  color: #d1d9e6;
-}
-.art-content li {
-  margin-bottom: 10px;
-  padding-left: 6px;
-}
-
-/* VISUAL CARDS & BEFORE/AFTER */
 .visual-card {
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
   overflow: hidden;
   margin: 36px 0;
-}
-.visual-card-media {
-  width: 100%;
-  background: #000000;
-  display: block;
 }
 .visual-card-media img {
   width: 100%;
@@ -354,18 +1234,17 @@ a:hover {
   object-fit: cover;
 }
 .visual-card-caption {
-  padding: 16px 20px;
+  padding: 14px 18px;
   font-size: 13.5px;
-  color: var(--text-muted);
+  color: var(--muted);
   line-height: 1.5;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--line);
   background: var(--surface-2);
 }
 .visual-card-caption strong {
-  color: #ffffff;
+  color: var(--text);
 }
 
-/* COMPARISON DUAL GRID */
 .comparison-dual-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -379,7 +1258,7 @@ a:hover {
 }
 .comparison-card {
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   border-radius: 12px;
   overflow: hidden;
 }
@@ -390,7 +1269,7 @@ a:hover {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   background: var(--surface-2);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--line);
 }
 .comparison-card-tag.before {
   color: #f87171;
@@ -407,16 +1286,15 @@ a:hover {
 .comparison-card-body {
   padding: 14px 16px;
   font-size: 13px;
-  color: var(--text-muted);
+  color: var(--muted);
   line-height: 1.5;
 }
 
-/* COMPLIANCE MATRIX TABLE */
 .table-wrapper {
   overflow-x: auto;
   margin: 36px 0;
   border-radius: 12px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   background: var(--surface);
 }
 .compliance-table {
@@ -427,11 +1305,11 @@ a:hover {
 }
 .compliance-table th {
   background: var(--surface-2);
-  color: #ffffff;
-  font-family: var(--font-head);
+  color: var(--text);
+  font-family: var(--display);
   font-weight: 700;
   padding: 14px 16px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--line);
   text-transform: uppercase;
   font-size: 12px;
   letter-spacing: 0.05em;
@@ -461,9 +1339,9 @@ a:hover {
   border: 1px solid rgba(239, 68, 68, 0.3);
 }
 .tag-standard {
-  background: rgba(16, 185, 129, 0.15);
-  color: #6ee7b7;
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  background: rgba(200, 241, 53, 0.15);
+  color: var(--accent);
+  border: 1px solid rgba(200, 241, 53, 0.3);
 }
 .tag-luxury {
   background: rgba(212, 175, 55, 0.15);
@@ -471,20 +1349,19 @@ a:hover {
   border: 1px solid rgba(212, 175, 55, 0.3);
 }
 
-/* CALLOUT CARD */
 .callout-card {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(20, 26, 38, 0.7));
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  border-left: 4px solid var(--gold);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
   padding: 24px 28px;
   border-radius: 12px;
   margin: 38px 0;
 }
 .callout-title {
-  font-family: var(--font-head);
-  font-size: 15px;
+  font-family: var(--display);
+  font-size: 14px;
   font-weight: 700;
-  color: var(--gold);
+  color: var(--accent);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin-bottom: 8px;
@@ -500,37 +1377,35 @@ a:hover {
   margin-bottom: 0 !important;
 }
 
-/* FAQ SECTION */
 .faq-block {
   margin: 48px 0;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--line);
   padding-top: 36px;
 }
 .faq-item {
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   border-radius: 10px;
   padding: 20px 24px;
   margin-bottom: 16px;
 }
 .faq-question {
-  font-family: var(--font-head);
+  font-family: var(--display);
   font-size: 17px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text);
   margin-bottom: 8px;
 }
 .faq-answer {
   font-size: 15px;
-  color: #cbd5e1;
+  color: var(--muted);
   line-height: 1.65;
   margin-bottom: 0 !important;
 }
 
-/* BOTTOM TRIAL CTA */
 .trial-cta-box {
   background: radial-gradient(circle at 50% 0%, #1e2638, #0e121a);
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   border-radius: 16px;
   padding: 44px 32px;
   text-align: center;
@@ -545,26 +1420,26 @@ a:hover {
   left: 20%;
   right: 20%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
 }
 .cta-heading {
-  font-family: var(--font-head);
+  font-family: var(--display);
   font-size: clamp(24px, 3.5vw, 32px);
   font-weight: 800;
-  color: #ffffff;
+  color: var(--text);
   margin-bottom: 14px;
 }
 .cta-text {
   font-size: 16px;
-  color: var(--text-muted);
+  color: var(--muted);
   max-width: 580px;
   margin: 0 auto 28px;
   line-height: 1.6;
 }
 .cta-btn-primary {
   display: inline-block;
-  background: var(--gold);
-  color: #000000;
+  background: var(--accent);
+  color: var(--on-accent);
   font-weight: 700;
   font-size: 15px;
   padding: 14px 32px;
@@ -574,391 +1449,430 @@ a:hover {
   transition: all 0.2s ease;
 }
 .cta-btn-primary:hover {
-  background: #f5d77f;
+  background: #d8ff4f;
   color: #000000;
   transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(212, 175, 55, 0.25);
+  box-shadow: 0 10px 24px rgba(200, 241, 53, 0.25);
   text-decoration: none;
 }
 .cta-subtext {
   font-size: 12.5px;
-  color: #64748b;
+  color: var(--muted);
   margin-top: 14px;
 }
+
 </style>
 </head>
 <body>
 
-<!-- GLOBAL NAVIGATION (Matches site-nav.css) -->
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/" class="brand-logo" aria-label="Retoucher Shoaib Studio">
-      <span class="logo-mark">RS</span>
-      <span class="logo-text">Retoucher Shoaib<span class="logo-studio">Studio</span></span>
-    </a>
-    <nav class="site-nav">
-      <a href="/work">Portfolio</a>
-      <a href="/services">Services</a>
+<!-- READING PROGRESS BAR -->
+<div class="read-progress" aria-hidden="true"><span id="readBar"></span></div>
+
+<!-- SITE HEADER (Full Studio Brand Nav with Lime Accents & Dropdown) -->
+<header>
+  <div class="wrap">
+    <a class="logo" href="/">Retoucher Shoaib<sup>&reg;</sup></a>
+    <nav>
+      <div class="nav-drop" data-nav-drop>
+        <a href="/services" class="nav-drop-btn" aria-haspopup="true" aria-expanded="false">Services <span class="nav-chev" aria-hidden="true">&#9662;</span></a>
+        <div class="nav-dd-menu" role="menu">
+          <a href="/services" role="menuitem"><strong>All Services Overview</strong><span>Compare all 6 commercial departments</span></a>
+          <div class="nav-dd-sep" role="separator"></div>
+          <a href="/ecommerce-product-retouching" role="menuitem"><strong>E-Commerce Product Retouching <em class="nav-new">Live</em></strong><span>Eyewear, bags, shoes &amp; packshots &middot; Volume Batch Rates</span></a>
+          <a href="/ghost-mannequin-fashion-photo-retouching" role="menuitem"><strong>Fashion &amp; Ghost Mannequin <em class="nav-new">Live</em></strong><span>3D neck joins, labels &amp; on-model lookbooks</span></a>
+          <a href="/jewelry-watch-photo-retouching" role="menuitem"><strong>Jewelry &amp; Watch Retouching <em class="nav-new">Live</em></strong><span>Diamond prongs, gold color &amp; watch dials</span></a>
+          <a href="/model-portrait-photo-retouching" role="menuitem"><strong>Model &amp; Beauty Portraits <em class="nav-new">Live</em></strong><span>Natural skin texture, hair &amp; headshots</span></a>
+          <a href="/services#still" role="menuitem"><strong>Still Life &amp; Cosmetics</strong><span>Glassware &amp; commercial bottles</span></a>
+          <a href="/automotive-photo-retouching" role="menuitem"><strong>Automotive Photo Retouching <em class="nav-new">Live</em></strong><span>Paintwork gloss &amp; studio background swap</span></a>
+        </div>
+      </div>
       <a href="/studio">Studio</a>
-      <a href="/pricing">Pricing</a>
-      <a href="/feed" class="active">Feed</a>
-      <a href="/contact" class="nav-cta">Start Free Trial</a>
+      <a href="/work">Work</a>
+      <a href="/contact">Contact</a>
+      <a class="cur" href="/feed">Feed</a>
     </nav>
+    <div class="nav-actions">
+      <a class="btn p" id="navAuthBtn" href="/portal" rel="nofollow">Log In</a>
+      <button class="nav-mob-btn" id="navMobBtn" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobDrawer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+      </button>
+    </div>
   </div>
 </header>
 
-<main class="art-container">
-  <!-- BREADCRUMB -->
-  <nav class="breadcrumb-nav" aria-label="Breadcrumb">
-    <a href="/">Home</a> / <a href="/feed">Studio Feed</a> / <span>3D Ghost Mannequin Retouching Guide</span>
-  </nav>
+<main>
+  <article>
+    <!-- ARTICLE HERO SECTION -->
+    <div class="art-hero">
+      <div class="wrap">
+        <div class="art-narrow">
+          <a class="crumb" href="/feed">&larr; Back to Studio Journal</a>
+          <div class="art-meta">
+            <span>Apparel &amp; Fashion Post-Production</span>
+            <span>&bull;</span>
+            <span>November 19, 2026</span>
+            <span>&bull;</span>
+            <span class="by">By <strong>Shoaib Siddique</strong> (Retoucher Shoaib)</span>
+            <span>&bull;</span>
+            <span>10 min read</span>
+          </div>
 
-  <!-- ARTICLE HEADER & HERO -->
-  <header class="art-hero">
-    <div class="meta-badge-row">
-      <div class="lens-badge">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
-        Apparel &amp; Fashion Post-Production
-      </div>
-      <span class="art-date">November 19, 2026</span>
-      <span class="art-read">• 10 min read</span>
-      <span class="art-read">• 1,980 words</span>
-    </div>
+          <h1>3D Ghost Mannequin &amp; Apparel Retouching: Symmetrical Neck Joins, Inside Linings &amp; Marketplace Compliance Standards</h1>
 
-    <h1 class="art-title">3D Ghost Mannequin &amp; Apparel Retouching: Symmetrical Neck Joins, Inside Linings &amp; Marketplace Compliance Standards</h1>
-    
-    <p class="art-lead">
-      Flat tabletop product photography flattens tailoring, while live fashion models often introduce unwanted styling distractions and costly licensing fees. The 3D invisible ghost mannequin effect is the definitive standard for luxury suiting and high-volume e-commerce. Here is the exact studio post-production methodology to composite seamless collar joins, balance garment symmetry, and satisfy strict Amazon and Zalando white-background guidelines.
-    </p>
-
-    <div class="author-plate">
-      <img src="/assets/shoaib_siddique_founder.webp" alt="Shoaib Siddique - Founder & Lead Commercial Retoucher" class="author-avatar" loading="lazy">
-      <div>
-        <div class="author-name">Shoaib Siddique</div>
-        <div class="author-role">Founder &amp; Senior Commercial Retoucher at Retoucher Shoaib Studio</div>
-      </div>
-    </div>
-  </header>
-
-  <!-- STUDIO APPAREL PRODUCTION SPEC BOX -->
-  <section class="spec-box" aria-label="Technical Specifications">
-    <div class="spec-box-header">
-      <div class="spec-box-title">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m14 9 3 3-3 3"/></svg>
-        Studio Apparel Production Protocol (SOP)
-      </div>
-    </div>
-    <div class="spec-grid">
-      <div class="spec-item">
-        <div class="spec-label">Vector Edge Tolerance</div>
-        <div class="spec-value">0.5px Sub-Pixel Inset (Pen Tool)</div>
-      </div>
-      <div class="spec-item">
-        <div class="spec-label">Color Calibration</div>
-        <div class="spec-value">EIZO CG Hardware (Delta-E &lt; 0.8)</div>
-      </div>
-      <div class="spec-item">
-        <div class="spec-label">3D Composite Method</div>
-        <div class="spec-value">Front Plate + Reverse Neck Wrap</div>
-      </div>
-      <div class="spec-item">
-        <div class="spec-label">Marketplace Background</div>
-        <div class="spec-value">Pure #FFFFFF with Soft Grounding</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ARTICLE BODY -->
-  <article class="art-content">
-    
-    <h2>1. The Physics of the Hollow 3D Illusion: Why 2D Flat Lays Fail Luxury Apparel</h2>
-    
-    <p>
-      In commercial apparel photography, creative directors face an ongoing dilemma: on-model photography creates lifestyle aspiration but requires expensive recurring casting and model usage rights. On the opposite end, flat-lay or tabletop photography collapses the structural architecture of tailored garments. When an ivory dinner jacket or tailored wool blazer is photographed flat on a table, the shoulder pads deform, the rolling lapels flatten, and the sleeves bunch awkwardly at the elbows.
-    </p>
-    
-    <p>
-      The <strong>3D ghost mannequin effect</strong> (also known as the invisible hollow mannequin technique) bridges this gap. By photographing the garment on a physical mannequin and shooting a separate secondary exposure of the interior neck collar, our studio seamlessly merges the two files in Adobe Photoshop. The result is a sculptural, three-dimensional silhouette that presents clothes exactly as they drape on the human body—without the visual distraction of plastic necks or mannequin seams.
-    </p>
-
-    <!-- BEFORE/AFTER DUAL GRID 1: BLAZER MANNEQUIN -->
-    <div class="comparison-dual-grid">
-      <div class="comparison-card">
-        <div class="comparison-card-tag before">Raw Studio Plate (Plastic Mannequin)</div>
-        <img src="/assets/agency_showcase/fashion-ghost-blazer-before.webp" alt="Raw tailored blazer photographed on plastic mannequin showing distracting neck stand and uneven hem" loading="lazy">
-        <div class="comparison-card-body">
-          Raw exposure on plastic form: visible neck stand, asymmetrical cuff drape, background color cast, and unaligned collar seams.
-        </div>
-      </div>
-      <div class="comparison-card">
-        <div class="comparison-card-tag after">Finished Studio 3D Composite</div>
-        <img src="/assets/agency_showcase/fashion-ghost-blazer-after.webp" alt="Finished 3D ghost mannequin retouching with seamless neck join and pure white background" loading="lazy">
-        <div class="comparison-card-body">
-          Finished 3D ghost mannequin: seamless inner collar lining, realistic cavity shadow depth, symmetrical horizontal balance, and pure #FFFFFF background.
+          <div class="lede-group">
+            <p>Flat tabletop product photography flattens tailoring, while live fashion models often introduce unwanted styling distractions and costly recurring licensing fees. The 3D invisible ghost mannequin effect is the definitive standard for luxury suiting, outerwear, and high-volume e-commerce catalogs.</p>
+            <p>Here is the exact studio post-production methodology to composite seamless collar joins, balance garment symmetry without killing fabric drape, and satisfy strict Amazon, Zalando, and Farfetch white-background compliance guidelines.</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <h2>2. Anatomy of the Neck Join: Step-by-Step Technical Execution</h2>
-    
-    <p>
-      A successful ghost mannequin composite depends entirely on the precision of the inner neck join. Amateur retouchers often make the mistake of simply cutting out the rear collar and pasting it behind the front garment plate. This produces an unnatural, flat "paper doll" appearance because it ignores the natural curvature of the cervical spine and the dimensional shadow falloff inside the chest cavity.
-    </p>
-    
-    <p>
-      In our studio, we execute neck joints through a strict four-layer non-destructive workflow:
-    </p>
+    <!-- ARTICLE BODY -->
+    <div class="art-body">
+      <div class="wrap">
+        <div class="art-narrow">
 
-    <ol>
-      <li>
-        <strong>Vector Pen Tool Isolation (Front Plate):</strong> We trace the front garment with the Photoshop Pen Tool at 300% zoom. The path is inset by exactly 0.5 pixels inside the fabric edge to eliminate chromatic aberration fringing from studio strobe lights. We cleanly excise the plastic mannequin neck while retaining the natural weave fringes of the lapel collars.
-      </li>
-      <li>
-        <strong>Interior Lining Plate Extraction:</strong> We isolate the secondary exposure showing the inside back collar, brand tag, and care embroidery. This plate is positioned on a layer below the front garment.
-      </li>
-      <li>
-        <strong>Perspective Warping &amp; Vector Alignment:</strong> Real clothing bends naturally around the neck. Using Photoshop's <em>Edit &gt; Perspective Warp</em> and subtle Free Transform adjustments, we align the interior stitching to mirror the natural downward curve of the front collar line.
-      </li>
-      <li>
-        <strong>Two-Stage Cavity Shadow Modeling:</strong> Light falling inside a hollow garment does not terminate abruptly. We construct a multi-step soft shadow:
-        <ul>
-          <li><em>Contact Occlusion:</em> A tight 2–4px gaussian blur shadow directly beneath the rear collar fold (Opacity: 25%, Blend Mode: Multiply).</li>
-          <li><em>Cavity Ambient Falloff:</em> A broad, gradient-masked soft shadow simulating the natural drop-off of light into the chest interior (Opacity: 8–12%, Blend Mode: Soft Light).</li>
-        </ul>
-      </li>
-    </ol>
+          <!-- STUDIO APPAREL PRODUCTION SPEC BOX -->
+          <div class="spec-box" aria-label="Technical Specifications">
+            <div class="spec-box-header">
+              <div class="spec-box-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m14 9 3 3-3 3"/></svg>
+                Studio Apparel Production Protocol (SOP)
+              </div>
+            </div>
+            <div class="spec-grid">
+              <div class="spec-item">
+                <div class="spec-label">Vector Edge Tolerance</div>
+                <div class="spec-value">0.5px Sub-Pixel Inset (Pen Tool)</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-label">Color Calibration</div>
+                <div class="spec-value">EIZO CG Hardware (Delta-E &lt; 0.8)</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-label">3D Composite Method</div>
+                <div class="spec-value">Front Plate + Reverse Neck Wrap</div>
+              </div>
+              <div class="spec-item">
+                <div class="spec-label">Marketplace Background</div>
+                <div class="spec-value">Pure #FFFFFF with Soft Grounding</div>
+              </div>
+            </div>
+          </div>
 
-    <div class="callout-card">
-      <div class="callout-title">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-        Studio Rule: Never Fake the Inside Tag
+          <h2>1. The Physics of the Hollow 3D Illusion: Why 2D Flat Lays Fail Luxury Apparel</h2>
+          
+          <p>
+            In commercial apparel photography, creative directors face an ongoing dilemma: on-model photography creates lifestyle aspiration but requires expensive recurring casting, hair and makeup, and model usage rights. On the opposite end, flat-lay or tabletop photography collapses the structural architecture of tailored garments. When an ivory dinner jacket, tailored blazer, or structured dress is photographed flat on a table, the shoulder pads deform, the rolling lapels flatten, and the sleeves bunch awkwardly at the elbows.
+          </p>
+          
+          <p>
+            The <strong>3D ghost mannequin effect</strong> (also known as the invisible hollow mannequin technique) bridges this gap. By photographing the garment on a physical modular mannequin and shooting a separate secondary exposure of the interior neck collar, our studio seamlessly merges the two files in Adobe Photoshop. The result is a sculptural, three-dimensional silhouette that presents clothes exactly as they drape on the human body—without the visual distraction of plastic necks, stands, or mannequin seams.
+          </p>
+
+          <!-- BEFORE/AFTER DUAL GRID 1: BLAZER MANNEQUIN -->
+          <div class="comparison-dual-grid">
+            <div class="comparison-card">
+              <div class="comparison-card-tag before">Raw Studio Plate (Plastic Mannequin)</div>
+              <img src="/assets/agency_showcase/fashion-ghost-blazer-before.webp" alt="Raw tailored blazer photographed on plastic mannequin showing distracting neck stand and uneven hem" loading="lazy">
+              <div class="comparison-card-body">
+                Raw exposure on plastic form: visible neck stand, asymmetrical cuff drape, background color cast, and unaligned collar seams.
+              </div>
+            </div>
+            <div class="comparison-card">
+              <div class="comparison-card-tag after">Finished Studio 3D Composite</div>
+              <img src="/assets/agency_showcase/fashion-ghost-blazer-after.webp" alt="Finished 3D ghost mannequin retouching with seamless neck join and pure white background" loading="lazy">
+              <div class="comparison-card-body">
+                Finished 3D ghost mannequin: seamless inner collar lining, realistic cavity shadow depth, symmetrical horizontal balance, and pure #FFFFFF background.
+              </div>
+            </div>
+          </div>
+
+          <h2>2. Anatomy of the Neck Join: Step-by-Step Technical Execution</h2>
+          
+          <p>
+            A successful ghost mannequin composite depends entirely on the precision of the inner neck join. Amateur retouchers often make the mistake of simply cutting out the rear collar and pasting it behind the front garment plate. This produces an unnatural, flat "paper doll" appearance because it ignores the natural curvature of the cervical spine and the dimensional shadow falloff inside the chest cavity.
+          </p>
+          
+          <p>
+            In our studio, we execute neck joints through a strict four-layer non-destructive workflow:
+          </p>
+
+          <ol>
+            <li>
+              <strong>Vector Pen Tool Isolation (Front Plate):</strong> We trace the front garment with the Photoshop Pen Tool at 300% zoom. The path is inset by exactly 0.5 pixels inside the fabric edge to eliminate chromatic aberration fringing from studio strobe lights. We cleanly excise the plastic mannequin neck while retaining the natural weave fringes of the lapel collars.
+            </li>
+            <li>
+              <strong>Interior Lining Plate Extraction:</strong> We isolate the secondary exposure showing the inside back collar, brand tag, and care embroidery. This plate is positioned on a layer below the front garment.
+            </li>
+            <li>
+              <strong>Perspective Warping &amp; Vector Alignment:</strong> Real clothing bends naturally around the neck. Using Photoshop's <em>Edit &gt; Perspective Warp</em> and subtle Free Transform adjustments, we align the interior stitching to mirror the natural downward curve of the front collar line.
+            </li>
+            <li>
+              <strong>Two-Stage Cavity Shadow Modeling:</strong> Light falling inside a hollow garment does not terminate abruptly. We construct a multi-step soft shadow:
+              <ul>
+                <li><em>Contact Occlusion:</em> A tight 2–4px gaussian blur shadow directly beneath the rear collar fold (Opacity: 25%, Blend Mode: Multiply).</li>
+                <li><em>Cavity Ambient Falloff:</em> A broad, gradient-masked soft shadow simulating the natural drop-off of light into the chest interior (Opacity: 8–12%, Blend Mode: Soft Light).</li>
+              </ul>
+            </li>
+          </ol>
+
+          <div class="callout-card">
+            <div class="callout-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              Studio Rule: Never Fake the Inside Tag
+            </div>
+            <p class="callout-text">
+              "Automated AI background removal tools often hallucinate or blur brand embroidery tags during neck join compositing. For luxury labels, the typography, stitch density, and gold thread of the interior brand label must remain razor-sharp. If the secondary inner collar shot was lit with a different color temperature, we apply selective Curves color matching to harmonize the front and inner plates."
+            </p>
+          </div>
+
+          <h2>3. Symmetry vs. Organic Drape: The Tailoring Dilemma</h2>
+          
+          <p>
+            One of the most delicate decisions in apparel retouching is striking the right balance between mathematical symmetry and organic fabric drape. In high-volume e-commerce catalogs (such as Amazon or ASOS), buyers expect visual uniformity: equal sleeve lengths, aligned shoulder slopes, and centered button stances.
+          </p>
+          
+          <p>
+            However, when working with high-end luxury suiting—such as our portfolio work for <a href="/work">Aristocracy London</a>—aggressive, automated symmetry adjustments will destroy the tailoring. Bespoke suits feature canvassed chests, roped shoulder heads, and rolling lapels designed to move dynamically. If a retoucher forces exact mirror symmetry using Liquify, the fabric texture stretches unnaturally, the waist suppression looks artificial, and the garment loses its premium handcrafted value.
+          </p>
+
+          <!-- FULL SHOWCASE IMAGE: ARISTOCRACY LONDON TUXEDO -->
+          <div class="visual-card">
+            <div class="visual-card-media">
+              <img src="/assets/agency_showcase/aristocracy-ivory-gala-tuxedo-ghost-mannequin-retouching.jpg" alt="Aristocracy London Bespoke Ivory Gala Tuxedo on 3D Ghost Mannequin by Retoucher Shoaib" loading="lazy">
+            </div>
+            <div class="visual-card-caption">
+              <strong>Portfolio Benchmark: Aristocracy London Bespoke Ivory Gala Tuxedo.</strong> Retouched by Retoucher Shoaib. Notice the subtle, natural fabric drape around the button closure, perfectly preserved jacquard weave texture, and razor-sharp lapel edge tension against pure #FFFFFF.
+            </div>
+          </div>
+
+          <h3>Studio Symmetrical Alignment Framework</h3>
+          <p>
+            To achieve commercial balance without killing garment character, we employ a grid-based alignment routine:
+          </p>
+          <ul>
+            <li><strong>Shoulder Plumb Line:</strong> We pull horizontal guide rules across the acromion shoulder points. If one shoulder was pinned 15mm lower during the shoot, we gently lift the lower shoulder using Free Transform with a feathered vector mask, rather than warping the collar.</li>
+            <li><strong>Lapel V-Shape Alignment:</strong> The notch or peak lapels are balanced so their angles mirror each other symmetrically while retaining the natural roll of the chest canvassing.</li>
+            <li><strong>Hemline &amp; Vent Straightening:</strong> Bottom jacket hems and dress shirt tails are leveled horizontally, leaving subtle tension folds where the fabric naturally breaks over the hips.</li>
+          </ul>
+
+          <h2>4. E-Commerce Marketplace Compliance Matrix</h2>
+          
+          <p>
+            Every major commercial platform enforces strict image standards for apparel vendors. Failing a platform's technical check can lead to suspended product listings, lost revenue, and poor algorithmic reach. Here is how our studio tailors ghost mannequin post-production to the major global marketplaces:
+          </p>
+
+          <div class="table-wrapper">
+            <table class="compliance-table">
+              <thead>
+                <tr>
+                  <th>Marketplace</th>
+                  <th>Background Spec</th>
+                  <th>Crop &amp; Fill Ratio</th>
+                  <th>Shadow Treatment</th>
+                  <th>Color Space</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Amazon Vendor / Seller</strong></td>
+                  <td><span class="compliance-tag tag-strict">Pure #FFFFFF (RGB 255,255,255)</span><br>Zero color tint or gradient.</td>
+                  <td>85% of total frame fill. Minimum 1600px longest side for zoom.</td>
+                  <td>No cast shadows on primary main image. Clean grounding only.</td>
+                  <td>sRGB IEC61966-2.1. Max file size: 10MB.</td>
+                </tr>
+                <tr>
+                  <td><strong>Zalando Partner Program</strong></td>
+                  <td><span class="compliance-tag tag-standard">Soft White to Light Gray</span><br>#F5F5F5 acceptable for editorial feel.</td>
+                  <td>Vertical 5:7 aspect ratio (minimum 1800 x 2520px).</td>
+                  <td>Soft natural contact shadow mandatory to ground garment.</td>
+                  <td>sRGB with strictly controlled skin &amp; fabric Delta-E.</td>
+                </tr>
+                <tr>
+                  <td><strong>Farfetch &amp; Net-a-Porter</strong></td>
+                  <td><span class="compliance-tag tag-luxury">High-Fashion Clean</span><br>Consistent off-white or studio cyc.</td>
+                  <td>High-density 4:5 or 3:4 portrait crops.</td>
+                  <td>Subtle directional studio shadow matching campaign lighting.</td>
+                  <td>Adobe RGB 1998 / sRGB master assets.</td>
+                </tr>
+                <tr>
+                  <td><strong>Shopify / Direct-to-Consumer</strong></td>
+                  <td><span class="compliance-tag tag-standard">Flexible Brand Palette</span><br>Custom hex codes or transparent PNG.</td>
+                  <td>Square 1:1 (2048 x 2048px) or 4:5 mobile-first portrait.</td>
+                  <td>Natural drop shadow or floating drop shadow options.</td>
+                  <td>sRGB optimized WebP &amp; JPEG versions.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2>5. Tackling Complex Fabrics: Velvet, Sheer Chiffon &amp; Heavy Knits</h2>
+          
+          <p>
+            Different textiles react differently to light, camera sensors, and clipping paths. A standardized, one-click filter will inevitably fail when transitioning between materials:
+          </p>
+
+          <h3>A. Velvet, Suede &amp; Corduroy Sheen</h3>
+          <p>
+            Plush fabrics have directional pile that reflects light unevenly. Automated clipping paths frequently confuse the soft velvet micro-fuzz with background noise, carving harsh, jagged steps along the shoulder seams. We use high-precision pen paths paired with feathered layer masks to retain the soft textural halo of the pile without leaving colored studio spill.
+          </p>
+
+          <h3>B. Sheer Chiffon &amp; Translucent Silk</h3>
+          <p>
+            When shooting semi-transparent fabrics (such as evening gowns or organza blouses), the rear interior of the garment is visible through the front layer. Removing the mannequin cannot be done with a simple white fill; the back lining, shoulder seams, and inner seams must be composited with accurate layer blending modes (typically <em>Multiply</em> at varying opacities) to maintain authentic transparency.
+          </p>
+
+          <!-- BEFORE/AFTER KNITWEAR SOCKS / ACCESSORIES -->
+          <div class="comparison-dual-grid">
+            <div class="comparison-card">
+              <div class="comparison-card-tag before">Raw Knitwear on Plastic Form</div>
+              <img src="/assets/agency_showcase/service_fashion_before.webp" alt="Raw knitwear on plastic form before retouching" loading="lazy">
+              <div class="comparison-card-body">
+                Raw studio plate: bulky plastic leg forms, uneven ribbing tension, lint, and harsh studio reflections.
+              </div>
+            </div>
+            <div class="comparison-card">
+              <div class="comparison-card-tag after">Retouched Knitwear with Natural Shadow</div>
+              <img src="/assets/agency_showcase/service_fashion_after.webp" alt="Retouched knitwear on pure white with natural contact shadow" loading="lazy">
+              <div class="comparison-card-body">
+                Finished catalog asset: form completely eliminated, authentic wool rib texture preserved, pure white background with realistic contact drop shadow.
+              </div>
+            </div>
+          </div>
+
+          <h2>6. Production Consistency: Scaling to 500+ SKUs Without Drift</h2>
+          
+          <p>
+            A commercial brand launching a seasonal collection of 300 to 500 SKUs cannot afford visual inconsistency. If SKU #12 is cropped 5% tighter than SKU #13, or if the shoulder height fluctuates across catalog thumbnail grids, the entire brand looks amateur.
+          </p>
+          
+          <p>
+            To eliminate visual drift across large batches, our studio establishes standardized <strong>Digital Master Guides</strong> before retouching begins:
+          </p>
+          <ul>
+            <li><strong>Vertical Proportion Guides:</strong> Fixed pixel baselines for collar peaks, armpit folds, and bottom hem breaks.</li>
+            <li><strong>Margin Envelopes:</strong> Hard 7.5% margins from top collar to canvas edge, ensuring consistent visual weight across mobile browsing.</li>
+            <li><strong>Color Calibration Anchor:</strong> Every batch is color-matched against reference raw charts photographed under identical studio strobes, ensuring the navy blazer matches the navy trousers across different product pages.</li>
+          </ul>
+
+          <!-- FAQ SECTION -->
+          <section class="faq-block">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+            
+            <div class="faq-item">
+              <div class="faq-question">What photography assets do you need from the client to create a ghost mannequin image?</div>
+              <div class="faq-answer">
+                We require two main exposures: (1) The front shot of the garment on a physical or foam mannequin, and (2) The inside collar/lining shot showing the inner back neck, brand tag, and size label. Both should be shot under matching lighting and camera heights.
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <div class="faq-question">Can you fix wrinkles, lint, and dust while retaining the authentic fabric weave?</div>
+              <div class="faq-answer">
+                Yes. We use advanced 16-bit Frequency Separation. This separates fine fabric texture from surface tone and shadow, allowing us to remove creasing, steamer water spots, and lint while leaving the wool, linen, or denim weave 100% intact.
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <div class="faq-question">Do you provide pure white #FFFFFF backgrounds and transparent PNG files?</div>
+              <div class="faq-answer">
+                Yes. All master deliveries include pure #FFFFFF clipped assets compliant with Amazon and Zalando, along with transparent PNGs with preserved natural grounding contact shadows for flexible website integration.
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <div class="faq-question">How does your studio handle complex transparent or mesh garments?</div>
+              <div class="faq-answer">
+                For chiffon, lace, and organza, we isolate the inner and outer layers using multi-pass channel masks and blend modes, ensuring the transparent fabric drapes with natural opacity over pure white backgrounds without harsh cutout edges.
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <div class="faq-question">What is your turnaround time for high-volume apparel batches?</div>
+              <div class="faq-answer">
+                Standard studio turnaround is 24 to 48 hours for batches of 50 to 200 SKUs, with rush 12-hour turnaround available for time-sensitive e-commerce collection launches.
+              </div>
+            </div>
+          </section>
+
+          <!-- TRIAL CALLOUT CTA BOX -->
+          <div class="trial-cta-box">
+            <h2 class="cta-heading">Elevate Your Apparel Catalog: Request a Free Sample Test</h2>
+            <p class="cta-text">
+              Send us 2 to 3 raw apparel exposures from your upcoming collection. We will composite the seamless 3D neck joins, balance the silhouette, and return publication-ready files within 24 hours—completely free of charge.
+            </p>
+            <a href="/contact" class="cta-btn-primary">Claim Your Free Test Retouch</a>
+            <div class="cta-subtext">Direct Inquiry: contact@retouchershoaib.com • 24-Hour Trial Turnaround SLA</div>
+          </div>
+
+        </div>
       </div>
-      <p class="callout-text">
-        "Automated AI background removal tools often hallucinate or blur brand embroidery tags during neck join compositing. For luxury labels, the typography, stitch density, and gold thread of the interior brand label must remain razor-sharp. If the secondary inner collar shot was lit with a different color temperature, we apply selective Curves color matching to harmonize the front and inner plates."
-      </p>
     </div>
-
-    <h2>3. Symmetry vs. Organic Drape: The Tailoring Dilemma</h2>
-    
-    <p>
-      One of the most delicate decisions in apparel retouching is striking the right balance between mathematical symmetry and organic fabric drape. In high-volume e-commerce catalogs (such as Amazon or ASOS), buyers expect visual uniformity: equal sleeve lengths, aligned shoulder slopes, and centered button stances.
-    </p>
-    
-    <p>
-      However, when working with high-end luxury suiting—such as our portfolio work for <a href="/work">Aristocracy London</a>—aggressive, automated symmetry adjustments will destroy the tailoring. Bespoke suits feature canvassed chests, roped shoulder heads, and rolling lapels designed to move dynamically. If a retoucher forces exact mirror symmetry using Liquify, the fabric texture stretches unnaturally, the waist suppression looks artificial, and the garment loses its premium handcrafted value.
-    </p>
-
-    <!-- FULL SHOWCASE IMAGE: ARISTOCRACY LONDON TUXEDO -->
-    <div class="visual-card">
-      <div class="visual-card-media">
-        <img src="/assets/agency_showcase/aristocracy-ivory-gala-tuxedo-ghost-mannequin-retouching.jpg" alt="Aristocracy London Bespoke Ivory Gala Tuxedo on 3D Ghost Mannequin by Retoucher Shoaib" loading="lazy">
-      </div>
-      <div class="visual-card-caption">
-        <strong>Portfolio Benchmark: Aristocracy London Bespoke Ivory Gala Tuxedo.</strong> Retouched by Retoucher Shoaib. Notice the subtle, natural fabric drape around the button closure, perfectly preserved jacquard weave texture, and razor-sharp lapel edge tension against pure #FFFFFF.
-      </div>
-    </div>
-
-    <h3>Studio Symmetrical Alignment Framework</h3>
-    <p>
-      To achieve commercial balance without killing garment character, we employ a grid-based alignment routine:
-    </p>
-    <ul>
-      <li><strong>Shoulder Plumb Line:</strong> We pull horizontal guide rules across the acromion shoulder points. If one shoulder was pinned 15mm lower during the shoot, we gently lift the lower shoulder using Free Transform with a feathered vector mask, rather than warping the collar.</li>
-      <li><strong>Lapel V-Shape Alignment:</strong> The notch or peak lapels are balanced so their angles mirror each other symmetrically while retaining the natural roll of the chest canvassing.</li>
-      <li><strong>Hemline &amp; Vent Straightening:</strong> Bottom jacket hems and dress shirt tails are leveled horizontally, leaving subtle tension folds where the fabric naturally breaks over the hips.</li>
-    </ul>
-
-    <h2>4. E-Commerce Marketplace Compliance Matrix</h2>
-    
-    <p>
-      Every major commercial platform enforces strict image standards for apparel vendors. Failing a platform's technical check can lead to suspended product listings, lost revenue, and poor algorithmic reach. Here is how our studio tailors ghost mannequin post-production to the major global marketplaces:
-    </p>
-
-    <div class="table-wrapper">
-      <table class="compliance-table">
-        <thead>
-          <tr>
-            <th>Marketplace</th>
-            <th>Background Spec</th>
-            <th>Crop &amp; Fill Ratio</th>
-            <th>Shadow Treatment</th>
-            <th>Color Space</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Amazon Vendor / Seller</strong></td>
-            <td><span class="compliance-tag tag-strict">Pure #FFFFFF (RGB 255,255,255)</span><br>Zero color tint or gradient.</td>
-            <td>85% of total frame fill. Minimum 1600px longest side for zoom.</td>
-            <td>No cast shadows on primary main image. Clean grounding only.</td>
-            <td>sRGB IEC61966-2.1. Max file size: 10MB.</td>
-          </tr>
-          <tr>
-            <td><strong>Zalando Partner Program</strong></td>
-            <td><span class="compliance-tag tag-standard">Soft White to Light Gray</span><br>#F5F5F5 acceptable for editorial feel.</td>
-            <td>Vertical 5:7 aspect ratio (minimum 1800 x 2520px).</td>
-            <td>Soft natural contact shadow mandatory to ground garment.</td>
-            <td>sRGB with strictly controlled skin &amp; fabric Delta-E.</td>
-          </tr>
-          <tr>
-            <td><strong>Farfetch &amp; Net-a-Porter</strong></td>
-            <td><span class="compliance-tag tag-luxury">High-Fashion Clean</span><br>Consistent off-white or studio cyc.</td>
-            <td>High-density 4:5 or 3:4 portrait crops.</td>
-            <td>Subtle directional studio shadow matching campaign lighting.</td>
-            <td>Adobe RGB 1998 / sRGB master assets.</td>
-          </tr>
-          <tr>
-            <td><strong>Shopify / Direct-to-Consumer</strong></td>
-            <td><span class="compliance-tag tag-standard">Flexible Brand Palette</span><br>Custom hex codes or transparent PNG.</td>
-            <td>Square 1:1 (2048 x 2048px) or 4:5 mobile-first portrait.</td>
-            <td>Natural drop shadow or floating drop shadow options.</td>
-            <td>sRGB optimized WebP &amp; JPEG versions.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h2>5. Tackling Complex Fabrics: Velvet, Sheer Chiffon &amp; Heavy Knits</h2>
-    
-    <p>
-      Different textiles react differently to light, camera sensors, and clipping paths. A standardized, one-click filter will inevitably fail when transitioning between materials:
-    </p>
-
-    <h3>A. Velvet, Suede &amp; Corduroy Sheen</h3>
-    <p>
-      Plush fabrics have directional pile that reflects light unevenly. Automated clipping paths frequently confuse the soft velvet micro-fuzz with background noise, carving harsh, jagged steps along the shoulder seams. We use high-precision pen paths paired with feathered layer masks to retain the soft textural halo of the pile without leaving colored studio spill.
-    </p>
-
-    <h3>B. Sheer Chiffon &amp; Translucent Silk</h3>
-    <p>
-      When shooting semi-transparent fabrics (such as evening gowns or organza blouses), the rear interior of the garment is visible through the front layer. Removing the mannequin cannot be done with a simple white fill; the back lining, shoulder seams, and inner seams must be composited with accurate layer blending modes (typically <em>Multiply</em> at varying opacities) to maintain authentic transparency.
-    </p>
-
-    <!-- BEFORE/AFTER KNITWEAR SOCKS / ACCESSORIES -->
-    <div class="comparison-dual-grid">
-      <div class="comparison-card">
-        <div class="comparison-card-tag before">Raw Knitwear on Plastic Form</div>
-        <img src="/assets/agency_showcase/service_fashion_before.webp" alt="Raw knitwear on plastic form before retouching" loading="lazy">
-        <div class="comparison-card-body">
-          Raw studio plate: bulky plastic leg forms, uneven ribbing tension, lint, and harsh studio reflections.
-        </div>
-      </div>
-      <div class="comparison-card">
-        <div class="comparison-card-tag after">Retouched Knitwear with Natural Shadow</div>
-        <img src="/assets/agency_showcase/service_fashion_after.webp" alt="Retouched knitwear on pure white with natural contact shadow" loading="lazy">
-        <div class="comparison-card-body">
-          Finished catalog asset: form completely eliminated, authentic wool rib texture preserved, pure white background with realistic contact drop shadow.
-        </div>
-      </div>
-    </div>
-
-    <h2>6. Production Consistency: Scaling to 500+ SKUs Without Drift</h2>
-    
-    <p>
-      A commercial brand launching a seasonal collection of 300 to 500 SKUs cannot afford visual inconsistency. If SKU #12 is cropped 5% tighter than SKU #13, or if the shoulder height fluctuates across catalog thumbnail grids, the entire brand looks amateur.
-    </p>
-    
-    <p>
-      To eliminate visual drift across large batches, our studio establishes standardized <strong>Digital Master Guides</strong> before retouching begins:
-    </p>
-    <ul>
-      <li><strong>Vertical Proportion Guides:</strong> Fixed pixel baselines for collar peaks, armpit folds, and bottom hem breaks.</li>
-      <li><strong>Margin Envelopes:</strong> Hard 7.5% margins from top collar to canvas edge, ensuring consistent visual weight across mobile browsing.</li>
-      <li><strong>Color Calibration Anchor:</strong> Every batch is color-matched against reference raw charts photographed under identical studio strobes, ensuring the navy blazer matches the navy trousers across different product pages.</li>
-    </ul>
-
-    <!-- FAQ SECTION -->
-    <section class="faq-block">
-      <h2>Frequently Asked Questions (FAQ)</h2>
-      
-      <div class="faq-item">
-        <div class="faq-question">What photography assets do you need from the client to create a ghost mannequin image?</div>
-        <div class="faq-answer">
-          We require two main exposures: (1) The front shot of the garment on a physical or foam mannequin, and (2) The inside collar/lining shot showing the inner back neck, brand tag, and size label. Both should be shot under matching lighting and camera heights.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-question">Can you fix wrinkles, lint, and dust while retaining the authentic fabric weave?</div>
-        <div class="faq-answer">
-          Yes. We use advanced 16-bit Frequency Separation. This separates fine fabric texture from surface tone and shadow, allowing us to remove creasing, steamer water spots, and lint while leaving the wool, linen, or denim weave 100% intact.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-question">Do you provide pure white #FFFFFF backgrounds and transparent PNG files?</div>
-        <div class="faq-answer">
-          Yes. All master deliveries include pure #FFFFFF clipped assets compliant with Amazon and Zalando, along with transparent PNGs with preserved natural grounding contact shadows for flexible website integration.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-question">How does your studio handle complex transparent or mesh garments?</div>
-        <div class="faq-answer">
-          For chiffon, lace, and organza, we isolate the inner and outer layers using multi-pass channel masks and blend modes, ensuring the transparent fabric drapes with natural opacity over pure white backgrounds without harsh cutout edges.
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-question">What is your turnaround time for high-volume apparel batches?</div>
-        <div class="faq-answer">
-          Standard studio turnaround is 24 to 48 hours for batches of 50 to 200 SKUs, with rush 12-hour turnaround available for time-sensitive e-commerce collection launches.
-        </div>
-      </div>
-    </section>
-
-    <!-- TRIAL CALLOUT CTA BOX -->
-    <div class="trial-cta-box">
-      <h2 class="cta-heading">Elevate Your Apparel Catalog: Request a Free Sample Test</h2>
-      <p class="cta-text">
-        Send us 2 to 3 raw apparel exposures from your upcoming collection. We will composite the seamless 3D neck joins, balance the silhouette, and return publication-ready files within 24 hours—completely free of charge.
-      </p>
-      <a href="/contact" class="cta-btn-primary">Claim Your Free Test Retouch</a>
-      <div class="cta-subtext">Direct Inquiry: contact@retouchershoaib.com • 24-Hour Trial Turnaround SLA</div>
-    </div>
-
   </article>
 </main>
 
-<!-- GLOBAL FOOTER (Matches site footer with 2016-2026 unified copyright) -->
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-col">
-      <div class="footer-brand">Retoucher Shoaib Studio</div>
-      <p class="footer-desc">Commercial high-end photo retouching and post-production for luxury jewelry, fashion houses, and global e-commerce brands.</p>
+<!-- SITE FOOTER (Full 4-Column Studio Brand Footer with Lime & 2016-2026 Copyright) -->
+<footer>
+  <div class="wrap">
+    <div class="g">
+      <div>
+        <h4>Retoucher Shoaib</h4>
+        <p style="margin:0;max-width:300px;line-height:1.6">High-end commercial post-production studio founded by Shoaib Siddique, powered by a dedicated team of specialist retouchers for jewelry, fashion and beauty brands.</p>
+      </div>
+      <div>
+        <h4>Disciplines</h4>
+        <a href="/jewelry-watch-photo-retouching">Jewelry &amp; Watches</a>
+        <a href="/ghost-mannequin-fashion-photo-retouching">Fashion &amp; Ghost Mannequin</a>
+        <a href="/model-portrait-photo-retouching">Model &amp; Beauty Portraits</a>
+        <a href="/ecommerce-product-retouching">E-commerce &amp; Packshots</a>
+        <a href="/services#still">Still life</a>
+        <a href="/automotive-photo-retouching">Automotive Retouching</a>
+      </div>
+      <div>
+        <h4>Navigate</h4>
+        <a href="/">Home</a>
+        <a href="/services">Services</a>
+        <a href="/studio">Studio</a>
+        <a href="/work">Work</a>
+        <a href="/contact">Contact</a>
+        <a href="/feed">Feed</a>
+        <a href="/portal" rel="nofollow">Client Portal &#x1f512;</a>
+        <a href="/de/">Deutsch (DACH)</a>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <a href="mailto:contact@retouchershoaib.com">Email Us</a>
+        <a href="https://wa.me/8801710763251" target="_blank" rel="noopener">WhatsApp Direct</a>
+        <a href="https://instagram.com/retouchershoaib" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://linkedin.com/in/retouchershoaib" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
     </div>
-    <div class="footer-col">
-      <div class="footer-heading">Services</div>
-      <ul class="footer-links">
-        <li><a href="/services#jewelry-retouching">Jewelry &amp; Watch Retouching</a></li>
-        <li><a href="/services#apparel-retouching">3D Ghost Mannequin &amp; Apparel</a></li>
-        <li><a href="/services#beauty-retouching">High-End Beauty &amp; Editorial</a></li>
-        <li><a href="/services#product-retouching">E-Commerce Product Clipping</a></li>
-      </ul>
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:14px;">
+      <div>&copy; 2016&ndash;2026 Retoucher Shoaib&reg;. All Rights Reserved.</div>
+      <div><a href="/privacy" style="display:inline;padding:0">Privacy Policy</a> &middot; <a href="/terms" style="display:inline;padding:0">Terms &amp; NDA</a></div>
+      <div>Handcrafted with pure pixel precision.</div>
     </div>
-    <div class="footer-col">
-      <div class="footer-heading">Studio &amp; Feed</div>
-      <ul class="footer-links">
-        <li><a href="/feed">Studio Knowledge Feed</a></li>
-        <li><a href="/work">Portfolio Case Studies</a></li>
-        <li><a href="/studio">Studio Standards</a></li>
-        <li><a href="/pricing">Pricing &amp; Retainers</a></li>
-        <li><a href="/de/ratgeber">Deutsch (DACH)</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <div class="footer-heading">Contact</div>
-      <ul class="footer-links">
-        <li><a href="mailto:contact@retouchershoaib.com">contact@retouchershoaib.com</a></li>
-        <li><a href="/contact">Free Trial Request</a></li>
-        <li><a href="/portal">Client Portal Login</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>&copy; 2016–2026 Retoucher Shoaib Studio. All rights reserved.</p>
   </div>
 </footer>
+
+<script>
+(function(){
+  // READING PROGRESS BAR
+  var readBar = document.getElementById('readBar');
+  function updateProgress() {
+    if (!readBar) return;
+    var scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+    var docHeight = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    var pct = Math.min(100, Math.max(0, (scrollTop / docHeight) * 100));
+    readBar.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  window.addEventListener('resize', updateProgress, { passive: true });
+  updateProgress();
+})();
+</script>
+<script src="/assets/site-nav.js" defer></script>
 
 </body>
 </html>
