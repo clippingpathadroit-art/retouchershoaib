@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { validateArticle } from './validate_article.mjs';
 
 /**
  * RETOUCHER SHOAIB® — Master Social Media Scheduled Publisher (Multi-Language: EN & DE)
@@ -280,6 +281,23 @@ async function runScheduledPublisher(forceId = null) {
   }
 
   console.log(`🚀 New Article Found to Broadcast: "${targetArticle.title}" (${targetArticle.id}) [Lang: ${targetArticle.language || 'en'}]`);
+
+  // PRE-PUBLISH QUALITY GATEKEEPER CHECK
+  const articleHtmlFile = targetArticle.language === 'de'
+    ? path.join(BASE_DIR, 'de', `${targetArticle.id}.html`)
+    : path.join(BASE_DIR, `${targetArticle.id}.html`);
+
+  if (fs.existsSync(articleHtmlFile)) {
+    console.log(`🛡️ Running Pre-Publish Quality Gatekeeper on ${path.basename(articleHtmlFile)}...`);
+    const validation = validateArticle(articleHtmlFile);
+    if (!validation.passed) {
+      console.error(`🚨 PUBLISHER HALTED: Article "${targetArticle.id}" failed the Quality Gatekeeper:`);
+      validation.errors.forEach((err, i) => console.error(`   ${i + 1}. ${err}`));
+      console.error(`❌ Social broadcast cancelled to protect studio brand integrity.`);
+      return;
+    }
+    console.log(`✅ [Gatekeeper Passed] 100% SEO, AIO, GEO and Design Standards Verified!`);
+  }
 
   try {
     const payload = await generateSocialPosts(targetArticle);
