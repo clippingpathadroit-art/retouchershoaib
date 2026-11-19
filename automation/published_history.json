@@ -1,0 +1,41 @@
+{
+  "published_ids": [
+    "ai-photo-retouching-vs-manual-dodge-and-burn",
+    "natural-skin-texture-retention",
+    "retoucher-vibrant-fashion-reel-option2",
+    "specular-highlights-on-diamonds",
+    "ghost-mannequin-apparel-retouching-guide"
+  ],
+  "log": [
+    {
+      "article_id": "ai-photo-retouching-vs-manual-dodge-and-burn",
+      "title": "AI Photo Retouching vs. Manual Dodge and Burn: Why High-End Brands and Photographers Still Hire Human Retouchers",
+      "published_at": "2026-11-16T18:01:23.000Z",
+      "status": "success"
+    },
+    {
+      "article_id": "natural-skin-texture-retention",
+      "title": "The Science of Retaining Natural Skin Texture",
+      "published_at": "2026-11-16T18:11:44.484Z",
+      "status": "success"
+    },
+    {
+      "article_id": "retoucher-vibrant-fashion-reel-option2",
+      "title": "Natural Skin. Crisp Fabric. Zero Plastic Filters. — Retoucher Shoaib® Reel V3",
+      "published_at": "2026-11-17T07:21:05.000Z",
+      "status": "success"
+    },
+    {
+      "article_id": "specular-highlights-on-diamonds",
+      "title": "Mastering Specular Highlights on Diamonds & Luxury Watches",
+      "published_at": "2026-11-19T13:00:12.682Z",
+      "status": "success"
+    },
+    {
+      "article_id": "ghost-mannequin-apparel-retouching-guide",
+      "title": "3D Ghost Mannequin & Apparel Retouching: Symmetrical Neck Joins, Inside Linings & Marketplace Compliance Standards",
+      "published_at": "2026-11-19T18:05:17.249Z",
+      "status": "success"
+    }
+  ]
+}
