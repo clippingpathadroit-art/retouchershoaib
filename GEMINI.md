@@ -87,3 +87,15 @@ This document establishes the mandatory standards for all development, SEO, typo
 2. **Geotargeting Hubs:** লোকেশন ট্যাগিংয়ের ক্ষেত্রে সবসময় নিউ ইয়র্ক, লন্ডন, প্যারিস, মিলান বা লস অ্যাঞ্জেলেস (`New York, NY`, `SoHo, Manhattan`, `London, UK`) ব্যবহার করতে হবে। কখনোই কোনো লোকাল লোকেশন ট্যাগ করা যাবে না।
 3. **Timezone Synchronization:** পোস্ট পাবলিশিং শিডিউল সবসময় ইউএস/ইউকে পিক বিজনেস আওয়ারের সাথে সিঙ্ক করে **বাংলাদেশ সময় সন্ধ্যা ৭:০০ PM – ৯:৩০ PM** (নিউ ইয়র্ক সকাল ৮:৩০ AM – ১১:০০ AM) নির্ধারণ করতে হবে।
 4. **Audience Purity & Zero Bangla:** পাবলিক প্রোফাইল, ক্যাপশন, অন-স্ক্রিন টাইপোগ্রাফি এবং ট্যাগে ১০০% আন্তর্জাতিক ইংরেজি ভাষা বজায় রাখতে হবে। কোনো লোকাল ফ্রেন্ড ইনভাইটেশন বা লোকাল ফোন নম্বর দৃশ্যমান রাখা যাবে না।
+
+---
+
+### 8. Pinterest Marketing & Autonomous Traffic SOP (পিন্টারেস্ট মার্কেটিং ও অর্গানিক গ্রোথ)
+- **Profile:** `Retoucher Shoaib | High-End Photo Retouching Studio` (`@retouchershoaib`). Website `retouchershoaib.com` is 100% Claimed & Verified.
+- **Master SOP File:** All board repositories, SEO Pin copywriting templates, vertical image specs (2:3 / 1000x1500px), and daily 30-60 min autonomous routines are stored in `automation/PINTEREST_MARKETING_BRAIN.md`.
+- **Target Boards:**
+  1. `3D Ghost Mannequin & Apparel Retouching` -> Links to `ghost-mannequin-apparel-retouching-guide` / service.
+  2. `Luxury Jewelry & Watch Retouching` -> Links to jewelry service / feed.
+  3. `High-End Beauty & Editorial Skin Retouching` -> Links to beauty / skin retouching guide.
+  4. `Social` -> Auto-synced from `@retouchershoaib` Instagram posts.
+- **Autonomous Routine:** Whenever the user prompts in any chat to do Pinterest marketing ("Pinterest মার্কেটিং করো", "Create pins for ghost mannequin", etc.), the agent automatically reads `automation/PINTEREST_MARKETING_BRAIN.md`, opens Pinterest in the browser, designs high-intent vertical pins with direct `retouchershoaib.com` backlinks, optimizes rich pin SEO, and reports progress.
