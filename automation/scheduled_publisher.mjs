@@ -74,6 +74,10 @@ Generate tailored social media posts strictly in professional, native GERMAN fol
 ### 3. INSTAGRAM POST RULES (in German):
 - Caption in German with visual format recommendation and 10-12 hashtags.
 
+### 4. PINTEREST PIN RULES (in German):
+- Title: Punchy SEO Pin Title (max 100 chars, e.g. "Ghost Mannequin Retusche & Neck Joint Service | Retoucher Shoaib").
+- Description: Informative SEO description (150-300 chars) highlighting technical post-production with 3-4 German hashtags.
+
 Return the response strictly as valid, parsable JSON matching this schema:
 {
   "article_title": "${article.title}",
@@ -91,6 +95,10 @@ Return the response strictly as valid, parsable JSON matching this schema:
     "visual_format_recommendation": "string",
     "caption": "string",
     "hashtags": ["string"]
+  },
+  "pinterest": {
+    "title": "string",
+    "description": "string"
   }
 }
 ` : `
@@ -130,6 +138,11 @@ Generate tailored social media posts following these strict guidelines:
 - Call-to-Action: Direct readers to the "Link in bio" to read the complete article on the studio feed.
 - Hashtags: 10 to 12 high-intent niche hashtags grouped neatly at the bottom.
 
+### 4. PINTEREST RICH PIN RULES:
+- Target audience: Art Directors, E-Commerce Operations Managers, Fashion Producers searching Pinterest for retouching references & moodboards.
+- Title: High-intent SEO title (max 100 chars, e.g. "3D Ghost Mannequin Neck Join: Symmetrical Collar Retouching | Retoucher Shoaib").
+- Description: Informative B2B Pin description (150-350 chars) explaining the technical craft, compliance, and ending with a clear CTA to visit the site, followed by 3-4 hashtags.
+
 Return the response strictly as valid, parsable JSON matching this schema:
 {
   "article_title": "${article.title}",
@@ -147,6 +160,10 @@ Return the response strictly as valid, parsable JSON matching this schema:
     "visual_format_recommendation": "string",
     "caption": "string",
     "hashtags": ["string"]
+  },
+  "pinterest": {
+    "title": "string",
+    "description": "string"
   }
 }
 `;
@@ -201,6 +218,15 @@ Return the response strictly as valid, parsable JSON matching this schema:
   result.article_link = result.article_url;
   result.link = result.article_url;
   result.title = result.article_title || article.title;
+
+  // Pinterest Rich Pin payload normalizer
+  result.pinterest = result.pinterest || {};
+  result.pinterest.title = result.pinterest.title || result.article_title || article.title;
+  result.pinterest.description = result.pinterest.description || article.summary || article.content_text || '';
+  result.pinterest.link = article.url;
+  result.pinterest_title = result.pinterest.title;
+  result.pinterest_description = result.pinterest.description;
+  result.pinterest_link = article.url;
 
   if (result.linkedin?.hashtags?.length && !result.linkedin.post_body.includes('#')) {
     result.linkedin.post_body += '\n\n' + result.linkedin.hashtags.join(' ');
