@@ -960,9 +960,9 @@ dialog::backdrop{
   <section>
     <div class="wrap">
       <div class="stats">
-        <div><b id="cnt" data-to="78">0</b><small>projects shown here</small></div>
-        <div><b data-to="10">0</b><small>years in retouching</small></div>
-        <div><b data-to="24">0</b><small>hour trial turnaround</small></div>
+        <div><b id="cnt" data-to="92" data-suffix="+">92+</b><small>projects shown here</small></div>
+        <div><b data-to="10" data-suffix="+">10+</b><small>years in retouching</small></div>
+        <div><b data-to="24" data-suffix="h">24h</b><small>hour trial turnaround</small></div>
       </div>
     </div>
   </section>
@@ -979,7 +979,7 @@ dialog::backdrop{
 <!-- FOOTER -->
 <footer>
   <div class="wrap">
-    <div>&copy; 2026 Retoucher Shoaib&reg;. All Rights Reserved.</div>
+    <div>&copy; 2016&ndash;2026 Retoucher Shoaib&reg;. All Rights Reserved.</div>
     <div><a href="/privacy">Privacy Policy</a> &middot; <a href="/terms">Terms &amp; NDA</a></div>
     <div>Handcrafted with pure pixel precision.</div>
   </div>
@@ -2020,7 +2020,7 @@ dialog::backdrop{
   function pillsR() {
     pills.innerHTML = Object.keys(CATS).map(function(c){
       var n = c === 'all' ? items.length : items.filter(function(i){ return i.c === c; }).length;
-      return '<button class="pill" data-c="' + c + '" aria-pressed="' + (c === cur) + '">' + CATS[c] + '<small>' + n + '</small></button>';
+      return '<button class="pill" data-c="' + c + '" aria-pressed="' + (c === cur) + '" aria-label="' + CATS[c] + ' (' + n + ' projects)">' + CATS[c] + ' <small>' + n + '</small></button>';
     }).join('');
   }
 
@@ -2197,12 +2197,15 @@ dialog::backdrop{
       if (!e.isIntersecting) return;
       io.unobserve(e.target);
       var el = e.target, to = +el.dataset.to, t0 = null;
-      if (rm) { el.textContent = to; return; }
+      var sfx = el.dataset.suffix || '';
+      var pfx = el.dataset.prefix || '';
+      if (rm) { el.textContent = pfx + to + sfx; return; }
       (function f(t){
         if (!t0) t0 = t;
         var p = Math.min(1, (t - t0) / 1400);
-        el.textContent = Math.round(to * (1 - Math.pow(1 - p, 4)));
+        el.textContent = pfx + Math.round(to * (1 - Math.pow(1 - p, 4))) + sfx;
         if (p < 1) requestAnimationFrame(f);
+        else el.textContent = pfx + to + sfx;
       })(performance.now());
     });
   }, { threshold: 0.6 });

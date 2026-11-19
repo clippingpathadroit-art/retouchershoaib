@@ -1810,10 +1810,10 @@ footer a:hover{
 <section>
   <div class="wrap">
     <div class="stats">
-      <div><b data-to="10">0</b><small>years in retouching</small></div>
-      <div><b data-to="24">0</b><small>hour trial turnaround</small></div>
-      <div><b data-to="100">0</b><small>percent manual paths</small></div>
-      <div><b data-to="5">0</b><small>retouching specialties</small></div>
+      <div><b data-to="10" data-suffix="+">10+</b><small>years in retouching</small></div>
+      <div><b data-to="24" data-suffix="h">24h</b><small>hour trial turnaround</small></div>
+      <div><b data-to="100" data-suffix="%">100%</b><small>percent manual paths</small></div>
+      <div><b data-to="6">6</b><small>retouching specialties</small></div>
     </div>
     <div style="margin-top:36px">
       <a class="btn mag" href="/studio">Meet Our Studio &amp; Team &rarr;</a>
@@ -2140,7 +2140,7 @@ footer a:hover{
       </div>
     </div>
     <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:14px;">
-      <div>&copy; 2026 Retoucher Shoaib&reg;. All Rights Reserved.</div>
+      <div>&copy; 2016&ndash;2026 Retoucher Shoaib&reg;. All Rights Reserved.</div>
       <div><a href="/privacy" style="display:inline;padding:0">Privacy Policy</a> &middot; <a href="/terms" style="display:inline;padding:0">Terms &amp; NDA</a></div>
       <div>Handcrafted with pure pixel precision.</div>
     </div>
@@ -2213,12 +2213,15 @@ footer a:hover{
       if (!e.isIntersecting) return;
       io.unobserve(e.target);
       var el = e.target, to = +el.dataset.to, t0 = null;
-      if (rm) { el.textContent = to; return; }
+      var sfx = el.dataset.suffix || '';
+      var pfx = el.dataset.prefix || '';
+      if (rm) { el.textContent = pfx + to + sfx; return; }
       (function f(t){
         if (!t0) t0 = t;
         var p = Math.min(1, (t - t0) / 1400), k = 1 - Math.pow(1 - p, 4);
-        el.textContent = Math.round(to * k);
+        el.textContent = pfx + Math.round(to * k) + sfx;
         if (p < 1) requestAnimationFrame(f);
+        else el.textContent = pfx + to + sfx;
       })(performance.now());
     });
   }, { threshold: 0.6 });

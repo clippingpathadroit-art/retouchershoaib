@@ -1,0 +1,44 @@
+# Retoucher Shoaib — Commercial Post-Production Studio
+
+> High-end commercial photo retouching studio founded by Shoaib Siddique (10+ years experience). Specialized in luxury jewelry & watches, ghost mannequin & fashion lookbooks, natural skin model portraits, e-commerce packshots, automotive, and still life. Based on 100% manual Pen Tool clipping paths, 16-bit non-destructive frequency separation, and color-calibrated EIZO workflows.
+
+## Commercial Departments & Services
+
+- [Jewelry & Watch Photo Retouching](https://retouchershoaib.com/jewelry-watch-photo-retouching): Diamond facet brilliance, gemstone color fidelity, focus-stacking alignment at f/8–f/11, metallic luster polishing (platinum, yellow/white/rose gold), crystal anti-reflection, and dial alignment (10:10 protocol). Includes honesty guidelines for pre-owned horology.
+- [Ghost Mannequin & Fashion Photo Retouching](https://retouchershoaib.com/ghost-mannequin-fashion-photo-retouching): 3D hollow neck joints, inner label insertion, hemline straightening, fabric wrinkle smoothing, weave texture retention, and pantone swatch color matching.
+- [Model & Beauty Portrait Retouching](https://retouchershoaib.com/model-portrait-photo-retouching): Editorial and commercial skin retouching using manual dodge and burn with 16-bit frequency separation. Zero plastic blur; 100% real dermal pore structure preserved.
+- [E-Commerce Product Photo Retouching](https://retouchershoaib.com/ecommerce-product-retouching): High-volume catalog editing, pure white backgrounds (RGB 255,255,255), transparent PNGs, hand-drawn vector clipping paths, and natural drop/contact shadows.
+- [Automotive Photo Retouching](https://retouchershoaib.com/automotive-photo-retouching): Clean background replacement, paint glare and studio reflection smoothing, alloy wheel detailing, and grounded contact shadow rendering for dealerships and motorsport campaigns.
+- [Still Life & Cosmetics Retouching](https://retouchershoaib.com/services#still): Glassware and bottle reflections, cosmetic dropper cleanup, texture gradients, and luxury packaging color grading.
+
+## Technical Specifications & Workflow
+
+- Color Management: Color-calibrated on EIZO ColorEdge 4K displays; support for ProPhoto RGB, Adobe RGB (1998), and sRGB color spaces.
+- Selection Method: 100% hand-drawn Adobe Photoshop Pen Tool paths (vector clipping paths). Zero AI-generated jagged masks.
+- Bit Depth: Full 16-bit workflow for smooth gradient tonality and shadow detail without banding.
+- Raw Processing: Capture One Pro raw decoding and Adobe Photoshop master PSD/TIFF deliveries.
+
+## Turnaround Times (SLAs) & Pricing Model
+
+- Complimentary Trial: 1 free sample image edited with full 24-hour delivery for prospective commercial clients.
+- Standard Turnaround: 24 to 48 hours depending on volume.
+- Rush Service: 12-hour rush turnaround available for urgent editorial or campaign deadlines.
+- Commercial Pricing Tiers:
+  - Tier 01 (Clean & Standard): Essential clipping paths, color matching, clean white/transparent background, natural shadow.
+  - Tier 02 (Advanced Commercial): Detailed dust & scratch cleanup, texture smoothing, collar & hemline alignment, reflection control.
+  - Tier 03 (High-End Master): Complex focus stacking, non-destructive dodge & burn, custom metallic/skin micro-sculpting, billboard-ready exports.
+  - Custom Enterprise Retainers: Dedicated retoucher capacity for high-volume monthly catalogs.
+
+## Confidentiality, NDA & AI Training Protection
+
+- Zero AI Training: Client raw files, lookbooks, and unreleased product prototypes are NEVER used to train generative AI models.
+- Enterprise NDA: All files remain under strict non-disclosure agreement protection.
+- Secure Storage: End-to-end encrypted storage via private Cloudflare R2 and Google Drive workspaces. Automatic 30-day archival cleanup available on request.
+
+## Studio Access & Contact
+
+- Founder & Studio Director: Shoaib Siddique
+- Primary Contact Email: retouchershoaib@gmail.com
+- Client Portal & Self-Service Dashboard: https://retouchershoaib.com/portal
+- Live Behance Portfolio: https://www.behance.net/retouchershoaib
+- Request a Quote / Free Trial: https://retouchershoaib.com/contact
