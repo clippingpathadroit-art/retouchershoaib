@@ -960,9 +960,9 @@ dialog::backdrop{
   <section>
     <div class="wrap">
       <div class="stats">
-        <div><b id="cnt" data-to="92" data-suffix="+">92+</b><small>projects shown here</small></div>
-        <div><b data-to="10" data-suffix="+">10+</b><small>years in retouching</small></div>
-        <div><b data-to="24" data-suffix="h">24h</b><small>hour trial turnaround</small></div>
+        <div><b id="cnt">92+</b><small>projects shown here</small></div>
+        <div><b>10+</b><small>years in retouching</small></div>
+        <div><b>24h</b><small>trial turnaround SLA</small></div>
       </div>
     </div>
   </section>
@@ -980,7 +980,7 @@ dialog::backdrop{
 <footer>
   <div class="wrap">
     <div>&copy; 2016&ndash;2026 Retoucher Shoaib&reg;. All Rights Reserved.</div>
-    <div><a href="/privacy">Privacy Policy</a> &middot; <a href="/terms">Terms &amp; NDA</a></div>
+    <div><a href="/privacy">Privacy Policy</a> &middot; <a href="/terms">Terms &amp; NDA</a> &middot; <a href="/de/">Deutsch (DACH)</a></div>
     <div>Handcrafted with pure pixel precision.</div>
   </div>
 </footer>
@@ -2212,7 +2212,7 @@ dialog::backdrop{
   document.querySelectorAll('[data-to]').forEach(function(el){ io.observe(el); });
 
   // DYNAMIC FILTER COUNT
-  document.getElementById('cnt').dataset.to = items.length;
+  document.getElementById('cnt').textContent = items.length + '+';
 
   pillsR();
   render();

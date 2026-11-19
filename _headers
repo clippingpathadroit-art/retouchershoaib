@@ -40,3 +40,18 @@
 /api/*
   Cache-Control: no-cache, no-store, must-revalidate, max-age=0
   X-Robots-Tag: noindex, nofollow
+
+# Open AI Search & LLMs Documentation endpoints
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, HEAD, OPTIONS
+  Cache-Control: public, max-age=3600
+  X-Robots-Tag: all
+
+/.well-known/llms.txt
+  Content-Type: text/plain; charset=utf-8
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, HEAD, OPTIONS
+  Cache-Control: public, max-age=3600
+  X-Robots-Tag: all
