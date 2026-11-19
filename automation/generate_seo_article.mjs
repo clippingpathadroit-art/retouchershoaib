@@ -39,6 +39,11 @@ export const EDITORIAL_CALENDAR = {
         { text: 'Beauty- & Porträt-Retusche', url: '/de/beauty-retusche' },
         { text: 'Preise & Buchung', url: '/de/#preise' },
         { text: 'Kontakt & Testretusche', url: '/de/kontakt' }
+      ],
+      outboundLinks: [
+        { text: 'Zalando Partner Program Standards', url: 'https://partnerprogram.zalando.com/' },
+        { text: 'Amazon.de Bildanforderungen', url: 'https://sellercentral.amazon.de/help/hub/reference/external/1881' },
+        { text: 'Adobe Photoshop Perspektiven-Korrektur', url: 'https://helpx.adobe.com/de/photoshop/using/perspective-warp.html' }
       ]
     },
     {
@@ -55,6 +60,11 @@ export const EDITORIAL_CALENDAR = {
         { text: 'Produktfotos & Freisteller', url: '/de/produktfotos-bearbeiten-lassen' },
         { text: 'Alle Leistungen im Überblick', url: '/de/' },
         { text: 'Kontaktieren Sie das Studio', url: '/de/kontakt' }
+      ],
+      outboundLinks: [
+        { text: 'GIA Gemological Institute of America', url: 'https://www.gia.edu/' },
+        { text: 'International Color Consortium (ICC)', url: 'https://www.color.org/' },
+        { text: 'Adobe Photoshop Focus Stacking Guide', url: 'https://helpx.adobe.com/photoshop/' }
       ]
     }
   ],

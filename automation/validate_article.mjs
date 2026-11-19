@@ -142,6 +142,24 @@ export function validateArticle(filePathArg) {
   const hasRawAnomalies = html.includes('[object Object]') || html.includes('&amp;amp;') || html.includes('TODO:');
   check('Sanity / Zero Raw Code Anomalies', !hasRawAnomalies, 'Found anomalies like [object Object] or double escaped ampersands.');
 
+  // 11. AUTHORITATIVE OUTBOUND / EXTERNAL LINKS (Min 2 Required with target="_blank" rel="noopener noreferrer")
+  const externalLinkMatches = [...html.matchAll(/<a[^>]+href=["'](https?:\/\/[^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi)];
+  // Filter out internal domain, social media, whatsapp or font links
+  const authorityOutboundLinks = externalLinkMatches.filter(m => {
+    const fullTag = m[0];
+    const url = m[1];
+    const isStudioDomain = url.includes('retouchershoaib.com');
+    const isSocialOrContact = url.includes('instagram.com') || url.includes('linkedin.com') || url.includes('wa.me') || url.includes('schema.org') || url.includes('fonts.googleapis.com');
+    const hasSecurityAttrs = fullTag.includes('target="_blank"') && fullTag.includes('rel="noopener');
+    return !isStudioDomain && !isSocialOrContact && hasSecurityAttrs;
+  });
+
+  check(
+    `Authoritative Outbound Links (Found: ${authorityOutboundLinks.length}, Required: >= 2)`,
+    authorityOutboundLinks.length >= 2,
+    `Found only ${authorityOutboundLinks.length} authoritative outbound links. Must have at least 2 external links to verified primary sources (e.g. Adobe, Amazon, Zalando, ICC) with target="_blank" and rel="noopener noreferrer".`
+  );
+
   return {
     fileName,
     isGerman,

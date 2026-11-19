@@ -1387,6 +1387,17 @@ footer a:hover{
   font-size: 12px;
   letter-spacing: 0.05em;
 }
+.compliance-table a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.compliance-table a:hover {
+  color: #ffffff;
+}
 .compliance-table td {
   padding: 14px 16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -1679,7 +1690,7 @@ footer a:hover{
               <strong>Interior Lining Plate Extraction:</strong> We isolate the secondary exposure showing the inside back collar, brand tag, and care embroidery. This plate is positioned on a layer below the front garment.
             </li>
             <li>
-              <strong>Perspective Warping &amp; Vector Alignment:</strong> Real clothing bends naturally around the neck. Using Photoshop's <em>Edit &gt; Perspective Warp</em> and subtle Free Transform adjustments, we align the interior stitching to mirror the natural downward curve of the front collar line.
+              <strong>Perspective Warping &amp; Vector Alignment:</strong> Real clothing bends naturally around the neck. Using Photoshop's <a href="https://helpx.adobe.com/photoshop/using/perspective-warp.html" target="_blank" rel="noopener noreferrer">Perspective Warp engine</a> (Adobe Help) and subtle Free Transform adjustments, we align the interior stitching to mirror the natural downward curve of the front collar line.
             </li>
             <li>
               <strong>Two-Stage Cavity Shadow Modeling:</strong> Light falling inside a hollow garment does not terminate abruptly. We construct a multi-step soft shadow:
@@ -1749,14 +1760,14 @@ footer a:hover{
               </thead>
               <tbody>
                 <tr>
-                  <td><strong>Amazon Vendor / Seller</strong></td>
+                  <td><strong>Amazon Vendor / Seller</strong><br><a href="https://sellercentral.amazon.com/help/hub/reference/external/1881" target="_blank" rel="noopener noreferrer" style="font-size:12px">Official Amazon Standards &nearr;</a></td>
                   <td><span class="compliance-tag tag-strict">Pure #FFFFFF (RGB 255,255,255)</span><br>Zero color tint or gradient.</td>
                   <td>85% of total frame fill. Minimum 1600px longest side for zoom.</td>
                   <td>No cast shadows on primary main image. Clean grounding only.</td>
-                  <td>sRGB IEC61966-2.1. Max file size: 10MB.</td>
+                  <td><a href="https://www.color.org/srgb.xalter" target="_blank" rel="noopener noreferrer">sRGB IEC61966-2.1 (ICC)</a>. Max file size: 10MB.</td>
                 </tr>
                 <tr>
-                  <td><strong>Zalando Partner Program</strong></td>
+                  <td><strong>Zalando Partner Program</strong><br><a href="https://partnerprogram.zalando.com/" target="_blank" rel="noopener noreferrer" style="font-size:12px">Official Zalando Specs &nearr;</a></td>
                   <td><span class="compliance-tag tag-standard">Soft White to Light Gray</span><br>#F5F5F5 acceptable for editorial feel.</td>
                   <td>Vertical 5:7 aspect ratio (minimum 1800 x 2520px).</td>
                   <td>Soft natural contact shadow mandatory to ground garment.</td>
