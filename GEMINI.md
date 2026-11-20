@@ -91,7 +91,7 @@ This document establishes the mandatory standards for all development, SEO, typo
 ---
 
 ### 8. Pinterest Marketing & Autonomous Traffic SOP (পিন্টারেস্ট মার্কেটিং ও অর্গানিক গ্রোথ)
-- **Profile:** `Retoucher Shoaib | High-End Photo Retouching Studio` (`@retouchershoaib`). Website `retouchershoaib.com` is 100% Claimed & Verified.
+- **Profile:** `Retoucher Shoaib | High-End Photo Retouching Studio` (`@retouchershoaib`). Website `retouchershoaib.com` is 100% Claimed & Verified (`<meta name="p:domain_verify" content="dd37b9b65e7c823f13f751a0d5c66c6a"/>`).
 - **Master SOP File:** All board repositories, SEO Pin copywriting templates, vertical image specs (2:3 / 1000x1500px), and daily 30-60 min autonomous routines are stored in `automation/PINTEREST_MARKETING_BRAIN.md`.
 - **Target Boards:**
   1. `3D Ghost Mannequin & Apparel Retouching` -> Links to `ghost-mannequin-apparel-retouching-guide` / service.
@@ -99,3 +99,16 @@ This document establishes the mandatory standards for all development, SEO, typo
   3. `High-End Beauty & Editorial Skin Retouching` -> Links to beauty / skin retouching guide.
   4. `Social` -> Auto-synced from `@retouchershoaib` Instagram posts.
 - **Autonomous Routine:** Whenever the user prompts in any chat to do Pinterest marketing ("Pinterest মার্কেটিং করো", "Create pins for ghost mannequin", etc.), the agent automatically reads `automation/PINTEREST_MARKETING_BRAIN.md`, opens Pinterest in the browser, designs high-intent vertical pins with direct `retouchershoaib.com` backlinks, optimizes rich pin SEO, and reports progress.
+
+---
+
+### 9. X (Twitter) Buffer Integration & 4-in-1 Multi-Channel Engine (টুইটার ও মাল্টি-চ্যানেল অটোমেশন)
+- **Profile:** Professional Account `@RetoucherShoaib` (`https://x.com/RetoucherShoaib`), Category: `Professional Services`.
+- **Zero-Cost X Posting via Buffer:** Make.com scenario `Retoucher Shoaib - Social Engine` (ID: `8616077`) connects to Twitter/X via Buffer Channel `6aff7b9eece6dfde5f26e6bd` (`RetoucherShoaib`, ID: `1828349032739282945`).
+- **Strict Character Safety Limits:**
+  - X posts must not exceed 280 characters.
+  - In `automation/scheduled_publisher.mjs`, AI generation prompt is strictly limited to `<= 220 characters` with automatic fallback truncation (`slice(0, 160) + "..." + url + hashtags`).
+- **4-in-1 Multi-Channel Router Structure:**
+  - One trigger automatically broadcasts to **LinkedIn [7]**, **Facebook Pages [8]**, **Pinterest [10]** (to the 3D Ghost Mannequin board), and **Buffer [15]** (for Twitter/X).
+  - Inbound payload aliases (`url`, `image`, `image_url`, `imageUrl`) guarantee zero HTTP module validation errors.
+- **X Luxury Header Banner:** Generated at `social_vault/output/x_twitter_header_banner_1500x500.png` using `automation/render_x_banner.mjs` (Alabaster monochrome theme, 72px bold typography, editorial model, luxury jewelry, and ghost mannequin apparel showcase).
