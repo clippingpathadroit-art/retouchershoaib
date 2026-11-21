@@ -1016,6 +1016,20 @@ dialog::backdrop{
   // DATASET OF ALL COMBINED PROJECTS (CURATED SPOTLIGHTS FIRST)
   var items = [
   {
+    "img": "/assets/agency_showcase/rareform-2000-bags-case-study.png",
+    "t": "Rareform — 2,000+ Unique 1-of-1 E-Commerce Bags (PO 755)",
+    "c": "product",
+    "turnaround": "48 to 72 Hours (Batch SLA)",
+    "color": "Calibrated sRGB / 240 DPI",
+    "delivery": "Pure White Cutouts & Transparent PNGs",
+    "s": [
+      "2,000+ unique 1-of-1 billboard vinyl bag packshots",
+      "100% hand-drawn pen-tool clipping paths",
+      "Proportional silhouette liquify for catalog symmetry",
+      "Standardized realistic soft drop shadows & sRGB calibration"
+    ]
+  },
+  {
     "img": "/assets/agency_showcase/martini-porsche-retouching-after.webp",
     "t": "Martini Porsche 936 Trackside Studio Conversion",
     "c": "automotive",
@@ -2145,9 +2159,12 @@ dialog::backdrop{
     document.getElementById('mt').textContent = it.t;
     document.getElementById('mc').textContent = CATS[it.c] || it.c;
     document.getElementById('ml').innerHTML = it.s.map(function(s){ return '<li>' + s + '</li>'; }).join('');
-    document.getElementById('md').innerHTML = '<dt>Turnaround</dt><dd>12 to 24 hours</dd>' +
-      '<dt>Color</dt><dd>16-bit ProPhoto RGB</dd>' +
-      '<dt>Delivery</dt><dd>Layered PSD or flattened files</dd>';
+    var ta = it.turnaround || '12 to 24 hours';
+    var col = it.color || '16-bit ProPhoto RGB';
+    var del = it.delivery || 'Layered PSD or flattened files';
+    document.getElementById('md').innerHTML = '<dt>Turnaround</dt><dd>' + ta + '</dd>' +
+      '<dt>Color</dt><dd>' + col + '</dd>' +
+      '<dt>Delivery</dt><dd>' + del + '</dd>';
     document.getElementById('nv').style.display = imgs.length > 1 ? '' : 'none';
   }
 
