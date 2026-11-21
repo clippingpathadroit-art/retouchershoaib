@@ -23,37 +23,95 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "@id": "https://retouchershoaib.com/#studio",
-  "name": "Retoucher Shoaib",
-  "alternateName": ["RetoucherShoaib", "Retoucher Shoaib Studio"],
-  "url": "https://retouchershoaib.com/services",
-  "image": "https://retouchershoaib.com/assets/agency_showcase/skeleton-tourbillon-watch-retouching.jpg",
-  "founder": {
-    "@type": "Person",
-    "name": "Shoaib Siddique",
-    "alternateName": ["Retoucher Shoaib", "RetoucherShoaib"]
-  },
-  "sameAs": [
-    "https://instagram.com/retouchershoaib",
-    "https://linkedin.com/in/retouchershoaib",
-    "https://www.behance.net/retouchershoaib"
-  ],
-  "areaServed": ["United States", "United Kingdom", "Germany", "France", "Italy", "Europe"],
-  "description": "High-end commercial photo retouching for jewelry, fine jewellery, fashion, editorial beauty, e-commerce products, still life, and automotive brands.",
-  "hasOfferCatalog": {
-    "@type": "OfferCatalog",
-    "name": "Commercial Retouching Services",
-    "itemListElement": [
-      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Luxury Jewelry and Watch Retouching","url":"https://retouchershoaib.com/jewelry-watch-photo-retouching"}},
-      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Fashion and Ghost Mannequin Retouching","url":"https://retouchershoaib.com/ghost-mannequin-fashion-photo-retouching"}},
-      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Model and Editorial Beauty Portrait Retouching","url":"https://retouchershoaib.com/model-portrait-photo-retouching"}},
-      {"@type":"Offer","itemOffered":{"@type":"Service","name":"E-commerce Product and Clipping Path Retouching","url":"https://retouchershoaib.com/ecommerce-product-retouching"}},
-      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Still Life and Cosmetics Commercial Retouching","url":"https://retouchershoaib.com/services#still"}},
-      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Automotive Photo Retouching","description":"Clean car cutouts, studio background replacement, paint gloss polishing, glass glare cleanup, and natural contact shadows.","url":"https://retouchershoaib.com/automotive-photo-retouching"}}
-    ]
-  }
-,
+  "@graph": [
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://retouchershoaib.com/#studio",
+      "name": "Retoucher Shoaib",
+      "alternateName": [
+        "RetoucherShoaib",
+        "Retoucher Shoaib Studio"
+      ],
+      "url": "https://retouchershoaib.com/services",
+      "image": "https://retouchershoaib.com/assets/agency_showcase/skeleton-tourbillon-watch-retouching.jpg",
+      "founder": {
+        "@type": "Person",
+        "name": "Shoaib Siddique",
+        "alternateName": [
+          "Retoucher Shoaib",
+          "RetoucherShoaib"
+        ]
+      },
+      "sameAs": [
+        "https://instagram.com/retouchershoaib",
+        "https://linkedin.com/in/retouchershoaib",
+        "https://www.behance.net/retouchershoaib"
+      ],
+      "areaServed": [
+        "United States",
+        "United Kingdom",
+        "Germany",
+        "France",
+        "Italy",
+        "Europe"
+      ],
+      "description": "High-end commercial photo retouching for jewelry, fine jewellery, fashion, editorial beauty, e-commerce products, still life, and automotive brands.",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Commercial Retouching Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Luxury Jewelry and Watch Retouching",
+              "url": "https://retouchershoaib.com/jewelry-watch-photo-retouching"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Fashion and Ghost Mannequin Retouching",
+              "url": "https://retouchershoaib.com/ghost-mannequin-fashion-photo-retouching"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Model and Editorial Beauty Portrait Retouching",
+              "url": "https://retouchershoaib.com/model-portrait-photo-retouching"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "E-commerce Product and Clipping Path Retouching",
+              "url": "https://retouchershoaib.com/ecommerce-product-retouching"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Still Life and Cosmetics Commercial Retouching",
+              "url": "https://retouchershoaib.com/services#still"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Automotive Photo Retouching",
+              "description": "Clean car cutouts, studio background replacement, paint gloss polishing, glass glare cleanup, and natural contact shadows.",
+              "url": "https://retouchershoaib.com/automotive-photo-retouching"
+            }
+          }
+        ]
+      }
+    },
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
@@ -71,6 +129,7 @@
         }
       ]
     }
+  ]
 }
 </script>
 <noscript><style>.dep .tx>*{opacity:1!important;transform:none!important}.ph{clip-path:inset(0)!important}</style></noscript>
