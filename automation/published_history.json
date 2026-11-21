@@ -5,7 +5,8 @@
     "retoucher-vibrant-fashion-reel-option2",
     "specular-highlights-on-diamonds",
     "ghost-mannequin-apparel-retouching-guide",
-    "pen-tool-vs-automated-masks"
+    "pen-tool-vs-automated-masks",
+    "excision-industrial-cold-saw-case-study"
   ],
   "log": [
     {
@@ -43,6 +44,12 @@
       "title": "Why Hand-Drawn Pen Tool Outperforms Automated AI Masks",
       "language": "en",
       "published_at": "2026-11-19T18:35:20.387Z",
+      "status": "success"
+    },
+    {
+      "article_id": "excision-industrial-cold-saw-case-study",
+      "title": "Precision Vector Silhouetting: Excision Industrial Cold Saw Case Study",
+      "published_at": "2026-11-21T22:01:29.818Z",
       "status": "success"
     }
   ]
