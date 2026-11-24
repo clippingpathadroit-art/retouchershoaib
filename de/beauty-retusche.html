@@ -495,7 +495,7 @@ section.band{
   display:block;
 }
 .ph.ba .lay.after{
-  clip-path:polygon(0 0, var(--x) 0, var(--x) 100%, 0 100%);
+  clip-path:inset(0 0 0 var(--x,50%));
 }
 .ph.ba .tag{
   position:absolute;
@@ -918,12 +918,12 @@ footer a:hover{color:var(--accent)}
         <div class="ph ba" data-ba style="aspect-ratio:682/1024;max-width:500px;margin:0 auto;--x:50%;">
           <div class="lay before">
             <img src="/assets/agency_showcase/studio-model-retouching-before.webp" alt="Ganzkörper Modelpaar im Fotostudio vor der Retusche mit Hohlkehlen-Markierungen und Stoffknicken" width="682" height="1024" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block">
-            <span class="tag b">Vorher (RAW)</span>
           </div>
           <div class="lay after">
             <img src="/assets/agency_showcase/studio-model-retouching-after.webp" alt="Ganzkörper Modelpaar nach High-End Mode-Retusche mit bereinigtem Studiohintergrund und perfektem Faltenfall" width="682" height="1024" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block">
-            <span class="tag a">Nachher (High-End)</span>
           </div>
+          <span class="tag b">Vorher (RAW)</span>
+          <span class="tag a">Nachher (High-End)</span>
           <div class="ba-bar"><div class="ba-handle">&#x2194;</div></div>
           <input type="range" min="0" max="100" value="50" aria-label="Vorher-Nachher Schieberegler Model-Retusche und Ganzkörper-Portfolios">
         </div>
@@ -1098,12 +1098,12 @@ footer a:hover{color:var(--accent)}
         <div class="ph ba" data-ba style="aspect-ratio:1/1;max-width:520px;margin:0 auto;--x:50%;">
           <div class="lay before">
             <img src="/assets/agency_showcase/corporate-headshot-retouching-before.webp" alt="Business-Porträt vor der Retusche mit störender Brillen-Linsenreflexion und Hautglanz" width="1400" height="1400" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block">
-            <span class="tag b">Vorher (Reflexion)</span>
           </div>
           <div class="lay after">
             <img src="/assets/agency_showcase/corporate-headshot-retouching-after.webp" alt="Business-Porträt nach Retusche mit entspiegelten Brillengläsern, mattierter Haut und sauberem Kragen" width="1400" height="1400" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block">
-            <span class="tag a">Nachher (Souverän)</span>
           </div>
+          <span class="tag b">Vorher (Reflexion)</span>
+          <span class="tag a">Nachher (Souverän)</span>
           <div class="ba-bar"><div class="ba-handle">&#x2194;</div></div>
           <input type="range" min="0" max="100" value="50" aria-label="Vorher-Nachher Schieberegler Business-Porträt und Brillen-Entspiegelung">
         </div>
