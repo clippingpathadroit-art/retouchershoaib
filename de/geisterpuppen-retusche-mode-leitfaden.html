@@ -22,14 +22,14 @@
 <meta property="og:title" content="3D-Hohlpuppen-Retusche: Kragenmontage & Zalando-Specs">
 <meta property="og:description" content="Praxisnaher B2B-Leitfaden für 3D-Hohlpuppen-Retusche: Kragenmontage, Zalando- und Amazon DE-Vorgaben und 16-Bit Photoshop-Farbmanagement.">
 <meta property="og:url" content="https://retouchershoaib.com/de/geisterpuppen-retusche-mode-leitfaden">
-<meta property="og:image" content="https://retouchershoaib.com/assets/agency_showcase/aristocracy-ivory-gala-tuxedo-ghost-mannequin-retouching.webp">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="800">
-<meta property="og:image:alt" content="Aristocracy London Gala Tuxedo auf 3D-Geisterpuppe mit unsichtbarer Kragenmontage">
+<meta property="og:image" content="https://retouchershoaib.com/assets/agency_showcase/ghost-mannequin-swimwear-sunhat-after.webp">
+<meta property="og:image:width" content="922">
+<meta property="og:image:height" content="922">
+<meta property="og:image:alt" content="3D-Hohlpuppen-Retusche: Kinder-Badeanzug mit unsichtbarem Mannequin und Sonnenhut-Inlay">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="3D-Hohlpuppen-Retusche: Kragenmontage & Zalando-Specs">
 <meta name="twitter:description" content="Technischer Leitfaden für 3D-Hohlpuppen-Retusche, Kragenmontage und Zalando Marktplatz-Compliance.">
-<meta name="twitter:image" content="https://retouchershoaib.com/assets/agency_showcase/aristocracy-ivory-gala-tuxedo-ghost-mannequin-retouching.webp">
+<meta name="twitter:image" content="https://retouchershoaib.com/assets/agency_showcase/ghost-mannequin-swimwear-sunhat-after.webp">
 
 <!-- FAVICON -->
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
@@ -87,7 +87,7 @@
           "https://www.facebook.com/retouchershoaib"
         ]
       },
-      "image": "https://retouchershoaib.com/assets/agency_showcase/aristocracy-ivory-gala-tuxedo-ghost-mannequin-retouching.webp",
+      "image": "https://retouchershoaib.com/assets/agency_showcase/ghost-mannequin-swimwear-sunhat-after.webp",
       "about": [
         "Hohlpuppen Retusche",
         "Geisterpuppen Effekt",
@@ -348,23 +348,109 @@ nav a.cur, .nav-drop-btn.cur{color:var(--accent);font-weight:600}
   background:var(--surface);
   box-shadow:0 24px 60px rgba(0,0,0,.4);
 }
-.hero-plate img{
+
+/* BEFORE / AFTER RANGE SLIDER */
+.ph{
+  position:relative;
+  border-radius:18px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 24px 60px rgba(0,0,0,.45);
+  background:#ffffff;
+}
+.ph.ba{
+  touch-action:pan-y;
+  user-select:none;
+}
+.ph.ba .lay{
+  position:absolute;
+  inset:0;
+}
+.ph.ba .lay.after{
+  clip-path:inset(0 0 0 var(--x,50%));
+}
+.ph.ba img{
+  position:absolute;
+  inset:0;
   width:100%;
-  height:auto;
-  aspect-ratio:1200 / 720;
-  object-fit:cover;
+  height:100%;
+  object-fit:contain;
+  display:block;
+  pointer-events:none;
+  background:#ffffff;
 }
-.plate-cap{
-  padding:14px 20px;
-  font-size:13px;
-  color:var(--muted);
-  border-top:1px solid var(--line);
+.ph.ba .tag{
+  position:absolute;
+  bottom:14px;
+  z-index:2;
+  padding:6px 12px;
+  border-radius:99px;
+  font:600 12px/1 var(--body);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  background:rgba(10,10,11,.84);
+  color:var(--text);
+  border:1px solid rgba(255,255,255,.16);
+  backdrop-filter:blur(8px);
+  pointer-events:none;
+}
+.ph.ba .tag.b{left:14px}
+.ph.ba .tag.a{
+  right:14px;
+  color:var(--accent);
+  border-color:color-mix(in srgb,var(--accent) 45%,transparent);
+}
+.ph.ba input[type="range"]{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  margin:0;
+  opacity:0;
+  cursor:ew-resize;
+  z-index:4;
+}
+.ph.ba .ba-bar{
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:var(--x,50%);
+  width:2px;
+  background:#ffffff;
+  box-shadow:0 0 12px rgba(0,0,0,.8);
+  pointer-events:none;
+  z-index:3;
+}
+.ph.ba .ba-handle{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:#ffffff;
+  color:#000000;
+  box-shadow:0 4px 18px rgba(0,0,0,.6);
   display:flex;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  gap:8px 16px;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  font-weight:700;
 }
-.plate-cap strong{color:var(--text)}
+.cap{
+  font-size:13.5px;
+  color:#b0b4a8;
+  margin-top:12px;
+  margin-bottom:36px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  max-width:580px;
+  margin-left:auto;
+  margin-right:auto;
+}
 
 /* ARTICLE BODY & TYPOGRAPHY */
 .art-main{
@@ -609,12 +695,22 @@ footer a:hover{color:var(--accent)}
           </p>
         </div>
 
-        <div class="hero-plate">
-          <img src="/assets/agency_showcase/aristocracy-ivory-gala-tuxedo-ghost-mannequin-retouching.webp" alt="Aristocracy London Gala Tuxedo auf 3D-Geisterpuppe mit unsichtbarer Kragenmontage" width="1200" height="720" loading="eager">
-          <div class="plate-cap">
-            <div><strong>Referenzprojekt: Aristocracy London Gala Tuxedo</strong> &middot; 3D-Hohlpuppen-Retusche von Retoucher Shoaib Studio.</div>
-            <div>Exakter 0.5px Sub-Pixel Zeichenstift-Vektorpfad &middot; Natürlicher Fall ohne Verzug</div>
+        <!-- INTERACTIVE BEFORE/AFTER HERO SLIDER: GHOST MANNEQUIN KIDS SWIMWEAR -->
+        <div class="ph ba" data-ba style="aspect-ratio:1/1;max-width:560px;margin:0 auto;--x:50%;">
+          <div class="lay before">
+            <img fetchpriority="high" src="/assets/agency_showcase/ghost-mannequin-swimwear-sunhat-before.webp" alt="Geisterpuppen-Retusche: Rohfoto des Kinder-Badeanzugs auf Puppe mit sichtbarem Kopf, Armen und Beinen" width="922" height="922" loading="eager" decoding="async">
           </div>
+          <div class="lay after">
+            <img src="/assets/agency_showcase/ghost-mannequin-swimwear-sunhat-after.webp" alt="3D-Hohlpuppen-Retusche: Fertiger Badeanzug mit unsichtbarer Puppe, montiertem Sonnenhut-Inlay und reinweißem Hintergrund" width="922" height="922" loading="eager" decoding="async">
+          </div>
+          <span class="tag b">Vorher: Sichtbare Puppe</span>
+          <span class="tag a">Nachher: 3D Hohlpuppe</span>
+          <div class="ba-bar"><div class="ba-handle">&#x2194;</div></div>
+          <input type="range" min="0" max="100" value="50" aria-label="Schieben für Vorher-Nachher Vergleich der 3D-Hohlpuppen-Retusche">
+        </div>
+        <div class="cap">
+          <span><strong>Interaktiver 1:1 Vergleich:</strong> Von der sichtbaren Schneiderpuppe zur schwebenden 3D-Hohlpuppe mit rekonstruiertem Sonnenhut-Inlay &amp; reinweißem Marktplatz-Hintergrund.</span>
+          <span>Schieberegler ziehen &harr;</span>
         </div>
       </div>
     </section>
@@ -636,6 +732,24 @@ footer a:hover{color:var(--accent)}
             <p>
               Ein einheitlicher 3D-Hohlpuppen-Look reduziert die Retourenquote im Online-Handel nachweislich, da Kunden die tatsächliche Passform, den Kragenabschluss und die Krümmung der Schultern realistisch einschätzen können. Bei Retoucher Shoaib erhalten Sie 100% präzise Vektorpfade kombiniert mit EIZO-kalibrierter Farbtreue.
             </p>
+          </div>
+
+          <!-- INTERACTIVE BEFORE/AFTER SLIDER 2: TAILORED EMERALD TUXEDO VEST -->
+          <div class="ph ba" data-ba style="aspect-ratio:1/1;max-width:540px;margin:32px auto 14px;--x:50%;">
+            <div class="lay before">
+              <img src="/assets/agency_showcase/tailored-emerald-vest-tuxedo-before.webp" alt="Herrenmode Rohfoto: Smaragdgrüne Weste mit sichtbarem Studio-Stativ und Softbox-Kante" width="1024" height="1024" loading="lazy" decoding="async">
+            </div>
+            <div class="lay after">
+              <img src="/assets/agency_showcase/tailored-emerald-vest-tuxedo-after.webp" alt="Herrenmode Retusche: Fertige Weste mit bereinigtem Hintergrund, korrigierter Seidenpaspel und EIZO-Farbtreue" width="1024" height="1024" loading="lazy" decoding="async">
+            </div>
+            <span class="tag b">Vorher: Studio Rohdatei</span>
+            <span class="tag a">Nachher: High-End Katalog</span>
+            <div class="ba-bar"><div class="ba-handle">&#x2194;</div></div>
+            <input type="range" min="0" max="100" value="50" aria-label="Schieben für Vorher-Nachher Vergleich der Herrenwesten-Retusche">
+          </div>
+          <div class="cap" style="margin-bottom:48px;">
+            <span><strong>Maßgeschneiderte Herrenmode:</strong> Beseitigung störender Studio-Lichtformer, Glättung von Hintergrundknicken und präzise Farbreinheit für Lookbooks.</span>
+            <span>Schieberegler ziehen &harr;</span>
           </div>
 
           <h2>2. Zalando Partner Program vs. Amazon.de Bildrichtlinien</h2>
@@ -871,15 +985,27 @@ footer a:hover{color:var(--accent)}
 
 <script src="/assets/site-nav.js" defer></script>
 <script>
-// Reading progress bar
+// Reading progress bar & Before/After Slider Engine
 (function(){
   var bar = document.getElementById('readBar');
-  if (!bar) return;
-  window.addEventListener('scroll', function(){
-    var h = document.documentElement.scrollHeight - window.innerHeight;
-    var p = h > 0 ? (window.pageYOffset / h) * 100 : 0;
-    bar.style.width = Math.min(100, Math.max(0, p)) + '%';
-  }, { passive: true });
+  if (bar) {
+    window.addEventListener('scroll', function(){
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      var p = h > 0 ? (window.pageYOffset / h) * 100 : 0;
+      bar.style.width = Math.min(100, Math.max(0, p)) + '%';
+    }, { passive: true });
+  }
+
+  // Interactive Before/After Range Sliders
+  document.querySelectorAll('[data-ba]').forEach(function(ba){
+    var rng = ba.querySelector('input[type="range"]');
+    if (!rng) return;
+    function updateVal() {
+      ba.style.setProperty('--x', rng.value + '%');
+    }
+    rng.addEventListener('input', updateVal);
+    rng.addEventListener('change', updateVal);
+  });
 })();
 </script>
 </body>
