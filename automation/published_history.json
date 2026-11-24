@@ -6,7 +6,8 @@
     "specular-highlights-on-diamonds",
     "ghost-mannequin-apparel-retouching-guide",
     "pen-tool-vs-automated-masks",
-    "excision-industrial-cold-saw-case-study"
+    "excision-industrial-cold-saw-case-study",
+    "geisterpuppen-retusche-mode-leitfaden"
   ],
   "log": [
     {
@@ -50,6 +51,13 @@
       "article_id": "excision-industrial-cold-saw-case-study",
       "title": "Precision Vector Silhouetting: Excision Industrial Cold Saw Case Study",
       "published_at": "2026-11-21T22:01:29.818Z",
+      "status": "success"
+    },
+    {
+      "article_id": "geisterpuppen-retusche-mode-leitfaden",
+      "title": "3D-Hohlpuppen-Retusche: Symmetrische Kragenmontage & Zalando-Standards",
+      "language": "de",
+      "published_at": "2026-11-24T06:04:08.698Z",
       "status": "success"
     }
   ]

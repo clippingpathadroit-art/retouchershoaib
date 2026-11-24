@@ -4,5 +4,22 @@
   "home_page_url": "https://retouchershoaib.com/de/ratgeber",
   "feed_url": "https://retouchershoaib.com/de/feed.json",
   "description": "Fundierte Fachbeiträge, E-Commerce Richtlinien und High-End Retusche-Leitfäden für den DACH-Raum.",
-  "items": []
+  "items": [
+    {
+      "id": "geisterpuppen-retusche-mode-leitfaden",
+      "url": "https://retouchershoaib.com/de/geisterpuppen-retusche-mode-leitfaden",
+      "title": "3D-Hohlpuppen-Retusche: Symmetrische Kragenmontage & Zalando-Standards",
+      "tags": [
+        "Geisterpuppe",
+        "Mode Retusche",
+        "Kragenmontage",
+        "Zalando Richtlinien",
+        "E-Commerce DACH"
+      ],
+      "summary": "Technischer Leitfaden für 3D-Hohlpuppen-Retusche: Symmetrische Kragenmontage, Zalando- und Amazon DE-Richtlinien, Freisteller und Delta-E Farbtreue für Modehersteller.",
+      "content_text": "Technischer Leitfaden für 3D-Hohlpuppen-Retusche: Symmetrische Kragenmontage, Zalando- und Amazon DE-Richtlinien, Freisteller und Delta-E Farbtreue für Modehersteller im DACH-Raum.",
+      "image": "https://retouchershoaib.com/assets/agency_showcase/aristocracy-ivory-gala-tuxedo-ghost-mannequin-retouching.webp",
+      "date_published": "2026-11-23T19:00:00Z"
+    }
+  ]
 }

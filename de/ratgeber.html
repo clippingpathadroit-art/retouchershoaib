@@ -193,6 +193,108 @@ nav a.cur,.nav-drop-btn.cur{color:var(--accent);font-weight:600}
 .feed-sec{
   padding:20px 0 clamp(60px,8vw,100px);
 }
+.feed-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:28px;
+  margin-bottom:56px;
+}
+.feed-card{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:22px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  transition:border-color .3s,transform .45s cubic-bezier(.2,.8,.2,1);
+}
+.feed-card:hover{
+  border-color:var(--accent);
+  transform:translateY(-6px);
+}
+.feed-thumb{
+  aspect-ratio:16/10;
+  overflow:hidden;
+  background:var(--bg);
+}
+.feed-thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center 28%;
+  transition:transform .8s cubic-bezier(.2,.8,.2,1);
+}
+.feed-card:hover .feed-thumb img{
+  transform:scale(1.05);
+}
+.feed-card-body{
+  padding:28px;
+  display:flex;
+  flex-direction:column;
+  flex:1;
+}
+.feed-meta{
+  color:var(--accent);
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+.feed-card h2{
+  font:800 clamp(22px,2.2vw,28px)/1.2 var(--display);
+  letter-spacing:-.02em;
+  margin:0 0 14px;
+  color:var(--text);
+  transition:color .2s;
+}
+.feed-card:hover h2{
+  color:var(--accent);
+}
+.feed-card p{
+  color:var(--muted);
+  font-size:15.5px;
+  line-height:1.65;
+  margin:0 0 24px;
+  flex:1;
+}
+.feed-more{
+  font-size:14.5px;
+  font-weight:600;
+  color:var(--text);
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  transition:color .2s,transform .25s;
+}
+.feed-card:hover .feed-more{
+  color:var(--accent);
+  transform:translateX(4px);
+}
+.feed-card.featured{
+  grid-column:1 / -1;
+  display:grid;
+  grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);
+  align-items:stretch;
+}
+.feed-card.featured .feed-thumb{
+  aspect-ratio:auto;
+  width:100%;
+  height:100%;
+  min-height:360px;
+}
+.feed-card.featured .feed-card-body{
+  padding:clamp(32px,3.5vw,48px);
+  justify-content:center;
+}
+.feed-card.featured h2{
+  font-size:clamp(24px,2.8vw,36px);
+  line-height:1.15;
+}
+@media(max-width:860px){
+  .feed-card.featured{display:flex;flex-direction:column}
+  .feed-card.featured .feed-thumb{aspect-ratio:16/10;height:auto;min-height:0}
+}
 
 /* SLEEK PRE-LAUNCH ANNOUNCEMENT CARD */
 .empty-state{
@@ -347,14 +449,19 @@ footer a:hover{color:var(--accent)}
   <section class="feed-sec">
     <div class="wrap">
       
-      <!-- SLEEK WAITING / READY CONTAINER (CLEAN & HONEST) -->
-      <div class="empty-state">
-        <span class="empty-badge">In Vorbereitung &middot; Redaktionsplan</span>
-        <h2>Fundierte Fachbeiträge erscheinen in Kürze.</h2>
-        <p>
-          Unsere Senior Retuscheure erstellen derzeit praxisnahe Leitfäden zu Amazon- und Zalando-Bildnormen, 3D-Geisterpuppe-Montagen und mikroskopischer Schmuckretusche. 
-        </p>
-        <a href="/de/kontakt" class="btn p">Kostenlose Testbearbeitung anfordern &rarr;</a>
+      <div class="feed-grid">
+        <!-- FEATURED 1: 3D-HOHLPUPPEN-RETUSCHE LEITFADEN -->
+        <a class="feed-card featured" href="/de/geisterpuppen-retusche-mode-leitfaden">
+          <div class="feed-thumb">
+            <img src="/assets/agency_showcase/aristocracy-ivory-gala-tuxedo-ghost-mannequin-retouching.webp" alt="Aristocracy London Gala Tuxedo auf 3D-Geisterpuppe mit unsichtbarer Kragenmontage" width="1200" height="720" loading="eager" decoding="async">
+          </div>
+          <div class="feed-card-body">
+            <div class="feed-meta">Mode &amp; E-Commerce &bull; November 2026 &bull; 10 Min. Lesezeit</div>
+            <h2>3D-Hohlpuppen-Retusche: Symmetrische Kragenmontage &amp; Zalando-Standards</h2>
+            <p>Technischer B2B-Leitfaden für Modehersteller: Nahtlose Kragenmontagen, 0.5px Sub-Pixel Vektorpfade, Hohlraumschatten und die strengen Bildrichtlinien von Zalando und Amazon.de.</p>
+            <span class="feed-more">Vollständigen Fachbeitrag lesen &rarr;</span>
+          </div>
+        </a>
       </div>
 
     </div>
