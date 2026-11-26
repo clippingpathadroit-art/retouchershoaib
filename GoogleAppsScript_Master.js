@@ -243,6 +243,7 @@ function doPost(e) {
             address: data.user.address !== undefined ? data.user.address : (existing.address || ""),
             phone: data.user.phone !== undefined ? data.user.phone : (existing.phone || ""),
             tin: data.user.tin !== undefined ? data.user.tin : (existing.tin || ""),
+            picture: data.user.picture !== undefined ? data.user.picture : (existing.picture || ""),
             passHash: data.user.passHash || existing.passHash || "",
             pass: existing.pass || "",
             authProvider: data.user.authProvider || existing.authProvider || "google",

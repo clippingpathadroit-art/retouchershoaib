@@ -1070,10 +1070,14 @@ export async function onRequest(context) {
       const address = String(body.address || '').trim();
       const phone = String(body.phone || '').trim();
       const tin = String(body.tin || '').trim();
+      const picture = typeof body.picture === 'string' ? body.picture.trim() : undefined;
 
-      if (!name || !company || !address) {
-        return jsonResponse({ status: 'error', message: 'Name, company, and address are required.' }, 400, request);
+      if (!name) {
+        return jsonResponse({ status: 'error', message: 'Name is required.' }, 400, request);
       }
+
+      const userUpdate = { name, company, email, address, phone, tin };
+      if (picture !== undefined) userUpdate.picture = picture;
 
       await fetch(GAS_DB_URL, {
         method: 'POST',
@@ -1082,13 +1086,13 @@ export async function onRequest(context) {
         body: JSON.stringify({
           action: 'create_client_folder',
           email,
-          user: { name, company, email, address, phone, tin },
+          user: userUpdate,
         }),
       });
 
       return jsonResponse({
         status: 'success',
-        user: { name, company, email, address, phone, tin },
+        user: userUpdate,
       }, 200, request);
     }
 
@@ -1145,6 +1149,7 @@ export async function onRequest(context) {
           address: record.address || '',
           phone: record.phone || '',
           tin: record.tin || '',
+          picture: record.picture || '',
         },
       }, 200, request);
     }

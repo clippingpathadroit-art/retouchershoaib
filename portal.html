@@ -128,6 +128,7 @@ body {
   width: 68px;
   height: 68px;
   margin: 0 auto 12px;
+  cursor: pointer;
 }
 .avatar-img {
   width: 100%;
@@ -135,14 +136,36 @@ body {
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid #3b82f6;
+  background: #1e293b;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: filter 0.2s;
+}
+.avatar-wrap:hover .avatar-img {
+  filter: brightness(0.85);
+}
+.avatar-upload-badge {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #ffffff;
+  border: 2px solid var(--sidebar-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  cursor: pointer;
 }
 .avatar-badge-online {
   position: absolute;
-  bottom: 2px;
+  top: 2px;
   right: 2px;
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: #10b981;
   border: 2px solid var(--sidebar-bg);
@@ -1947,12 +1970,14 @@ body {
       <button class="mob-toggle" style="color: #94a3b8;" onclick="toggleSidebar()">✕</button>
     </div>
 
-    <!-- CLIENT PROFILE SECTION (FROM SCREENSHOT) -->
+    <!-- CLIENT PROFILE SECTION -->
     <div class="sidebar-profile">
-      <div class="avatar-wrap">
-        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=250&q=80" alt="Client Avatar" class="avatar-img" id="sidebarAvatar">
+      <div class="avatar-wrap" onclick="triggerAvatarUpload()" title="Click to upload profile picture">
+        <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='64' fill='%231e293b'/%3E%3Ccircle cx='64' cy='46' r='21' fill='%2394a3b8'/%3E%3Cpath d='M24 114c0-22 18-36 40-36s40 14 40 36' fill='%2394a3b8'/%3E%3C/svg%3E" alt="Client Avatar" class="avatar-img" id="sidebarAvatar">
         <div class="avatar-badge-online" title="Studio Connection Active"></div>
+        <div class="avatar-upload-badge" title="Upload Profile Picture">📷</div>
       </div>
+      <input type="file" id="profAvatarInput" accept="image/*" style="display: none;" onchange="handleProfileAvatarUpload(event)">
       <div class="client-name-display" id="sidebarClientName">Studio Client</div>
       <div class="client-email-display" id="sidebarClientEmail">client@studio.com</div>
       <button class="profile-edit-btn" onclick="openProfileModal()">
@@ -2491,6 +2516,18 @@ body {
           </div>
 
           <form id="profileForm" onsubmit="saveClientProfile(event)">
+            <div style="display: flex; align-items: center; gap: 16px; padding: 14px 16px; background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; margin-bottom: 18px;">
+              <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='64' fill='%231e293b'/%3E%3Ccircle cx='64' cy='46' r='21' fill='%2394a3b8'/%3E%3Cpath d='M24 114c0-22 18-36 40-36s40 14 40 36' fill='%2394a3b8'/%3E%3C/svg%3E" alt="Profile Photo" id="profilePreviewAvatar" style="width: 62px; height: 62px; border-radius: 50%; object-fit: cover; border: 2px solid #cbd5e1; background: #1e293b; flex-shrink: 0;">
+              <div style="flex: 1; min-width: 0;">
+                <div style="font-size: 13.5px; font-weight: 700; color: #0f172a;">Profile Picture</div>
+                <div style="font-size: 12px; color: #64748b; margin-top: 2px;">Upload a studio logo or headshot (JPG, PNG, WebP).</div>
+              </div>
+              <div style="display: flex; gap: 8px; flex-shrink: 0;">
+                <button type="button" class="btn btn-outline btn-sm" onclick="triggerAvatarUpload()">📷 Upload Photo</button>
+                <button type="button" class="btn btn-outline btn-sm" id="btnRemoveAvatar" onclick="removeProfileAvatar()" style="display: none; color: #ef4444; border-color: #fecaca;">Remove</button>
+              </div>
+            </div>
+
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
               <div class="form-field">
                 <label class="form-label">Full Name *</label>
@@ -4393,13 +4430,25 @@ function loadClientProfile() {
     }
   }
 
+  const DEFAULT_CLIENT_AVATAR_SVG = "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='64' fill='%231e293b'/%3E%3Ccircle cx='64' cy='46' r='21' fill='%2394a3b8'/%3E%3Cpath d='M24 114c0-22 18-36 40-36s40 14 40 36' fill='%2394a3b8'/%3E%3C/svg%3E";
   const sideName = document.getElementById('sidebarClientName');
   const sideMail = document.getElementById('sidebarClientEmail');
   const sideAvatar = document.getElementById('sidebarAvatar');
+  const previewAvatar = document.getElementById('profilePreviewAvatar');
+  const removeAvatarBtn = document.getElementById('btnRemoveAvatar');
   if (sideName) sideName.textContent = p.name;
   if (sideMail) sideMail.textContent = p.email;
-  if (sideAvatar && p.picture) {
-    sideAvatar.src = p.picture;
+  const avatarSrc = (p.picture && p.picture.trim()) ? p.picture : DEFAULT_CLIENT_AVATAR_SVG;
+  if (sideAvatar) {
+    sideAvatar.onerror = () => { sideAvatar.src = DEFAULT_CLIENT_AVATAR_SVG; };
+    sideAvatar.src = avatarSrc;
+  }
+  if (previewAvatar) {
+    previewAvatar.onerror = () => { previewAvatar.src = DEFAULT_CLIENT_AVATAR_SVG; };
+    previewAvatar.src = avatarSrc;
+  }
+  if (removeAvatarBtn) {
+    removeAvatarBtn.style.display = (p.picture && p.picture.trim()) ? 'inline-flex' : 'none';
   }
 
   // STUDIO DIRECTOR PRIVILEGE SHORTCUTS
@@ -4410,9 +4459,115 @@ function loadClientProfile() {
   if (dirSideLink) dirSideLink.style.display = isDirector ? 'flex' : 'none';
 }
 
-function saveClientProfile(e) {
+function triggerAvatarUpload() {
+  const input = document.getElementById('profAvatarInput');
+  if (input) {
+    input.value = '';
+    input.click();
+  }
+}
+
+async function syncProfileToCloud(p) {
+  if (!p || !p.email || p.isDemo) return;
+  try {
+    const token = getClientApiToken();
+    if (token) {
+      await fetch(R2_API_URL + '?action=update-client-profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({
+          name: p.name,
+          company: p.company,
+          address: p.address,
+          phone: p.phone || '',
+          tin: p.tin || '',
+          picture: p.picture || ''
+        })
+      });
+    } else if (typeof triggerRegisterUserCloud === 'function') {
+      await triggerRegisterUserCloud({
+        name: p.name,
+        company: p.company,
+        email: p.email,
+        address: p.address,
+        phone: p.phone || '',
+        tin: p.tin || '',
+        picture: p.picture || ''
+      }, { allowMerge: true });
+    }
+  } catch (err) {
+    console.warn('Cloud profile sync skipped:', err);
+  }
+}
+
+function handleProfileAvatarUpload(e) {
+  const file = e && e.target && e.target.files ? e.target.files[0] : null;
+  if (!file) return;
+  if (!file.type.startsWith('image/')) {
+    showAuthToast('⚠️ Please select a valid image file (JPG, PNG, or WebP).');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const img = new Image();
+    img.onload = async function() {
+      const size = 240;
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      const minDim = Math.min(img.width, img.height);
+      const sx = (img.width - minDim) / 2;
+      const sy = (img.height - minDim) / 2;
+      ctx.drawImage(img, sx, sy, minDim, minDim, 0, 0, size, size);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.84);
+
+      const existingProf = JSON.parse(localStorage.getItem('shoaib_client_profile') || '{}');
+      const sess = getCurrentSession() || {};
+      const updatedProf = Object.assign({}, existingProf, {
+        name: existingProf.name || sess.name || '',
+        company: existingProf.company || sess.company || '',
+        email: existingProf.email || sess.email || '',
+        address: existingProf.address || sess.address || '',
+        picture: dataUrl
+      });
+      localStorage.setItem('shoaib_client_profile', JSON.stringify(updatedProf));
+      if (sess && sess.email) {
+        const updatedSess = Object.assign({}, sess, { picture: dataUrl });
+        localStorage.setItem('shoaib_client_session', JSON.stringify(updatedSess));
+        sessionStorage.setItem('shoaib_client_session', JSON.stringify(updatedSess));
+      }
+      loadClientProfile();
+      showAuthToast('✓ Profile picture updated!');
+      await syncProfileToCloud(updatedProf);
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function removeProfileAvatar() {
+  const existingProf = JSON.parse(localStorage.getItem('shoaib_client_profile') || '{}');
+  const sess = getCurrentSession() || {};
+  const updatedProf = Object.assign({}, existingProf, { picture: '' });
+  localStorage.setItem('shoaib_client_profile', JSON.stringify(updatedProf));
+  if (sess && sess.email) {
+    const updatedSess = Object.assign({}, sess, { picture: '' });
+    localStorage.setItem('shoaib_client_session', JSON.stringify(updatedSess));
+    sessionStorage.setItem('shoaib_client_session', JSON.stringify(updatedSess));
+  }
+  loadClientProfile();
+  showAuthToast('✓ Profile picture reset to default.');
+  await syncProfileToCloud(updatedProf);
+}
+
+async function saveClientProfile(e) {
   e.preventDefault();
   const existingProf = JSON.parse(localStorage.getItem('shoaib_client_profile') || '{}');
+  const sess = getCurrentSession() || {};
   const p = {
     name: document.getElementById('profName')?.value.trim() || '',
     company: document.getElementById('profCompany')?.value.trim() || '',
@@ -4424,9 +4579,22 @@ function saveClientProfile(e) {
     isDemo: existingProf.isDemo || false
   };
   localStorage.setItem('shoaib_client_profile', JSON.stringify(p));
+  if (sess && sess.email && !p.isDemo) {
+    const updatedSess = Object.assign({}, sess, {
+      name: p.name,
+      company: p.company,
+      address: p.address,
+      phone: p.phone,
+      tin: p.tin,
+      picture: p.picture
+    });
+    localStorage.setItem('shoaib_client_session', JSON.stringify(updatedSess));
+    sessionStorage.setItem('shoaib_client_session', JSON.stringify(updatedSess));
+  }
   loadClientProfile();
   renderInvoicesList();
-  alert('✓ Client profile updated!');
+  showAuthToast('✓ Client profile & billing details saved!');
+  syncProfileToCloud(p);
   switchPortalSection('dashboard');
 }
 
@@ -7067,7 +7235,8 @@ async function handleAuthLogin(e) {
             email: emailLower,
             address: u.address || 'Commercial Studio Client',
             phone: u.phone || '',
-            tin: u.tin || ''
+            tin: u.tin || '',
+            picture: u.picture || ''
           }, '✓ Welcome back, ' + (u.name || fallbackName) + '!');
           return;
         }
