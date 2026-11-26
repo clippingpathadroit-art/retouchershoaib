@@ -2722,7 +2722,7 @@ body {
                 <div class="order-step-row" style="margin-top: 14px;">
                   <div class="form-field">
                     <label class="form-label" for="ordImgCount">Number of images <b>*</b></label>
-                    <input type="number" id="ordImgCount" class="form-input" min="1" max="5000" placeholder="e.g. 24" required value="" oninput="updateOrderSummary()">
+                    <input type="number" id="ordImgCount" class="form-input" min="1" max="5000" placeholder="e.g. 24" required value="" oninput="this.dataset.userEdited='1'; updateOrderSummary()">
                     <div class="step-hint">Count of RAW / PSD files to retouch.</div>
                   </div>
                   <div class="form-field">
@@ -5918,6 +5918,8 @@ async function handleNewOrderSubmit(e) {
 
   // Clear Form & Queue
   document.getElementById('newOrderForm')?.reset();
+  const imgCountResetEl = document.getElementById('ordImgCount');
+  if (imgCountResetEl) delete imgCountResetEl.dataset.userEdited;
   clearDriveQueue();
   updateOrderSummary();
 
@@ -5981,8 +5983,11 @@ function updateDriveQueueUI() {
   preview.style.display = 'block';
   countText.textContent = driveUploadedQueue.length + ' Files Ready for Upload';
 
-  if (imgCountInput) {
-    imgCountInput.value = driveUploadedQueue.length;
+  if (imgCountInput && !imgCountInput.dataset.userEdited && !String(imgCountInput.value || '').trim()) {
+    const hasArchive = driveUploadedQueue.some(f => /\.(zip|rar|7z|tar|gz)$/i.test(f.name || ''));
+    if (!hasArchive) {
+      imgCountInput.value = driveUploadedQueue.length;
+    }
   }
 
   let html = '';

@@ -544,11 +544,7 @@ function doPost(e) {
             "CREATIVE BRIEF\n" +
             "─────────────────────────────────────────────\n" +
             "\"" + (data.instructions || "Standard high-end commercial retouching.") + "\"\n\n" +
-            "─────────────────────────────────────────────\n" +
-            "YOUR DEDICATED GOOGLE DRIVE FOLDER\n" +
-            "─────────────────────────────────────────────\n" +
-            orderUrl + "\n\n" +
-            "Our senior post-production team has begun inspecting your files and establishing display color calibration. You can track real-time stage progress and live SLA countdown anytime directly on your private portal:\n" +
+            "Our senior post-production team has begun inspecting your files and establishing display color calibration. You can track real-time stage progress, live SLA countdown, and download your final deliverables securely anytime from your private portal:\n" +
             "https://retouchershoaib.com/portal\n\n" +
             "If you have additional references or questions, feel free to reply directly to this email (contact@retouchershoaib.com) or message our Client Services Desk on WhatsApp at +880 1710 763251.\n\n" +
             "Warm regards,\n\n" +
