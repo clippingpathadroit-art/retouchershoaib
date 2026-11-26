@@ -251,9 +251,22 @@ body {
   gap: 10px;
 }
 .nav-item-icon {
-  font-size: 16px;
   width: 20px;
-  text-align: center;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: currentColor;
+}
+.nav-item-icon svg {
+  width: 17px;
+  height: 17px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 .nav-pill {
   font-size: 11px;
@@ -1975,22 +1988,25 @@ body {
       <div class="avatar-wrap" onclick="triggerAvatarUpload()" title="Click to upload profile picture">
         <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='64' fill='%231e293b'/%3E%3Ccircle cx='64' cy='46' r='21' fill='%2394a3b8'/%3E%3Cpath d='M24 114c0-22 18-36 40-36s40 14 40 36' fill='%2394a3b8'/%3E%3C/svg%3E" alt="Client Avatar" class="avatar-img" id="sidebarAvatar">
         <div class="avatar-badge-online" title="Studio Connection Active"></div>
-        <div class="avatar-upload-badge" title="Upload Profile Picture">📷</div>
+        <div class="avatar-upload-badge" title="Upload Profile Picture">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        </div>
       </div>
       <input type="file" id="profAvatarInput" accept="image/*" style="display: none;" onchange="handleProfileAvatarUpload(event)">
       <div class="client-name-display" id="sidebarClientName">Studio Client</div>
       <div class="client-email-display" id="sidebarClientEmail">client@studio.com</div>
       <button class="profile-edit-btn" onclick="openProfileModal()">
-        ✎ Edit Billing Details
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        Edit Billing Details
       </button>
     </div>
 
     <!-- SIDEBAR NAV LINKS -->
     <nav class="sidebar-nav">
-      <div class="nav-section-title">-- MAIN DASHBOARD</div>
+      <div class="nav-section-title">MAIN DASHBOARD</div>
       <button class="nav-item active" id="sideNavDashboard" onclick="switchPortalSection('dashboard')">
         <div class="nav-item-left">
-          <span class="nav-item-icon">📊</span>
+          <span class="nav-item-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg></span>
           <span>Dashboard</span>
         </div>
         <span class="nav-pill pill-blue">Live</span>
@@ -1998,7 +2014,7 @@ body {
 
       <button class="nav-item" id="sideNavOrders" onclick="switchPortalSection('orders')">
         <div class="nav-item-left">
-          <span class="nav-item-icon">⚡</span>
+          <span class="nav-item-icon"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
           <span>Active Orders</span>
         </div>
         <span class="nav-pill pill-amber" id="badgeActiveOrders">0</span>
@@ -2007,7 +2023,7 @@ body {
       <!-- DEDICATED ARCHIVE / COMPLETED SECTION (USER REQUEST) -->
       <button class="nav-item" id="sideNavArchive" onclick="switchPortalSection('archive')">
         <div class="nav-item-left">
-          <span class="nav-item-icon">📁</span>
+          <span class="nav-item-icon"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></span>
           <span>Archive &amp; Completed</span>
         </div>
         <span class="nav-pill pill-green" id="badgeArchive">0</span>
@@ -2015,45 +2031,38 @@ body {
 
       <button class="nav-item" id="sideNavInvoices" onclick="switchPortalSection('invoices')">
         <div class="nav-item-left">
-          <span class="nav-item-icon">💳</span>
+          <span class="nav-item-icon"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
           <span>Invoices &amp; Billing</span>
         </div>
         <span class="nav-pill pill-purple" id="badgeInvoices">0</span>
       </button>
 
-      <div class="nav-section-title">-- ACCOUNT &amp; SETTINGS</div>
+      <div class="nav-section-title">ACCOUNT &amp; SETTINGS</div>
       <button class="nav-item" id="sideNavProfile" onclick="switchPortalSection('profile')">
         <div class="nav-item-left">
-          <span class="nav-item-icon">👤</span>
+          <span class="nav-item-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
           <span>Billing Details</span>
         </div>
       </button>
 
       <button class="nav-item" id="sideNavTestimonial" onclick="switchPortalSection('testimonial')">
         <div class="nav-item-left">
-          <span class="nav-item-icon">⭐</span>
+          <span class="nav-item-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
           <span>Submit Testimonial</span>
         </div>
       </button>
 
       <a href="https://wa.me/8801710763251" target="_blank" rel="noopener" class="nav-item">
         <div class="nav-item-left">
-          <span class="nav-item-icon">💬</span>
+          <span class="nav-item-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
           <span>WhatsApp Support</span>
         </div>
       </a>
 
-      <button class="nav-item" onclick="logoutClient()" style="cursor: pointer; margin-top: 4px;">
-        <div class="nav-item-left">
-          <span class="nav-item-icon">🚪</span>
-          <span style="color: #f87171; font-weight: 700;">Log Out Account</span>
-        </div>
-      </button>
-
       <!-- STUDIO DIRECTOR SHORTCUT (VISIBLE ONLY WHEN SHOAIB LOGS IN) -->
       <a href="/admin" id="sideNavDirectorLink" class="nav-item" style="display: none; background: rgba(255, 77, 0, 0.14); border: 1px solid rgba(255, 77, 0, 0.35); margin-top: 10px; border-radius: 8px;">
         <div class="nav-item-left">
-          <span class="nav-item-icon">🛡️</span>
+          <span class="nav-item-icon" style="color: #ff4d00;"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
           <span style="color: #ff4d00; font-weight: 800;">Director Console</span>
         </div>
         <span style="font-size: 10px; background: #ff4d00; color: #fff; padding: 2px 6px; border-radius: 4px; font-weight: 700;">Admin ↗</span>
@@ -2065,6 +2074,12 @@ body {
       <a href="/" class="sidebar-link-back">
         ← Back to Website
       </a>
+      <button class="nav-item" onclick="logoutClient()" style="cursor: pointer; padding: 8px 10px; margin-bottom: 0;">
+        <div class="nav-item-left">
+          <span class="nav-item-icon" style="color: #f87171;"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span>
+          <span style="color: #f87171; font-weight: 700;">Log Out Account</span>
+        </div>
+      </button>
     </div>
   </aside>
 
@@ -2092,7 +2107,9 @@ body {
       </div>
 
       <div class="topbar-search">
-        <span class="topbar-search-icon">🔍</span>
+        <span class="topbar-search-icon" style="display: inline-flex; align-items: center; color: #94a3b8;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </span>
         <input type="text" placeholder="Search orders, files, specs..." onkeyup="filterOrdersBySearch(this.value)">
       </div>
 
@@ -2116,14 +2133,14 @@ body {
         <!-- CARD 1: UNPAID BALANCE -->
         <div class="stat a" onclick="switchPortalSection('invoices')" title="Click to view & settle studio invoices">
           <small>Unpaid Balance</small>
-          <strong id="statUnpaid">$4,564.00</strong>
-          <span id="statUnpaidSub">2 Orders Due</span>
+          <strong id="statUnpaid">$0.00</strong>
+          <span id="statUnpaidSub">0 Orders Due</span>
         </div>
 
         <!-- CARD 2: ACTIVE ORDERS -->
         <div class="stat b" onclick="switchPortalSection('orders')" title="Click to view active production pipeline">
           <small>Active Orders</small>
-          <strong id="statActive">2</strong>
+          <strong id="statActive">0</strong>
           <span>In Production Pipeline</span>
         </div>
 
@@ -3722,20 +3739,39 @@ function renderDashboardOverview() {
   // If new user has 0 orders (Clean Slate)
   if (!isDemo && activeOrderList.length === 0) {
     container.innerHTML = `
-      <div class="app-card" style="text-align: center; padding: 60px 24px; border: 1px dashed var(--line); border-radius: 16px; background: #fff; margin-bottom: 24px;">
-        <div style="font-size: 48px; margin-bottom: 16px;">✨</div>
-        <h2 style="font-size: 24px; font-weight: 800; font-family: var(--f-display); margin-bottom: 10px; color: #0f172a;">
-          Welcome to Your Private Studio Workspace, ${clientName}!
+      <div class="app-card" style="text-align: center; padding: 48px 24px; border: 1px solid var(--line); border-radius: 16px; background: #fff; margin-bottom: 24px;">
+        <div style="width: 56px; height: 56px; border-radius: 14px; background: #eff6ff; color: #2563eb; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <h2 style="font-size: 23px; font-weight: 800; font-family: var(--f-display); margin-bottom: 8px; color: #0f172a;">
+          Welcome to Your Studio Workspace, ${clientName}
         </h2>
-        <p style="font-size: 14px; color: var(--mut); max-width: 520px; margin: 0 auto 24px; line-height: 1.6;">
-          Your post-production dashboard is clean and ready with <strong>0 active orders</strong>. Ready to elevate your commercial photography with color-calibrated retouching?
+        <p style="font-size: 14px; color: var(--mut); max-width: 540px; margin: 0 auto 24px; line-height: 1.6;">
+          Your agency workspace is active and protected under strict NDA. Launch your first post-production commission in three quick steps:
         </p>
-        <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
-          <button type="button" class="btn btn-primary" onclick="switchPortalSection('new-order')" style="padding: 13px 28px; font-size: 14px; font-weight: 700;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 12px; max-width: 640px; margin: 0 auto 26px; text-align: left;">
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px;">
+            <div style="font-size: 11px; font-weight: 800; color: #ff4d00; margin-bottom: 4px;">STEP 1</div>
+            <div style="font-size: 13px; font-weight: 700; color: #0f172a;">Upload RAWs / Brief</div>
+            <div style="font-size: 12px; color: #64748b; margin-top: 2px;">Drop files or paste a link with your SLA turnaround.</div>
+          </div>
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px;">
+            <div style="font-size: 11px; font-weight: 800; color: #2563eb; margin-bottom: 4px;">STEP 2</div>
+            <div style="font-size: 13px; font-weight: 700; color: #0f172a;">Live Studio Tracking</div>
+            <div style="font-size: 12px; color: #64748b; margin-top: 2px;">Monitor retouching &amp; QA stages in real time.</div>
+          </div>
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px;">
+            <div style="font-size: 11px; font-weight: 800; color: #10b981; margin-bottom: 4px;">STEP 3</div>
+            <div style="font-size: 13px; font-weight: 700; color: #0f172a;">Download 16-Bit Masters</div>
+            <div style="font-size: 12px; color: #64748b; margin-top: 2px;">Get layered PSD/TIFF files &amp; tax invoices here.</div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+          <button type="button" class="btn btn-primary" onclick="switchPortalSection('new-order')" style="padding: 12px 26px; font-size: 14px; font-weight: 700;">
             + Submit Your First Project
           </button>
-          <button type="button" class="btn btn-outline" onclick="openProfileModal()" style="padding: 13px 22px; font-size: 14px;">
-            ✎ Verify Billing Details
+          <button type="button" class="btn btn-outline" onclick="openProfileModal()" style="padding: 12px 22px; font-size: 14px;">
+            Verify Billing Details
           </button>
         </div>
       </div>
@@ -3805,7 +3841,7 @@ function renderDashboardOverview() {
                 <i>✓</i>
                 <div>
                   <b>High-Res Masters are Ready</b>
-                  <span>Checked &amp; certified by Shoaib &bull; Preserved 16-bit alpha channels</span>
+                  <span>Checked &amp; certified by Retoucher Shoaib® QA Desk &bull; Preserved 16-bit alpha channels</span>
                 </div>
               </div>
             ` : `
