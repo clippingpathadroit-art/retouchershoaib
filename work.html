@@ -218,6 +218,474 @@ h1 .l span{
   to{opacity:1}
 }
 
+/* ========================================================== */
+/* COMMERCIAL PRODUCTION CASE STUDIES (VIP SHOWCASE BLOCK)    */
+/* ========================================================== */
+.case-studies-section {
+  margin: 36px 0 20px;
+}
+.case-container {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 44px clamp(24px, 4vw, 52px);
+  position: relative;
+  overflow: hidden;
+}
+.case-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 36px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+.case-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--body);
+  font-size: 12.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  background: rgba(200, 241, 53, 0.09);
+  border: 1px solid rgba(200, 241, 53, 0.28);
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+.case-title {
+  font-family: var(--display);
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.06;
+  color: var(--text);
+  margin: 0;
+}
+.case-sub {
+  color: var(--muted);
+  font-size: clamp(16px, 1.25vw, 18px);
+  margin-top: 10px;
+  max-width: 760px;
+  line-height: 1.55;
+}
+.case-hint {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.case-hint-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+.case-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+}
+@media (max-width: 1024px) {
+  .case-grid { grid-template-columns: 1fr; }
+}
+.case-card {
+  background: #0d0e10;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform .25s cubic-bezier(0.16, 1, 0.3, 1), border-color .25s ease, box-shadow .25s ease;
+  cursor: pointer;
+  text-align: left;
+}
+.case-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--line-strong);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+.case-media {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #000;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+}
+.case-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .4s ease;
+}
+.case-card:hover .case-media img {
+  transform: scale(1.03);
+}
+.case-category-pill {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(10, 10, 11, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 6px;
+}
+.case-vol-pill {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 13px;
+  font-weight: 800;
+  font-family: var(--display);
+  padding: 5px 14px;
+  border-radius: 999px;
+  letter-spacing: -0.01em;
+}
+.case-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+}
+.case-brand {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 8px;
+}
+.case-h3 {
+  font-family: var(--display);
+  font-size: clamp(21px, 1.8vw, 24px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.22;
+  color: var(--text);
+  margin-bottom: 18px;
+}
+.case-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+.case-chip {
+  font-size: 12.5px;
+  font-weight: 600;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  padding: 5px 11px;
+  border-radius: 6px;
+}
+.case-chip.accent {
+  color: var(--text);
+  border-color: rgba(200, 241, 53, 0.35);
+  background: rgba(200, 241, 53, 0.08);
+}
+.case-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  transition: color .2s ease;
+}
+.case-card:hover .case-action {
+  color: var(--accent);
+}
+.case-action svg {
+  transition: transform .2s ease;
+}
+.case-card:hover .case-action svg {
+  transform: translateX(4px);
+}
+
+/* CASE STUDY MODAL */
+.case-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 5, 7, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.case-modal-overlay.open {
+  display: flex;
+  animation: fadeInModal .2s ease;
+}
+@keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
+
+.case-modal-dialog {
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: 20px;
+  max-width: 1420px;
+  width: 96vw;
+  max-height: 94vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 30px 90px rgba(0,0,0,0.9);
+  position: relative;
+}
+.case-modal-close-btn {
+  position: fixed;
+  top: 24px;
+  right: 28px;
+  background: rgba(20, 20, 22, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 1100;
+  transition: all .2s ease;
+}
+.case-modal-close-btn:hover {
+  background: var(--text);
+  color: var(--bg);
+  transform: scale(1.05);
+}
+.case-modal-media-wrap {
+  width: 100%;
+  background: #08080a;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 20px;
+}
+.case-modal-media-wrap img {
+  width: 100%;
+  height: auto;
+  max-height: 68vh;
+  object-fit: contain;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.case-modal-media-toolbar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.case-modal-media-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+.case-modal-media-expand {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  padding: 5px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 12px;
+  transition: all .2s ease;
+}
+.case-modal-media-expand:hover {
+  background: var(--accent);
+  color: var(--on-accent);
+  border-color: var(--accent);
+}
+.case-modal-details {
+  padding: 38px 48px 48px;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 44px;
+  background: var(--surface);
+}
+@media (max-width: 1024px) {
+  .case-modal-details { grid-template-columns: 1fr; gap: 32px; padding: 28px 24px; }
+}
+.case-modal-client-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.case-modal-h2 {
+  font-family: var(--display);
+  font-size: clamp(24px, 2.4vw, 34px);
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.025em;
+  line-height: 1.18;
+  margin-bottom: 14px;
+}
+.case-modal-summary {
+  font-size: 14.5px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 22px;
+}
+.case-modal-chips-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.case-modal-chip-item {
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(200, 241, 53, 0.09);
+  border: 1px solid rgba(200, 241, 53, 0.28);
+  color: var(--text);
+  padding: 4px 11px;
+  border-radius: 6px;
+}
+.case-modal-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+@media (max-width: 600px) {
+  .case-modal-meta-grid { grid-template-columns: 1fr; }
+}
+.case-modal-meta-box {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+.case-modal-meta-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+.case-modal-meta-val {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 3px;
+}
+.case-modal-specs-col {
+  border-left: 1px solid var(--line);
+  padding-left: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+@media (max-width: 1024px) {
+  .case-modal-specs-col { border-left: none; padding-left: 0; border-top: 1px solid var(--line); padding-top: 28px; }
+}
+.case-modal-specs-title {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+}
+.case-modal-bullets-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 24px;
+  padding: 0;
+}
+.case-modal-bullets-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.case-modal-bullets-list .check-icon {
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 1.3;
+  flex-shrink: 0;
+}
+.case-modal-impact-box {
+  background: rgba(200, 241, 53, 0.06);
+  border: 1px solid rgba(200, 241, 53, 0.28);
+  border-radius: 10px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.case-modal-impact-icon {
+  font-size: 20px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.case-modal-impact-text {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.45;
+}
+.case-modal-compliance-badge {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
 /* STICKY FILTER BAR */
 .bar{
   position:sticky;
@@ -811,6 +1279,98 @@ dialog::backdrop{
   </div>
 </div>
 
+<!-- ============================================================== -->
+<!-- COMMERCIAL PRODUCTION CASE STUDIES (VIP SHOWCASE BLOCK)        -->
+<!-- ============================================================== -->
+<section class="case-studies-section" id="case-studies">
+  <div class="wrap">
+    <div class="case-container">
+      <div class="case-header">
+        <div>
+          <div class="case-eyebrow">Enterprise Production • Bulk SLA</div>
+          <h2 class="case-title">Commercial Production Case Studies</h2>
+          <p class="case-sub">Large-scale catalog fulfillment and multi-thousand-asset campaign deliveries for global brands.</p>
+        </div>
+        <div class="case-hint">
+          <span class="case-hint-dot"></span>
+          <span>Click to view full case study &amp; deliverables</span>
+        </div>
+      </div>
+      <div class="case-grid">
+        <!-- CARD 1: RAREFORM -->
+        <div class="case-card" onclick="openCaseStudyModal(0)">
+          <div class="case-media">
+            <img src="/assets/agency_showcase/rareform-2000-bags-case-study.png" alt="Rareform Case Study" loading="lazy">
+            <span class="case-category-pill">E-Commerce Product</span>
+            <span class="case-vol-pill">2,000+ SKUs</span>
+          </div>
+          <div class="case-body">
+            <div>
+              <div class="case-brand">Rareform (USA) — PO 755</div>
+              <h3 class="case-h3">2,000+ Unique 1-of-1 Billboard Vinyl Bags Retouching</h3>
+              <div class="case-chips">
+                <span class="case-chip accent">48–72h Batch SLA</span>
+                <span class="case-chip">100% Pen-Tool Paths</span>
+                <span class="case-chip">Pure #FFFFFF</span>
+              </div>
+            </div>
+            <div class="case-action">
+              <span>View Project Deliverables</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+        </div>
+        <!-- CARD 2: AMY LYNN -->
+        <div class="case-card" onclick="openCaseStudyModal(1)">
+          <div class="case-media">
+            <img src="/assets/agency_showcase/amy-lynn-1000-fashion-case-study.png" alt="Amy Lynn London Case Study" loading="lazy">
+            <span class="case-category-pill">Fashion &amp; Apparel</span>
+            <span class="case-vol-pill">1,000+ Assets</span>
+          </div>
+          <div class="case-body">
+            <div>
+              <div class="case-brand">Amy Lynn (London, UK)</div>
+              <h3 class="case-h3">1,000+ Contemporary Fashion &amp; Lookbook Retouching</h3>
+              <div class="case-chips">
+                <span class="case-chip accent">24–48h Rolling SLA</span>
+                <span class="case-chip">16-Bit Hand D&amp;B</span>
+                <span class="case-chip">Selfridges Specs</span>
+              </div>
+            </div>
+            <div class="case-action">
+              <span>View Project Deliverables</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+        </div>
+        <!-- CARD 3: SHINE PHOTO STUDIO -->
+        <div class="case-card" onclick="openCaseStudyModal(2)">
+          <div class="case-media">
+            <img src="/assets/agency_showcase/shine-studio-250-portraits-case-study.png" alt="Shine Photo Studio Case Study" loading="lazy">
+            <span class="case-category-pill">Dance Academy Studio</span>
+            <span class="case-vol-pill">250+ Portraits</span>
+          </div>
+          <div class="case-body">
+            <div>
+              <div class="case-brand">Shine Photo Studio</div>
+              <h3 class="case-h3">250+ Commercial Studio Portraits &amp; High-Key Edits</h3>
+              <div class="case-chips">
+                <span class="case-chip accent">24–48h SLA</span>
+                <span class="case-chip">Seamless #FFFFFF</span>
+                <span class="case-chip">Floor Reflections</span>
+              </div>
+            </div>
+            <div class="case-action">
+              <span>View Project Deliverables</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <div class="bar">
   <div class="wrap">
     <div class="pills" id="pills"></div>
@@ -1009,55 +1569,63 @@ dialog::backdrop{
   </div>
 </dialog>
 
+<!-- COMMERCIAL CASE STUDIES CINEMATIC MODAL -->
+<div class="case-modal-overlay" id="caseModalOverlay" onclick="closeCaseStudyModal(event)">
+  <button class="case-modal-close-btn" onclick="closeCaseStudyModal(event)" title="Close (Esc)">&times;</button>
+  <div class="case-modal-dialog" id="caseModalDialog" onclick="event.stopPropagation()">
+    
+    <!-- TOP: FULL-WIDTH CINEMATIC IMAGE -->
+    <div class="case-modal-media-wrap">
+      <img id="caseModalImg" src="" alt="Case Study Master Showcase">
+      <div class="case-modal-media-toolbar">
+        <div class="case-modal-media-info">
+          <span style="color:var(--accent);">●</span>
+          <span>16:9 Master Production Sheet — High Resolution</span>
+        </div>
+        <div>
+          <a id="caseModalFullLink" href="#" target="_blank" class="case-modal-media-expand">
+            <span>Open Full 1920×1080 Image ↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM: STRUCTURED DETAILS & DELIVERABLES -->
+    <div class="case-modal-details">
+      <!-- LEFT COL: CLIENT, TITLE, SUMMARY & METADATA -->
+      <div>
+        <div class="case-modal-client-label" id="caseModalClient"></div>
+        <h2 class="case-modal-h2" id="caseModalTitle"></h2>
+        <p class="case-modal-summary" id="caseModalSummary"></p>
+        <div class="case-modal-chips-row" id="caseModalChips"></div>
+        <div class="case-modal-meta-grid" id="caseModalMetaGrid"></div>
+        <div class="case-modal-compliance-badge">
+          <strong style="color:var(--text);">Enterprise Quality Guarantee:</strong> Calibrated sRGB / Adobe RGB color workflow, 100% human craftsman retouching with zero automated filter degradation. Pre-flighted for seamless CMS and e-commerce ingestion.
+        </div>
+      </div>
+
+      <!-- RIGHT COL: DELIVERED SCOPE & CHECKMARKS -->
+      <div class="case-modal-specs-col">
+        <div>
+          <h4 class="case-modal-specs-title">Delivered Scope &amp; Quality Specifications:</h4>
+          <ul class="case-modal-bullets-list" id="caseModalBullets"></ul>
+        </div>
+        <div class="case-modal-impact-box" id="caseModalImpactBox">
+          <div class="case-modal-impact-icon">⚡</div>
+          <div class="case-modal-impact-text" id="caseModalImpactText"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <script>
 (function(){
   var CATS = { all: 'All', jewelry: 'Jewelry', fashion: 'Fashion', beauty: 'Beauty', product: 'Product', automotive: 'Automotive' };
   
-  // DATASET OF ALL COMBINED PROJECTS (CURATED SPOTLIGHTS FIRST)
+  // DATASET OF ALL COMBINED PROJECTS (PORTFOLIO GALLERY)
   var items = [
-  {
-    "img": "/assets/agency_showcase/rareform-2000-bags-case-study.png",
-    "t": "Rareform — 2,000+ Unique 1-of-1 E-Commerce Bags (PO 755)",
-    "c": "product",
-    "turnaround": "48 to 72 Hours (Batch SLA)",
-    "color": "Calibrated sRGB / 240 DPI",
-    "delivery": "Pure White Cutouts & Transparent PNGs",
-    "s": [
-      "2,000+ unique 1-of-1 billboard vinyl bag packshots",
-      "100% hand-drawn pen-tool clipping paths",
-      "Proportional silhouette liquify for catalog symmetry",
-      "Standardized realistic soft drop shadows & sRGB calibration"
-    ]
-  },
-  {
-    "img": "/assets/agency_showcase/amy-lynn-1000-fashion-case-study.png",
-    "t": "Amy Lynn (London) — 1,000+ Contemporary Fashion & Lookbook Retouching",
-    "c": "fashion",
-    "turnaround": "24 to 48 Hours (Batch SLA)",
-    "color": "Calibrated sRGB / 240 DPI (16-bit Master)",
-    "delivery": "High-Res E-Commerce & Lookbook Assets",
-    "s": [
-      "1,000+ commercial on-model lookbook & e-commerce apparel assets delivered",
-      "Non-destructive 16-bit dodge & burn preserving authentic skin tone & pore texture",
-      "Intricate fabric weave, smocking, lace trim & pleat definition retention",
-      "Studio infinity background alignment with natural contact floor drop shadows"
-    ]
-  },
-  {
-    "img": "/assets/agency_showcase/shine-studio-250-portraits-case-study.png",
-    "t": "Shine Photo Studio — 250+ Commercial Studio Portraits & High-Key Edits",
-    "c": "fashion",
-    "turnaround": "24 to 48 Hours (Batch SLA)",
-    "color": "Calibrated sRGB / 240 DPI (16-bit Master)",
-    "delivery": "Seamless #FFFFFF & Specular Floor Reflections",
-    "s": [
-      "250+ dance academy, theatrical & recital studio portraits delivered",
-      "Seamless 100% pure #FFFFFF background conversion with natural floor drop shadows",
-      "Non-destructive 16-bit dodge & burn preserving natural skin texture & costume fabric",
-      "Specular mirror floor reflections & vibrant sequin color calibration"
-    ]
-  },
-
   {
     "img": "/assets/agency_showcase/martini-porsche-retouching-after.webp",
     "t": "Martini Porsche 936 Trackside Studio Conversion (B/A)",
@@ -2312,6 +2880,122 @@ dialog::backdrop{
     document.body.style.opacity = '1';
     document.body.style.visibility = 'visible';
     syncHeaderClientState();
+  });
+})();
+</script>
+
+<!-- COMMERCIAL PRODUCTION CASE STUDIES MODAL HANDLER -->
+<script>
+(function() {
+  var caseStudiesData = [
+    {
+      client: "Rareform (USA) — Purchase Order 755 • California Sustainable Brand",
+      title: "Rareform — 2,000+ Unique 1-of-1 Billboard Vinyl Bags Retouching",
+      img: "/assets/agency_showcase/rareform-2000-bags-case-study.png",
+      summary: "Rareform repurposes authentic outdoor highway billboard vinyl into durable bags and backpacks. Because each product is cut from a different section of a real billboard, every single SKU is a unique 1-of-1 original. Retoucher Shoaib was engaged to standardize catalog silhouettes, remove industrial blemishes, and generate pure white e-commerce cutouts across 2,000+ individual items under aggressive batch turnaround deadlines.",
+      meta: [
+        { label: "Production Volume", val: "2,000+ Unique SKUs" },
+        { label: "Batch Turnaround SLA", val: "48–72 Hours Rolling" },
+        { label: "Master Deliverables", val: "Layered PSD + Transparent Alpha PNG + Web JPG" },
+        { label: "Portal Compliance", val: "Amazon, Shopify Plus & Google Shopping" }
+      ],
+      chips: ["48–72h Batch SLA", "100% Pen-Tool Paths", "Pure #FFFFFF Cutouts", "Proportional Liquify", "Billboard Tarp Texture", "Color Fidelity sRGB"],
+      bullets: [
+        "<strong>100% Hand-Drawn Pen-Tool Paths:</strong> Pixel-perfect vector clipping paths isolating heavy vinyl corners, nylon webbing straps, metal D-rings, and zippers with zero automated fringe or jagged pixel artifacts.",
+        "<strong>Proportional Silhouette Liquify:</strong> Standardizing folded or collapsed vinyl shapes into upright, catalog-symmetrical silhouettes while safeguarding the authentic 1-of-1 graphic pattern.",
+        "<strong>Pure 100% #FFFFFF Background:</strong> Flawless transition onto pure #FFFFFF meeting strict marketplace requirements while seamlessly preserving the bag's natural grounding contact shadow.",
+        "<strong>Hardware & Surface Polish:</strong> Non-destructive cleanup of transit dust, minor vinyl scuffs, and metal zipper oxidation without eroding the authentic recycled tarp character.",
+        "<strong>Vibrant Ink & Hue Calibration:</strong> Calibrated sRGB color grading ensuring safety-neon, deep black, and primary billboard ink colors match the physical product, preventing costly customer returns.",
+        "<strong>Structured Batch Delivery Pipeline:</strong> Automated file renaming mapped to purchase order SKUs, layered master files with isolated shadows, and compressed web-ready outputs."
+      ],
+      impact: "<strong>Production Outcome:</strong> 100% on-time delivery across rolling weekly shipments with a 0.0% catalog rejection rate across international retail channels."
+    },
+    {
+      client: "Amy Lynn (London, UK) — Contemporary Luxury Womenswear",
+      title: "Amy Lynn (London) — 1,000+ Contemporary Fashion & Lookbook Retouching",
+      img: "/assets/agency_showcase/amy-lynn-1000-fashion-case-study.png",
+      summary: "Amy Lynn is an award-winning London fashion house stocked internationally at Selfridges, Nordstrom, and premier boutiques. Retoucher Shoaib handles end-to-end commercial lookbook and digital catalog post-production across rolling seasonal drops, harmonizing high-fashion editorial aesthetics with true-to-life e-commerce fabric fidelity.",
+      meta: [
+        { label: "Production Volume", val: "1,000+ Commercial Looks" },
+        { label: "Rolling SLA Turnaround", val: "24–48 Hours per Drop" },
+        { label: "Master Deliverables", val: "16-Bit Master TIFF + Print 240 DPI + sRGB Web" },
+        { label: "Retail DAM Standards", val: "Selfridges & Nordstrom Partner Specs" }
+      ],
+      chips: ["24–48h Rolling SLA", "100% 16-Bit Hand D&B", "Zero AI Smoothing", "Fabric Weave Retention", "Selfridges Specs", "Infinity Cyclorama"],
+      bullets: [
+        "<strong>100% 16-Bit Non-Destructive Dodge & Burn:</strong> Micro-contrast skin retouching preserving natural skin pores, fine texture, and luminous highlights. Absolutely zero artificial AI blurring or plastic smoothing.",
+        "<strong>Intricate Fabric & Weave Preservation:</strong> Micro-detail definition retention across delicate plissé pleats, smocked elastic bodices, broderie anglaise lace, and liquid metallic chiffons.",
+        "<strong>Garment Drape & Wrinkle Refinement:</strong> Removing distracting shipping creases, packing wrinkles, and seam puckering while maintaining the natural tailored drape intended by the designer.",
+        "<strong>Studio Infinity Cyclorama Alignment:</strong> Equalizing studio lighting gradation, eliminating floor scuffs and seams, while preserving natural model footwear contact drop shadows for realistic depth.",
+        "<strong>Physical Swatch Color Precision:</strong> Strict color matching against physical garment fabric swatches and Pantone codes to eliminate color drift between studio strobe lights and natural daylight.",
+        "<strong>Full Multi-Look Catalog Harmony:</strong> Uniform contrast, skin tone calibration, and backdrop luminance matched across front, back, profile, and detail macro shots for cohesive collection presentation."
+      ],
+      impact: "<strong>Production Outcome:</strong> Rapid 24–48h turnarounds enabled simultaneous omnichannel launch across European department store portals and direct-to-consumer digital lookbooks."
+    },
+    {
+      client: "Shine Photo Studio — Dance Academy & Theatrical Production",
+      title: "Shine Photo Studio — 250+ Commercial Studio Portraits & High-Key Edits",
+      img: "/assets/agency_showcase/shine-studio-250-portraits-case-study.png",
+      summary: "Shine Photo Studio specializes in high-volume dance academy, theater, and performing arts portraiture. Capturing dynamic leaps, theatrical costumes, and studio recital portraits, Retoucher Shoaib was commissioned to transform raw strobe shots into immaculate, high-key commercial portraits with specular floor reflections across 5 rapid production batches.",
+      meta: [
+        { label: "Production Volume", val: "250+ Studio Portraits" },
+        { label: "Continuous SLA Schedule", val: "24–48 Hours per Batch (5 Batches)" },
+        { label: "Master Deliverables", val: "Print Ready 300 DPI + High-Res Web JPG + Cutouts" },
+        { label: "Output Use-Cases", val: "Studio Yearbooks, Parent Ordering Portal & Stage Posters" }
+      ],
+      chips: ["24–48h SLA (5 Batches)", "Seamless #FFFFFF", "Specular Floor Reflections", "Tulle & Satin Edge Preservation", "Sequin Vibrancy", "Youth Skin Retouching"],
+      bullets: [
+        "<strong>High-Key Seamless 100% Pure #FFFFFF Cyclorama:</strong> Complete removal of studio floor scuffs, backdrop wrinkles, and light falloff, delivering a pristine white infinity background without edge haloing.",
+        "<strong>Organic Floor Drop Shadows & Specular Mirror Reflections:</strong> Retaining and enhancing authentic glossy stage floor reflections to keep dancers, acrobatic leaps, and props grounded and dynamic.",
+        "<strong>Delicate Costume Edge & Hair Masking:</strong> Precision isolation around complex flyaway hair, feather boas, sheer tulle skirts, and sheer chiffon wraps with zero jagged edges or pixel loss.",
+        "<strong>Specular Sequin & Metallic Leotard Calibration:</strong> Eliminating harsh strobe glare while preserving radiant sequin sparkle, metallic foil luster, and saturated theatrical costume dye hues.",
+        "<strong>Youth & Recital Skin Retouching:</strong> Non-destructive blemish removal, softening harsh under-eye and neck strobe shadows, and enhancing eye catchlights while preserving authentic child & teen facial anatomy.",
+        "<strong>Dynamic Studio Cleanup:</strong> Removing safety pins, garment tags, studio floor marking tape, and correcting minor costume misalignments during mid-air leaps and arabesque balances."
+      ],
+      impact: "<strong>Production Outcome:</strong> Delivered all 5 production batches within 48h windows, enabling immediate print delivery for regional recital programs and parent portrait ordering galleries."
+    }
+  ];
+
+  function openCaseStudyModal(index) {
+    var data = caseStudiesData[index];
+    if (!data) return;
+    document.getElementById('caseModalImg').src = data.img;
+    document.getElementById('caseModalFullLink').href = data.img;
+    document.getElementById('caseModalClient').innerText = data.client;
+    document.getElementById('caseModalTitle').innerText = data.title;
+    document.getElementById('caseModalSummary').innerText = data.summary;
+    
+    var chipsWrap = document.getElementById('caseModalChips');
+    chipsWrap.innerHTML = data.chips.map(function(c) { return '<span class="case-modal-chip-item">' + c + '</span>'; }).join('');
+    
+    var metaWrap = document.getElementById('caseModalMetaGrid');
+    metaWrap.innerHTML = data.meta.map(function(m) {
+      return '<div class="case-modal-meta-box"><div class="case-modal-meta-label">' + m.label + '</div><div class="case-modal-meta-val">' + m.val + '</div></div>';
+    }).join('');
+
+    var bulletsWrap = document.getElementById('caseModalBullets');
+    bulletsWrap.innerHTML = data.bullets.map(function(b) {
+      return '<li><span class="check-icon">✓</span><span>' + b + '</span></li>';
+    }).join('');
+    
+    document.getElementById('caseModalImpactText').innerHTML = data.impact;
+
+    var overlay = document.getElementById('caseModalOverlay');
+    if (overlay) overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeCaseStudyModal(e) {
+    var overlay = document.getElementById('caseModalOverlay');
+    if (overlay) overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  window.openCaseStudyModal = openCaseStudyModal;
+  window.closeCaseStudyModal = closeCaseStudyModal;
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeCaseStudyModal();
   });
 })();
 </script>
