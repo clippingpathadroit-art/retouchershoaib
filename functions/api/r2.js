@@ -125,6 +125,72 @@ async function hmacSha256Raw(keyBytes, message) {
   return await crypto.subtle.sign('HMAC', cryptoKey, te.encode(message));
 }
 
+function timingSafeEqualStr(a, b) {
+  const strA = String(a || '');
+  const strB = String(b || '');
+  if (strA.length !== strB.length) return false;
+  let diff = 0;
+  for (let i = 0; i < strA.length; i++) {
+    diff |= strA.charCodeAt(i) ^ strB.charCodeAt(i);
+  }
+  return diff === 0;
+}
+
+function hexToBytes(hex) {
+  const clean = String(hex || '').trim();
+  if (!clean || clean.length % 2 !== 0) return new Uint8Array(0);
+  const out = new Uint8Array(clean.length / 2);
+  for (let i = 0; i < out.length; i++) {
+    out[i] = parseInt(clean.slice(i * 2, i * 2 + 2), 16);
+  }
+  return out;
+}
+
+export async function hashPassword(password) {
+  const saltBytes = crypto.getRandomValues(new Uint8Array(16));
+  const iterations = 100000;
+  const keyMaterial = await crypto.subtle.importKey(
+    'raw',
+    te.encode(String(password)),
+    'PBKDF2',
+    false,
+    ['deriveBits']
+  );
+  const derivedBits = await crypto.subtle.deriveBits(
+    { name: 'PBKDF2', salt: saltBytes, iterations, hash: 'SHA-256' },
+    keyMaterial,
+    256
+  );
+  return `pbkdf2_sha256$${iterations}$${toHex(saltBytes)}$${toHex(derivedBits)}`;
+}
+
+export async function verifyPassword(password, stored) {
+  const rawStored = String(stored || '');
+  if (!rawStored) return false;
+  if (rawStored.startsWith('pbkdf2_sha256$')) {
+    const parts = rawStored.split('$');
+    if (parts.length !== 4) return false;
+    const iterations = parseInt(parts[1], 10);
+    const saltBytes = hexToBytes(parts[2]);
+    const expectedHex = parts[3];
+    if (!iterations || saltBytes.length === 0 || !expectedHex) return false;
+    const keyMaterial = await crypto.subtle.importKey(
+      'raw',
+      te.encode(String(password)),
+      'PBKDF2',
+      false,
+      ['deriveBits']
+    );
+    const derivedBits = await crypto.subtle.deriveBits(
+      { name: 'PBKDF2', salt: saltBytes, iterations, hash: 'SHA-256' },
+      keyMaterial,
+      256
+    );
+    return timingSafeEqualStr(toHex(derivedBits), expectedHex);
+  }
+  return timingSafeEqualStr(String(password), rawStored);
+}
+
 // ========================================================
 // AWS SIGV4 SIGNING & PRESIGNED URL GENERATOR (CLOUDFLARE R2)
 // ========================================================
@@ -881,7 +947,149 @@ export async function onRequest(context) {
         role,
         ttlSeconds: 7 * 24 * 3600,
       });
-      return jsonResponse({ status: 'success', token, email: verified.email, role, expiresIn: 7 * 24 * 3600 }, 200, request);
+
+      let cloudUser = null;
+      try {
+        const db = await fetchStudioDatabase();
+        const rec = db && db.users ? db.users[verified.email] : null;
+        if (rec) {
+          cloudUser = {
+            name: rec.name || verified.name || '',
+            company: rec.company || '',
+            email: verified.email,
+            address: rec.address || '',
+            phone: rec.phone || '',
+            tin: rec.tin || '',
+          };
+        }
+      } catch (e) {}
+
+      return jsonResponse({
+        status: 'success',
+        token,
+        email: verified.email,
+        role,
+        expiresIn: 7 * 24 * 3600,
+        user: cloudUser,
+      }, 200, request);
+    }
+
+    if (action === 'register-client') {
+      const name = String(body.name || '').trim();
+      const company = String(body.company || '').trim();
+      const email = String(body.email || '').toLowerCase().trim();
+      const address = String(body.address || '').trim();
+      const password = String(body.password || '');
+
+      if (!name || name.length < 2) {
+        return jsonResponse({ status: 'error', message: 'Please enter your full name.' }, 400, request);
+      }
+      if (!company || company.length < 2) {
+        return jsonResponse({ status: 'error', message: 'Please enter your studio, agency, or brand name.' }, 400, request);
+      }
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return jsonResponse({ status: 'error', message: 'Please enter a valid work or studio email address.' }, 400, request);
+      }
+      if (email === AUTHORIZED_DIRECTOR_EMAIL) {
+        return jsonResponse({ status: 'error', message: 'This reserved studio email must sign in via Google.' }, 403, request);
+      }
+      if (!address || address.length < 3) {
+        return jsonResponse({ status: 'error', message: 'Please enter your billing address or country.' }, 400, request);
+      }
+      if (!password || password.length < 6) {
+        return jsonResponse({ status: 'error', message: 'Password must be at least 6 characters long.' }, 400, request);
+      }
+
+      const db = await fetchStudioDatabase();
+      const users = db.users || {};
+      if (users[email]) {
+        const isGoogleOnly = !users[email].passHash && !users[email].pass;
+        return jsonResponse({
+          status: 'error',
+          code: 'ACCOUNT_EXISTS',
+          message: isGoogleOnly
+            ? 'An account with this email already exists via Google Sign-In. Please click "Continue with Google" above.'
+            : 'An account already exists with this email. Please select "Log In" above.',
+        }, 409, request);
+      }
+
+      const passHash = await hashPassword(password);
+      const userPayload = {
+        name,
+        company,
+        email,
+        address,
+        phone: '',
+        tin: '',
+        passHash,
+        authProvider: 'password',
+        createdAt: new Date().toISOString(),
+      };
+
+      const gasRes = await fetch(GAS_DB_URL, {
+        method: 'POST',
+        redirect: 'follow',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'register_user', user: userPayload }),
+      });
+      const gasText = await gasRes.text();
+      let gasJson = {};
+      try { gasJson = JSON.parse(gasText); } catch (e) {}
+      if (!gasRes.ok || gasJson.status === 'error') {
+        if (gasJson.code === 'ACCOUNT_EXISTS') {
+          return jsonResponse({
+            status: 'error',
+            code: 'ACCOUNT_EXISTS',
+            message: 'An account already exists with this email. Please select "Log In" above.',
+          }, 409, request);
+        }
+        throw new Error(gasJson.message || 'Unable to save registration to studio database.');
+      }
+
+      const token = await issueSessionToken(cfg.authSecret, {
+        sub: email,
+        role: 'client',
+        ttlSeconds: 7 * 24 * 3600,
+      });
+
+      return jsonResponse({
+        status: 'success',
+        token,
+        email,
+        role: 'client',
+        expiresIn: 7 * 24 * 3600,
+        user: { name, company, email, address, phone: '', tin: '' },
+      }, 200, request);
+    }
+
+    if (action === 'update-client-profile') {
+      const claims = await requireAuthenticatedUser(request, env);
+      const email = claims.sub;
+      const name = String(body.name || '').trim();
+      const company = String(body.company || '').trim();
+      const address = String(body.address || '').trim();
+      const phone = String(body.phone || '').trim();
+      const tin = String(body.tin || '').trim();
+
+      if (!name || !company || !address) {
+        return jsonResponse({ status: 'error', message: 'Name, company, and address are required.' }, 400, request);
+      }
+
+      await fetch(GAS_DB_URL, {
+        method: 'POST',
+        redirect: 'follow',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'create_client_folder',
+          email,
+          user: { name, company, email, address, phone, tin },
+        }),
+      });
+
+      return jsonResponse({
+        status: 'success',
+        user: { name, company, email, address, phone, tin },
+      }, 200, request);
     }
 
     if (action === 'auth-client-password') {
@@ -891,20 +1099,54 @@ export async function onRequest(context) {
         return jsonResponse({ status: 'error', message: 'Email and password are required' }, 400, request);
       }
       if (email === AUTHORIZED_DIRECTOR_EMAIL) {
-        return jsonResponse({ status: 'error', message: 'Director must authenticate via Google Sign-In.' }, 403, request);
+        return jsonResponse({ status: 'error', message: 'Studio Director must authenticate via Google Sign-In.' }, 403, request);
       }
       const db = await fetchStudioDatabase();
       const users = db.users || {};
       const record = users[email];
-      if (!record || !record.pass || String(record.pass) !== password) {
-        return jsonResponse({ status: 'error', message: 'Invalid email or password for cloud session verification.' }, 401, request);
+      if (!record) {
+        return jsonResponse({
+          status: 'error',
+          code: 'NO_ACCOUNT',
+          message: 'No studio account found with this email. Please click "Sign Up" above to register.',
+        }, 401, request);
+      }
+      const storedCredential = record.passHash || record.pass || '';
+      if (!storedCredential) {
+        return jsonResponse({
+          status: 'error',
+          code: 'GOOGLE_ACCOUNT',
+          message: 'This account uses Google Sign-In. Please click "Continue with Google" above.',
+        }, 401, request);
+      }
+      const passOk = await verifyPassword(password, storedCredential);
+      if (!passOk) {
+        return jsonResponse({
+          status: 'error',
+          code: 'INVALID_PASSWORD',
+          message: 'Invalid email or password. Please verify and try again.',
+        }, 401, request);
       }
       const token = await issueSessionToken(cfg.authSecret, {
         sub: email,
         role: 'client',
         ttlSeconds: 7 * 24 * 3600,
       });
-      return jsonResponse({ status: 'success', token, email, role: 'client', expiresIn: 7 * 24 * 3600 }, 200, request);
+      return jsonResponse({
+        status: 'success',
+        token,
+        email,
+        role: 'client',
+        expiresIn: 7 * 24 * 3600,
+        user: {
+          name: record.name || '',
+          company: record.company || '',
+          email,
+          address: record.address || '',
+          phone: record.phone || '',
+          tin: record.tin || '',
+        },
+      }, 200, request);
     }
 
     // All storage actions require either R2 Bucket Binding or complete R2 S3 credentials

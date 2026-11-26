@@ -990,9 +990,85 @@ body {
   color: var(--mut);
   opacity: 0.45;
 }
+#authGateScreen {
+  display: flex;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #080c14;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px 16px;
+  overflow-y: auto;
+}
+#authGateScreen .auth-card {
+  margin: auto;
+}
 #authGateScreen input::placeholder {
   color: #9ca3af;
-  opacity: 0.42;
+  opacity: 0.48;
+}
+#authGateScreen input:focus {
+  border-color: #ff4d00 !important;
+  box-shadow: 0 0 0 3px rgba(255, 77, 0, 0.18);
+}
+.auth-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+@media (max-width: 520px) {
+  .auth-two-col { grid-template-columns: 1fr; gap: 12px; }
+}
+.auth-pass-wrap {
+  position: relative;
+}
+.auth-pass-wrap input {
+  padding-right: 40px !important;
+}
+.auth-eye-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 4px 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 1;
+}
+.auth-eye-btn:hover { color: #fff; }
+.auth-alert {
+  display: none;
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+.auth-alert.err {
+  display: block;
+  background: rgba(239, 68, 68, 0.14);
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  color: #fecaca;
+}
+.auth-alert.ok {
+  display: block;
+  background: rgba(16, 185, 129, 0.14);
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  color: #a7f3d0;
+}
+.auth-alert.info {
+  display: block;
+  background: rgba(59, 130, 246, 0.14);
+  border: 1px solid rgba(59, 130, 246, 0.45);
+  color: #bfdbfe;
 }
 
 /* RESPONSIVE TOGGLES */
@@ -1742,10 +1818,10 @@ body {
 <!-- ========================================================
      CLIENT AUTH GATE: FULL-SCREEN LOGIN & SIGN-UP WALL
      ======================================================== -->
-<div id="authGateScreen" style="display: flex; position: fixed; inset: 0; z-index: 99999; background: #080c14; align-items: center; justify-content: center; padding: 24px 16px; overflow-y: auto;">
-  <div class="auth-card" style="background: #111827; border: 1px solid #1f2937; border-radius: 16px; width: 100%; max-width: 440px; padding: 36px 30px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); color: #fff;">
+<div id="authGateScreen">
+  <div class="auth-card" style="background: #111827; border: 1px solid #1f2937; border-radius: 16px; width: 100%; max-width: 460px; padding: 30px 28px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); color: #fff;">
     <!-- BRAND LOGO -->
-    <div style="text-align: center; margin-bottom: 24px;">
+    <div style="text-align: center; margin-bottom: 20px;">
       <div style="font-family: var(--f-display); font-size: 20px; font-weight: 800; letter-spacing: 0.05em; color: #fff;">
         RETOUCHER SHOAIB<sup>&reg;</sup>
       </div>
@@ -1756,7 +1832,7 @@ body {
     </div>
 
     <!-- TABS: LOG IN / SIGN UP -->
-    <div style="display: flex; border-bottom: 1px solid #374151; margin-bottom: 24px;">
+    <div style="display: flex; border-bottom: 1px solid #374151; margin-bottom: 20px;">
       <button type="button" id="tabBtnLogin" onclick="switchAuthTab('login')" style="flex: 1; padding: 10px; font-size: 14px; font-weight: 700; background: none; border: none; border-bottom: 2px solid #ff4d00; color: #fff; cursor: pointer;">
         Log In
       </button>
@@ -1775,55 +1851,87 @@ body {
       <span>Continue with Google</span>
     </button>
 
-    <div style="display: flex; align-items: center; margin: 18px 0; color: #6b7280; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;">
+    <div style="display: flex; align-items: center; margin: 16px 0; color: #6b7280; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;">
       <div style="flex: 1; height: 1px; background: #374151;"></div>
       <span style="padding: 0 10px;">or with email</span>
       <div style="flex: 1; height: 1px; background: #374151;"></div>
     </div>
 
+    <!-- INLINE FEEDBACK MESSAGE -->
+    <div id="authInlineMsg" class="auth-alert" role="alert"></div>
+
     <!-- 1. LOGIN FORM -->
     <form id="authLoginForm" onsubmit="handleAuthLogin(event)">
-      <div style="margin-bottom: 14px;">
-        <label style="display: block; font-size: 12px; font-weight: 600; color: #d1d5db; margin-bottom: 6px;">Work / Studio Email</label>
-        <input type="email" id="authLoginEmail" required placeholder="e.g. client@brand.com" style="width: 100%; padding: 10px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
+      <div style="margin-bottom: 13px;">
+        <label style="display: block; font-size: 12px; font-weight: 600; color: #d1d5db; margin-bottom: 5px;">Work / Studio Email</label>
+        <input type="email" id="authLoginEmail" required autocomplete="email" placeholder="e.g. client@brand.com" style="width: 100%; padding: 10px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
       </div>
-      <div style="margin-bottom: 20px;">
-        <label style="display: block; font-size: 12px; font-weight: 600; color: #d1d5db; margin-bottom: 6px;">Password</label>
-        <input type="password" id="authLoginPass" required placeholder="••••••••" style="width: 100%; padding: 10px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
+      <div style="margin-bottom: 18px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+          <label style="font-size: 12px; font-weight: 600; color: #d1d5db;">Password</label>
+          <button type="button" onclick="showForgotPasswordForm()" style="background: none; border: none; color: #9ca3af; font-size: 11.5px; font-weight: 600; cursor: pointer; text-decoration: underline; padding: 0;">Forgot password?</button>
+        </div>
+        <div class="auth-pass-wrap">
+          <input type="password" id="authLoginPass" required autocomplete="current-password" placeholder="••••••••" style="width: 100%; padding: 10px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
+          <button type="button" class="auth-eye-btn" onclick="togglePasswordVisibility('authLoginPass', this)" aria-label="Toggle password visibility" title="Show/Hide password">👁️</button>
+        </div>
       </div>
-      <button type="submit" style="width: 100%; background: #ff4d00; color: #fff; border: none; border-radius: 8px; padding: 12px; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity 0.2s ease;">
+      <button type="submit" id="authLoginSubmitBtn" style="width: 100%; background: #ff4d00; color: #fff; border: none; border-radius: 8px; padding: 12px; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity 0.2s ease;">
         Log In to Workspace &rarr;
       </button>
     </form>
 
+    <!-- 1B. FORGOT PASSWORD RECOVERY FORM -->
+    <form id="authForgotForm" onsubmit="handleForgotPassword(event)" style="display: none;">
+      <p style="font-size: 12.5px; color: #cbd5e1; margin-bottom: 12px; line-height: 1.5;">
+        Enter your registered studio email to notify our support desk for a password reset — or click <strong>Continue with Google</strong> above if your account uses Google Sign-In.
+      </p>
+      <div style="margin-bottom: 14px;">
+        <label style="display: block; font-size: 12px; font-weight: 600; color: #d1d5db; margin-bottom: 5px;">Registered Email *</label>
+        <input type="email" id="authForgotEmail" required autocomplete="email" placeholder="e.g. client@brand.com" style="width: 100%; padding: 10px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
+      </div>
+      <button type="submit" id="authForgotSubmitBtn" style="width: 100%; background: #ff4d00; color: #fff; border: none; border-radius: 8px; padding: 11px; font-size: 13.5px; font-weight: 700; cursor: pointer; margin-bottom: 10px;">
+        Request Password Reset &rarr;
+      </button>
+      <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px;">
+        <button type="button" onclick="backToLoginForm()" style="background: none; border: none; color: #9ca3af; font-weight: 600; cursor: pointer; padding: 0;">&larr; Back to Log In</button>
+        <a href="https://wa.me/8801710763251" target="_blank" rel="noopener" style="color: #34d399; font-weight: 600; text-decoration: none;">WhatsApp Support ↗</a>
+      </div>
+    </form>
+
     <!-- 2. SIGNUP FORM (SHOWN WHEN SIGN UP TAB CLICKED) -->
     <form id="authSignupForm" onsubmit="handleAuthSignup(event)" style="display: none;">
-      <div style="margin-bottom: 12px;">
-        <label style="display: block; font-size: 12px; font-weight: 600; color: #d1d5db; margin-bottom: 4px;">Your Full Name *</label>
-        <input type="text" id="authSignName" required placeholder="e.g. Alexander Vance" style="width: 100%; padding: 9px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
+      <div class="auth-two-col" style="margin-bottom: 11px;">
+        <div>
+          <label style="display: block; font-size: 12px; font-weight: 600; color: #d1d5db; margin-bottom: 4px;">Your Full Name *</label>
+          <input type="text" id="authSignName" required minlength="2" autocomplete="name" placeholder="e.g. Alexander Vance" style="width: 100%; padding: 9px 11px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
+        </div>
+        <div>
+          <label style="display: block; font-size: 12px; font-weight: 600; color: #d1d5db; margin-bottom: 4px;">Studio / Brand Name *</label>
+          <input type="text" id="authSignCompany" required minlength="2" autocomplete="organization" placeholder="e.g. Vance Studio" style="width: 100%; padding: 9px 11px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
+        </div>
       </div>
-      <div style="margin-bottom: 12px;">
-        <label style="display: block; font-size: 12px; font-weight: 600; color: #d1d5db; margin-bottom: 4px;">Studio / Agency / Brand Name *</label>
-        <input type="text" id="authSignCompany" required placeholder="e.g. Vance Creative / Vogue" style="width: 100%; padding: 9px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
-      </div>
-      <div style="margin-bottom: 12px;">
+      <div style="margin-bottom: 11px;">
         <label style="display: block; font-size: 12px; font-weight: 600; color: #d1d5db; margin-bottom: 4px;">Work / Studio Email *</label>
-        <input type="email" id="authSignEmail" required placeholder="e.g. client@brand.com" style="width: 100%; padding: 9px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
+        <input type="email" id="authSignEmail" required autocomplete="email" placeholder="e.g. client@brand.com" style="width: 100%; padding: 9px 11px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
       </div>
-      <div style="margin-bottom: 12px;">
+      <div style="margin-bottom: 11px;">
         <label style="display: block; font-size: 12px; font-weight: 600; color: #d1d5db; margin-bottom: 4px;">Billing Address / Country *</label>
-        <input type="text" id="authSignAddress" required placeholder="e.g. 100 Broadway, New York, NY 10005" style="width: 100%; padding: 9px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
+        <input type="text" id="authSignAddress" required minlength="3" autocomplete="street-address" placeholder="e.g. 100 Broadway, New York, NY 10005" style="width: 100%; padding: 9px 11px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
       </div>
-      <div style="margin-bottom: 18px;">
-        <label style="display: block; font-size: 12px; font-weight: 600; color: #d1d5db; margin-bottom: 4px;">Create Password *</label>
-        <input type="password" id="authSignPass" required placeholder="••••••••" style="width: 100%; padding: 9px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
+      <div style="margin-bottom: 16px;">
+        <label style="display: block; font-size: 12px; font-weight: 600; color: #d1d5db; margin-bottom: 4px;">Create Password (min. 6 characters) *</label>
+        <div class="auth-pass-wrap">
+          <input type="password" id="authSignPass" required minlength="6" autocomplete="new-password" placeholder="Min. 6 characters" style="width: 100%; padding: 9px 11px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
+          <button type="button" class="auth-eye-btn" onclick="togglePasswordVisibility('authSignPass', this)" aria-label="Toggle password visibility" title="Show/Hide password">👁️</button>
+        </div>
       </div>
-      <button type="submit" style="width: 100%; background: #ff4d00; color: #fff; border: none; border-radius: 8px; padding: 12px; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity 0.2s ease;">
+      <button type="submit" id="authSignupSubmitBtn" style="width: 100%; background: #ff4d00; color: #fff; border: none; border-radius: 8px; padding: 12px; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity 0.2s ease;">
         Create My Client Workspace &rarr;
       </button>
     </form>
 
-    <p style="text-align: center; font-size: 12px; color: #64748b; margin: 18px 0 0; line-height: 1.5;">
+    <p style="text-align: center; font-size: 12px; color: #64748b; margin: 16px 0 0; line-height: 1.5;">
       Protected by Studio NDA. By signing in, you agree to our <a href="/privacy" style="color: #94a3b8; text-decoration: underline;">Privacy Policy</a> &amp; <a href="/terms" style="color: #94a3b8; text-decoration: underline;">Terms</a>.
     </p>
   </div>
@@ -2986,6 +3094,33 @@ async function exchangeGoogleClientToken(credential) {
     const data = await res.json();
     if (res.ok && data && data.status === 'success' && data.token) {
       setClientApiToken(data.token, data.expiresIn);
+      if (data.user && data.user.email) {
+        try {
+          const curProf = JSON.parse(localStorage.getItem('shoaib_client_profile') || '{}');
+          if (!curProf.email || curProf.email.toLowerCase() === data.user.email.toLowerCase()) {
+            const mergedProf = Object.assign({}, curProf, {
+              name: curProf.name || data.user.name || '',
+              company: curProf.company || data.user.company || '',
+              email: data.user.email,
+              address: curProf.address || data.user.address || '',
+              phone: curProf.phone || data.user.phone || '',
+              tin: curProf.tin || data.user.tin || '',
+              isDemo: false
+            });
+            localStorage.setItem('shoaib_client_profile', JSON.stringify(mergedProf));
+            const curSess = getCurrentSession() || {};
+            const mergedSess = Object.assign({}, curSess, {
+              name: mergedProf.name,
+              company: mergedProf.company,
+              address: mergedProf.address,
+              phone: mergedProf.phone
+            });
+            localStorage.setItem('shoaib_client_session', JSON.stringify(mergedSess));
+            sessionStorage.setItem('shoaib_client_session', JSON.stringify(mergedSess));
+            if (typeof loadClientProfile === 'function') loadClientProfile();
+          }
+        } catch (errMerge) {}
+      }
       return true;
     }
   } catch(e) {
@@ -5852,39 +5987,67 @@ async function captureClientIpLocation() {
 captureClientIpLocation();
 
 // ========================================================
-// 1-MINUTE ONBOARDING SETUP (NO TAX ID IN ONBOARDING!)
+// 1-MINUTE ONBOARDING SETUP (FOR GOOGLE OAUTH NEW CLIENTS)
 // ========================================================
 function checkFirstTimeOnboarding() {
-  const savedProfile = localStorage.getItem('shoaib_client_profile');
-  const hasCompleted = localStorage.getItem('shoaib_onboarding_completed') === '1';
-  if (!hasCompleted && !savedProfile) {
+  const sess = getCurrentSession();
+  if (!sess || !sess.email || sess.isDemo || sess.isDirector) return;
+
+  let prof = {};
+  try { prof = JSON.parse(localStorage.getItem('shoaib_client_profile') || '{}'); } catch(e) {}
+  const email = (sess.email || prof.email || '').toLowerCase().trim();
+  const hasCompany = !!((prof.company || sess.company || '').trim());
+  const hasAddress = !!((prof.address || sess.address || '').trim());
+  const obDoneForEmail = localStorage.getItem('shoaib_onboarding_completed_' + email) === '1';
+
+  if (!obDoneForEmail && (!hasCompany || !hasAddress)) {
     const obModal = document.getElementById('onboardingModal');
     if (obModal) {
       obModal.style.display = 'flex';
       if (document.body) document.body.style.overflow = 'hidden';
       const nameInput = document.getElementById('obClientName');
-      if (nameInput) nameInput.value = 'Sarah Jenkins';
+      const compInput = document.getElementById('obClientCompany');
+      const addrInput = document.getElementById('obClientAddress');
+      if (nameInput) nameInput.value = prof.name || sess.name || '';
+      if (compInput) compInput.value = prof.company || sess.company || '';
+      if (addrInput) addrInput.value = prof.address || sess.address || '';
     }
   }
 }
 
-function handleOnboardingSubmit(e) {
+async function handleOnboardingSubmit(e) {
   e.preventDefault();
-  const name = document.getElementById('obClientName')?.value.trim() || 'Sarah Jenkins';
-  const company = document.getElementById('obClientCompany')?.value.trim() || 'Studio New York';
-  const address = document.getElementById('obClientAddress')?.value.trim() || '450 West 33rd Street, New York, NY 10001, USA';
+  const sess = getCurrentSession() || {};
+  let existingProf = {};
+  try { existingProf = JSON.parse(localStorage.getItem('shoaib_client_profile') || '{}'); } catch(err) {}
 
-  const p = {
-    name: name,
-    company: company,
-    email: 'sarah@jenkinsstudio.com',
-    address: address,
-    tin: '' // STRICT RULE: NO Tax ID in Onboarding!
-  };
+  const email = (sess.email || existingProf.email || '').toLowerCase().trim();
+  if (!email) return;
 
+  const name = (document.getElementById('obClientName')?.value || '').trim();
+  const company = (document.getElementById('obClientCompany')?.value || '').trim();
+  const address = (document.getElementById('obClientAddress')?.value || '').trim();
+  if (!name || !company || !address) {
+    showAuthToast('⚠️ Please complete your Name, Studio/Brand, and Billing Address.');
+    return;
+  }
+
+  const p = Object.assign({}, existingProf, {
+    name,
+    company,
+    email,
+    address,
+    picture: existingProf.picture || sess.picture || '',
+    tin: existingProf.tin || '',
+    isDemo: false
+  });
   localStorage.setItem('shoaib_client_profile', JSON.stringify(p));
-  localStorage.setItem('shoaib_onboarding_completed', '1');
-  localStorage.setItem('shoaib_client_session', JSON.stringify({ email: p.email, name: p.name }));
+  localStorage.setItem('shoaib_onboarding_completed_' + email, '1');
+
+  const updatedSess = Object.assign({}, sess, { email, name, company, address, isDemo: false });
+  localStorage.setItem('shoaib_client_session', JSON.stringify(updatedSess));
+  sessionStorage.setItem('shoaib_client_session', JSON.stringify(updatedSess));
+  localStorage.setItem('shoaib_sync_ping', Date.now().toString());
 
   const obModal = document.getElementById('onboardingModal');
   if (obModal) {
@@ -5894,7 +6057,23 @@ function handleOnboardingSubmit(e) {
 
   loadClientProfile();
   renderInvoicesList();
-  alert('✓ Welcome to your Studio Workspace, ' + name + '!');
+  showAuthToast('✓ Studio profile saved! Welcome to your workspace, ' + name + '.');
+
+  try {
+    const token = getClientApiToken();
+    if (token) {
+      await fetch(R2_API_URL + '?action=update-client-profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({ name, company, address, phone: p.phone || '', tin: p.tin || '' })
+      });
+    } else {
+      await triggerRegisterUserCloud({ name, company, email, address, phone: p.phone || '', tin: p.tin || '' }, { allowMerge: true });
+    }
+  } catch (err) {}
 }
 
 // ========================================================
@@ -6152,7 +6331,7 @@ checkDeletedOrdersSync();
 window.__portalPendingTab = (function() {
   try {
     const qp = new URLSearchParams(window.location.search);
-    return (qp.get('tab') || '').toLowerCase();
+    return (qp.get('tab') || qp.get('mode') || '').toLowerCase();
   } catch (e) {
     return '';
   }
@@ -6296,6 +6475,9 @@ function checkAuthGate() {
     if (testimNotice) {
       testimNotice.style.display = (window.__portalPendingTab === 'testimonial') ? 'block' : 'none';
     }
+    if (window.__portalPendingTab === 'signup' || window.__portalPendingTab === 'register') {
+      switchAuthTab('signup');
+    }
     return false;
   } else {
     if (gate) gate.style.display = 'none';
@@ -6317,11 +6499,92 @@ function checkAuthGate() {
   }
 }
 
+function showAuthMsg(msg, type) {
+  const el = document.getElementById('authInlineMsg');
+  if (!el) return;
+  if (!msg) {
+    el.className = 'auth-alert';
+    el.innerHTML = '';
+    return;
+  }
+  const cls = (type === 'ok' || type === 'info') ? type : 'err';
+  el.className = 'auth-alert ' + cls;
+  el.textContent = msg;
+}
+
+function togglePasswordVisibility(inputId, btn) {
+  const inp = document.getElementById(inputId);
+  if (!inp) return;
+  const show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  if (btn) {
+    btn.textContent = show ? '🙈' : '👁️';
+    btn.title = show ? 'Hide password' : 'Show password';
+  }
+}
+
+function showForgotPasswordForm() {
+  const loginForm = document.getElementById('authLoginForm');
+  const signupForm = document.getElementById('authSignupForm');
+  const forgotForm = document.getElementById('authForgotForm');
+  const lEmail = (document.getElementById('authLoginEmail')?.value || '').trim();
+  const fEmail = document.getElementById('authForgotEmail');
+  if (loginForm) loginForm.style.display = 'none';
+  if (signupForm) signupForm.style.display = 'none';
+  if (forgotForm) forgotForm.style.display = 'block';
+  if (fEmail && lEmail && !fEmail.value) fEmail.value = lEmail;
+  showAuthMsg('', '');
+  fEmail?.focus();
+}
+
+function backToLoginForm() {
+  switchAuthTab('login');
+}
+
+async function handleForgotPassword(e) {
+  e.preventDefault();
+  const email = (document.getElementById('authForgotEmail')?.value || '').trim().toLowerCase();
+  const btn = document.getElementById('authForgotSubmitBtn');
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showAuthMsg('Please enter a valid email address.', 'err');
+    return;
+  }
+  if (email === 'retouchershoaib@gmail.com') {
+    showAuthMsg('Studio Director accounts sign in directly using "Continue with Google" above.', 'info');
+    return;
+  }
+
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending Request...'; }
+  try {
+    if (window.location.protocol !== 'file:') {
+      await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          access_key: '3220bf99-f78f-41e1-b2e9-1ba7dfffa841',
+          from_name: 'Retoucher Shoaib Client Portal',
+          subject: 'Client Portal Password Reset Request — ' + email,
+          replyto: email,
+          email: email,
+          message: 'Client requested a portal password reset for: ' + email + '. Please assist or verify their account.'
+        })
+      }).catch(() => {});
+    }
+    showAuthMsg('Reset request sent to our studio desk for ' + email + '. If you registered with Gmail/Google Workspace, you can also click "Continue with Google" above to enter immediately.', 'ok');
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Request Password Reset →'; }
+  }
+}
+
 function switchAuthTab(tab) {
   const loginForm = document.getElementById('authLoginForm');
   const signupForm = document.getElementById('authSignupForm');
+  const forgotForm = document.getElementById('authForgotForm');
   const btnLogin = document.getElementById('tabBtnLogin');
   const btnSignup = document.getElementById('tabBtnSignup');
+
+  showAuthMsg('', '');
+  if (forgotForm) forgotForm.style.display = 'none';
 
   if (tab === 'signup') {
     if (loginForm) loginForm.style.display = 'none';
@@ -6342,20 +6605,24 @@ function switchAuthTab(tab) {
 const GOOGLE_DRIVE_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyFQyV8BmfMGWDd3rv3I-chTT6iIn7TH5GqCev_0_SHHOmueYZznGPCiOcO5Q7AA5QHhg/exec';
 
 // AUTOMATIC GOOGLE DRIVE FOLDER CREATION
-async function triggerRegisterUserCloud(userData) {
-  if (!userData || !userData.email || !GOOGLE_DRIVE_WEBHOOK_URL) return;
+async function triggerRegisterUserCloud(userData, opts) {
+  if (!userData || !userData.email || !GOOGLE_DRIVE_WEBHOOK_URL) return null;
   try {
-    await fetch(GOOGLE_DRIVE_WEBHOOK_URL, {
+    const res = await fetch(GOOGLE_DRIVE_WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({
         action: 'register_user',
+        allowMerge: !!(opts && opts.allowMerge),
         user: userData
       })
     });
+    const json = await res.json().catch(() => ({}));
     console.log('✓ Registered client synced to Google Drive cloud database:', userData.email);
+    return json;
   } catch(e) {
     console.warn('Cloud client registration sync warning:', e);
+    return null;
   }
 }
 
@@ -6609,11 +6876,13 @@ function handleGoogleCredentialResponse(response) {
       company: p.company,
       email: email,
       address: p.address,
-      phone: '',
-      tin: '',
+      phone: p.phone || '',
+      tin: p.tin || '',
+      authProvider: 'google',
       createdAt: new Date().toISOString()
     });
     exchangeGoogleClientToken(response.credential).then((ok) => {
+      checkFirstTimeOnboarding();
       if (ok && pendingR2Download) {
         const pDl = pendingR2Download;
         closeClientReauthModal(true);
@@ -6666,34 +6935,13 @@ function handleGoogleSignIn() {
   if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
     google.accounts.id.prompt((notification) => {
       if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-        console.log('Google Prompt status:', notification.getNotDisplayedReason?.());
+        const reason = notification.getNotDisplayedReason?.() || '';
+        console.log('Google Prompt status:', reason);
+        showAuthMsg('Google One-Tap was dismissed or blocked by browser settings. Please use the email Log In / Sign Up form below or enable popups.', 'info');
       }
     });
   } else {
-    // Seamless instant fallback without prompt()
-    const emailClean = 'client@gmail.com';
-    const name = 'Studio Client';
-    const p = {
-      name: name,
-      company: 'Creative Studio',
-      email: emailClean,
-      address: 'United States',
-      tin: '',
-      isDemo: false
-    };
-    localStorage.setItem('shoaib_client_profile', JSON.stringify(p));
-    const sess = { email: emailClean, name: name, company: p.company, address: p.address, isDemo: false };
-    localStorage.setItem('shoaib_client_session', JSON.stringify(sess));
-    sessionStorage.setItem('shoaib_client_session', JSON.stringify(sess));
-
-    checkAuthGate();
-    loadClientProfile();
-    renderDashboardOverview();
-    renderArchiveSection();
-    renderActiveOrdersPipeline();
-    renderInvoicesList();
-    loadInvoiceDetails();
-    showAuthToast('✓ Signed in with Google. Your clean workspace is ready.');
+    showAuthMsg('Google Sign-In could not load (possibly blocked by an ad-blocker or privacy extension). Please use Email Sign Up / Log In below.', 'err');
   }
 }
 
@@ -6706,175 +6954,346 @@ let gisCheckTimer = setInterval(() => {
 }, 250);
 setTimeout(() => clearInterval(gisCheckTimer), 7000);
 
-function handleAuthLogin(e) {
+function isLocalStaticEnv() {
+  const h = (window.location.hostname || '').toLowerCase();
+  return window.location.protocol === 'file:' || h === 'localhost' || h === '127.0.0.1';
+}
+
+async function hashPasswordLocal(password) {
+  if (!window.crypto || !window.crypto.subtle) return '';
+  const enc = new TextEncoder();
+  const saltBytes = window.crypto.getRandomValues(new Uint8Array(16));
+  const iterations = 100000;
+  const keyMat = await window.crypto.subtle.importKey('raw', enc.encode(String(password)), 'PBKDF2', false, ['deriveBits']);
+  const bits = await window.crypto.subtle.deriveBits({ name: 'PBKDF2', salt: saltBytes, iterations, hash: 'SHA-256' }, keyMat, 256);
+  const toHex = (buf) => Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  return 'pbkdf2_sha256$' + iterations + '$' + toHex(saltBytes) + '$' + toHex(bits);
+}
+
+async function verifyPasswordLocal(password, stored) {
+  const raw = String(stored || '');
+  if (!raw) return false;
+  if (raw.startsWith('pbkdf2_sha256$') && window.crypto && window.crypto.subtle) {
+    const parts = raw.split('$');
+    if (parts.length !== 4) return false;
+    const iterations = parseInt(parts[1], 10);
+    const saltHex = parts[2];
+    const expectedHex = parts[3];
+    const saltBytes = new Uint8Array(saltHex.match(/.{1,2}/g).map(h => parseInt(h, 16)));
+    const keyMat = await window.crypto.subtle.importKey('raw', new TextEncoder().encode(String(password)), 'PBKDF2', false, ['deriveBits']);
+    const bits = await window.crypto.subtle.deriveBits({ name: 'PBKDF2', salt: saltBytes, iterations, hash: 'SHA-256' }, keyMat, 256);
+    const derivedHex = Array.from(new Uint8Array(bits)).map(b => b.toString(16).padStart(2, '0')).join('');
+    return derivedHex === expectedHex;
+  }
+  return raw === String(password);
+}
+
+function finalizeAuthenticatedClientWorkspace(profileObj, toastMsg) {
+  const safeProfile = {
+    name: profileObj.name || '',
+    company: profileObj.company || '',
+    email: (profileObj.email || '').toLowerCase().trim(),
+    address: profileObj.address || '',
+    phone: profileObj.phone || '',
+    tin: profileObj.tin || '',
+    isDemo: false
+  };
+  localStorage.setItem('shoaib_client_profile', JSON.stringify(safeProfile));
+
+  const sess = {
+    email: safeProfile.email,
+    name: safeProfile.name,
+    company: safeProfile.company,
+    address: safeProfile.address,
+    phone: safeProfile.phone,
+    isDemo: false
+  };
+  localStorage.setItem('shoaib_client_session', JSON.stringify(sess));
+  sessionStorage.setItem('shoaib_client_session', JSON.stringify(sess));
+  localStorage.setItem('shoaib_sync_ping', Date.now().toString());
+
+  checkAuthGate();
+  try { loadClientProfile(); } catch(e) {}
+  try { renderDashboardOverview(); } catch(e) {}
+  try { renderArchiveSection(); } catch(e) {}
+  try { renderActiveOrdersPipeline(); } catch(e) {}
+  try { renderInvoicesList(); } catch(e) {}
+  try { loadInvoiceDetails(); } catch(e) {}
+
+  showAuthToast(toastMsg);
+  triggerCreateClientDriveFolder(safeProfile.email);
+  if (typeof syncPortalFromCloud === 'function') syncPortalFromCloud();
+}
+
+async function handleAuthLogin(e) {
   e.preventDefault();
+  showAuthMsg('', '');
   const email = (document.getElementById('authLoginEmail')?.value || '').trim();
   const pass = (document.getElementById('authLoginPass')?.value || '').trim();
   const emailLower = email.toLowerCase();
+  const btn = document.getElementById('authLoginSubmitBtn');
 
   if (!email || !pass) {
-    showAuthToast('⚠️ Please enter both your email and password.');
+    showAuthMsg('Please enter both your email and password.', 'err');
     return;
   }
 
-  // DIRECT ACCESS FOR STUDIO DIRECTOR
+  // SECURITY: Studio Director Console NEVER unlocks via client email/password form
   if (emailLower === 'retouchershoaib@gmail.com') {
-    sessionStorage.setItem('shoaib_admin_unlocked', '1');
-    sessionStorage.setItem('shoaib_admin_user', JSON.stringify({
-      email: emailLower,
-      name: 'Shoaib (Director)',
-      picture: ''
-    }));
-    showAuthToast('👑 Welcome, Studio Director Shoaib! Opening Admin Console...');
-    setTimeout(() => {
-      window.location.href = '/admin';
-    }, 600);
+    showAuthMsg('Studio Director access requires verified Google Sign-In. Please click "Continue with Google" above.', 'err');
     return;
   }
 
-  // Look up registered user in shoaib_users
-  let users = {};
+  if (btn) { btn.disabled = true; btn.textContent = 'Signing in...'; }
+
   try {
-    users = JSON.parse(localStorage.getItem('shoaib_users') || '{}');
-  } catch(err) {}
+    // 1. Authoritative Server Authentication (works across ALL devices & browsers)
+    let apiUnavailableForLocal = false;
+    if (window.location.protocol !== 'file:') {
+      try {
+        const res = await fetch(R2_API_URL + '?action=auth-client-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: emailLower, password: pass })
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data && data.status === 'success' && data.token) {
+          setClientApiToken(data.token, data.expiresIn);
+          const u = data.user || {};
+          const fallbackName = emailLower.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+          finalizeAuthenticatedClientWorkspace({
+            name: u.name || fallbackName,
+            company: u.company || (fallbackName + ' Studio'),
+            email: emailLower,
+            address: u.address || 'Commercial Studio Client',
+            phone: u.phone || '',
+            tin: u.tin || ''
+          }, '✓ Welcome back, ' + (u.name || fallbackName) + '!');
+          return;
+        }
+        if (res.status === 404 && isLocalStaticEnv()) {
+          apiUnavailableForLocal = true;
+        } else {
+          const msg = (data && data.message) || 'Invalid email or password. Please verify and try again.';
+          showAuthMsg(msg, 'err');
+          if (data && data.code === 'NO_ACCOUNT') {
+            document.getElementById('authLoginEmail')?.focus();
+          } else {
+            document.getElementById('authLoginPass')?.focus();
+          }
+          return;
+        }
+      } catch (netErr) {
+        if (isLocalStaticEnv()) {
+          apiUnavailableForLocal = true;
+        } else {
+          showAuthMsg('Network error reaching studio authentication server. Please check your connection and try again.', 'err');
+          return;
+        }
+      }
+    } else {
+      apiUnavailableForLocal = true;
+    }
 
-  const registeredUser = users[emailLower];
-  if (!registeredUser) {
-    showAuthToast('⚠️ No studio account found with this email. Please click "Sign Up" above to register.');
-    return;
+    // 2. Local Development Static Server Fallback (localhost / 127.0.0.1 only)
+    if (apiUnavailableForLocal) {
+      let users = {};
+      try { users = JSON.parse(localStorage.getItem('shoaib_users') || '{}'); } catch(err) {}
+      const registeredUser = users[emailLower];
+      if (!registeredUser) {
+        showAuthMsg('No studio account found with this email. Please click "Sign Up" above to register.', 'err');
+        return;
+      }
+      const storedSecret = registeredUser.passHash || registeredUser.pass || '';
+      const passValid = await verifyPasswordLocal(pass, storedSecret);
+      if (!passValid) {
+        showAuthMsg('Incorrect password. Please verify and try again.', 'err');
+        document.getElementById('authLoginPass')?.focus();
+        return;
+      }
+      const name = registeredUser.name || email.split('@')[0];
+      finalizeAuthenticatedClientWorkspace({
+        name: name,
+        company: registeredUser.company || (name + ' Studio'),
+        email: emailLower,
+        address: registeredUser.address || 'Commercial Studio Client',
+        phone: registeredUser.phone || '',
+        tin: registeredUser.tin || ''
+      }, '✓ Welcome back, ' + name + '!');
+    }
+  } finally {
+    if (btn) { btn.disabled = false; btn.innerHTML = 'Log In to Workspace &rarr;'; }
   }
-
-  // Validate password
-  if (registeredUser.pass && registeredUser.pass !== pass) {
-    showAuthToast('⚠️ Incorrect password. Please verify and try again.');
-    document.getElementById('authLoginPass')?.focus();
-    return;
-  }
-
-  const name = registeredUser.name || email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-  const company = registeredUser.company || (name + ' Studio');
-  const address = registeredUser.address || 'Commercial Studio Client';
-  const phone = registeredUser.phone || '';
-  const tin = registeredUser.tin || '';
-
-  const p = {
-    name: name,
-    company: company,
-    email: emailLower,
-    address: address,
-    phone: phone,
-    tin: tin,
-    isDemo: false
-  };
-  localStorage.setItem('shoaib_client_profile', JSON.stringify(p));
-
-  const sess = {
-    email: emailLower,
-    name: name,
-    company: company,
-    address: address,
-    phone: phone,
-    isDemo: false
-  };
-  localStorage.setItem('shoaib_client_session', JSON.stringify(sess));
-  sessionStorage.setItem('shoaib_client_session', JSON.stringify(sess));
-
-  localStorage.setItem('shoaib_sync_ping', Date.now().toString());
-
-  checkAuthGate();
-  loadClientProfile();
-  renderDashboardOverview();
-  renderArchiveSection();
-  renderActiveOrdersPipeline();
-  renderInvoicesList();
-  loadInvoiceDetails();
-
-  showAuthToast('✓ Welcome back, ' + name + '!');
-  triggerCreateClientDriveFolder(emailLower);
-  exchangePasswordClientToken(emailLower, pass);
 }
 
-function handleAuthSignup(e) {
+async function handleAuthSignup(e) {
   e.preventDefault();
+  showAuthMsg('', '');
   const name = (document.getElementById('authSignName')?.value || '').trim();
-  const company = (document.getElementById('authSignCompany')?.value || '').trim() || (name + ' Studio');
+  const company = (document.getElementById('authSignCompany')?.value || '').trim();
   const email = (document.getElementById('authSignEmail')?.value || '').trim();
-  const address = (document.getElementById('authSignAddress')?.value || '').trim() || 'Commercial Studio Client';
+  const address = (document.getElementById('authSignAddress')?.value || '').trim();
   const pass = (document.getElementById('authSignPass')?.value || '').trim();
   const emailLower = email.toLowerCase();
+  const btn = document.getElementById('authSignupSubmitBtn');
 
-  if (!email || !pass || !name) {
-    showAuthToast('⚠️ Please fill in all required fields (Name, Email, Password).');
+  if (!name || name.length < 2) {
+    showAuthMsg('Please enter your full name (at least 2 characters).', 'err');
+    document.getElementById('authSignName')?.focus();
+    return;
+  }
+  if (!company || company.length < 2) {
+    showAuthMsg('Please enter your Studio, Agency, or Brand name.', 'err');
+    document.getElementById('authSignCompany')?.focus();
+    return;
+  }
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailLower)) {
+    showAuthMsg('Please enter a valid work or studio email address.', 'err');
+    document.getElementById('authSignEmail')?.focus();
+    return;
+  }
+  if (emailLower === 'retouchershoaib@gmail.com') {
+    showAuthMsg('This email is reserved for the Studio Director. Click "Continue with Google" above to sign in.', 'err');
+    return;
+  }
+  if (!address || address.length < 3) {
+    showAuthMsg('Please enter your billing address or country.', 'err');
+    document.getElementById('authSignAddress')?.focus();
+    return;
+  }
+  if (!pass || pass.length < 6) {
+    showAuthMsg('Password must be at least 6 characters long.', 'err');
+    document.getElementById('authSignPass')?.focus();
     return;
   }
 
-  // Check if account already exists
-  let users = {};
+  if (btn) { btn.disabled = true; btn.textContent = 'Creating Workspace...'; }
+
   try {
-    users = JSON.parse(localStorage.getItem('shoaib_users') || '{}');
-  } catch(err) {}
+    let apiUnavailableForLocal = false;
 
-  if (users[emailLower]) {
-    showAuthToast('⚠️ An account already exists with this email. Please select "Log In" above.');
-    switchAuthTab('login');
-    const lEmail = document.getElementById('authLoginEmail');
-    if (lEmail) { lEmail.value = email; }
-    document.getElementById('authLoginPass')?.focus();
-    return;
+    // 1. Authoritative Server Registration (Duplicate Check + PBKDF2 Hash + Cloud Save + Session Token)
+    if (window.location.protocol !== 'file:') {
+      try {
+        const res = await fetch(R2_API_URL + '?action=register-client', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: name,
+            company: company,
+            email: emailLower,
+            address: address,
+            password: pass
+          })
+        });
+        const data = await res.json().catch(() => ({}));
+
+        if (res.status === 409 || (data && data.code === 'ACCOUNT_EXISTS')) {
+          switchAuthTab('login');
+          showAuthMsg((data && data.message) || 'An account already exists with this email. Please log in below.', 'info');
+          const lEmail = document.getElementById('authLoginEmail');
+          if (lEmail) lEmail.value = emailLower;
+          document.getElementById('authLoginPass')?.focus();
+          return;
+        }
+
+        if (res.ok && data && data.status === 'success' && data.token) {
+          setClientApiToken(data.token, data.expiresIn);
+          // Store only non-sensitive profile metadata locally (no plaintext password!)
+          let users = {};
+          try { users = JSON.parse(localStorage.getItem('shoaib_users') || '{}'); } catch(err) {}
+          users[emailLower] = {
+            name: name,
+            company: company,
+            email: emailLower,
+            address: address,
+            phone: '',
+            tin: '',
+            createdAt: new Date().toISOString()
+          };
+          localStorage.setItem('shoaib_users', JSON.stringify(users));
+
+          finalizeAuthenticatedClientWorkspace({
+            name: name,
+            company: company,
+            email: emailLower,
+            address: address,
+            phone: '',
+            tin: ''
+          }, '🎉 Welcome, ' + name + '! Your studio workspace has been created successfully.');
+          return;
+        }
+
+        if (res.status === 404 && isLocalStaticEnv()) {
+          apiUnavailableForLocal = true;
+        } else {
+          showAuthMsg((data && data.message) || 'Could not create account right now. Please try again.', 'err');
+          return;
+        }
+      } catch (netErr) {
+        if (isLocalStaticEnv()) {
+          apiUnavailableForLocal = true;
+        } else {
+          showAuthMsg('Network error while creating workspace. Please check your connection and try again.', 'err');
+          return;
+        }
+      }
+    } else {
+      apiUnavailableForLocal = true;
+    }
+
+    // 2. Local Static Server Fallback (localhost / 127.0.0.1 only)
+    if (apiUnavailableForLocal) {
+      let users = {};
+      try { users = JSON.parse(localStorage.getItem('shoaib_users') || '{}'); } catch(err) {}
+      if (users[emailLower]) {
+        switchAuthTab('login');
+        showAuthMsg('An account already exists with this email. Please log in below.', 'info');
+        const lEmail = document.getElementById('authLoginEmail');
+        if (lEmail) lEmail.value = emailLower;
+        document.getElementById('authLoginPass')?.focus();
+        return;
+      }
+
+      const passHash = await hashPasswordLocal(pass);
+      const localUserRecord = {
+        name: name,
+        company: company,
+        email: emailLower,
+        address: address,
+        phone: '',
+        tin: '',
+        passHash: passHash,
+        authProvider: 'password',
+        createdAt: new Date().toISOString()
+      };
+      users[emailLower] = localUserRecord;
+      localStorage.setItem('shoaib_users', JSON.stringify(users));
+
+      const cloudResp = await triggerRegisterUserCloud(localUserRecord);
+      if (cloudResp && cloudResp.code === 'ACCOUNT_EXISTS') {
+        delete users[emailLower];
+        localStorage.setItem('shoaib_users', JSON.stringify(users));
+        switchAuthTab('login');
+        showAuthMsg('An account already exists with this email. Please log in below.', 'info');
+        const lEmail = document.getElementById('authLoginEmail');
+        if (lEmail) lEmail.value = emailLower;
+        document.getElementById('authLoginPass')?.focus();
+        return;
+      }
+
+      finalizeAuthenticatedClientWorkspace({
+        name: name,
+        company: company,
+        email: emailLower,
+        address: address,
+        phone: '',
+        tin: ''
+      }, '🎉 Welcome, ' + name + '! Your studio workspace has been created successfully.');
+    }
+  } finally {
+    if (btn) { btn.disabled = false; btn.innerHTML = 'Create My Client Workspace &rarr;'; }
   }
-
-  // Save to persistent users directory
-  users[emailLower] = {
-    name: name,
-    company: company,
-    email: emailLower,
-    address: address,
-    phone: '',
-    tin: '',
-    pass: pass,
-    createdAt: new Date().toISOString()
-  };
-  localStorage.setItem('shoaib_users', JSON.stringify(users));
-
-  // Sync new client registration to Google Drive cloud database, then mint R2 download session
-  Promise.resolve(triggerRegisterUserCloud(users[emailLower])).then(() => {
-    exchangePasswordClientToken(emailLower, pass);
-  });
-
-  const p = {
-    name: name,
-    company: company,
-    email: emailLower,
-    address: address,
-    phone: '',
-    tin: '',
-    isDemo: false
-  };
-  localStorage.setItem('shoaib_client_profile', JSON.stringify(p));
-
-  const sess = {
-    email: emailLower,
-    name: name,
-    company: company,
-    address: address,
-    phone: '',
-    isDemo: false
-  };
-  localStorage.setItem('shoaib_client_session', JSON.stringify(sess));
-  sessionStorage.setItem('shoaib_client_session', JSON.stringify(sess));
-
-  localStorage.setItem('shoaib_sync_ping', Date.now().toString());
-
-  checkAuthGate();
-  loadClientProfile();
-  renderDashboardOverview();
-  renderArchiveSection();
-  renderActiveOrdersPipeline();
-  renderInvoicesList();
-  loadInvoiceDetails();
-
-  showAuthToast('🎉 Welcome, ' + name + '! Your studio workspace has been created successfully.');
-  triggerCreateClientDriveFolder(emailLower);
 }
 
 function loginWithDemoAccount() {
@@ -6912,16 +7331,11 @@ function logoutClient() {
   // Broadcast sync so index.html and other tabs immediately flip header state to logged-out!
   localStorage.setItem('shoaib_sync_ping', Date.now().toString());
 
-  const lEmail = document.getElementById('authLoginEmail');
-  const lPass = document.getElementById('authLoginPass');
-  const sName = document.getElementById('authSignName');
-  const sEmail = document.getElementById('authSignEmail');
-  const sPass = document.getElementById('authSignPass');
-  if (lEmail) lEmail.value = '';
-  if (lPass) lPass.value = '';
-  if (sName) sName.value = '';
-  if (sEmail) sEmail.value = '';
-  if (sPass) sPass.value = '';
+  ['authLoginEmail', 'authLoginPass', 'authSignName', 'authSignCompany', 'authSignEmail', 'authSignAddress', 'authSignPass', 'authForgotEmail'].forEach(function(id) {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  showAuthMsg('', '');
 
   // Flush views for clean tenant boundary
   loadStoredCustomOrders();

@@ -6,6 +6,85 @@
 
 var ROOT_FOLDER_ID = "1HbpZXTf0jQcDy4VyjRYKUmHyFQ3kHFhc";
 var DB_FILE_NAME = "shoaib_database.json";
+var AGENCY_BRAND_NAME = "Retoucher Shoaib®";
+var AGENCY_EMAIL = "contact@retouchershoaib.com";
+var ADMIN_ALERT_EMAIL = "contact@retouchershoaib.com";
+var ADMIN_ALERT_CC = "retouchershoaib@gmail.com";
+
+/**
+ * Send agency-branded transactional email natively from contact@retouchershoaib.com
+ * (Resend HTTP API -> Gmail "Send mail as" Alias -> MailApp fallback).
+ */
+function sendAgencyEmail_(opts) {
+  var to = String(opts.to || "").trim();
+  if (!to || to.indexOf("@") === -1) return;
+  var subject = String(opts.subject || "");
+  var body = String(opts.body || "");
+  var senderName = opts.senderName || AGENCY_BRAND_NAME;
+  var replyTo = opts.replyTo || AGENCY_EMAIL;
+  var ccList = Array.isArray(opts.cc) ? opts.cc.filter(Boolean).join(",") : (opts.cc || "");
+
+  // 1. Resend HTTP API (if RESEND_API_KEY is stored in GAS Script Properties)
+  // Uses verified resend._domainkey + send.retouchershoaib.com DNS (zero tracking pixels, 9.1-10/10 deliverability)
+  try {
+    var resendKey = PropertiesService.getScriptProperties().getProperty("RESEND_API_KEY");
+    if (resendKey) {
+      var resendPayload = {
+        from: senderName + " <" + AGENCY_EMAIL + ">",
+        to: [to],
+        reply_to: replyTo,
+        subject: subject,
+        text: body
+      };
+      if (ccList) {
+        resendPayload.cc = ccList.split(",").map(function(e) { return e.trim(); }).filter(Boolean);
+      }
+      var res = UrlFetchApp.fetch("https://api.resend.com/emails", {
+        method: "post",
+        contentType: "application/json",
+        headers: {
+          "Authorization": "Bearer " + resendKey,
+          "Accept": "application/json"
+        },
+        payload: JSON.stringify(resendPayload),
+        muteHttpExceptions: true
+      });
+      if (res.getResponseCode() >= 200 && res.getResponseCode() < 300) {
+        return;
+      }
+    }
+  } catch (errResend) {
+    console.warn("Resend API send skipped, checking Gmail alias:", errResend);
+  }
+
+  // 2. Gmail "Send mail as" Alias (contact@retouchershoaib.com configured via smtp.resend.com in Gmail)
+  try {
+    var aliases = GmailApp.getAliases();
+    if (aliases && aliases.indexOf(AGENCY_EMAIL) !== -1) {
+      var gmailOpts = {
+        from: AGENCY_EMAIL,
+        name: senderName,
+        replyTo: replyTo
+      };
+      if (ccList) gmailOpts.cc = ccList;
+      GmailApp.sendEmail(to, subject, body, gmailOpts);
+      return;
+    }
+  } catch (errAlias) {
+    console.warn("Gmail alias send skipped, falling back to MailApp:", errAlias);
+  }
+
+  // 3. MailApp fallback (Retoucher Shoaib® display name + contact@retouchershoaib.com Reply-To)
+  var mailOpts = {
+    to: to,
+    subject: subject,
+    body: body,
+    name: senderName,
+    replyTo: replyTo
+  };
+  if (ccList) mailOpts.cc = ccList;
+  MailApp.sendEmail(mailOpts);
+}
 
 // 1. DATABASE HELPERS (PERSISTENT CLOUD STORAGE IN GOOGLE DRIVE)
 function getOrCreateDatabaseFile(rootFolder) {
@@ -150,13 +229,25 @@ function doPost(e) {
         clientFolder.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.EDIT);
       } catch(errShare) {}
 
-      // ক্লায়েন্ট ইনফো ক্লাউড ডাটাবেজে স্টোর
+      // ক্লায়েন্ট ইনফো ক্লাউড ডাটাবেজে নিরাপদভাবে মার্জ করে স্টোর (কখনোই পাসওয়ার্ড/হ্যাশ ওভাররাইট না করে)
       if (data.user) {
         var lock = LockService.getScriptLock();
         lock.tryLock(10000);
         try {
           var db = getDatabase(rootFolder);
-          db.users[email] = data.user;
+          var existing = db.users[email] || {};
+          db.users[email] = {
+            name: data.user.name || existing.name || "",
+            company: data.user.company !== undefined ? data.user.company : (existing.company || ""),
+            email: email,
+            address: data.user.address !== undefined ? data.user.address : (existing.address || ""),
+            phone: data.user.phone !== undefined ? data.user.phone : (existing.phone || ""),
+            tin: data.user.tin !== undefined ? data.user.tin : (existing.tin || ""),
+            passHash: data.user.passHash || existing.passHash || "",
+            pass: existing.pass || "",
+            authProvider: data.user.authProvider || existing.authProvider || "google",
+            createdAt: existing.createdAt || data.user.createdAt || new Date().toISOString()
+          };
           saveDatabase(rootFolder, db);
         } finally {
           lock.releaseLock();
@@ -170,25 +261,158 @@ function doPost(e) {
       })).setMimeType(ContentService.MimeType.JSON);
     }
 
-    // (B) নতুন ক্লায়েন্ট রেজিস্ট্রেশন ক্লাউড ডাটাবেজে সেভ করা
+    // (B) নতুন ক্লায়েন্ট রেজিস্ট্রেশন ক্লাউড ডাটাবেজে সেভ করা (ডুপ্লিকেট ব্লক + ওয়েলকাম/অ্যাডমিন ইমেইলসহ)
     if (data.action === "register_user") {
       if (data.user && data.user.email) {
         var uEmail = data.user.email.toLowerCase().trim();
         var lock = LockService.getScriptLock();
         lock.tryLock(10000);
+        var alreadyExists = false;
+        var isNewRegistration = false;
+        var savedUser = null;
         try {
           var db = getDatabase(rootFolder);
-          db.users[uEmail] = data.user;
-          saveDatabase(rootFolder, db);
+          var existingUser = db.users[uEmail];
+          var incomingHasPass = !!(data.user.passHash || data.user.pass);
+          var existingHasPass = !!(existingUser && (existingUser.passHash || existingUser.pass));
+
+          if (existingUser && !data.allowMerge) {
+            if (incomingHasPass || existingHasPass) {
+              alreadyExists = true;
+            } else {
+              // Merge non-sensitive profile updates for Google Sign-In user
+              savedUser = {
+                name: data.user.name || existingUser.name || "",
+                company: data.user.company !== undefined ? data.user.company : (existingUser.company || ""),
+                email: uEmail,
+                address: data.user.address !== undefined ? data.user.address : (existingUser.address || ""),
+                phone: data.user.phone !== undefined ? data.user.phone : (existingUser.phone || ""),
+                tin: data.user.tin !== undefined ? data.user.tin : (existingUser.tin || ""),
+                passHash: existingUser.passHash || "",
+                pass: existingUser.pass || "",
+                authProvider: existingUser.authProvider || "google",
+                welcomeEmailSent: !!existingUser.welcomeEmailSent,
+                createdAt: existingUser.createdAt || data.user.createdAt || new Date().toISOString()
+              };
+              db.users[uEmail] = savedUser;
+              saveDatabase(rootFolder, db);
+            }
+          } else {
+            if (!existingUser) {
+              isNewRegistration = true;
+            }
+            savedUser = {
+              name: data.user.name || "",
+              company: data.user.company || "",
+              email: uEmail,
+              address: data.user.address || "",
+              phone: data.user.phone || "",
+              tin: data.user.tin || "",
+              passHash: data.user.passHash || (existingUser ? existingUser.passHash : "") || "",
+              pass: "",
+              authProvider: data.user.authProvider || (existingUser ? existingUser.authProvider : "") || "password",
+              welcomeEmailSent: isNewRegistration || !!(existingUser && existingUser.welcomeEmailSent),
+              createdAt: (existingUser && existingUser.createdAt) || data.user.createdAt || new Date().toISOString()
+            };
+            db.users[uEmail] = savedUser;
+            saveDatabase(rootFolder, db);
+          }
         } finally {
           lock.releaseLock();
         }
 
+        if (alreadyExists) {
+          return ContentService.createTextOutput(JSON.stringify({
+            status: "error",
+            code: "ACCOUNT_EXISTS",
+            message: "An account already exists with this email."
+          })).setMimeType(ContentService.MimeType.JSON);
+        }
+
         // ক্লায়েন্টের ড্রাইভ ফোল্ডার নিশ্চিত করা
+        var clientFolderObj;
         var fExists = rootFolder.getFoldersByName(uEmail);
-        if (!fExists.hasNext()) {
-          var createdF = rootFolder.createFolder(uEmail);
-          try { createdF.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.EDIT); } catch(s) {}
+        if (fExists.hasNext()) {
+          clientFolderObj = fExists.next();
+        } else {
+          clientFolderObj = rootFolder.createFolder(uEmail);
+          try { clientFolderObj.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.EDIT); } catch(s) {}
+        }
+        var clientFolderUrl = clientFolderObj ? clientFolderObj.getUrl() : "";
+
+        // নতুন সাইন-আপে তাৎক্ষণিক অ্যাডমিন অ্যালার্ট + ক্লায়েন্ট ওয়েলকাম ইমেইল (১০০% এজেন্সি ব্র্যান্ডিং)
+        if (isNewRegistration && savedUser && uEmail.indexOf("@") !== -1 && uEmail !== "retouchershoaib@gmail.com") {
+          var signupMethodLabel = (savedUser.authProvider === "google") ? "Google 1-Click Sign-In" : "Email & Password";
+
+          // (১) এজেন্সি ডেস্কে নতুন ক্লায়েন্ট সাইন-আপ নোটিফিকেশন
+          try {
+            var signupAdminSubject = "🆕 New Client Sign-Up: " + (savedUser.name || uEmail) + (savedUser.company ? " (" + savedUser.company + ")" : "");
+            var signupAdminBody = "A new client has just registered on the Retoucher Shoaib® Client Portal.\n\n" +
+              "═════════════════════════════════════════════\n" +
+              "CLIENT DETAILS\n" +
+              "═════════════════════════════════════════════\n" +
+              "• Full Name: " + (savedUser.name || "Not provided") + "\n" +
+              "• Studio / Brand: " + (savedUser.company || "Pending onboarding") + "\n" +
+              "• Email: " + uEmail + "\n" +
+              "• Billing Address / Country: " + (savedUser.address || "Pending onboarding") + "\n" +
+              "• Sign-Up Method: " + signupMethodLabel + "\n" +
+              "• Registered At: " + (savedUser.createdAt || new Date().toISOString()) + "\n\n" +
+              "═════════════════════════════════════════════\n" +
+              "DEDICATED GOOGLE DRIVE CLIENT FOLDER\n" +
+              "═════════════════════════════════════════════\n" +
+              (clientFolderUrl || "Created in Root Drive Folder") + "\n\n" +
+              "Open Studio Admin Console:\n" +
+              "https://retouchershoaib.com/admin\n";
+
+            sendAgencyEmail_({
+              to: ADMIN_ALERT_EMAIL,
+              cc: ADMIN_ALERT_CC,
+              subject: signupAdminSubject,
+              body: signupAdminBody,
+              senderName: "Retoucher Shoaib® Portal"
+            });
+          } catch(errSignupAdmin) {
+            console.error("Signup admin notification error:", errSignupAdmin);
+          }
+
+          // (২) নতুন ক্লায়েন্টের কাছে পেশাদার এজেন্সি Welcome Email
+          try {
+            var welcomeSubject = "Welcome to Retoucher Shoaib® — Your Client Portal Is Ready";
+            var welcomeBody = "Dear " + (savedUser.name || "Valued Client") + ",\n\n" +
+              "Welcome to Retoucher Shoaib®! Your private commercial post-production agency workspace has been created and is ready for use.\n\n" +
+              "─────────────────────────────────────────────\n" +
+              "ACCOUNT SUMMARY\n" +
+              "─────────────────────────────────────────────\n" +
+              "• Client Name: " + (savedUser.name || "Studio Client") + "\n" +
+              (savedUser.company ? "• Studio / Brand: " + savedUser.company + "\n" : "") +
+              "• Registered Email: " + uEmail + "\n" +
+              "• Sign-In Method: " + signupMethodLabel + "\n\n" +
+              "─────────────────────────────────────────────\n" +
+              "GETTING STARTED IN 3 STEPS\n" +
+              "─────────────────────────────────────────────\n" +
+              "1. Access Your Portal: https://retouchershoaib.com/portal\n" +
+              "2. Place a New Order: Click '+ Place New Order' to upload Camera RAWs/TIFFs or paste a Drive/Dropbox link and select your SLA (12h Rush, 24h, 48h, or 72h).\n" +
+              "3. Download Masters & Invoices: Track real-time retouching stages, review invoices, and download 16-bit layered deliverables directly from your dashboard.\n\n" +
+              "─────────────────────────────────────────────\n" +
+              "CONFIDENTIALITY & AGENCY SUPPORT\n" +
+              "─────────────────────────────────────────────\n" +
+              "All files and campaign imagery are protected under our strict Agency NDA and isolated inside your private workspace.\n\n" +
+              "Have pre-campaign test shots or custom batch volume specifications? Simply reply to this email (contact@retouchershoaib.com) or message our Client Services Desk anytime on WhatsApp at +880 1710 763251.\n\n" +
+              "Warm regards,\n\n" +
+              "Client Services Team\n" +
+              "Retoucher Shoaib® | Commercial Post-Production Agency\n" +
+              "contact@retouchershoaib.com | https://retouchershoaib.com\n";
+
+            sendAgencyEmail_({
+              to: uEmail,
+              subject: welcomeSubject,
+              body: welcomeBody,
+              senderName: "Retoucher Shoaib®",
+              replyTo: AGENCY_EMAIL
+            });
+          } catch(errSignupWelcome) {
+            console.error("Signup client welcome email error:", errSignupWelcome);
+          }
         }
       }
       return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
@@ -262,11 +486,10 @@ function doPost(e) {
         lock.releaseLock();
       }
 
-      // (ক) শোয়েবকে তাৎক্ষণিক অর্ডার নোটিফিকেশন পাঠানো
+      // (ক) এজেন্সি ডেস্কে তাৎক্ষণিক অর্ডার নোটিফিকেশন পাঠানো
       try {
-        var adminEmails = ["retouchershoaib@gmail.com", "s.siddique.me@gmail.com"];
         var adminSubject = "🔔 New Commercial Order: Order #" + orderId + " (" + (data.clientName || email) + ")";
-        var adminBody = "A new retouching order has been submitted on Retoucher Shoaib Studio Portal.\n\n" +
+        var adminBody = "A new retouching order has been submitted on Retoucher Shoaib® Client Portal.\n\n" +
           "═════════════════════════════════════════════\n" +
           "ORDER DETAILS\n" +
           "═════════════════════════════════════════════\n" +
@@ -290,12 +513,12 @@ function doPost(e) {
           "Open Studio Admin Console:\n" +
           "https://retouchershoaib.com/admin\n";
 
-        MailApp.sendEmail({
-          to: adminEmails[0],
-          cc: adminEmails[1],
+        sendAgencyEmail_({
+          to: ADMIN_ALERT_EMAIL,
+          cc: ADMIN_ALERT_CC,
           subject: adminSubject,
           body: adminBody,
-          name: "Retoucher Shoaib Portal"
+          senderName: "Retoucher Shoaib® Portal"
         });
       } catch(errMailAdmin) {
         console.error("Admin notification error:", errMailAdmin);
@@ -304,9 +527,9 @@ function doPost(e) {
       // (খ) ক্লায়েন্টকে পেশাদার কনফার্মেশন ইমেইল পাঠানো
       try {
         if (email && email.indexOf("@") !== -1) {
-          var clientSubject = "Order Confirmation: Order #" + orderId + " — Retoucher Shoaib® Studio";
+          var clientSubject = "Order Confirmation: Order #" + orderId + " — Retoucher Shoaib®";
           var clientBody = "Dear " + (data.clientName || "Valued Client") + ",\n\n" +
-            "Thank you for choosing Retoucher Shoaib Studio. We have successfully received your project specifications and files.\n\n" +
+            "Thank you for choosing Retoucher Shoaib®. We have successfully received your project specifications and files.\n\n" +
             "─────────────────────────────────────────────\n" +
             "PROJECT SUMMARY\n" +
             "─────────────────────────────────────────────\n" +
@@ -326,19 +549,18 @@ function doPost(e) {
             orderUrl + "\n\n" +
             "Our senior post-production team has begun inspecting your files and establishing display color calibration. You can track real-time stage progress and live SLA countdown anytime directly on your private portal:\n" +
             "https://retouchershoaib.com/portal\n\n" +
-            "If you have additional references or questions, feel free to reply directly to this email or contact us on WhatsApp at +880 1710 763251.\n\n" +
+            "If you have additional references or questions, feel free to reply directly to this email (contact@retouchershoaib.com) or message our Client Services Desk on WhatsApp at +880 1710 763251.\n\n" +
             "Warm regards,\n\n" +
-            "Shoaib Siddique\n" +
-            "High-End Commercial Retoucher & Creative Director\n" +
-            "Retoucher Shoaib® | Commercial Post-Production Studio\n" +
-            "https://retouchershoaib.com\n";
+            "Client Services Team\n" +
+            "Retoucher Shoaib® | Commercial Post-Production Agency\n" +
+            "contact@retouchershoaib.com | https://retouchershoaib.com\n";
 
-          MailApp.sendEmail({
+          sendAgencyEmail_({
             to: email,
             subject: clientSubject,
             body: clientBody,
-            name: "Shoaib Siddique (Retoucher Shoaib®)",
-            replyTo: "s.siddique.me@gmail.com"
+            senderName: "Retoucher Shoaib®",
+            replyTo: AGENCY_EMAIL
           });
         }
       } catch(errMailClient) {
@@ -403,11 +625,10 @@ function doPost(e) {
         lock.releaseLock();
       }
 
-      // (ক) শোয়েবকে তাৎক্ষণিক পেমেন্ট ভেরিফিকেশন ইমেইল অ্যালার্ট পাঠানো
+      // (ক) এজেন্সি ডেস্কে তাৎক্ষণিক পেমেন্ট ভেরিফিকেশন ইমেইল অ্যালার্ট পাঠানো
       try {
-        var adminEmails = ["retouchershoaib@gmail.com", "s.siddique.me@gmail.com"];
         var adminSubject = "💳 Payment Claim Submitted: Order #" + (cleanNum || rawId) + " ($" + Number(data.amount || 0).toFixed(2) + " USD) - " + (data.clientName || "Studio Client");
-        var adminBody = "A client has submitted payment transfer confirmation on Retoucher Shoaib Studio Portal.\n\n" +
+        var adminBody = "A client has submitted payment transfer confirmation on Retoucher Shoaib® Client Portal.\n\n" +
           "═════════════════════════════════════════════\n" +
           "PAYMENT CLAIM DETAILS\n" +
           "═════════════════════════════════════════════\n" +
@@ -426,12 +647,12 @@ function doPost(e) {
           "3. In '⚡ Incoming Payment Claims', click [ Review & Mark Paid ] to confirm.\n" +
           "   This will instantly mark the client invoice as PAID ✓ and issue their official receipt.\n";
 
-        MailApp.sendEmail({
-          to: adminEmails[0],
-          cc: adminEmails[1],
+        sendAgencyEmail_({
+          to: ADMIN_ALERT_EMAIL,
+          cc: ADMIN_ALERT_CC,
           subject: adminSubject,
           body: adminBody,
-          name: "Retoucher Shoaib Billing Desk"
+          senderName: "Retoucher Shoaib® Billing Desk"
         });
       } catch(errMailAdmin) {
         console.error("Admin payment notification error:", errMailAdmin);
@@ -444,19 +665,20 @@ function doPost(e) {
           var clientSubject = "⏳ Payment Verification in Progress: Order #RS-2026-" + (cleanNum || rawId);
           var clientBody = "Dear " + (data.clientName || "Valued Client") + ",\n\n" +
             "Thank you! We have received your payment transfer confirmation (Ref #" + ref + ") for Order #RS-2026-" + (cleanNum || rawId) + ".\n\n" +
-            "Studio Director Shoaib Siddique is verifying the funds with bank records. Once verified, your status will update to PAID ✓ and your certified tax invoice receipt will be available for download.\n\n" +
+            "The Retoucher Shoaib® Billing Desk is verifying the funds with bank records. Once verified, your status will update to PAID ✓ and your certified tax invoice receipt will be available for download.\n\n" +
             "Check live status anytime:\n" +
             "https://retouchershoaib.com/portal\n\n" +
-            "Warm regards,\n" +
-            "Retoucher Shoaib Studio\n" +
-            "https://retouchershoaib.com\n";
+            "Warm regards,\n\n" +
+            "Billing & Client Services Desk\n" +
+            "Retoucher Shoaib® | Commercial Post-Production Agency\n" +
+            "contact@retouchershoaib.com | https://retouchershoaib.com\n";
 
-          MailApp.sendEmail({
+          sendAgencyEmail_({
             to: clientEmail,
             subject: clientSubject,
             body: clientBody,
-            name: "Retoucher Shoaib Studio",
-            replyTo: "s.siddique.me@gmail.com"
+            senderName: "Retoucher Shoaib®",
+            replyTo: AGENCY_EMAIL
           });
         }
       } catch(errMailCl) {
@@ -529,19 +751,20 @@ function doPost(e) {
             "═════════════════════════════════════════════\n" +
             "• Order ID: #" + (cleanNum || rawId) + "\n" +
             "• Status: PAID ✓ (All settled)\n" +
-            "• Studio: Retoucher Shoaib High-End Commercial Post-Production\n\n" +
+            "• Agency: Retoucher Shoaib® High-End Commercial Post-Production\n\n" +
             "Your official printable tax invoice & receipt is ready in your Client Portal:\n" +
             "https://retouchershoaib.com/portal\n\n" +
-            "Warm regards,\n" +
-            "Retoucher Shoaib Billing Desk\n" +
-            "https://retouchershoaib.com\n";
+            "Warm regards,\n\n" +
+            "Billing & Client Services Desk\n" +
+            "Retoucher Shoaib® | Commercial Post-Production Agency\n" +
+            "contact@retouchershoaib.com | https://retouchershoaib.com\n";
 
-          MailApp.sendEmail({
+          sendAgencyEmail_({
             to: clientEmail,
             subject: paidSubject,
             body: paidBody,
-            name: "Retoucher Shoaib Studio",
-            replyTo: "s.siddique.me@gmail.com"
+            senderName: "Retoucher Shoaib®",
+            replyTo: AGENCY_EMAIL
           });
         }
       } catch(errMailPaid) {
@@ -914,7 +1137,7 @@ function doPost(e) {
       }
 
       var systemPrompt = 
-        "You are the official AI Studio Concierge for Retoucher Shoaib (Shoaib Siddique) — an elite high-end commercial retouching studio based in Dhaka, Bangladesh, servicing global luxury jewelry brands, fashion designers, and commercial advertising agencies.\n\n" +
+        "You are the official AI Studio Concierge for Retoucher Shoaib® — an elite high-end commercial post-production agency servicing global luxury jewelry brands, fashion designers, and commercial advertising agencies.\n\n" +
         "CORE CAPABILITIES & RETOUCHING SPECIFICATIONS:\n" +
         "- High-End Jewelry & Watches: Metallic texture preservation, micro-dust & scratch elimination, focus stacking, crisp diamond facets, authentic realistic drop shadows.\n" +
         "- Fashion, Beauty & Commercial Campaigns: Natural micro-skin texture preservation (non-destructive dodge & burn, high-end frequency separation), 16-bit color fidelity, flyaway hair cleanup, creative color grading.\n" +
@@ -925,9 +1148,9 @@ function doPost(e) {
         "- Supported Payment Methods: Domestic Bank Transfers (USD ACH Routing, EUR SEPA IBAN, GBP Sort Code, CAD Transit), Wise Direct, and Credit/Debit Card Checkout.\n" +
         "- CARD PAYMENT & WISE SIGN-UP GUIDANCE (EXTREMELY IMPORTANT): When clients select 'Credit / Debit Card' on their invoice, payment is processed securely via Wise's PCI-DSS compliant card infrastructure. If Wise prompts them to 'Sign Up' or 'Create an Account', reassure the client warmly: 'Wise requires a quick 1-minute free registration to comply with international 3D-Secure banking standards and ensure you are not hit with inflated hidden foreign exchange conversion fees from traditional credit card networks. Once registered, you can pay directly using any standard Visa, MasterCard, or Amex card in seconds. Alternatively, you can always choose direct Domestic Bank Transfer (ACH in USD, SEPA in EUR, Sort Code in GBP) straight from your regular mobile banking app without creating a Wise account!'\n" +
         "- ABOUT WISE: Wise (formerly TransferWise) is an internationally regulated financial institution authorized by the UK Financial Conduct Authority (FCA), FinCEN in the US, and trusted by over 16 million people and businesses worldwide. Unlike traditional wire transfers that take days and charge heavy intermediary fees ($40+), Wise provides real mid-market exchange rates with zero hidden markups.\n" +
-        "- PAYMENT REFERENCE CODE: After transferring funds via bank or card, the client receives a unique Confirmation Reference # (e.g., #982401). They must enter this code in the payment section of their invoice and click 'Confirm Transfer' so Shoaib's studio can verify and issue an official receipt.\n\n" +
+        "- PAYMENT REFERENCE CODE: After transferring funds via bank or card, the client receives a unique Confirmation Reference # (e.g., #982401). They must enter this code in the payment section of their invoice and click 'Confirm Transfer' so the Retoucher Shoaib® Billing Desk can verify and issue an official receipt.\n\n" +
         "STRICT BUSINESS & PRIVACY GUARDRAILS:\n" +
-        "1. PRICE & SCOPE MODIFICATIONS FORBIDDEN: You do NOT have the authority to alter invoice prices, negotiate rates, offer discounts, or adjust project commissions. If a client asks for a discount, price adjustment, or scope alteration, politely decline: 'I apologize, but adjusting project rates, offering discounts, or altering agreed commission scopes is strictly beyond my authority as an AI assistant. All commercial quotes and rates are handled personally by Shoaib Siddique. Please speak directly with Shoaib on WhatsApp: +880 1710-763251 (or use the WhatsApp button on your portal) to discuss your budget or custom term.'\n" +
+        "1. PRICE & SCOPE MODIFICATIONS FORBIDDEN: You do NOT have the authority to alter invoice prices, negotiate rates, offer discounts, or adjust project commissions. If a client asks for a discount, price adjustment, or scope alteration, politely decline: 'I apologize, but adjusting project rates, offering discounts, or altering agreed commission scopes is strictly beyond my authority as an AI assistant. All commercial quotes and rates are handled directly by our Senior Production Desk. Please contact our agency team at contact@retouchershoaib.com or WhatsApp +880 1710-763251 (or use the WhatsApp button on your portal) to discuss your budget or custom term.'\n" +
         "2. ABSOLUTE CONFIDENTIALITY: Under NO circumstances disclose administrative passwords, credentials, access keys, internal Google Drive root IDs, or the identities/emails/data of other clients. If asked, politely refuse stating strict privacy and confidentiality protocols.\n" +
         "3. TONE & STYLE: Professional, articulate, warm, concise, and helpful. Use clean bullet points where appropriate.";
 
