@@ -499,14 +499,14 @@ async function verifyGoogleIdToken(idToken) {
   };
 }
 
-export async function issueSessionToken(secret, { sub, role, ttlSeconds }) {
+export async function issueSessionToken(secret, { sub, role, ttlSeconds, extraClaims = {} }) {
   const nowSec = Math.floor(Date.now() / 1000);
-  const claims = {
+  const claims = Object.assign({}, extraClaims || {}, {
     sub: String(sub).toLowerCase().trim(),
     role: role === 'admin' ? 'admin' : 'client',
     iat: nowSec,
     exp: nowSec + ttlSeconds,
-  };
+  });
   const payloadB64 = base64UrlEncode(JSON.stringify(claims));
   const hmacKey = await crypto.subtle.importKey(
     'raw',
@@ -1151,6 +1151,106 @@ export async function onRequest(context) {
           tin: record.tin || '',
           picture: record.picture || '',
         },
+      }, 200, request);
+    }
+
+    if (action === 'request-password-reset') {
+      const email = String(body.email || '').toLowerCase().trim();
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return jsonResponse({ status: 'error', message: 'Please enter a valid email address.' }, 400, request);
+      }
+      if (email === AUTHORIZED_DIRECTOR_EMAIL) {
+        return jsonResponse({ status: 'error', message: 'Studio Director accounts sign in directly via Google Sign-In.' }, 403, request);
+      }
+      const db = await fetchStudioDatabase();
+      const users = db.users || {};
+      const record = users[email];
+      if (!record) {
+        return jsonResponse({
+          status: 'error',
+          code: 'NO_ACCOUNT',
+          message: 'No studio account found with this email. Please click "Sign Up" above to register.',
+        }, 404, request);
+      }
+      const rnd = new Uint32Array(1);
+      crypto.getRandomValues(rnd);
+      const otp = String(100000 + (rnd[0] % 900000));
+      const otpHash = await sha256Hex(`${email}:${otp}`);
+      const resetChallenge = await issueSessionToken(cfg.authSecret, {
+        sub: email,
+        role: 'client',
+        ttlSeconds: 15 * 60,
+        extraClaims: { purpose: 'pwd_reset', otpHash },
+      });
+
+      const gasRes = await fetch(GAS_DB_URL, {
+        method: 'POST',
+        redirect: 'follow',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'send_password_reset_otp',
+          email,
+          name: record.name || 'Valued Client',
+          otp,
+        }),
+      });
+      if (!gasRes.ok) {
+        return jsonResponse({ status: 'error', message: 'Unable to dispatch verification code right now.' }, 502, request);
+      }
+
+      return jsonResponse({
+        status: 'success',
+        resetChallenge,
+      }, 200, request);
+    }
+
+    if (action === 'confirm-password-reset') {
+      const email = String(body.email || '').toLowerCase().trim();
+      const otp = String(body.otp || '').trim();
+      const newPassword = String(body.newPassword || '');
+      const resetChallenge = String(body.resetChallenge || '').trim();
+
+      if (!email || !otp || !resetChallenge) {
+        return jsonResponse({ status: 'error', message: 'Email, verification code, and reset session are required.' }, 400, request);
+      }
+      if (newPassword.length < 6) {
+        return jsonResponse({ status: 'error', message: 'New password must be at least 6 characters long.' }, 400, request);
+      }
+
+      let claims;
+      try {
+        claims = await verifySessionToken(cfg.authSecret, resetChallenge);
+      } catch (err) {
+        return jsonResponse({ status: 'error', message: 'Verification session expired. Please request a new code.' }, 401, request);
+      }
+      if (claims.purpose !== 'pwd_reset' || claims.sub !== email || !claims.otpHash) {
+        return jsonResponse({ status: 'error', message: 'Invalid verification session.' }, 401, request);
+      }
+
+      const expectedHash = await sha256Hex(`${email}:${otp}`);
+      if (!timingSafeEqualStr(expectedHash, claims.otpHash)) {
+        return jsonResponse({ status: 'error', message: 'Invalid verification code. Please check your email and try again.' }, 401, request);
+      }
+
+      const passHash = await hashPassword(newPassword);
+      const gasRes = await fetch(GAS_DB_URL, {
+        method: 'POST',
+        redirect: 'follow',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'update_client_password',
+          email,
+          passHash,
+        }),
+      });
+      const gasData = await gasRes.json().catch(() => ({}));
+      if (!gasRes.ok || gasData.status !== 'success') {
+        return jsonResponse({ status: 'error', message: gasData.message || 'Could not update password. Please try again.' }, 502, request);
+      }
+
+      return jsonResponse({
+        status: 'success',
+        message: 'Password updated successfully.',
       }, 200, request);
     }
 

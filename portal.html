@@ -1917,23 +1917,46 @@ body {
       </button>
     </form>
 
-    <!-- 1B. FORGOT PASSWORD RECOVERY FORM -->
-    <form id="authForgotForm" onsubmit="handleForgotPassword(event)" style="display: none;">
-      <p style="font-size: 12.5px; color: #cbd5e1; margin-bottom: 12px; line-height: 1.5;">
-        Enter your registered studio email to notify our support desk for a password reset — or click <strong>Continue with Google</strong> above if your account uses Google Sign-In.
-      </p>
-      <div style="margin-bottom: 14px;">
-        <label style="display: block; font-size: 12px; font-weight: 600; color: #d1d5db; margin-bottom: 5px;">Registered Email *</label>
-        <input type="email" id="authForgotEmail" required autocomplete="email" placeholder="e.g. client@brand.com" style="width: 100%; padding: 10px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
-      </div>
-      <button type="submit" id="authForgotSubmitBtn" style="width: 100%; background: #ff4d00; color: #fff; border: none; border-radius: 8px; padding: 11px; font-size: 13.5px; font-weight: 700; cursor: pointer; margin-bottom: 10px;">
-        Request Password Reset &rarr;
-      </button>
+    <!-- 1B. FORGOT PASSWORD RECOVERY FORM (6-DIGIT OTP VIA RESEND) -->
+    <div id="authForgotForm" style="display: none;">
+      <form id="forgotStep1" onsubmit="handleForgotPassword(event)">
+        <p style="font-size: 12.5px; color: #cbd5e1; margin-bottom: 12px; line-height: 1.5;">
+          Enter your registered studio email to receive a 6-digit verification code — or click <strong>Continue with Google</strong> above if your account uses Google Sign-In.
+        </p>
+        <div style="margin-bottom: 14px;">
+          <label style="display: block; font-size: 12px; font-weight: 600; color: #d1d5db; margin-bottom: 5px;">Registered Email *</label>
+          <input type="email" id="authForgotEmail" required autocomplete="email" placeholder="e.g. client@brand.com" style="width: 100%; padding: 10px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
+        </div>
+        <button type="submit" id="authForgotSubmitBtn" style="width: 100%; background: #ff4d00; color: #fff; border: none; border-radius: 8px; padding: 11px; font-size: 13.5px; font-weight: 700; cursor: pointer; margin-bottom: 10px;">
+          Send Verification Code &rarr;
+        </button>
+      </form>
+
+      <form id="forgotStep2" onsubmit="handleConfirmPasswordReset(event)" style="display: none;">
+        <p style="font-size: 12.5px; color: #cbd5e1; margin-bottom: 12px; line-height: 1.5;">
+          Enter the 6-digit code sent to <strong id="forgotOtpEmailLabel" style="color: #fff;"></strong> and choose your new password.
+        </p>
+        <div style="margin-bottom: 11px;">
+          <label style="display: block; font-size: 12px; font-weight: 600; color: #d1d5db; margin-bottom: 5px;">6-Digit Verification Code *</label>
+          <input type="text" id="authForgotOtp" required inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="e.g. 482910" style="width: 100%; padding: 10px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 15px; font-weight: 700; letter-spacing: 0.2em; outline: none; box-sizing: border-box;">
+        </div>
+        <div style="margin-bottom: 14px;">
+          <label style="display: block; font-size: 12px; font-weight: 600; color: #d1d5db; margin-bottom: 5px;">New Password (min. 6 characters) *</label>
+          <div class="auth-pass-wrap">
+            <input type="password" id="authForgotNewPass" required minlength="6" autocomplete="new-password" placeholder="Enter new password" style="width: 100%; padding: 10px 42px 10px 12px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; color: #fff; font-size: 13px; outline: none; box-sizing: border-box;">
+            <button type="button" class="auth-pass-toggle" onclick="togglePasswordVisibility('authForgotNewPass', this)" aria-label="Show password">👁️</button>
+          </div>
+        </div>
+        <button type="submit" id="authConfirmResetBtn" style="width: 100%; background: #10b981; color: #fff; border: none; border-radius: 8px; padding: 11px; font-size: 13.5px; font-weight: 700; cursor: pointer; margin-bottom: 10px;">
+          Verify Code &amp; Update Password &rarr;
+        </button>
+      </form>
+
       <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px;">
         <button type="button" onclick="backToLoginForm()" style="background: none; border: none; color: #9ca3af; font-weight: 600; cursor: pointer; padding: 0;">&larr; Back to Log In</button>
         <a href="https://wa.me/8801710763251" target="_blank" rel="noopener" style="color: #34d399; font-weight: 600; text-decoration: none;">WhatsApp Support ↗</a>
       </div>
-    </form>
+    </div>
 
     <!-- 2. SIGNUP FORM (SHOWN WHEN SIGN UP TAB CLICKED) -->
     <form id="authSignupForm" onsubmit="handleAuthSignup(event)" style="display: none;">
@@ -6733,11 +6756,16 @@ function showForgotPasswordForm() {
   const loginForm = document.getElementById('authLoginForm');
   const signupForm = document.getElementById('authSignupForm');
   const forgotForm = document.getElementById('authForgotForm');
+  const step1 = document.getElementById('forgotStep1');
+  const step2 = document.getElementById('forgotStep2');
   const lEmail = (document.getElementById('authLoginEmail')?.value || '').trim();
   const fEmail = document.getElementById('authForgotEmail');
+  window.__pwdResetChallenge = '';
   if (loginForm) loginForm.style.display = 'none';
   if (signupForm) signupForm.style.display = 'none';
   if (forgotForm) forgotForm.style.display = 'block';
+  if (step1) step1.style.display = 'block';
+  if (step2) step2.style.display = 'none';
   if (fEmail && lEmail && !fEmail.value) fEmail.value = lEmail;
   showAuthMsg('', '');
   fEmail?.focus();
@@ -6760,25 +6788,80 @@ async function handleForgotPassword(e) {
     return;
   }
 
-  if (btn) { btn.disabled = true; btn.textContent = 'Sending Request...'; }
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending Code...'; }
   try {
-    if (window.location.protocol !== 'file:') {
-      await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          access_key: '3220bf99-f78f-41e1-b2e9-1ba7dfffa841',
-          from_name: 'Retoucher Shoaib Client Portal',
-          subject: 'Client Portal Password Reset Request — ' + email,
-          replyto: email,
-          email: email,
-          message: 'Client requested a portal password reset for: ' + email + '. Please assist or verify their account.'
-        })
-      }).catch(() => {});
+    const res = await fetch(R2_API_URL + '?action=request-password-reset', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data || data.status !== 'success' || !data.resetChallenge) {
+      showAuthMsg((data && data.message) || 'Could not send verification code. Please check your email.', 'err');
+      return;
     }
-    showAuthMsg('Reset request sent to our studio desk for ' + email + '. If you registered with Gmail/Google Workspace, you can also click "Continue with Google" above to enter immediately.', 'ok');
+
+    window.__pwdResetChallenge = data.resetChallenge;
+    window.__pwdResetEmail = email;
+    const step1 = document.getElementById('forgotStep1');
+    const step2 = document.getElementById('forgotStep2');
+    const lbl = document.getElementById('forgotOtpEmailLabel');
+    if (lbl) lbl.textContent = email;
+    if (step1) step1.style.display = 'none';
+    if (step2) step2.style.display = 'block';
+    showAuthMsg('✓ 6-digit verification code sent to ' + email + ' from contact@retouchershoaib.com.', 'ok');
+    document.getElementById('authForgotOtp')?.focus();
+  } catch (err) {
+    showAuthMsg('Network error while sending verification code. Please try again.', 'err');
   } finally {
-    if (btn) { btn.disabled = false; btn.textContent = 'Request Password Reset →'; }
+    if (btn) { btn.disabled = false; btn.textContent = 'Send Verification Code →'; }
+  }
+}
+
+async function handleConfirmPasswordReset(e) {
+  e.preventDefault();
+  const email = window.__pwdResetEmail || (document.getElementById('authForgotEmail')?.value || '').trim().toLowerCase();
+  const otp = (document.getElementById('authForgotOtp')?.value || '').trim();
+  const newPassword = (document.getElementById('authForgotNewPass')?.value || '').trim();
+  const resetChallenge = window.__pwdResetChallenge || '';
+  const btn = document.getElementById('authConfirmResetBtn');
+
+  if (!/^\d{6}$/.test(otp)) {
+    showAuthMsg('Please enter the 6-digit numeric verification code from your email.', 'err');
+    return;
+  }
+  if (newPassword.length < 6) {
+    showAuthMsg('New password must be at least 6 characters long.', 'err');
+    return;
+  }
+
+  if (btn) { btn.disabled = true; btn.textContent = 'Updating Password...'; }
+  try {
+    const res = await fetch(R2_API_URL + '?action=confirm-password-reset', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, otp, newPassword, resetChallenge })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data || data.status !== 'success') {
+      showAuthMsg((data && data.message) || 'Invalid or expired verification code.', 'err');
+      return;
+    }
+
+    window.__pwdResetChallenge = '';
+    switchAuthTab('login');
+    const loginEmailEl = document.getElementById('authLoginEmail');
+    if (loginEmailEl) loginEmailEl.value = email;
+    const otpEl = document.getElementById('authForgotOtp');
+    const passEl = document.getElementById('authForgotNewPass');
+    if (otpEl) otpEl.value = '';
+    if (passEl) passEl.value = '';
+    showAuthMsg('✓ Password updated successfully! Please log in with your new password.', 'ok');
+    document.getElementById('authLoginPass')?.focus();
+  } catch (err) {
+    showAuthMsg('Network error while updating password. Please try again.', 'err');
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Verify Code & Update Password →'; }
   }
 }
 

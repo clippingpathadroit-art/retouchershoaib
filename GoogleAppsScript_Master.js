@@ -870,6 +870,67 @@ function doPost(e) {
         .setMimeType(ContentService.MimeType.JSON);
     }
 
+    // (E2C) ক্লায়েন্ট পাসওয়ার্ড রিসেট OTP ইমেইল পাঠানো
+    if (data.action === "send_password_reset_otp") {
+      var rEmail = String(data.email || "").toLowerCase().trim();
+      var rName = String(data.name || "Valued Client").trim();
+      var rOtp = String(data.otp || "").trim();
+      if (!rEmail || rEmail.indexOf("@") === -1 || !rOtp) {
+        return ContentService.createTextOutput(JSON.stringify({ status: "error", message: "Invalid OTP request." }))
+          .setMimeType(ContentService.MimeType.JSON);
+      }
+      var otpSubject = "Password Reset Code: " + rOtp + " - Retoucher Shoaib\u00AE";
+      var otpBody = "Dear " + rName + ",\n\n" +
+        "We received a request to reset the password for your Retoucher Shoaib\u00AE Client Portal account (" + rEmail + ").\n\n" +
+        "=============================================\n" +
+        "YOUR VERIFICATION CODE: " + rOtp + "\n" +
+        "=============================================\n" +
+        "This code expires in 15 minutes.\n\n" +
+        "Enter this 6-digit code in the Client Portal to set your new password.\n" +
+        "If you did not request a password reset, you can safely ignore this email.\n\n" +
+        "Warm regards,\n\n" +
+        "Client Services Team\n" +
+        "Retoucher Shoaib\u00AE | Commercial Post-Production Agency\n" +
+        "contact@retouchershoaib.com | https://retouchershoaib.com\n";
+
+      sendAgencyEmail_({
+        to: rEmail,
+        subject: otpSubject,
+        body: otpBody,
+        senderName: "Retoucher Shoaib\u00AE",
+        replyTo: AGENCY_EMAIL
+      });
+
+      return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // (E2D) ভেরিফাইড ক্লায়েন্ট পাসওয়ার্ড হ্যাশ আপডেট
+    if (data.action === "update_client_password") {
+      var uEmail = String(data.email || "").toLowerCase().trim();
+      var newHash = String(data.passHash || "").trim();
+      if (!uEmail || !newHash) {
+        return ContentService.createTextOutput(JSON.stringify({ status: "error", message: "Email and passHash required." }))
+          .setMimeType(ContentService.MimeType.JSON);
+      }
+      var lock = LockService.getScriptLock();
+      lock.tryLock(10000);
+      try {
+        var db = getDatabase(rootFolder);
+        if (!db.users || !db.users[uEmail]) {
+          return ContentService.createTextOutput(JSON.stringify({ status: "error", message: "Account not found." }))
+            .setMimeType(ContentService.MimeType.JSON);
+        }
+        db.users[uEmail].passHash = newHash;
+        db.users[uEmail].pass = "";
+        saveDatabase(rootFolder, db);
+      } finally {
+        lock.releaseLock();
+      }
+      return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
     // (E3) অর্ডার রিভার্ট করে আনপেইড করা (Admin -> Cloud Revert to Unpaid)
     if (data.action === "mark_order_unpaid") {
       var rawId = String(data.numericId || "");
