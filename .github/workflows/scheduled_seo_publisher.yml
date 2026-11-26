@@ -1,9 +1,9 @@
 name: Bi-Weekly Social Media Auto-Publisher
 
 on:
-  schedule:
-    # Runs at 13:00 UTC (7:00 PM Bangladesh Time) every Monday and Thursday
-    - cron: '0 13 * * 1,4'
+  # NOTE: Scheduled cron trigger disabled. Social media publishing is handled
+  # locally via Windows Task Scheduler ('RetoucherShoaib_Social_Publisher') daily at 7:00 PM BDT.
+  # workflow_dispatch allows manual triggering if needed.
   workflow_dispatch:
     inputs:
       force_article_id:
