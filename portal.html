@@ -6623,18 +6623,14 @@ async function handlePortalTestimonialSubmit(ev) {
   if (btn) { btn.disabled = true; btn.textContent = 'Submitting...'; }
 
   const payload = {
-    access_key: '3220bf99-f78f-41e1-b2e9-1ba7dfffa841',
-    from_name: 'Retoucher Shoaib Client Portal',
-    subject: 'Verified Client Testimonial (' + rating + '/5) - ' + name + (brand ? ' (' + brand + ')' : ''),
-    replyto: sess.email,
+    action: 'submit_testimonial',
     name: name,
     email: sess.email,
-    brand_or_studio: brand,
-    role_or_title: role || '-',
-    service_category: service,
-    star_rating: rating + ' / 5 Stars',
-    message: text,
-    submitted_from: 'Verified Client Portal Dashboard'
+    brand: brand,
+    role: role || '-',
+    service: service,
+    rating: rating,
+    message: text
   };
 
   function showSuccess() {
@@ -6651,21 +6647,22 @@ async function handlePortalTestimonialSubmit(ev) {
   }
 
   try {
-    const res = await fetch('https://api.web3forms.com/submit', {
+    const res = await fetch(GOOGLE_DRIVE_WEBHOOK_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Content-Type': 'text/plain;charset=utf-8'
       },
       body: JSON.stringify(payload)
     });
     const resJson = await res.json().catch(() => ({}));
-    if (!res.ok || !resJson.success) throw new Error(resJson.message || ('HTTP ' + res.status));
+    if (!res.ok || (resJson.status && resJson.status !== 'success')) {
+      throw new Error((resJson && resJson.message) || ('HTTP ' + res.status));
+    }
     showSuccess();
   } catch (err) {
     if (btn) { btn.disabled = false; btn.textContent = '✓ Submit Verified Testimonial'; }
     if (errEl) {
-      errEl.innerHTML = '⚠️ Could not send right now. Please email your testimonial directly to <a href="mailto:retouchershoaib@gmail.com" style="color: #0f172a; text-decoration: underline;">retouchershoaib@gmail.com</a> or share it via <a href="https://wa.me/8801710763251" target="_blank" rel="noopener" style="color: #0f172a; text-decoration: underline;">WhatsApp</a>.';
+      errEl.innerHTML = '⚠️ Could not send right now. Please email your testimonial directly to <a href="mailto:contact@retouchershoaib.com" style="color: #0f172a; text-decoration: underline;">contact@retouchershoaib.com</a> or share it via <a href="https://wa.me/8801710763251" target="_blank" rel="noopener" style="color: #0f172a; text-decoration: underline;">WhatsApp</a>.';
       errEl.style.display = 'block';
     }
   }

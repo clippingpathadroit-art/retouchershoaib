@@ -772,6 +772,104 @@ function doPost(e) {
         .setMimeType(ContentService.MimeType.JSON);
     }
 
+    // (E2B) ক্লায়েন্ট টেস্টমোনিয়াল সাবমিশন + Resend/Agency ইমেইল নোটিফিকেশন
+    if (data.action === "submit_testimonial") {
+      var tName = String(data.name || "").trim();
+      var tEmail = String(data.email || "").toLowerCase().trim();
+      var tBrand = String(data.brand || "").trim();
+      var tRole = String(data.role || "-").trim();
+      var tService = String(data.service || "").trim();
+      var tRating = String(data.rating || "5").trim();
+      var tText = String(data.message || "").trim();
+
+      if (!tName || !tBrand || !tText) {
+        return ContentService.createTextOutput(JSON.stringify({
+          status: "error",
+          message: "Missing required testimonial fields."
+        })).setMimeType(ContentService.MimeType.JSON);
+      }
+
+      var lock = LockService.getScriptLock();
+      lock.tryLock(10000);
+      try {
+        var db = getDatabase(rootFolder);
+        if (!Array.isArray(db.testimonials)) db.testimonials = [];
+        db.testimonials.unshift({
+          id: "testim_" + Date.now(),
+          name: tName,
+          email: tEmail,
+          brand: tBrand,
+          role: tRole,
+          service: tService,
+          rating: Number(tRating) || 5,
+          message: tText,
+          status: "pending",
+          createdAt: new Date().toISOString()
+        });
+        saveDatabase(rootFolder, db);
+      } finally {
+        lock.releaseLock();
+      }
+
+      // (ক) এজেন্সি ডেস্কে টেস্টমোনিয়াল নোটিফিকেশন পাঠানো
+      try {
+        var tAdminSubject = "[Testimonial " + tRating + "/5] " + tName + " (" + tBrand + ")";
+        var tAdminBody = "A verified client has submitted a testimonial on Retoucher Shoaib\u00AE Client Portal.\n\n" +
+          "=============================================\n" +
+          "CLIENT TESTIMONIAL DETAILS\n" +
+          "=============================================\n" +
+          "- Client Name: " + tName + "\n" +
+          "- Studio / Brand: " + tBrand + "\n" +
+          "- Role / Title: " + tRole + "\n" +
+          "- Client Email: " + (tEmail || "Not provided") + "\n" +
+          "- Service Category: " + (tService || "Commercial Retouching") + "\n" +
+          "- Star Rating: " + tRating + " / 5 Stars\n\n" +
+          "=============================================\n" +
+          "TESTIMONIAL MESSAGE\n" +
+          "=============================================\n" +
+          "\"" + tText + "\"\n\n" +
+          "Status: Saved as PENDING in shoaib_database.json\n";
+
+        sendAgencyEmail_({
+          to: ADMIN_ALERT_EMAIL,
+          cc: ADMIN_ALERT_CC,
+          subject: tAdminSubject,
+          body: tAdminBody,
+          senderName: "Retoucher Shoaib\u00AE Portal",
+          replyTo: tEmail || AGENCY_EMAIL
+        });
+      } catch(errTestimAdmin) {
+        console.error("Testimonial admin notification error:", errTestimAdmin);
+      }
+
+      // (খ) ক্লায়েন্টকে ধন্যবাদ ইমেইল পাঠানো
+      try {
+        if (tEmail && tEmail.indexOf("@") !== -1) {
+          var tClientSubject = "Thank You for Your Review - Retoucher Shoaib\u00AE";
+          var tClientBody = "Dear " + tName + ",\n\n" +
+            "Thank you for sharing your feedback with Retoucher Shoaib\u00AE! Our editorial team has received your " + tRating + "/5 review for " + tBrand + ".\n\n" +
+            "We truly appreciate your partnership and look forward to supporting your upcoming campaigns.\n\n" +
+            "Warm regards,\n\n" +
+            "Client Services Team\n" +
+            "Retoucher Shoaib\u00AE | Commercial Post-Production Agency\n" +
+            "contact@retouchershoaib.com | https://retouchershoaib.com\n";
+
+          sendAgencyEmail_({
+            to: tEmail,
+            subject: tClientSubject,
+            body: tClientBody,
+            senderName: "Retoucher Shoaib\u00AE",
+            replyTo: AGENCY_EMAIL
+          });
+        }
+      } catch(errTestimClient) {
+        console.error("Testimonial client thank-you error:", errTestimClient);
+      }
+
+      return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
     // (E3) অর্ডার রিভার্ট করে আনপেইড করা (Admin -> Cloud Revert to Unpaid)
     if (data.action === "mark_order_unpaid") {
       var rawId = String(data.numericId || "");
